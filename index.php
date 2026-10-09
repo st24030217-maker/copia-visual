@@ -103,17 +103,42 @@ $perfilActual  = htmlspecialchars($_SESSION['perfil'] ?? 'Administrador', ENT_QU
     .table-scroll::-webkit-scrollbar-track { background: transparent; }
     .table-scroll::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 10px; }
 
-    /* Animaciones de filas de doctores internos sobrias acordes al sistema */
-    @keyframes pulseYellow {
-      0%, 100% { background-color: #ffffff; }
-      50% { background-color: #f7f3e8; }
+    /* Resaltado de órdenes con prioridad en Escaneo, Diseño, Fabricación (.row-yellow) y Entrega (.row-green) igual a DENT DEMO */
+    .row-green,
+    .row-green td {
+      color: #ffffff !important;
+      animation: parpadeo-verde 1s ease-in-out infinite alternate;
     }
-    @keyframes pulseGreen {
-      0%, 100% { background-color: #ffffff; }
-      50% { background-color: #edf5f1; }
+    @keyframes parpadeo-verde {
+      from { background-color: #008000; }
+      to   { background-color: #66cc66; }
     }
-    .row-yellow { animation: pulseYellow 2.5s infinite ease-in-out; }
-    .row-green { animation: pulseGreen 2.5s infinite ease-in-out; }
+    .row-green a {
+      color: #ccffcc !important;
+      font-weight: 700;
+    }
+    .row-green span {
+      background-color: rgba(255, 255, 255, 0.22) !important;
+      color: #ffffff !important;
+    }
+
+    .row-yellow,
+    .row-yellow td {
+      color: #ffffff !important;
+      animation: parpadeo 1s ease-in-out infinite alternate;
+    }
+    @keyframes parpadeo {
+      from { background-color: #ff0000; }
+      to   { background-color: #ff6666; }
+    }
+    .row-yellow a {
+      color: #ffff66 !important;
+      font-weight: 700;
+    }
+    .row-yellow span {
+      background-color: rgba(255, 255, 255, 0.22) !important;
+      color: #ffffff !important;
+    }
 
     /* Tablas compactas de las 4 etapas de inicio (Escaneo, Diseño, Fabricación, Entrega) */
     .stage-table th {
