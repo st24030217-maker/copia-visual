@@ -17,8 +17,8 @@ $perfilActual  = htmlspecialchars($_SESSION['perfil'] ?? 'Administrador', ENT_QU
       theme: {
         extend: {
           fontFamily: {
-            sans: ['Roboto', '"Helvetica Neue"', 'Arial', 'sans-serif'],
-            mono: ['"Roboto Mono"', 'monospace']
+            sans: ['"General Sans"', '-apple-system', 'BlinkMacSystemFont', 'sans-serif'],
+            mono: ['"General Sans"', '-apple-system', 'BlinkMacSystemFont', 'sans-serif']
           },
           colors: {
             blue: {
@@ -93,12 +93,11 @@ $perfilActual  = htmlspecialchars($_SESSION['perfil'] ?? 'Administrador', ENT_QU
   </script>
   <script src="https://unpkg.com/lucide@latest"></script>
   <script src="https://cdn.jsdelivr.net/npm/jsbarcode@3.11.5/dist/JsBarcode.all.min.js"></script>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&family=Roboto+Mono:wght@400;600&display=swap" rel="stylesheet">
+  <link rel="preconnect" href="https://api.fontshare.com" crossorigin>
+  <link href="https://api.fontshare.com/v2/css?f[]=general-sans@200,300,400,500,600,700&display=swap" rel="stylesheet">
   <style>
-    body { font-family: 'Roboto', 'Helvetica Neue', Arial, sans-serif; }
-    .font-mono { font-family: 'Roboto Mono', monospace; }
+    body, button, input, select, textarea { font-family: 'General Sans', -apple-system, BlinkMacSystemFont, sans-serif; }
+    .font-mono { font-family: 'General Sans', -apple-system, BlinkMacSystemFont, sans-serif; font-variant-numeric: tabular-nums; }
     .table-scroll::-webkit-scrollbar { width: 5px; height: 5px; }
     .table-scroll::-webkit-scrollbar-track { background: transparent; }
     .table-scroll::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 10px; }

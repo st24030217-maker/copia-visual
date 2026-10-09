@@ -20,7 +20,7 @@
   max-width: var(--bm-w);
   padding-left: 14px;
   color: var(--bm-ink);
-  font-family: 'Roboto', 'Helvetica Neue', Arial, sans-serif;
+  font-family: 'General Sans', -apple-system, BlinkMacSystemFont, sans-serif;
   font-size: var(--bm-font);
   line-height: 1.25;
 }

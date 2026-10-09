@@ -56,8 +56,8 @@ $anioActual = date('Y');
       theme: {
         extend: {
           fontFamily: {
-            sans: ['Roboto', '"Helvetica Neue"', 'Arial', 'sans-serif'],
-            mono: ['"Roboto Mono"', 'monospace']
+            sans: ['"General Sans"', '-apple-system', 'BlinkMacSystemFont', 'sans-serif'],
+            mono: ['"General Sans"', '-apple-system', 'BlinkMacSystemFont', 'sans-serif']
           },
           colors: {
             blue: {
@@ -78,12 +78,12 @@ $anioActual = date('Y');
     };
   </script>
   <script src="https://unpkg.com/lucide@latest"></script>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&family=Roboto+Mono:wght@400;600&display=swap" rel="stylesheet">
+  <link rel="preconnect" href="https://api.fontshare.com" crossorigin>
+  <link href="https://api.fontshare.com/v2/css?f[]=general-sans@200,300,400,500,600,700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="Threads.css">
   <style>
-    body { font-family: 'Roboto', 'Helvetica Neue', Arial, sans-serif; }
+    body, button, input, select, textarea { font-family: 'General Sans', -apple-system, BlinkMacSystemFont, sans-serif; }
+    .font-mono { font-family: 'General Sans', -apple-system, BlinkMacSystemFont, sans-serif; font-variant-numeric: tabular-nums; }
 
     /* Aceternity UI Stateful Button Animations */
     .stateful-btn {
