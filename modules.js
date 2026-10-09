@@ -2336,8 +2336,611 @@ function submitUniversalModal(e) {
       break;
   }
 
+  if (currentUniversalTarget === 'lista-ordenes' && typeof INICIO_DATA !== 'undefined') {
+    const newOt = 1049 + INICIO_DATA.ordenes.length;
+    INICIO_DATA.escaneo.unshift({
+      ot: newOt,
+      prod: v3 || 'Zirconio',
+      uni: 1,
+      doctor: v1 || 'Dr. Oscar Ramírez',
+      soli: '2026-10-10',
+      est: 'Escaneo',
+      reg: '2026-10-09 08:10',
+      interno: false,
+      serie: 'OT-' + newOt
+    });
+    INICIO_DATA.ordenes.unshift({
+      ot: newOt,
+      folio: 'ORD-26-' + newOt,
+      entrega: '2026-10-10',
+      estado: 'Escaneo',
+      producto: v3 || 'Corona Zirconio Monolítico',
+      doctor: v1 || 'Dr. Oscar Ramírez',
+      paciente: v2 || 'Paciente Nuevo',
+      unidades: 1,
+      libProd: '2026-10-09 08:10',
+      monto: '$1,850.00',
+      serie: 'OT-' + newOt,
+      color: 'Vita A2',
+      piezas: ['24']
+    });
+  }
+
   closeUniversalModal();
-  renderDynamicModule(DENT_STATE.currentView);
+  if (DENT_STATE.currentView === 'inicio') {
+    renderTablasInicio();
+  } else {
+    renderDynamicModule(DENT_STATE.currentView);
+  }
   lucide.createIcons();
   showToast('Registro Guardado', 'La información se actualizó visualmente en el módulo activo.');
 }
+
+// ============================================================================
+// DATOS Y RENDERIZADO DE LAS 5 TABLAS DE INICIO (IDÉNTICO A DENT DEMO/index.php)
+// 1. TableEscaneo.php
+// 2. TableDiseno.php
+// 3. TableFabricacion.php
+// 4. TableEntrega.php
+// 5. TableOrdenes.php
+// ============================================================================
+
+const INICIO_DATA = {
+  escaneo: [
+    { ot: 1048, prod: 'Zirconio', uni: 2, doctor: 'Dr. Oscar Ramírez', soli: '2026-10-09', est: 'Escaneo', reg: '2026-10-07 09:15', interno: true, serie: 'OT-9841' },
+    { ot: 1047, prod: 'E-Max', uni: 1, doctor: 'Dra. Elena Torres', soli: '2026-10-09', est: 'Escaneo', reg: '2026-10-07 10:20', interno: false, serie: 'OT-9845' },
+    { ot: 1046, prod: 'Alinia', uni: 1, doctor: 'Dr. Mauricio Cárdenas', soli: '2026-10-10', est: 'Escaneo', reg: '2026-10-07 11:05', interno: false, serie: 'OT-9849' },
+    { ot: 1045, prod: 'Guarda', uni: 1, doctor: 'Dra. Sofía Méndez', soli: '2026-10-08', est: 'Escaneo', reg: '2026-10-07 12:30', interno: true, serie: 'OT-9850' },
+    { ot: 1044, prod: 'PMMA', uni: 3, doctor: 'Dr. Roberto Garza', soli: '2026-10-11', est: 'Escaneo', reg: '2026-10-07 13:10', interno: false, serie: 'OT-9851' }
+  ],
+  diseno: [
+    { ot: 1043, prod: 'Zirconio', uni: 1, doctor: 'Dr. Oscar Ramírez', soli: '2026-10-08', est: 'Diseño', reg: '2026-10-06 14:20', interno: true, serie: 'OT-9841' },
+    { ot: 1042, prod: 'E-Max', uni: 4, doctor: 'Dra. Elena Torres', soli: '2026-10-09', est: 'Diseño', reg: '2026-10-06 15:40', interno: false, serie: 'OT-9842' },
+    { ot: 1041, prod: 'Zirconio', uni: 3, doctor: 'Dr. Alejandro Silva', soli: '2026-10-08', est: 'Diseño', reg: '2026-10-06 16:10', interno: true, serie: 'OT-9846' },
+    { ot: 1040, prod: 'Híbrido', uni: 1, doctor: 'Dr. Mauricio Cárdenas', soli: '2026-10-09', est: 'Diseño', reg: '2026-10-06 17:00', interno: false, serie: 'OT-9852' },
+    { ot: 1039, prod: 'Metal', uni: 2, doctor: 'Dr. Roberto Garza', soli: '2026-10-10', est: 'Diseño', reg: '2026-10-06 18:15', interno: false, serie: 'OT-9853' }
+  ],
+  fabricacion: [
+    { ot: 1038, prod: 'Zirconio', uni: 3, doctor: 'Dr. Mauricio Cárdenas', soli: '2026-10-07', est: 'Fresado', reg: '2026-10-05 09:30', interno: false, serie: 'OT-9843' },
+    { ot: 1037, prod: 'Guarda', uni: 1, doctor: 'Dra. Sofía Méndez', soli: '2026-10-07', est: 'Impresión 3D', reg: '2026-10-05 11:20', interno: true, serie: 'OT-9844' },
+    { ot: 1036, prod: 'Zirconio', uni: 2, doctor: 'Dr. Oscar Ramírez', soli: '2026-10-08', est: 'Sinterizado', reg: '2026-10-05 12:45', interno: true, serie: 'OT-9854' },
+    { ot: 1035, prod: 'E-Max', uni: 1, doctor: 'Dra. Elena Torres', soli: '2026-10-08', est: 'Glaseado', reg: '2026-10-05 16:00', interno: false, serie: 'OT-9855' }
+  ],
+  entrega: [
+    { ot: 1034, prod: 'PMMA', uni: 6, doctor: 'Dr. Roberto Garza', soli: '2026-10-07', est: 'Terminado', reg: '2026-10-04 10:00', interno: false, serie: 'OT-9847' },
+    { ot: 1033, prod: 'Zirconio', uni: 1, doctor: 'Dr. Oscar Ramírez', soli: '2026-10-07', est: 'Listo Entrega', reg: '2026-10-04 11:30', interno: true, serie: 'OT-9848' },
+    { ot: 1032, prod: 'Alinia', uni: 2, doctor: 'Dra. Sofía Méndez', soli: '2026-10-07', est: 'En Ruta', reg: '2026-10-04 14:15', interno: true, serie: 'OT-9856' },
+    { ot: 1031, prod: 'E-Max', uni: 2, doctor: 'Dra. Elena Torres', soli: '2026-10-07', est: 'Listo Entrega', reg: '2026-10-04 16:50', interno: false, serie: 'OT-9857' }
+  ],
+  ordenes: [
+    { ot: 1048, folio: 'ORD-26-1048', entrega: '2026-10-09', estado: 'Diseño', producto: 'Corona Monolítica Zirconio', doctor: 'Dr. Oscar Ramírez', paciente: 'María Fernanda Soto', unidades: 1, libProd: '2026-10-07 09:15', monto: '$1,850.00', serie: 'OT-9841', color: 'Vita A2', piezas: ['14'] },
+    { ot: 1047, folio: 'ORD-26-1047', entrega: '2026-10-09', estado: 'Diseño', producto: 'Carillas Disilicato E-Max', doctor: 'Dra. Elena Torres', paciente: 'Carlos Alberto Ruiz', unidades: 4, libProd: '2026-10-07 10:20', monto: '$9,600.00', serie: 'OT-9842', color: 'Bleach BL2', piezas: ['11','12','21','22'] },
+    { ot: 1046, folio: 'ORD-26-1046', entrega: '2026-10-07', estado: 'Fabricación', producto: 'Puente 3 Unidades Zirconio', doctor: 'Dr. Mauricio Cárdenas', paciente: 'Roberto Hernández Gil', unidades: 3, libProd: '2026-10-06 11:05', monto: '$5,550.00', serie: 'OT-9843', color: 'Vita A3', piezas: ['35','36','37'] },
+    { ot: 1045, folio: 'ORD-26-1045', entrega: '2026-10-08', estado: 'Fabricación', producto: 'Guarda Oclusal Termoformada', doctor: 'Dra. Sofía Méndez', paciente: 'Ana Paulina Vega', unidades: 1, libProd: '2026-10-06 12:30', monto: '$1,250.00', serie: 'OT-9844', color: 'Transparente', piezas: ['11','21'] },
+    { ot: 1044, folio: 'ORD-26-1044', entrega: '2026-10-09', estado: 'Escaneo', producto: 'Incrustación Inlay/Onlay E-Max', doctor: 'Dra. Elena Torres', paciente: 'Jorge Luis Pineda', unidades: 1, libProd: '2026-10-07 13:10', monto: '$2,100.00', serie: 'OT-9845', color: 'Vita B1', piezas: ['46'] },
+    { ot: 1043, folio: 'ORD-26-1043', entrega: '2026-10-08', estado: 'Diseño', producto: 'Corona sobre Implante Ti-Base', doctor: 'Dr. Alejandro Silva', paciente: 'Lucía Morales Castro', unidades: 3, libProd: '2026-10-06 16:10', monto: '$7,200.00', serie: 'OT-9846', color: 'Vita A2', piezas: ['16','26','36'] },
+    { ot: 1042, folio: 'ORD-26-1042', entrega: '2026-10-07', estado: 'Terminado', producto: 'Provisional PMMA Larga Duración', doctor: 'Dr. Roberto Garza', paciente: 'Fernando Domínguez', unidades: 6, libProd: '2026-10-04 10:00', monto: '$3,900.00', serie: 'OT-9847', color: 'Vita A1', piezas: ['13','12','11','21','22','23'] },
+    { ot: 1041, folio: 'ORD-26-1041', entrega: '2026-10-07', estado: 'Terminado', producto: 'Corona Zirconio Multicapa', doctor: 'Dr. Oscar Ramírez', paciente: 'Patricia Guzmán Ríos', unidades: 1, libProd: '2026-10-04 11:30', monto: '$1,850.00', serie: 'OT-9848', color: 'Vita A1', piezas: ['21'] },
+    { ot: 1040, folio: 'ORD-26-1040', entrega: '2026-10-10', estado: 'Escaneo', producto: 'Alineador Invisible Alinia', doctor: 'Dr. Mauricio Cárdenas', paciente: 'Gabriela Espinoza', unidades: 1, libProd: '2026-10-07 11:05', monto: '$4,200.00', serie: 'OT-9849', color: 'Clear', piezas: ['11','21'] },
+    { ot: 1039, folio: 'ORD-26-1039', entrega: '2026-10-10', estado: 'Diseño', producto: 'Metal Porcelana Estratificada', doctor: 'Dr. Roberto Garza', paciente: 'Héctor Valdés', unidades: 2, libProd: '2026-10-06 18:15', monto: '$2,900.00', serie: 'OT-9853', color: 'Vita A3.5', piezas: ['44','45'] }
+  ]
+};
+
+let paginaActualOrdenes = 1;
+
+function renderStageRow(item, isEntrega = false) {
+  const rowClass = item.interno ? (isEntrega ? 'row-green' : 'row-yellow') : 'hover:bg-slate-50';
+  return `
+    <tr class="${rowClass} transition-colors">
+      <td class="text-center font-bold">
+        <a href="javascript:void(0)" onclick="abrirOrdenTrabajo('${item.serie}')" class="text-blue-600 hover:underline font-mono">${item.ot}</a>
+      </td>
+      <td class="text-center font-semibold text-slate-800">${item.prod}</td>
+      <td class="text-center font-mono">${item.uni}</td>
+      <td class="text-center">
+        <a href="javascript:void(0)" onclick="abrirDetalleDoctor('${item.doctor}')" class="text-blue-600 hover:underline">${item.doctor}</a>
+      </td>
+      <td class="text-center font-mono text-slate-600">${item.soli}</td>
+      <td class="text-center"><span class="px-1.5 py-0.5 rounded bg-slate-100 text-slate-700 font-semibold text-[10px]">${item.est}</span></td>
+      <td class="text-center font-mono text-[10px] text-slate-500">${item.reg}</td>
+    </tr>
+  `;
+}
+
+function renderTablasInicio() {
+  const tbEsc = document.getElementById('tbodyStageEscaneo');
+  const tbDis = document.getElementById('tbodyStageDiseno');
+  const tbFab = document.getElementById('tbodyStageFabricacion');
+  const tbEnt = document.getElementById('tbodyStageEntrega');
+  const tbOrd = document.getElementById('tbodyGeneralOrdenes');
+
+  if (tbEsc) tbEsc.innerHTML = INICIO_DATA.escaneo.map(i => renderStageRow(i, false)).join('');
+  if (tbDis) tbDis.innerHTML = INICIO_DATA.diseno.map(i => renderStageRow(i, false)).join('');
+  if (tbFab) tbFab.innerHTML = INICIO_DATA.fabricacion.map(i => renderStageRow(i, false)).join('');
+  if (tbEnt) tbEnt.innerHTML = INICIO_DATA.entrega.map(i => renderStageRow(i, true)).join('');
+
+  const bEsc = document.getElementById('badgeCountEscaneo');
+  const bDis = document.getElementById('badgeCountDiseno');
+  const bFab = document.getElementById('badgeCountFabricacion');
+  const bEnt = document.getElementById('badgeCountEntrega');
+  if (bEsc) bEsc.innerText = INICIO_DATA.escaneo.length;
+  if (bDis) bDis.innerText = INICIO_DATA.diseno.length;
+  if (bFab) bFab.innerText = INICIO_DATA.fabricacion.length;
+  if (bEnt) bEnt.innerText = INICIO_DATA.entrega.length;
+
+  if (tbOrd) {
+    const start = (paginaActualOrdenes - 1) * 8;
+    const slice = INICIO_DATA.ordenes.slice(start, start + 8);
+    tbOrd.innerHTML = slice.map(o => `
+      <tr class="hover:bg-slate-50 transition-colors">
+        <td>
+          <button type="button" onclick="Etiqueta('${o.doctor}', '${o.paciente}', '${o.entrega}', '${o.serie}')" class="px-2.5 py-1 rounded-lg bg-blue-600 hover:bg-blue-700 text-white text-xs shadow-sm transition-colors" title="Imprimir Etiqueta">
+            <i data-lucide="barcode" class="w-3.5 h-3.5 mx-auto"></i>
+          </button>
+        </td>
+        <td>
+          <button type="button" onclick="abrirOrdenTrabajo('${o.serie}')" class="px-2.5 py-1 rounded-lg bg-blue-600 hover:bg-blue-700 text-white text-xs font-mono font-bold shadow-sm inline-flex items-center gap-1 transition-colors" title="Abrir Orden de Trabajo">
+            <img src="assets/muela.png" class="w-3.5 h-3.5 object-contain" alt="">
+            <span>${o.ot}</span>
+          </button>
+        </td>
+        <td>
+          <button type="button" onclick="abrirDetalleDoctor('${o.doctor}')" class="px-2.5 py-1 rounded-lg bg-slate-800 hover:bg-blue-600 text-white text-xs shadow-sm transition-colors" title="Ficha del Doctor">
+            <i data-lucide="stethoscope" class="w-3.5 h-3.5 mx-auto"></i>
+          </button>
+        </td>
+        <td class="font-mono font-bold text-slate-700">${o.folio}</td>
+        <td class="font-mono">${o.entrega}</td>
+        <td>
+          <span class="px-2 py-0.5 rounded-full font-bold text-[10px] ${
+            o.estado === 'Terminado' ? 'bg-emerald-100 text-emerald-800' :
+            o.estado === 'Fabricación' ? 'bg-amber-100 text-amber-800' :
+            o.estado === 'Diseño' ? 'bg-blue-100 text-blue-800' : 'bg-slate-100 text-slate-700'
+          }">${o.estado}</span>
+        </td>
+        <td class="font-semibold text-slate-800">${o.producto}</td>
+        <td>${o.doctor}</td>
+        <td>${o.paciente}</td>
+        <td class="font-mono font-bold">${o.unidades}</td>
+        <td class="font-mono text-[11px] text-slate-500">${o.libProd}</td>
+        <td class="font-mono font-bold text-slate-900">${o.monto}</td>
+      </tr>
+    `).join('');
+    lucide.createIcons();
+  }
+}
+
+function cambiarPaginaOrdenes(p) {
+  paginaActualOrdenes = p;
+  const p1 = document.getElementById('pageBtn1');
+  const p2 = document.getElementById('pageBtn2');
+  if (p1 && p2) {
+    p1.className = p === 1 ? 'px-3 py-1.5 bg-blue-600 text-white font-bold border-r border-slate-200' : 'px-3 py-1.5 bg-white hover:bg-slate-50 text-slate-700 border-r border-slate-200';
+    p2.className = p === 2 ? 'px-3 py-1.5 bg-blue-600 text-white font-bold border-r border-slate-200' : 'px-3 py-1.5 bg-white hover:bg-slate-50 text-slate-700 border-r border-slate-200';
+  }
+  renderTablasInicio();
+}
+
+function renderModalsInicio() {
+  const tbCanc = document.getElementById('tbodyModalCanceladas');
+  if (tbCanc) {
+    tbCanc.innerHTML = [
+      { ot: 1019, folio: 'ORD-26-1019', fecha: '2026-10-03', prod: 'Corona Monolítica Zirconio', doc: 'Dr. Roberto Garza', pac: 'Luis Fernando Ochoa', uni: 1, lib: '2026-10-02', monto: '$1,850.00', motivo: 'Línea marginal poco visible en escaneo' },
+      { ot: 1011, folio: 'ORD-26-1011', fecha: '2026-10-01', prod: 'Carilla E-Max', doc: 'Dra. Elena Torres', pac: 'Mónica Villarreal', uni: 2, lib: '2026-09-30', monto: '$4,800.00', motivo: 'Cambio de plan de tratamiento por el Doctor' }
+    ].map(c => `
+      <tr class="hover:bg-slate-50">
+        <td><button onclick="document.getElementById('modalCanceladas').classList.add('hidden'); abrirOrdenTrabajo('OT-9841')" class="px-2 py-0.5 rounded bg-blue-600 text-white font-mono font-bold">${c.ot}</button></td>
+        <td><button onclick="document.getElementById('modalCanceladas').classList.add('hidden'); abrirDetalleDoctor('${c.doc}')" class="px-2 py-0.5 rounded bg-slate-800 text-white">DOC</button></td>
+        <td class="font-mono font-bold">${c.folio}</td>
+        <td class="font-mono">${c.fecha}</td>
+        <td><span class="px-2 py-0.5 rounded bg-rose-100 text-rose-800 font-bold text-[10px]">Cancelada</span></td>
+        <td>${c.prod}</td>
+        <td>${c.doc}</td>
+        <td>${c.pac}</td>
+        <td class="font-mono">${c.uni}</td>
+        <td class="font-mono text-slate-500">${c.lib}</td>
+        <td class="font-mono font-bold">${c.monto}</td>
+        <td class="text-rose-700 font-semibold">${c.motivo}</td>
+      </tr>
+    `).join('');
+  }
+
+  const tbPend = document.getElementById('tbodyModalPendientesPago');
+  if (tbPend) {
+    tbPend.innerHTML = [
+      { ot: 1047, folio: 'ORD-26-1047', entrega: '2026-10-09', est: 'Diseño', prod: 'Carillas Disilicato E-Max', doc: 'Dra. Elena Torres', pac: 'Carlos Alberto Ruiz', uni: 4, lib: '2026-10-07', monto: '$9,600.00', pagado: '$4,800.00', saldo: '$4,800.00' },
+      { ot: 1046, folio: 'ORD-26-1046', entrega: '2026-10-07', est: 'Fabricación', prod: 'Puente 3 Unidades Zirconio', doc: 'Dr. Mauricio Cárdenas', pac: 'Roberto Hernández Gil', uni: 3, lib: '2026-10-06', monto: '$5,550.00', pagado: '$2,000.00', saldo: '$3,550.00' },
+      { ot: 1042, folio: 'ORD-26-1042', entrega: '2026-10-07', est: 'Terminado', prod: 'Provisional PMMA Larga Duración', doc: 'Dr. Roberto Garza', pac: 'Fernando Domínguez', uni: 6, lib: '2026-10-04', monto: '$3,900.00', pagado: '$0.00', saldo: '$3,900.00' }
+    ].map(p => `
+      <tr class="hover:bg-slate-50">
+        <td><button onclick="document.getElementById('modalPendientes').classList.add('hidden'); abrirOrdenTrabajo('OT-9842')" class="px-2 py-0.5 rounded bg-blue-600 text-white font-mono font-bold">${p.ot}</button></td>
+        <td><button onclick="document.getElementById('modalPendientes').classList.add('hidden'); abrirDetalleDoctor('${p.doc}')" class="px-2 py-0.5 rounded bg-slate-800 text-white">DOC</button></td>
+        <td class="font-mono font-bold">${p.folio}</td>
+        <td class="font-mono">${p.entrega}</td>
+        <td><span class="px-2 py-0.5 rounded bg-amber-100 text-amber-800 font-bold text-[10px]">${p.est}</span></td>
+        <td>${p.prod}</td>
+        <td>${p.doc}</td>
+        <td>${p.pac}</td>
+        <td class="font-mono">${p.uni}</td>
+        <td class="font-mono text-slate-500">${p.lib}</td>
+        <td class="font-mono font-bold">${p.monto}</td>
+        <td class="font-mono text-emerald-700 font-bold">${p.pagado}</td>
+        <td class="font-mono text-rose-700 font-extrabold">${p.saldo}</td>
+      </tr>
+    `).join('');
+  }
+}
+
+function Etiqueta(doctor, paciente, fechaEntrega, codigo) {
+  const modal = document.getElementById('modalEtiqueta');
+  if (!modal) return;
+  document.getElementById('etiquetaDoctor').innerText = 'Dr(a): ' + doctor;
+  document.getElementById('etiquetaPaciente').innerText = 'Paciente: ' + paciente;
+  document.getElementById('etiquetaEntrega').innerText = 'Entrega: ' + fechaEntrega;
+  document.getElementById('etiquetaFolioTexto').innerText = codigo;
+
+  if (typeof JsBarcode === 'function') {
+    JsBarcode('#barcode', codigo, {
+      format: 'CODE128',
+      lineColor: '#0f172a',
+      width: 2,
+      height: 44,
+      displayValue: false
+    });
+  }
+  modal.classList.remove('hidden');
+  lucide.createIcons();
+}
+
+// ============================================================================
+// PANTALLA ORDEN DE TRABAJO (IDÉNTICA A DENT DEMO/OrdenTrabajo.php CON 4 PESTAÑAS)
+// ============================================================================
+
+let currentOrdenActiva = null;
+let currentTabOrden = 'home';
+
+function abrirOrdenTrabajo(serie) {
+  const found = INICIO_DATA.ordenes.find(o => o.serie === serie) || INICIO_DATA.ordenes[0];
+  currentOrdenActiva = found;
+  currentTabOrden = 'home';
+
+  const secInicio = document.getElementById('section-inicio');
+  const secDynamic = document.getElementById('section-dynamic');
+  secInicio.classList.add('hidden');
+  secDynamic.classList.remove('hidden');
+
+  renderVistaOrdenTrabajo();
+}
+
+function cambiarTabOrdenTrabajo(tab) {
+  currentTabOrden = tab;
+  renderVistaOrdenTrabajo();
+}
+
+function avanzarEtapaOrdenActual() {
+  if (!currentOrdenActiva) return;
+  const etapas = ['Escaneo', 'Diseño', 'Fabricación', 'Terminado'];
+  const idx = etapas.indexOf(currentOrdenActiva.estado);
+  const next = etapas[Math.min(idx + 1, etapas.length - 1)];
+  currentOrdenActiva.estado = next;
+  showToast('Etapa Liberada', `La Orden #${currentOrdenActiva.ot} avanzó a la etapa: ${next}`);
+  renderVistaOrdenTrabajo();
+}
+
+function registrarAbonoOrdenActual(e) {
+  e.preventDefault();
+  const monto = document.getElementById('inputMontoAbonoOT')?.value || '500';
+  const metodo = document.getElementById('selectMetodoAbonoOT')?.value || 'Efectivo';
+  showToast('Pago Registrado', `Se aplicó un abono de $${Number(monto).toLocaleString('es-MX')} MXN (${metodo}) a la Orden #${currentOrdenActiva.ot}.`);
+  renderVistaOrdenTrabajo();
+}
+
+function renderVistaOrdenTrabajo() {
+  const o = currentOrdenActiva || INICIO_DATA.ordenes[0];
+  const container = document.getElementById('section-dynamic');
+  if (!container) return;
+
+  const dientesSup = [18,17,16,15,14,13,12,11, 21,22,23,24,25,26,27,28];
+  const dientesInf = [48,47,46,45,44,43,42,41, 31,32,33,34,35,36,37,38];
+
+  container.innerHTML = `
+    <div class="bg-white border border-slate-200 rounded-2xl shadow-sm p-5">
+      <div class="mb-4 flex items-center justify-between">
+        <button onclick="openModule('inicio')" class="px-3.5 py-2 rounded-xl bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold flex items-center gap-2 shadow-sm transition-colors">
+          <i data-lucide="arrow-left" class="w-4 h-4"></i>
+          <span>Regresar a Inicio</span>
+        </button>
+        <span class="font-mono text-xs font-bold text-slate-500">Folio: ${o.folio} • Serie: ${o.serie}</span>
+      </div>
+
+      <!-- 4 Pestañas Exactas de OrdenTrabajo.php -->
+      <div class="border-b border-slate-200 flex flex-wrap gap-1.5 mb-5 text-xs font-bold">
+        <button onclick="cambiarTabOrdenTrabajo('home')" class="px-4 py-2.5 rounded-t-xl border-t border-l border-r transition-all ${currentTabOrden === 'home' ? 'bg-slate-900 text-white border-slate-900' : 'bg-slate-100 text-slate-600 border-transparent hover:bg-slate-200'}">
+          Orden de trabajo #${o.ot}
+        </button>
+        <button onclick="cambiarTabOrdenTrabajo('pago')" class="px-4 py-2.5 rounded-t-xl border-t border-l border-r transition-all ${currentTabOrden === 'pago' ? 'bg-slate-900 text-white border-slate-900' : 'bg-slate-100 text-slate-600 border-transparent hover:bg-slate-200'}">
+          Pago
+        </button>
+        <button onclick="cambiarTabOrdenTrabajo('historial')" class="px-4 py-2.5 rounded-t-xl border-t border-l border-r transition-all ${currentTabOrden === 'historial' ? 'bg-slate-900 text-white border-slate-900' : 'bg-slate-100 text-slate-600 border-transparent hover:bg-slate-200'}">
+          Historial y Operaciones
+        </button>
+        <button onclick="cambiarTabOrdenTrabajo('archivos')" class="px-4 py-2.5 rounded-t-xl border-t border-l border-r transition-all ${currentTabOrden === 'archivos' ? 'bg-slate-900 text-white border-slate-900' : 'bg-slate-100 text-slate-600 border-transparent hover:bg-slate-200'}">
+          Archivos
+        </button>
+      </div>
+
+      ${currentTabOrden === 'home' ? `
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-5 text-xs">
+          <div class="lg:col-span-7 space-y-4">
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 bg-slate-50 p-4 rounded-2xl border border-slate-200">
+              <div><span class="text-slate-400 font-bold uppercase text-[10px] block">Doctor</span><strong class="text-slate-900 text-sm">${o.doctor}</strong></div>
+              <div><span class="text-slate-400 font-bold uppercase text-[10px] block">Clínica / Consultorio</span><strong class="text-slate-800">Clínica Dental San Pedro • Consultorio 402</strong></div>
+              <div><span class="text-slate-400 font-bold uppercase text-[10px] block">Paciente</span><strong class="text-slate-900">${o.paciente}</strong></div>
+              <div><span class="text-slate-400 font-bold uppercase text-[10px] block">Folio / Serie</span><strong class="font-mono text-blue-600">${o.folio} (${o.serie})</strong></div>
+              <div><span class="text-slate-400 font-bold uppercase text-[10px] block">Producto</span><strong class="text-slate-900">${o.producto}</strong></div>
+              <div><span class="text-slate-400 font-bold uppercase text-[10px] block">Colorímetro Guía VITA</span><strong class="text-slate-900">${o.color}</strong></div>
+              <div><span class="text-slate-400 font-bold uppercase text-[10px] block">Unidades</span><strong class="font-mono">${o.unidades} pieza(s) — [${o.piezas.join(', ')}]</strong></div>
+              <div><span class="text-slate-400 font-bold uppercase text-[10px] block">Entrega Solicitada</span><strong class="font-mono text-emerald-700">${o.entrega}</strong></div>
+              <div><span class="text-slate-400 font-bold uppercase text-[10px] block">Estado Actual</span><span class="px-2.5 py-0.5 rounded-full bg-blue-100 text-blue-800 font-bold">${o.estado}</span></div>
+              <div><span class="text-slate-400 font-bold uppercase text-[10px] block">Costo Total Orden</span><strong class="font-mono text-sm text-slate-900">${o.monto}</strong></div>
+            </div>
+
+            <div class="bg-white p-4 rounded-2xl border border-slate-200 space-y-3">
+              <h4 class="font-bold text-slate-800 uppercase border-b border-slate-100 pb-2">Control de Etapa y Liberación</h4>
+              <div class="flex flex-wrap items-center justify-between gap-3">
+                <div class="flex items-center gap-2">
+                  <span class="text-slate-500 font-semibold">Etapa actual:</span>
+                  <span class="px-3 py-1 rounded-lg bg-slate-900 text-white font-bold">${o.estado}</span>
+                </div>
+                <div class="flex items-center gap-2">
+                  <button onclick="avanzarEtapaOrdenActual()" class="px-3.5 py-2 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-bold shadow-sm transition-colors">
+                    Liberar Siguiente Etapa
+                  </button>
+                  <button onclick="Etiqueta('${o.doctor}', '${o.paciente}', '${o.entrega}', '${o.serie}')" class="px-3.5 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-white font-bold shadow-sm transition-colors">
+                    Imprimir Etiqueta
+                  </button>
+                </div>
+              </div>
+              <div>
+                <label class="font-bold text-slate-600 block mb-1">Observaciones Clínicas / Diseño CAD:</label>
+                <textarea rows="2" class="w-full p-2.5 rounded-xl border border-slate-200 bg-slate-50 text-xs">Sellado marginal revisado en 3Shape. Contacto oclusal ligero en céntrica, anatomía natural solicitada por el doctor.</textarea>
+              </div>
+            </div>
+          </div>
+
+          <div class="lg:col-span-5 bg-slate-50 p-4 rounded-2xl border border-slate-200 flex flex-col justify-between">
+            <div>
+              <div class="flex items-center justify-between border-b border-slate-200 pb-2.5 mb-3">
+                <h4 class="font-bold text-slate-800 uppercase">Odontograma de la Orden</h4>
+                <div class="flex items-center gap-3 text-[11px] font-bold">
+                  <span class="flex items-center gap-1"><span class="w-3 h-3 rounded-sm bg-blue-600 inline-block"></span> PILAR</span>
+                  <span class="flex items-center gap-1"><span class="w-3 h-3 rounded-sm bg-emerald-600 inline-block"></span> PÓNTICO</span>
+                </div>
+              </div>
+
+              <p class="text-[10px] text-center font-bold text-slate-400 uppercase mb-1.5">Arcada Superior (FDI)</p>
+              <div class="grid grid-cols-8 gap-1.5 mb-4">
+                ${dientesSup.map(d => {
+                  const sel = o.piezas.includes(String(d));
+                  return `
+                    <button type="button" onclick="this.classList.toggle('bg-blue-600'); this.classList.toggle('text-white'); showToast('Pieza #${d}', 'Selección actualizada en el odontograma.')" class="py-2 rounded-xl border border-slate-200 font-mono font-bold text-[11px] flex flex-col items-center gap-0.5 transition-all ${sel ? 'bg-blue-600 text-white border-blue-600 shadow-sm' : 'bg-white text-slate-700 hover:bg-blue-50'}">
+                      <img src="assets/muela.png" class="w-3.5 h-3.5 object-contain" alt="">
+                      <span>${d}</span>
+                    </button>
+                  `;
+                }).join('')}
+              </div>
+
+              <p class="text-[10px] text-center font-bold text-slate-400 uppercase mb-1.5">Arcada Inferior (FDI)</p>
+              <div class="grid grid-cols-8 gap-1.5">
+                ${dientesInf.map(d => {
+                  const sel = o.piezas.includes(String(d));
+                  return `
+                    <button type="button" onclick="this.classList.toggle('bg-emerald-600'); this.classList.toggle('text-white'); showToast('Pieza #${d}', 'Selección actualizada en el odontograma.')" class="py-2 rounded-xl border border-slate-200 font-mono font-bold text-[11px] flex flex-col items-center gap-0.5 transition-all ${sel ? 'bg-emerald-600 text-white border-emerald-600 shadow-sm' : 'bg-white text-slate-700 hover:bg-emerald-50'}">
+                      <img src="assets/muela.png" class="w-3.5 h-3.5 object-contain" alt="">
+                      <span>${d}</span>
+                    </button>
+                  `;
+                }).join('')}
+              </div>
+            </div>
+
+            <div class="mt-4 pt-3 border-t border-slate-200 text-[11px] text-slate-500 flex items-center justify-between">
+              <span>Haz clic en cualquier pieza dental para conmutar Pilar / Póntico</span>
+              <span class="font-mono font-bold text-slate-900">Unidades: ${o.unidades}</span>
+            </div>
+          </div>
+        </div>
+      ` : ''}
+
+      ${currentTabOrden === 'pago' ? `
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-5 text-xs">
+          <div class="bg-slate-50 p-4 rounded-2xl border border-slate-200 space-y-3">
+            <h4 class="font-bold text-slate-800 uppercase border-b pb-2">Registrar Abono / Pago de Orden #${o.ot}</h4>
+            <form onsubmit="registrarAbonoOrdenActual(event)" class="space-y-3">
+              <div>
+                <label class="font-bold text-slate-600 block mb-1">Método de Pago:</label>
+                <select id="selectMetodoAbonoOT" class="w-full px-3.5 py-2 rounded-xl border border-slate-200 bg-white font-semibold">
+                  <option>Efectivo</option>
+                  <option>Transferencia SPEI</option>
+                  <option>Tarjeta Crédito / Débito (Conekta)</option>
+                  <option>Descuento de Paquete Prepagado Zirconio</option>
+                </select>
+              </div>
+              <div>
+                <label class="font-bold text-slate-600 block mb-1">Monto a Abonar (MXN):</label>
+                <input id="inputMontoAbonoOT" type="number" required value="950" class="w-full px-3.5 py-2 rounded-xl border border-slate-200 bg-white font-mono font-bold">
+              </div>
+              <button type="submit" class="px-4 py-2 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-bold shadow-sm">
+                Registrar Pago
+              </button>
+            </form>
+          </div>
+          <div class="bg-white p-4 rounded-2xl border border-slate-200 space-y-3">
+            <h4 class="font-bold text-slate-800 uppercase border-b pb-2">Historial de Pagos de la Orden</h4>
+            <table class="w-full text-center border border-slate-200 general-table">
+              <thead>
+                <tr>
+                  <th>Fecha</th>
+                  <th>Método</th>
+                  <th>Usuario</th>
+                  <th>Monto</th>
+                </tr>
+              </thead>
+              <tbody class="divide-y divide-slate-100">
+                <tr>
+                  <td class="font-mono">${o.libProd}</td>
+                  <td>Anticipo Recepción</td>
+                  <td>admin</td>
+                  <td class="font-mono font-bold text-emerald-700">$900.00</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      ` : ''}
+
+      ${currentTabOrden === 'historial' ? `
+        <div class="space-y-3 text-xs">
+          <h4 class="font-bold text-slate-800 uppercase">Bitácora de Operaciones y Trazabilidad CAD/CAM</h4>
+          <table class="w-full text-center border border-slate-200 general-table">
+            <thead>
+              <tr>
+                <th>Fecha / Hora</th>
+                <th>Etapa</th>
+                <th>Operación Realizada</th>
+                <th>Operador Responsable</th>
+                <th>Equipo / Disco</th>
+              </tr>
+            </thead>
+            <tbody class="divide-y divide-slate-100">
+              <tr>
+                <td class="font-mono">${o.libProd}</td>
+                <td><span class="px-2 py-0.5 rounded bg-slate-100 font-bold">Recepción</span></td>
+                <td>Alta de orden y generación de código de barras ${o.serie}</td>
+                <td>Recepción Laboratorio</td>
+                <td>Portal Dent Lab</td>
+              </tr>
+              <tr>
+                <td class="font-mono">2026-10-07 11:40</td>
+                <td><span class="px-2 py-0.5 rounded bg-blue-100 text-blue-800 font-bold">Escaneo</span></td>
+                <td>Recepción de archivo STL intraoral y verificación de oclusión</td>
+                <td>Lic. Daniel Ríos</td>
+                <td>3Shape TRIOS 4</td>
+              </tr>
+              <tr>
+                <td class="font-mono">2026-10-07 14:20</td>
+                <td><span class="px-2 py-0.5 rounded bg-amber-100 text-amber-800 font-bold">${o.estado}</span></td>
+                <td>Modelado anatómico CAD y asignación de lote de disco</td>
+                <td>T.P.D. Marco Antonio Ruiz</td>
+                <td>Disco Aidite ${o.color}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      ` : ''}
+
+      ${currentTabOrden === 'archivos' ? `
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-4 text-xs">
+          <div class="bg-slate-50 p-4 rounded-2xl border border-slate-200 space-y-3">
+            <h4 class="font-bold text-slate-800 uppercase">Archivos Digitales STL / DICOM / Fotos Clínicas</h4>
+            <div class="space-y-2">
+              <div class="p-3 bg-white rounded-xl border border-slate-200 flex items-center justify-between">
+                <div>
+                  <p class="font-bold text-slate-800">${o.serie}_Arcada_Superior.stl</p>
+                  <p class="text-[11px] text-slate-500">Malla Escaneo Intraoral • 14.2 MB</p>
+                </div>
+                <button onclick="showToast('Descargando STL', 'Descarga iniciada: ${o.serie}_Arcada_Superior.stl')" class="px-3 py-1.5 rounded-lg bg-blue-600 text-white font-bold">Descargar</button>
+              </div>
+              <div class="p-3 bg-white rounded-xl border border-slate-200 flex items-center justify-between">
+                <div>
+                  <p class="font-bold text-slate-800">${o.serie}_ConstructionInfo.constructionInfo</p>
+                  <p class="text-[11px] text-slate-500">Parámetros CAM Exocad • Autorizado</p>
+                </div>
+                <button onclick="showToast('Descargando XML', 'Descarga iniciada: ${o.serie}_ConstructionInfo')" class="px-3 py-1.5 rounded-lg bg-blue-600 text-white font-bold">Descargar</button>
+              </div>
+            </div>
+          </div>
+          <div class="bg-white p-4 rounded-2xl border border-slate-200 flex flex-col items-center justify-center text-center space-y-2">
+            <p class="font-bold text-slate-700">Subir Nuevo Archivo STL, Foto de Colorímetro o Radiografía</p>
+            <button onclick="showToast('Archivo Adjuntado', 'El archivo se anexó correctamente al expediente de la orden.')" class="px-4 py-2 rounded-xl bg-blue-600 text-white font-bold shadow-sm">
+              Seleccionar Archivo...
+            </button>
+          </div>
+        </div>
+      ` : ''}
+    </div>
+  `;
+  lucide.createIcons();
+}
+
+// ============================================================================
+// FICHA DEL DOCTOR (IDÉNTICO A DENT DEMO/Doctor.php)
+// ============================================================================
+
+function abrirDetalleDoctor(doctorNombre) {
+  const doc = DENT_STATE.doctores.find(d => d.nombre === doctorNombre) || DENT_STATE.doctores[0];
+  const ordenesDoc = INICIO_DATA.ordenes.filter(o => o.doctor === doc.nombre);
+
+  const secInicio = document.getElementById('section-inicio');
+  const secDynamic = document.getElementById('section-dynamic');
+  secInicio.classList.add('hidden');
+  secDynamic.classList.remove('hidden');
+
+  const container = document.getElementById('section-dynamic');
+  if (!container) return;
+
+  container.innerHTML = `
+    <div class="bg-white border border-slate-200 rounded-2xl shadow-sm p-5 space-y-4 text-xs">
+      <div class="flex items-center justify-between border-b border-slate-200 pb-3">
+        <button onclick="openModule('inicio')" class="px-3.5 py-2 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-bold flex items-center gap-2 shadow-sm">
+          <i data-lucide="arrow-left" class="w-4 h-4"></i>
+          <span>Regresar a Inicio</span>
+        </button>
+        <span class="font-mono font-bold text-slate-500">Expediente de Doctor • ${doc.id}</span>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-4 gap-3 bg-slate-50 p-4 rounded-2xl border border-slate-200">
+        <div><span class="text-slate-400 font-bold uppercase text-[10px] block">Doctor</span><strong class="text-sm text-slate-900">${doc.nombre}</strong></div>
+        <div><span class="text-slate-400 font-bold uppercase text-[10px] block">Clínica</span><strong class="text-slate-800">${doc.clinica}</strong></div>
+        <div><span class="text-slate-400 font-bold uppercase text-[10px] block">Celular / Correo</span><strong class="font-mono">${doc.celular} • ${doc.mail}</strong></div>
+        <div><span class="text-slate-400 font-bold uppercase text-[10px] block">Ejecutivo Asignado</span><strong class="text-blue-600">${doc.vendedor} (${doc.tipo})</strong></div>
+      </div>
+
+      <h4 class="font-bold text-slate-800 uppercase">Historial de Órdenes de Trabajo del Doctor</h4>
+      <table class="w-full text-center border border-slate-200 general-table">
+        <thead>
+          <tr>
+            <th>OT</th>
+            <th>FOLIO</th>
+            <th>PACIENTE</th>
+            <th>PRODUCTO</th>
+            <th>ESTADO</th>
+            <th>ENTREGA</th>
+            <th>MONTO</th>
+          </tr>
+        </thead>
+        <tbody class="divide-y divide-slate-100">
+          ${(ordenesDoc.length > 0 ? ordenesDoc : INICIO_DATA.ordenes.slice(0, 3)).map(o => `
+            <tr class="hover:bg-slate-50">
+              <td><button onclick="abrirOrdenTrabajo('${o.serie}')" class="px-2.5 py-0.5 rounded bg-blue-600 text-white font-mono font-bold">${o.ot}</button></td>
+              <td class="font-mono font-bold">${o.folio}</td>
+              <td>${o.paciente}</td>
+              <td class="font-semibold">${o.producto}</td>
+              <td>${o.estado}</td>
+              <td class="font-mono">${o.entrega}</td>
+              <td class="font-mono font-bold">${o.monto}</td>
+            </tr>
+          `).join('')}
+        </tbody>
+      </table>
+    </div>
+  `;
+  lucide.createIcons();
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+  renderTablasInicio();
+  renderModalsInicio();
+});
+

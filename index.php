@@ -13,6 +13,7 @@ $perfilActual  = htmlspecialchars($_SESSION['perfil'] ?? 'Administrador', ENT_QU
   <title>Dent Clinica Dental | Sistema de Laboratorio</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <script src="https://unpkg.com/lucide@latest"></script>
+  <script src="https://cdn.jsdelivr.net/npm/jsbarcode@3.11.5/dist/JsBarcode.all.min.js"></script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
@@ -23,61 +24,58 @@ $perfilActual  = htmlspecialchars($_SESSION['perfil'] ?? 'Administrador', ENT_QU
     .table-scroll::-webkit-scrollbar-track { background: transparent; }
     .table-scroll::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 10px; }
 
-    /* Telemetry Mini Bars Animation (de AnimeMetricsHub) */
-    @keyframes barPulse {
-      0%, 100% { transform: scaleY(0.3); }
-      50% { transform: scaleY(1); }
+    /* Animaciones de filas de doctores internos idénticas a la lógica de DENT DEMO pero modernizadas */
+    @keyframes pulseYellow {
+      0%, 100% { background-color: #ffffff; }
+      50% { background-color: #fef9c3; }
     }
-    .telemetry-mini-bar {
-      transform-origin: bottom;
-      animation: barPulse 1.2s ease-in-out infinite alternate;
+    @keyframes pulseGreen {
+      0%, 100% { background-color: #ffffff; }
+      50% { background-color: #dcfce7; }
     }
-    .bar-d1 { animation-delay: 0.1s; }
-    .bar-d2 { animation-delay: 0.3s; }
-    .bar-d3 { animation-delay: 0.5s; }
-    .bar-d4 { animation-delay: 0.2s; }
-    .bar-d5 { animation-delay: 0.4s; }
+    .row-yellow { animation: pulseYellow 2.2s infinite ease-in-out; }
+    .row-green { animation: pulseGreen 2.2s infinite ease-in-out; }
 
-    /* Staggered Grid Entrance (de StaggeredGrid.jsx) */
-    @keyframes staggerFadeUp {
-      from { opacity: 0; transform: translateY(14px) scale(0.98); }
-      to { opacity: 1; transform: translateY(0) scale(1); }
+    /* Tablas compactas de las 4 etapas de inicio (Escaneo, Diseño, Fabricación, Entrega) */
+    .stage-table th {
+      background-color: #0f172a;
+      color: #ffffff;
+      font-weight: 700;
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: 0.03em;
+      padding: 7px 6px;
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      white-space: nowrap;
     }
-    .stagger-item {
-      opacity: 0;
-      animation: staggerFadeUp 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-    }
-    .delay-1 { animation-delay: 0.05s; }
-    .delay-2 { animation-delay: 0.12s; }
-    .delay-3 { animation-delay: 0.19s; }
-    .delay-4 { animation-delay: 0.26s; }
-    .delay-5 { animation-delay: 0.33s; }
-    .delay-6 { animation-delay: 0.40s; }
-
-    /* Card Hover Lift */
-    .metric-hub-card {
-      transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
-    }
-    .metric-hub-card:hover {
-      transform: translateY(-3px);
-      box-shadow: 0 12px 28px -6px rgba(37, 99, 235, 0.12);
-      border-color: #93c5fd;
+    .stage-table td {
+      font-size: 11px;
+      padding: 6px 6px;
+      border-bottom: 1px solid #f1f5f9;
+      white-space: nowrap;
     }
 
-    /* Kanban Card Transition & Flash */
-    .order-card-anim {
-      transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+    /* Tabla general inferior (#tableOrdenes) */
+    .general-table th {
+      background-color: #0f172a;
+      color: #ffffff;
+      font-weight: 700;
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.03em;
+      padding: 9px 10px;
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      white-space: nowrap;
     }
-    .order-card-anim:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 8px 20px -4px rgba(37, 99, 235, 0.10);
-    }
-    @keyframes cardFlash {
-      0% { background-color: #dbeafe; border-color: #2563eb; transform: scale(1.02); }
-      100% { background-color: #ffffff; border-color: #e2e8f0; transform: scale(1); }
-    }
-    .flash-highlight {
-      animation: cardFlash 0.9s ease-out;
+    .general-table td {
+      font-size: 12px;
+      padding: 8px 10px;
+      border-bottom: 1px solid #f1f5f9;
+      white-space: nowrap;
     }
   </style>
 </head>
@@ -86,7 +84,7 @@ $perfilActual  = htmlspecialchars($_SESSION['perfil'] ?? 'Administrador', ENT_QU
   <?php include __DIR__ . '/menus.php'; ?>
 
   <!-- ========================================== -->
-  <!-- CONTENIDO DERECHO (Navbar + Dashboard)     -->
+  <!-- CONTENIDO DERECHO (Navbar + Pantalla DENT) -->
   <!-- ========================================== -->
   <div class="flex-1 flex flex-col min-w-0 overflow-hidden">
     
@@ -100,13 +98,7 @@ $perfilActual  = htmlspecialchars($_SESSION['perfil'] ?? 'Administrador', ENT_QU
       </div>
 
       <div class="flex items-center gap-3">
-        <!-- Botón de Odontograma Digital Interactivo -->
-        <button onclick="openOdontogramaModal()" class="px-3 py-1.5 rounded-xl bg-slate-100 hover:bg-blue-50 text-slate-700 hover:text-blue-700 border border-slate-200 hover:border-blue-200 text-xs font-semibold transition-all flex items-center gap-1.5">
-          <i data-lucide="scan-face" class="w-4 h-4 text-blue-600"></i>
-          <span class="hidden sm:inline">Odontograma Digital</span>
-        </button>
-
-        <!-- Engranaje de Configuración / Permisos -->
+        <!-- Engranaje de Configuración / Permisos (igual que en DENT DEMO) -->
         <div class="relative">
           <button onclick="toggleSettingsDropdown()" class="p-2 rounded-lg border border-slate-200 hover:bg-slate-100 text-slate-600 transition-colors" title="Ajustes">
             <i data-lucide="sliders-horizontal" class="w-4 h-4"></i>
@@ -131,463 +123,272 @@ $perfilActual  = htmlspecialchars($_SESSION['perfil'] ?? 'Administrador', ENT_QU
     </header>
 
     <!-- Área Principal de Trabajo -->
-    <main class="flex-1 overflow-y-auto p-6 space-y-5 bg-slate-50">
+    <main class="flex-1 overflow-y-auto p-4 sm:p-5 space-y-4 bg-slate-50">
 
-      <!-- Contenedor Dinámico para los 36 Módulos del Menú Lateral -->
-      <div id="section-dynamic" class="hidden space-y-5"></div>
+      <!-- Contenedor Dinámico para los 36 Módulos del Menú Lateral y OrdenTrabajo.php -->
+      <div id="section-dynamic" class="hidden space-y-4"></div>
 
-      <!-- Contenedor Principal de Inicio (Dashboard CAD/CAM) -->
-      <div id="section-inicio" class="space-y-5">
+      <!-- ===================================================================== -->
+      <!-- PANTALLA PRINCIPAL DE INICIO: MISMO DISEÑO DE DENT DEMO ACTUALIZADO   -->
+      <!-- 1. Barra de Botones (Calendario, Canceladas, Pendientes, Hora, +, ↻)  -->
+      <!-- 2. Los 4 Cuadros con sus Tablas (Escaneo, Diseño, Fabricación, Entrega)-->
+      <!-- 3. Tabla General de Órdenes abajo siempre visible con Buscador        -->
+      <!-- ===================================================================== -->
+      <div id="section-inicio" class="space-y-4">
 
-      <!-- ============================================================== -->
-      <!-- COMPONENTE 1: METRICS & TELEMETRY HUB (AnimeCounter + Hub)      -->
-      <!-- ============================================================== -->
-      <section class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-4">
-        
-        <!-- Métrica 1: Órdenes Activas -->
-        <div class="stagger-item delay-1 metric-hub-card bg-white p-4 rounded-2xl border border-slate-200 shadow-sm relative overflow-hidden flex flex-col justify-between cursor-pointer"
-             onclick="openModule('lista-ordenes')">
-          <div class="flex items-center justify-between">
-            <span class="text-[11px] font-bold text-slate-400 uppercase tracking-wider">Órdenes en Proceso</span>
-            <div class="flex items-end gap-0.5 h-4 w-7">
-              <span class="telemetry-mini-bar bar-d1 w-1 bg-blue-600 h-full rounded-full"></span>
-              <span class="telemetry-mini-bar bar-d2 w-1 bg-blue-600 h-full rounded-full"></span>
-              <span class="telemetry-mini-bar bar-d3 w-1 bg-blue-600 h-full rounded-full"></span>
-              <span class="telemetry-mini-bar bar-d4 w-1 bg-blue-600 h-full rounded-full"></span>
-              <span class="telemetry-mini-bar bar-d5 w-1 bg-blue-600 h-full rounded-full"></span>
-            </div>
-          </div>
-          <div class="mt-3 flex items-baseline justify-between">
-            <h3 class="text-2xl font-extrabold text-slate-900 font-mono anime-counter" data-target="42">0</h3>
-            <span class="text-xs font-semibold text-blue-600 bg-blue-50 px-2 py-0.5 rounded-full border border-blue-100 flex items-center gap-1">
-              <i data-lucide="trending-up" class="w-3 h-3"></i> +12% mes
-            </span>
-          </div>
-          <div class="mt-2 w-full bg-slate-100 h-1.5 rounded-full overflow-hidden">
-            <div class="bg-blue-600 h-full rounded-full transition-all duration-1000 ease-out anime-progress" data-width="78%" style="width: 0%;"></div>
-          </div>
-        </div>
-
-        <!-- Métrica 2: En Fresado / CAM -->
-        <div class="stagger-item delay-2 metric-hub-card bg-white p-4 rounded-2xl border border-slate-200 shadow-sm relative overflow-hidden flex flex-col justify-between cursor-pointer"
-             onclick="openModule('discos-activos')">
-          <div class="flex items-center justify-between">
-            <span class="text-[11px] font-bold text-slate-400 uppercase tracking-wider">En Fresado / CAM</span>
-            <span class="w-2 h-2 rounded-full bg-blue-600 animate-ping"></span>
-          </div>
-          <div class="mt-3 flex items-baseline justify-between">
-            <h3 class="text-2xl font-extrabold text-slate-900 font-mono anime-counter" data-target="14">0</h3>
-            <span class="text-xs font-medium text-slate-500">3 CNC activas</span>
-          </div>
-          <p class="text-[11px] text-slate-400 mt-2">Discos Zirconio HT+ y PMMA</p>
-        </div>
-
-        <!-- Métrica 3: Entregas Hoy -->
-        <div class="stagger-item delay-3 metric-hub-card bg-white p-4 rounded-2xl border border-slate-200 shadow-sm relative overflow-hidden flex flex-col justify-between cursor-pointer"
-             onclick="openModule('calendario')">
-          <div class="flex items-center justify-between">
-            <span class="text-[11px] font-bold text-slate-400 uppercase tracking-wider">Entregas de Hoy</span>
-            <span class="px-1.5 py-0.5 rounded text-[10px] font-bold bg-slate-900 text-white font-mono">5 TOTAL</span>
-          </div>
-          <div class="mt-3 flex items-baseline justify-between">
-            <h3 class="text-2xl font-extrabold text-slate-900 font-mono anime-counter" data-target="5">0</h3>
-            <span class="text-xs font-bold text-slate-700 bg-slate-100 px-2 py-0.5 rounded-full">2 Urgentes</span>
-          </div>
-          <p class="text-[11px] text-slate-400 mt-2">Próxima entrega: 14:30 Dr. Oscar</p>
-        </div>
-
-        <!-- Métrica 4: Discos en Stock -->
-        <div class="stagger-item delay-4 metric-hub-card bg-white p-4 rounded-2xl border border-slate-200 shadow-sm relative overflow-hidden flex flex-col justify-between cursor-pointer"
-             onclick="openModule('inventario-discos')">
-          <div class="flex items-center justify-between">
-            <span class="text-[11px] font-bold text-slate-400 uppercase tracking-wider">Discos en Stock</span>
-            <i data-lucide="disc" class="w-4 h-4 text-blue-600 animate-spin" style="animation-duration: 8s;"></i>
-          </div>
-          <div class="mt-3 flex items-baseline justify-between">
-            <h3 class="text-2xl font-extrabold text-slate-900 font-mono anime-counter" data-target="38">0</h3>
-            <span class="text-xs font-semibold text-slate-600 font-mono">96% Cap</span>
-          </div>
-          <div class="mt-2 w-full bg-slate-100 h-1.5 rounded-full overflow-hidden">
-            <div class="bg-blue-600 h-full rounded-full transition-all duration-1000 ease-out anime-progress" data-width="96%" style="width: 0%;"></div>
-          </div>
-        </div>
-
-      </section>
-
-      <!-- ============================================== -->
-      <!-- FILA DE BOTONES Y RELOJ (index.php L79-110)    -->
-      <!-- ============================================== -->
-      <div class="stagger-item delay-4 bg-white p-3.5 rounded-2xl border border-slate-200 shadow-sm flex flex-wrap items-center justify-between gap-3">
-        <div class="flex flex-wrap items-center gap-2">
-          <!-- Botón Calendario -->
-          <button onclick="openModule('calendario');" class="px-3.5 py-2 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-semibold text-xs transition-all flex items-center gap-2 shadow-sm">
-            <i data-lucide="calendar" class="w-4 h-4"></i>
-            <span>Calendario</span>
-          </button>
-
-          <!-- Botón Órdenes Canceladas -->
-          <button onclick="openModalCanceladas();" class="px-3.5 py-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 font-semibold text-xs border border-slate-200 transition-all flex items-center gap-2">
-            <i data-lucide="ban" class="w-4 h-4 text-slate-400"></i>
-            <span>Órdenes canceladas</span>
-            <span class="px-1.5 py-0.2 rounded-md bg-slate-300 text-slate-800 text-[11px] font-bold font-mono" id="NumberOrdenCanceladas">2</span>
-          </button>
-
-          <!-- Botón Órdenes Pendientes de Pago -->
-          <button onclick="openModalPendientes();" class="px-3.5 py-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 font-semibold text-xs border border-slate-200 transition-all flex items-center gap-2">
-            <i data-lucide="bell" class="w-4 h-4 text-blue-600"></i>
-            <span>Órdenes Pendientes de pago</span>
-            <span class="px-1.5 py-0.2 rounded-md bg-blue-100 text-blue-800 text-[11px] font-bold font-mono" id="NumberOrden">4</span>
-          </button>
-        </div>
-
-        <div class="flex items-center gap-4">
-          <!-- Reloj en Vivo -->
-          <div class="text-right">
-            <span class="text-[10px] font-bold text-slate-400 uppercase tracking-wider block">Hora del Sistema</span>
-            <span class="text-xs font-mono font-bold text-slate-800" id="HoraActual">13:25:00</span>
-          </div>
-
-          <!-- Botones de Recarga y Nueva Orden -->
-          <div class="flex items-center gap-1.5">
-            <button onclick="refreshData()" class="p-2 rounded-xl border border-slate-200 bg-white hover:bg-slate-50 text-slate-600 transition-colors" title="Actualizar y Re-animar">
-              <i data-lucide="refresh-cw" class="w-4 h-4" id="refreshIcon"></i>
+        <!-- 1. BARRA SUPERIOR DE CONTROLES Y RELOJ (Idéntica a index.php L79-110 de DENT DEMO) -->
+        <div class="bg-slate-900 text-white p-3 rounded-2xl shadow-sm border border-slate-800 flex flex-wrap items-center justify-between gap-3">
+          <div class="flex flex-wrap items-center gap-2">
+            <!-- Calendario -->
+            <button onclick="openModule('calendario');" class="px-3.5 py-2 rounded-xl bg-blue-600 hover:bg-blue-500 text-white font-semibold text-xs transition-all flex items-center gap-2 shadow-sm">
+              <i data-lucide="calendar" class="w-4 h-4"></i>
+              <span>Calendario</span>
             </button>
-            <button onclick="openOdontogramaModal()" class="p-2 rounded-xl bg-blue-600 hover:bg-blue-700 text-white transition-colors" title="Nueva Orden / Odontograma">
-              <i data-lucide="plus" class="w-4 h-4"></i>
+
+            <!-- Órdenes canceladas -->
+            <button onclick="openModalCanceladas();" class="px-3.5 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-200 font-semibold text-xs border border-slate-700 transition-all flex items-center gap-2">
+              <i data-lucide="ban" class="w-4 h-4 text-rose-400"></i>
+              <span>Ordenes canceladas</span>
+              <span class="px-1.5 py-0.5 rounded-md bg-rose-500/20 text-rose-300 border border-rose-500/30 text-[11px] font-bold font-mono" id="NumberOrdenCanceladas">2</span>
+            </button>
+
+            <!-- Órdenes Pendientes de pago -->
+            <button onclick="openModalPendientes();" class="px-3.5 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-200 font-semibold text-xs border border-slate-700 transition-all flex items-center gap-2">
+              <i data-lucide="bell" class="w-4 h-4 text-amber-400"></i>
+              <span>Ordenes Pendientes de pago</span>
+              <span class="px-1.5 py-0.5 rounded-md bg-blue-500/20 text-blue-300 border border-blue-500/30 text-[11px] font-bold font-mono" id="NumberOrden">3</span>
             </button>
           </div>
-        </div>
-      </div>
 
-      <!-- ============================================================== -->
-      <!-- COMPONENTE 2: TABS SEGMENTADAS INTERACTIVAS (de tabs.jsx)       -->
-      <!-- ============================================================== -->
-      <div class="stagger-item delay-5 flex items-center justify-between border-b border-slate-200 pb-2">
-        <div class="flex items-center gap-1 bg-slate-200/80 p-1 rounded-xl">
-          <button onclick="switchTab('kanban')" id="tabBtn-kanban" class="tab-button px-3.5 py-1.5 rounded-lg text-xs font-bold transition-all bg-white text-slate-900 shadow-sm flex items-center gap-1.5">
-            <i data-lucide="layout-grid" class="w-3.5 h-3.5 text-blue-600"></i>
-            <span>Flujo de 4 Fases (CAD/CAM)</span>
-          </button>
-          <button onclick="switchTab('general')" id="tabBtn-general" class="tab-button px-3.5 py-1.5 rounded-lg text-xs font-medium transition-all text-slate-600 hover:text-slate-900 flex items-center gap-1.5">
-            <i data-lucide="list" class="w-3.5 h-3.5"></i>
-            <span>Bitácora General de Órdenes</span>
-          </button>
-        </div>
-
-        <span class="text-xs text-slate-500 font-medium hidden sm:inline flex items-center gap-1.5">
-          <span class="inline-block w-2 h-2 rounded-full bg-blue-600 animate-pulse"></span>
-          Haz clic en cualquier orden para abrir la <strong>Hoja de Orden de Trabajo</strong>
-        </span>
-      </div>
-
-      <!-- ============================================== -->
-      <!-- VISTA 1: LAS 4 COLUMNAS DE PRODUCCIÓN          -->
-      <!-- ============================================== -->
-      <div id="view-kanban" class="stagger-item delay-6 grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-4">
-
-        <!-- COLUMNA 1: ESCANEO (TableEscaneo.php) -->
-        <div class="bg-white rounded-2xl border border-slate-200 shadow-sm flex flex-col overflow-hidden">
-          <div class="px-4 py-3 border-b border-slate-100 bg-slate-50/70 flex items-center justify-between">
-            <div class="flex items-center gap-2 font-bold text-xs text-slate-800">
-              <i data-lucide="video" class="w-4 h-4 text-blue-600"></i>
-              <span>1. Escaneo</span>
-            </div>
-            <span class="text-[11px] font-mono font-semibold text-slate-500" id="count-col-1">2 órdenes</span>
-          </div>
-          <div id="col-list-1" class="table-scroll overflow-x-auto p-2 space-y-2" style="height: 38vh;">
-            
-            <!-- Tarjeta de Orden 9841 -->
-            <div id="card-9841" data-stage="1" onclick="openDigitalCard('9841', 'Corona Monolítica Zirconio', 'Carlos Mendoza', 'Dr. Oscar Ramírez', 'Vita A2', 'Escaneo', '01/10/2026')"
-              class="order-card-anim p-3 rounded-xl border border-slate-200 bg-white hover:border-blue-500 cursor-pointer group">
-              <div class="flex items-center justify-between mb-1">
-                <span class="text-xs font-bold text-blue-600 font-mono group-hover:underline">#OT-9841</span>
-                <span class="px-1.5 py-0.2 rounded text-[10px] font-bold bg-slate-900 text-white font-mono">URGENTE</span>
-              </div>
-              <h4 class="text-xs font-bold text-slate-800">CORONA ZIRCONIO</h4>
-              <p class="text-[11px] text-slate-500">Pieza #16 • Tono A2</p>
-              <div class="mt-2 pt-2 border-t border-slate-100 flex items-center justify-between text-[11px] text-slate-400">
-                <span>Carlos Mendoza</span>
-                <button onclick="event.stopPropagation(); advanceCard('9841')" class="px-2 py-0.5 rounded bg-blue-50 hover:bg-blue-600 text-blue-600 hover:text-white font-semibold text-[10px] transition-colors flex items-center gap-1" title="Avanzar a Diseño CAD">
-                  <span>Avanzar</span> <i data-lucide="arrow-right" class="w-2.5 h-2.5"></i>
-                </button>
-              </div>
+          <div class="flex items-center gap-4 ml-auto">
+            <!-- Hora Actual -->
+            <div class="flex items-center gap-2 bg-slate-950/60 px-3 py-1.5 rounded-xl border border-slate-800">
+              <i data-lucide="clock" class="w-3.5 h-3.5 text-blue-400"></i>
+              <span class="text-xs font-mono font-bold text-white tracking-wider" id="HoraActual">08:05:22</span>
             </div>
 
-            <!-- Tarjeta de Orden 9838 -->
-            <div id="card-9838" data-stage="1" onclick="openDigitalCard('9838', 'Alineadores Clear Dent (14 fases)', 'María Fernández', 'Dra. Brenda', 'Transparente', 'Escaneo', '03/10/2026')"
-              class="order-card-anim p-3 rounded-xl border border-slate-200 bg-white hover:border-blue-500 cursor-pointer group">
-              <div class="flex items-center justify-between mb-1">
-                <span class="text-xs font-bold text-blue-600 font-mono group-hover:underline">#OT-9838</span>
-                <span class="px-1.5 py-0.2 rounded text-[10px] font-medium bg-slate-100 text-slate-700">NORMAL</span>
-              </div>
-              <h4 class="text-xs font-bold text-slate-800">ALINEADORES CLEAR</h4>
-              <p class="text-[11px] text-slate-500">Arcada Superior • 14 Fases</p>
-              <div class="mt-2 pt-2 border-t border-slate-100 flex items-center justify-between text-[11px] text-slate-400">
-                <span>María Fernández</span>
-                <button onclick="event.stopPropagation(); advanceCard('9838')" class="px-2 py-0.5 rounded bg-blue-50 hover:bg-blue-600 text-blue-600 hover:text-white font-semibold text-[10px] transition-colors flex items-center gap-1" title="Avanzar a Diseño CAD">
-                  <span>Avanzar</span> <i data-lucide="arrow-right" class="w-2.5 h-2.5"></i>
-                </button>
-              </div>
+            <!-- Botones Recargar y Nueva Orden (+) -->
+            <div class="flex items-center gap-1.5">
+              <button onclick="refreshData()" class="p-2 rounded-xl bg-blue-600 hover:bg-blue-500 text-white transition-colors shadow-sm" title="Actualizar Tablas">
+                <i data-lucide="refresh-cw" class="w-4 h-4" id="refreshIcon"></i>
+              </button>
+              <button onclick="openSimpleAddModal('lista-ordenes')" class="p-2 rounded-xl bg-blue-600 hover:bg-blue-500 text-white transition-colors shadow-sm" title="Agregar Nueva Orden">
+                <i data-lucide="plus" class="w-4 h-4"></i>
+              </button>
             </div>
-
           </div>
         </div>
 
-        <!-- COLUMNA 2: DISEÑO (TableDiseno.php) -->
-        <div class="bg-white rounded-2xl border border-slate-200 shadow-sm flex flex-col overflow-hidden">
-          <div class="px-4 py-3 border-b border-slate-100 bg-slate-50/70 flex items-center justify-between">
-            <div class="flex items-center gap-2 font-bold text-xs text-slate-800">
-              <i data-lucide="monitor" class="w-4 h-4 text-blue-600"></i>
-              <span>2. Diseño CAD</span>
-            </div>
-            <span class="text-[11px] font-mono font-semibold text-slate-500" id="count-col-2">2 órdenes</span>
-          </div>
-          <div id="col-list-2" class="table-scroll overflow-x-auto p-2 space-y-2" style="height: 38vh;">
-            
-            <!-- Tarjeta de Orden 9830 -->
-            <div id="card-9830" data-stage="2" onclick="openDigitalCard('9830', 'Puente Fijo 3 Unidades', 'Roberto Gómez', 'Dr. Arturo M.', 'Vita A3', 'Diseño', '02/10/2026')"
-              class="order-card-anim p-3 rounded-xl border border-slate-200 bg-white hover:border-blue-500 cursor-pointer group">
-              <div class="flex items-center justify-between mb-1">
-                <span class="text-xs font-bold text-blue-600 font-mono group-hover:underline">#OT-9830</span>
-                <span class="px-1.5 py-0.2 rounded text-[10px] font-bold bg-slate-900 text-white font-mono">URGENTE</span>
-              </div>
-              <h4 class="text-xs font-bold text-slate-800">PUENTE FIJO 3U</h4>
-              <p class="text-[11px] text-slate-500">Piezas #21, #22, #23</p>
-              <div class="mt-2 pt-2 border-t border-slate-100 flex items-center justify-between text-[11px] text-slate-400">
-                <span>Roberto Gómez</span>
-                <button onclick="event.stopPropagation(); advanceCard('9830')" class="px-2 py-0.5 rounded bg-blue-50 hover:bg-blue-600 text-blue-600 hover:text-white font-semibold text-[10px] transition-colors flex items-center gap-1" title="Avanzar a Fresado CAM">
-                  <span>Avanzar</span> <i data-lucide="arrow-right" class="w-2.5 h-2.5"></i>
-                </button>
-              </div>
-            </div>
+        <!-- 2. LOS 4 CUADROS DE ETAPA CON TABLAS (Escaneo, Diseño, Fabricación, Entrega) -->
+        <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-3.5">
 
-            <!-- Tarjeta de Orden 9827 -->
-            <div id="card-9827" data-stage="2" onclick="openDigitalCard('9827', 'Inlay Cerámico', 'Laura Méndez', 'Dra. Fátima S.', 'Bleach B1', 'Diseño', '02/10/2026')"
-              class="order-card-anim p-3 rounded-xl border border-slate-200 bg-white hover:border-blue-500 cursor-pointer group">
-              <div class="flex items-center justify-between mb-1">
-                <span class="text-xs font-bold text-blue-600 font-mono group-hover:underline">#OT-9827</span>
-                <span class="px-1.5 py-0.2 rounded text-[10px] font-medium bg-slate-100 text-slate-700">NORMAL</span>
+          <!-- CUADRO 1: ESCANEO (TableEscaneo.php) -->
+          <div class="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden flex flex-col">
+            <div class="px-3.5 py-2.5 bg-slate-50 border-b border-slate-200 flex items-center justify-between">
+              <div class="flex items-center gap-2">
+                <span class="w-6 h-6 rounded-lg bg-blue-600/10 text-blue-600 flex items-center justify-center">
+                  <i data-lucide="video" class="w-3.5 h-3.5"></i>
+                </span>
+                <h3 class="text-xs font-extrabold text-slate-800 uppercase tracking-wide">Escaneo</h3>
               </div>
-              <h4 class="text-xs font-bold text-slate-800">INLAY CERÁMICO</h4>
-              <p class="text-[11px] text-slate-500">Pieza #36 • Tono B1</p>
-              <div class="mt-2 pt-2 border-t border-slate-100 flex items-center justify-between text-[11px] text-slate-400">
-                <span>Laura Méndez</span>
-                <button onclick="event.stopPropagation(); advanceCard('9827')" class="px-2 py-0.5 rounded bg-blue-50 hover:bg-blue-600 text-blue-600 hover:text-white font-semibold text-[10px] transition-colors flex items-center gap-1" title="Avanzar a Fresado CAM">
-                  <span>Avanzar</span> <i data-lucide="arrow-right" class="w-2.5 h-2.5"></i>
-                </button>
-              </div>
+              <span class="text-[11px] font-mono font-bold text-blue-600 bg-blue-50 px-2 py-0.5 rounded-full border border-blue-100" id="badgeCountEscaneo">5</span>
             </div>
-
+            <div class="table-scroll overflow-auto" style="height: 28vh;">
+              <table class="w-full text-center border-collapse stage-table">
+                <thead>
+                  <tr>
+                    <th>OT</th>
+                    <th>PROD</th>
+                    <th>UNI</th>
+                    <th>DOCTOR</th>
+                    <th>SOLI</th>
+                    <th>EST</th>
+                    <th>REGISTRO</th>
+                  </tr>
+                </thead>
+                <tbody id="tbodyStageEscaneo" class="divide-y divide-slate-100 text-slate-700"></tbody>
+              </table>
+            </div>
           </div>
+
+          <!-- CUADRO 2: DISEÑO (TableDiseno.php) -->
+          <div class="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden flex flex-col">
+            <div class="px-3.5 py-2.5 bg-slate-50 border-b border-slate-200 flex items-center justify-between">
+              <div class="flex items-center gap-2">
+                <span class="w-6 h-6 rounded-lg bg-blue-600/10 text-blue-600 flex items-center justify-center">
+                  <i data-lucide="monitor" class="w-3.5 h-3.5"></i>
+                </span>
+                <h3 class="text-xs font-extrabold text-slate-800 uppercase tracking-wide">Diseño</h3>
+              </div>
+              <span class="text-[11px] font-mono font-bold text-blue-600 bg-blue-50 px-2 py-0.5 rounded-full border border-blue-100" id="badgeCountDiseno">5</span>
+            </div>
+            <div class="table-scroll overflow-auto" style="height: 28vh;">
+              <table class="w-full text-center border-collapse stage-table">
+                <thead>
+                  <tr>
+                    <th>OT</th>
+                    <th>PROD</th>
+                    <th>UNI</th>
+                    <th>DOCTOR</th>
+                    <th>SOLI</th>
+                    <th>EST</th>
+                    <th>REGISTRO</th>
+                  </tr>
+                </thead>
+                <tbody id="tbodyStageDiseno" class="divide-y divide-slate-100 text-slate-700"></tbody>
+              </table>
+            </div>
+          </div>
+
+          <!-- CUADRO 3: FABRICACIÓN (TableFabricacion.php) -->
+          <div class="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden flex flex-col">
+            <div class="px-3.5 py-2.5 bg-slate-50 border-b border-slate-200 flex items-center justify-between">
+              <div class="flex items-center gap-2">
+                <span class="w-6 h-6 rounded-lg bg-blue-600/10 text-blue-600 flex items-center justify-center">
+                  <i data-lucide="wrench" class="w-3.5 h-3.5"></i>
+                </span>
+                <h3 class="text-xs font-extrabold text-slate-800 uppercase tracking-wide">Fabricación</h3>
+              </div>
+              <span class="text-[11px] font-mono font-bold text-blue-600 bg-blue-50 px-2 py-0.5 rounded-full border border-blue-100" id="badgeCountFabricacion">4</span>
+            </div>
+            <div class="table-scroll overflow-auto" style="height: 28vh;">
+              <table class="w-full text-center border-collapse stage-table">
+                <thead>
+                  <tr>
+                    <th>OT</th>
+                    <th>PROD</th>
+                    <th>UNI</th>
+                    <th>DOCTOR</th>
+                    <th>SOLI</th>
+                    <th>EST</th>
+                    <th>REGISTRO</th>
+                  </tr>
+                </thead>
+                <tbody id="tbodyStageFabricacion" class="divide-y divide-slate-100 text-slate-700"></tbody>
+              </table>
+            </div>
+          </div>
+
+          <!-- CUADRO 4: ENTREGA (TableEntrega.php) -->
+          <div class="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden flex flex-col">
+            <div class="px-3.5 py-2.5 bg-slate-50 border-b border-slate-200 flex items-center justify-between">
+              <div class="flex items-center gap-2">
+                <span class="w-6 h-6 rounded-lg bg-blue-600/10 text-blue-600 flex items-center justify-center">
+                  <i data-lucide="truck" class="w-3.5 h-3.5"></i>
+                </span>
+                <h3 class="text-xs font-extrabold text-slate-800 uppercase tracking-wide">Entrega</h3>
+              </div>
+              <span class="text-[11px] font-mono font-bold text-blue-600 bg-blue-50 px-2 py-0.5 rounded-full border border-blue-100" id="badgeCountEntrega">4</span>
+            </div>
+            <div class="table-scroll overflow-auto" style="height: 28vh;">
+              <table class="w-full text-center border-collapse stage-table">
+                <thead>
+                  <tr>
+                    <th>OT</th>
+                    <th>PROD</th>
+                    <th>UNI</th>
+                    <th>DOCTOR</th>
+                    <th>SOLI</th>
+                    <th>EST</th>
+                    <th>REGISTRO</th>
+                  </tr>
+                </thead>
+                <tbody id="tbodyStageEntrega" class="divide-y divide-slate-100 text-slate-700"></tbody>
+              </table>
+            </div>
+          </div>
+
         </div>
 
-        <!-- COLUMNA 3: FABRICACIÓN (TableFabricacion.php) -->
-        <div class="bg-white rounded-2xl border border-slate-200 shadow-sm flex flex-col overflow-hidden">
-          <div class="px-4 py-3 border-b border-slate-100 bg-slate-50/70 flex items-center justify-between">
-            <div class="flex items-center gap-2 font-bold text-xs text-slate-800">
-              <i data-lucide="wrench" class="w-4 h-4 text-blue-600"></i>
-              <span>3. Fabricación CAM</span>
+        <!-- 3. TABLA GENERAL DE ÓRDENES SIEMPRE VISIBLE ABAJO (TableOrdenes.php) -->
+        <div class="bg-white rounded-2xl border border-slate-200 p-4 shadow-sm space-y-3">
+          
+          <!-- Buscador centrado y Paginación igual que en DENT DEMO -->
+          <div class="flex flex-col sm:flex-row items-center justify-between gap-3">
+            <div class="flex items-center gap-2 w-full sm:max-w-xl mx-auto">
+              <input type="text" id="nptBuscar" onkeyup="buscarEnTabla();" placeholder="Introduzca un dato exacto de la orden a buscar"
+                class="flex-1 px-4 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs font-medium focus:outline-none focus:border-blue-600 focus:bg-white text-slate-900 transition-all text-center">
+              <button type="button" onclick="buscarEnTabla()" class="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-xl font-semibold text-xs transition-colors flex items-center gap-1.5 shadow-sm">
+                <i data-lucide="search" class="w-3.5 h-3.5"></i>
+                <span>Buscar</span>
+              </button>
             </div>
-            <span class="text-[11px] font-mono font-semibold text-slate-500" id="count-col-3">2 órdenes</span>
+
+            <!-- Paginación « 1 2 » -->
+            <div class="inline-flex rounded-xl border border-slate-200 overflow-hidden text-xs font-semibold shrink-0">
+              <button onclick="cambiarPaginaOrdenes(1)" class="px-2.5 py-1.5 bg-slate-50 hover:bg-slate-100 text-slate-600 border-r border-slate-200">«</button>
+              <button id="pageBtn1" onclick="cambiarPaginaOrdenes(1)" class="px-3 py-1.5 bg-blue-600 text-white font-bold border-r border-slate-200">1</button>
+              <button id="pageBtn2" onclick="cambiarPaginaOrdenes(2)" class="px-3 py-1.5 bg-white hover:bg-slate-50 text-slate-700 border-r border-slate-200">2</button>
+              <button onclick="cambiarPaginaOrdenes(2)" class="px-2.5 py-1.5 bg-slate-50 hover:bg-slate-100 text-slate-600">»</button>
+            </div>
           </div>
-          <div id="col-list-3" class="table-scroll overflow-x-auto p-2 space-y-2" style="height: 38vh;">
-            
-            <!-- Tarjeta de Orden 9812 -->
-            <div id="card-9812" data-stage="3" onclick="openDigitalCard('9812', 'Corona Monolítica Anterior', 'Guillermo Paz', 'Dr. Oscar Ramírez', 'Vita A1', 'Fabricación', '01/10/2026')"
-              class="order-card-anim p-3 rounded-xl border border-slate-200 bg-white hover:border-blue-500 cursor-pointer group">
-              <div class="flex items-center justify-between mb-1">
-                <span class="text-xs font-bold text-blue-600 font-mono group-hover:underline">#OT-9812</span>
-                <span class="px-1.5 py-0.2 rounded text-[10px] font-bold bg-blue-50 text-blue-700 border border-blue-200">FRESANDO</span>
-              </div>
-              <h4 class="text-xs font-bold text-slate-800">CORONA ANTERIOR</h4>
-              <p class="text-[11px] text-slate-500">Disco ZRC 14mm • CNC 1</p>
-              <div class="mt-2 pt-2 border-t border-slate-100 flex items-center justify-between text-[11px] text-slate-400">
-                <span>Guillermo Paz</span>
-                <button onclick="event.stopPropagation(); advanceCard('9812')" class="px-2 py-0.5 rounded bg-blue-50 hover:bg-blue-600 text-blue-600 hover:text-white font-semibold text-[10px] transition-colors flex items-center gap-1" title="Avanzar a Entrega">
-                  <span>Avanzar</span> <i data-lucide="arrow-right" class="w-2.5 h-2.5"></i>
-                </button>
-              </div>
-            </div>
 
-            <!-- Tarjeta de Orden 9804 -->
-            <div id="card-9804" data-stage="3" onclick="openDigitalCard('9804', 'Guarda Oclusal Nocturna', 'Patricia Vega', 'Dr. Luis C.', 'Transparente', 'Fabricación', '01/10/2026')"
-              class="order-card-anim p-3 rounded-xl border border-slate-200 bg-white hover:border-blue-500 cursor-pointer group">
-              <div class="flex items-center justify-between mb-1">
-                <span class="text-xs font-bold text-blue-600 font-mono group-hover:underline">#OT-9804</span>
-                <span class="px-1.5 py-0.2 rounded text-[10px] font-bold bg-slate-900 text-white font-mono">URGENTE</span>
-              </div>
-              <h4 class="text-xs font-bold text-slate-800">GUARDA OCLUSAL</h4>
-              <p class="text-[11px] text-slate-500">Resina Bio 2.0mm</p>
-              <div class="mt-2 pt-2 border-t border-slate-100 flex items-center justify-between text-[11px] text-slate-400">
-                <span>Patricia Vega</span>
-                <button onclick="event.stopPropagation(); advanceCard('9804')" class="px-2 py-0.5 rounded bg-blue-50 hover:bg-blue-600 text-blue-600 hover:text-white font-semibold text-[10px] transition-colors flex items-center gap-1" title="Avanzar a Entrega">
-                  <span>Avanzar</span> <i data-lucide="arrow-right" class="w-2.5 h-2.5"></i>
-                </button>
-              </div>
-            </div>
-
-          </div>
-        </div>
-
-        <!-- COLUMNA 4: ENTREGA (TableEntrega.php) -->
-        <div class="bg-white rounded-2xl border border-slate-200 shadow-sm flex flex-col overflow-hidden">
-          <div class="px-4 py-3 border-b border-slate-100 bg-slate-50/70 flex items-center justify-between">
-            <div class="flex items-center gap-2 font-bold text-xs text-slate-800">
-              <i data-lucide="truck" class="w-4 h-4 text-blue-600"></i>
-              <span>4. Control & Entrega</span>
-            </div>
-            <span class="text-[11px] font-mono font-semibold text-slate-500" id="count-col-4">2 órdenes</span>
-          </div>
-          <div id="col-list-4" class="table-scroll overflow-x-auto p-2 space-y-2" style="height: 38vh;">
-            
-            <!-- Tarjeta de Orden 9799 -->
-            <div id="card-9799" data-stage="4" onclick="openDigitalCard('9799', 'Corona Posterior Zirconio', 'Jorge Saldaña', 'Dr. Mauricio', 'Vita A2', 'Entrega', '30/09/2026')"
-              class="order-card-anim p-3 rounded-xl border border-slate-200 bg-white hover:border-blue-500 cursor-pointer group">
-              <div class="flex items-center justify-between mb-1">
-                <span class="text-xs font-bold text-blue-600 font-mono group-hover:underline">#OT-9799</span>
-                <span class="px-1.5 py-0.2 rounded text-[10px] font-bold bg-slate-100 text-slate-800 border border-slate-200">LISTO P/ ENVÍO</span>
-              </div>
-              <h4 class="text-xs font-bold text-slate-800">CORONA POSTERIOR</h4>
-              <p class="text-[11px] text-slate-500">Pieza #26 • Calidad OK</p>
-              <div class="mt-2 pt-2 border-t border-slate-100 flex items-center justify-between text-[11px] text-slate-400">
-                <span>Jorge Saldaña</span>
-                <span class="font-semibold text-blue-600 text-[10px]">✓ Completado</span>
-              </div>
-            </div>
-
-            <!-- Tarjeta de Orden 9788 -->
-            <div id="card-9788" data-stage="4" onclick="openDigitalCard('9788', 'Carilla Cerámica E-Max', 'Ana Sofía Ruiz', 'Dr. Oscar Ramírez', 'Bleach 2', 'Entrega', '30/09/2026')"
-              class="order-card-anim p-3 rounded-xl border border-slate-200 bg-white hover:border-blue-500 cursor-pointer group">
-              <div class="flex items-center justify-between mb-1">
-                <span class="text-xs font-bold text-blue-600 font-mono group-hover:underline">#OT-9788</span>
-                <span class="px-1.5 py-0.2 rounded text-[10px] font-bold bg-blue-50 text-blue-700 border border-blue-200">CHOFER EN RUTA</span>
-              </div>
-              <h4 class="text-xs font-bold text-slate-800">CARILLA CERÁMICA</h4>
-              <p class="text-[11px] text-slate-500">Pieza #12 • Alto brillo</p>
-              <div class="mt-2 pt-2 border-t border-slate-100 flex items-center justify-between text-[11px] text-slate-400">
-                <span>Ana Sofía Ruiz</span>
-                <span class="font-semibold text-blue-600 text-[10px]">✓ Completado</span>
-              </div>
-            </div>
-
+          <!-- Tabla General con las 12 Columnas Exactas de DENT DEMO (ET, OT, DOC, FOLIO, ENTREGA, ESTADO, PRODUCTO, DOCTOR, PACIENTE, UNIDADES, LIB PROD, MONTO) -->
+          <div class="table-scroll overflow-x-auto rounded-xl border border-slate-200" style="max-height: 36vh;">
+            <table class="w-full text-center border-collapse general-table" id="tableOrdenesGral">
+              <thead>
+                <tr>
+                  <th>ET</th>
+                  <th>OT</th>
+                  <th>DOC</th>
+                  <th>FOLIO</th>
+                  <th>ENTREGA</th>
+                  <th>ESTADO</th>
+                  <th>PRODUCTO</th>
+                  <th>DOCTOR</th>
+                  <th>PACIENTE</th>
+                  <th>UNIDADES</th>
+                  <th>LIB PROD</th>
+                  <th>MONTO</th>
+                </tr>
+              </thead>
+              <tbody class="divide-y divide-slate-100 text-slate-700" id="tbodyGeneralOrdenes"></tbody>
+            </table>
           </div>
         </div>
-
-      </div>
-
-      <!-- ============================================== -->
-      <!-- VISTA 2: BITÁCORA GENERAL DE ÓRDENES           -->
-      <!-- ============================================== -->
-      <div id="view-general" class="bg-white rounded-2xl border border-slate-200 p-5 shadow-sm space-y-4">
-        
-        <!-- Buscador exacto del proyecto original -->
-        <div class="flex items-center gap-2 max-w-2xl mx-auto">
-          <input type="text" id="nptBuscar" onkeyup="buscarEnTabla();" placeholder="Introduzca un dato exacto de la orden a buscar"
-            class="flex-1 px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs font-medium focus:outline-none focus:border-blue-600 focus:bg-white text-slate-900 transition-all text-center">
-          <button type="button" onclick="buscarEnTabla()" class="px-4 py-2.5 bg-blue-600 hover:bg-blue-700 text-white rounded-xl font-semibold text-xs transition-colors flex items-center gap-1.5">
-            <i data-lucide="search" class="w-4 h-4"></i>
-            <span>Buscar</span>
-          </button>
-        </div>
-
-        <!-- Tabla General (TableOrdenes.php) -->
-        <div class="table-scroll overflow-x-auto rounded-xl border border-slate-200" style="max-height: 40vh;">
-          <table class="w-full text-center text-xs border-collapse" id="tableOrdenesGral">
-            <thead class="bg-slate-100 text-slate-600 font-bold border-b border-slate-200 sticky top-0 text-[11px]">
-              <tr>
-                <th class="px-3 py-2.5">ET</th>
-                <th class="px-3 py-2.5">OT</th>
-                <th class="px-3 py-2.5">DOC</th>
-                <th class="px-3 py-2.5">FOLIO</th>
-                <th class="px-3 py-2.5">ENTREGA</th>
-                <th class="px-3 py-2.5">ESTADO</th>
-                <th class="px-3 py-2.5">PRODUCTO</th>
-                <th class="px-3 py-2.5">DOCTOR</th>
-                <th class="px-3 py-2.5">PACIENTE</th>
-                <th class="px-3 py-2.5">ACCIÓN</th>
-              </tr>
-            </thead>
-            <tbody class="divide-y divide-slate-100 text-slate-700" id="tbodyGral">
-              <tr class="hover:bg-slate-50">
-                <td class="px-3 py-2.5"><span class="px-2 py-0.5 rounded bg-blue-50 text-blue-700 font-semibold text-[10px]">Escaneo</span></td>
-                <td class="px-3 py-2.5 font-bold text-blue-600 font-mono">9841</td>
-                <td class="px-3 py-2.5 text-slate-400"><i data-lucide="file" class="w-3.5 h-3.5 mx-auto"></i></td>
-                <td class="px-3 py-2.5 font-mono text-slate-500">FOL-041</td>
-                <td class="px-3 py-2.5">01/10/2026</td>
-                <td class="px-3 py-2.5"><span class="px-2 py-0.5 rounded bg-slate-100 text-slate-700 font-medium text-[10px]">En Proceso</span></td>
-                <td class="px-3 py-2.5 font-medium">Corona Monolítica Zirconio</td>
-                <td class="px-3 py-2.5">Dr. Oscar Ramírez</td>
-                <td class="px-3 py-2.5">Carlos Mendoza</td>
-                <td class="px-3 py-2.5">
-                  <button onclick="openDigitalCard('9841', 'Corona Monolítica Zirconio', 'Carlos Mendoza', 'Dr. Oscar Ramírez', 'Vita A2', 'Escaneo', '01/10/2026')" class="px-2 py-1 rounded bg-slate-100 hover:bg-blue-600 hover:text-white text-slate-700 text-[11px] font-medium transition-colors">
-                    Ver Orden
-                  </button>
-                </td>
-              </tr>
-              <tr class="hover:bg-slate-50">
-                <td class="px-3 py-2.5"><span class="px-2 py-0.5 rounded bg-blue-50 text-blue-700 font-semibold text-[10px]">Diseño</span></td>
-                <td class="px-3 py-2.5 font-bold text-blue-600 font-mono">9830</td>
-                <td class="px-3 py-2.5 text-slate-400"><i data-lucide="file" class="w-3.5 h-3.5 mx-auto"></i></td>
-                <td class="px-3 py-2.5 font-mono text-slate-500">FOL-030</td>
-                <td class="px-3 py-2.5">02/10/2026</td>
-                <td class="px-3 py-2.5"><span class="px-2 py-0.5 rounded bg-slate-100 text-slate-700 font-medium text-[10px]">Modelando</span></td>
-                <td class="px-3 py-2.5 font-medium">Puente Fijo 3 Unidades</td>
-                <td class="px-3 py-2.5">Dr. Arturo M.</td>
-                <td class="px-3 py-2.5">Roberto Gómez</td>
-                <td class="px-3 py-2.5">
-                  <button onclick="openDigitalCard('9830', 'Puente Fijo 3 Unidades', 'Roberto Gómez', 'Dr. Arturo M.', 'Vita A3', 'Diseño', '02/10/2026')" class="px-2 py-1 rounded bg-slate-100 hover:bg-blue-600 hover:text-white text-slate-700 text-[11px] font-medium transition-colors">
-                    Ver Orden
-                  </button>
-                </td>
-              </tr>
-              <tr class="hover:bg-slate-50">
-                <td class="px-3 py-2.5"><span class="px-2 py-0.5 rounded bg-blue-50 text-blue-700 font-semibold text-[10px]">Fabricación</span></td>
-                <td class="px-3 py-2.5 font-bold text-blue-600 font-mono">9812</td>
-                <td class="px-3 py-2.5 text-slate-400"><i data-lucide="file" class="w-3.5 h-3.5 mx-auto"></i></td>
-                <td class="px-3 py-2.5 font-mono text-slate-500">FOL-012</td>
-                <td class="px-3 py-2.5">01/10/2026</td>
-                <td class="px-3 py-2.5"><span class="px-2 py-0.5 rounded bg-blue-50 text-blue-700 font-medium text-[10px]">Fresando CNC</span></td>
-                <td class="px-3 py-2.5 font-medium">Corona Anterior Zirconio</td>
-                <td class="px-3 py-2.5">Dr. Oscar Ramírez</td>
-                <td class="px-3 py-2.5">Guillermo Paz</td>
-                <td class="px-3 py-2.5">
-                  <button onclick="openDigitalCard('9812', 'Corona Monolítica Anterior', 'Guillermo Paz', 'Dr. Oscar Ramírez', 'Vita A1', 'Fabricación', '01/10/2026')" class="px-2 py-1 rounded bg-slate-100 hover:bg-blue-600 hover:text-white text-slate-700 text-[11px] font-medium transition-colors">
-                    Ver Orden
-                  </button>
-                </td>
-              </tr>
-              <tr class="hover:bg-slate-50">
-                <td class="px-3 py-2.5"><span class="px-2 py-0.5 rounded bg-blue-50 text-blue-700 font-semibold text-[10px]">Entrega</span></td>
-                <td class="px-3 py-2.5 font-bold text-blue-600 font-mono">9799</td>
-                <td class="px-3 py-2.5 text-slate-400"><i data-lucide="file" class="w-3.5 h-3.5 mx-auto"></i></td>
-                <td class="px-3 py-2.5 font-mono text-slate-500">FOL-799</td>
-                <td class="px-3 py-2.5">30/09/2026</td>
-                <td class="px-3 py-2.5"><span class="px-2 py-0.5 rounded bg-slate-100 text-slate-800 font-medium text-[10px]">Listo</span></td>
-                <td class="px-3 py-2.5 font-medium">Corona Posterior Zirconio</td>
-                <td class="px-3 py-2.5">Dr. Mauricio</td>
-                <td class="px-3 py-2.5">Jorge Saldaña</td>
-                <td class="px-3 py-2.5">
-                  <button onclick="openDigitalCard('9799', 'Corona Posterior Zirconio', 'Jorge Saldaña', 'Dr. Mauricio', 'Vita A2', 'Entrega', '30/09/2026')" class="px-2 py-1 rounded bg-slate-100 hover:bg-blue-600 hover:text-white text-slate-700 text-[11px] font-medium transition-colors">
-                    Ver Orden
-                  </button>
-                </td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-      </div>
 
       </div>
     </main>
   </div>
 
   <!-- ========================================================================= -->
-  <!-- COMPONENTE 3: HOJA DE ORDEN DE TRABAJO (OrdenTrabajo.php)                 -->
+  <!-- MODAL: ETIQUETA CON CÓDIGO DE BARRAS (Etiqueta() de DENT DEMO)            -->
+  <!-- ========================================================================= -->
+  <div id="modalEtiqueta" class="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-sm hidden flex items-center justify-center p-4">
+    <div class="bg-white rounded-2xl max-w-sm w-full border border-slate-200 shadow-2xl overflow-hidden">
+      <div class="p-4 bg-slate-900 text-white flex items-center justify-between">
+        <div class="flex items-center gap-2">
+          <i data-lucide="barcode" class="w-4 h-4 text-blue-400"></i>
+          <h4 class="text-sm font-bold">Etiqueta de Orden de Trabajo</h4>
+        </div>
+        <button onclick="document.getElementById('modalEtiqueta').classList.add('hidden')" class="p-1 text-slate-400 hover:text-white">
+          <i data-lucide="x" class="w-4 h-4"></i>
+        </button>
+      </div>
+      <div class="p-5 text-center space-y-2 text-xs">
+        <p id="etiquetaDoctor" class="font-bold text-slate-900 text-sm"></p>
+        <p id="etiquetaPaciente" class="text-slate-600 font-medium"></p>
+        <p id="etiquetaEntrega" class="font-mono text-slate-500 text-[11px]"></p>
+        <div class="py-3 flex flex-col items-center justify-center bg-slate-50 rounded-xl border border-slate-200 my-2">
+          <svg id="barcode"></svg>
+          <span id="etiquetaFolioTexto" class="font-mono font-bold text-xs text-slate-800 mt-1"></span>
+        </div>
+        <div class="pt-2 flex justify-end gap-2">
+          <button onclick="document.getElementById('modalEtiqueta').classList.add('hidden')" class="px-4 py-2 rounded-xl border border-slate-200 text-slate-600 font-semibold hover:bg-slate-50">Cerrar</button>
+          <button onclick="window.print()" class="px-4 py-2 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-bold flex items-center gap-1.5 shadow-sm">
+            <i data-lucide="printer" class="w-3.5 h-3.5"></i>
+            <span>Imprimir Etiqueta</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========================================================================= -->
+  <!-- MODAL: HOJA DE ORDEN DE TRABAJO RÁPIDA                                    -->
   <!-- ========================================================================= -->
   <div id="modalDigitalCard" class="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-sm hidden flex items-center justify-center p-4">
     <div class="bg-white rounded-3xl max-w-3xl w-full border border-slate-200 shadow-2xl overflow-hidden flex flex-col">
-      
-      <!-- Encabezado de la Tarjeta -->
       <div class="p-5 bg-slate-900 text-white relative flex items-center justify-between">
         <div class="flex items-center gap-3">
           <img src="assets/logoDentlab.png" alt="Dent Lab" class="h-6 w-auto object-contain brightness-0 invert opacity-90">
@@ -610,10 +411,7 @@ $perfilActual  = htmlspecialchars($_SESSION['perfil'] ?? 'Administrador', ENT_QU
         </div>
       </div>
 
-      <!-- Cuerpo dividido: Izquierda Datos + Stepper | Derecha Detalle Clínico y Pago -->
       <div class="grid grid-cols-1 md:grid-cols-2 divide-y md:divide-y-0 md:divide-x divide-slate-200">
-        
-        <!-- Lado Izquierdo: Stepper y Datos Clínicos -->
         <div class="p-5 space-y-4 flex flex-col justify-between">
           <div>
             <span class="text-[10px] font-bold text-slate-400 uppercase tracking-wider block mb-2.5">Progreso de la Orden</span>
@@ -640,12 +438,10 @@ $perfilActual  = htmlspecialchars($_SESSION['perfil'] ?? 'Administrador', ENT_QU
               <div class="p-3 rounded-xl bg-slate-50 border border-slate-200">
                 <span class="text-[10px] font-bold text-slate-400 uppercase tracking-wider block mb-0.5">Paciente</span>
                 <p class="font-bold text-slate-800 text-xs" id="dcPatient">Carlos Mendoza</p>
-                <span class="text-[10px] text-slate-500">Exp. #4920</span>
               </div>
               <div class="p-3 rounded-xl bg-slate-50 border border-slate-200">
                 <span class="text-[10px] font-bold text-slate-400 uppercase tracking-wider block mb-0.5">Doctor Solicitante</span>
                 <p class="font-bold text-slate-800 text-xs" id="dcDoctor">Dr. Oscar Ramírez</p>
-                <span class="text-[10px] text-slate-500">Clínica Matriz</span>
               </div>
             </div>
 
@@ -670,14 +466,13 @@ $perfilActual  = htmlspecialchars($_SESSION['perfil'] ?? 'Administrador', ENT_QU
               <i data-lucide="printer" class="w-3.5 h-3.5"></i>
               <span>Imprimir</span>
             </button>
-            <button onclick="advanceFromModal();" class="px-4 py-2 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-semibold text-xs transition-colors flex items-center gap-1.5 shadow-sm">
-              <span>Avanzar Etapa</span>
+            <button onclick="closeDigitalCard(); abrirOrdenTrabajo('OT-9841');" class="px-4 py-2 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-semibold text-xs transition-colors flex items-center gap-1.5 shadow-sm">
+              <span>Abrir Expediente Completo</span>
               <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i>
             </button>
           </div>
         </div>
 
-        <!-- Lado Derecho: Especificaciones Clínicas, Colorímetro y Estado de Pago -->
         <div class="p-5 bg-slate-50/60 flex flex-col justify-between space-y-4 text-xs">
           <div class="space-y-3">
             <div class="flex items-center justify-between">
@@ -690,7 +485,7 @@ $perfilActual  = htmlspecialchars($_SESSION['perfil'] ?? 'Administrador', ENT_QU
                 <div id="shadeColorPreview" class="w-8 h-8 rounded-xl border border-slate-300 shadow-inner" style="background-color: #ede2cc;"></div>
                 <div>
                   <p class="font-bold text-slate-800 text-xs">Selección de Tono</p>
-                  <p class="text-[10px] text-slate-500">Cambiar tono asignado a la orden</p>
+                  <p class="text-[10px] text-slate-500">Cambiar tono asignado</p>
                 </div>
               </div>
               <div class="flex items-center gap-1.5">
@@ -701,43 +496,18 @@ $perfilActual  = htmlspecialchars($_SESSION['perfil'] ?? 'Administrador', ENT_QU
               </div>
             </div>
 
-            <div class="p-3 rounded-xl bg-white border border-slate-200 space-y-2">
-              <div class="flex items-center justify-between">
-                <span class="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Especificaciones de Laboratorio</span>
-                <button onclick="closeDigitalCard(); openOdontogramaModal();" class="text-[11px] font-bold text-blue-600 hover:underline flex items-center gap-1">
-                  <i data-lucide="scan-face" class="w-3 h-3"></i> Editar Odontograma
-                </button>
-              </div>
-              <div class="grid grid-cols-2 gap-2 pt-1">
-                <div class="p-2 rounded-lg bg-slate-50 border border-slate-100">
-                  <span class="text-[10px] text-slate-400 block">Piezas Dentales</span>
-                  <span class="font-mono font-bold text-slate-800">#16 (Pilar)</span>
-                </div>
-                <div class="p-2 rounded-lg bg-slate-50 border border-slate-100">
-                  <span class="text-[10px] text-slate-400 block">Estado de Pago</span>
-                  <span class="font-bold text-emerald-700">Liquidado (Paquete)</span>
-                </div>
-              </div>
-            </div>
-
             <div class="p-3 rounded-xl bg-white border border-slate-200">
               <span class="text-[10px] font-bold text-slate-400 uppercase tracking-wider block mb-1">Indicaciones Clínicas</span>
               <p class="text-[11px] text-slate-600 leading-relaxed">Sellado marginal verificado en escaneo intraoral. Contacto oclusal ligero y anatomía natural solicitada por el doctor.</p>
             </div>
           </div>
-
-          <div class="flex items-center justify-between text-[10px] text-slate-400 font-mono pt-2 border-t border-slate-200/80">
-            <span>Registro: Laboratorio Central</span>
-            <span class="text-slate-600 font-semibold">Folio verificado ✓</span>
-          </div>
         </div>
-
       </div>
     </div>
   </div>
 
   <!-- ========================================================================= -->
-  <!-- COMPONENTE 4: ODONTOGRAMA DIGITAL INTERACTIVO (32 Piezas)                 -->
+  <!-- MODAL: ODONTOGRAMA DIGITAL INTERACTIVO (32 Piezas)                        -->
   <!-- ========================================================================= -->
   <div id="modalOdonto" class="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-sm hidden flex items-center justify-center p-4">
     <div class="bg-white rounded-3xl max-w-2xl w-full border border-slate-200 shadow-2xl overflow-hidden">
@@ -775,82 +545,72 @@ $perfilActual  = htmlspecialchars($_SESSION['perfil'] ?? 'Administrador', ENT_QU
     </div>
   </div>
 
-  <!-- ============================================== -->
-  <!-- MODAL: ÓRDENES CANCELADAS (index.php L233)     -->
-  <!-- ============================================== -->
-  <div id="modalCanceladas" class="fixed inset-0 z-50 bg-slate-900/50 backdrop-blur-sm hidden flex items-center justify-center p-4">
-    <div class="bg-white rounded-2xl max-w-lg w-full border border-slate-200 shadow-xl overflow-hidden">
-      <div class="p-4 border-b border-slate-100 flex items-center justify-between">
-        <h4 class="text-sm font-bold text-slate-900">Órdenes canceladas</h4>
-        <button onclick="closeModalCanceladas()" class="p-1 text-slate-400 hover:text-slate-700">
+  <!-- ========================================================================= -->
+  <!-- MODAL: ÓRDENES CANCELADAS (Idéntico a index.php L233 de DENT DEMO)        -->
+  <!-- ========================================================================= -->
+  <div id="modalCanceladas" class="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-sm hidden flex items-center justify-center p-4">
+    <div class="bg-white rounded-2xl max-w-4xl w-full border border-slate-200 shadow-2xl overflow-hidden">
+      <div class="p-4 bg-slate-900 text-white flex items-center justify-between">
+        <h4 class="text-sm font-bold">Órdenes canceladas</h4>
+        <button onclick="closeModalCanceladas()" class="p-1 text-slate-400 hover:text-white">
           <i data-lucide="x" class="w-4 h-4"></i>
         </button>
       </div>
-      <div class="p-4">
-        <table class="w-full text-center text-xs">
-          <thead class="bg-slate-50 text-slate-500 font-semibold border-b border-slate-200">
+      <div class="p-5 overflow-x-auto">
+        <table class="w-full text-center text-xs border-collapse general-table">
+          <thead>
             <tr>
-              <th class="px-3 py-2">Orden</th>
-              <th class="px-3 py-2">Responsable</th>
-              <th class="px-3 py-2">Comentario</th>
+              <th>OT</th>
+              <th>DOC</th>
+              <th>FOLIO</th>
+              <th>CANCELACIÓN</th>
+              <th>ESTADO</th>
+              <th>PRODUCTO</th>
+              <th>DOCTOR</th>
+              <th>PACIENTE</th>
+              <th>UNIDADES</th>
+              <th>LIB PROD</th>
+              <th>MONTO</th>
+              <th>MOTIVO</th>
             </tr>
           </thead>
-          <tbody class="divide-y divide-slate-100 text-slate-700">
-            <tr>
-              <td class="px-3 py-2.5 font-bold text-blue-600 font-mono">9750</td>
-              <td class="px-3 py-2.5">Dr. Oscar</td>
-              <td class="px-3 py-2.5 text-slate-500">Paciente canceló cita</td>
-            </tr>
-            <tr>
-              <td class="px-3 py-2.5 font-bold text-blue-600 font-mono">9732</td>
-              <td class="px-3 py-2.5">Dra. Brenda</td>
-              <td class="px-3 py-2.5 text-slate-500">Requería cambio de tratamiento</td>
-            </tr>
-          </tbody>
+          <tbody id="tbodyModalCanceladas" class="divide-y divide-slate-100 text-slate-700"></tbody>
         </table>
       </div>
     </div>
   </div>
 
-  <!-- ============================================== -->
-  <!-- MODAL: ÓRDENES PENDIENTES PAGO (index.php L265) -->
-  <!-- ============================================== -->
-  <div id="modalPendientes" class="fixed inset-0 z-50 bg-slate-900/50 backdrop-blur-sm hidden flex items-center justify-center p-4">
-    <div class="bg-white rounded-2xl max-w-xl w-full border border-slate-200 shadow-xl overflow-hidden">
-      <div class="p-4 border-b border-slate-100 flex items-center justify-between">
-        <h4 class="text-sm font-bold text-slate-900">Órdenes pendientes de pago</h4>
-        <button onclick="closeModalPendientes()" class="p-1 text-slate-400 hover:text-slate-700">
+  <!-- ========================================================================= -->
+  <!-- MODAL: ÓRDENES PENDIENTES DE PAGO (Idéntico a index.php L265 DENT DEMO)   -->
+  <!-- ========================================================================= -->
+  <div id="modalPendientes" class="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-sm hidden flex items-center justify-center p-4">
+    <div class="bg-white rounded-2xl max-w-5xl w-full border border-slate-200 shadow-2xl overflow-hidden">
+      <div class="p-4 bg-slate-900 text-white flex items-center justify-between">
+        <h4 class="text-sm font-bold">Órdenes pendientes de pago</h4>
+        <button onclick="closeModalPendientes()" class="p-1 text-slate-400 hover:text-white">
           <i data-lucide="x" class="w-4 h-4"></i>
         </button>
       </div>
-      <div class="p-4">
-        <table class="w-full text-center text-xs">
-          <thead class="bg-slate-50 text-slate-500 font-semibold border-b border-slate-200">
+      <div class="p-5 overflow-x-auto">
+        <table class="w-full text-center text-xs border-collapse general-table">
+          <thead>
             <tr>
-              <th class="px-3 py-2">Orden</th>
-              <th class="px-3 py-2">Doctor</th>
-              <th class="px-3 py-2">Paciente</th>
-              <th class="px-3 py-2"></th>
+              <th>OT</th>
+              <th>DOC</th>
+              <th>FOLIO</th>
+              <th>ENTREGA</th>
+              <th>ESTADO</th>
+              <th>PRODUCTO</th>
+              <th>DOCTOR</th>
+              <th>PACIENTE</th>
+              <th>UNIDADES</th>
+              <th>LIB PROD</th>
+              <th>MONTO</th>
+              <th>PAGADO</th>
+              <th>SALDO</th>
             </tr>
           </thead>
-          <tbody class="divide-y divide-slate-100 text-slate-700">
-            <tr>
-              <td class="px-3 py-2.5 font-bold text-blue-600 font-mono">9841</td>
-              <td class="px-3 py-2.5">Dr. Oscar</td>
-              <td class="px-3 py-2.5">Carlos Mendoza</td>
-              <td class="px-3 py-2.5">
-                <button onclick="showToast('Pago Registrado', 'Orden #9841 liquidada correctamente'); closeModalPendientes();" class="px-2.5 py-1 rounded bg-blue-600 text-white font-medium text-[11px] hover:bg-blue-700">Pagar</button>
-              </td>
-            </tr>
-            <tr>
-              <td class="px-3 py-2.5 font-bold text-blue-600 font-mono">9838</td>
-              <td class="px-3 py-2.5">Dra. Brenda</td>
-              <td class="px-3 py-2.5">María Fernández</td>
-              <td class="px-3 py-2.5">
-                <button onclick="showToast('Pago Registrado', 'Orden #9838 liquidada correctamente'); closeModalPendientes();" class="px-2.5 py-1 rounded bg-blue-600 text-white font-medium text-[11px] hover:bg-blue-700">Pagar</button>
-              </td>
-            </tr>
-          </tbody>
+          <tbody id="tbodyModalPendientesPago" class="divide-y divide-slate-100 text-slate-700"></tbody>
         </table>
       </div>
     </div>
@@ -877,7 +637,7 @@ $perfilActual  = htmlspecialchars($_SESSION['perfil'] ?? 'Administrador', ENT_QU
     </div>
   </div>
 
-  <!-- Contenedor Flotante de Notificaciones Animadas (Toast Sileo/Sonner) -->
+  <!-- Contenedor Flotante de Notificaciones Animadas -->
   <div id="toastContainer" class="fixed bottom-5 right-5 z-50 flex flex-col gap-2.5 pointer-events-none"></div>
 
   <script src="modules.js"></script>
@@ -889,32 +649,13 @@ $perfilActual  = htmlspecialchars($_SESSION['perfil'] ?? 'Administrador', ENT_QU
     document.getElementById('lblNombreUser').innerText = usuario;
     document.getElementById('topUserLabel').innerText = usuario;
 
-    // 1. ANIME COUNTER (Contadores animados de números y barras al cargar)
     function runAnimeCounters() {
-      document.querySelectorAll('.anime-counter').forEach(el => {
-        const target = parseInt(el.getAttribute('data-target') || '0', 10);
-        let current = 0;
-        const duration = 900;
-        const startTime = performance.now();
-        function step(now) {
-          const progress = Math.min((now - startTime) / duration, 1);
-          const eased = 1 - Math.pow(1 - progress, 3);
-          el.innerText = Math.floor(eased * target);
-          if (progress < 1) requestAnimationFrame(step);
-          else el.innerText = target;
-        }
-        requestAnimationFrame(step);
-      });
-
-      setTimeout(() => {
-        document.querySelectorAll('.anime-progress').forEach(bar => {
-          bar.style.width = bar.getAttribute('data-width');
-        });
-      }, 150);
+      if (typeof renderTablasInicio === 'function') {
+        renderTablasInicio();
+      }
     }
-    runAnimeCounters();
 
-    // 2. SISTEMA DE NOTIFICACIONES TOAST ANIMADAS (Sileo/Sonner)
+    // 2. SISTEMA DE NOTIFICACIONES TOAST ANIMADAS
     function showToast(title, message) {
       const container = document.getElementById('toastContainer');
       const toast = document.createElement('div');
@@ -938,47 +679,7 @@ $perfilActual  = htmlspecialchars($_SESSION['perfil'] ?? 'Administrador', ENT_QU
       }, 3200);
     }
 
-    // 3. KANBAN INTERACTIVO CON ANIMACIÓN DE AVANCE DE FASE
-    let currentModalOrder = '9841';
-    function advanceCard(orderNum) {
-      const card = document.getElementById('card-' + orderNum);
-      if (!card) return;
-      let stage = parseInt(card.getAttribute('data-stage') || '1', 10);
-      if (stage >= 4) {
-        showToast('Orden #' + orderNum, 'La orden ya se encuentra en Control & Entrega.');
-        return;
-      }
-      const nextStage = stage + 1;
-      const nextCol = document.getElementById('col-list-' + nextStage);
-      if (nextCol) {
-        card.setAttribute('data-stage', nextStage);
-        nextCol.prepend(card);
-        card.classList.remove('flash-highlight');
-        void card.offsetWidth;
-        card.classList.add('flash-highlight');
-        updateKanbanCounts();
-        const stageNames = ['', 'Escaneo', 'Diseño CAD', 'Fabricación CAM', 'Control & Entrega'];
-        showToast('Orden #OT-' + orderNum + ' Avanzada', 'Movida exitosamente a ' + stageNames[nextStage]);
-      }
-    }
-
-    function updateKanbanCounts() {
-      for (let i = 1; i <= 4; i++) {
-        const list = document.getElementById('col-list-' + i);
-        const badge = document.getElementById('count-col-' + i);
-        if (list && badge) {
-          const count = list.children.length;
-          badge.innerText = count + (count === 1 ? ' orden' : ' órdenes');
-        }
-      }
-    }
-
-    function advanceFromModal() {
-      advanceCard(currentModalOrder);
-      closeDigitalCard();
-    }
-
-    // 4. SELECTOR DE TONO GUÍA VITA EN ORDEN DE TRABAJO
+    // Selector de Tono Guía VITA
     function changeToothShade(hex, label) {
       const preview = document.getElementById('shadeColorPreview');
       if (preview) preview.style.backgroundColor = hex;
@@ -988,7 +689,7 @@ $perfilActual  = htmlspecialchars($_SESSION['perfil'] ?? 'Administrador', ENT_QU
       if (dcShade) dcShade.innerText = label;
     }
 
-    // 5. ODONTOGRAMA DIGITAL INTERACTIVO (32 Dientes)
+    // Odontograma Digital Interactivo (32 Dientes)
     const selectedTeeth = new Set(['16', '21']);
     function renderOdontograma() {
       const upper = [18,17,16,15,14,13,12,11,21,22,23,24,25,26,27,28];
@@ -1036,13 +737,14 @@ $perfilActual  = htmlspecialchars($_SESSION['perfil'] ?? 'Administrador', ENT_QU
       showToast('Odontograma Actualizado', 'Piezas asignadas: ' + Array.from(selectedTeeth).map(t => '#' + t).join(', '));
     }
 
-    // Reloj
+    // Reloj en Vivo
     function updateClock() {
       const now = new Date();
       const h = String(now.getHours()).padStart(2, '0');
       const m = String(now.getMinutes()).padStart(2, '0');
       const s = String(now.getSeconds()).padStart(2, '0');
-      document.getElementById('HoraActual').innerText = `${h}:${m}:${s}`;
+      const el = document.getElementById('HoraActual');
+      if (el) el.innerText = `${h}:${m}:${s}`;
     }
     setInterval(updateClock, 1000);
     updateClock();
@@ -1059,30 +761,8 @@ $perfilActual  = htmlspecialchars($_SESSION['perfil'] ?? 'Administrador', ENT_QU
       document.getElementById('settingsDropdown').classList.toggle('hidden');
     }
 
-    // Tabs Switcher
-    function switchTab(tab) {
-      const kanbanView = document.getElementById('view-kanban');
-      const generalView = document.getElementById('view-general');
-      const btnKanban = document.getElementById('tabBtn-kanban');
-      const btnGeneral = document.getElementById('tabBtn-general');
-
-      if (tab === 'kanban') {
-        kanbanView.classList.remove('hidden');
-        generalView.classList.add('hidden');
-        btnKanban.className = 'tab-button px-3.5 py-1.5 rounded-lg text-xs font-bold transition-all bg-white text-slate-900 shadow-sm flex items-center gap-1.5';
-        btnGeneral.className = 'tab-button px-3.5 py-1.5 rounded-lg text-xs font-medium transition-all text-slate-600 hover:text-slate-900 flex items-center gap-1.5';
-      } else {
-        kanbanView.classList.add('hidden');
-        generalView.classList.remove('hidden');
-        btnGeneral.className = 'tab-button px-3.5 py-1.5 rounded-lg text-xs font-bold transition-all bg-white text-slate-900 shadow-sm flex items-center gap-1.5';
-        btnKanban.className = 'tab-button px-3.5 py-1.5 rounded-lg text-xs font-medium transition-all text-slate-600 hover:text-slate-900 flex items-center gap-1.5';
-      }
-      lucide.createIcons();
-    }
-
     // Hoja de Orden de Trabajo Modal
     function openDigitalCard(ot, treatment, patient, doctor, shade, stage, delivery) {
-      currentModalOrder = ot;
       document.getElementById('dcOrderNum').innerText = `#OT-${ot}`;
       document.getElementById('dcTreatment').innerText = treatment;
       document.getElementById('dcPatient').innerText = patient;
@@ -1114,14 +794,14 @@ $perfilActual  = htmlspecialchars($_SESSION['perfil'] ?? 'Administrador', ENT_QU
     function refreshData() {
       const icon = document.getElementById('refreshIcon');
       if (icon) icon.classList.add('animate-spin');
-      runAnimeCounters();
-      showToast('Sincronizando CAD/CAM', 'Telemetría y órdenes actualizadas en tiempo real');
+      if (typeof renderTablasInicio === 'function') renderTablasInicio();
+      showToast('Tablas Actualizadas', 'Escaneo, Diseño, Fabricación, Entrega y Órdenes sincronizadas.');
       setTimeout(() => { if (icon) icon.classList.remove('animate-spin'); }, 800);
     }
 
     function buscarEnTabla() {
       const q = document.getElementById('nptBuscar').value.toLowerCase();
-      const rows = document.querySelectorAll('#tbodyGral tr');
+      const rows = document.querySelectorAll('#tbodyGeneralOrdenes tr');
       rows.forEach(r => {
         r.style.display = r.innerText.toLowerCase().includes(q) ? '' : 'none';
       });
