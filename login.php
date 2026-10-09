@@ -2,7 +2,7 @@
 session_start();
 
 // Manejo de autenticación por POST o Fetch AJAX (100% compatible con PHP 8.2+, sin requerir MySQL)
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+if (($_SERVER['REQUEST_METHOD'] ?? '') === 'POST') {
     $usuario = trim($_POST['usuario'] ?? 'Admin');
     if ($usuario === '') {
         $usuario = 'Admin';
