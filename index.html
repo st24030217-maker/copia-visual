@@ -209,6 +209,154 @@
     .btnEtiqueta--doc:hover {
       background: linear-gradient(135deg, #0f766e 0%, #115e59 100%);
     }
+
+    /* ===================================================================== */
+    /* MÓDULO SUPERIOR ANIMADO (#userQuickModule) - Spring + Stagger + Glide */
+    /* ===================================================================== */
+    .qm-trigger {
+      position: relative;
+      transition:
+        background-color 240ms ease,
+        border-color 240ms ease,
+        box-shadow 280ms cubic-bezier(0.22, 1, 0.36, 1),
+        transform 240ms cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+    .qm-trigger:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 6px 16px -4px rgba(15, 23, 42, 0.10);
+    }
+    .qm-trigger:active {
+      transform: translateY(0) scale(0.97);
+    }
+    #userQuickModule[data-open="true"] .qm-trigger {
+      background-color: #ffffff;
+      border-color: #334e68;
+      box-shadow: 0 0 0 3px rgba(51, 78, 104, 0.12), 0 8px 20px -4px rgba(15, 23, 42, 0.14);
+    }
+    .qm-trigger-badge {
+      transition:
+        transform 380ms cubic-bezier(0.34, 1.56, 0.64, 1),
+        background-color 240ms ease,
+        box-shadow 240ms ease;
+    }
+    .qm-trigger:hover .qm-trigger-badge {
+      transform: rotate(90deg) scale(1.06);
+    }
+    #userQuickModule[data-open="true"] .qm-trigger-badge {
+      transform: rotate(180deg) scale(1.08);
+      background-color: #1ABB9C;
+      box-shadow: 0 0 12px rgba(26, 187, 156, 0.45);
+    }
+    .qm-chevron {
+      transition: transform 360ms cubic-bezier(0.34, 1.56, 0.64, 1), color 200ms ease;
+    }
+    #userQuickModule[data-open="true"] .qm-chevron {
+      transform: rotate(180deg);
+      color: #0f172a;
+    }
+
+    /* Panel desplegable con efecto Spring 3D + Blur-to-Crisp */
+    .qm-dropdown {
+      transform-origin: top right;
+      opacity: 0;
+      visibility: hidden;
+      pointer-events: none;
+      transform: translateY(-10px) scale(0.92) perspective(700px) rotateX(-10deg);
+      filter: blur(6px);
+      transition:
+        opacity 240ms cubic-bezier(0.22, 1, 0.36, 1),
+        transform 340ms cubic-bezier(0.34, 1.56, 0.64, 1),
+        filter 260ms cubic-bezier(0.22, 1, 0.36, 1),
+        visibility 240ms;
+      will-change: transform, opacity, filter;
+    }
+    #userQuickModule[data-open="true"] .qm-dropdown {
+      opacity: 1;
+      visibility: visible;
+      pointer-events: auto;
+      transform: translateY(0) scale(1) perspective(700px) rotateX(0deg);
+      filter: blur(0px);
+    }
+
+    /* Cascada escalonada (Stagger) para cada elemento del módulo */
+    .qm-stagger {
+      opacity: 0;
+      transform: translateY(8px) translateX(6px) scale(0.97);
+      transition:
+        opacity 260ms cubic-bezier(0.22, 1, 0.36, 1),
+        transform 320ms cubic-bezier(0.34, 1.56, 0.64, 1);
+      transition-delay: 0ms;
+    }
+    #userQuickModule[data-open="true"] .qm-stagger {
+      opacity: 1;
+      transform: translateY(0) translateX(0) scale(1);
+      transition-delay: calc(var(--stagger, 0) * 45ms + 35ms);
+    }
+
+    /* Indicador magnético deslizante detrás de la opción activa */
+    .qm-hover-tracker {
+      position: absolute;
+      left: 6px;
+      right: 6px;
+      top: 0;
+      height: 44px;
+      border-radius: 12px;
+      background: linear-gradient(90deg, rgba(241, 245, 249, 0.95) 0%, rgba(226, 232, 240, 0.55) 100%);
+      opacity: 0;
+      pointer-events: none;
+      transform: translateY(0) scale(0.96);
+      transition:
+        transform 260ms cubic-bezier(0.22, 1, 0.36, 1),
+        height 220ms cubic-bezier(0.22, 1, 0.36, 1),
+        opacity 180ms ease,
+        background 200ms ease;
+      z-index: 0;
+    }
+    .qm-hover-tracker[data-danger="true"] {
+      background: linear-gradient(90deg, rgba(255, 228, 230, 0.85) 0%, rgba(255, 241, 242, 0.55) 100%);
+    }
+
+    /* Micro-animaciones de iconos por acción */
+    .qm-item {
+      position: relative;
+      z-index: 1;
+    }
+    .qm-item-icon {
+      transition: transform 340ms cubic-bezier(0.34, 1.56, 0.64, 1), background-color 220ms ease, color 220ms ease, box-shadow 220ms ease;
+    }
+    .qm-item:hover .qm-item-icon--gear {
+      transform: rotate(120deg) scale(1.1);
+      background-color: #1e293b;
+      color: #ffffff;
+      box-shadow: 0 4px 10px rgba(15, 23, 42, 0.2);
+    }
+    .qm-item:hover .qm-item-icon--perm {
+      transform: scale(1.12) rotate(-8deg);
+      background-color: #1e293b;
+      color: #ffffff;
+      box-shadow: 0 4px 10px rgba(15, 23, 42, 0.2);
+    }
+    .qm-item:hover .qm-item-icon--full {
+      transform: scale(1.18);
+      background-color: #1e293b;
+      color: #ffffff;
+      box-shadow: 0 4px 10px rgba(15, 23, 42, 0.2);
+    }
+    .qm-item:hover .qm-item-icon--power {
+      transform: translateY(-1.5px) scale(1.12);
+      background-color: #e11d48;
+      color: #ffffff;
+      box-shadow: 0 4px 12px rgba(225, 29, 72, 0.3);
+    }
+    .qm-item-arrow {
+      opacity: 0;
+      transform: translateX(-6px);
+      transition: opacity 200ms ease, transform 260ms cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+    .qm-item:hover .qm-item-arrow {
+      opacity: 1;
+      transform: translateX(0);
+    }
   </style>
 </head>
 <body class="h-full bg-slate-50 text-slate-800 flex overflow-hidden antialiased">
@@ -763,66 +911,84 @@
       </div>
 
       <div class="flex items-center gap-3">
-        <!-- Módulo Unificado de Usuario y Acciones Rápidas (Sintetiza los 4 botones) -->
-        <div class="relative" id="userQuickModule">
-          <button type="button" onclick="toggleSettingsDropdown(event)" class="flex items-center gap-2.5 pl-2 pr-3 py-1.5 rounded-xl border border-slate-200 bg-slate-50/80 hover:bg-white hover:border-slate-300 hover:shadow-sm transition-all cursor-pointer">
-            <span class="w-7 h-7 rounded-lg bg-slate-900 text-white flex items-center justify-center shadow-xs">
+        <!-- Módulo Unificado Animado de Usuario y Acciones Rápidas (Sintetiza los 4 botones) -->
+        <div class="relative select-none" id="userQuickModule" data-open="false">
+          <button type="button" id="userQuickTrigger" onclick="toggleSettingsDropdown(event)" class="qm-trigger flex items-center gap-2.5 pl-2 pr-3 py-1.5 rounded-xl border border-slate-200 bg-slate-50/90 cursor-pointer">
+            <span class="qm-trigger-badge w-7 h-7 rounded-lg bg-slate-900 text-white flex items-center justify-center shadow-xs">
               <i data-lucide="sliders-horizontal" class="w-3.5 h-3.5"></i>
             </span>
             <div class="text-left leading-tight">
-              <span class="text-xs font-bold text-slate-800 block" id="topUserLabel">Admin</span>
+              <div class="flex items-center gap-1.5">
+                <span class="text-xs font-bold text-slate-800 block" id="topUserLabel">Admin</span>
+                <span class="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span>
+              </div>
               <span class="text-[10px] font-medium text-slate-400 block">Panel de control</span>
             </div>
-            <i data-lucide="chevron-down" id="userModuleChevron" class="w-3.5 h-3.5 text-slate-400 transition-transform duration-200 ml-0.5"></i>
+            <i data-lucide="chevron-down" id="userModuleChevron" class="qm-chevron w-3.5 h-3.5 text-slate-400 ml-0.5"></i>
           </button>
 
-          <!-- Panel Desplegable Sintetizado con las 4 Acciones -->
-          <div id="settingsDropdown" class="hidden absolute right-0 mt-2 w-60 bg-white rounded-2xl border border-slate-200/90 shadow-xl py-2 z-50 text-xs">
-            <div class="px-3.5 py-2 border-b border-slate-100 mb-1 flex items-center justify-between">
+          <!-- Panel Desplegable Animado con Spring + Stagger + Magnetic Tracker -->
+          <div id="settingsDropdown" class="qm-dropdown absolute right-0 mt-2.5 w-64 bg-white/95 backdrop-blur-md rounded-2xl border border-slate-200/90 shadow-2xl p-1.5 z-50 text-xs overflow-hidden" onmouseleave="hideQmTracker()">
+            <!-- Indicador magnético deslizante -->
+            <div id="qmHoverTracker" class="qm-hover-tracker"></div>
+
+            <div class="qm-stagger relative z-10 px-3 py-2 border-b border-slate-100 mb-1 flex items-center justify-between" style="--stagger: 0;">
               <span class="text-[10px] font-bold uppercase tracking-wider text-slate-400">Acciones del Sistema</span>
               <span class="px-2 py-0.5 rounded-md bg-blue-50 text-blue-700 font-semibold text-[10px]">Administrador</span>
             </div>
 
-            <a href="#" onclick="closeSettingsDropdown(); openModule('configuracion'); return false;" class="flex items-center gap-3 px-3.5 py-2.5 text-slate-700 hover:bg-slate-50 transition-colors">
-              <span class="w-7 h-7 rounded-lg bg-blue-50 text-blue-600 flex items-center justify-center shrink-0">
-                <i data-lucide="settings" class="w-4 h-4"></i>
-              </span>
-              <div>
-                <p class="font-bold text-slate-800 leading-none">Configuraciones</p>
-                <p class="text-[10px] text-slate-400 mt-0.5">Parámetros del laboratorio</p>
+            <a href="#" onmouseenter="moveQmTracker(this, false)" onclick="closeSettingsDropdown(); openModule('configuracion'); return false;" class="qm-item qm-stagger flex items-center justify-between px-2.5 py-2 rounded-xl text-slate-700 transition-colors" style="--stagger: 1;">
+              <div class="flex items-center gap-3">
+                <span class="qm-item-icon qm-item-icon--gear w-8 h-8 rounded-xl bg-blue-50 text-blue-600 flex items-center justify-center shrink-0">
+                  <i data-lucide="settings" class="w-4 h-4"></i>
+                </span>
+                <div>
+                  <p class="font-bold text-slate-800 leading-none">Configuraciones</p>
+                  <p class="text-[10px] text-slate-400 mt-0.5">Parámetros del laboratorio</p>
+                </div>
               </div>
+              <i data-lucide="chevron-right" class="qm-item-arrow w-3.5 h-3.5 text-slate-400"></i>
             </a>
 
-            <a href="#" onclick="closeSettingsDropdown(); openModule('permisos'); return false;" class="flex items-center gap-3 px-3.5 py-2.5 text-slate-700 hover:bg-slate-50 transition-colors">
-              <span class="w-7 h-7 rounded-lg bg-blue-50 text-blue-600 flex items-center justify-center shrink-0">
-                <i data-lucide="eye-off" class="w-4 h-4"></i>
-              </span>
-              <div>
-                <p class="font-bold text-slate-800 leading-none">Permisos y Accesos</p>
-                <p class="text-[10px] text-slate-400 mt-0.5">Roles y visibilidad de módulos</p>
+            <a href="#" onmouseenter="moveQmTracker(this, false)" onclick="closeSettingsDropdown(); openModule('permisos'); return false;" class="qm-item qm-stagger flex items-center justify-between px-2.5 py-2 rounded-xl text-slate-700 transition-colors" style="--stagger: 2;">
+              <div class="flex items-center gap-3">
+                <span class="qm-item-icon qm-item-icon--perm w-8 h-8 rounded-xl bg-blue-50 text-blue-600 flex items-center justify-center shrink-0">
+                  <i data-lucide="eye-off" class="w-4 h-4"></i>
+                </span>
+                <div>
+                  <p class="font-bold text-slate-800 leading-none">Permisos y Accesos</p>
+                  <p class="text-[10px] text-slate-400 mt-0.5">Roles y visibilidad de módulos</p>
+                </div>
               </div>
+              <i data-lucide="chevron-right" class="qm-item-arrow w-3.5 h-3.5 text-slate-400"></i>
             </a>
 
-            <a href="#" onclick="closeSettingsDropdown(); toggleFullScreen(); return false;" class="flex items-center gap-3 px-3.5 py-2.5 text-slate-700 hover:bg-slate-50 transition-colors">
-              <span class="w-7 h-7 rounded-lg bg-blue-50 text-blue-600 flex items-center justify-center shrink-0">
-                <i data-lucide="maximize" class="w-4 h-4"></i>
-              </span>
-              <div>
-                <p class="font-bold text-slate-800 leading-none">Pantalla Completa</p>
-                <p class="text-[10px] text-slate-400 mt-0.5">Expandir área de trabajo</p>
+            <a href="#" onmouseenter="moveQmTracker(this, false)" onclick="closeSettingsDropdown(); toggleFullScreen(); return false;" class="qm-item qm-stagger flex items-center justify-between px-2.5 py-2 rounded-xl text-slate-700 transition-colors" style="--stagger: 3;">
+              <div class="flex items-center gap-3">
+                <span class="qm-item-icon qm-item-icon--full w-8 h-8 rounded-xl bg-blue-50 text-blue-600 flex items-center justify-center shrink-0">
+                  <i data-lucide="maximize" class="w-4 h-4"></i>
+                </span>
+                <div>
+                  <p class="font-bold text-slate-800 leading-none">Pantalla Completa</p>
+                  <p class="text-[10px] text-slate-400 mt-0.5">Expandir área de trabajo</p>
+                </div>
               </div>
+              <i data-lucide="chevron-right" class="qm-item-arrow w-3.5 h-3.5 text-slate-400"></i>
             </a>
 
-            <div class="my-1.5 border-t border-slate-100"></div>
+            <div class="qm-stagger relative z-10 my-1 border-t border-slate-100" style="--stagger: 4;"></div>
 
-            <a href="logout.php" onclick="if(location.hostname.includes('github.io')||location.hostname.includes('vercel.app')||location.pathname.endsWith('.html')){localStorage.removeItem('cv_usuario');location.href='login.html';return false;}" class="flex items-center gap-3 px-3.5 py-2.5 text-rose-600 hover:bg-rose-50/70 transition-colors">
-              <span class="w-7 h-7 rounded-lg bg-rose-50 text-rose-600 flex items-center justify-center shrink-0">
-                <i data-lucide="power" class="w-4 h-4"></i>
-              </span>
-              <div>
-                <p class="font-bold text-rose-700 leading-none">Cerrar Sesión</p>
-                <p class="text-[10px] text-rose-400 mt-0.5">Salir de la cuenta actual</p>
+            <a href="logout.php" onmouseenter="moveQmTracker(this, true)" onclick="if(location.hostname.includes('github.io')||location.hostname.includes('vercel.app')||location.pathname.endsWith('.html')){localStorage.removeItem('cv_usuario');location.href='login.html';return false;}" class="qm-item qm-stagger flex items-center justify-between px-2.5 py-2 rounded-xl text-rose-600 transition-colors" style="--stagger: 5;">
+              <div class="flex items-center gap-3">
+                <span class="qm-item-icon qm-item-icon--power w-8 h-8 rounded-xl bg-rose-50 text-rose-600 flex items-center justify-center shrink-0">
+                  <i data-lucide="power" class="w-4 h-4"></i>
+                </span>
+                <div>
+                  <p class="font-bold text-rose-700 leading-none">Cerrar Sesión</p>
+                  <p class="text-[10px] text-rose-400 mt-0.5">Salir de la cuenta actual</p>
+                </div>
               </div>
+              <i data-lucide="chevron-right" class="qm-item-arrow w-3.5 h-3.5 text-rose-400"></i>
             </a>
           </div>
         </div>
@@ -1442,17 +1608,34 @@
 
     function toggleSettingsDropdown(e) {
       if (e) e.stopPropagation();
-      const dd = document.getElementById('settingsDropdown');
-      const chev = document.getElementById('userModuleChevron');
-      const isHidden = dd.classList.toggle('hidden');
-      if (chev) chev.classList.toggle('rotate-180', !isHidden);
+      const mod = document.getElementById('userQuickModule');
+      if (!mod) return;
+      const isOpen = mod.getAttribute('data-open') === 'true';
+      mod.setAttribute('data-open', isOpen ? 'false' : 'true');
+      if (isOpen) hideQmTracker();
     }
 
     function closeSettingsDropdown() {
-      const dd = document.getElementById('settingsDropdown');
-      const chev = document.getElementById('userModuleChevron');
-      if (dd) dd.classList.add('hidden');
-      if (chev) chev.classList.remove('rotate-180');
+      const mod = document.getElementById('userQuickModule');
+      if (mod) mod.setAttribute('data-open', 'false');
+      hideQmTracker();
+    }
+
+    function moveQmTracker(el, isDanger) {
+      const tracker = document.getElementById('qmHoverTracker');
+      if (!tracker || !el) return;
+      tracker.setAttribute('data-danger', isDanger ? 'true' : 'false');
+      tracker.style.height = `${el.offsetHeight}px`;
+      tracker.style.transform = `translateY(${el.offsetTop}px) scale(1)`;
+      tracker.style.opacity = '1';
+    }
+
+    function hideQmTracker() {
+      const tracker = document.getElementById('qmHoverTracker');
+      if (tracker) {
+        tracker.style.opacity = '0';
+        tracker.style.transform = tracker.style.transform.replace('scale(1)', 'scale(0.96)');
+      }
     }
 
     document.addEventListener('click', (e) => {
@@ -1460,6 +1643,10 @@
       if (mod && !mod.contains(e.target)) {
         closeSettingsDropdown();
       }
+    });
+
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') closeSettingsDropdown();
     });
 
     // Hoja de Orden de Trabajo Modal
