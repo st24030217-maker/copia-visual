@@ -257,14 +257,10 @@ function toggleSubmenu(menuId) {
 function openModule(moduleKey) {
   DENT_STATE.currentView = moduleKey;
 
-  // Actualizar estado activo en el sidebar
-  document.querySelectorAll('.nav-leaf-btn').forEach(btn => {
-    if (btn.getAttribute('data-module') === moduleKey) {
-      btn.className = 'nav-leaf-btn flex items-center gap-2.5 px-3 py-2 rounded-xl bg-blue-600 text-white font-semibold shadow-sm transition-all w-full text-left';
-    } else {
-      btn.className = 'nav-leaf-btn flex items-center gap-2.5 px-3 py-2 rounded-xl text-slate-300 hover:text-white hover:bg-slate-800/80 font-medium transition-all w-full text-left';
-    }
-  });
+  // Actualizar estado activo en el sidebar (@react-bits/BranchedMenu-JS-CSS)
+  if (typeof window.bmSyncActiveState === 'function') {
+    window.bmSyncActiveState(moduleKey);
+  }
 
   const secInicio = document.getElementById('section-inicio');
   const secDynamic = document.getElementById('section-dynamic');
