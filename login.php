@@ -80,7 +80,7 @@ $anioActual = date('Y');
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Dent Clinica Dental | Login</title>
-  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="tailwind.js"></script>
   <script>
     tailwind.config = {
       theme: {
@@ -107,7 +107,7 @@ $anioActual = date('Y');
       }
     };
   </script>
-  <script src="https://unpkg.com/lucide@latest"></script>
+  <script src="lucide.js"></script>
   <link rel="preconnect" href="https://api.fontshare.com" crossorigin>
   <link href="https://api.fontshare.com/v2/css?f[]=general-sans@200,300,400,500,600,700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="Threads.css">
