@@ -49,7 +49,7 @@ $usuarioMenu = htmlspecialchars($_SESSION['user'] ?? 'Admin', ENT_QUOTES, 'UTF-8
         <a href="#" onclick="openModule('permisos'); return false;" title="Permisos de Seguridad" class="hover:text-white transition-colors">
           <i data-lucide="lock" class="w-4 h-4"></i>
         </a>
-        <a href="logout.php" title="Cerrar sesión" class="hover:text-rose-400 transition-colors">
+        <a href="logout.php" onclick="if(location.hostname.includes('github.io')||location.hostname.includes('vercel.app')||location.pathname.endsWith('.html')){localStorage.removeItem('cv_usuario');location.href='login.html';return false;}" title="Cerrar sesión" class="hover:text-rose-400 transition-colors">
           <i data-lucide="power" class="w-4 h-4"></i>
         </a>
       </div>

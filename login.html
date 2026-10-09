@@ -1,47 +1,5 @@
-<?php
-session_start();
 
-// Manejo de autenticación por POST o Fetch AJAX (100% compatible con PHP 8.2+, sin requerir MySQL)
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $usuario = trim($_POST['usuario'] ?? 'Admin');
-    if ($usuario === '') {
-        $usuario = 'Admin';
-    }
-
-    $userLower = strtolower($usuario);
-    if ($userLower === 'diana') {
-        $perfil = 'Laboratorio';
-        $idPerfil = 4;
-    } elseif ($userLower === 'oscar') {
-        $perfil = 'Medico';
-        $idPerfil = 3;
-    } else {
-        $perfil = 'Administrador';
-        $idPerfil = 1;
-    }
-
-    $_SESSION['user'] = $usuario;
-    $_SESSION['perfil'] = $perfil;
-    $_SESSION['idPerfil'] = $idPerfil;
-
-    if (!empty($_POST['ajax'])) {
-        header('Content-Type: application/json; charset=utf-8');
-        echo json_encode([
-            'ok' => true,
-            'user' => $usuario,
-            'perfil' => $perfil,
-            'idPerfil' => $idPerfil,
-            'redirect' => 'index.php'
-        ]);
-        exit;
-    }
-
-    header('Location: index.php');
-    exit;
-}
-
-$anioActual = date('Y');
-?>
+Warning: Undefined array key "REQUEST_METHOD" in C:\Users\sebastian salinas\.gemini\antigravity\brain\5b2c39f9-1b55-4ac3-8319-4be94c5674ed\scratch\copia-visual\login.php on line 5
 <!DOCTYPE html>
 <html lang="es" class="h-full bg-slate-50">
 <head>
@@ -274,7 +232,7 @@ $anioActual = date('Y');
 
       <!-- Footer Oficial -->
       <div class="relative z-10 pt-6 border-t border-slate-100 text-center text-xs text-slate-400 mt-auto">
-        <p>© <?= $anioActual ?> Todos los derechos reservados.</p>
+        <p>© 2026 Todos los derechos reservados.</p>
         <a href="http://www.resosistemas.mx/" target="_blank" class="text-blue-600 hover:underline mt-0.5 inline-block font-medium">
           RESO Sistemas S.A. de C.V.
         </a>
