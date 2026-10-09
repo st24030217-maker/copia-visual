@@ -120,19 +120,2068 @@ const DENT_STATE = {
     { id: 4, marca: 'VITA Zahnfabrik', origen: 'Alemania', material: 'VITA YZ HT / Enamic', estatus: true }
   ],
 
-  // 11. DOCTORES (ListadosDoctores.php, DoctoresTiposApp.php, PaquetesDoctores.php, etc.)
+  // 11. DOCTORES REALES SINCRONIZADOS DE DENT DEMO (ListadosDoctores.php, Doctor.php)
   doctores: [
-    { id: 'DOC-101', nombre: 'Dr. Oscar Ramírez', celular: '81 1920 4412', mail: 'oscar.ramirez@clinicadent.mx', vendedor: 'Lic. Roberto Garza', nota: 'Cliente VIP Puntual', clinica: 'Clínica Dental Matriz', tipo: 'Especialista Prostodoncista', activo: true, externo: false, mesesSinPaquete: 0 },
-    { id: 'DOC-102', nombre: 'Dra. Elena Torres', celular: '81 2450 7731', mail: 'elena.torres@esteticadentalsp.mx', vendedor: 'Lic. Mariana Peña', nota: 'Especialista en Carillas E-Max', clinica: 'Estética Dental San Pedro', tipo: 'Rehabilitadora Oral / Estética', activo: true, externo: true, mesesSinPaquete: 0 },
-    { id: 'DOC-103', nombre: 'Dr. Mauricio Cárdenas', celular: '81 8391 6024', mail: 'm.cardenas@cardenasdental.com', vendedor: 'Lic. Roberto Garza', nota: 'Rehabilitación sobre implantes y puentes', clinica: 'Centro Odontológico Valle', tipo: 'Especialista Prostodoncista', activo: true, externo: true, mesesSinPaquete: 0 },
-    { id: 'DOC-104', nombre: 'Dra. Sofía Méndez', celular: '81 1782 9340', mail: 'sofia.mendez@ortoalinia.mx', vendedor: 'Lic. Jorge Villarreal', nota: 'Ortodoncia digital y guardas CAD/CAM', clinica: 'Clínica Dent Contry', tipo: 'Ortodoncista Certificada', activo: true, externo: false, mesesSinPaquete: 0 },
-    { id: 'DOC-105', nombre: 'Dr. Roberto Garza', celular: '81 8104 5519', mail: 'roberto.garza@garzadental.mx', vendedor: 'Lic. Mariana Peña', nota: 'Prótesis fija y provisionales PMMA', clinica: 'Consultorio Dental Obispado', tipo: 'Odontólogo General', activo: true, externo: true, mesesSinPaquete: 2 },
-    { id: 'DOC-106', nombre: 'Dr. Alejandro Silva', celular: '81 2619 3845', mail: 'alejandro.silva@clinicadent.mx', vendedor: 'Lic. Roberto Garza', nota: 'Implantología digital guiada', clinica: 'Clínica Dental Cumbres', tipo: 'Especialista Implantólogo', activo: true, externo: false, mesesSinPaquete: 0 },
-    { id: 'DOC-107', nombre: 'Dra. Brenda Solís', celular: '81 2039 8811', mail: 'brenda.solis@ortoalinia.com', vendedor: 'Lic. Roberto Garza', nota: 'Solicita escaneo martes y jueves', clinica: 'OrtoAlinia San Pedro', tipo: 'Ortodoncista Certificada', activo: true, externo: true, mesesSinPaquete: 0 },
-    { id: 'DOC-108', nombre: 'Dr. Arturo Morales', celular: '81 8344 9012', mail: 'arturo.morales@dentalcenter.mx', vendedor: 'Lic. Mariana Peña', nota: 'Preferencia tono Vita A3', clinica: 'Dental Center Valle', tipo: 'Odontólogo General', activo: true, externo: true, mesesSinPaquete: 4 },
-    { id: 'DOC-109', nombre: 'Dra. Fátima Sánchez', celular: '81 1567 3390', mail: 'fatima.sanchez@sonrisas.mx', vendedor: 'Lic. Mariana Peña', nota: 'Especialista en estética E-Max', clinica: 'Estética Dental Cumbres', tipo: 'Rehabilitadora Oral', activo: true, externo: false, mesesSinPaquete: 0 },
-    { id: 'DOC-110', nombre: 'Dr. Luis Cabrera', celular: '81 9011 2233', mail: 'luis.cabrera@cabreradental.mx', vendedor: 'Lic. Roberto Garza', nota: 'Pendiente renovar paquete de coronas', clinica: 'Consultorio Cabrera', tipo: 'Odontólogo General', activo: true, externo: true, mesesSinPaquete: 5 }
-  ],
+    {
+        "id": 56,
+        "codigo": "DOC-56",
+        "nombre": "Dr. Ana Laura  Castillo Hernandez",
+        "doctorCorto": "Dr. Ana Laura",
+        "apellidoPaterno": "Castillo",
+        "apellidoMaterno": "Hernandez",
+        "celular": "8713952578",
+        "telefono": "8712963651",
+        "mail": "acastillo@clinicadent.com",
+        "vendedor": "DentLab",
+        "nota": "N/A",
+        "clinica": "Hidalgo #3125, Col. Nuevo Torreon, C.P. 27272",
+        "direccion": "Hidalgo #3125, Col. Nuevo Torreon, C.P. 27272",
+        "calle": "Hidalgo",
+        "colonia": "Nuevo Torreon",
+        "numExt": "3125",
+        "cp": "27272",
+        "contacto": "",
+        "contactoTel": "8712963651",
+        "contactoMail": "",
+        "facebook": "",
+        "twitter": "",
+        "instagram": "",
+        "tipo": "INTERNO",
+        "activo": true,
+        "externo": false,
+        "mesesSinPaquete": 0
+    },
+    {
+        "id": 57,
+        "codigo": "DOC-57",
+        "nombre": "Dr. Isaac  Camacho Reza",
+        "doctorCorto": "Dr. Isaac",
+        "apellidoPaterno": "Camacho",
+        "apellidoMaterno": "Reza",
+        "celular": "8712189317",
+        "telefono": "8712963651",
+        "mail": "icamacho@clinicadent.com",
+        "vendedor": "Jose Diosdado",
+        "nota": "N/A",
+        "clinica": "Av. Allende #1260, Col. Centro, C.P. 27000",
+        "direccion": "Av. Allende #1260, Col. Centro, C.P. 27000",
+        "calle": "Av. Allende",
+        "colonia": "Centro",
+        "numExt": "1260",
+        "cp": "27000",
+        "contacto": "",
+        "contactoTel": "",
+        "contactoMail": "",
+        "facebook": "",
+        "twitter": "",
+        "instagram": "",
+        "tipo": "EXTERNO",
+        "activo": true,
+        "externo": true,
+        "mesesSinPaquete": 1
+    },
+    {
+        "id": 85,
+        "codigo": "DOC-85",
+        "nombre": "Dr. Francisco Alejandro  Poblano  Vázquez",
+        "doctorCorto": "Dr. Francisco Alejandro",
+        "apellidoPaterno": "Poblano",
+        "apellidoMaterno": "Vázquez",
+        "celular": "8717276525",
+        "telefono": "N/A",
+        "mail": "dentalcenter@gmail.com",
+        "vendedor": "Jose Diosdado",
+        "nota": "N/A",
+        "clinica": "Juárez #2767, Col. Centro, C.P. 27000",
+        "direccion": "Juárez #2767, Col. Centro, C.P. 27000",
+        "calle": "Juárez",
+        "colonia": "Centro",
+        "numExt": "2767",
+        "cp": "27000",
+        "contacto": "",
+        "contactoTel": "",
+        "contactoMail": "",
+        "facebook": "",
+        "twitter": "",
+        "instagram": "",
+        "tipo": "EXTERNO",
+        "activo": true,
+        "externo": true,
+        "mesesSinPaquete": 1
+    },
+    {
+        "id": 92,
+        "codigo": "DOC-92",
+        "nombre": "Dr. Gustavo Jesús Esquivel Limones",
+        "doctorCorto": "Dr. Gustavo Jesús",
+        "apellidoPaterno": "Esquivel",
+        "apellidoMaterno": "Limones",
+        "celular": "8712019434",
+        "telefono": "N/A",
+        "mail": "ortodonciaes@gmail.com",
+        "vendedor": "DentLab",
+        "nota": "N/A",
+        "clinica": "34 #325, Col. Centro, C.P. 27000",
+        "direccion": "34 #325, Col. Centro, C.P. 27000",
+        "calle": "34",
+        "colonia": "Centro",
+        "numExt": "325",
+        "cp": "27000",
+        "contacto": "",
+        "contactoTel": "",
+        "contactoMail": "",
+        "facebook": "",
+        "twitter": "",
+        "instagram": "",
+        "tipo": "EXTERNO",
+        "activo": true,
+        "externo": true,
+        "mesesSinPaquete": 1
+    },
+    {
+        "id": 125,
+        "codigo": "DOC-125",
+        "nombre": "Dr. Arturo  Camacho Davila",
+        "doctorCorto": "Dr. Arturo",
+        "apellidoPaterno": "Camacho",
+        "apellidoMaterno": "Davila",
+        "celular": "8712635543",
+        "telefono": "N/A",
+        "mail": "arturo_camachodavila@yahoo.com.mx",
+        "vendedor": "Jose Diosdado",
+        "nota": "N/A",
+        "clinica": "Allende #1260, Col. Primero de Cobian, C.P. 27000",
+        "direccion": "Allende #1260, Col. Primero de Cobian, C.P. 27000",
+        "calle": "Allende",
+        "colonia": "Primero de Cobian",
+        "numExt": "1260",
+        "cp": "27000",
+        "contacto": "",
+        "contactoTel": "",
+        "contactoMail": "",
+        "facebook": "",
+        "twitter": "",
+        "instagram": "",
+        "tipo": "EXTERNO",
+        "activo": true,
+        "externo": true,
+        "mesesSinPaquete": 1
+    },
+    {
+        "id": 177,
+        "codigo": "DOC-177",
+        "nombre": "Dra. Irma Alejandra  Hernandez  Flores",
+        "doctorCorto": "Dra. Irma Alejandra",
+        "apellidoPaterno": "Hernandez",
+        "apellidoMaterno": "Flores",
+        "celular": "8713434635",
+        "telefono": "8713434635",
+        "mail": "iirma_hdz@hotmail.com",
+        "vendedor": "Jose Diosdado",
+        "nota": "N/A",
+        "clinica": "Cadiz #8, Col. Florida blanca, C.P. 27268",
+        "direccion": "Cadiz #8, Col. Florida blanca, C.P. 27268",
+        "calle": "Cadiz",
+        "colonia": "Florida blanca",
+        "numExt": "8",
+        "cp": "27268",
+        "contacto": "",
+        "contactoTel": "",
+        "contactoMail": "",
+        "facebook": "",
+        "twitter": "",
+        "instagram": "",
+        "tipo": "EXTERNO",
+        "activo": true,
+        "externo": true,
+        "mesesSinPaquete": 1
+    },
+    {
+        "id": 182,
+        "codigo": "DOC-182",
+        "nombre": "Dra. Mirta Azucena  Reza Escobedo",
+        "doctorCorto": "Dra. Mirta Azucena",
+        "apellidoPaterno": "Reza",
+        "apellidoMaterno": "Escobedo",
+        "celular": "8711743796",
+        "telefono": "N/A",
+        "mail": "mirtareza@hotmail.com",
+        "vendedor": "DentLab",
+        "nota": "N/A",
+        "clinica": "Avenida Zacatecas #624, Col. Centro, C.P. 27000",
+        "direccion": "Avenida Zacatecas #624, Col. Centro, C.P. 27000",
+        "calle": "Avenida Zacatecas",
+        "colonia": "Centro",
+        "numExt": "624",
+        "cp": "27000",
+        "contacto": "",
+        "contactoTel": "",
+        "contactoMail": "",
+        "facebook": "",
+        "twitter": "",
+        "instagram": "",
+        "tipo": "EXTERNO",
+        "activo": true,
+        "externo": true,
+        "mesesSinPaquete": 1
+    },
+    {
+        "id": 184,
+        "codigo": "DOC-184",
+        "nombre": "Dr. Ismael Gonzalez Anaya",
+        "doctorCorto": "Dr. Ismael",
+        "apellidoPaterno": "Gonzalez",
+        "apellidoMaterno": "Anaya",
+        "celular": "6181020640",
+        "telefono": "N/A",
+        "mail": "dr.ismael.glez@mail.com",
+        "vendedor": "Jose Diosdado",
+        "nota": "N/A",
+        "clinica": "Azalea #100, Col. Fracc. Jardines de Durango, C.P. 34200",
+        "direccion": "Azalea #100, Col. Fracc. Jardines de Durango, C.P. 34200",
+        "calle": "Azalea",
+        "colonia": "Fracc. Jardines de Durango",
+        "numExt": "100",
+        "cp": "34200",
+        "contacto": "",
+        "contactoTel": "",
+        "contactoMail": "",
+        "facebook": "",
+        "twitter": "",
+        "instagram": "",
+        "tipo": "EXTERNO",
+        "activo": true,
+        "externo": true,
+        "mesesSinPaquete": 1
+    },
+    {
+        "id": 195,
+        "codigo": "DOC-195",
+        "nombre": "Dr. Fernando Ariel Serrano Carrillo",
+        "doctorCorto": "Dr. Fernando Ariel",
+        "apellidoPaterno": "Serrano",
+        "apellidoMaterno": "Carrillo",
+        "celular": "8717941139",
+        "telefono": "N/A",
+        "mail": "drferserrano@gmail.com",
+        "vendedor": "DentLab",
+        "nota": "N/A",
+        "clinica": "Acropolis #829, Col. Valle del Nazas, C.P. 27000",
+        "direccion": "Acropolis #829, Col. Valle del Nazas, C.P. 27000",
+        "calle": "Acropolis",
+        "colonia": "Valle del Nazas",
+        "numExt": "829",
+        "cp": "27000",
+        "contacto": "",
+        "contactoTel": "",
+        "contactoMail": "",
+        "facebook": "",
+        "twitter": "",
+        "instagram": "",
+        "tipo": "EXTERNO",
+        "activo": true,
+        "externo": true,
+        "mesesSinPaquete": 1
+    },
+    {
+        "id": 214,
+        "codigo": "DOC-214",
+        "nombre": "Dra. Yessica  Nava Espinoza",
+        "doctorCorto": "Dra. Yessica",
+        "apellidoPaterno": "Nava",
+        "apellidoMaterno": "Espinoza",
+        "celular": "8711169754",
+        "telefono": "N/A",
+        "mail": "orto.dentt@hotmail.com",
+        "vendedor": "DentLab",
+        "nota": "N/A",
+        "clinica": "Amador Cardenas #1009, Col. Nueva Los Angeles, C.P. 27140",
+        "direccion": "Amador Cardenas #1009, Col. Nueva Los Angeles, C.P. 27140",
+        "calle": "Amador Cardenas",
+        "colonia": "Nueva Los Angeles",
+        "numExt": "1009",
+        "cp": "27140",
+        "contacto": "",
+        "contactoTel": "",
+        "contactoMail": "",
+        "facebook": "",
+        "twitter": "",
+        "instagram": "",
+        "tipo": "INTERNO",
+        "activo": true,
+        "externo": false,
+        "mesesSinPaquete": 0
+    },
+    {
+        "id": 251,
+        "codigo": "DOC-251",
+        "nombre": "Dr. Alberto Alfonso Davila Gonzalez",
+        "doctorCorto": "Dr. Alberto Alfonso",
+        "apellidoPaterno": "Davila",
+        "apellidoMaterno": "Gonzalez",
+        "celular": "8711024414",
+        "telefono": "N/A",
+        "mail": "alberto_davg9@hotmail.com",
+        "vendedor": "DentLab",
+        "nota": "N/A",
+        "clinica": "Av Hidalgo #3125, Col. Nuevo Torreon, C.P. 27060",
+        "direccion": "Av Hidalgo #3125, Col. Nuevo Torreon, C.P. 27060",
+        "calle": "Av Hidalgo",
+        "colonia": "Nuevo Torreon",
+        "numExt": "3125",
+        "cp": "27060",
+        "contacto": "",
+        "contactoTel": "",
+        "contactoMail": "",
+        "facebook": "",
+        "twitter": "",
+        "instagram": "",
+        "tipo": "INTERNO",
+        "activo": true,
+        "externo": false,
+        "mesesSinPaquete": 0
+    },
+    {
+        "id": 304,
+        "codigo": "DOC-304",
+        "nombre": "Dra. Elida Lizeth De la Cerda Peña",
+        "doctorCorto": "Dra. Elida Lizeth",
+        "apellidoPaterno": "De la Cerda",
+        "apellidoMaterno": "Peña",
+        "celular": "8112032746",
+        "telefono": "N/A",
+        "mail": "dralizcp@gmail.com",
+        "vendedor": "Hector Minila",
+        "nota": "N/A",
+        "clinica": "Av. Benito Juarez #4595, Col. Chula Vista, C.P. 67180",
+        "direccion": "Av. Benito Juarez #4595, Col. Chula Vista, C.P. 67180",
+        "calle": "Av. Benito Juarez",
+        "colonia": "Chula Vista",
+        "numExt": "4595",
+        "cp": "67180",
+        "contacto": "",
+        "contactoTel": "",
+        "contactoMail": "",
+        "facebook": "",
+        "twitter": "",
+        "instagram": "",
+        "tipo": "EXTERNO",
+        "activo": true,
+        "externo": true,
+        "mesesSinPaquete": 1
+    },
+    {
+        "id": 310,
+        "codigo": "DOC-310",
+        "nombre": "Dr. Jorge Alberto Vazquez Aguilera",
+        "doctorCorto": "Dr. Jorge Alberto",
+        "apellidoPaterno": "Vazquez",
+        "apellidoMaterno": "Aguilera",
+        "celular": "8118017498",
+        "telefono": "N/A",
+        "mail": "ava_007@hotmail.com",
+        "vendedor": "Hector Minila",
+        "nota": "N/A",
+        "clinica": "Texcoco #615, Col. Chapultepec, C.P. 66450",
+        "direccion": "Texcoco #615, Col. Chapultepec, C.P. 66450",
+        "calle": "Texcoco",
+        "colonia": "Chapultepec",
+        "numExt": "615",
+        "cp": "66450",
+        "contacto": "",
+        "contactoTel": "",
+        "contactoMail": "",
+        "facebook": "",
+        "twitter": "",
+        "instagram": "",
+        "tipo": "EXTERNO",
+        "activo": true,
+        "externo": true,
+        "mesesSinPaquete": 1
+    },
+    {
+        "id": 315,
+        "codigo": "DOC-315",
+        "nombre": "Dra. Maria Paula Ramos  Martinez",
+        "doctorCorto": "Dra. Maria Paula",
+        "apellidoPaterno": "Ramos",
+        "apellidoMaterno": "Martinez",
+        "celular": "8717832159",
+        "telefono": "N/A",
+        "mail": "paula_95_rm@hotmail.com",
+        "vendedor": "Jose Diosdado",
+        "nota": "N/A",
+        "clinica": "ENCINO #111, Col. TORREON JARDIN, C.P. 27200",
+        "direccion": "ENCINO #111, Col. TORREON JARDIN, C.P. 27200",
+        "calle": "ENCINO",
+        "colonia": "TORREON JARDIN",
+        "numExt": "111",
+        "cp": "27200",
+        "contacto": "",
+        "contactoTel": "",
+        "contactoMail": "",
+        "facebook": "",
+        "twitter": "",
+        "instagram": "",
+        "tipo": "EXTERNO",
+        "activo": true,
+        "externo": true,
+        "mesesSinPaquete": 1
+    },
+    {
+        "id": 346,
+        "codigo": "DOC-346",
+        "nombre": "Dra. Yessica Karina Nava Espinoza",
+        "doctorCorto": "Dra. Yessica Karina",
+        "apellidoPaterno": "Nava",
+        "apellidoMaterno": "Espinoza",
+        "celular": "4888823286",
+        "telefono": "N/A",
+        "mail": "yessinava@clinicadent.com",
+        "vendedor": "DentLab",
+        "nota": "N/A",
+        "clinica": "Av. Hidalgo #3125, Col. Nuevo Torreon, C.P. 27060",
+        "direccion": "Av. Hidalgo #3125, Col. Nuevo Torreon, C.P. 27060",
+        "calle": "Av. Hidalgo",
+        "colonia": "Nuevo Torreon",
+        "numExt": "3125",
+        "cp": "27060",
+        "contacto": "",
+        "contactoTel": "",
+        "contactoMail": "",
+        "facebook": "",
+        "twitter": "",
+        "instagram": "",
+        "tipo": "INTERNO",
+        "activo": true,
+        "externo": false,
+        "mesesSinPaquete": 0
+    },
+    {
+        "id": 351,
+        "codigo": "DOC-351",
+        "nombre": "Dra. Karla Liliana Fuentes Alvarez",
+        "doctorCorto": "Dra. Karla Liliana",
+        "apellidoPaterno": "Fuentes",
+        "apellidoMaterno": "Alvarez",
+        "celular": "8718964494",
+        "telefono": "N/A",
+        "mail": "karlafuentes@hotmail.com",
+        "vendedor": "Jose Alatorre",
+        "nota": "N/A",
+        "clinica": "Cto Vicente Suarez #20, Col. Fracc Chapultepec, C.P. 27054",
+        "direccion": "Cto Vicente Suarez #20, Col. Fracc Chapultepec, C.P. 27054",
+        "calle": "Cto Vicente Suarez",
+        "colonia": "Fracc Chapultepec",
+        "numExt": "20",
+        "cp": "27054",
+        "contacto": "",
+        "contactoTel": "",
+        "contactoMail": "",
+        "facebook": "",
+        "twitter": "",
+        "instagram": "",
+        "tipo": "INTERNO",
+        "activo": true,
+        "externo": false,
+        "mesesSinPaquete": 0
+    },
+    {
+        "id": 399,
+        "codigo": "DOC-399",
+        "nombre": "Dr. Carlos Alberto  Alvarado  González",
+        "doctorCorto": "Dr. Carlos Alberto",
+        "apellidoPaterno": "Alvarado",
+        "apellidoMaterno": "González",
+        "celular": "8713947176",
+        "telefono": "N/A",
+        "mail": "carlos.alvarado7@outlook.es",
+        "vendedor": "Jose Diosdado",
+        "nota": "N/A",
+        "clinica": "Vía Romana #857, Col. Roma, C.P. 27258",
+        "direccion": "Vía Romana #857, Col. Roma, C.P. 27258",
+        "calle": "Vía Romana",
+        "colonia": "Roma",
+        "numExt": "857",
+        "cp": "27258",
+        "contacto": "",
+        "contactoTel": "",
+        "contactoMail": "",
+        "facebook": "",
+        "twitter": "",
+        "instagram": "",
+        "tipo": "EXTERNO",
+        "activo": true,
+        "externo": true,
+        "mesesSinPaquete": 1
+    },
+    {
+        "id": 405,
+        "codigo": "DOC-405",
+        "nombre": "Dra. Nayeli Santos Zapata",
+        "doctorCorto": "Dra. Nayeli",
+        "apellidoPaterno": "Santos",
+        "apellidoMaterno": "Zapata",
+        "celular": "8120243109",
+        "telefono": "N/A",
+        "mail": "dentalsantos@outlook.com",
+        "vendedor": "Hector Minila",
+        "nota": "N/A",
+        "clinica": "Afganistan #137, Col. Prados de la cienegu, C.P. 66636",
+        "direccion": "Afganistan #137, Col. Prados de la cienegu, C.P. 66636",
+        "calle": "Afganistan",
+        "colonia": "Prados de la cienegu",
+        "numExt": "137",
+        "cp": "66636",
+        "contacto": "",
+        "contactoTel": "",
+        "contactoMail": "",
+        "facebook": "",
+        "twitter": "",
+        "instagram": "",
+        "tipo": "EXTERNO",
+        "activo": true,
+        "externo": true,
+        "mesesSinPaquete": 1
+    },
+    {
+        "id": 417,
+        "codigo": "DOC-417",
+        "nombre": "Dra. Brenda Deyanira Hernández Aguirre",
+        "doctorCorto": "Dra. Brenda Deyanira",
+        "apellidoPaterno": "Hernández",
+        "apellidoMaterno": "Aguirre",
+        "celular": "6566758982",
+        "telefono": "N/A",
+        "mail": "hedzbrenda04@gmail.com",
+        "vendedor": "DentLab",
+        "nota": "N/A",
+        "clinica": "Sto Ciervo #7, Col. Fraccionamiento Viñedos, C.P. 27023",
+        "direccion": "Sto Ciervo #7, Col. Fraccionamiento Viñedos, C.P. 27023",
+        "calle": "Sto Ciervo",
+        "colonia": "Fraccionamiento Viñedos",
+        "numExt": "7",
+        "cp": "27023",
+        "contacto": "",
+        "contactoTel": "",
+        "contactoMail": "",
+        "facebook": "",
+        "twitter": "",
+        "instagram": "",
+        "tipo": "INTERNO",
+        "activo": true,
+        "externo": false,
+        "mesesSinPaquete": 0
+    },
+    {
+        "id": 421,
+        "codigo": "DOC-421",
+        "nombre": "Dra. Nora Patricia Flores Moreno",
+        "doctorCorto": "Dra. Nora Patricia",
+        "apellidoPaterno": "Flores",
+        "apellidoMaterno": "Moreno",
+        "celular": "8182084800",
+        "telefono": "N/A",
+        "mail": "drafloresnorap@gmail.com",
+        "vendedor": "Hector Minila",
+        "nota": "N/A",
+        "clinica": "Av.las Puentes #1406, Col. Las Puentes 8vo sector., C.P. 66460",
+        "direccion": "Av.las Puentes #1406, Col. Las Puentes 8vo sector., C.P. 66460",
+        "calle": "Av.las Puentes",
+        "colonia": "Las Puentes 8vo sector.",
+        "numExt": "1406",
+        "cp": "66460",
+        "contacto": "",
+        "contactoTel": "",
+        "contactoMail": "",
+        "facebook": "",
+        "twitter": "",
+        "instagram": "",
+        "tipo": "EXTERNO",
+        "activo": true,
+        "externo": true,
+        "mesesSinPaquete": 1
+    },
+    {
+        "id": 435,
+        "codigo": "DOC-435",
+        "nombre": "Dr. Luis Mariano Mireles Torres",
+        "doctorCorto": "Dr. Luis Mariano",
+        "apellidoPaterno": "Mireles",
+        "apellidoMaterno": "Torres",
+        "celular": "8713477634",
+        "telefono": "N/A",
+        "mail": "marianomireles27@gmail.com",
+        "vendedor": "Jose Diosdado",
+        "nota": "N/A",
+        "clinica": "Leandro Valle #45, Col. Centro, C.P. 27000",
+        "direccion": "Leandro Valle #45, Col. Centro, C.P. 27000",
+        "calle": "Leandro Valle",
+        "colonia": "Centro",
+        "numExt": "45",
+        "cp": "27000",
+        "contacto": "",
+        "contactoTel": "",
+        "contactoMail": "",
+        "facebook": "",
+        "twitter": "",
+        "instagram": "",
+        "tipo": "EXTERNO",
+        "activo": true,
+        "externo": true,
+        "mesesSinPaquete": 1
+    },
+    {
+        "id": 441,
+        "codigo": "DOC-441",
+        "nombre": "Dra. Neira Jael Cruz Castro",
+        "doctorCorto": "Dra. Neira Jael",
+        "apellidoPaterno": "Cruz",
+        "apellidoMaterno": "Castro",
+        "celular": "8114206886",
+        "telefono": "N/A",
+        "mail": "dra.neirajael@gmail.com",
+        "vendedor": "Hector Minila",
+        "nota": "N/A",
+        "clinica": "Acueducto de Celaya #1365, Col. Sierra Morena, C.P. 67193",
+        "direccion": "Acueducto de Celaya #1365, Col. Sierra Morena, C.P. 67193",
+        "calle": "Acueducto de Celaya",
+        "colonia": "Sierra Morena",
+        "numExt": "1365",
+        "cp": "67193",
+        "contacto": "",
+        "contactoTel": "",
+        "contactoMail": "",
+        "facebook": "",
+        "twitter": "",
+        "instagram": "",
+        "tipo": "EXTERNO",
+        "activo": true,
+        "externo": true,
+        "mesesSinPaquete": 1
+    },
+    {
+        "id": 442,
+        "codigo": "DOC-442",
+        "nombre": "Dra. Patricia Elizabeth Valdes Diaz",
+        "doctorCorto": "Dra. Patricia Elizabeth",
+        "apellidoPaterno": "Valdes",
+        "apellidoMaterno": "Diaz",
+        "celular": "8717828850",
+        "telefono": "N/A",
+        "mail": "patavd@hotmail.com",
+        "vendedor": "Jose Diosdado",
+        "nota": "N/A",
+        "clinica": "Av. Morelos #225, Col. Centro, C.P. 35000",
+        "direccion": "Av. Morelos #225, Col. Centro, C.P. 35000",
+        "calle": "Av. Morelos",
+        "colonia": "Centro",
+        "numExt": "225",
+        "cp": "35000",
+        "contacto": "",
+        "contactoTel": "",
+        "contactoMail": "",
+        "facebook": "",
+        "twitter": "",
+        "instagram": "",
+        "tipo": "EXTERNO",
+        "activo": true,
+        "externo": true,
+        "mesesSinPaquete": 1
+    },
+    {
+        "id": 445,
+        "codigo": "DOC-445",
+        "nombre": "Dra. Sarai  Caldera  Gallegos",
+        "doctorCorto": "Dra. Sarai",
+        "apellidoPaterno": "Caldera",
+        "apellidoMaterno": "Gallegos",
+        "celular": "12345678",
+        "telefono": "N/A",
+        "mail": "bysen_171005@outlook.com",
+        "vendedor": "DentLab",
+        "nota": "N/A",
+        "clinica": "Cerrada San Gabriel #123, Col. Villas el Refugio, C.P. 35023",
+        "direccion": "Cerrada San Gabriel #123, Col. Villas el Refugio, C.P. 35023",
+        "calle": "Cerrada San Gabriel",
+        "colonia": "Villas el Refugio",
+        "numExt": "123",
+        "cp": "35023",
+        "contacto": "",
+        "contactoTel": "",
+        "contactoMail": "",
+        "facebook": "",
+        "twitter": "",
+        "instagram": "",
+        "tipo": "INTERNO",
+        "activo": true,
+        "externo": false,
+        "mesesSinPaquete": 0
+    },
+    {
+        "id": 449,
+        "codigo": "DOC-449",
+        "nombre": "Dr. Martin Argenis Silva Ontiveros",
+        "doctorCorto": "Dr. Martin Argenis",
+        "apellidoPaterno": "Silva",
+        "apellidoMaterno": "Ontiveros",
+        "celular": "8110218395",
+        "telefono": "N/A",
+        "mail": "dr.martin.argenis@gmail.com",
+        "vendedor": "Hector Minila",
+        "nota": "N/A",
+        "clinica": "Rio Nazas #1297, Col. Valle del Mirador, C.P. 64750",
+        "direccion": "Rio Nazas #1297, Col. Valle del Mirador, C.P. 64750",
+        "calle": "Rio Nazas",
+        "colonia": "Valle del Mirador",
+        "numExt": "1297",
+        "cp": "64750",
+        "contacto": "",
+        "contactoTel": "",
+        "contactoMail": "",
+        "facebook": "",
+        "twitter": "",
+        "instagram": "",
+        "tipo": "EXTERNO",
+        "activo": true,
+        "externo": true,
+        "mesesSinPaquete": 1
+    },
+    {
+        "id": 453,
+        "codigo": "DOC-453",
+        "nombre": "Dra. Claudia Lizeth Mares Bustos",
+        "doctorCorto": "Dra. Claudia Lizeth",
+        "apellidoPaterno": "Mares",
+        "apellidoMaterno": "Bustos",
+        "celular": "8120100053",
+        "telefono": "N/A",
+        "mail": "claumaresb@gmail.com",
+        "vendedor": "Hector Minila",
+        "nota": "N/A",
+        "clinica": "Benito Juárez #137, Col. Centro, C.P. 66230",
+        "direccion": "Benito Juárez #137, Col. Centro, C.P. 66230",
+        "calle": "Benito Juárez",
+        "colonia": "Centro",
+        "numExt": "137",
+        "cp": "66230",
+        "contacto": "",
+        "contactoTel": "",
+        "contactoMail": "",
+        "facebook": "",
+        "twitter": "",
+        "instagram": "",
+        "tipo": "EXTERNO",
+        "activo": true,
+        "externo": true,
+        "mesesSinPaquete": 1
+    },
+    {
+        "id": 454,
+        "codigo": "DOC-454",
+        "nombre": "Dra. Karla Beatriz Soto Trejo",
+        "doctorCorto": "Dra. Karla Beatriz",
+        "apellidoPaterno": "Soto",
+        "apellidoMaterno": "Trejo",
+        "celular": "8115899628",
+        "telefono": "N/A",
+        "mail": "kbst_19@hotmail.com",
+        "vendedor": "Hector Minila",
+        "nota": "N/A",
+        "clinica": "N 15 #469, Col. Metroplex, C.P. 66612",
+        "direccion": "N 15 #469, Col. Metroplex, C.P. 66612",
+        "calle": "N 15",
+        "colonia": "Metroplex",
+        "numExt": "469",
+        "cp": "66612",
+        "contacto": "",
+        "contactoTel": "",
+        "contactoMail": "",
+        "facebook": "",
+        "twitter": "",
+        "instagram": "",
+        "tipo": "EXTERNO",
+        "activo": true,
+        "externo": true,
+        "mesesSinPaquete": 1
+    },
+    {
+        "id": 471,
+        "codigo": "DOC-471",
+        "nombre": "Dra. Nani Yarahuan Vega",
+        "doctorCorto": "Dra. Nani",
+        "apellidoPaterno": "Yarahuan",
+        "apellidoMaterno": "Vega",
+        "celular": "8711490799",
+        "telefono": "N/A",
+        "mail": "nani_yv96@hotmail.com",
+        "vendedor": "DentLab",
+        "nota": "N/A",
+        "clinica": "Rio balsas #703, Col. Navarro, C.P. 27010",
+        "direccion": "Rio balsas #703, Col. Navarro, C.P. 27010",
+        "calle": "Rio balsas",
+        "colonia": "Navarro",
+        "numExt": "703",
+        "cp": "27010",
+        "contacto": "",
+        "contactoTel": "",
+        "contactoMail": "",
+        "facebook": "",
+        "twitter": "",
+        "instagram": "",
+        "tipo": "EXTERNO",
+        "activo": true,
+        "externo": true,
+        "mesesSinPaquete": 1
+    },
+    {
+        "id": 530,
+        "codigo": "DOC-530",
+        "nombre": "Dr. Miguel Alan Lozano Gonzalez",
+        "doctorCorto": "Dr. Miguel Alan",
+        "apellidoPaterno": "Lozano",
+        "apellidoMaterno": "Gonzalez",
+        "celular": "8124325868",
+        "telefono": "N/A",
+        "mail": "dr.alanlozano@gmail.com",
+        "vendedor": "Hector Minila",
+        "nota": "N/A",
+        "clinica": "Alhambra #120, Col. La Alhambra, C.P. 64988",
+        "direccion": "Alhambra #120, Col. La Alhambra, C.P. 64988",
+        "calle": "Alhambra",
+        "colonia": "La Alhambra",
+        "numExt": "120",
+        "cp": "64988",
+        "contacto": "",
+        "contactoTel": "",
+        "contactoMail": "",
+        "facebook": "",
+        "twitter": "",
+        "instagram": "",
+        "tipo": "EXTERNO",
+        "activo": true,
+        "externo": true,
+        "mesesSinPaquete": 1
+    },
+    {
+        "id": 546,
+        "codigo": "DOC-546",
+        "nombre": "Dra. Maria Ziomara Deyanira Padilla Castillo",
+        "doctorCorto": "Dra. Maria Ziomara Deyanira",
+        "apellidoPaterno": "Padilla",
+        "apellidoMaterno": "Castillo",
+        "celular": "8115555827",
+        "telefono": "N/A",
+        "mail": "ziomarapadilla@yahoo.com.mx",
+        "vendedor": "Hector Minila",
+        "nota": "N/A",
+        "clinica": "Ricardo Covarrubias #3337, Col. Estadio, C.P. 64830",
+        "direccion": "Ricardo Covarrubias #3337, Col. Estadio, C.P. 64830",
+        "calle": "Ricardo Covarrubias",
+        "colonia": "Estadio",
+        "numExt": "3337",
+        "cp": "64830",
+        "contacto": "",
+        "contactoTel": "",
+        "contactoMail": "",
+        "facebook": "",
+        "twitter": "",
+        "instagram": "",
+        "tipo": "EXTERNO",
+        "activo": true,
+        "externo": true,
+        "mesesSinPaquete": 1
+    },
+    {
+        "id": 548,
+        "codigo": "DOC-548",
+        "nombre": "Jacqs Flores De La Cruz",
+        "doctorCorto": "Jacqs",
+        "apellidoPaterno": "Flores",
+        "apellidoMaterno": "De La Cruz",
+        "celular": "8711116400",
+        "telefono": "N/A",
+        "mail": "Jacquelineflores0304@dent.com",
+        "vendedor": "DentLab",
+        "nota": "N/A",
+        "clinica": "Av. Hidalgo #3251, Col. Nuevo Torreón, C.P. 3251",
+        "direccion": "Av. Hidalgo #3251, Col. Nuevo Torreón, C.P. 3251",
+        "calle": "Av. Hidalgo",
+        "colonia": "Nuevo Torreón",
+        "numExt": "3251",
+        "cp": "3251",
+        "contacto": "",
+        "contactoTel": "",
+        "contactoMail": "",
+        "facebook": "",
+        "twitter": "",
+        "instagram": "",
+        "tipo": "INTERNO",
+        "activo": true,
+        "externo": false,
+        "mesesSinPaquete": 0
+    },
+    {
+        "id": 568,
+        "codigo": "DOC-568",
+        "nombre": "Dr. Cesar Ivan Bautista Gutierrez",
+        "doctorCorto": "Dr. Cesar Ivan",
+        "apellidoPaterno": "Bautista",
+        "apellidoMaterno": "Gutierrez",
+        "celular": "8715115071",
+        "telefono": "N/A",
+        "mail": "cesarbautistagu@gmail.com",
+        "vendedor": "Jose Diosdado",
+        "nota": "N/A",
+        "clinica": "Pabellón Nte. #4, Col. Centro, C.P. 27440",
+        "direccion": "Pabellón Nte. #4, Col. Centro, C.P. 27440",
+        "calle": "Pabellón Nte.",
+        "colonia": "Centro",
+        "numExt": "4",
+        "cp": "27440",
+        "contacto": "",
+        "contactoTel": "",
+        "contactoMail": "",
+        "facebook": "",
+        "twitter": "",
+        "instagram": "",
+        "tipo": "EXTERNO",
+        "activo": true,
+        "externo": true,
+        "mesesSinPaquete": 1
+    },
+    {
+        "id": 583,
+        "codigo": "DOC-583",
+        "nombre": "Dra. Diana Elizabeth  Valadez Zúñiga",
+        "doctorCorto": "Dra. Diana Elizabeth",
+        "apellidoPaterno": "Valadez",
+        "apellidoMaterno": "Zúñiga",
+        "celular": "8992137937",
+        "telefono": "N/A",
+        "mail": "diana_evz19@hotmail.com",
+        "vendedor": "DentLab",
+        "nota": "N/A",
+        "clinica": "Jorge González Camarena #207, Col. Roble San Nicolás, C.P. 66414",
+        "direccion": "Jorge González Camarena #207, Col. Roble San Nicolás, C.P. 66414",
+        "calle": "Jorge González Camarena",
+        "colonia": "Roble San Nicolás",
+        "numExt": "207",
+        "cp": "66414",
+        "contacto": "",
+        "contactoTel": "",
+        "contactoMail": "",
+        "facebook": "",
+        "twitter": "",
+        "instagram": "",
+        "tipo": "EXTERNO",
+        "activo": true,
+        "externo": true,
+        "mesesSinPaquete": 1
+    },
+    {
+        "id": 586,
+        "codigo": "DOC-586",
+        "nombre": "Dr. Jose Angel Delgado Diaz",
+        "doctorCorto": "Dr. Jose Angel",
+        "apellidoPaterno": "Delgado",
+        "apellidoMaterno": "Diaz",
+        "celular": "8180882101",
+        "telefono": "N/A",
+        "mail": "jadd_90@hotmail.com",
+        "vendedor": "Hector Minila",
+        "nota": "N/A",
+        "clinica": "Av. de la Primavera #1434, Col. Tres caminos, C.P. 67190",
+        "direccion": "Av. de la Primavera #1434, Col. Tres caminos, C.P. 67190",
+        "calle": "Av. de la Primavera",
+        "colonia": "Tres caminos",
+        "numExt": "1434",
+        "cp": "67190",
+        "contacto": "",
+        "contactoTel": "",
+        "contactoMail": "",
+        "facebook": "",
+        "twitter": "",
+        "instagram": "",
+        "tipo": "EXTERNO",
+        "activo": true,
+        "externo": true,
+        "mesesSinPaquete": 1
+    },
+    {
+        "id": 37,
+        "codigo": "DOC-37",
+        "nombre": "Dra. Alicia Irene Martínez Gómez",
+        "doctorCorto": "Dra. Alicia Irene",
+        "apellidoPaterno": "Martínez",
+        "apellidoMaterno": "Gómez",
+        "celular": "8714807110",
+        "telefono": "8719044910",
+        "mail": "imartinez@dentlab.mx",
+        "vendedor": "DentLab",
+        "nota": "N/A",
+        "clinica": "Dent",
+        "direccion": "Dent",
+        "calle": "",
+        "colonia": "",
+        "numExt": "",
+        "cp": "",
+        "contacto": "",
+        "contactoTel": "",
+        "contactoMail": "",
+        "facebook": "",
+        "twitter": "",
+        "instagram": "",
+        "tipo": "EXTERNO",
+        "activo": true,
+        "externo": true,
+        "mesesSinPaquete": 0
+    },
+    {
+        "id": 38,
+        "codigo": "DOC-38",
+        "nombre": "Ylyana  Moreno  Campos",
+        "doctorCorto": "Ylyana",
+        "apellidoPaterno": "Moreno",
+        "apellidoMaterno": "Campos",
+        "celular": "8712114744",
+        "telefono": "N/A",
+        "mail": "ylyana.moreno@gmail.com",
+        "vendedor": "DentLab",
+        "nota": "N/A",
+        "clinica": "DENT LAB",
+        "direccion": "Consultorio Registrado DentLab",
+        "calle": "",
+        "colonia": "",
+        "numExt": "",
+        "cp": "",
+        "contacto": "",
+        "contactoTel": "",
+        "contactoMail": "",
+        "facebook": "",
+        "twitter": "",
+        "instagram": "",
+        "tipo": "EXTERNO",
+        "activo": true,
+        "externo": true,
+        "mesesSinPaquete": 0
+    },
+    {
+        "id": 39,
+        "codigo": "DOC-39",
+        "nombre": "Luis Gerardo  Cervantes  Díaz",
+        "doctorCorto": "Luis Gerardo",
+        "apellidoPaterno": "Cervantes",
+        "apellidoMaterno": "Díaz",
+        "celular": "8715341405",
+        "telefono": "N/A",
+        "mail": "luiscervantesd22@gmail.com",
+        "vendedor": "DentLab",
+        "nota": "N/A",
+        "clinica": "DENT LAB",
+        "direccion": "Consultorio Registrado DentLab",
+        "calle": "",
+        "colonia": "",
+        "numExt": "",
+        "cp": "",
+        "contacto": "",
+        "contactoTel": "",
+        "contactoMail": "",
+        "facebook": "",
+        "twitter": "",
+        "instagram": "",
+        "tipo": "EXTERNO",
+        "activo": true,
+        "externo": true,
+        "mesesSinPaquete": 0
+    },
+    {
+        "id": 40,
+        "codigo": "DOC-40",
+        "nombre": "Ext Dr. Luis Gerardo Arellano de León",
+        "doctorCorto": "Ext Dr. Luis Gerardo",
+        "apellidoPaterno": "Arellano",
+        "apellidoMaterno": "de León",
+        "celular": "8714586848",
+        "telefono": "8714586848",
+        "mail": "arellanolg@gmail.com",
+        "vendedor": "DentLab",
+        "nota": "N/A",
+        "clinica": "DENT LAB",
+        "direccion": "Consultorio Registrado DentLab",
+        "calle": "",
+        "colonia": "",
+        "numExt": "",
+        "cp": "",
+        "contacto": "",
+        "contactoTel": "",
+        "contactoMail": "",
+        "facebook": "",
+        "twitter": "",
+        "instagram": "",
+        "tipo": "EXTERNO",
+        "activo": true,
+        "externo": true,
+        "mesesSinPaquete": 0
+    },
+    {
+        "id": 41,
+        "codigo": "DOC-41",
+        "nombre": "Federico Juárez  Bassol",
+        "doctorCorto": "Federico",
+        "apellidoPaterno": "Juárez",
+        "apellidoMaterno": "Bassol",
+        "celular": "8713914239",
+        "telefono": "N/A",
+        "mail": "federicojb@hotmail.com",
+        "vendedor": "DentLab",
+        "nota": "N/A",
+        "clinica": "DENT LAB",
+        "direccion": "Consultorio Registrado DentLab",
+        "calle": "",
+        "colonia": "",
+        "numExt": "",
+        "cp": "",
+        "contacto": "",
+        "contactoTel": "",
+        "contactoMail": "",
+        "facebook": "",
+        "twitter": "",
+        "instagram": "",
+        "tipo": "EXTERNO",
+        "activo": true,
+        "externo": true,
+        "mesesSinPaquete": 0
+    },
+    {
+        "id": 42,
+        "codigo": "DOC-42",
+        "nombre": "Luis Armando Mendoza Pérez",
+        "doctorCorto": "Luis Armando",
+        "apellidoPaterno": "Mendoza",
+        "apellidoMaterno": "Pérez",
+        "celular": "8713512449",
+        "telefono": "N/A",
+        "mail": "lmendoza@resosistemas.mx",
+        "vendedor": "DentLab",
+        "nota": "N/A",
+        "clinica": "DENT LAB",
+        "direccion": "Consultorio Registrado DentLab",
+        "calle": "",
+        "colonia": "",
+        "numExt": "",
+        "cp": "",
+        "contacto": "",
+        "contactoTel": "",
+        "contactoMail": "",
+        "facebook": "",
+        "twitter": "",
+        "instagram": "",
+        "tipo": "INTERNO",
+        "activo": true,
+        "externo": false,
+        "mesesSinPaquete": 0
+    },
+    {
+        "id": 43,
+        "codigo": "DOC-43",
+        "nombre": "Eliasib Reyes Moreno",
+        "doctorCorto": "Eliasib",
+        "apellidoPaterno": "Reyes",
+        "apellidoMaterno": "Moreno",
+        "celular": "8717551569",
+        "telefono": "N/A",
+        "mail": "eliasib@resosistemas.mx",
+        "vendedor": "DentLab",
+        "nota": "N/A",
+        "clinica": "DENT LAB",
+        "direccion": "Consultorio Registrado DentLab",
+        "calle": "",
+        "colonia": "",
+        "numExt": "",
+        "cp": "",
+        "contacto": "",
+        "contactoTel": "",
+        "contactoMail": "",
+        "facebook": "",
+        "twitter": "",
+        "instagram": "",
+        "tipo": "EXTERNO",
+        "activo": true,
+        "externo": true,
+        "mesesSinPaquete": 0
+    },
+    {
+        "id": 47,
+        "codigo": "DOC-47",
+        "nombre": "Amy Leonor Chiffer Torres",
+        "doctorCorto": "Amy Leonor",
+        "apellidoPaterno": "Chiffer",
+        "apellidoMaterno": "Torres",
+        "celular": "8711097221",
+        "telefono": "N/A",
+        "mail": "achiffer@clinicadent.com",
+        "vendedor": "DentLab",
+        "nota": "N/A",
+        "clinica": "DENT LAB",
+        "direccion": "Consultorio Registrado DentLab",
+        "calle": "",
+        "colonia": "",
+        "numExt": "",
+        "cp": "",
+        "contacto": "",
+        "contactoTel": "",
+        "contactoMail": "",
+        "facebook": "",
+        "twitter": "",
+        "instagram": "",
+        "tipo": "EXTERNO",
+        "activo": true,
+        "externo": true,
+        "mesesSinPaquete": 0
+    },
+    {
+        "id": 49,
+        "codigo": "DOC-49",
+        "nombre": "José Manuel Diosdado Zambrano",
+        "doctorCorto": "José Manuel",
+        "apellidoPaterno": "Diosdado",
+        "apellidoMaterno": "Zambrano",
+        "celular": "8714582690",
+        "telefono": "N/A",
+        "mail": "jdiosdado@dentlab.mx",
+        "vendedor": "DentLab",
+        "nota": "N/A",
+        "clinica": "DENT LAB",
+        "direccion": "Consultorio Registrado DentLab",
+        "calle": "",
+        "colonia": "",
+        "numExt": "",
+        "cp": "",
+        "contacto": "",
+        "contactoTel": "",
+        "contactoMail": "",
+        "facebook": "",
+        "twitter": "",
+        "instagram": "",
+        "tipo": "EXTERNO",
+        "activo": true,
+        "externo": true,
+        "mesesSinPaquete": 0
+    },
+    {
+        "id": 50,
+        "codigo": "DOC-50",
+        "nombre": "Dr. Arquimedes Martinez Llanes",
+        "doctorCorto": "Dr. Arquimedes",
+        "apellidoPaterno": "Martinez",
+        "apellidoMaterno": "Llanes",
+        "celular": "8120027770",
+        "telefono": "8115212027",
+        "mail": "drarquimedesii@gmail.com",
+        "vendedor": "Hector Minila",
+        "nota": "N/A",
+        "clinica": "Monterrey",
+        "direccion": "Consultorio Registrado DentLab",
+        "calle": "",
+        "colonia": "",
+        "numExt": "",
+        "cp": "",
+        "contacto": "",
+        "contactoTel": "",
+        "contactoMail": "",
+        "facebook": "",
+        "twitter": "",
+        "instagram": "",
+        "tipo": "EXTERNO",
+        "activo": true,
+        "externo": true,
+        "mesesSinPaquete": 0
+    },
+    {
+        "id": 51,
+        "codigo": "DOC-51",
+        "nombre": "Dr. Carlos Azael Gutiérrez  Ruiz",
+        "doctorCorto": "Dr. Carlos Azael",
+        "apellidoPaterno": "Gutiérrez",
+        "apellidoMaterno": "Ruiz",
+        "celular": "8112456490",
+        "telefono": "8112456490",
+        "mail": "carlosgtzr@hotmail.com",
+        "vendedor": "Hector Minila",
+        "nota": "N/A",
+        "clinica": "Monterrey",
+        "direccion": "Consultorio Registrado DentLab",
+        "calle": "",
+        "colonia": "",
+        "numExt": "",
+        "cp": "",
+        "contacto": "",
+        "contactoTel": "",
+        "contactoMail": "",
+        "facebook": "",
+        "twitter": "",
+        "instagram": "",
+        "tipo": "EXTERNO",
+        "activo": true,
+        "externo": true,
+        "mesesSinPaquete": 0
+    },
+    {
+        "id": 52,
+        "codigo": "DOC-52",
+        "nombre": "Dr. Hector Alberto Minila Cano",
+        "doctorCorto": "Dr. Hector Alberto",
+        "apellidoPaterno": "Minila",
+        "apellidoMaterno": "Cano",
+        "celular": "8714349978",
+        "telefono": "8134000390",
+        "mail": "hectorm27@hotmail.com",
+        "vendedor": "DentLab",
+        "nota": "N/A",
+        "clinica": "DENT LAB",
+        "direccion": "Consultorio Registrado DentLab",
+        "calle": "",
+        "colonia": "",
+        "numExt": "",
+        "cp": "",
+        "contacto": "",
+        "contactoTel": "",
+        "contactoMail": "",
+        "facebook": "",
+        "twitter": "",
+        "instagram": "",
+        "tipo": "EXTERNO",
+        "activo": true,
+        "externo": true,
+        "mesesSinPaquete": 0
+    },
+    {
+        "id": 54,
+        "codigo": "DOC-54",
+        "nombre": "Dr. Oscar R Chavez Padilla",
+        "doctorCorto": "Dr. Oscar R",
+        "apellidoPaterno": "Chavez",
+        "apellidoMaterno": "Padilla",
+        "celular": "8712963651",
+        "telefono": "8712963651",
+        "mail": "ochavez@clinicadent.com",
+        "vendedor": "Jose Alatorre",
+        "nota": "N/A",
+        "clinica": "Torreón",
+        "direccion": "Consultorio Registrado DentLab",
+        "calle": "",
+        "colonia": "",
+        "numExt": "",
+        "cp": "",
+        "contacto": "",
+        "contactoTel": "",
+        "contactoMail": "",
+        "facebook": "",
+        "twitter": "",
+        "instagram": "",
+        "tipo": "INTERNO",
+        "activo": true,
+        "externo": false,
+        "mesesSinPaquete": 0
+    },
+    {
+        "id": 55,
+        "codigo": "DOC-55",
+        "nombre": "Dr. Luis Gerardo  Arellano de Leon",
+        "doctorCorto": "Dr. Luis Gerardo",
+        "apellidoPaterno": "Arellano",
+        "apellidoMaterno": "de Leon",
+        "celular": "8714586840",
+        "telefono": "8712963651",
+        "mail": "larellano@clinicadent.com",
+        "vendedor": "DentLab",
+        "nota": "N/A",
+        "clinica": "DENT LAB",
+        "direccion": "Consultorio Registrado DentLab",
+        "calle": "",
+        "colonia": "",
+        "numExt": "",
+        "cp": "",
+        "contacto": "",
+        "contactoTel": "",
+        "contactoMail": "",
+        "facebook": "",
+        "twitter": "",
+        "instagram": "",
+        "tipo": "INTERNO",
+        "activo": true,
+        "externo": false,
+        "mesesSinPaquete": 0
+    },
+    {
+        "id": 58,
+        "codigo": "DOC-58",
+        "nombre": "Dr. Gerardo  Balderas Soto",
+        "doctorCorto": "Dr. Gerardo",
+        "apellidoPaterno": "Balderas",
+        "apellidoMaterno": "Soto",
+        "celular": "8713446944",
+        "telefono": "8712963651",
+        "mail": "gbalderas@clinicadent.com",
+        "vendedor": "DentLab",
+        "nota": "N/A",
+        "clinica": "DENT LAB",
+        "direccion": "Consultorio Registrado DentLab",
+        "calle": "",
+        "colonia": "",
+        "numExt": "",
+        "cp": "",
+        "contacto": "",
+        "contactoTel": "",
+        "contactoMail": "",
+        "facebook": "",
+        "twitter": "",
+        "instagram": "",
+        "tipo": "INTERNO",
+        "activo": true,
+        "externo": false,
+        "mesesSinPaquete": 0
+    },
+    {
+        "id": 59,
+        "codigo": "DOC-59",
+        "nombre": "Dr. José Antonio Alatorre Serna",
+        "doctorCorto": "Dr. José Antonio",
+        "apellidoPaterno": "Alatorre",
+        "apellidoMaterno": "Serna",
+        "celular": "8712963651",
+        "telefono": "8712963651",
+        "mail": "clinicadent2011@hotmail.com",
+        "vendedor": "Jose Diosdado",
+        "nota": "N/A",
+        "clinica": "Torreón",
+        "direccion": "Consultorio Registrado DentLab",
+        "calle": "",
+        "colonia": "",
+        "numExt": "",
+        "cp": "",
+        "contacto": "",
+        "contactoTel": "",
+        "contactoMail": "",
+        "facebook": "",
+        "twitter": "",
+        "instagram": "",
+        "tipo": "INTERNO",
+        "activo": true,
+        "externo": false,
+        "mesesSinPaquete": 0
+    },
+    {
+        "id": 60,
+        "codigo": "DOC-60",
+        "nombre": "José Alejandro Rubio Mendoza",
+        "doctorCorto": "José Alejandro",
+        "apellidoPaterno": "Rubio",
+        "apellidoMaterno": "Mendoza",
+        "celular": "8715848317",
+        "telefono": "N/A",
+        "mail": "alejandro.rub.men@gmail.com",
+        "vendedor": "DentLab",
+        "nota": "N/A",
+        "clinica": "DENT LAB",
+        "direccion": "Consultorio Registrado DentLab",
+        "calle": "",
+        "colonia": "",
+        "numExt": "",
+        "cp": "",
+        "contacto": "",
+        "contactoTel": "",
+        "contactoMail": "",
+        "facebook": "",
+        "twitter": "",
+        "instagram": "",
+        "tipo": "EXTERNO",
+        "activo": true,
+        "externo": true,
+        "mesesSinPaquete": 0
+    },
+    {
+        "id": 61,
+        "codigo": "DOC-61",
+        "nombre": "Dra. Vianeid Sifuentes Dorado",
+        "doctorCorto": "Dra. Vianeid",
+        "apellidoPaterno": "Sifuentes",
+        "apellidoMaterno": "Dorado",
+        "celular": "8711377792",
+        "telefono": "8717508620",
+        "mail": "vsifuentes@clinicadent",
+        "vendedor": "DentLab",
+        "nota": "N/A",
+        "clinica": "DENT LAB",
+        "direccion": "Consultorio Registrado DentLab",
+        "calle": "",
+        "colonia": "",
+        "numExt": "",
+        "cp": "",
+        "contacto": "",
+        "contactoTel": "",
+        "contactoMail": "",
+        "facebook": "",
+        "twitter": "",
+        "instagram": "",
+        "tipo": "INTERNO",
+        "activo": true,
+        "externo": false,
+        "mesesSinPaquete": 0
+    },
+    {
+        "id": 62,
+        "codigo": "DOC-62",
+        "nombre": "Gustavo Jauckens Petisco",
+        "doctorCorto": "Gustavo",
+        "apellidoPaterno": "Jauckens",
+        "apellidoMaterno": "Petisco",
+        "celular": "2222098323",
+        "telefono": "N/A",
+        "mail": "tavojauckens@hotmail.com",
+        "vendedor": "DentLab",
+        "nota": "N/A",
+        "clinica": "DENT LAB",
+        "direccion": "Consultorio Registrado DentLab",
+        "calle": "",
+        "colonia": "",
+        "numExt": "",
+        "cp": "",
+        "contacto": "",
+        "contactoTel": "",
+        "contactoMail": "",
+        "facebook": "",
+        "twitter": "",
+        "instagram": "",
+        "tipo": "EXTERNO",
+        "activo": true,
+        "externo": true,
+        "mesesSinPaquete": 0
+    },
+    {
+        "id": 63,
+        "codigo": "DOC-63",
+        "nombre": "Dra. Andrea Stephanie  Montañez Perez",
+        "doctorCorto": "Dra. Andrea Stephanie",
+        "apellidoPaterno": "Montañez",
+        "apellidoMaterno": "Perez",
+        "celular": "8711784156",
+        "telefono": "8711784156",
+        "mail": "andstemonper@gmail.com",
+        "vendedor": "Jose Diosdado",
+        "nota": "N/A",
+        "clinica": "Torreón",
+        "direccion": "Consultorio Registrado DentLab",
+        "calle": "",
+        "colonia": "",
+        "numExt": "",
+        "cp": "",
+        "contacto": "",
+        "contactoTel": "",
+        "contactoMail": "",
+        "facebook": "",
+        "twitter": "",
+        "instagram": "",
+        "tipo": "EXTERNO",
+        "activo": true,
+        "externo": true,
+        "mesesSinPaquete": 0
+    },
+    {
+        "id": 64,
+        "codigo": "DOC-64",
+        "nombre": "Dra. Leslie Ruiz  Lopez",
+        "doctorCorto": "Dra. Leslie",
+        "apellidoPaterno": "Ruiz",
+        "apellidoMaterno": "Lopez",
+        "celular": "8711868403",
+        "telefono": "N/A",
+        "mail": "leslie_rul@hotmail.com",
+        "vendedor": "Jose Diosdado",
+        "nota": "N/A",
+        "clinica": "Torreón",
+        "direccion": "Consultorio Registrado DentLab",
+        "calle": "",
+        "colonia": "",
+        "numExt": "",
+        "cp": "",
+        "contacto": "",
+        "contactoTel": "",
+        "contactoMail": "",
+        "facebook": "",
+        "twitter": "",
+        "instagram": "",
+        "tipo": "EXTERNO",
+        "activo": true,
+        "externo": true,
+        "mesesSinPaquete": 0
+    },
+    {
+        "id": 65,
+        "codigo": "DOC-65",
+        "nombre": "Dr. Yeudiel Alejandro Anzures  Gutiérrez",
+        "doctorCorto": "Dr. Yeudiel Alejandro",
+        "apellidoPaterno": "Anzures",
+        "apellidoMaterno": "Gutiérrez",
+        "celular": "8714805968",
+        "telefono": "N/A",
+        "mail": "yanzuresgutierrez25@gmail.com",
+        "vendedor": "DentLab",
+        "nota": "N/A",
+        "clinica": "DENT LAB",
+        "direccion": "Consultorio Registrado DentLab",
+        "calle": "",
+        "colonia": "",
+        "numExt": "",
+        "cp": "",
+        "contacto": "",
+        "contactoTel": "",
+        "contactoMail": "",
+        "facebook": "",
+        "twitter": "",
+        "instagram": "",
+        "tipo": "EXTERNO",
+        "activo": true,
+        "externo": true,
+        "mesesSinPaquete": 0
+    },
+    {
+        "id": 70,
+        "codigo": "DOC-70",
+        "nombre": "Gabriela  Castañeda  Rey",
+        "doctorCorto": "Gabriela",
+        "apellidoPaterno": "Castañeda",
+        "apellidoMaterno": "Rey",
+        "celular": "8714067983",
+        "telefono": "N/A",
+        "mail": "Gabrielacast1@icloud.com",
+        "vendedor": "DentLab",
+        "nota": "N/A",
+        "clinica": "DENT LAB",
+        "direccion": "Consultorio Registrado DentLab",
+        "calle": "",
+        "colonia": "",
+        "numExt": "",
+        "cp": "",
+        "contacto": "",
+        "contactoTel": "",
+        "contactoMail": "",
+        "facebook": "",
+        "twitter": "",
+        "instagram": "",
+        "tipo": "EXTERNO",
+        "activo": true,
+        "externo": true,
+        "mesesSinPaquete": 0
+    },
+    {
+        "id": 71,
+        "codigo": "DOC-71",
+        "nombre": "Dra. Selena Marlen  Cabrera  Barajas",
+        "doctorCorto": "Dra. Selena Marlen",
+        "apellidoPaterno": "Cabrera",
+        "apellidoMaterno": "Barajas",
+        "celular": "8714800682",
+        "telefono": "8714800682",
+        "mail": "bracketline.nutri@gmail.com",
+        "vendedor": "Jose Diosdado",
+        "nota": "N/A",
+        "clinica": "Bracketline",
+        "direccion": "Bracketline",
+        "calle": "",
+        "colonia": "",
+        "numExt": "",
+        "cp": "",
+        "contacto": "",
+        "contactoTel": "",
+        "contactoMail": "",
+        "facebook": "",
+        "twitter": "",
+        "instagram": "",
+        "tipo": "EXTERNO",
+        "activo": true,
+        "externo": true,
+        "mesesSinPaquete": 0
+    },
+    {
+        "id": 72,
+        "codigo": "DOC-72",
+        "nombre": "Dra. Nancy Edith  Emiliano  Blanco",
+        "doctorCorto": "Dra. Nancy Edith",
+        "apellidoPaterno": "Emiliano",
+        "apellidoMaterno": "Blanco",
+        "celular": "8711276856",
+        "telefono": "8711276856",
+        "mail": "dranancyblanco@gmail.com",
+        "vendedor": "Jose Diosdado",
+        "nota": "N/A",
+        "clinica": "Torreón",
+        "direccion": "Consultorio Registrado DentLab",
+        "calle": "",
+        "colonia": "",
+        "numExt": "",
+        "cp": "",
+        "contacto": "",
+        "contactoTel": "",
+        "contactoMail": "",
+        "facebook": "",
+        "twitter": "",
+        "instagram": "",
+        "tipo": "EXTERNO",
+        "activo": true,
+        "externo": true,
+        "mesesSinPaquete": 0
+    },
+    {
+        "id": 73,
+        "codigo": "DOC-73",
+        "nombre": "Dr. Carlos Enrique Pirck Ramirez",
+        "doctorCorto": "Dr. Carlos Enrique",
+        "apellidoPaterno": "Pirck",
+        "apellidoMaterno": "Ramirez",
+        "celular": "8180862723",
+        "telefono": "8180862723",
+        "mail": "inesoalab@gmail.com",
+        "vendedor": "Jose Alatorre",
+        "nota": "N/A",
+        "clinica": "Torreón",
+        "direccion": "Consultorio Registrado DentLab",
+        "calle": "",
+        "colonia": "",
+        "numExt": "",
+        "cp": "",
+        "contacto": "",
+        "contactoTel": "",
+        "contactoMail": "",
+        "facebook": "",
+        "twitter": "",
+        "instagram": "",
+        "tipo": "EXTERNO",
+        "activo": true,
+        "externo": true,
+        "mesesSinPaquete": 0
+    },
+    {
+        "id": 74,
+        "codigo": "DOC-74",
+        "nombre": "Dr. Omar Meléndez  Avila",
+        "doctorCorto": "Dr. Omar",
+        "apellidoPaterno": "Meléndez",
+        "apellidoMaterno": "Avila",
+        "celular": "8714803100",
+        "telefono": "8714803100",
+        "mail": "omelendez@clinicadent.com",
+        "vendedor": "Jose Diosdado",
+        "nota": "N/A",
+        "clinica": "Torreón",
+        "direccion": "Consultorio Registrado DentLab",
+        "calle": "",
+        "colonia": "",
+        "numExt": "",
+        "cp": "",
+        "contacto": "",
+        "contactoTel": "",
+        "contactoMail": "",
+        "facebook": "",
+        "twitter": "",
+        "instagram": "",
+        "tipo": "EXTERNO",
+        "activo": true,
+        "externo": true,
+        "mesesSinPaquete": 0
+    },
+    {
+        "id": 75,
+        "codigo": "DOC-75",
+        "nombre": "Dr. Alejandro Arevalo Santana",
+        "doctorCorto": "Dr. Alejandro",
+        "apellidoPaterno": "Arevalo",
+        "apellidoMaterno": "Santana",
+        "celular": "8180862723",
+        "telefono": "8180862723",
+        "mail": "alejandroarevalo41@gmail.com",
+        "vendedor": "Hector Minila",
+        "nota": "N/A",
+        "clinica": "Monterrey",
+        "direccion": "Consultorio Registrado DentLab",
+        "calle": "",
+        "colonia": "",
+        "numExt": "",
+        "cp": "",
+        "contacto": "",
+        "contactoTel": "",
+        "contactoMail": "",
+        "facebook": "",
+        "twitter": "",
+        "instagram": "",
+        "tipo": "EXTERNO",
+        "activo": true,
+        "externo": true,
+        "mesesSinPaquete": 0
+    },
+    {
+        "id": 76,
+        "codigo": "DOC-76",
+        "nombre": "Dr. Carlos Ricardo  Nevarez Velazquez",
+        "doctorCorto": "Dr. Carlos Ricardo",
+        "apellidoPaterno": "Nevarez",
+        "apellidoMaterno": "Velazquez",
+        "celular": "8712213379",
+        "telefono": "8712213379",
+        "mail": "ricardo_nevel@hotmail.com",
+        "vendedor": "Jose Diosdado",
+        "nota": "N/A",
+        "clinica": "Torreón",
+        "direccion": "Consultorio Registrado DentLab",
+        "calle": "",
+        "colonia": "",
+        "numExt": "",
+        "cp": "",
+        "contacto": "",
+        "contactoTel": "",
+        "contactoMail": "",
+        "facebook": "",
+        "twitter": "",
+        "instagram": "",
+        "tipo": "EXTERNO",
+        "activo": true,
+        "externo": true,
+        "mesesSinPaquete": 0
+    },
+    {
+        "id": 77,
+        "codigo": "DOC-77",
+        "nombre": "Dr. Jorge Eduardo Torres Flores",
+        "doctorCorto": "Dr. Jorge Eduardo",
+        "apellidoPaterno": "Torres",
+        "apellidoMaterno": "Flores",
+        "celular": "8711786096",
+        "telefono": "N/A",
+        "mail": "jorgetorresfiscal@hotmail.com",
+        "vendedor": "DentLab",
+        "nota": "N/A",
+        "clinica": "DENT LAB",
+        "direccion": "Consultorio Registrado DentLab",
+        "calle": "",
+        "colonia": "",
+        "numExt": "",
+        "cp": "",
+        "contacto": "",
+        "contactoTel": "",
+        "contactoMail": "",
+        "facebook": "",
+        "twitter": "",
+        "instagram": "",
+        "tipo": "EXTERNO",
+        "activo": true,
+        "externo": true,
+        "mesesSinPaquete": 0
+    },
+    {
+        "id": 78,
+        "codigo": "DOC-78",
+        "nombre": "Dra. Claudia Angelica Olague Barraza",
+        "doctorCorto": "Dra. Claudia Angelica",
+        "apellidoPaterno": "Olague",
+        "apellidoMaterno": "Barraza",
+        "celular": "8711788802",
+        "telefono": "N/A",
+        "mail": "draclaudia_olague@hotmail.com",
+        "vendedor": "DentLab",
+        "nota": "N/A",
+        "clinica": "DENT LAB",
+        "direccion": "Consultorio Registrado DentLab",
+        "calle": "",
+        "colonia": "",
+        "numExt": "",
+        "cp": "",
+        "contacto": "",
+        "contactoTel": "",
+        "contactoMail": "",
+        "facebook": "",
+        "twitter": "",
+        "instagram": "",
+        "tipo": "EXTERNO",
+        "activo": true,
+        "externo": true,
+        "mesesSinPaquete": 0
+    },
+    {
+        "id": 79,
+        "codigo": "DOC-79",
+        "nombre": "Luis Alberto Puentes Ruiz",
+        "doctorCorto": "Luis Alberto",
+        "apellidoPaterno": "Puentes",
+        "apellidoMaterno": "Ruiz",
+        "celular": "8721089107",
+        "telefono": "N/A",
+        "mail": "luiispuentes@hotmail.com",
+        "vendedor": "DentLab",
+        "nota": "N/A",
+        "clinica": "DENT LAB",
+        "direccion": "Consultorio Registrado DentLab",
+        "calle": "",
+        "colonia": "",
+        "numExt": "",
+        "cp": "",
+        "contacto": "",
+        "contactoTel": "",
+        "contactoMail": "",
+        "facebook": "",
+        "twitter": "",
+        "instagram": "",
+        "tipo": "EXTERNO",
+        "activo": true,
+        "externo": true,
+        "mesesSinPaquete": 0
+    },
+    {
+        "id": 80,
+        "codigo": "DOC-80",
+        "nombre": "Dr. Oscar Gonzalez Velasco",
+        "doctorCorto": "Dr. Oscar",
+        "apellidoPaterno": "Gonzalez",
+        "apellidoMaterno": "Velasco",
+        "celular": "8114943945",
+        "telefono": "N/A",
+        "mail": "droscarcero@gmail.com",
+        "vendedor": "Hector Minila",
+        "nota": "N/A",
+        "clinica": "Monterrey",
+        "direccion": "Consultorio Registrado DentLab",
+        "calle": "",
+        "colonia": "",
+        "numExt": "",
+        "cp": "",
+        "contacto": "",
+        "contactoTel": "",
+        "contactoMail": "",
+        "facebook": "",
+        "twitter": "",
+        "instagram": "",
+        "tipo": "EXTERNO",
+        "activo": true,
+        "externo": true,
+        "mesesSinPaquete": 0
+    },
+    {
+        "id": 81,
+        "codigo": "DOC-81",
+        "nombre": "Luis Arturo Meza Robles",
+        "doctorCorto": "Luis Arturo",
+        "apellidoPaterno": "Meza",
+        "apellidoMaterno": "Robles",
+        "celular": "8711153175",
+        "telefono": "N/A",
+        "mail": "wichomeza@Hotmail.com",
+        "vendedor": "DentLab",
+        "nota": "N/A",
+        "clinica": "DENT LAB",
+        "direccion": "Consultorio Registrado DentLab",
+        "calle": "",
+        "colonia": "",
+        "numExt": "",
+        "cp": "",
+        "contacto": "",
+        "contactoTel": "",
+        "contactoMail": "",
+        "facebook": "",
+        "twitter": "",
+        "instagram": "",
+        "tipo": "EXTERNO",
+        "activo": true,
+        "externo": true,
+        "mesesSinPaquete": 0
+    },
+    {
+        "id": 82,
+        "codigo": "DOC-82",
+        "nombre": "Dr. Alan Noe Morones Machado",
+        "doctorCorto": "Dr. Alan Noe",
+        "apellidoPaterno": "Morones",
+        "apellidoMaterno": "Machado",
+        "celular": "8712125257",
+        "telefono": "N/A",
+        "mail": "alan_nmorones@hotmail.com",
+        "vendedor": "DentLab",
+        "nota": "N/A",
+        "clinica": "DENT LAB",
+        "direccion": "Consultorio Registrado DentLab",
+        "calle": "",
+        "colonia": "",
+        "numExt": "",
+        "cp": "",
+        "contacto": "",
+        "contactoTel": "",
+        "contactoMail": "",
+        "facebook": "",
+        "twitter": "",
+        "instagram": "",
+        "tipo": "EXTERNO",
+        "activo": true,
+        "externo": true,
+        "mesesSinPaquete": 0
+    },
+    {
+        "id": 83,
+        "codigo": "DOC-83",
+        "nombre": "Dr. Miguel Ángel  Hernandez  Montoya",
+        "doctorCorto": "Dr. Miguel Ángel",
+        "apellidoPaterno": "Hernandez",
+        "apellidoMaterno": "Montoya",
+        "celular": "8180823563",
+        "telefono": "N/A",
+        "mail": "oia.drmiguel@gmail.com",
+        "vendedor": "DentLab",
+        "nota": "N/A",
+        "clinica": "DENT LAB",
+        "direccion": "Consultorio Registrado DentLab",
+        "calle": "",
+        "colonia": "",
+        "numExt": "",
+        "cp": "",
+        "contacto": "",
+        "contactoTel": "",
+        "contactoMail": "",
+        "facebook": "",
+        "twitter": "",
+        "instagram": "",
+        "tipo": "EXTERNO",
+        "activo": true,
+        "externo": true,
+        "mesesSinPaquete": 0
+    },
+    {
+        "id": 84,
+        "codigo": "DOC-84",
+        "nombre": "Dra. Claudia  Gonzalez Ibarra",
+        "doctorCorto": "Dra. Claudia",
+        "apellidoPaterno": "Gonzalez",
+        "apellidoMaterno": "Ibarra",
+        "celular": "8110720262",
+        "telefono": "8110720262",
+        "mail": "cgonzalez@universidadinteramericana.edu.mx",
+        "vendedor": "Hector Minila",
+        "nota": "N/A",
+        "clinica": "Monterrey",
+        "direccion": "Consultorio Registrado DentLab",
+        "calle": "",
+        "colonia": "",
+        "numExt": "",
+        "cp": "",
+        "contacto": "",
+        "contactoTel": "",
+        "contactoMail": "",
+        "facebook": "",
+        "twitter": "",
+        "instagram": "",
+        "tipo": "EXTERNO",
+        "activo": true,
+        "externo": true,
+        "mesesSinPaquete": 0
+    }
+],
   doctoresTipos: [
     { id: 1, tipo: 'Especialista Prostodoncista', descuento: '15%', creditoDias: 30, estatus: true },
     { id: 2, tipo: 'Rehabilitadora Oral / Estética', descuento: '12%', creditoDias: 15, estatus: true },
@@ -140,10 +2189,307 @@ const DENT_STATE = {
     { id: 4, tipo: 'Odontólogo General', descuento: '5%', creditoDias: 7, estatus: true }
   ],
   paquetesDoctores: [
-    { folio: 'VTA-PAQ-88', doctor: 'Dr. Oscar Ramírez', paquete: 'Paquete 20 Coronas Zirconio Multicapa 3D', totalPiezas: 20, usadas: 12, disponibles: 8, saldo: '$0.00 (Liquidado)', fecha: '2026-08-15' },
-    { folio: 'VTA-PAQ-84', doctor: 'Dra. Brenda Solís', paquete: 'Paquete 10 Coronas Zirconio Monolítico', totalPiezas: 10, usadas: 7, disponibles: 3, saldo: '$0.00 (Liquidado)', fecha: '2026-09-02' },
-    { folio: 'VTA-PAQ-79', doctor: 'Dra. Fátima Sánchez', paquete: 'Paquete 10 Restauraciones E-Max Disilicato', totalPiezas: 10, usadas: 8, disponibles: 2, saldo: '$2,400.00 (Pendiente)', fecha: '2026-09-10' }
-  ],
+    {
+        "folio": "2254",
+        "doctorId": 73,
+        "doctor": "Dr. Carlos Enrique Pirck Ramirez",
+        "celular": "8180862723",
+        "email": "inesoalab@gmail.com",
+        "vendedor": "DentLab",
+        "paquete": "Paquete PAQ 35 UNIDADES Zirconio",
+        "totalPiezas": 35,
+        "usadas": 35,
+        "disponibles": 0,
+        "costo": "$29,500.00",
+        "saldo": "$0.00 (Liquidado)",
+        "fecha": "2025-02-10 15:52:06"
+    },
+    {
+        "folio": "2343",
+        "doctorId": 73,
+        "doctor": "Dr. Carlos Enrique Pirck Ramirez",
+        "celular": "8180862723",
+        "email": "inesoalab@gmail.com",
+        "vendedor": "DentLab",
+        "paquete": "Paquete PAQ 35 UNIDADES Zirconio",
+        "totalPiezas": 35,
+        "usadas": 35,
+        "disponibles": 0,
+        "costo": "$29,500.00",
+        "saldo": "$0.00 (Liquidado)",
+        "fecha": "2025-03-28 09:36:44"
+    },
+    {
+        "folio": "2397",
+        "doctorId": 73,
+        "doctor": "Dr. Carlos Enrique Pirck Ramirez",
+        "celular": "8180862723",
+        "email": "inesoalab@gmail.com",
+        "vendedor": "DentLab",
+        "paquete": "Paquete PAQ 35 UNIDADES Zirconio",
+        "totalPiezas": 35,
+        "usadas": 35,
+        "disponibles": 0,
+        "costo": "$29,500.00",
+        "saldo": "$0.00 (Liquidado)",
+        "fecha": "2025-05-03 09:57:56"
+    },
+    {
+        "folio": "2424",
+        "doctorId": 73,
+        "doctor": "Dr. Carlos Enrique Pirck Ramirez",
+        "celular": "8180862723",
+        "email": "inesoalab@gmail.com",
+        "vendedor": "DentLab",
+        "paquete": "Paquete PAQ 35 UNIDADES Zirconio",
+        "totalPiezas": 35,
+        "usadas": 35,
+        "disponibles": 0,
+        "costo": "$29,500.00",
+        "saldo": "$0.00 (Liquidado)",
+        "fecha": "2025-05-23 16:30:03"
+    },
+    {
+        "folio": "2524",
+        "doctorId": 73,
+        "doctor": "Dr. Carlos Enrique Pirck Ramirez",
+        "celular": "8180862723",
+        "email": "inesoalab@gmail.com",
+        "vendedor": "DentLab",
+        "paquete": "Paquete PAQ 35 UNIDADES Zirconio",
+        "totalPiezas": 35,
+        "usadas": 35,
+        "disponibles": 0,
+        "costo": "$29,500.00",
+        "saldo": "$0.00 (Liquidado)",
+        "fecha": "2025-07-10 09:56:56"
+    },
+    {
+        "folio": "2632",
+        "doctorId": 73,
+        "doctor": "Dr. Carlos Enrique Pirck Ramirez",
+        "celular": "8180862723",
+        "email": "inesoalab@gmail.com",
+        "vendedor": "DentLab",
+        "paquete": "Paquete PAQ 35 UNIDADES Zirconio",
+        "totalPiezas": 35,
+        "usadas": 35,
+        "disponibles": 0,
+        "costo": "$29,500.00",
+        "saldo": "$0.00 (Liquidado)",
+        "fecha": "2025-09-05 15:40:32"
+    },
+    {
+        "folio": "2741",
+        "doctorId": 73,
+        "doctor": "Dr. Carlos Enrique Pirck Ramirez",
+        "celular": "8180862723",
+        "email": "inesoalab@gmail.com",
+        "vendedor": "DentLab",
+        "paquete": "Paquete PAQ 35 UNIDADES Zirconio",
+        "totalPiezas": 35,
+        "usadas": 35,
+        "disponibles": 0,
+        "costo": "$29,500.00",
+        "saldo": "$0.00 (Liquidado)",
+        "fecha": "2025-11-06 12:32:17"
+    },
+    {
+        "folio": "2782",
+        "doctorId": 73,
+        "doctor": "Dr. Carlos Enrique Pirck Ramirez",
+        "celular": "8180862723",
+        "email": "inesoalab@gmail.com",
+        "vendedor": "DentLab",
+        "paquete": "Paquete PAQ 35 UNIDADES Zirconio",
+        "totalPiezas": 35,
+        "usadas": 35,
+        "disponibles": 0,
+        "costo": "$29,500.00",
+        "saldo": "$0.00 (Liquidado)",
+        "fecha": "2025-11-28 15:33:18"
+    },
+    {
+        "folio": "2272",
+        "doctorId": 76,
+        "doctor": "Dr. Carlos Ricardo  Nevarez Velazquez",
+        "celular": "8712213379",
+        "email": "ricardo_nevel@hotmail.com",
+        "vendedor": "Jose Diosdado",
+        "paquete": "Paquete PAQ 50 UNIDADES Zirconio",
+        "totalPiezas": 50,
+        "usadas": 50,
+        "disponibles": 0,
+        "costo": "$40,000.00",
+        "saldo": "$0.00 (Liquidado)",
+        "fecha": "2025-02-20 10:35:56"
+    },
+    {
+        "folio": "2291",
+        "doctorId": 76,
+        "doctor": "Dr. Carlos Ricardo  Nevarez Velazquez",
+        "celular": "8712213379",
+        "email": "ricardo_nevel@hotmail.com",
+        "vendedor": "Jose Diosdado",
+        "paquete": "Paquete PAQ 15 UNIDADES Zirconio",
+        "totalPiezas": 15,
+        "usadas": 15,
+        "disponibles": 0,
+        "costo": "$13,000.00",
+        "saldo": "$0.00 (Liquidado)",
+        "fecha": "2025-03-01 13:13:18"
+    },
+    {
+        "folio": "2575",
+        "doctorId": 76,
+        "doctor": "Dr. Carlos Ricardo  Nevarez Velazquez",
+        "celular": "8712213379",
+        "email": "ricardo_nevel@hotmail.com",
+        "vendedor": "Jose Diosdado",
+        "paquete": "Paquete PAQ 50 UNIDADES Zirconio",
+        "totalPiezas": 50,
+        "usadas": 50,
+        "disponibles": 0,
+        "costo": "$40,000.00",
+        "saldo": "$0.00 (Liquidado)",
+        "fecha": "2025-08-06 18:29:06"
+    },
+    {
+        "folio": "2734",
+        "doctorId": 76,
+        "doctor": "Dr. Carlos Ricardo  Nevarez Velazquez",
+        "celular": "8712213379",
+        "email": "ricardo_nevel@hotmail.com",
+        "vendedor": "Jose Diosdado",
+        "paquete": "Paquete PAQ 50 UNIDADES Zirconio",
+        "totalPiezas": 50,
+        "usadas": 50,
+        "disponibles": 0,
+        "costo": "$40,000.00",
+        "saldo": "$0.00 (Liquidado)",
+        "fecha": "2025-10-31 11:52:04"
+    },
+    {
+        "folio": "3061",
+        "doctorId": 76,
+        "doctor": "Dr. Carlos Ricardo  Nevarez Velazquez",
+        "celular": "8712213379",
+        "email": "ricardo_nevel@hotmail.com",
+        "vendedor": "Jose Diosdado",
+        "paquete": "Paquete PAQ 50 UNIDADES Zirconio",
+        "totalPiezas": 50,
+        "usadas": 48,
+        "disponibles": 2,
+        "costo": "$40,000.00",
+        "saldo": "$0.00 (Liquidado)",
+        "fecha": "2026-05-21 12:06:27"
+    },
+    {
+        "folio": "2208",
+        "doctorId": 86,
+        "doctor": "Dr. Isai Mares Morales",
+        "celular": "8661647590",
+        "email": "imagendental80@hotmail.com",
+        "vendedor": "DentLab",
+        "paquete": "Paquete PAQ 7 UNIDADES Zirconio",
+        "totalPiezas": 7,
+        "usadas": 7,
+        "disponibles": 0,
+        "costo": "$6,500.00",
+        "saldo": "$0.00 (Liquidado)",
+        "fecha": "2025-01-15 18:04:54"
+    },
+    {
+        "folio": "2261",
+        "doctorId": 86,
+        "doctor": "Dr. Isai Mares Morales",
+        "celular": "8661647590",
+        "email": "imagendental80@hotmail.com",
+        "vendedor": "DentLab",
+        "paquete": "Paquete PAQ 15 UNIDADES Zirconio",
+        "totalPiezas": 15,
+        "usadas": 15,
+        "disponibles": 0,
+        "costo": "$13,000.00",
+        "saldo": "$0.00 (Liquidado)",
+        "fecha": "2025-02-12 12:02:21"
+    },
+    {
+        "folio": "2280",
+        "doctorId": 86,
+        "doctor": "Dr. Isai Mares Morales",
+        "celular": "8661647590",
+        "email": "imagendental80@hotmail.com",
+        "vendedor": "DentLab",
+        "paquete": "Paquete PAQ 15 UNIDADES Zirconio",
+        "totalPiezas": 15,
+        "usadas": 15,
+        "disponibles": 0,
+        "costo": "$13,000.00",
+        "saldo": "$0.00 (Liquidado)",
+        "fecha": "2025-02-22 11:31:46"
+    },
+    {
+        "folio": "2317",
+        "doctorId": 86,
+        "doctor": "Dr. Isai Mares Morales",
+        "celular": "8661647590",
+        "email": "imagendental80@hotmail.com",
+        "vendedor": "DentLab",
+        "paquete": "Paquete PAQ 15 UNIDADES Zirconio",
+        "totalPiezas": 15,
+        "usadas": 15,
+        "disponibles": 0,
+        "costo": "$13,000.00",
+        "saldo": "$0.00 (Liquidado)",
+        "fecha": "2025-03-18 07:36:41"
+    },
+    {
+        "folio": "2354",
+        "doctorId": 86,
+        "doctor": "Dr. Isai Mares Morales",
+        "celular": "8661647590",
+        "email": "imagendental80@hotmail.com",
+        "vendedor": "DentLab",
+        "paquete": "Paquete PAQ 7 UNIDADES Zirconio",
+        "totalPiezas": 7,
+        "usadas": 7,
+        "disponibles": 0,
+        "costo": "$6,500.00",
+        "saldo": "$0.00 (Liquidado)",
+        "fecha": "2025-04-03 10:42:48"
+    },
+    {
+        "folio": "2358",
+        "doctorId": 86,
+        "doctor": "Dr. Isai Mares Morales",
+        "celular": "8661647590",
+        "email": "imagendental80@hotmail.com",
+        "vendedor": "DentLab",
+        "paquete": "Paquete PAQ 7 UNIDADES Zirconio",
+        "totalPiezas": 7,
+        "usadas": 7,
+        "disponibles": 0,
+        "costo": "$6,500.00",
+        "saldo": "$0.00 (Liquidado)",
+        "fecha": "2025-04-07 10:20:59"
+    },
+    {
+        "folio": "2383",
+        "doctorId": 86,
+        "doctor": "Dr. Isai Mares Morales",
+        "celular": "8661647590",
+        "email": "imagendental80@hotmail.com",
+        "vendedor": "DentLab",
+        "paquete": "Paquete PAQ 15 UNIDADES Zirconio",
+        "totalPiezas": 15,
+        "usadas": 15,
+        "disponibles": 0,
+        "costo": "$13,000.00",
+        "saldo": "$0.00 (Liquidado)",
+        "fecha": "2025-04-22 18:43:05"
+    }
+],
 
   // 12. CATEGORÍAS (CategoriasT.php)
   categorias: [
@@ -168,19 +2514,311 @@ const DENT_STATE = {
     { id: 10, codigo: 'BLEACH 2', marca: 'VITA 3D-Master', equivalente: '0M2 Bright White', hex: '#faf8f5', principal: true, estatus: true }
   ],
 
-  // 14. VENDEDORES & USUARIOS
+  // 14. VENDEDORES & USUARIOS REALES DE DENT DEMO
   vendedores: [
-    { id: 'VEN-01', nombre: 'Lic. Roberto Garza', zona: 'Zona Valle / San Pedro', doctoresAsignados: 18, metaMensual: '$180,000', avance: '$164,500 (91%)', comision: '8%', estatus: true },
-    { id: 'VEN-02', nombre: 'Lic. Mariana Peña', zona: 'Zona Cumbres / Poniente', doctoresAsignados: 14, metaMensual: '$150,000', avance: '$142,000 (95%)', comision: '8%', estatus: true },
-    { id: 'VEN-03', nombre: 'Lic. Jorge Villarreal', zona: 'Zona Contry / Sur', doctoresAsignados: 11, metaMensual: '$120,000', avance: '$98,400 (82%)', comision: '7%', estatus: true }
-  ],
+    {
+        "id": "VEN-01",
+        "nombre": "",
+        "zona": "Comercial DentLab",
+        "doctoresAsignados": 15,
+        "metaMensual": "$150,000",
+        "avance": "$138,500 (92%)",
+        "comision": "8%",
+        "estatus": true
+    },
+    {
+        "id": "VEN-02",
+        "nombre": "",
+        "zona": "Comercial DentLab",
+        "doctoresAsignados": 12,
+        "metaMensual": "$150,000",
+        "avance": "$138,500 (92%)",
+        "comision": "8%",
+        "estatus": true
+    },
+    {
+        "id": "VEN-03",
+        "nombre": "",
+        "zona": "Comercial DentLab",
+        "doctoresAsignados": 9,
+        "metaMensual": "$150,000",
+        "avance": "$138,500 (92%)",
+        "comision": "8%",
+        "estatus": true
+    }
+],
   usuarios: [
-    { id: 1, usuario: 'user', nombre: 'Sebastián Salinas (Admin General)', correo: 'admin@dentlab.mx', perfil: 'Administrador', appEquipos: true, estatus: true },
-    { id: 2, usuario: 'd.rios', nombre: 'Lic. Daniel Ríos', correo: 'daniel.rios@dentlab.mx', perfil: 'Escaneador', appEquipos: true, estatus: true },
-    { id: 3, usuario: 'i.soto', nombre: 'Tec. Iván Soto', correo: 'ivan.soto@dentlab.mx', perfil: 'Diseñador CAD/CAM', appEquipos: false, estatus: true },
-    { id: 4, usuario: 'c.ruiz', nombre: 'Tec. Carla Ruiz', correo: 'carla.ruiz@dentlab.mx', perfil: 'Operador Fresado CNC', appEquipos: false, estatus: true },
-    { id: 5, usuario: 'recepcion', nombre: 'Lic. Valeria Gómez', correo: 'recepcion@dentclinic.mx', perfil: 'Recepción / Ventas', appEquipos: true, estatus: true }
-  ],
+    {
+        "id": null,
+        "usuario": "",
+        "nombre": "Admin",
+        "correo": "mhernandez@clinicadent.com",
+        "perfil": "",
+        "appEquipos": false,
+        "estatus": false
+    },
+    {
+        "id": null,
+        "usuario": "",
+        "nombre": "Luis",
+        "correo": "lmendoza@resosistemas.mx",
+        "perfil": "",
+        "appEquipos": false,
+        "estatus": false
+    },
+    {
+        "id": null,
+        "usuario": "",
+        "nombre": "Alejandro",
+        "correo": "cesargue444@gmail.com",
+        "perfil": "",
+        "appEquipos": false,
+        "estatus": false
+    },
+    {
+        "id": null,
+        "usuario": "",
+        "nombre": "Diana V.",
+        "correo": "diana@clinicadent.com",
+        "perfil": "",
+        "appEquipos": false,
+        "estatus": false
+    },
+    {
+        "id": null,
+        "usuario": "",
+        "nombre": "Dr. Oscar",
+        "correo": "ochavez@clinicadent.com",
+        "perfil": "",
+        "appEquipos": false,
+        "estatus": false
+    },
+    {
+        "id": null,
+        "usuario": "",
+        "nombre": "José D.",
+        "correo": "jdiosdado@dentlab.mx",
+        "perfil": "",
+        "appEquipos": false,
+        "estatus": false
+    },
+    {
+        "id": null,
+        "usuario": "",
+        "nombre": "Dr. Isaac",
+        "correo": "icamacho@clinicadent.com",
+        "perfil": "",
+        "appEquipos": false,
+        "estatus": false
+    },
+    {
+        "id": null,
+        "usuario": "",
+        "nombre": "Dr. Luis Gerardo",
+        "correo": "lgarellano@clinicadent.com",
+        "perfil": "",
+        "appEquipos": false,
+        "estatus": false
+    },
+    {
+        "id": null,
+        "usuario": "",
+        "nombre": "Miriam",
+        "correo": "miriam@c",
+        "perfil": "",
+        "appEquipos": false,
+        "estatus": false
+    },
+    {
+        "id": null,
+        "usuario": "",
+        "nombre": "Alondra",
+        "correo": "alondra@c",
+        "perfil": "",
+        "appEquipos": false,
+        "estatus": false
+    },
+    {
+        "id": null,
+        "usuario": "",
+        "nombre": "Fátima S. Dany",
+        "correo": "fatima@c",
+        "perfil": "",
+        "appEquipos": false,
+        "estatus": false
+    },
+    {
+        "id": null,
+        "usuario": "",
+        "nombre": "Lorena M.",
+        "correo": "Lorena@c",
+        "perfil": "",
+        "appEquipos": false,
+        "estatus": false
+    },
+    {
+        "id": null,
+        "usuario": "",
+        "nombre": "Luis C.",
+        "correo": "l@c",
+        "perfil": "",
+        "appEquipos": false,
+        "estatus": false
+    },
+    {
+        "id": null,
+        "usuario": "",
+        "nombre": "Arturo M.",
+        "correo": "arturo@c",
+        "perfil": "",
+        "appEquipos": false,
+        "estatus": false
+    },
+    {
+        "id": null,
+        "usuario": "",
+        "nombre": "Vianeid S.",
+        "correo": "Vianeid@d",
+        "perfil": "",
+        "appEquipos": false,
+        "estatus": false
+    },
+    {
+        "id": null,
+        "usuario": "",
+        "nombre": "Arely S.",
+        "correo": "Arely@c",
+        "perfil": "",
+        "appEquipos": false,
+        "estatus": false
+    },
+    {
+        "id": null,
+        "usuario": "",
+        "nombre": "Isabel D.",
+        "correo": "Isabel@c",
+        "perfil": "",
+        "appEquipos": false,
+        "estatus": false
+    },
+    {
+        "id": null,
+        "usuario": "",
+        "nombre": "Mauricio S.",
+        "correo": "Mauricio@c",
+        "perfil": "",
+        "appEquipos": false,
+        "estatus": false
+    },
+    {
+        "id": null,
+        "usuario": "",
+        "nombre": "Irene Martinez",
+        "correo": "imartinez@dentlab.mx",
+        "perfil": "",
+        "appEquipos": false,
+        "estatus": false
+    },
+    {
+        "id": null,
+        "usuario": "",
+        "nombre": "José",
+        "correo": "@dentlab.mx",
+        "perfil": "",
+        "appEquipos": false,
+        "estatus": false
+    },
+    {
+        "id": null,
+        "usuario": "",
+        "nombre": "Oscar",
+        "correo": "@dentlab.mx",
+        "perfil": "",
+        "appEquipos": false,
+        "estatus": false
+    },
+    {
+        "id": null,
+        "usuario": "",
+        "nombre": "Amy",
+        "correo": "@dentlab.mx",
+        "perfil": "",
+        "appEquipos": false,
+        "estatus": false
+    },
+    {
+        "id": null,
+        "usuario": "",
+        "nombre": "Jose Alatorre",
+        "correo": "jalatorre@dentlab.mx",
+        "perfil": "",
+        "appEquipos": false,
+        "estatus": false
+    },
+    {
+        "id": null,
+        "usuario": "",
+        "nombre": "Christos Vasilikostas",
+        "correo": "cvasilikostas@dentlab.mx",
+        "perfil": "",
+        "appEquipos": false,
+        "estatus": false
+    },
+    {
+        "id": null,
+        "usuario": "",
+        "nombre": "Luis Cervantes",
+        "correo": "lcervantes@dentlab.mx",
+        "perfil": "",
+        "appEquipos": false,
+        "estatus": false
+    },
+    {
+        "id": null,
+        "usuario": "",
+        "nombre": "Arturo Meza",
+        "correo": "ameza@dentlab.mx",
+        "perfil": "",
+        "appEquipos": false,
+        "estatus": false
+    },
+    {
+        "id": null,
+        "usuario": "",
+        "nombre": "Mauricio Sotomayor",
+        "correo": "msotomayor@dentlab.mx",
+        "perfil": "",
+        "appEquipos": false,
+        "estatus": false
+    },
+    {
+        "id": null,
+        "usuario": "",
+        "nombre": "Hector Minila",
+        "correo": "hminila@dentlab.mx",
+        "perfil": "",
+        "appEquipos": false,
+        "estatus": false
+    },
+    {
+        "id": null,
+        "usuario": "",
+        "nombre": "Jose Diosdado",
+        "correo": "jdiosdado@dentlab.mx",
+        "perfil": "",
+        "appEquipos": false,
+        "estatus": false
+    },
+    {
+        "id": null,
+        "usuario": "",
+        "nombre": "Carlos Esqueda",
+        "correo": "cesqueda@dentlab.mx",
+        "perfil": "",
+        "appEquipos": false,
+        "estatus": false
+    }
+],
 
   // 15. DENT SPA & DENT CLINIC (Empresas, Empleados, Encuestas, Productos Clínica, Ventas, Pacientes)
   empresas: [
@@ -2412,80 +5050,3195 @@ function submitUniversalModal(e) {
 }
 
 // ============================================================================
-// DATOS Y RENDERIZADO DE LAS 5 TABLAS DE INICIO (IDÉNTICO A DENT DEMO/index.php)
-// 1. TableEscaneo.php
-// 2. TableDiseno.php
-// 3. TableFabricacion.php
-// 4. TableEntrega.php
-// 5. TableOrdenes.php
+// DATOS Y RENDERIZADO DE LAS 5 TABLAS DE INICIO (100% SINCRONIZADO CON DENT DEMO)
+// 1. TableEscaneo.php (7 cols: OT, PROD, UNI, DOCTOR, SOLI, EST, REGISTRO)
+// 2. TableDiseno.php (5 cols: OT, PROD, UNI, DOCTOR, ENT)
+// 3. TableFabricacion.php (5 cols: OT, PROD, UNI, DOCTOR, ENT)
+// 4. TableEntrega.php (6 cols: OT, PROD, UNI, DOCTOR, ENT, EST)
+// 5. TableOrdenes.php (12 cols: ET, OT, DOC, FOLIO, ENTREGA, ESTADO, PRODUCTO, DOCTOR, PACIENTE, UNIDADES, LIB PROD, MONTO)
 // ============================================================================
 
 const INICIO_DATA = {
   escaneo: [
-    { ot: 1048, prod: 'Zirconio', uni: 2, doctor: 'Dr. Oscar Ramírez', soli: '2026-10-09', est: 'Escaneo', reg: '2026-10-07 09:15', interno: true, serie: 'OT-1048' },
-    { ot: 1047, prod: 'E-Max', uni: 1, doctor: 'Dra. Elena Torres', soli: '2026-10-09', est: 'Escaneo', reg: '2026-10-07 10:20', interno: false, serie: 'OT-1047' },
-    { ot: 1046, prod: 'Alinia', uni: 1, doctor: 'Dr. Mauricio Cárdenas', soli: '2026-10-10', est: 'Escaneo', reg: '2026-10-07 11:05', interno: false, serie: 'OT-1046' },
-    { ot: 1045, prod: 'Guarda', uni: 1, doctor: 'Dra. Sofía Méndez', soli: '2026-10-08', est: 'Escaneo', reg: '2026-10-07 12:30', interno: true, serie: 'OT-1045' },
-    { ot: 1044, prod: 'PMMA', uni: 3, doctor: 'Dr. Roberto Garza', soli: '2026-10-11', est: 'Escaneo', reg: '2026-10-07 13:10', interno: false, serie: 'OT-1044' }
-  ],
+    {
+        "ot": 30089,
+        "ordenId": 22075,
+        "prod": "Corona Zirconio",
+        "uni": 1,
+        "doctor": "DRA. DIANA ELIZABETH",
+        "doctorId": 583,
+        "soli": "2026-08-28",
+        "est": "Levantado",
+        "reg": "2026-08-24 20:56:34",
+        "interno": false,
+        "tipoDoctorExterno": 1,
+        "paquetes": "PAQ: 3189",
+        "serie": "30089"
+    },
+    {
+        "ot": 29921,
+        "ordenId": 21907,
+        "prod": "Corona Zirconio",
+        "uni": 1,
+        "doctor": "DRA. PATRICIA ELIZABETH",
+        "doctorId": 442,
+        "soli": "2026-08-19",
+        "est": "Levantado",
+        "reg": "2026-08-13 18:29:25",
+        "interno": false,
+        "tipoDoctorExterno": 1,
+        "paquetes": "PAQ: 3188",
+        "serie": "29921"
+    },
+    {
+        "ot": 26644,
+        "ordenId": 18632,
+        "prod": "Corona Zirconio",
+        "uni": 1,
+        "doctor": "DRA. PATRICIA ELIZABETH",
+        "doctorId": 442,
+        "soli": "2026-01-20",
+        "est": "Levantado",
+        "reg": "2026-01-16 14:14:40",
+        "interno": false,
+        "tipoDoctorExterno": 1,
+        "paquetes": "PAQ: 2730",
+        "serie": "26644"
+    },
+    {
+        "ot": 22932,
+        "ordenId": 14919,
+        "prod": "Corona Zirconio",
+        "uni": 1,
+        "doctor": "DRA. MARIA PAULA",
+        "doctorId": 315,
+        "soli": "2025-06-05",
+        "est": "Levantado",
+        "reg": "2025-06-02 17:54:55",
+        "interno": false,
+        "tipoDoctorExterno": 1,
+        "paquetes": "SIN PAQUETE",
+        "serie": "22932"
+    }
+],
   diseno: [
-    { ot: 1043, prod: 'Zirconio', uni: 1, doctor: 'Dr. Oscar Ramírez', soli: '2026-10-08', est: 'Diseño', reg: '2026-10-06 14:20', interno: true, serie: 'OT-1043' },
-    { ot: 1042, prod: 'E-Max', uni: 4, doctor: 'Dra. Elena Torres', soli: '2026-10-09', est: 'Diseño', reg: '2026-10-06 15:40', interno: false, serie: 'OT-1042' },
-    { ot: 1041, prod: 'Zirconio', uni: 3, doctor: 'Dr. Alejandro Silva', soli: '2026-10-08', est: 'Diseño', reg: '2026-10-06 16:10', interno: true, serie: 'OT-1041' },
-    { ot: 1040, prod: 'Híbrido', uni: 1, doctor: 'Dr. Mauricio Cárdenas', soli: '2026-10-09', est: 'Diseño', reg: '2026-10-06 17:00', interno: false, serie: 'OT-1040' },
-    { ot: 1039, prod: 'Metal', uni: 2, doctor: 'Dr. Roberto Garza', soli: '2026-10-10', est: 'Diseño', reg: '2026-10-06 18:15', interno: false, serie: 'OT-1039' }
-  ],
+    {
+        "ot": 30596,
+        "ordenId": 22582,
+        "prod": "Corona Zirconio",
+        "uni": 4,
+        "doctor": "DRA. BRENDA DEYANIRA",
+        "doctorId": 417,
+        "soli": "2026-09-28",
+        "est": "Diseño",
+        "reg": "2026-09-28",
+        "interno": true,
+        "tipoDoctorExterno": 0,
+        "paquetes": "SIN PAQUETE",
+        "serie": "30596"
+    },
+    {
+        "ot": 30595,
+        "ordenId": 22581,
+        "prod": "Carilla",
+        "uni": 1,
+        "doctor": "DR. ALBERTO ALFONSO",
+        "doctorId": 251,
+        "soli": "2026-09-28",
+        "est": "Diseño",
+        "reg": "2026-09-28",
+        "interno": true,
+        "tipoDoctorExterno": 0,
+        "paquetes": "SIN PAQUETE",
+        "serie": "30595"
+    },
+    {
+        "ot": 30594,
+        "ordenId": 22580,
+        "prod": "Corona Zirconio",
+        "uni": 16,
+        "doctor": "DR. ANA LAURA",
+        "doctorId": 56,
+        "soli": "2026-09-26",
+        "est": "Diseño",
+        "reg": "2026-09-26",
+        "interno": true,
+        "tipoDoctorExterno": 0,
+        "paquetes": "SIN PAQUETE",
+        "serie": "30594"
+    },
+    {
+        "ot": 30593,
+        "ordenId": 22579,
+        "prod": "Corona Zirconio",
+        "uni": 6,
+        "doctor": "DR. JOSE ANGEL",
+        "doctorId": 586,
+        "soli": "2026-10-01",
+        "est": "Diseño",
+        "reg": "2026-10-01",
+        "interno": false,
+        "tipoDoctorExterno": 1,
+        "paquetes": "PAQ: 3245",
+        "serie": "30593"
+    },
+    {
+        "ot": 30591,
+        "ordenId": 22577,
+        "prod": "Corona Zirconio",
+        "uni": 1,
+        "doctor": "JACQS",
+        "doctorId": 548,
+        "soli": "2026-09-26",
+        "est": "Diseño",
+        "reg": "2026-09-26",
+        "interno": true,
+        "tipoDoctorExterno": 0,
+        "paquetes": "SIN PAQUETE",
+        "serie": "30591"
+    },
+    {
+        "ot": 30589,
+        "ordenId": 22575,
+        "prod": "Corona Zirconio",
+        "uni": 6,
+        "doctor": "DR. ARTURO",
+        "doctorId": 125,
+        "soli": "2026-09-29",
+        "est": "Diseño",
+        "reg": "2026-09-29",
+        "interno": false,
+        "tipoDoctorExterno": 1,
+        "paquetes": "PAQ: 3227 / PAQ: 3242",
+        "serie": "30589"
+    },
+    {
+        "ot": 30584,
+        "ordenId": 22570,
+        "prod": "Corona Zirconio",
+        "uni": 1,
+        "doctor": "DR. MIGUEL ALAN",
+        "doctorId": 530,
+        "soli": "2026-09-30",
+        "est": "Diseño",
+        "reg": "2026-09-30",
+        "interno": false,
+        "tipoDoctorExterno": 1,
+        "paquetes": "PAQ: 3211",
+        "serie": "30584"
+    },
+    {
+        "ot": 30582,
+        "ordenId": 22568,
+        "prod": "Corona Zirconio",
+        "uni": 2,
+        "doctor": "DR. ISMAEL",
+        "doctorId": 184,
+        "soli": "2026-09-30",
+        "est": "Diseño",
+        "reg": "2026-09-30",
+        "interno": false,
+        "tipoDoctorExterno": 1,
+        "paquetes": "PAQ: 3167",
+        "serie": "30582"
+    },
+    {
+        "ot": 30569,
+        "ordenId": 22555,
+        "prod": "Corona Zirconio",
+        "uni": 1,
+        "doctor": "DRA. KARLA BEATRIZ",
+        "doctorId": 454,
+        "soli": "2026-09-30",
+        "est": "Diseño",
+        "reg": "2026-09-30",
+        "interno": false,
+        "tipoDoctorExterno": 1,
+        "paquetes": "PAQ: 3140",
+        "serie": "30569"
+    },
+    {
+        "ot": 30556,
+        "ordenId": 22542,
+        "prod": "Corona Zirconio",
+        "uni": 1,
+        "doctor": "DR. MARTIN ARGENIS",
+        "doctorId": 449,
+        "soli": "2026-09-27",
+        "est": "Diseño",
+        "reg": "2026-09-27",
+        "interno": false,
+        "tipoDoctorExterno": 1,
+        "paquetes": "SIN PAQUETE",
+        "serie": "30556"
+    },
+    {
+        "ot": 30548,
+        "ordenId": 22534,
+        "prod": "Corona Zirconio",
+        "uni": 1,
+        "doctor": "DRA. NORA PATRICIA",
+        "doctorId": 421,
+        "soli": "2026-09-28",
+        "est": "Diseño",
+        "reg": "2026-09-28",
+        "interno": false,
+        "tipoDoctorExterno": 1,
+        "paquetes": "PAQ: 2803",
+        "serie": "30548"
+    },
+    {
+        "ot": 30532,
+        "ordenId": 22518,
+        "prod": "Placa total zirconio",
+        "uni": 16,
+        "doctor": "DR. ISMAEL",
+        "doctorId": 184,
+        "soli": "2026-09-26",
+        "est": "Diseño",
+        "reg": "2026-09-26",
+        "interno": false,
+        "tipoDoctorExterno": 1,
+        "paquetes": "SIN PAQUETE",
+        "serie": "30532"
+    },
+    {
+        "ot": 30429,
+        "ordenId": 22415,
+        "prod": "Corona Zirconio",
+        "uni": 5,
+        "doctor": "DRA. ELIDA LIZETH",
+        "doctorId": 304,
+        "soli": "2026-09-21",
+        "est": "Diseño",
+        "reg": "2026-09-21",
+        "interno": false,
+        "tipoDoctorExterno": 1,
+        "paquetes": "PAQ: 3158",
+        "serie": "30429"
+    },
+    {
+        "ot": 30399,
+        "ordenId": 22385,
+        "prod": "Carilla",
+        "uni": 2,
+        "doctor": "DR. JORGE ALBERTO",
+        "doctorId": 310,
+        "soli": "2026-09-15",
+        "est": "Diseño",
+        "reg": "2026-09-15",
+        "interno": false,
+        "tipoDoctorExterno": 1,
+        "paquetes": "PAQ: 3220",
+        "serie": "30399"
+    },
+    {
+        "ot": 30373,
+        "ordenId": 22359,
+        "prod": "Corona Zirconio",
+        "uni": 5,
+        "doctor": "DRA. CLAUDIA LIZETH",
+        "doctorId": 453,
+        "soli": "2026-09-16",
+        "est": "Diseño",
+        "reg": "2026-09-16",
+        "interno": false,
+        "tipoDoctorExterno": 1,
+        "paquetes": "PAQ: 3125",
+        "serie": "30373"
+    },
+    {
+        "ot": 28329,
+        "ordenId": 20314,
+        "prod": "Corona Zirconio",
+        "uni": 2,
+        "doctor": "DR. MIGUEL ALAN",
+        "doctorId": 530,
+        "soli": "2026-05-12",
+        "est": "Diseño",
+        "reg": "2026-05-12",
+        "interno": false,
+        "tipoDoctorExterno": 1,
+        "paquetes": "PAQ: 2976",
+        "serie": "28329"
+    },
+    {
+        "ot": 25662,
+        "ordenId": 17650,
+        "prod": "Corona Zirconio",
+        "uni": 4,
+        "doctor": "DRA. NAYELI",
+        "doctorId": 405,
+        "soli": "2025-11-18",
+        "est": "Diseño",
+        "reg": "2025-11-18",
+        "interno": false,
+        "tipoDoctorExterno": 1,
+        "paquetes": "PAQ: 2735",
+        "serie": "25662"
+    },
+    {
+        "ot": 22648,
+        "ordenId": 14635,
+        "prod": "Corona Zirconio",
+        "uni": 1,
+        "doctor": "DRA. NEIRA JAEL",
+        "doctorId": 441,
+        "soli": "2025-05-20",
+        "est": "Diseño",
+        "reg": "2025-05-20",
+        "interno": false,
+        "tipoDoctorExterno": 1,
+        "paquetes": "PAQ: 2407",
+        "serie": "22648"
+    }
+],
   fabricacion: [
-    { ot: 1038, prod: 'Zirconio', uni: 3, doctor: 'Dr. Mauricio Cárdenas', soli: '2026-10-07', est: 'Fresado', reg: '2026-10-05 09:30', interno: false, serie: 'OT-1038' },
-    { ot: 1037, prod: 'Guarda', uni: 1, doctor: 'Dra. Sofía Méndez', soli: '2026-10-07', est: 'Impresión 3D', reg: '2026-10-05 11:20', interno: true, serie: 'OT-1037' },
-    { ot: 1036, prod: 'Zirconio', uni: 2, doctor: 'Dr. Oscar Ramírez', soli: '2026-10-08', est: 'Sinterizado', reg: '2026-10-05 12:45', interno: true, serie: 'OT-1036' },
-    { ot: 1035, prod: 'E-Max', uni: 1, doctor: 'Dra. Elena Torres', soli: '2026-10-08', est: 'Glaseado', reg: '2026-10-05 16:00', interno: false, serie: 'OT-1035' }
-  ],
-  entrega: [
-    { ot: 1034, prod: 'PMMA', uni: 6, doctor: 'Dr. Roberto Garza', soli: '2026-10-07', est: 'Terminado', reg: '2026-10-04 10:00', interno: false, serie: 'OT-1034' },
-    { ot: 1033, prod: 'Zirconio', uni: 1, doctor: 'Dr. Oscar Ramírez', soli: '2026-10-07', est: 'Listo Entrega', reg: '2026-10-04 11:30', interno: true, serie: 'OT-1033' },
-    { ot: 1032, prod: 'Alinia', uni: 2, doctor: 'Dra. Sofía Méndez', soli: '2026-10-07', est: 'En Ruta', reg: '2026-10-04 14:15', interno: true, serie: 'OT-1032' },
-    { ot: 1031, prod: 'E-Max', uni: 2, doctor: 'Dra. Elena Torres', soli: '2026-10-07', est: 'Listo Entrega', reg: '2026-10-04 16:50', interno: false, serie: 'OT-1031' }
-  ],
+    {
+        "ot": 30592,
+        "ordenId": 22578,
+        "prod": "Corona Zirconio",
+        "uni": 28,
+        "doctor": "DRA. BRENDA DEYANIRA",
+        "doctorId": 417,
+        "soli": "2026-09-26",
+        "est": "Fabricación",
+        "reg": "2026-09-26",
+        "interno": true,
+        "tipoDoctorExterno": 0,
+        "paquetes": "SIN PAQUETE",
+        "serie": "30592"
+    },
+    {
+        "ot": 30590,
+        "ordenId": 22576,
+        "prod": "Guarda Calibre.60",
+        "uni": 1,
+        "doctor": "DRA. YESSICA",
+        "doctorId": 214,
+        "soli": "2026-09-29",
+        "est": "Fabricación",
+        "reg": "2026-09-29",
+        "interno": true,
+        "tipoDoctorExterno": 0,
+        "paquetes": "SIN PAQUETE",
+        "serie": "30590"
+    },
+    {
+        "ot": 30583,
+        "ordenId": 22569,
+        "prod": "Corona Zirconio",
+        "uni": 1,
+        "doctor": "DR. CARLOS ALBERTO",
+        "doctorId": 399,
+        "soli": "2026-09-28",
+        "est": "Fabricación",
+        "reg": "2026-09-28",
+        "interno": false,
+        "tipoDoctorExterno": 1,
+        "paquetes": "PAQ: 3225",
+        "serie": "30583"
+    },
+    {
+        "ot": 30580,
+        "ordenId": 22566,
+        "prod": "Corona Zirconio",
+        "uni": 6,
+        "doctor": "DRA. IRMA ALEJANDRA",
+        "doctorId": 177,
+        "soli": "2026-09-28",
+        "est": "Fabricación",
+        "reg": "2026-09-28",
+        "interno": false,
+        "tipoDoctorExterno": 1,
+        "paquetes": "PAQ: 3240",
+        "serie": "30580"
+    },
+    {
+        "ot": 30579,
+        "ordenId": 22565,
+        "prod": "Corona Zirconio",
+        "uni": 1,
+        "doctor": "DR. FRANCISCO ALEJANDRO",
+        "doctorId": 85,
+        "soli": "2026-09-28",
+        "est": "Fabricación",
+        "reg": "2026-09-28",
+        "interno": false,
+        "tipoDoctorExterno": 1,
+        "paquetes": "PAQ: 3150",
+        "serie": "30579"
+    },
+    {
+        "ot": 30578,
+        "ordenId": 22564,
+        "prod": "Corona Zirconio",
+        "uni": 1,
+        "doctor": "DR. FRANCISCO ALEJANDRO",
+        "doctorId": 85,
+        "soli": "2026-09-28",
+        "est": "Fabricación",
+        "reg": "2026-09-28",
+        "interno": false,
+        "tipoDoctorExterno": 1,
+        "paquetes": "PAQ: 3150",
+        "serie": "30578"
+    },
+    {
+        "ot": 30540,
+        "ordenId": 22526,
+        "prod": "Corona Zirconio",
+        "uni": 1,
+        "doctor": "DRA. NAYELI",
+        "doctorId": 405,
+        "soli": "2026-09-28",
+        "est": "Fabricación",
+        "reg": "2026-09-28",
+        "interno": false,
+        "tipoDoctorExterno": 1,
+        "paquetes": "PAQ: 3162",
+        "serie": "30540"
+    }
+],
+  entrega: [],
   ordenes: [
-    { ot: 1048, folio: 'ORD-26-1048', entrega: '2026-10-09', estado: 'Escaneo', producto: 'Corona Monolítica Zirconio', doctor: 'Dr. Oscar Ramírez', paciente: 'María Fernanda Soto', unidades: 2, libProd: '2026-10-07 09:15', monto: '$3,700.00', serie: 'OT-1048', color: 'Vita A2', piezas: ['14','15'] },
-    { ot: 1047, folio: 'ORD-26-1047', entrega: '2026-10-09', estado: 'Escaneo', producto: 'Incrustación Inlay/Onlay E-Max', doctor: 'Dra. Elena Torres', paciente: 'Carlos Alberto Ruiz', unidades: 1, libProd: '2026-10-07 10:20', monto: '$2,400.00', serie: 'OT-1047', color: 'Vita B1', piezas: ['46'] },
-    { ot: 1046, folio: 'ORD-26-1046', entrega: '2026-10-10', estado: 'Escaneo', producto: 'Alineador Invisible Alinia', doctor: 'Dr. Mauricio Cárdenas', paciente: 'Gabriela Espinoza', unidades: 1, libProd: '2026-10-07 11:05', monto: '$4,200.00', serie: 'OT-1046', color: 'Clear', piezas: ['11','21'] },
-    { ot: 1045, folio: 'ORD-26-1045', entrega: '2026-10-08', estado: 'Escaneo', producto: 'Guarda Oclusal Termoformada', doctor: 'Dra. Sofía Méndez', paciente: 'Ana Paulina Vega', unidades: 1, libProd: '2026-10-07 12:30', monto: '$1,250.00', serie: 'OT-1045', color: 'Transparente', piezas: ['11','21'] },
-    { ot: 1044, folio: 'ORD-26-1044', entrega: '2026-10-11', estado: 'Escaneo', producto: 'Provisional PMMA Multicapa', doctor: 'Dr. Roberto Garza', paciente: 'Jorge Luis Pineda', unidades: 3, libProd: '2026-10-07 13:10', monto: '$1,950.00', serie: 'OT-1044', color: 'Vita A2', piezas: ['23','24','25'] },
-    { ot: 1043, folio: 'ORD-26-1043', entrega: '2026-10-08', estado: 'Diseño', producto: 'Corona Zirconio Estratificada', doctor: 'Dr. Oscar Ramírez', paciente: 'Rodrigo Villarreal', unidades: 1, libProd: '2026-10-06 14:20', monto: '$1,950.00', serie: 'OT-1043', color: 'Vita A1', piezas: ['11'] },
-    { ot: 1042, folio: 'ORD-26-1042', entrega: '2026-10-09', estado: 'Diseño', producto: 'Carillas Disilicato E-Max', doctor: 'Dra. Elena Torres', paciente: 'Valeria Lozano Garza', unidades: 4, libProd: '2026-10-06 15:40', monto: '$9,600.00', serie: 'OT-1042', color: 'Bleach BL2', piezas: ['12','11','21','22'] },
-    { ot: 1041, folio: 'ORD-26-1041', entrega: '2026-10-08', estado: 'Diseño', producto: 'Corona sobre Implante Ti-Base', doctor: 'Dr. Alejandro Silva', paciente: 'Lucía Morales Castro', unidades: 3, libProd: '2026-10-06 16:10', monto: '$7,200.00', serie: 'OT-1041', color: 'Vita A2', piezas: ['16','26','36'] },
-    { ot: 1040, folio: 'ORD-26-1040', entrega: '2026-10-09', estado: 'Diseño', producto: 'Incrustación Cerámica Híbrida', doctor: 'Dr. Mauricio Cárdenas', paciente: 'Daniela Cantú', unidades: 1, libProd: '2026-10-06 17:00', monto: '$2,100.00', serie: 'OT-1040', color: 'Vita A3', piezas: ['36'] },
-    { ot: 1039, folio: 'ORD-26-1039', entrega: '2026-10-10', estado: 'Diseño', producto: 'Metal Porcelana Estratificada', doctor: 'Dr. Roberto Garza', paciente: 'Héctor Valdés', unidades: 2, libProd: '2026-10-06 18:15', monto: '$2,900.00', serie: 'OT-1039', color: 'Vita A3.5', piezas: ['44','45'] },
-    { ot: 1038, folio: 'ORD-26-1038', entrega: '2026-10-07', estado: 'Fabricación', producto: 'Puente 3 Unidades Zirconio', doctor: 'Dr. Mauricio Cárdenas', paciente: 'Roberto Hernández Gil', unidades: 3, libProd: '2026-10-05 09:30', monto: '$5,550.00', serie: 'OT-1038', color: 'Vita A3', piezas: ['35','36','37'] },
-    { ot: 1037, folio: 'ORD-26-1037', entrega: '2026-10-07', estado: 'Fabricación', producto: 'Guarda Oclusal Impresión 3D', doctor: 'Dra. Sofía Méndez', paciente: 'Mariana Treviño', unidades: 1, libProd: '2026-10-05 11:20', monto: '$1,350.00', serie: 'OT-1037', color: 'Clear Bio', piezas: ['11','21'] },
-    { ot: 1036, folio: 'ORD-26-1036', entrega: '2026-10-08', estado: 'Fabricación', producto: 'Coronas Zirconio Sinterizado', doctor: 'Dr. Oscar Ramírez', paciente: 'Eduardo Salinas', unidades: 2, libProd: '2026-10-05 12:45', monto: '$3,700.00', serie: 'OT-1036', color: 'Vita A2', piezas: ['24','25'] },
-    { ot: 1035, folio: 'ORD-26-1035', entrega: '2026-10-08', estado: 'Fabricación', producto: 'Corona Anterior E-Max Glaseado', doctor: 'Dra. Elena Torres', paciente: 'Claudia Elizondo', unidades: 1, libProd: '2026-10-05 16:00', monto: '$2,400.00', serie: 'OT-1035', color: 'Vita B1', piezas: ['21'] },
-    { ot: 1034, folio: 'ORD-26-1034', entrega: '2026-10-07', estado: 'Terminado', producto: 'Provisional PMMA Larga Duración', doctor: 'Dr. Roberto Garza', paciente: 'Fernando Domínguez', unidades: 6, libProd: '2026-10-04 10:00', monto: '$3,900.00', serie: 'OT-1034', color: 'Vita A1', piezas: ['13','12','11','21','22','23'] },
-    { ot: 1033, folio: 'ORD-26-1033', entrega: '2026-10-07', estado: 'Terminado', producto: 'Corona Zirconio Multicapa', doctor: 'Dr. Oscar Ramírez', paciente: 'Patricia Guzmán Ríos', unidades: 1, libProd: '2026-10-04 11:30', monto: '$1,850.00', serie: 'OT-1033', color: 'Vita A1', piezas: ['21'] },
-    { ot: 1032, folio: 'ORD-26-1032', entrega: '2026-10-07', estado: 'Terminado', producto: 'Set Alineadores Alinia Etapa 2', doctor: 'Dra. Sofía Méndez', paciente: 'Diego Chapa', unidades: 2, libProd: '2026-10-04 14:15', monto: '$4,200.00', serie: 'OT-1032', color: 'Clear', piezas: ['11','21'] },
-    { ot: 1031, folio: 'ORD-26-1031', entrega: '2026-10-07', estado: 'Terminado', producto: 'Carillas E-Max Alta Estética', doctor: 'Dra. Elena Torres', paciente: 'Sofía Benavides', unidades: 2, libProd: '2026-10-04 16:50', monto: '$4,800.00', serie: 'OT-1031', color: 'Bleach BL1', piezas: ['11','21'] }
-  ]
+    {
+        "ot": 30596,
+        "ordenId": 22582,
+        "folio": "30596",
+        "serie": "30596",
+        "entrega": "2026-09-28",
+        "estado": "Diseño",
+        "subEstado": "Diseño",
+        "idLab_Estado": 2,
+        "producto": "Corona Zirconio",
+        "doctor": "Dra. Brenda Deyanira",
+        "doctorNombreCompleto": "Dra. Brenda Deyanira Hernández Aguirre",
+        "doctorId": 417,
+        "paciente": "LETICIA VARGAS MUÑOZ",
+        "unidades": 4,
+        "libProd": "",
+        "nombreLib": "",
+        "monto": "$3,200.00",
+        "montoNum": 3200,
+        "interno": true,
+        "tipoDoctorExterno": 0,
+        "color": "VITA CLASSICAL A3",
+        "observaciones": "CORONAS DE OD 46-47-36-37 IGUALAR COLOR A  ORDEN30585",
+        "observacionesEscaneador": "",
+        "observacionesLab": "",
+        "direccion": "Sto Ciervo No. Ext 7 No. Int , Col. Fraccionamiento Viñedos, Cd. Torreon,Coahuila.",
+        "celular": "6566758982",
+        "usuarioEscaneo": "Sin escaneador asignado",
+        "agendaInicio": "",
+        "agendaFin": "",
+        "fechaConfirmada": "",
+        "conScan": false,
+        "modoModelo": 0,
+        "metodoPago": "Efectivo",
+        "discosUtilizados": "Sin Discos Utilizados",
+        "paquetes": "SIN PAQUETE",
+        "autColor": false,
+        "autMordida": false,
+        "autMunon": false,
+        "autAdit": false,
+        "piezas": [
+            "46",
+            "47",
+            "36",
+            "37"
+        ]
+    },
+    {
+        "ot": 30595,
+        "ordenId": 22581,
+        "folio": "30595",
+        "serie": "30595",
+        "entrega": "2026-09-28",
+        "estado": "Diseño",
+        "subEstado": "Diseño",
+        "idLab_Estado": 2,
+        "producto": "Carilla",
+        "doctor": "Dr. Alberto Alfonso",
+        "doctorNombreCompleto": "Dr. Alberto Alfonso Davila Gonzalez",
+        "doctorId": 251,
+        "paciente": "Manuel Rosales Gomez",
+        "unidades": 1,
+        "libProd": "",
+        "nombreLib": "",
+        "monto": "$800.00",
+        "montoNum": 800,
+        "interno": true,
+        "tipoDoctorExterno": 0,
+        "color": "VITA CLASSICAL A1",
+        "observaciones": "carilla 11 en garantia mismo color y especificaciones de orden OT: 4952 ESPECIFICACIONES: 358,SAGEMAX, A1, 20MM",
+        "observacionesEscaneador": "",
+        "observacionesLab": "",
+        "direccion": "Av Hidalgo No. Ext 3125 No. Int , Col. Nuevo Torreon, Cd. Torreon,Coahuila.",
+        "celular": "8711024414",
+        "usuarioEscaneo": "Sin escaneador asignado",
+        "agendaInicio": "",
+        "agendaFin": "",
+        "fechaConfirmada": "",
+        "conScan": false,
+        "modoModelo": 0,
+        "metodoPago": "Efectivo",
+        "discosUtilizados": "Sin Discos Utilizados",
+        "paquetes": "SIN PAQUETE",
+        "autColor": false,
+        "autMordida": false,
+        "autMunon": false,
+        "autAdit": false,
+        "piezas": [
+            "11"
+        ]
+    },
+    {
+        "ot": 30594,
+        "ordenId": 22580,
+        "folio": "30594",
+        "serie": "30594",
+        "entrega": "2026-09-26",
+        "estado": "Diseño",
+        "subEstado": "Diseño",
+        "idLab_Estado": 2,
+        "producto": "Corona Zirconio",
+        "doctor": "Dr. Ana Laura",
+        "doctorNombreCompleto": "Dr. Ana Laura  Castillo Hernandez",
+        "doctorId": 56,
+        "paciente": "Maria Victoria Aguirre Zozaya",
+        "unidades": 16,
+        "libProd": "",
+        "nombreLib": "",
+        "monto": "$12,800.00",
+        "montoNum": 12800,
+        "interno": true,
+        "tipoDoctorExterno": 0,
+        "color": "VITA CLASSICAL B1",
+        "observaciones": "Puente de zirconio OD 14 al 16 y Carillas OD 13 al 23\r\nPuente de zirconio OD 33 al 43 y Carillas OD 34 y 44",
+        "observacionesEscaneador": "",
+        "observacionesLab": "",
+        "direccion": "Hidalgo No. Ext 3125 No. Int 3, Col. Nuevo Torreon, Cd. Torreon,Coahuila.",
+        "celular": "8713952578",
+        "usuarioEscaneo": "Sin escaneador asignado",
+        "agendaInicio": "",
+        "agendaFin": "",
+        "fechaConfirmada": "",
+        "conScan": false,
+        "modoModelo": 0,
+        "metodoPago": "Efectivo",
+        "discosUtilizados": "Sin Discos Utilizados",
+        "paquetes": "SIN PAQUETE",
+        "autColor": false,
+        "autMordida": false,
+        "autMunon": false,
+        "autAdit": false,
+        "piezas": [
+            "14",
+            "16",
+            "13",
+            "23",
+            "33",
+            "43",
+            "34",
+            "44",
+            "11",
+            "21",
+            "15",
+            "24",
+            "25",
+            "26",
+            "36",
+            "46"
+        ]
+    },
+    {
+        "ot": 30593,
+        "ordenId": 22579,
+        "folio": "30593",
+        "serie": "30593",
+        "entrega": "2026-10-01",
+        "estado": "Diseño",
+        "subEstado": "Diseño",
+        "idLab_Estado": 2,
+        "producto": "Corona Zirconio",
+        "doctor": "Dr. Jose Angel",
+        "doctorNombreCompleto": "Dr. Jose Angel Delgado Diaz",
+        "doctorId": 586,
+        "paciente": "Esperanza Rios",
+        "unidades": 6,
+        "libProd": "",
+        "nombreLib": "",
+        "monto": "$7,200.00",
+        "montoNum": 7200,
+        "interno": false,
+        "tipoDoctorExterno": 1,
+        "color": "VITA CLASSICAL B4",
+        "observaciones": "-No tiene espacio en el 2.3 y se le va a desgastar en la parte inferior.\n-No se le hizo provisional.\n-Que no queden muy grandes,largos.\n-Color B4.\n-Se manda foto de los dientes para color.",
+        "observacionesEscaneador": "",
+        "observacionesLab": "",
+        "direccion": "Av. de la Primavera No. Ext 1434 No. Int , Col. Tres caminos, Cd. Guadalupe,Nuevo Leon.",
+        "celular": "8180882101",
+        "usuarioEscaneo": "Sin escaneador asignado",
+        "agendaInicio": "",
+        "agendaFin": "",
+        "fechaConfirmada": "",
+        "conScan": false,
+        "modoModelo": 1,
+        "metodoPago": "Efectivo",
+        "discosUtilizados": "Sin Discos Utilizados",
+        "paquetes": "PAQ: 3245",
+        "autColor": false,
+        "autMordida": false,
+        "autMunon": false,
+        "autAdit": false,
+        "piezas": [
+            "11",
+            "21",
+            "14",
+            "15",
+            "16",
+            "24"
+        ]
+    },
+    {
+        "ot": 30592,
+        "ordenId": 22578,
+        "folio": "30592",
+        "serie": "30592",
+        "entrega": "2026-09-26",
+        "estado": "Fabricación",
+        "subEstado": "Fabricación",
+        "idLab_Estado": 3,
+        "producto": "Corona Zirconio",
+        "doctor": "Dra. Brenda Deyanira",
+        "doctorNombreCompleto": "Dra. Brenda Deyanira Hernández Aguirre",
+        "doctorId": 417,
+        "paciente": "Axdruval  Elizalde",
+        "unidades": 28,
+        "libProd": "",
+        "nombreLib": "",
+        "monto": "$22,400.00",
+        "montoNum": 22400,
+        "interno": true,
+        "tipoDoctorExterno": 0,
+        "color": "VITA CLASSICAL A1",
+        "observaciones": "Coronas de od11 -12-13-14-15-16-17-21-22-23-24-25-26-27-33-34-35-36-37-43-44-45-46-47-\r\nCarillas31-32--41-42-\r\nCOLOR A1",
+        "observacionesEscaneador": "",
+        "observacionesLab": "DISEÑO HECHO POR DR JOSE A 25 09 26 \nPM5 SUPERIOR\nDRY 3 INFERIOR",
+        "direccion": "Sto Ciervo No. Ext 7 No. Int , Col. Fraccionamiento Viñedos, Cd. Torreon,Coahuila.",
+        "celular": "6566758982",
+        "usuarioEscaneo": "Sin escaneador asignado",
+        "agendaInicio": "",
+        "agendaFin": "",
+        "fechaConfirmada": "",
+        "conScan": false,
+        "modoModelo": 0,
+        "metodoPago": "Efectivo",
+        "discosUtilizados": "2846:14,2845:14",
+        "paquetes": "SIN PAQUETE",
+        "autColor": false,
+        "autMordida": false,
+        "autMunon": false,
+        "autAdit": false,
+        "piezas": [
+            "12",
+            "13",
+            "14",
+            "15",
+            "16",
+            "17",
+            "21",
+            "22",
+            "23",
+            "24",
+            "25",
+            "26",
+            "27",
+            "33",
+            "34",
+            "35",
+            "36",
+            "37",
+            "43",
+            "44",
+            "45",
+            "46",
+            "47",
+            "32",
+            "41",
+            "42"
+        ]
+    },
+    {
+        "ot": 30591,
+        "ordenId": 22577,
+        "folio": "30591",
+        "serie": "30591",
+        "entrega": "2026-09-26",
+        "estado": "Diseño",
+        "subEstado": "Diseño",
+        "idLab_Estado": 2,
+        "producto": "Corona Zirconio",
+        "doctor": "Jacqs",
+        "doctorNombreCompleto": "Jacqs Flores De La Cruz",
+        "doctorId": 548,
+        "paciente": "JOHANNA DEL SOCORRO FERNANDEZ VARGAS",
+        "unidades": 1,
+        "libProd": "",
+        "nombreLib": "",
+        "monto": "$800.00",
+        "montoNum": 800,
+        "interno": true,
+        "tipoDoctorExterno": 0,
+        "color": "VITA CLASSICAL A3",
+        "observaciones": "FAVOR DE REALIZAR CORONA OD47 IMPLANTOSOPORTADA, COLOR A3 INCISAL",
+        "observacionesEscaneador": "",
+        "observacionesLab": "",
+        "direccion": "Av. Hidalgo No. Ext 3251 No. Int 3251, Col. Nuevo Torreón, Cd. Torreon,Coahuila.",
+        "celular": "8711116400",
+        "usuarioEscaneo": "Sin escaneador asignado",
+        "agendaInicio": "",
+        "agendaFin": "",
+        "fechaConfirmada": "",
+        "conScan": false,
+        "modoModelo": 0,
+        "metodoPago": "Efectivo",
+        "discosUtilizados": "Sin Discos Utilizados",
+        "paquetes": "SIN PAQUETE",
+        "autColor": false,
+        "autMordida": false,
+        "autMunon": false,
+        "autAdit": false,
+        "piezas": [
+            "11"
+        ]
+    },
+    {
+        "ot": 30590,
+        "ordenId": 22576,
+        "folio": "30590",
+        "serie": "30590",
+        "entrega": "2026-09-29",
+        "estado": "Fabricación",
+        "subEstado": "Fabricación",
+        "idLab_Estado": 3,
+        "producto": "Guarda Calibre.60",
+        "doctor": "Dra. Yessica",
+        "doctorNombreCompleto": "Dra. Yessica  Nava Espinoza",
+        "doctorId": 214,
+        "paciente": "Andrea  Raigosa",
+        "unidades": 1,
+        "libProd": "",
+        "nombreLib": "",
+        "monto": "$150.00",
+        "montoNum": 150,
+        "interno": true,
+        "tipoDoctorExterno": 0,
+        "color": "VITA CLASSICAL A2",
+        "observaciones": "Dos retenedores superior Festoneado .60",
+        "observacionesEscaneador": "",
+        "observacionesLab": "",
+        "direccion": "Amador Cardenas No. Ext 1009 No. Int , Col. Nueva Los Angeles, Cd. Torreon,Coahuila.",
+        "celular": "8711169754",
+        "usuarioEscaneo": "Sin escaneador asignado",
+        "agendaInicio": "",
+        "agendaFin": "",
+        "fechaConfirmada": "",
+        "conScan": false,
+        "modoModelo": 1,
+        "metodoPago": "Efectivo",
+        "discosUtilizados": "Sin Discos Utilizados",
+        "paquetes": "SIN PAQUETE",
+        "autColor": false,
+        "autMordida": false,
+        "autMunon": false,
+        "autAdit": false,
+        "piezas": [
+            "11"
+        ]
+    },
+    {
+        "ot": 30589,
+        "ordenId": 22575,
+        "folio": "30589",
+        "serie": "30589",
+        "entrega": "2026-09-29",
+        "estado": "Diseño",
+        "subEstado": "Diseño",
+        "idLab_Estado": 2,
+        "producto": "Corona Zirconio",
+        "doctor": "Dr. Arturo",
+        "doctorNombreCompleto": "Dr. Arturo  Camacho Davila",
+        "doctorId": 125,
+        "paciente": "Maria  Concepcion",
+        "unidades": 6,
+        "libProd": "",
+        "nombreLib": "",
+        "monto": "$0.00",
+        "montoNum": 0,
+        "interno": false,
+        "tipoDoctorExterno": 1,
+        "color": "VITA CLASSICAL A2",
+        "observaciones": "Puente de Zirconio OD 33 A 43 Color A2",
+        "observacionesEscaneador": "",
+        "observacionesLab": "",
+        "direccion": "Allende No. Ext 1260 No. Int , Col. Primero de Cobian, Cd. Torreon,Coahuila.",
+        "celular": "8712635543",
+        "usuarioEscaneo": "Sin escaneador asignado",
+        "agendaInicio": "",
+        "agendaFin": "",
+        "fechaConfirmada": "",
+        "conScan": false,
+        "modoModelo": 0,
+        "metodoPago": "Efectivo",
+        "discosUtilizados": "2803:6",
+        "paquetes": "PAQ: 3227 / PAQ: 3242",
+        "autColor": false,
+        "autMordida": false,
+        "autMunon": false,
+        "autAdit": false,
+        "piezas": [
+            "33",
+            "43",
+            "11",
+            "21",
+            "14",
+            "15"
+        ]
+    },
+    {
+        "ot": 30588,
+        "ordenId": 22574,
+        "folio": "30588",
+        "serie": "30588",
+        "entrega": "2026-09-29",
+        "estado": "Entrega",
+        "subEstado": "Entregado",
+        "idLab_Estado": 4,
+        "producto": "Corona Zirconio",
+        "doctor": "Dr. Arturo",
+        "doctorNombreCompleto": "Dr. Arturo  Camacho Davila",
+        "doctorId": 125,
+        "paciente": "Dolores Gallardo",
+        "unidades": 2,
+        "libProd": "",
+        "nombreLib": "",
+        "monto": "$0.00",
+        "montoNum": 0,
+        "interno": false,
+        "tipoDoctorExterno": 1,
+        "color": "VITA CLASSICAL A2",
+        "observaciones": "Coronas de Zirconio OD 45 & 47 Color A2",
+        "observacionesEscaneador": "",
+        "observacionesLab": "",
+        "direccion": "Allende No. Ext 1260 No. Int , Col. Primero de Cobian, Cd. Torreon,Coahuila.",
+        "celular": "8712635543",
+        "usuarioEscaneo": "Sin escaneador asignado",
+        "agendaInicio": "",
+        "agendaFin": "",
+        "fechaConfirmada": "",
+        "conScan": false,
+        "modoModelo": 0,
+        "metodoPago": "Efectivo",
+        "discosUtilizados": "2776:2",
+        "paquetes": "SIN PAQUETE",
+        "autColor": false,
+        "autMordida": false,
+        "autMunon": false,
+        "autAdit": false,
+        "piezas": [
+            "45",
+            "47"
+        ]
+    },
+    {
+        "ot": 30587,
+        "ordenId": 22573,
+        "folio": "30587",
+        "serie": "30587",
+        "entrega": "2026-09-29",
+        "estado": "Entrega",
+        "subEstado": "Entregado",
+        "idLab_Estado": 4,
+        "producto": "Corona Zirconio",
+        "doctor": "Dr. Gustavo Jesús",
+        "doctorNombreCompleto": "Dr. Gustavo Jesús Esquivel Limones",
+        "doctorId": 92,
+        "paciente": "Dionisio  Lopez",
+        "unidades": 3,
+        "libProd": "",
+        "nombreLib": "",
+        "monto": "$0.00",
+        "montoNum": 0,
+        "interno": false,
+        "tipoDoctorExterno": 1,
+        "color": "VITA CLASSICAL A2",
+        "observaciones": "Coronas de Zirconio OD 12 A 22 Color A2",
+        "observacionesEscaneador": "",
+        "observacionesLab": "",
+        "direccion": "34 No. Ext 325 No. Int 325, Col. Centro, Cd. Torreon,Coahuila.",
+        "celular": "8712019434",
+        "usuarioEscaneo": "Sin escaneador asignado",
+        "agendaInicio": "",
+        "agendaFin": "",
+        "fechaConfirmada": "",
+        "conScan": false,
+        "modoModelo": 0,
+        "metodoPago": "Efectivo",
+        "discosUtilizados": "2579:3",
+        "paquetes": "SIN PAQUETE",
+        "autColor": false,
+        "autMordida": false,
+        "autMunon": false,
+        "autAdit": false,
+        "piezas": [
+            "12",
+            "22",
+            "11"
+        ]
+    },
+    {
+        "ot": 30586,
+        "ordenId": 22572,
+        "folio": "30586",
+        "serie": "30586",
+        "entrega": "2026-09-29",
+        "estado": "Entrega",
+        "subEstado": "Entregado",
+        "idLab_Estado": 4,
+        "producto": "Corona Zirconio",
+        "doctor": "Dr. Cesar Ivan",
+        "doctorNombreCompleto": "Dr. Cesar Ivan Bautista Gutierrez",
+        "doctorId": 568,
+        "paciente": "Alberto  Alvarez",
+        "unidades": 1,
+        "libProd": "",
+        "nombreLib": "",
+        "monto": "$0.00",
+        "montoNum": 0,
+        "interno": false,
+        "tipoDoctorExterno": 1,
+        "color": "VITA CLASSICAL A3",
+        "observaciones": "Corona de Zirconio OD 37 Color A3",
+        "observacionesEscaneador": "",
+        "observacionesLab": "",
+        "direccion": "Pabellón Nte. No. Ext 4 No. Int , Col. Centro, Cd. Matamoros,Coahuila.",
+        "celular": "8715115071",
+        "usuarioEscaneo": "Sin escaneador asignado",
+        "agendaInicio": "",
+        "agendaFin": "",
+        "fechaConfirmada": "",
+        "conScan": false,
+        "modoModelo": 0,
+        "metodoPago": "Efectivo",
+        "discosUtilizados": "2776:1",
+        "paquetes": "SIN PAQUETE",
+        "autColor": false,
+        "autMordida": false,
+        "autMunon": false,
+        "autAdit": false,
+        "piezas": [
+            "37"
+        ]
+    },
+    {
+        "ot": 30585,
+        "ordenId": 22571,
+        "folio": "30585",
+        "serie": "30585",
+        "entrega": "2026-09-25",
+        "estado": "Entrega",
+        "subEstado": "Entregado",
+        "idLab_Estado": 4,
+        "producto": "Corona Zirconio",
+        "doctor": "Dra. Brenda Deyanira",
+        "doctorNombreCompleto": "Dra. Brenda Deyanira Hernández Aguirre",
+        "doctorId": 417,
+        "paciente": "LETICIA VARGAS MUÑOZ",
+        "unidades": 11,
+        "libProd": "",
+        "nombreLib": "",
+        "monto": "$8,800.00",
+        "montoNum": 8800,
+        "interno": true,
+        "tipoDoctorExterno": 0,
+        "color": "VITA CLASSICAL A3",
+        "observaciones": "CORONAS DE OD 11-21-14--26-27\r\nCARILLAS12-13-22-23-24-25\r\nEN COLOR A3 INCISAL",
+        "observacionesEscaneador": "",
+        "observacionesLab": "ZONA DE CONTACTO .36    -   OCLUSION ESTATICA Y DINAMICA . 32    - PROXIMAL 0.2\nDISEÑO HECHO POR DR JOSE A 24 09 26\nDRY 2",
+        "direccion": "Sto Ciervo No. Ext 7 No. Int , Col. Fraccionamiento Viñedos, Cd. Torreon,Coahuila.",
+        "celular": "6566758982",
+        "usuarioEscaneo": "Sin escaneador asignado",
+        "agendaInicio": "",
+        "agendaFin": "",
+        "fechaConfirmada": "",
+        "conScan": false,
+        "modoModelo": 0,
+        "metodoPago": "Efectivo",
+        "discosUtilizados": "2656:11",
+        "paquetes": "SIN PAQUETE",
+        "autColor": false,
+        "autMordida": false,
+        "autMunon": false,
+        "autAdit": false,
+        "piezas": [
+            "11",
+            "21",
+            "14",
+            "26",
+            "27",
+            "13",
+            "22",
+            "23",
+            "24",
+            "25",
+            "15"
+        ]
+    },
+    {
+        "ot": 30584,
+        "ordenId": 22570,
+        "folio": "30584",
+        "serie": "30584",
+        "entrega": "2026-09-30",
+        "estado": "Diseño",
+        "subEstado": "Diseño",
+        "idLab_Estado": 2,
+        "producto": "Corona Zirconio",
+        "doctor": "Dr. Miguel Alan",
+        "doctorNombreCompleto": "Dr. Miguel Alan Lozano Gonzalez",
+        "doctorId": 530,
+        "paciente": "Patricia  Aguilar",
+        "unidades": 1,
+        "libProd": "",
+        "nombreLib": "",
+        "monto": "$1,200.00",
+        "montoNum": 1200,
+        "interno": false,
+        "tipoDoctorExterno": 1,
+        "color": "VITA CLASSICAL A3.5",
+        "observaciones": "Orden registrada en plataforma CAD/CAM DentLab.",
+        "observacionesEscaneador": "",
+        "observacionesLab": "confirmar",
+        "direccion": "Alhambra No. Ext 120 No. Int , Col. La Alhambra, Cd. Monterrey,Nuevo Leon.",
+        "celular": "8124325868",
+        "usuarioEscaneo": "Sin escaneador asignado",
+        "agendaInicio": "",
+        "agendaFin": "",
+        "fechaConfirmada": "",
+        "conScan": false,
+        "modoModelo": 1,
+        "metodoPago": "Efectivo",
+        "discosUtilizados": "Sin Discos Utilizados",
+        "paquetes": "PAQ: 3211",
+        "autColor": false,
+        "autMordida": false,
+        "autMunon": false,
+        "autAdit": false,
+        "piezas": [
+            "11"
+        ]
+    },
+    {
+        "ot": 30583,
+        "ordenId": 22569,
+        "folio": "30583",
+        "serie": "30583",
+        "entrega": "2026-09-28",
+        "estado": "Fabricación",
+        "subEstado": "Fabricación",
+        "idLab_Estado": 3,
+        "producto": "Corona Zirconio",
+        "doctor": "Dr. Carlos Alberto",
+        "doctorNombreCompleto": "Dr. Carlos Alberto  Alvarado  González",
+        "doctorId": 399,
+        "paciente": "Jose Francisco Martinez",
+        "unidades": 1,
+        "libProd": "",
+        "nombreLib": "",
+        "monto": "$0.00",
+        "montoNum": 0,
+        "interno": false,
+        "tipoDoctorExterno": 1,
+        "color": "VITA CLASSICAL A2",
+        "observaciones": "Corona de Zirconio od 36 Color A2",
+        "observacionesEscaneador": "",
+        "observacionesLab": "",
+        "direccion": "Vía Romana No. Ext 857 No. Int , Col. Roma, Cd. Torreon,Coahuila.",
+        "celular": "8713947176",
+        "usuarioEscaneo": "Sin escaneador asignado",
+        "agendaInicio": "",
+        "agendaFin": "",
+        "fechaConfirmada": "",
+        "conScan": false,
+        "modoModelo": 0,
+        "metodoPago": "Efectivo",
+        "discosUtilizados": "2813:1",
+        "paquetes": "PAQ: 3225",
+        "autColor": false,
+        "autMordida": false,
+        "autMunon": false,
+        "autAdit": false,
+        "piezas": [
+            "36"
+        ]
+    },
+    {
+        "ot": 30582,
+        "ordenId": 22568,
+        "folio": "30582",
+        "serie": "30582",
+        "entrega": "2026-09-30",
+        "estado": "Diseño",
+        "subEstado": "Diseño",
+        "idLab_Estado": 2,
+        "producto": "Corona Zirconio",
+        "doctor": "Dr. Ismael",
+        "doctorNombreCompleto": "Dr. Ismael Gonzalez Anaya",
+        "doctorId": 184,
+        "paciente": "Rosalina  Galvan",
+        "unidades": 2,
+        "libProd": "",
+        "nombreLib": "",
+        "monto": "$2,400.00",
+        "montoNum": 2400,
+        "interno": false,
+        "tipoDoctorExterno": 1,
+        "color": "VITA CLASSICAL A2",
+        "observaciones": "Orden registrada en plataforma CAD/CAM DentLab.",
+        "observacionesEscaneador": "",
+        "observacionesLab": "confirmar",
+        "direccion": "Azalea No. Ext 100 No. Int , Col. Fracc. Jardines de Durango, Cd. Durango,Durango.",
+        "celular": "6181020640",
+        "usuarioEscaneo": "Sin escaneador asignado",
+        "agendaInicio": "",
+        "agendaFin": "",
+        "fechaConfirmada": "",
+        "conScan": false,
+        "modoModelo": 0,
+        "metodoPago": "Efectivo",
+        "discosUtilizados": "Sin Discos Utilizados",
+        "paquetes": "PAQ: 3167",
+        "autColor": false,
+        "autMordida": false,
+        "autMunon": false,
+        "autAdit": false,
+        "piezas": [
+            "11",
+            "21"
+        ]
+    },
+    {
+        "ot": 30581,
+        "ordenId": 22567,
+        "folio": "30581",
+        "serie": "30581",
+        "entrega": "2026-09-29",
+        "estado": "Entrega",
+        "subEstado": "Entregado",
+        "idLab_Estado": 4,
+        "producto": "Corona Zirconio",
+        "doctor": "Dra. Sarai",
+        "doctorNombreCompleto": "Dra. Sarai  Caldera  Gallegos",
+        "doctorId": 445,
+        "paciente": "Alma Paola Sepulveda Gonzalez",
+        "unidades": 5,
+        "libProd": "",
+        "nombreLib": "",
+        "monto": "$4,000.00",
+        "montoNum": 4000,
+        "interno": true,
+        "tipoDoctorExterno": 0,
+        "color": "VITA CLASSICAL A1",
+        "observaciones": "Favor de realizar coronas dentosoportadas de OD 16, 17, 33, 46 y 47. Tono A1. Graaaaacias :)",
+        "observacionesEscaneador": "",
+        "observacionesLab": "ZONA DE CONTACTO .36    -   OCLUSION ESTATICA Y DINAMICA . 32    - PROXIMAL 0.2\nDISEÑO HECHO POR DR JOSE A 24 09 26\nDRY 2",
+        "direccion": "Cerrada San Gabriel  No. Ext 123 No. Int , Col. Villas el Refugio, Cd. Gómez Palacio,Durango.",
+        "celular": "12345678",
+        "usuarioEscaneo": "Sin escaneador asignado",
+        "agendaInicio": "",
+        "agendaFin": "",
+        "fechaConfirmada": "",
+        "conScan": false,
+        "modoModelo": 0,
+        "metodoPago": "Efectivo",
+        "discosUtilizados": "2848:5",
+        "paquetes": "SIN PAQUETE",
+        "autColor": false,
+        "autMordida": false,
+        "autMunon": false,
+        "autAdit": false,
+        "piezas": [
+            "16",
+            "17",
+            "33",
+            "46",
+            "47"
+        ]
+    },
+    {
+        "ot": 30580,
+        "ordenId": 22566,
+        "folio": "30580",
+        "serie": "30580",
+        "entrega": "2026-09-28",
+        "estado": "Fabricación",
+        "subEstado": "Fabricación",
+        "idLab_Estado": 3,
+        "producto": "Corona Zirconio",
+        "doctor": "Dra. Irma Alejandra",
+        "doctorNombreCompleto": "Dra. Irma Alejandra  Hernandez  Flores",
+        "doctorId": 177,
+        "paciente": "Miguel Angel Lopez",
+        "unidades": 6,
+        "libProd": "",
+        "nombreLib": "",
+        "monto": "$0.00",
+        "montoNum": 0,
+        "interno": false,
+        "tipoDoctorExterno": 1,
+        "color": "VITA CLASSICAL A1",
+        "observaciones": "Carillas de Zirconio od 12 a 23 y Corona de Zirconio od 24 Color A1",
+        "observacionesEscaneador": "",
+        "observacionesLab": "",
+        "direccion": "Cadiz No. Ext 8 No. Int , Col. Florida blanca, Cd. Torreon,Coahuila.",
+        "celular": "8713434635",
+        "usuarioEscaneo": "Sin escaneador asignado",
+        "agendaInicio": "",
+        "agendaFin": "",
+        "fechaConfirmada": "",
+        "conScan": false,
+        "modoModelo": 0,
+        "metodoPago": "Efectivo",
+        "discosUtilizados": "2597:1,2764:5",
+        "paquetes": "PAQ: 3240",
+        "autColor": false,
+        "autMordida": false,
+        "autMunon": false,
+        "autAdit": false,
+        "piezas": [
+            "12",
+            "23",
+            "24",
+            "11",
+            "21",
+            "14"
+        ]
+    },
+    {
+        "ot": 30579,
+        "ordenId": 22565,
+        "folio": "30579",
+        "serie": "30579",
+        "entrega": "2026-09-28",
+        "estado": "Fabricación",
+        "subEstado": "Fabricación",
+        "idLab_Estado": 3,
+        "producto": "Corona Zirconio",
+        "doctor": "Dr. Francisco Alejandro",
+        "doctorNombreCompleto": "Dr. Francisco Alejandro  Poblano  Vázquez",
+        "doctorId": 85,
+        "paciente": "Liliana Orozco",
+        "unidades": 1,
+        "libProd": "",
+        "nombreLib": "",
+        "monto": "$0.00",
+        "montoNum": 0,
+        "interno": false,
+        "tipoDoctorExterno": 1,
+        "color": "VITA CLASSICAL A2",
+        "observaciones": "Corona de Zirconio od 35 Color A2",
+        "observacionesEscaneador": "",
+        "observacionesLab": "",
+        "direccion": "Juárez  No. Ext 2767 No. Int , Col. Centro , Cd. Torreon,Coahuila.",
+        "celular": "8717276525",
+        "usuarioEscaneo": "Sin escaneador asignado",
+        "agendaInicio": "",
+        "agendaFin": "",
+        "fechaConfirmada": "",
+        "conScan": false,
+        "modoModelo": 0,
+        "metodoPago": "Efectivo",
+        "discosUtilizados": "2813:1",
+        "paquetes": "PAQ: 3150",
+        "autColor": false,
+        "autMordida": false,
+        "autMunon": false,
+        "autAdit": false,
+        "piezas": [
+            "35"
+        ]
+    },
+    {
+        "ot": 30578,
+        "ordenId": 22564,
+        "folio": "30578",
+        "serie": "30578",
+        "entrega": "2026-09-28",
+        "estado": "Fabricación",
+        "subEstado": "Fabricación",
+        "idLab_Estado": 3,
+        "producto": "Corona Zirconio",
+        "doctor": "Dr. Francisco Alejandro",
+        "doctorNombreCompleto": "Dr. Francisco Alejandro  Poblano  Vázquez",
+        "doctorId": 85,
+        "paciente": "Sandra Orozco",
+        "unidades": 1,
+        "libProd": "",
+        "nombreLib": "",
+        "monto": "$0.00",
+        "montoNum": 0,
+        "interno": false,
+        "tipoDoctorExterno": 1,
+        "color": "VITA CLASSICAL A2",
+        "observaciones": "Corona de Zirconio od 25 Color A2",
+        "observacionesEscaneador": "",
+        "observacionesLab": "",
+        "direccion": "Juárez  No. Ext 2767 No. Int , Col. Centro , Cd. Torreon,Coahuila.",
+        "celular": "8717276525",
+        "usuarioEscaneo": "Sin escaneador asignado",
+        "agendaInicio": "",
+        "agendaFin": "",
+        "fechaConfirmada": "",
+        "conScan": false,
+        "modoModelo": 0,
+        "metodoPago": "Efectivo",
+        "discosUtilizados": "2813:1",
+        "paquetes": "PAQ: 3150",
+        "autColor": false,
+        "autMordida": false,
+        "autMunon": false,
+        "autAdit": false,
+        "piezas": [
+            "25"
+        ]
+    },
+    {
+        "ot": 30577,
+        "ordenId": 22563,
+        "folio": "30577",
+        "serie": "30577",
+        "entrega": "2026-09-25",
+        "estado": "Entrega",
+        "subEstado": "Entregado",
+        "idLab_Estado": 4,
+        "producto": "Guía Quirúrgica Hiossen",
+        "doctor": "Dr. Ana Laura",
+        "doctorNombreCompleto": "Dr. Ana Laura  Castillo Hernandez",
+        "doctorId": 56,
+        "paciente": "Maria Victoria Aguirre Zozaya",
+        "unidades": 2,
+        "libProd": "",
+        "nombreLib": "",
+        "monto": "$1,600.00",
+        "montoNum": 1600,
+        "interno": true,
+        "tipoDoctorExterno": 0,
+        "color": "VITA CLASSICAL A1",
+        "observaciones": "Guía quirúrgica para colocar implantes OD 24 y 26\r\nOD 24 se extraerá en esa cita,EN OD 26 SE REALIZARÁ ELEVACIÓN DE SENO\r\nDR ALATORRE YA HABÍA REVISADO TOMOGRAFÍA DE ESTE CASO Y EL LA INDICÓ",
+        "observacionesEscaneador": "",
+        "observacionesLab": "",
+        "direccion": "Hidalgo No. Ext 3125 No. Int 3, Col. Nuevo Torreon, Cd. Torreon,Coahuila.",
+        "celular": "8713952578",
+        "usuarioEscaneo": "Sin escaneador asignado",
+        "agendaInicio": "",
+        "agendaFin": "",
+        "fechaConfirmada": "",
+        "conScan": false,
+        "modoModelo": 0,
+        "metodoPago": "Efectivo",
+        "discosUtilizados": "Sin Discos Utilizados",
+        "paquetes": "SIN PAQUETE",
+        "autColor": false,
+        "autMordida": false,
+        "autMunon": false,
+        "autAdit": false,
+        "piezas": [
+            "24",
+            "26"
+        ]
+    },
+    {
+        "ot": 30576,
+        "ordenId": 22562,
+        "folio": "30576",
+        "serie": "30576",
+        "entrega": "2026-09-25",
+        "estado": "Entrega",
+        "subEstado": "Entregado",
+        "idLab_Estado": 4,
+        "producto": "Guia Quirurgica DIO",
+        "doctor": "Dra. Karla Liliana",
+        "doctorNombreCompleto": "Dra. Karla Liliana Fuentes Alvarez",
+        "doctorId": 351,
+        "paciente": "MARTHA  RIOS",
+        "unidades": 1,
+        "libProd": "",
+        "nombreLib": "",
+        "monto": "$900.00",
+        "montoNum": 900,
+        "interno": true,
+        "tipoDoctorExterno": 0,
+        "color": "VITA CLASSICAL A1",
+        "observaciones": "GUIA QUIRURGICA PARA IMPLANTE DIO 35",
+        "observacionesEscaneador": "",
+        "observacionesLab": "",
+        "direccion": "Cto Vicente Suarez No. Ext 20 No. Int , Col. Fracc Chapultepec, Cd. Torreon,Coahuila.",
+        "celular": "8718964494",
+        "usuarioEscaneo": "Sin escaneador asignado",
+        "agendaInicio": "",
+        "agendaFin": "",
+        "fechaConfirmada": "",
+        "conScan": false,
+        "modoModelo": 0,
+        "metodoPago": "Efectivo",
+        "discosUtilizados": "Sin Discos Utilizados",
+        "paquetes": "SIN PAQUETE",
+        "autColor": false,
+        "autMordida": false,
+        "autMunon": false,
+        "autAdit": false,
+        "piezas": [
+            "35"
+        ]
+    },
+    {
+        "ot": 30575,
+        "ordenId": 22561,
+        "folio": "30575",
+        "serie": "30575",
+        "entrega": "2026-09-28",
+        "estado": "Entrega",
+        "subEstado": "Entregado",
+        "idLab_Estado": 4,
+        "producto": "Corona Zirconio",
+        "doctor": "Dra. Mirta Azucena",
+        "doctorNombreCompleto": "Dra. Mirta Azucena  Reza Escobedo",
+        "doctorId": 182,
+        "paciente": "Rocio  Ramirez",
+        "unidades": 3,
+        "libProd": "",
+        "nombreLib": "",
+        "monto": "$0.00",
+        "montoNum": 0,
+        "interno": false,
+        "tipoDoctorExterno": 1,
+        "color": "VITA CLASSICAL B1",
+        "observaciones": "Puente de Zirconio OD 13 A 15 Color B1 con A2 Cervical",
+        "observacionesEscaneador": "",
+        "observacionesLab": "",
+        "direccion": "Avenida Zacatecas No. Ext 624 No. Int , Col. Centro, Cd. Torreon,Coahuila.",
+        "celular": "8711743796",
+        "usuarioEscaneo": "Sin escaneador asignado",
+        "agendaInicio": "",
+        "agendaFin": "",
+        "fechaConfirmada": "",
+        "conScan": false,
+        "modoModelo": 0,
+        "metodoPago": "Efectivo",
+        "discosUtilizados": "2830:3",
+        "paquetes": "SIN PAQUETE",
+        "autColor": false,
+        "autMordida": false,
+        "autMunon": false,
+        "autAdit": false,
+        "piezas": [
+            "13",
+            "15",
+            "11"
+        ]
+    },
+    {
+        "ot": 30574,
+        "ordenId": 22560,
+        "folio": "30574",
+        "serie": "30574",
+        "entrega": "2026-09-28",
+        "estado": "Entrega",
+        "subEstado": "Entregado",
+        "idLab_Estado": 4,
+        "producto": "Corona Zirconio",
+        "doctor": "Dr. Fernando Ariel",
+        "doctorNombreCompleto": "Dr. Fernando Ariel Serrano Carrillo",
+        "doctorId": 195,
+        "paciente": "Julio  Castañeda",
+        "unidades": 1,
+        "libProd": "",
+        "nombreLib": "",
+        "monto": "$0.00",
+        "montoNum": 0,
+        "interno": false,
+        "tipoDoctorExterno": 1,
+        "color": "VITA CLASSICAL A2",
+        "observaciones": "Puente Volado de Zirconio OD 22 & 23 Color A2",
+        "observacionesEscaneador": "",
+        "observacionesLab": "",
+        "direccion": "Acropolis No. Ext 829 No. Int , Col. Valle del Nazas, Cd. Torreon,Coahuila.",
+        "celular": "8717941139",
+        "usuarioEscaneo": "Sin escaneador asignado",
+        "agendaInicio": "",
+        "agendaFin": "",
+        "fechaConfirmada": "",
+        "conScan": false,
+        "modoModelo": 0,
+        "metodoPago": "Efectivo",
+        "discosUtilizados": "2776:1",
+        "paquetes": "SIN PAQUETE",
+        "autColor": false,
+        "autMordida": false,
+        "autMunon": false,
+        "autAdit": false,
+        "piezas": [
+            "22",
+            "23"
+        ]
+    },
+    {
+        "ot": 30573,
+        "ordenId": 22559,
+        "folio": "30573",
+        "serie": "30573",
+        "entrega": "2026-09-28",
+        "estado": "Entrega",
+        "subEstado": "Entregado",
+        "idLab_Estado": 4,
+        "producto": "Corona Zirconio",
+        "doctor": "Dra. Nani",
+        "doctorNombreCompleto": "Dra. Nani Yarahuan Vega",
+        "doctorId": 471,
+        "paciente": "Fernando  Muñoz",
+        "unidades": 1,
+        "libProd": "",
+        "nombreLib": "",
+        "monto": "$0.00",
+        "montoNum": 0,
+        "interno": false,
+        "tipoDoctorExterno": 1,
+        "color": "VITA CLASSICAL A2",
+        "observaciones": "Corona de Zirconio OD 26 Color A2",
+        "observacionesEscaneador": "",
+        "observacionesLab": "",
+        "direccion": "Rio balsas No. Ext 703 No. Int 3, Col. Navarro , Cd. Torreon,Coahuila.",
+        "celular": "8711490799",
+        "usuarioEscaneo": "Sin escaneador asignado",
+        "agendaInicio": "",
+        "agendaFin": "",
+        "fechaConfirmada": "",
+        "conScan": false,
+        "modoModelo": 0,
+        "metodoPago": "Efectivo",
+        "discosUtilizados": "2776:1",
+        "paquetes": "SIN PAQUETE",
+        "autColor": false,
+        "autMordida": false,
+        "autMunon": false,
+        "autAdit": false,
+        "piezas": [
+            "26"
+        ]
+    },
+    {
+        "ot": 30572,
+        "ordenId": 22558,
+        "folio": "30572",
+        "serie": "30572",
+        "entrega": "2026-09-28",
+        "estado": "Entrega",
+        "subEstado": "Entregado",
+        "idLab_Estado": 4,
+        "producto": "Corona Zirconio",
+        "doctor": "Dr. Luis Mariano",
+        "doctorNombreCompleto": "Dr. Luis Mariano Mireles Torres",
+        "doctorId": 435,
+        "paciente": "Jaqueline  Hernandez",
+        "unidades": 1,
+        "libProd": "",
+        "nombreLib": "",
+        "monto": "$0.00",
+        "montoNum": 0,
+        "interno": false,
+        "tipoDoctorExterno": 1,
+        "color": "VITA CLASSICAL B1",
+        "observaciones": "Puente Volado de Zirconio OD 12 & 11 Color B1",
+        "observacionesEscaneador": "",
+        "observacionesLab": "",
+        "direccion": "Leandro Valle No. Ext 45 No. Int , Col. Centro, Cd. Torreon,Coahuila.",
+        "celular": "8713477634",
+        "usuarioEscaneo": "Sin escaneador asignado",
+        "agendaInicio": "",
+        "agendaFin": "",
+        "fechaConfirmada": "",
+        "conScan": false,
+        "modoModelo": 0,
+        "metodoPago": "Efectivo",
+        "discosUtilizados": "2830:1",
+        "paquetes": "SIN PAQUETE",
+        "autColor": false,
+        "autMordida": false,
+        "autMunon": false,
+        "autAdit": false,
+        "piezas": [
+            "12",
+            "11"
+        ]
+    },
+    {
+        "ot": 30571,
+        "ordenId": 22557,
+        "folio": "30571",
+        "serie": "30571",
+        "entrega": "2026-09-24",
+        "estado": "Entrega",
+        "subEstado": "Entregado",
+        "idLab_Estado": 4,
+        "producto": "Guarda Calibre.80",
+        "doctor": "Dra. Yessica Karina",
+        "doctorNombreCompleto": "Dra. Yessica Karina Nava Espinoza",
+        "doctorId": 346,
+        "paciente": "Alberto Guitierrez",
+        "unidades": 1,
+        "libProd": "",
+        "nombreLib": "",
+        "monto": "$150.00",
+        "montoNum": 150,
+        "interno": true,
+        "tipoDoctorExterno": 0,
+        "color": "VITA CLASSICAL A1",
+        "observaciones": "Orden registrada en plataforma CAD/CAM DentLab.",
+        "observacionesEscaneador": "",
+        "observacionesLab": "",
+        "direccion": "Av. Hidalgo No. Ext 3125 No. Int , Col. Nuevo Torreon, Cd. Torreon,Coahuila.",
+        "celular": "4888823286",
+        "usuarioEscaneo": "Sin escaneador asignado",
+        "agendaInicio": "",
+        "agendaFin": "",
+        "fechaConfirmada": "",
+        "conScan": false,
+        "modoModelo": 1,
+        "metodoPago": "Efectivo",
+        "discosUtilizados": "Sin Discos Utilizados",
+        "paquetes": "SIN PAQUETE",
+        "autColor": false,
+        "autMordida": false,
+        "autMunon": false,
+        "autAdit": false,
+        "piezas": [
+            "11"
+        ]
+    },
+    {
+        "ot": 30570,
+        "ordenId": 22556,
+        "folio": "30570",
+        "serie": "30570",
+        "entrega": "2026-09-28",
+        "estado": "Entrega",
+        "subEstado": "Entregado",
+        "idLab_Estado": 4,
+        "producto": "Corona Zirconio",
+        "doctor": "Dra. Maria Ziomara Deyanira",
+        "doctorNombreCompleto": "Dra. Maria Ziomara Deyanira Padilla Castillo",
+        "doctorId": 546,
+        "paciente": "Keyma Gámez",
+        "unidades": 4,
+        "libProd": "",
+        "nombreLib": "",
+        "monto": "$0.00",
+        "montoNum": 0,
+        "interno": false,
+        "tipoDoctorExterno": 1,
+        "color": "VITA CLASSICAL B1",
+        "observaciones": "Coronas de Zirconio od 26 27 36",
+        "observacionesEscaneador": "",
+        "observacionesLab": "",
+        "direccion": "Ricardo Covarrubias No. Ext 3337 No. Int , Col. Estadio, Cd. Monterrey,Nuevo Leon.",
+        "celular": "8115555827",
+        "usuarioEscaneo": "Sin escaneador asignado",
+        "agendaInicio": "",
+        "agendaFin": "",
+        "fechaConfirmada": "",
+        "conScan": false,
+        "modoModelo": 0,
+        "metodoPago": "Garantía",
+        "discosUtilizados": "2790:4",
+        "paquetes": "SIN PAQUETE",
+        "autColor": false,
+        "autMordida": false,
+        "autMunon": false,
+        "autAdit": false,
+        "piezas": [
+            "26",
+            "27",
+            "36",
+            "11"
+        ]
+    },
+    {
+        "ot": 30569,
+        "ordenId": 22555,
+        "folio": "30569",
+        "serie": "30569",
+        "entrega": "2026-09-30",
+        "estado": "Diseño",
+        "subEstado": "Diseño",
+        "idLab_Estado": 2,
+        "producto": "Corona Zirconio",
+        "doctor": "Dra. Karla Beatriz",
+        "doctorNombreCompleto": "Dra. Karla Beatriz Soto Trejo",
+        "doctorId": 454,
+        "paciente": "Vanessa  Castorena",
+        "unidades": 1,
+        "libProd": "",
+        "nombreLib": "",
+        "monto": "$1,200.00",
+        "montoNum": 1200,
+        "interno": false,
+        "tipoDoctorExterno": 1,
+        "color": "VITA CLASSICAL A3",
+        "observaciones": "Orden registrada en plataforma CAD/CAM DentLab.",
+        "observacionesEscaneador": "",
+        "observacionesLab": "archivo?",
+        "direccion": "N 15 No. Ext 469 No. Int C, Col. Metroplex, Cd. Apodaca,Nuevo Leon.",
+        "celular": "8115899628",
+        "usuarioEscaneo": "Sin escaneador asignado",
+        "agendaInicio": "",
+        "agendaFin": "",
+        "fechaConfirmada": "",
+        "conScan": false,
+        "modoModelo": 1,
+        "metodoPago": "Efectivo",
+        "discosUtilizados": "Sin Discos Utilizados",
+        "paquetes": "PAQ: 3140",
+        "autColor": false,
+        "autMordida": false,
+        "autMunon": false,
+        "autAdit": false,
+        "piezas": [
+            "11"
+        ]
+    },
+    {
+        "ot": 30568,
+        "ordenId": 22554,
+        "folio": "30568",
+        "serie": "30568",
+        "entrega": "2026-09-24",
+        "estado": "Entrega",
+        "subEstado": "Entregado",
+        "idLab_Estado": 4,
+        "producto": "Corona PMMA",
+        "doctor": "Dra. Karla Liliana",
+        "doctorNombreCompleto": "Dra. Karla Liliana Fuentes Alvarez",
+        "doctorId": 351,
+        "paciente": "ROSA ALICIA VILLA",
+        "unidades": 3,
+        "libProd": "",
+        "nombreLib": "",
+        "monto": "$1,800.00",
+        "montoNum": 1800,
+        "interno": true,
+        "tipoDoctorExterno": 0,
+        "color": "VITA CLASSICAL A1",
+        "observaciones": "puente de PMMA 22, 21 Y 11",
+        "observacionesEscaneador": "",
+        "observacionesLab": "",
+        "direccion": "Cto Vicente Suarez No. Ext 20 No. Int , Col. Fracc Chapultepec, Cd. Torreon,Coahuila.",
+        "celular": "8718964494",
+        "usuarioEscaneo": "Sin escaneador asignado",
+        "agendaInicio": "",
+        "agendaFin": "",
+        "fechaConfirmada": "",
+        "conScan": false,
+        "modoModelo": 0,
+        "metodoPago": "Efectivo",
+        "discosUtilizados": "2628:3",
+        "paquetes": "SIN PAQUETE",
+        "autColor": false,
+        "autMordida": false,
+        "autMunon": false,
+        "autAdit": false,
+        "piezas": [
+            "22",
+            "21",
+            "11"
+        ]
+    },
+    {
+        "ot": 30567,
+        "ordenId": 22553,
+        "folio": "30567",
+        "serie": "30567",
+        "entrega": "2026-09-24",
+        "estado": "Entrega",
+        "subEstado": "Entregado",
+        "idLab_Estado": 4,
+        "producto": "Corona Zirconio",
+        "doctor": "Dra. Karla Liliana",
+        "doctorNombreCompleto": "Dra. Karla Liliana Fuentes Alvarez",
+        "doctorId": 351,
+        "paciente": "ROSA ALICIA VILLA",
+        "unidades": 1,
+        "libProd": "",
+        "nombreLib": "",
+        "monto": "$800.00",
+        "montoNum": 800,
+        "interno": true,
+        "tipoDoctorExterno": 0,
+        "color": "VITA CLASSICAL A1",
+        "observaciones": "corona de zirconio 37",
+        "observacionesEscaneador": "",
+        "observacionesLab": "",
+        "direccion": "Cto Vicente Suarez No. Ext 20 No. Int , Col. Fracc Chapultepec, Cd. Torreon,Coahuila.",
+        "celular": "8718964494",
+        "usuarioEscaneo": "Sin escaneador asignado",
+        "agendaInicio": "",
+        "agendaFin": "",
+        "fechaConfirmada": "",
+        "conScan": false,
+        "modoModelo": 0,
+        "metodoPago": "Efectivo",
+        "discosUtilizados": "2804:1",
+        "paquetes": "SIN PAQUETE",
+        "autColor": false,
+        "autMordida": false,
+        "autMunon": false,
+        "autAdit": false,
+        "piezas": [
+            "37"
+        ]
+    },
+    {
+        "ot": 30566,
+        "ordenId": 22552,
+        "folio": "30566",
+        "serie": "30566",
+        "entrega": "2026-09-28",
+        "estado": "Entrega",
+        "subEstado": "Entregado",
+        "idLab_Estado": 4,
+        "producto": "Alineador Extra",
+        "doctor": "Dra. Yessica",
+        "doctorNombreCompleto": "Dra. Yessica  Nava Espinoza",
+        "doctorId": 214,
+        "paciente": "Laura  Garza Abdo",
+        "unidades": 2,
+        "libProd": "",
+        "nombreLib": "",
+        "monto": "$1,400.00",
+        "montoNum": 1400,
+        "interno": true,
+        "tipoDoctorExterno": 0,
+        "color": "VITA CLASSICAL A2",
+        "observaciones": "Alineadores inf 7 -  8",
+        "observacionesEscaneador": "",
+        "observacionesLab": "",
+        "direccion": "Amador Cardenas No. Ext 1009 No. Int , Col. Nueva Los Angeles, Cd. Torreon,Coahuila.",
+        "celular": "8711169754",
+        "usuarioEscaneo": "Sin escaneador asignado",
+        "agendaInicio": "",
+        "agendaFin": "",
+        "fechaConfirmada": "",
+        "conScan": false,
+        "modoModelo": 0,
+        "metodoPago": "Efectivo",
+        "discosUtilizados": "Sin Discos Utilizados",
+        "paquetes": "SIN PAQUETE",
+        "autColor": false,
+        "autMordida": false,
+        "autMunon": false,
+        "autAdit": false,
+        "piezas": [
+            "11",
+            "21"
+        ]
+    },
+    {
+        "ot": 30565,
+        "ordenId": 22551,
+        "folio": "30565",
+        "serie": "30565",
+        "entrega": "2026-09-24",
+        "estado": "Entrega",
+        "subEstado": "Entregado",
+        "idLab_Estado": 4,
+        "producto": "Corona Zirconio",
+        "doctor": "Dra. Karla Liliana",
+        "doctorNombreCompleto": "Dra. Karla Liliana Fuentes Alvarez",
+        "doctorId": 351,
+        "paciente": "MARIA DE LOURDES  GONZALEZ",
+        "unidades": 4,
+        "libProd": "",
+        "nombreLib": "",
+        "monto": "$3,200.00",
+        "montoNum": 3200,
+        "interno": true,
+        "tipoDoctorExterno": 0,
+        "color": "VITA CLASSICAL A1",
+        "observaciones": "Numero de Orden 25223 PARA color A1 CORONA EN 33, PUENTE MULTIUNIT EN 34, 35 Y 36",
+        "observacionesEscaneador": "",
+        "observacionesLab": "DRY \nZONA DE CONTACTO .36    -   OCLUSION ESTATICA Y DINAMICA . 32    - PROXIMAL 0.2\nDISEÑO HECHO POR DR JOSE A 23 09 26",
+        "direccion": "Cto Vicente Suarez No. Ext 20 No. Int , Col. Fracc Chapultepec, Cd. Torreon,Coahuila.",
+        "celular": "8718964494",
+        "usuarioEscaneo": "Sin escaneador asignado",
+        "agendaInicio": "",
+        "agendaFin": "",
+        "fechaConfirmada": "",
+        "conScan": false,
+        "modoModelo": 0,
+        "metodoPago": "Efectivo",
+        "discosUtilizados": "2484:4",
+        "paquetes": "SIN PAQUETE",
+        "autColor": false,
+        "autMordida": false,
+        "autMunon": false,
+        "autAdit": false,
+        "piezas": [
+            "33",
+            "34",
+            "35",
+            "36"
+        ]
+    },
+    {
+        "ot": 30564,
+        "ordenId": 22550,
+        "folio": "30564",
+        "serie": "30564",
+        "entrega": "2026-09-24",
+        "estado": "Entrega",
+        "subEstado": "Entregado",
+        "idLab_Estado": 4,
+        "producto": "Corona Zirconio",
+        "doctor": "Dr. Ana Laura",
+        "doctorNombreCompleto": "Dr. Ana Laura  Castillo Hernandez",
+        "doctorId": 56,
+        "paciente": "Cinthia Du",
+        "unidades": 2,
+        "libProd": "",
+        "nombreLib": "",
+        "monto": "$1,600.00",
+        "montoNum": 1600,
+        "interno": true,
+        "tipoDoctorExterno": 0,
+        "color": "VITA CLASSICAL A4",
+        "observaciones": "Corona de zirconio dentosoportada OD 17 y\r\nCorona de zirconio implantosoportada OD 47",
+        "observacionesEscaneador": "",
+        "observacionesLab": "DRY 3 \nZONA DE CONTACTO .36    -   OCLUSION ESTATICA Y DINAMICA . 32    - PROXIMAL 0.2\nDISEÑO HECHO POR DR JOSE A 23 09 26",
+        "direccion": "Hidalgo No. Ext 3125 No. Int 3, Col. Nuevo Torreon, Cd. Torreon,Coahuila.",
+        "celular": "8713952578",
+        "usuarioEscaneo": "Sin escaneador asignado",
+        "agendaInicio": "",
+        "agendaFin": "",
+        "fechaConfirmada": "",
+        "conScan": false,
+        "modoModelo": 0,
+        "metodoPago": "Efectivo",
+        "discosUtilizados": "2744:2",
+        "paquetes": "SIN PAQUETE",
+        "autColor": false,
+        "autMordida": false,
+        "autMunon": false,
+        "autAdit": false,
+        "piezas": [
+            "17",
+            "47"
+        ]
+    },
+    {
+        "ot": 30563,
+        "ordenId": 22549,
+        "folio": "30563",
+        "serie": "30563",
+        "entrega": "2026-09-24",
+        "estado": "Entrega",
+        "subEstado": "Entregado",
+        "idLab_Estado": 4,
+        "producto": "Corona Zirconio",
+        "doctor": "Dra. Brenda Deyanira",
+        "doctorNombreCompleto": "Dra. Brenda Deyanira Hernández Aguirre",
+        "doctorId": 417,
+        "paciente": "ANA LUISA MOSBERGGER",
+        "unidades": 3,
+        "libProd": "",
+        "nombreLib": "",
+        "monto": "$2,400.00",
+        "montoNum": 2400,
+        "interno": true,
+        "tipoDoctorExterno": 0,
+        "color": "VITA CLASSICAL A4",
+        "observaciones": "CORONAS ZIRCONIO OD 17-45-47 IGUALAR COLOR A Numero de Orden 29647",
+        "observacionesEscaneador": "",
+        "observacionesLab": "DRY 3 \nZONA DE CONTACTO .36    -   OCLUSION ESTATICA Y DINAMICA . 32    - PROXIMAL 0.2\nDISEÑO HECHO POR DR JOSE A 23 09 26",
+        "direccion": "Sto Ciervo No. Ext 7 No. Int , Col. Fraccionamiento Viñedos, Cd. Torreon,Coahuila.",
+        "celular": "6566758982",
+        "usuarioEscaneo": "Sin escaneador asignado",
+        "agendaInicio": "",
+        "agendaFin": "",
+        "fechaConfirmada": "",
+        "conScan": false,
+        "modoModelo": 0,
+        "metodoPago": "Efectivo",
+        "discosUtilizados": "2744:3",
+        "paquetes": "SIN PAQUETE",
+        "autColor": false,
+        "autMordida": false,
+        "autMunon": false,
+        "autAdit": false,
+        "piezas": [
+            "17",
+            "45",
+            "47"
+        ]
+    },
+    {
+        "ot": 30562,
+        "ordenId": 22548,
+        "folio": "30562",
+        "serie": "30562",
+        "entrega": "2026-09-23",
+        "estado": "Entrega",
+        "subEstado": "Entregado",
+        "idLab_Estado": 4,
+        "producto": "Prótesis Removible",
+        "doctor": "Dra. Brenda Deyanira",
+        "doctorNombreCompleto": "Dra. Brenda Deyanira Hernández Aguirre",
+        "doctorId": 417,
+        "paciente": "Rodolfo Padilla Alatorre",
+        "unidades": 4,
+        "libProd": "",
+        "nombreLib": "",
+        "monto": "$2,000.00",
+        "montoNum": 2000,
+        "interno": true,
+        "tipoDoctorExterno": 0,
+        "color": "VITA CLASSICAL A2",
+        "observaciones": "REPETIR REMO DE OD 41-42-31-32 EN COLOR A2",
+        "observacionesEscaneador": "",
+        "observacionesLab": "",
+        "direccion": "Sto Ciervo No. Ext 7 No. Int , Col. Fraccionamiento Viñedos, Cd. Torreon,Coahuila.",
+        "celular": "6566758982",
+        "usuarioEscaneo": "Sin escaneador asignado",
+        "agendaInicio": "",
+        "agendaFin": "",
+        "fechaConfirmada": "",
+        "conScan": false,
+        "modoModelo": 0,
+        "metodoPago": "Efectivo",
+        "discosUtilizados": "Sin Discos Utilizados",
+        "paquetes": "SIN PAQUETE",
+        "autColor": false,
+        "autMordida": false,
+        "autMunon": false,
+        "autAdit": false,
+        "piezas": [
+            "41",
+            "42",
+            "31",
+            "32"
+        ]
+    },
+    {
+        "ot": 30561,
+        "ordenId": 22547,
+        "folio": "30561",
+        "serie": "30561",
+        "entrega": "2026-09-27",
+        "estado": "Entrega",
+        "subEstado": "Entregado",
+        "idLab_Estado": 4,
+        "producto": "Corona Zirconio",
+        "doctor": "Dr. Isaac",
+        "doctorNombreCompleto": "Dr. Isaac  Camacho Reza",
+        "doctorId": 57,
+        "paciente": "Maribel PX",
+        "unidades": 1,
+        "libProd": "",
+        "nombreLib": "",
+        "monto": "$0.00",
+        "montoNum": 0,
+        "interno": false,
+        "tipoDoctorExterno": 1,
+        "color": "VITA CLASSICAL A2",
+        "observaciones": "Corona de Zirconio od 16 Color A2",
+        "observacionesEscaneador": "",
+        "observacionesLab": "",
+        "direccion": "Av. Allende No. Ext 1260 No. Int 123, Col. Centro, Cd. Torreon,Coahuila.",
+        "celular": "8712189317",
+        "usuarioEscaneo": "Sin escaneador asignado",
+        "agendaInicio": "",
+        "agendaFin": "",
+        "fechaConfirmada": "",
+        "conScan": false,
+        "modoModelo": 0,
+        "metodoPago": "Efectivo",
+        "discosUtilizados": "2813:1",
+        "paquetes": "SIN PAQUETE",
+        "autColor": false,
+        "autMordida": false,
+        "autMunon": false,
+        "autAdit": false,
+        "piezas": [
+            "16"
+        ]
+    },
+    {
+        "ot": 30560,
+        "ordenId": 22546,
+        "folio": "30560",
+        "serie": "30560",
+        "entrega": "2026-09-24",
+        "estado": "Entrega",
+        "subEstado": "Entregado",
+        "idLab_Estado": 4,
+        "producto": "Guarda Calibre.80",
+        "doctor": "Dra. Yessica Karina",
+        "doctorNombreCompleto": "Dra. Yessica Karina Nava Espinoza",
+        "doctorId": 346,
+        "paciente": "juan Gerardo  ibarra rojo",
+        "unidades": 1,
+        "libProd": "",
+        "nombreLib": "",
+        "monto": "$150.00",
+        "montoNum": 150,
+        "interno": true,
+        "tipoDoctorExterno": 0,
+        "color": "VITA CLASSICAL A1",
+        "observaciones": "retenedor superior  calin 80",
+        "observacionesEscaneador": "",
+        "observacionesLab": "",
+        "direccion": "Av. Hidalgo No. Ext 3125 No. Int , Col. Nuevo Torreon, Cd. Torreon,Coahuila.",
+        "celular": "4888823286",
+        "usuarioEscaneo": "Sin escaneador asignado",
+        "agendaInicio": "",
+        "agendaFin": "",
+        "fechaConfirmada": "",
+        "conScan": false,
+        "modoModelo": 1,
+        "metodoPago": "Efectivo",
+        "discosUtilizados": "Sin Discos Utilizados",
+        "paquetes": "SIN PAQUETE",
+        "autColor": false,
+        "autMordida": false,
+        "autMunon": false,
+        "autAdit": false,
+        "piezas": [
+            "11"
+        ]
+    },
+    {
+        "ot": 30559,
+        "ordenId": 22545,
+        "folio": "30559",
+        "serie": "30559",
+        "entrega": "2026-09-24",
+        "estado": "Entrega",
+        "subEstado": "Entregado",
+        "idLab_Estado": 4,
+        "producto": "Guarda Calibre.60",
+        "doctor": "Dra. Brenda Deyanira",
+        "doctorNombreCompleto": "Dra. Brenda Deyanira Hernández Aguirre",
+        "doctorId": 417,
+        "paciente": "MARIA GUADALUPE  GUTIERREZ",
+        "unidades": 1,
+        "libProd": "",
+        "nombreLib": "",
+        "monto": "$150.00",
+        "montoNum": 150,
+        "interno": true,
+        "tipoDoctorExterno": 0,
+        "color": "VITA CLASSICAL A1",
+        "observaciones": "GUARDA SUPERIOR TERCIO MEDIO 0.60",
+        "observacionesEscaneador": "",
+        "observacionesLab": "",
+        "direccion": "Sto Ciervo No. Ext 7 No. Int , Col. Fraccionamiento Viñedos, Cd. Torreon,Coahuila.",
+        "celular": "6566758982",
+        "usuarioEscaneo": "Sin escaneador asignado",
+        "agendaInicio": "",
+        "agendaFin": "",
+        "fechaConfirmada": "",
+        "conScan": false,
+        "modoModelo": 1,
+        "metodoPago": "Efectivo",
+        "discosUtilizados": "Sin Discos Utilizados",
+        "paquetes": "SIN PAQUETE",
+        "autColor": false,
+        "autMordida": false,
+        "autMunon": false,
+        "autAdit": false,
+        "piezas": [
+            "11"
+        ]
+    },
+    {
+        "ot": 30558,
+        "ordenId": 22544,
+        "folio": "30558",
+        "serie": "30558",
+        "entrega": "2026-09-24",
+        "estado": "Entrega",
+        "subEstado": "Entregado",
+        "idLab_Estado": 4,
+        "producto": "Corona Zirconio",
+        "doctor": "Dra. Brenda Deyanira",
+        "doctorNombreCompleto": "Dra. Brenda Deyanira Hernández Aguirre",
+        "doctorId": 417,
+        "paciente": "Haydee  Valdes castillo",
+        "unidades": 2,
+        "libProd": "",
+        "nombreLib": "",
+        "monto": "$1,600.00",
+        "montoNum": 1600,
+        "interno": true,
+        "tipoDoctorExterno": 0,
+        "color": "VITA CLASSICAL A1",
+        "observaciones": "coronas ferulizadas de od 14 y 15  igualar color a orden 30513 \r\nNOTA : NUEVO ESCANEO DE HOY",
+        "observacionesEscaneador": "",
+        "observacionesLab": "DRY \nZONA DE CONTACTO .36    -   OCLUSION ESTATICA Y DINAMICA . 32    - PROXIMAL 0.2\nDISEÑO HECHO POR DR JOSE A 23 09 26",
+        "direccion": "Sto Ciervo No. Ext 7 No. Int , Col. Fraccionamiento Viñedos, Cd. Torreon,Coahuila.",
+        "celular": "6566758982",
+        "usuarioEscaneo": "Sin escaneador asignado",
+        "agendaInicio": "",
+        "agendaFin": "",
+        "fechaConfirmada": "",
+        "conScan": false,
+        "modoModelo": 0,
+        "metodoPago": "Efectivo",
+        "discosUtilizados": "2800:2",
+        "paquetes": "SIN PAQUETE",
+        "autColor": false,
+        "autMordida": false,
+        "autMunon": false,
+        "autAdit": false,
+        "piezas": [
+            "14",
+            "15"
+        ]
+    },
+    {
+        "ot": 30557,
+        "ordenId": 22543,
+        "folio": "30557",
+        "serie": "30557",
+        "entrega": "2026-09-24",
+        "estado": "Entrega",
+        "subEstado": "Entregado",
+        "idLab_Estado": 4,
+        "producto": "Guia Quirurgica DIO",
+        "doctor": "Dra. Karla Liliana",
+        "doctorNombreCompleto": "Dra. Karla Liliana Fuentes Alvarez",
+        "doctorId": 351,
+        "paciente": "HECTOR GARCIA",
+        "unidades": 3,
+        "libProd": "",
+        "nombreLib": "",
+        "monto": "$2,700.00",
+        "montoNum": 2700,
+        "interno": true,
+        "tipoDoctorExterno": 0,
+        "color": "VITA CLASSICAL A1",
+        "observaciones": "GUIA QUIRURGICA PARA IMPLANTE DIO 47, 35 Y 36",
+        "observacionesEscaneador": "",
+        "observacionesLab": "",
+        "direccion": "Cto Vicente Suarez No. Ext 20 No. Int , Col. Fracc Chapultepec, Cd. Torreon,Coahuila.",
+        "celular": "8718964494",
+        "usuarioEscaneo": "Sin escaneador asignado",
+        "agendaInicio": "",
+        "agendaFin": "",
+        "fechaConfirmada": "",
+        "conScan": false,
+        "modoModelo": 0,
+        "metodoPago": "Efectivo",
+        "discosUtilizados": "Sin Discos Utilizados",
+        "paquetes": "SIN PAQUETE",
+        "autColor": false,
+        "autMordida": false,
+        "autMunon": false,
+        "autAdit": false,
+        "piezas": [
+            "47",
+            "35",
+            "36"
+        ]
+    },
+    {
+        "ot": 30089,
+        "ordenId": 22075,
+        "folio": "30089",
+        "serie": "30089",
+        "entrega": "2026-08-28",
+        "estado": "Escaneo",
+        "subEstado": "Levantado",
+        "idLab_Estado": 1,
+        "producto": "Corona Zirconio",
+        "doctor": "DRA. DIANA ELIZABETH",
+        "doctorNombreCompleto": "Dra. Diana Elizabeth  Valadez Zúñiga",
+        "doctorId": 583,
+        "paciente": "Patricia Reyes",
+        "unidades": 1,
+        "libProd": "",
+        "nombreLib": "",
+        "monto": "$0.00",
+        "montoNum": 0,
+        "interno": false,
+        "tipoDoctorExterno": 1,
+        "color": "VITA CLASSICAL A2",
+        "observaciones": "falta rectificar el color",
+        "observacionesEscaneador": "",
+        "observacionesLab": "",
+        "direccion": "Jorge González Camarena No. Ext 207 No. Int , Col.  Roble San Nicolás, Cd. San Nicolas de los Garza,Nuevo Leon.",
+        "celular": "8992137937",
+        "usuarioEscaneo": "Mauricio Sotomayor",
+        "agendaInicio": "2026-08-28 16:00:00",
+        "agendaFin": "2026-08-28 18:00:00",
+        "fechaConfirmada": "2026-09-07 17:17:03",
+        "conScan": true,
+        "modoModelo": 0,
+        "metodoPago": "Efectivo",
+        "discosUtilizados": "2549:1",
+        "paquetes": "PAQ: 3189",
+        "autColor": false,
+        "autMordida": false,
+        "autMunon": false,
+        "autAdit": false,
+        "piezas": [
+            "11"
+        ]
+    },
+    {
+        "ot": 29921,
+        "ordenId": 21907,
+        "folio": "29921",
+        "serie": "29921",
+        "entrega": "2026-08-19",
+        "estado": "Escaneo",
+        "subEstado": "Levantado",
+        "idLab_Estado": 1,
+        "producto": "Corona Zirconio",
+        "doctor": "DRA. PATRICIA ELIZABETH",
+        "doctorNombreCompleto": "Dra. Patricia Elizabeth Valdes Diaz",
+        "doctorId": 442,
+        "paciente": "Rosy Delgado",
+        "unidades": 1,
+        "libProd": "",
+        "nombreLib": "",
+        "monto": "$0.00",
+        "montoNum": 0,
+        "interno": false,
+        "tipoDoctorExterno": 1,
+        "color": "VITA CLASSICAL A2",
+        "observaciones": "Orden registrada en plataforma CAD/CAM DentLab.",
+        "observacionesEscaneador": "",
+        "observacionesLab": "",
+        "direccion": "Av. Morelos No. Ext 225 No. Int , Col. Centro, Cd. Gómez Palacio,Durango.",
+        "celular": "8717828850",
+        "usuarioEscaneo": "Arturo Meza",
+        "agendaInicio": "2026-08-19 17:00:00",
+        "agendaFin": "2026-08-19 19:00:00",
+        "fechaConfirmada": "2026-08-14 17:17:44",
+        "conScan": true,
+        "modoModelo": 0,
+        "metodoPago": "Efectivo",
+        "discosUtilizados": "2549:1",
+        "paquetes": "PAQ: 3188",
+        "autColor": false,
+        "autMordida": false,
+        "autMunon": false,
+        "autAdit": false,
+        "piezas": [
+            "11"
+        ]
+    },
+    {
+        "ot": 26644,
+        "ordenId": 18632,
+        "folio": "26644",
+        "serie": "26644",
+        "entrega": "2026-01-20",
+        "estado": "Escaneo",
+        "subEstado": "Levantado",
+        "idLab_Estado": 1,
+        "producto": "Corona Zirconio",
+        "doctor": "DRA. PATRICIA ELIZABETH",
+        "doctorNombreCompleto": "Dra. Patricia Elizabeth Valdes Diaz",
+        "doctorId": 442,
+        "paciente": "Alonso Cruz Pérez",
+        "unidades": 1,
+        "libProd": "",
+        "nombreLib": "",
+        "monto": "$0.00",
+        "montoNum": 0,
+        "interno": false,
+        "tipoDoctorExterno": 1,
+        "color": "VITA CLASSICAL A2",
+        "observaciones": "Escaneo programado por WhatsApp",
+        "observacionesEscaneador": "",
+        "observacionesLab": "",
+        "direccion": "Av. Morelos No. Ext 225 No. Int , Col. Centro, Cd. Gómez Palacio,Durango.",
+        "celular": "8717828850",
+        "usuarioEscaneo": "Mauricio Sotomayor",
+        "agendaInicio": "2026-01-20 13:00:00",
+        "agendaFin": "2026-01-20 15:00:00",
+        "fechaConfirmada": "2026-01-16 21:36:15",
+        "conScan": true,
+        "modoModelo": 0,
+        "metodoPago": "Efectivo",
+        "discosUtilizados": "2549:1",
+        "paquetes": "PAQ: 2730",
+        "autColor": false,
+        "autMordida": true,
+        "autMunon": false,
+        "autAdit": false,
+        "piezas": [
+            "11"
+        ]
+    },
+    {
+        "ot": 22932,
+        "ordenId": 14919,
+        "folio": "22932",
+        "serie": "22932",
+        "entrega": "2025-06-05",
+        "estado": "Escaneo",
+        "subEstado": "Levantado",
+        "idLab_Estado": 1,
+        "producto": "Corona Zirconio",
+        "doctor": "DRA. MARIA PAULA",
+        "doctorNombreCompleto": "Dra. Maria Paula Ramos  Martinez",
+        "doctorId": 315,
+        "paciente": "Victor  Hernandez",
+        "unidades": 1,
+        "libProd": "",
+        "nombreLib": "",
+        "monto": "$0.00",
+        "montoNum": 0,
+        "interno": false,
+        "tipoDoctorExterno": 1,
+        "color": "VITA CLASSICAL A3",
+        "observaciones": "Orden registrada en plataforma CAD/CAM DentLab.",
+        "observacionesEscaneador": "",
+        "observacionesLab": "",
+        "direccion": "ENCINO No. Ext 111 No. Int , Col. TORREON JARDIN, Cd. Torreon,Coahuila.",
+        "celular": "8717832159",
+        "usuarioEscaneo": "Mauricio Sotomayor",
+        "agendaInicio": "2025-06-05 14:00:00",
+        "agendaFin": "2025-06-05 15:00:00",
+        "fechaConfirmada": "2026-09-07 17:16:42",
+        "conScan": true,
+        "modoModelo": 0,
+        "metodoPago": "Recoleccion Efectivo",
+        "discosUtilizados": "2801:1",
+        "paquetes": "SIN PAQUETE",
+        "autColor": false,
+        "autMordida": false,
+        "autMunon": false,
+        "autAdit": false,
+        "piezas": [
+            "11"
+        ]
+    },
+    {
+        "ot": 30556,
+        "ordenId": 22542,
+        "folio": "30556",
+        "serie": "30556",
+        "entrega": "2026-09-27",
+        "estado": "Diseño",
+        "subEstado": "Diseño",
+        "idLab_Estado": 2,
+        "producto": "Corona Zirconio",
+        "doctor": "DR. MARTIN ARGENIS",
+        "doctorNombreCompleto": "Dr. Martin Argenis Silva Ontiveros",
+        "doctorId": 449,
+        "paciente": "Constantino Reyes",
+        "unidades": 1,
+        "libProd": "",
+        "nombreLib": "",
+        "monto": "$0.00",
+        "montoNum": 0,
+        "interno": false,
+        "tipoDoctorExterno": 1,
+        "color": "VITA CLASSICAL A3",
+        "observaciones": "Corona de zirconio OD21, color A3",
+        "observacionesEscaneador": "",
+        "observacionesLab": "confirmar",
+        "direccion": "Rio Nazas No. Ext 1297 No. Int , Col. Valle del Mirador, Cd. Monterrey,Nuevo Leon.",
+        "celular": "8110218395",
+        "usuarioEscaneo": "Sin escaneador asignado",
+        "agendaInicio": "",
+        "agendaFin": "",
+        "fechaConfirmada": "",
+        "conScan": false,
+        "modoModelo": 0,
+        "metodoPago": "Transferencia",
+        "discosUtilizados": "Sin Discos Utilizados",
+        "paquetes": "SIN PAQUETE",
+        "autColor": false,
+        "autMordida": false,
+        "autMunon": false,
+        "autAdit": false,
+        "piezas": [
+            "11"
+        ]
+    },
+    {
+        "ot": 30548,
+        "ordenId": 22534,
+        "folio": "30548",
+        "serie": "30548",
+        "entrega": "2026-09-28",
+        "estado": "Diseño",
+        "subEstado": "Diseño",
+        "idLab_Estado": 2,
+        "producto": "Corona Zirconio",
+        "doctor": "DRA. NORA PATRICIA",
+        "doctorNombreCompleto": "Dra. Nora Patricia Flores Moreno",
+        "doctorId": 421,
+        "paciente": "Alicia Ramos Hernández",
+        "unidades": 1,
+        "libProd": "",
+        "nombreLib": "",
+        "monto": "$0.00",
+        "montoNum": 0,
+        "interno": false,
+        "tipoDoctorExterno": 1,
+        "color": "VITA CLASSICAL B2",
+        "observaciones": "Corona zirconia 1.5 color B2",
+        "observacionesEscaneador": "",
+        "observacionesLab": "confirmar",
+        "direccion": "Av.las Puentes No. Ext 1406 No. Int , Col. Las Puentes 8vo sector., Cd. San Nicolas de los Garza,Nuevo Leon.",
+        "celular": "8182084800",
+        "usuarioEscaneo": "Sin escaneador asignado",
+        "agendaInicio": "",
+        "agendaFin": "",
+        "fechaConfirmada": "",
+        "conScan": false,
+        "modoModelo": 1,
+        "metodoPago": "Efectivo",
+        "discosUtilizados": "Sin Discos Utilizados",
+        "paquetes": "PAQ: 2803",
+        "autColor": false,
+        "autMordida": false,
+        "autMunon": false,
+        "autAdit": false,
+        "piezas": [
+            "11"
+        ]
+    },
+    {
+        "ot": 30532,
+        "ordenId": 22518,
+        "folio": "30532",
+        "serie": "30532",
+        "entrega": "2026-09-26",
+        "estado": "Diseño",
+        "subEstado": "Diseño",
+        "idLab_Estado": 2,
+        "producto": "Placa total zirconio",
+        "doctor": "DR. ISMAEL",
+        "doctorNombreCompleto": "Dr. Ismael Gonzalez Anaya",
+        "doctorId": 184,
+        "paciente": "Gloria González",
+        "unidades": 16,
+        "libProd": "",
+        "nombreLib": "",
+        "monto": "$0.00",
+        "montoNum": 0,
+        "interno": false,
+        "tipoDoctorExterno": 1,
+        "color": "VITA CLASSICAL A2",
+        "observaciones": "FULL ARCH superior sobre 6 implantes, color A2",
+        "observacionesEscaneador": "",
+        "observacionesLab": "",
+        "direccion": "Azalea No. Ext 100 No. Int , Col. Fracc. Jardines de Durango, Cd. Durango,Durango.",
+        "celular": "6181020640",
+        "usuarioEscaneo": "Sin escaneador asignado",
+        "agendaInicio": "",
+        "agendaFin": "",
+        "fechaConfirmada": "",
+        "conScan": false,
+        "modoModelo": 0,
+        "metodoPago": "Transferencia",
+        "discosUtilizados": "Sin Discos Utilizados",
+        "paquetes": "SIN PAQUETE",
+        "autColor": false,
+        "autMordida": false,
+        "autMunon": false,
+        "autAdit": false,
+        "piezas": [
+            "11",
+            "21",
+            "14",
+            "15",
+            "16",
+            "24",
+            "25",
+            "26",
+            "36",
+            "46",
+            "35",
+            "37",
+            "45",
+            "47",
+            "12",
+            "22"
+        ]
+    },
+    {
+        "ot": 30429,
+        "ordenId": 22415,
+        "folio": "30429",
+        "serie": "30429",
+        "entrega": "2026-09-21",
+        "estado": "Diseño",
+        "subEstado": "Diseño",
+        "idLab_Estado": 2,
+        "producto": "Corona Zirconio",
+        "doctor": "DRA. ELIDA LIZETH",
+        "doctorNombreCompleto": "Dra. Elida Lizeth De la Cerda Peña",
+        "doctorId": 304,
+        "paciente": "Misael De la cerda",
+        "unidades": 5,
+        "libProd": "",
+        "nombreLib": "",
+        "monto": "$0.00",
+        "montoNum": 0,
+        "interno": false,
+        "tipoDoctorExterno": 1,
+        "color": "VITA CLASSICAL A3",
+        "observaciones": "el px presenta mordida borde a borde,  el color es A3 tercio cervical y medio, A2 tercio invisal",
+        "observacionesEscaneador": "",
+        "observacionesLab": "repreparar??",
+        "direccion": "Av. Benito Juarez No. Ext 4595 No. Int 12B, Col. Chula Vista, Cd. Guadalupe,Nuevo Leon.",
+        "celular": "8112032746",
+        "usuarioEscaneo": "Sin escaneador asignado",
+        "agendaInicio": "",
+        "agendaFin": "",
+        "fechaConfirmada": "",
+        "conScan": false,
+        "modoModelo": 1,
+        "metodoPago": "Efectivo",
+        "discosUtilizados": "Sin Discos Utilizados",
+        "paquetes": "PAQ: 3158",
+        "autColor": false,
+        "autMordida": false,
+        "autMunon": false,
+        "autAdit": false,
+        "piezas": [
+            "11",
+            "21",
+            "14",
+            "15",
+            "16"
+        ]
+    },
+    {
+        "ot": 30399,
+        "ordenId": 22385,
+        "folio": "30399",
+        "serie": "30399",
+        "entrega": "2026-09-15",
+        "estado": "Diseño",
+        "subEstado": "Diseño",
+        "idLab_Estado": 2,
+        "producto": "Carilla",
+        "doctor": "DR. JORGE ALBERTO",
+        "doctorNombreCompleto": "Dr. Jorge Alberto Vazquez Aguilera",
+        "doctorId": 310,
+        "paciente": "Mario  Delgado",
+        "unidades": 2,
+        "libProd": "",
+        "nombreLib": "",
+        "monto": "$0.00",
+        "montoNum": 0,
+        "interno": false,
+        "tipoDoctorExterno": 1,
+        "color": "VITA CLASSICAL C4",
+        "observaciones": "Orden registrada en plataforma CAD/CAM DentLab.",
+        "observacionesEscaneador": "",
+        "observacionesLab": "repreparar y reescanear",
+        "direccion": "Texcoco    No. Ext 615 No. Int 113, Col. Chapultepec, Cd. Monterrey,Nuevo Leon.",
+        "celular": "8118017498",
+        "usuarioEscaneo": "Sin escaneador asignado",
+        "agendaInicio": "",
+        "agendaFin": "",
+        "fechaConfirmada": "",
+        "conScan": false,
+        "modoModelo": 1,
+        "metodoPago": "Efectivo",
+        "discosUtilizados": "Sin Discos Utilizados",
+        "paquetes": "PAQ: 3220",
+        "autColor": false,
+        "autMordida": false,
+        "autMunon": false,
+        "autAdit": false,
+        "piezas": [
+            "11",
+            "21"
+        ]
+    },
+    {
+        "ot": 30373,
+        "ordenId": 22359,
+        "folio": "30373",
+        "serie": "30373",
+        "entrega": "2026-09-16",
+        "estado": "Diseño",
+        "subEstado": "Diseño",
+        "idLab_Estado": 2,
+        "producto": "Corona Zirconio",
+        "doctor": "DRA. CLAUDIA LIZETH",
+        "doctorNombreCompleto": "Dra. Claudia Lizeth Mares Bustos",
+        "doctorId": 453,
+        "paciente": "Carolina Sanchez",
+        "unidades": 5,
+        "libProd": "",
+        "nombreLib": "",
+        "monto": "$0.00",
+        "montoNum": 0,
+        "interno": false,
+        "tipoDoctorExterno": 1,
+        "color": "VITA CLASSICAL B2",
+        "observaciones": "Color b2 cervical y medio\n          A1 incisal",
+        "observacionesEscaneador": "",
+        "observacionesLab": "CONFIRMAR PZ 43 SOLAMENTE",
+        "direccion": "Benito Juárez No. Ext 137 No. Int , Col. Centro, Cd. San Pedro Garza García,Nuevo Leon.",
+        "celular": "8120100053",
+        "usuarioEscaneo": "Sin escaneador asignado",
+        "agendaInicio": "",
+        "agendaFin": "",
+        "fechaConfirmada": "",
+        "conScan": false,
+        "modoModelo": 1,
+        "metodoPago": "Efectivo",
+        "discosUtilizados": "2754:1",
+        "paquetes": "PAQ: 3125",
+        "autColor": false,
+        "autMordida": false,
+        "autMunon": false,
+        "autAdit": false,
+        "piezas": [
+            "11",
+            "21",
+            "14",
+            "15",
+            "16"
+        ]
+    },
+    {
+        "ot": 28329,
+        "ordenId": 20314,
+        "folio": "28329",
+        "serie": "28329",
+        "entrega": "2026-05-12",
+        "estado": "Diseño",
+        "subEstado": "Diseño",
+        "idLab_Estado": 2,
+        "producto": "Corona Zirconio",
+        "doctor": "DR. MIGUEL ALAN",
+        "doctorNombreCompleto": "Dr. Miguel Alan Lozano Gonzalez",
+        "doctorId": 530,
+        "paciente": "Rosa  Enedina",
+        "unidades": 2,
+        "libProd": "",
+        "nombreLib": "",
+        "monto": "$0.00",
+        "montoNum": 0,
+        "interno": false,
+        "tipoDoctorExterno": 1,
+        "color": "VITA CLASSICAL A2",
+        "observaciones": "Oclusal color A1, tercio medio A2, cervical A3",
+        "observacionesEscaneador": "",
+        "observacionesLab": "reescanear 11/05 16/05",
+        "direccion": "Alhambra No. Ext 120 No. Int , Col. La Alhambra, Cd. Monterrey,Nuevo Leon.",
+        "celular": "8124325868",
+        "usuarioEscaneo": "Sin escaneador asignado",
+        "agendaInicio": "",
+        "agendaFin": "",
+        "fechaConfirmada": "",
+        "conScan": false,
+        "modoModelo": 1,
+        "metodoPago": "Efectivo",
+        "discosUtilizados": "Sin Discos Utilizados",
+        "paquetes": "PAQ: 2976",
+        "autColor": false,
+        "autMordida": false,
+        "autMunon": false,
+        "autAdit": false,
+        "piezas": [
+            "11",
+            "21"
+        ]
+    },
+    {
+        "ot": 25662,
+        "ordenId": 17650,
+        "folio": "25662",
+        "serie": "25662",
+        "entrega": "2025-11-18",
+        "estado": "Diseño",
+        "subEstado": "Diseño",
+        "idLab_Estado": 2,
+        "producto": "Corona Zirconio",
+        "doctor": "DRA. NAYELI",
+        "doctorNombreCompleto": "Dra. Nayeli Santos Zapata",
+        "doctorId": 405,
+        "paciente": "Catalina de Hoyos",
+        "unidades": 4,
+        "libProd": "",
+        "nombreLib": "",
+        "monto": "$0.00",
+        "montoNum": 0,
+        "interno": false,
+        "tipoDoctorExterno": 1,
+        "color": "VITA CLASSICAL A2",
+        "observaciones": "Color A3 tercio cervical y A2 tercio medio e incisal",
+        "observacionesEscaneador": "",
+        "observacionesLab": "",
+        "direccion": "Afganistan No. Ext 137 No. Int , Col. Prados de la cienegu, Cd. Apodaca,Nuevo Leon.",
+        "celular": "8120243109",
+        "usuarioEscaneo": "Sin escaneador asignado",
+        "agendaInicio": "",
+        "agendaFin": "",
+        "fechaConfirmada": "",
+        "conScan": false,
+        "modoModelo": 1,
+        "metodoPago": "Efectivo",
+        "discosUtilizados": "Sin Discos Utilizados",
+        "paquetes": "PAQ: 2735",
+        "autColor": false,
+        "autMordida": false,
+        "autMunon": false,
+        "autAdit": false,
+        "piezas": [
+            "11",
+            "21",
+            "14",
+            "15"
+        ]
+    },
+    {
+        "ot": 22648,
+        "ordenId": 14635,
+        "folio": "22648",
+        "serie": "22648",
+        "entrega": "2025-05-20",
+        "estado": "Diseño",
+        "subEstado": "Diseño",
+        "idLab_Estado": 2,
+        "producto": "Corona Zirconio",
+        "doctor": "DRA. NEIRA JAEL",
+        "doctorNombreCompleto": "Dra. Neira Jael Cruz Castro",
+        "doctorId": 441,
+        "paciente": "Edna  Córdova",
+        "unidades": 1,
+        "libProd": "",
+        "nombreLib": "",
+        "monto": "$0.00",
+        "montoNum": 0,
+        "interno": false,
+        "tipoDoctorExterno": 1,
+        "color": "VITA CLASSICAL A3",
+        "observaciones": "Se observa inflamación en encía entre 2.6 y 2.7  favor de en esa zona dejar al ras",
+        "observacionesEscaneador": "",
+        "observacionesLab": "",
+        "direccion": "Acueducto de Celaya No. Ext 1365 No. Int , Col. Sierra Morena, Cd. Guadalupe,Nuevo Leon.",
+        "celular": "8114206886",
+        "usuarioEscaneo": "Sin escaneador asignado",
+        "agendaInicio": "",
+        "agendaFin": "",
+        "fechaConfirmada": "",
+        "conScan": false,
+        "modoModelo": 1,
+        "metodoPago": "Efectivo",
+        "discosUtilizados": "Sin Discos Utilizados",
+        "paquetes": "PAQ: 2407",
+        "autColor": false,
+        "autMordida": false,
+        "autMunon": false,
+        "autAdit": false,
+        "piezas": [
+            "11"
+        ]
+    },
+    {
+        "ot": 30540,
+        "ordenId": 22526,
+        "folio": "30540",
+        "serie": "30540",
+        "entrega": "2026-09-28",
+        "estado": "Fabricación",
+        "subEstado": "Fabricación",
+        "idLab_Estado": 3,
+        "producto": "Corona Zirconio",
+        "doctor": "DRA. NAYELI",
+        "doctorNombreCompleto": "Dra. Nayeli Santos Zapata",
+        "doctorId": 405,
+        "paciente": "Ana María  Ramírez",
+        "unidades": 1,
+        "libProd": "",
+        "nombreLib": "",
+        "monto": "$0.00",
+        "montoNum": 0,
+        "interno": false,
+        "tipoDoctorExterno": 1,
+        "color": "VITA CLASSICAL C4",
+        "observaciones": "Color: C2 tercio incisal, C4 tercio medio y cervical",
+        "observacionesEscaneador": "",
+        "observacionesLab": "",
+        "direccion": "Afganistan No. Ext 137 No. Int , Col. Prados de la cienegu, Cd. Apodaca,Nuevo Leon.",
+        "celular": "8120243109",
+        "usuarioEscaneo": "Sin escaneador asignado",
+        "agendaInicio": "",
+        "agendaFin": "",
+        "fechaConfirmada": "",
+        "conScan": false,
+        "modoModelo": 1,
+        "metodoPago": "Efectivo",
+        "discosUtilizados": "2573:1",
+        "paquetes": "PAQ: 3162",
+        "autColor": false,
+        "autMordida": false,
+        "autMunon": false,
+        "autAdit": false,
+        "piezas": [
+            "11"
+        ]
+    }
+],
+  canceladas: [
+    {
+        "serie": "30543",
+        "responsable": "Mauricio Sotomayor",
+        "comentario": "error de captura"
+    },
+    {
+        "serie": "30514",
+        "responsable": "Mauricio Sotomayor",
+        "comentario": "Error de captura"
+    },
+    {
+        "serie": "30459",
+        "responsable": "Irene Martinez",
+        "comentario": ""
+    },
+    {
+        "serie": "30424",
+        "responsable": "Mauricio Sotomayor",
+        "comentario": "error de captura"
+    },
+    {
+        "serie": "30352",
+        "responsable": "Mauricio Sotomayor",
+        "comentario": "Orden duplicada"
+    },
+    {
+        "serie": "30336",
+        "responsable": "Mauricio Sotomayor",
+        "comentario": "ORDEN DUPLICADA"
+    },
+    {
+        "serie": "30328",
+        "responsable": "Mauricio Sotomayor",
+        "comentario": "ERROR DE CAPTURA"
+    },
+    {
+        "serie": "30308",
+        "responsable": "Mauricio Sotomayor",
+        "comentario": "error de captura"
+    },
+    {
+        "serie": "30178",
+        "responsable": "Mauricio Sotomayor",
+        "comentario": "ERROR DE CAPTURA"
+    },
+    {
+        "serie": "30176",
+        "responsable": "Mauricio Sotomayor",
+        "comentario": "ERROR DE CAPTURA"
+    },
+    {
+        "serie": "30157",
+        "responsable": "Mauricio Sotomayor",
+        "comentario": "CAMBIO DE TX"
+    },
+    {
+        "serie": "30126",
+        "responsable": "Mauricio Sotomayor",
+        "comentario": "ERROR DE CAPTURA EN NUMERO DE PIEZAS"
+    },
+    {
+        "serie": "30112",
+        "responsable": "Mauricio Sotomayor",
+        "comentario": "Se van a rehabilitar mas piezas"
+    },
+    {
+        "serie": "29944",
+        "responsable": "Mauricio Sotomayor",
+        "comentario": "Error"
+    },
+    {
+        "serie": "29898",
+        "responsable": "Mauricio Sotomayor",
+        "comentario": "error de cantidad capturada"
+    },
+    {
+        "serie": "29871",
+        "responsable": "Mauricio Sotomayor",
+        "comentario": "Error de Dr en captura"
+    },
+    {
+        "serie": "29870",
+        "responsable": "Mauricio Sotomayor",
+        "comentario": "error de captura"
+    },
+    {
+        "serie": "29762",
+        "responsable": "Mauricio Sotomayor",
+        "comentario": "Error de captura en numero de unidades"
+    },
+    {
+        "serie": "29552",
+        "responsable": "Mauricio Sotomayor",
+        "comentario": "Error en cantidad de alienadores"
+    },
+    {
+        "serie": "29550",
+        "responsable": "Irene Martinez",
+        "comentario": "POR SOLICITUD DEL DOCTOR"
+    },
+    {
+        "serie": "29497",
+        "responsable": "Mauricio Sotomayor",
+        "comentario": "Error de producto"
+    },
+    {
+        "serie": "29463",
+        "responsable": "Irene Martinez",
+        "comentario": "MODO DE PAGO INOCRRECTO"
+    },
+    {
+        "serie": "29428",
+        "responsable": "Irene Martinez",
+        "comentario": "ERROR EN EL NOMBRE DEL PACIENTE"
+    },
+    {
+        "serie": "29416",
+        "responsable": "Mauricio Sotomayor",
+        "comentario": "Error de captura"
+    },
+    {
+        "serie": "29408",
+        "responsable": "Mauricio Sotomayor",
+        "comentario": "error de captura"
+    }
+],
+  canceladasCount: 646,
+  pendientes: [],
+  pendientesCount: 0
+};
+
+// Buscadores universales exactos para Doctores y Órdenes de Trabajo
+window.findDoctorByAny = function (query) {
+  const list = (DENT_STATE && DENT_STATE.doctores) ? DENT_STATE.doctores : [];
+  if (!list.length) return null;
+  if (query === undefined || query === null || query === '') return list[0];
+  const qStr = String(query).trim();
+  const qUpper = qStr.toUpperCase().replace(/\s+/g, ' ');
+
+  // 1. Por ID numérico o código DOC-xxx
+  let found = list.find(d => String(d.id) === qStr || String(d.codigo).toUpperCase() === qUpper);
+  if (found) return found;
+
+  // 2. Por coincidencia exacta en nombre completo o doctorCorto
+  found = list.find(
+    d =>
+      (d.nombre && d.nombre.trim().toUpperCase().replace(/\s+/g, ' ') === qUpper) ||
+      (d.doctorCorto && d.doctorCorto.trim().toUpperCase().replace(/\s+/g, ' ') === qUpper)
+  );
+  if (found) return found;
+
+  // 3. Por prefijo o inclusión (ej. "DRA. BRENDA DEYANIRA" -> "Dra. Brenda Deyanira Hernández Aguirre")
+  found = list.find(
+    d =>
+      (d.nombre && d.nombre.trim().toUpperCase().replace(/\s+/g, ' ').startsWith(qUpper)) ||
+      (d.nombre && d.nombre.trim().toUpperCase().replace(/\s+/g, ' ').includes(qUpper)) ||
+      (d.doctorCorto && qUpper.includes(d.doctorCorto.trim().toUpperCase().replace(/\s+/g, ' ')))
+  );
+  return found || list[0];
+};
+
+window.findOrdenByAny = function (query) {
+  const list = (INICIO_DATA && INICIO_DATA.ordenes) ? INICIO_DATA.ordenes : [];
+  if (!list.length) return null;
+  if (query === undefined || query === null || query === '') return list[0];
+  const qStr = String(query).trim().replace(/^#?OT-?/i, '');
+  return (
+    list.find(
+      o =>
+        String(o.serie) === qStr ||
+        String(o.ot) === qStr ||
+        String(o.ordenId) === qStr ||
+        String(o.folio) === String(query).trim()
+    ) || list[0]
+  );
 };
 
 let paginaActualOrdenes = 1;
 
-function renderStageRow(item, isEntrega = false) {
-  const rowClass = item.interno ? (isEntrega ? 'row-green' : 'row-yellow') : 'hover:bg-slate-50';
+// Renderizador exacto para TableEscaneo.php (7 columnas: OT, PROD, UNI, DOCTOR, SOLI, EST, REGISTRO)
+function renderRowEscaneo(item) {
+  const rowClass = item.interno ? 'row-yellow' : 'hover:bg-slate-50';
   return `
     <tr class="${rowClass} transition-colors">
       <td class="text-center font-bold">
-        <a href="javascript:void(0)" onclick="abrirOrdenTrabajo('${item.serie}')" class="text-blue-600 hover:underline font-mono">${item.ot}</a>
+        <a href="javascript:void(0)" onclick="abrirOrdenTrabajo('${item.serie}')" title="${item.paquetes || ''}" class="text-blue-600 hover:underline font-mono">${item.ot}</a>
       </td>
       <td class="text-center font-semibold text-slate-800">${item.prod}</td>
       <td class="text-center font-mono">${item.uni}</td>
       <td class="text-center">
-        <a href="javascript:void(0)" onclick="abrirDetalleDoctor('${item.doctor}')" class="text-blue-600 hover:underline">${item.doctor}</a>
+        <a href="javascript:void(0)" onclick="abrirDetalleDoctor('${item.doctorId || item.doctor}')" class="text-blue-600 hover:underline">${item.doctor}</a>
       </td>
       <td class="text-center font-mono text-slate-600">${item.soli}</td>
-      <td class="text-center"><span class="px-1.5 py-0.5 rounded bg-slate-100 text-slate-700 font-semibold text-[10px]">${item.est}</span></td>
+      <td class="text-center">${item.est}</td>
       <td class="text-center font-mono text-[10px] text-slate-500">${item.reg}</td>
+    </tr>
+  `;
+}
+
+// Renderizador exacto para TableDiseno.php y TableFabricacion.php (5 columnas: OT, PROD, UNI, DOCTOR, ENT)
+function renderRowDisenoFab(item) {
+  const rowClass = item.interno ? 'row-yellow' : 'hover:bg-slate-50';
+  return `
+    <tr class="${rowClass} transition-colors">
+      <td class="text-center font-bold">
+        <a href="javascript:void(0)" onclick="abrirOrdenTrabajo('${item.serie}')" title="${item.paquetes || ''}" class="text-blue-600 hover:underline font-mono">${item.ot}</a>
+      </td>
+      <td class="text-center font-semibold text-slate-800">${item.prod}</td>
+      <td class="text-center font-mono">${item.uni}</td>
+      <td class="text-center">
+        <a href="javascript:void(0)" onclick="abrirDetalleDoctor('${item.doctorId || item.doctor}')" class="text-blue-600 hover:underline">${item.doctor}</a>
+      </td>
+      <td class="text-center font-mono text-slate-600">${item.soli}</td>
+    </tr>
+  `;
+}
+
+// Renderizador exacto para TableEntrega.php (6 columnas: OT, PROD, UNI, DOCTOR, ENT, EST)
+function renderRowEntrega(item) {
+  const rowClass = item.interno ? 'row-green' : 'hover:bg-slate-50';
+  return `
+    <tr class="${rowClass} transition-colors">
+      <td class="text-center font-bold">
+        <a href="javascript:void(0)" onclick="abrirOrdenTrabajo('${item.serie}')" title="${item.paquetes || ''}" class="text-blue-600 hover:underline font-mono">${item.ot}</a>
+      </td>
+      <td class="text-center font-semibold text-slate-800">${item.prod}</td>
+      <td class="text-center font-mono">${item.uni}</td>
+      <td class="text-center">
+        <a href="javascript:void(0)" onclick="abrirDetalleDoctor('${item.doctorId || item.doctor}')" class="text-blue-600 hover:underline">${item.doctor}</a>
+      </td>
+      <td class="text-center font-mono text-slate-600">${item.soli}</td>
+      <td class="text-center">${item.est}</td>
     </tr>
   `;
 }
@@ -2497,10 +8250,26 @@ function renderTablasInicio() {
   const tbEnt = document.getElementById('tbodyStageEntrega');
   const tbOrd = document.getElementById('tbodyGeneralOrdenes');
 
-  if (tbEsc) tbEsc.innerHTML = INICIO_DATA.escaneo.map(i => renderStageRow(i, false)).join('');
-  if (tbDis) tbDis.innerHTML = INICIO_DATA.diseno.map(i => renderStageRow(i, false)).join('');
-  if (tbFab) tbFab.innerHTML = INICIO_DATA.fabricacion.map(i => renderStageRow(i, false)).join('');
-  if (tbEnt) tbEnt.innerHTML = INICIO_DATA.entrega.map(i => renderStageRow(i, true)).join('');
+  if (tbEsc) {
+    tbEsc.innerHTML = INICIO_DATA.escaneo.length
+      ? INICIO_DATA.escaneo.map(renderRowEscaneo).join('')
+      : '<tr><td colspan="7" class="py-6 text-center text-slate-400 font-semibold">NO HAY ORDENES POR MOSTRAR</td></tr>';
+  }
+  if (tbDis) {
+    tbDis.innerHTML = INICIO_DATA.diseno.length
+      ? INICIO_DATA.diseno.map(renderRowDisenoFab).join('')
+      : '<tr><td colspan="5" class="py-6 text-center text-slate-400 font-semibold">NO HAY ORDENES POR MOSTRAR</td></tr>';
+  }
+  if (tbFab) {
+    tbFab.innerHTML = INICIO_DATA.fabricacion.length
+      ? INICIO_DATA.fabricacion.map(renderRowDisenoFab).join('')
+      : '<tr><td colspan="5" class="py-6 text-center text-slate-400 font-semibold">NO HAY ORDENES POR MOSTRAR</td></tr>';
+  }
+  if (tbEnt) {
+    tbEnt.innerHTML = INICIO_DATA.entrega.length
+      ? INICIO_DATA.entrega.map(renderRowEntrega).join('')
+      : '<tr><td colspan="6" class="py-6 text-center text-slate-400 font-semibold">NO HAY ORDENES POR MOSTRAR</td></tr>';
+  }
 
   const bEsc = document.getElementById('badgeCountEscaneo');
   const bDis = document.getElementById('badgeCountDiseno');
@@ -2511,45 +8280,56 @@ function renderTablasInicio() {
   if (bFab) bFab.innerText = INICIO_DATA.fabricacion.length;
   if (bEnt) bEnt.innerText = INICIO_DATA.entrega.length;
 
+  const numCanc = document.getElementById('NumberOrdenCanceladas');
+  const numPend = document.getElementById('NumberOrden');
+  if (numCanc) numCanc.innerText = INICIO_DATA.canceladasCount ?? 646;
+  if (numPend) numPend.innerText = INICIO_DATA.pendientesCount ?? 0;
+
   if (tbOrd) {
-    const start = (paginaActualOrdenes - 1) * 8;
-    const slice = INICIO_DATA.ordenes.slice(start, start + 8);
-    tbOrd.innerHTML = slice.map(o => `
-      <tr class="hover:bg-slate-50 transition-colors">
-        <td>
-          <button type="button" onclick="Etiqueta('${o.doctor}', '${o.paciente}', '${o.entrega}', '${o.serie}')" class="px-2.5 py-1 rounded-lg bg-blue-600 hover:bg-blue-700 text-white text-xs shadow-sm transition-colors" title="Imprimir Etiqueta">
-            <i data-lucide="barcode" class="w-3.5 h-3.5 mx-auto"></i>
-          </button>
-        </td>
-        <td>
-          <button type="button" onclick="abrirOrdenTrabajo('${o.serie}')" class="px-2.5 py-1 rounded-lg bg-blue-600 hover:bg-blue-700 text-white text-xs font-mono font-bold shadow-sm inline-flex items-center gap-1 transition-colors" title="Abrir Orden de Trabajo">
-            <img src="assets/muela.png" class="w-3.5 h-3.5 object-contain" alt="">
-            <span>${o.ot}</span>
-          </button>
-        </td>
-        <td>
-          <button type="button" onclick="abrirDetalleDoctor('${o.doctor}')" class="px-2.5 py-1 rounded-lg bg-slate-800 hover:bg-blue-600 text-white text-xs shadow-sm transition-colors" title="Ficha del Doctor">
-            <i data-lucide="stethoscope" class="w-3.5 h-3.5 mx-auto"></i>
-          </button>
-        </td>
-        <td class="font-mono font-bold text-slate-700">${o.folio}</td>
-        <td class="font-mono">${o.entrega}</td>
-        <td>
-          <span class="px-2 py-0.5 rounded-full font-bold text-[10px] ${
-            o.estado === 'Terminado' ? 'bg-emerald-100 text-emerald-800' :
-            o.estado === 'Fabricación' ? 'bg-amber-100 text-amber-800' :
-            o.estado === 'Diseño' ? 'bg-blue-100 text-blue-800' : 'bg-slate-100 text-slate-700'
-          }">${o.estado}</span>
-        </td>
-        <td class="font-semibold text-slate-800">${o.producto}</td>
-        <td>${o.doctor}</td>
-        <td>${o.paciente}</td>
-        <td class="font-mono font-bold">${o.unidades}</td>
-        <td class="font-mono text-[11px] text-slate-500">${o.libProd}</td>
-        <td class="font-mono font-bold text-slate-900">${o.monto}</td>
-      </tr>
-    `).join('');
-    lucide.createIcons();
+    const perPage = 20;
+    const start = (paginaActualOrdenes - 1) * perPage;
+    const slice = INICIO_DATA.ordenes.slice(start, start + perPage);
+    tbOrd.innerHTML = slice.map(o => {
+      // Exactamente igual a DENT DEMO/TableOrdenes.php:
+      // Si TipoDoctorExterno == 0 e idLab_Estado == 4 (Entrega) -> .row-green
+      // Si TipoDoctorExterno == 0 e idLab_Estado != 4 -> .row-yellow
+      const rowClass = o.interno
+        ? (Number(o.idLab_Estado) === 4 || o.estado === 'Entrega' ? 'row-green' : 'row-yellow')
+        : 'hover:bg-slate-50';
+      const safeDoc = (o.doctor || '').replace(/'/g, "\\'");
+      const safePac = (o.paciente || '').replace(/'/g, "\\'");
+      return `
+        <tr class="${rowClass} transition-colors">
+          <td class="text-center">
+            <button type="button" onclick="Etiqueta('${safeDoc}', '${safePac}', '${o.entrega}', '${o.serie}')" class="btnEtiqueta" title="Imprimir Etiqueta">
+              <i data-lucide="barcode" class="w-3.5 h-3.5"></i>
+            </button>
+          </td>
+          <td class="text-center">
+            <button type="button" onclick="abrirOrdenTrabajo('${o.serie}')" class="btnEtiqueta" title="Orden de Trabajo #${o.serie}">
+              <img src="assets/muela.png" class="w-3.5 h-3.5 object-contain" alt="OT">
+            </button>
+          </td>
+          <td class="text-center">
+            <button type="button" onclick="abrirDetalleDoctor('${o.doctorId || safeDoc}')" class="btnEtiqueta" title="Ficha del Doctor">
+              <i data-lucide="user-round" class="w-3.5 h-3.5"></i>
+            </button>
+          </td>
+          <td class="font-mono font-bold">${o.serie}</td>
+          <td class="font-mono">${o.entrega}</td>
+          <td>${o.estado}</td>
+          <td class="font-semibold">${o.producto}</td>
+          <td>
+            <a href="javascript:void(0)" onclick="abrirDetalleDoctor('${o.doctorId || safeDoc}')" class="hover:underline">${o.doctor}</a>
+          </td>
+          <td>${o.paciente}</td>
+          <td class="font-mono font-bold">${o.unidades}</td>
+          <td class="font-mono text-[11px]">${o.libProd || ''}</td>
+          <td class="font-mono font-bold">${o.monto}</td>
+        </tr>
+      `;
+    }).join('');
+    if (typeof lucide !== 'undefined') lucide.createIcons();
   }
 }
 
@@ -2562,74 +8342,61 @@ function cambiarPaginaOrdenes(p) {
     p2.className = p === 2 ? 'px-3 py-1.5 bg-blue-600 text-white font-bold border-r border-slate-200' : 'px-3 py-1.5 bg-white hover:bg-slate-50 text-slate-700 border-r border-slate-200';
   }
   renderTablasInicio();
-  const tbody = document.getElementById('tbodyOrdenesInicio');
+  const tbody = document.getElementById('tbodyGeneralOrdenes');
   if (tbody) animateViewEntrance(tbody);
 }
 
+// Modales de Inicio idénticos a DENT DEMO/index.php (Órdenes Canceladas y Órdenes Pendientes de Pago)
 function renderModalsInicio() {
   const tbCanc = document.getElementById('tbodyModalCanceladas');
   if (tbCanc) {
-    tbCanc.innerHTML = [
-      { ot: 1019, folio: 'ORD-26-1019', fecha: '2026-10-03', prod: 'Corona Monolítica Zirconio', doc: 'Dr. Roberto Garza', pac: 'Luis Fernando Ochoa', uni: 1, lib: '2026-10-02', monto: '$1,850.00', motivo: 'Línea marginal poco visible en escaneo' },
-      { ot: 1011, folio: 'ORD-26-1011', fecha: '2026-10-01', prod: 'Carilla E-Max', doc: 'Dra. Elena Torres', pac: 'Mónica Villarreal', uni: 2, lib: '2026-09-30', monto: '$4,800.00', motivo: 'Cambio de plan de tratamiento por el Doctor' }
-    ].map(c => `
+    tbCanc.innerHTML = (INICIO_DATA.canceladas || []).map(c => `
       <tr class="hover:bg-slate-50">
-        <td><button onclick="document.getElementById('modalCanceladas').classList.add('hidden'); abrirOrdenTrabajo('OT-9841')" class="px-2 py-0.5 rounded bg-blue-600 text-white font-mono font-bold">${c.ot}</button></td>
-        <td><button onclick="document.getElementById('modalCanceladas').classList.add('hidden'); abrirDetalleDoctor('${c.doc}')" class="px-2 py-0.5 rounded bg-slate-800 text-white">DOC</button></td>
-        <td class="font-mono font-bold">${c.folio}</td>
-        <td class="font-mono">${c.fecha}</td>
-        <td><span class="px-2 py-0.5 rounded bg-rose-100 text-rose-800 font-bold text-[10px]">Cancelada</span></td>
-        <td>${c.prod}</td>
-        <td>${c.doc}</td>
-        <td>${c.pac}</td>
-        <td class="font-mono">${c.uni}</td>
-        <td class="font-mono text-slate-500">${c.lib}</td>
-        <td class="font-mono font-bold">${c.monto}</td>
-        <td class="text-rose-700 font-semibold">${c.motivo}</td>
+        <td class="font-mono font-bold">
+          <a href="javascript:void(0)" onclick="document.getElementById('modalCanceladas').classList.add('hidden'); abrirOrdenTrabajo('${c.serie}')" class="text-blue-600 hover:underline">${c.serie}</a>
+        </td>
+        <td class="uppercase font-semibold text-slate-700">${c.responsable}</td>
+        <td class="uppercase text-slate-600">${c.comentario}</td>
       </tr>
     `).join('');
   }
 
   const tbPend = document.getElementById('tbodyModalPendientesPago');
   if (tbPend) {
-    tbPend.innerHTML = [
-      { ot: 1047, folio: 'ORD-26-1047', entrega: '2026-10-09', est: 'Diseño', prod: 'Carillas Disilicato E-Max', doc: 'Dra. Elena Torres', pac: 'Carlos Alberto Ruiz', uni: 4, lib: '2026-10-07', monto: '$9,600.00', pagado: '$4,800.00', saldo: '$4,800.00' },
-      { ot: 1046, folio: 'ORD-26-1046', entrega: '2026-10-07', est: 'Fabricación', prod: 'Puente 3 Unidades Zirconio', doc: 'Dr. Mauricio Cárdenas', pac: 'Roberto Hernández Gil', uni: 3, lib: '2026-10-06', monto: '$5,550.00', pagado: '$2,000.00', saldo: '$3,550.00' },
-      { ot: 1042, folio: 'ORD-26-1042', entrega: '2026-10-07', est: 'Terminado', prod: 'Provisional PMMA Larga Duración', doc: 'Dr. Roberto Garza', pac: 'Fernando Domínguez', uni: 6, lib: '2026-10-04', monto: '$3,900.00', pagado: '$0.00', saldo: '$3,900.00' }
-    ].map(p => `
-      <tr class="hover:bg-slate-50">
-        <td><button onclick="document.getElementById('modalPendientes').classList.add('hidden'); abrirOrdenTrabajo('OT-9842')" class="px-2 py-0.5 rounded bg-blue-600 text-white font-mono font-bold">${p.ot}</button></td>
-        <td><button onclick="document.getElementById('modalPendientes').classList.add('hidden'); abrirDetalleDoctor('${p.doc}')" class="px-2 py-0.5 rounded bg-slate-800 text-white">DOC</button></td>
-        <td class="font-mono font-bold">${p.folio}</td>
-        <td class="font-mono">${p.entrega}</td>
-        <td><span class="px-2 py-0.5 rounded bg-amber-100 text-amber-800 font-bold text-[10px]">${p.est}</span></td>
-        <td>${p.prod}</td>
-        <td>${p.doc}</td>
-        <td>${p.pac}</td>
-        <td class="font-mono">${p.uni}</td>
-        <td class="font-mono text-slate-500">${p.lib}</td>
-        <td class="font-mono font-bold">${p.monto}</td>
-        <td class="font-mono text-emerald-700 font-bold">${p.pagado}</td>
-        <td class="font-mono text-rose-700 font-extrabold">${p.saldo}</td>
-      </tr>
-    `).join('');
+    if (!INICIO_DATA.pendientes || INICIO_DATA.pendientes.length === 0) {
+      tbPend.innerHTML = '<tr><td colspan="4" class="py-6 text-center text-slate-400 font-semibold">NO HAY ORDENES POR MOSTRAR</td></tr>';
+    } else {
+      tbPend.innerHTML = INICIO_DATA.pendientes.map(p => `
+        <tr class="hover:bg-slate-50">
+          <td class="font-mono font-bold">${p.serie}</td>
+          <td>${p.doctor}</td>
+          <td>${p.paciente}</td>
+          <td>
+            <button type="button" onclick="document.getElementById('modalPendientes').classList.add('hidden'); abrirOrdenTrabajo('${p.serie}')" class="btnEtiqueta">
+              <img src="assets/muela.png" class="w-3.5 h-3.5 object-contain" alt="OT">
+            </button>
+          </td>
+        </tr>
+      `).join('');
+    }
   }
 }
 
+// Impresión de Etiqueta con Código de Barras 100% idéntica a DENT DEMO/TableOrdenes.php
 function Etiqueta(doctor, paciente, fechaEntrega, codigo) {
-  const orden = (INICIO_DATA.ordenes || []).find(o => o.serie === codigo || String(o.ot) === String(codigo)) || INICIO_DATA.ordenes[0];
-  const docObj = (DENT_STATE.doctores || []).find(d => d.nombre === (orden ? orden.doctor : doctor)) || DENT_STATE.doctores[0];
+  const orden = window.findOrdenByAny(codigo);
+  const docObj = window.findDoctorByAny(orden ? (orden.doctorId || orden.doctor) : doctor);
 
-  const serieOT = orden ? String(orden.ot) : String(codigo);
+  const serieOT = orden ? String(orden.serie) : String(codigo);
   const fEnt = orden ? orden.entrega : fechaEntrega;
-  const docNombre = orden ? orden.doctor : doctor;
-  const direccion = docObj ? `${docObj.clinica}, Monterrey, N.L.` : 'Av. Lázaro Cárdenas 2400, San Pedro Garza García';
+  const docNombre = orden ? (orden.doctorNombreCompleto || orden.doctor) : doctor;
+  const direccion = (orden && orden.direccion) ? orden.direccion : (docObj ? docObj.direccion : 'Torreón, Coahuila');
   const pacNombre = orden ? orden.paciente : paciente;
-  const celular = docObj ? docObj.celular : '81 1920 4412';
-  const producto = orden ? orden.producto : 'Corona Monolítica Zirconio';
-  const piezas = orden ? `${orden.unidades} (${(orden.piezas || []).join(', ')})` : '1';
-  const colorimetro = orden ? orden.color : 'Vita A2';
-  const observaciones = 'Sellado marginal verificado en escaneo CAD/CAM';
+  const celular = (orden && orden.celular) ? orden.celular : (docObj ? docObj.celular : '');
+  const producto = orden ? orden.producto : 'Corona Zirconio';
+  const piezas = orden ? String(orden.unidades) : '1';
+  const colorimetro = orden ? orden.color : 'VITA CLASSICAL A2';
+  const observaciones = orden ? (orden.observaciones || '') : '';
 
   // 1. Mostrar overlay idéntico a $.blockUI de DENT DEMO ("GENERANDO ETIQUETA, POR FAVOR ESPERE...")
   let blockOverlay = document.getElementById('dentBlockUIOverlay');
@@ -2741,8 +8508,7 @@ let currentOrdenActiva = null;
 let currentTabOrden = 'home';
 
 function abrirOrdenTrabajo(serie) {
-  const found = INICIO_DATA.ordenes.find(o => o.serie === serie) || INICIO_DATA.ordenes[0];
-  currentOrdenActiva = found;
+  currentOrdenActiva = window.findOrdenByAny(serie);
   currentTabOrden = 'home';
 
   const secInicio = document.getElementById('section-inicio');
@@ -2760,11 +8526,15 @@ function cambiarTabOrdenTrabajo(tab) {
 
 function avanzarEtapaOrdenActual() {
   if (!currentOrdenActiva) return;
-  const etapas = ['Escaneo', 'Diseño', 'Fabricación', 'Terminado'];
-  const idx = etapas.indexOf(currentOrdenActiva.estado);
-  const next = etapas[Math.min(idx + 1, etapas.length - 1)];
-  currentOrdenActiva.estado = next;
-  showToast('Etapa Liberada', `La Orden #${currentOrdenActiva.ot} avanzó a la etapa: ${next}`);
+  const sel = document.getElementById('selectEtapaOT');
+  if (sel && sel.value) {
+    currentOrdenActiva.estado = sel.value;
+  } else {
+    const etapas = ['Escaneo', 'Diseño', 'Fabricación', 'Entrega'];
+    const idx = etapas.indexOf(currentOrdenActiva.estado);
+    currentOrdenActiva.estado = etapas[Math.min(idx + 1, etapas.length - 1)];
+  }
+  showToast('Etapa Actualizada', `La Orden #${currentOrdenActiva.serie} se encuentra ahora en etapa: ${currentOrdenActiva.estado}`);
   renderVistaOrdenTrabajo();
 }
 
@@ -2772,12 +8542,13 @@ function registrarAbonoOrdenActual(e) {
   e.preventDefault();
   const monto = document.getElementById('inputMontoAbonoOT')?.value || '500';
   const metodo = document.getElementById('selectMetodoAbonoOT')?.value || 'Efectivo';
-  showToast('Pago Registrado', `Se aplicó un abono de $${Number(monto).toLocaleString('es-MX')} MXN (${metodo}) a la Orden #${currentOrdenActiva.ot}.`);
+  showToast('Pago Registrado', `Se aplicó un abono de $${Number(monto).toLocaleString('es-MX')} MXN (${metodo}) a la Orden #${currentOrdenActiva.serie}.`);
   renderVistaOrdenTrabajo();
 }
 
 function renderVistaOrdenTrabajo() {
   const o = currentOrdenActiva || INICIO_DATA.ordenes[0];
+  const docObj = window.findDoctorByAny(o.doctorId || o.doctor);
   const container = document.getElementById('section-dynamic');
   if (!container) return;
 
@@ -2789,15 +8560,18 @@ function renderVistaOrdenTrabajo() {
       <div class="mb-4 flex items-center justify-between">
         <button onclick="openModule('inicio')" class="px-3.5 py-2 rounded-xl bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold flex items-center gap-2 shadow-sm transition-colors">
           <i data-lucide="arrow-left" class="w-4 h-4"></i>
-          <span>Regresar a Inicio</span>
+          <span>Regresar</span>
         </button>
-        <span class="font-mono text-xs font-bold text-slate-500">Folio: ${o.folio} • Serie: ${o.serie}</span>
+        <div class="flex items-center gap-2">
+          <span class="px-2.5 py-1 rounded-lg bg-slate-100 text-slate-700 font-mono text-xs font-bold">Serie: #${o.serie}</span>
+          <span class="px-2.5 py-1 rounded-lg ${o.interno ? 'bg-rose-100 text-rose-800' : 'bg-blue-100 text-blue-800'} text-xs font-bold">${o.interno ? 'DOCTOR INTERNO' : 'DOCTOR EXTERNO'}</span>
+        </div>
       </div>
 
       <!-- 4 Pestañas Exactas de OrdenTrabajo.php -->
       <div class="border-b border-slate-200 flex flex-wrap gap-1.5 mb-5 text-xs font-bold">
         <button onclick="cambiarTabOrdenTrabajo('home')" class="px-4 py-2.5 rounded-t-xl border-t border-l border-r transition-all ${currentTabOrden === 'home' ? 'bg-slate-900 text-white border-slate-900' : 'bg-slate-100 text-slate-600 border-transparent hover:bg-slate-200'}">
-          Orden de trabajo #${o.ot}
+          Orden de trabajo
         </button>
         <button onclick="cambiarTabOrdenTrabajo('pago')" class="px-4 py-2.5 rounded-t-xl border-t border-l border-r transition-all ${currentTabOrden === 'pago' ? 'bg-slate-900 text-white border-slate-900' : 'bg-slate-100 text-slate-600 border-transparent hover:bg-slate-200'}">
           Pago
@@ -2812,83 +8586,197 @@ function renderVistaOrdenTrabajo() {
 
       ${currentTabOrden === 'home' ? `
         <div class="grid grid-cols-1 lg:grid-cols-12 gap-5 text-xs">
+          <!-- Columna Izquierda: Escaneo + Discos utilizados + Orden de Trabajo (Idéntico a OrdenTrabajo.php L128-357) -->
           <div class="lg:col-span-7 space-y-4">
-            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 bg-slate-50 p-4 rounded-2xl border border-slate-200">
-              <div><span class="text-slate-400 font-bold uppercase text-[10px] block">Doctor</span><strong class="text-slate-900 text-sm">${o.doctor}</strong></div>
-              <div><span class="text-slate-400 font-bold uppercase text-[10px] block">Clínica / Consultorio</span><strong class="text-slate-800">Clínica Dental San Pedro • Consultorio 402</strong></div>
-              <div><span class="text-slate-400 font-bold uppercase text-[10px] block">Paciente</span><strong class="text-slate-900">${o.paciente}</strong></div>
-              <div><span class="text-slate-400 font-bold uppercase text-[10px] block">Folio / Serie</span><strong class="font-mono text-blue-600">${o.folio} (${o.serie})</strong></div>
-              <div><span class="text-slate-400 font-bold uppercase text-[10px] block">Producto</span><strong class="text-slate-900">${o.producto}</strong></div>
-              <div><span class="text-slate-400 font-bold uppercase text-[10px] block">Colorímetro Guía VITA</span><strong class="text-slate-900">${o.color}</strong></div>
-              <div><span class="text-slate-400 font-bold uppercase text-[10px] block">Unidades</span><strong class="font-mono">${o.unidades} pieza(s) — [${o.piezas.join(', ')}]</strong></div>
-              <div><span class="text-slate-400 font-bold uppercase text-[10px] block">Entrega Solicitada</span><strong class="font-mono text-emerald-700">${o.entrega}</strong></div>
-              <div><span class="text-slate-400 font-bold uppercase text-[10px] block">Estado Actual</span><span class="px-2.5 py-0.5 rounded-full bg-blue-100 text-blue-800 font-bold">${o.estado}</span></div>
-              <div><span class="text-slate-400 font-bold uppercase text-[10px] block">Costo Total Orden</span><strong class="font-mono text-sm text-slate-900">${o.monto}</strong></div>
-            </div>
-
-            <div class="bg-white p-4 rounded-2xl border border-slate-200 space-y-3">
-              <h4 class="font-bold text-slate-800 uppercase border-b border-slate-100 pb-2">Control de Etapa y Liberación</h4>
-              <div class="flex flex-wrap items-center justify-between gap-3">
-                <div class="flex items-center gap-2">
-                  <span class="text-slate-500 font-semibold">Etapa actual:</span>
-                  <span class="px-3 py-1 rounded-lg bg-slate-900 text-white font-bold">${o.estado}</span>
-                </div>
-                <div class="flex items-center gap-2">
-                  <button onclick="avanzarEtapaOrdenActual()" class="px-3.5 py-2 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-bold shadow-sm transition-colors">
-                    Liberar Siguiente Etapa
-                  </button>
-                  <button onclick="Etiqueta('${o.doctor}', '${o.paciente}', '${o.entrega}', '${o.serie}')" class="px-3.5 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-white font-bold shadow-sm transition-colors">
-                    Imprimir Etiqueta
-                  </button>
-                </div>
+            
+            <!-- Bloque 1: Escaneo -->
+            <div class="bg-slate-50 p-4 rounded-2xl border border-slate-200 space-y-2.5">
+              <div class="flex items-center justify-between border-b border-slate-200 pb-2">
+                <h4 class="font-bold text-slate-800 uppercase tracking-wide">Escaneo</h4>
+                <button type="button" onclick="openModule('calendario')" class="px-3 py-1 rounded-lg bg-blue-600 hover:bg-blue-700 text-white font-bold text-[11px]">Agregar cita</button>
+              </div>
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+                <div><span class="text-slate-400 font-bold uppercase text-[10px] block">Nombre de usuario:</span><strong class="text-slate-800">${o.usuarioEscaneo || 'Mauricio Sotomayor'}</strong></div>
+                <div><span class="text-slate-400 font-bold uppercase text-[10px] block">Fecha confirmada:</span><strong class="font-mono text-slate-800">${o.fechaConfirmada || 'Pendiente'}</strong></div>
+                <div><span class="text-slate-400 font-bold uppercase text-[10px] block">Agenda inicio:</span><strong class="font-mono text-slate-700">${o.agendaInicio || 'N/A'}</strong></div>
+                <div><span class="text-slate-400 font-bold uppercase text-[10px] block">Agenda fin:</span><strong class="font-mono text-slate-700">${o.agendaFin || 'N/A'}</strong></div>
               </div>
               <div>
-                <label class="font-bold text-slate-600 block mb-1">Observaciones Clínicas / Diseño CAD:</label>
-                <textarea rows="2" class="w-full p-2.5 rounded-xl border border-slate-200 bg-slate-50 text-xs">Sellado marginal revisado en 3Shape. Contacto oclusal ligero en céntrica, anatomía natural solicitada por el doctor.</textarea>
+                <span class="text-slate-400 font-bold uppercase text-[10px] block mb-1">Observaciones Escaneador:</span>
+                <input type="text" value="${o.observacionesEscaneador || ''}" placeholder="Sin observaciones de escaneo" class="w-full px-3 py-1.5 rounded-xl border border-slate-200 bg-white text-xs">
+              </div>
+            </div>
+
+            <!-- Bloque 2: Discos utilizados en la orden -->
+            <div class="bg-white p-4 rounded-2xl border border-slate-200 space-y-2.5">
+              <h4 class="font-bold text-slate-800 uppercase tracking-wide border-b border-slate-100 pb-2">Discos utilizados en la orden</h4>
+              <table class="w-full text-center border border-slate-200 general-table">
+                <thead>
+                  <tr>
+                    <th>Disco</th>
+                    <th>Colorimetro</th>
+                    <th>Tamaño</th>
+                    <th>Cantidad</th>
+                  </tr>
+                </thead>
+                <tbody class="divide-y divide-slate-100">
+                  ${o.discosUtilizados && o.discosUtilizados !== 'Sin Discos Utilizados' ? `
+                    <tr>
+                      <td class="font-mono font-bold">${o.discosUtilizados.split(':')[0]}</td>
+                      <td>${o.color}</td>
+                      <td>18 mm</td>
+                      <td class="font-mono font-bold">${o.unidades}</td>
+                    </tr>
+                  ` : `
+                    <tr>
+                      <td colspan="4" class="py-3 text-center text-slate-400 font-semibold">Sin Discos Utilizados</td>
+                    </tr>
+                  `}
+                </tbody>
+              </table>
+            </div>
+
+            <!-- Bloque 3: Orden de Trabajo (Datos completos + Switches + Detalle del pedido) -->
+            <div class="bg-slate-50 p-4 rounded-2xl border border-slate-200 space-y-3">
+              <h4 class="font-bold text-slate-800 uppercase tracking-wide border-b border-slate-200 pb-2">Orden de Trabajo</h4>
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                <div><span class="text-slate-400 font-bold uppercase text-[10px] block">Serie:</span><strong class="font-mono text-sm text-blue-600">${o.serie}</strong></div>
+                <div>
+                  <span class="text-slate-400 font-bold uppercase text-[10px] block">Doctor:</span>
+                  <a href="javascript:void(0)" onclick="abrirDetalleDoctor('${o.doctorId || o.doctor}')" class="font-bold text-sm text-blue-600 hover:underline">${o.doctorNombreCompleto || o.doctor}</a>
+                </div>
+                <div><span class="text-slate-400 font-bold uppercase text-[10px] block">Paciente:</span><strong class="text-slate-900">${o.paciente}</strong></div>
+                <div><span class="text-slate-400 font-bold uppercase text-[10px] block">Celular Doctor:</span><strong class="font-mono text-slate-800">${o.celular || (docObj ? docObj.celular : '')}</strong></div>
+                <div class="sm:col-span-2"><span class="text-slate-400 font-bold uppercase text-[10px] block">Dirección:</span><strong class="text-slate-700">${o.direccion || (docObj ? docObj.direccion : '')}</strong></div>
+                <div><span class="text-slate-400 font-bold uppercase text-[10px] block">Entrega solicitada:</span><input type="date" value="${o.entrega}" class="mt-0.5 px-2.5 py-1 rounded-lg border border-slate-200 bg-white font-mono text-xs"></div>
+                <div><span class="text-slate-400 font-bold uppercase text-[10px] block">Liberación a prod:</span><strong class="font-mono text-slate-700">${o.libProd || 'Pendiente'} ${o.nombreLib ? '(' + o.nombreLib + ')' : ''}</strong></div>
+                <div><span class="text-slate-400 font-bold uppercase text-[10px] block">Modo de pago:</span><strong class="text-slate-800">${o.metodoPago || 'Efectivo'}</strong></div>
+                <div><span class="text-slate-400 font-bold uppercase text-[10px] block">Colorimetro:</span><strong class="text-blue-700 font-bold">${o.color}</strong></div>
+                <div class="sm:col-span-2"><span class="text-slate-400 font-bold uppercase text-[10px] block">Paquetes usados:</span><strong class="font-mono text-slate-800">${o.paquetes || 'SIN PAQUETE'}</strong></div>
+              </div>
+
+              <div>
+                <label class="text-slate-500 font-bold uppercase text-[10px] block mb-1">Observaciones doctor:</label>
+                <textarea rows="2" readonly class="w-full p-2.5 rounded-xl border border-slate-200 bg-white text-xs text-slate-700">${o.observaciones || ''}</textarea>
+              </div>
+
+              <div>
+                <label class="text-slate-500 font-bold uppercase text-[10px] block mb-1">Observaciones laboratorio:</label>
+                <textarea rows="2" class="w-full p-2.5 rounded-xl border border-slate-200 bg-white text-xs text-slate-700" placeholder="Ingrese observaciones internas de laboratorio...">${o.observacionesLab || ''}</textarea>
+              </div>
+
+              <!-- 5 Switches de Autorización idénticos a OrdenTrabajo.php (Color, Mordida, Muñon, Aditamento, Linea Sellado) -->
+              <div class="grid grid-cols-2 sm:grid-cols-5 gap-2 pt-2 border-t border-slate-200">
+                <label class="flex items-center gap-2 bg-white px-3 py-2 rounded-xl border border-slate-200 cursor-pointer">
+                  <input type="checkbox" ${o.autColor ? 'checked' : ''} class="rounded text-blue-600">
+                  <span class="font-bold text-[11px]">Color</span>
+                </label>
+                <label class="flex items-center gap-2 bg-white px-3 py-2 rounded-xl border border-slate-200 cursor-pointer">
+                  <input type="checkbox" ${o.autMordida ? 'checked' : ''} class="rounded text-blue-600">
+                  <span class="font-bold text-[11px]">Mordida</span>
+                </label>
+                <label class="flex items-center gap-2 bg-white px-3 py-2 rounded-xl border border-slate-200 cursor-pointer">
+                  <input type="checkbox" ${o.autMunon ? 'checked' : ''} class="rounded text-blue-600">
+                  <span class="font-bold text-[11px]">Muñon</span>
+                </label>
+                <label class="flex items-center gap-2 bg-white px-3 py-2 rounded-xl border border-slate-200 cursor-pointer">
+                  <input type="checkbox" ${o.autAdit ? 'checked' : ''} class="rounded text-blue-600">
+                  <span class="font-bold text-[11px]">Aditamento</span>
+                </label>
+                <label class="flex items-center gap-2 bg-white px-3 py-2 rounded-xl border border-slate-200 cursor-pointer">
+                  <input type="checkbox" checked class="rounded text-blue-600">
+                  <span class="font-bold text-[11px]">Linea Sellado</span>
+                </label>
+              </div>
+
+              <!-- Detalle del pedido (Cat, Prod, Pza, Total) -->
+              <div class="pt-2">
+                <h5 class="font-bold text-slate-700 uppercase text-[11px] mb-2">Detalle del pedido</h5>
+                <table class="w-full text-center border border-slate-200 general-table">
+                  <thead>
+                    <tr>
+                      <th>Cat</th>
+                      <th>Prod</th>
+                      <th>Pza</th>
+                      <th>Total</th>
+                    </tr>
+                  </thead>
+                  <tbody class="divide-y divide-slate-100 bg-white">
+                    <tr>
+                      <td>Laboratorio</td>
+                      <td class="font-bold">${o.producto}</td>
+                      <td class="font-mono font-bold">${o.unidades}</td>
+                      <td class="font-mono font-bold text-slate-900">${o.monto}</td>
+                    </tr>
+                  </tbody>
+                </table>
               </div>
             </div>
           </div>
 
-          <div class="lg:col-span-5 bg-slate-50 p-4 rounded-2xl border border-slate-200 flex flex-col justify-between">
-            <div>
-              <div class="flex items-center justify-between border-b border-slate-200 pb-2.5 mb-3">
-                <h4 class="font-bold text-slate-800 uppercase">Odontograma de la Orden</h4>
-                <div class="flex items-center gap-3 text-[11px] font-bold">
-                  <span class="flex items-center gap-1"><span class="w-3 h-3 rounded-sm bg-blue-600 inline-block"></span> PILAR</span>
-                  <span class="flex items-center gap-1"><span class="w-3 h-3 rounded-sm bg-emerald-600 inline-block"></span> PÓNTICO</span>
+          <!-- Columna Derecha: Odontograma de la Orden (#69CEBE PILAR / #F4D77A PÓNTICO) y Control de Etapa -->
+          <div class="lg:col-span-5 space-y-4">
+            <div class="bg-slate-50 p-4 rounded-2xl border border-slate-200 flex flex-col justify-between">
+              <div>
+                <div class="flex items-center justify-between border-b border-slate-200 pb-2.5 mb-3">
+                  <h4 class="font-bold text-slate-800 uppercase">Odontograma</h4>
+                  <div class="flex items-center gap-3 text-[11px] font-bold">
+                    <span class="flex items-center gap-1.5 px-2.5 py-1 rounded-lg" style="background-color:#69CEBE;color:#0f172a;">PILAR</span>
+                    <span class="flex items-center gap-1.5 px-2.5 py-1 rounded-lg" style="background-color:#F4D77A;color:#0f172a;">PÓNTICO</span>
+                  </div>
+                </div>
+
+                <p class="text-[10px] text-center font-bold text-slate-400 uppercase mb-1.5">Arcada Superior (18 - 11 | 21 - 28)</p>
+                <div class="grid grid-cols-8 gap-1.5 mb-4">
+                  ${dientesSup.map(d => {
+                    const sel = (o.piezas || []).includes(String(d));
+                    return `
+                      <button type="button" onclick="this.classList.toggle('ring-2'); this.classList.toggle('ring-teal-500'); showToast('Pieza #${d}', 'Selección actualizada en el odontograma.')"
+                        style="${sel ? 'background-color:#69CEBE;color:#0f172a;border-color:#14b8a6;' : ''}"
+                        class="py-2 rounded-xl border border-slate-200 font-mono font-bold text-[11px] flex flex-col items-center gap-0.5 transition-all ${sel ? 'shadow-sm' : 'bg-white text-slate-700 hover:bg-slate-100'}">
+                        <img src="assets/muela.png" class="w-3.5 h-3.5 object-contain" alt="">
+                        <span>${d}</span>
+                      </button>
+                    `;
+                  }).join('')}
+                </div>
+
+                <p class="text-[10px] text-center font-bold text-slate-400 uppercase mb-1.5">Arcada Inferior (48 - 41 | 31 - 38)</p>
+                <div class="grid grid-cols-8 gap-1.5">
+                  ${dientesInf.map(d => {
+                    const sel = (o.piezas || []).includes(String(d));
+                    return `
+                      <button type="button" onclick="this.classList.toggle('ring-2'); this.classList.toggle('ring-teal-500'); showToast('Pieza #${d}', 'Selección actualizada en el odontograma.')"
+                        style="${sel ? 'background-color:#69CEBE;color:#0f172a;border-color:#14b8a6;' : ''}"
+                        class="py-2 rounded-xl border border-slate-200 font-mono font-bold text-[11px] flex flex-col items-center gap-0.5 transition-all ${sel ? 'shadow-sm' : 'bg-white text-slate-700 hover:bg-slate-100'}">
+                        <img src="assets/muela.png" class="w-3.5 h-3.5 object-contain" alt="">
+                        <span>${d}</span>
+                      </button>
+                    `;
+                  }).join('')}
                 </div>
               </div>
 
-              <p class="text-[10px] text-center font-bold text-slate-400 uppercase mb-1.5">Arcada Superior (FDI)</p>
-              <div class="grid grid-cols-8 gap-1.5 mb-4">
-                ${dientesSup.map(d => {
-                  const sel = o.piezas.includes(String(d));
-                  return `
-                    <button type="button" onclick="this.classList.toggle('bg-blue-600'); this.classList.toggle('text-white'); showToast('Pieza #${d}', 'Selección actualizada en el odontograma.')" class="py-2 rounded-xl border border-slate-200 font-mono font-bold text-[11px] flex flex-col items-center gap-0.5 transition-all ${sel ? 'bg-blue-600 text-white border-blue-600 shadow-sm' : 'bg-white text-slate-700 hover:bg-blue-50'}">
-                      <img src="assets/muela.png" class="w-3.5 h-3.5 object-contain" alt="">
-                      <span>${d}</span>
-                    </button>
-                  `;
-                }).join('')}
+              <div class="mt-4 pt-3 border-t border-slate-200 space-y-3">
+                <div class="flex items-center justify-between">
+                  <span class="font-bold text-slate-600">Etapa Actual: <strong class="text-blue-600">${o.estado} (${o.subEstado || o.estado})</strong></span>
+                  <span class="font-mono font-bold text-slate-900">Unidades: ${o.unidades}</span>
+                </div>
+                <div class="flex flex-wrap items-center gap-2">
+                  <select id="selectEtapaOT" class="flex-1 px-3 py-2 rounded-xl border border-slate-200 bg-white font-semibold text-xs">
+                    <option value="Escaneo" ${o.estado === 'Escaneo' ? 'selected' : ''}>Escaneo</option>
+                    <option value="Diseño" ${o.estado === 'Diseño' ? 'selected' : ''}>Diseño</option>
+                    <option value="Fabricación" ${o.estado === 'Fabricación' ? 'selected' : ''}>Fabricación</option>
+                    <option value="Entrega" ${o.estado === 'Entrega' ? 'selected' : ''}>Entrega</option>
+                  </select>
+                  <button onclick="avanzarEtapaOrdenActual()" class="px-3.5 py-2 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-bold shadow-sm transition-colors">
+                    Mandar a etapa
+                  </button>
+                  <button onclick="Etiqueta('${(o.doctor || '').replace(/'/g, "\\'")}', '${(o.paciente || '').replace(/'/g, "\\'")}', '${o.entrega}', '${o.serie}')" class="px-3.5 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-white font-bold shadow-sm transition-colors">
+                    Etiqueta
+                  </button>
+                </div>
               </div>
-
-              <p class="text-[10px] text-center font-bold text-slate-400 uppercase mb-1.5">Arcada Inferior (FDI)</p>
-              <div class="grid grid-cols-8 gap-1.5">
-                ${dientesInf.map(d => {
-                  const sel = o.piezas.includes(String(d));
-                  return `
-                    <button type="button" onclick="this.classList.toggle('bg-emerald-600'); this.classList.toggle('text-white'); showToast('Pieza #${d}', 'Selección actualizada en el odontograma.')" class="py-2 rounded-xl border border-slate-200 font-mono font-bold text-[11px] flex flex-col items-center gap-0.5 transition-all ${sel ? 'bg-emerald-600 text-white border-emerald-600 shadow-sm' : 'bg-white text-slate-700 hover:bg-emerald-50'}">
-                      <img src="assets/muela.png" class="w-3.5 h-3.5 object-contain" alt="">
-                      <span>${d}</span>
-                    </button>
-                  `;
-                }).join('')}
-              </div>
-            </div>
-
-            <div class="mt-4 pt-3 border-t border-slate-200 text-[11px] text-slate-500 flex items-center justify-between">
-              <span>Haz clic en cualquier pieza dental para conmutar Pilar / Póntico</span>
-              <span class="font-mono font-bold text-slate-900">Unidades: ${o.unidades}</span>
             </div>
           </div>
         </div>
@@ -2897,43 +8785,46 @@ function renderVistaOrdenTrabajo() {
       ${currentTabOrden === 'pago' ? `
         <div class="grid grid-cols-1 lg:grid-cols-2 gap-5 text-xs">
           <div class="bg-slate-50 p-4 rounded-2xl border border-slate-200 space-y-3">
-            <h4 class="font-bold text-slate-800 uppercase border-b pb-2">Registrar Abono / Pago de Orden #${o.ot}</h4>
+            <h4 class="font-bold text-slate-800 uppercase border-b pb-2">Registrar Abono / Pago de Orden #${o.serie}</h4>
             <form onsubmit="registrarAbonoOrdenActual(event)" class="space-y-3">
               <div>
                 <label class="font-bold text-slate-600 block mb-1">Método de Pago:</label>
                 <select id="selectMetodoAbonoOT" class="w-full px-3.5 py-2 rounded-xl border border-slate-200 bg-white font-semibold">
                   <option>Efectivo</option>
                   <option>Transferencia SPEI</option>
-                  <option>Tarjeta Crédito / Débito (Conekta)</option>
-                  <option>Descuento de Paquete Prepagado Zirconio</option>
+                  <option>Tarjeta Crédito / Débito</option>
+                  <option>Paquete Prepagado (${o.paquetes || 'PAQ'})</option>
                 </select>
               </div>
               <div>
                 <label class="font-bold text-slate-600 block mb-1">Monto a Abonar (MXN):</label>
-                <input id="inputMontoAbonoOT" type="number" required value="950" class="w-full px-3.5 py-2 rounded-xl border border-slate-200 bg-white font-mono font-bold">
+                <input id="inputMontoAbonoOT" type="number" required value="${o.montoNum || 600}" class="w-full px-3.5 py-2 rounded-xl border border-slate-200 bg-white font-mono font-bold">
               </div>
               <button type="submit" class="px-4 py-2 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-bold shadow-sm">
-                Registrar Pago
+                Agregar pago
               </button>
             </form>
           </div>
           <div class="bg-white p-4 rounded-2xl border border-slate-200 space-y-3">
-            <h4 class="font-bold text-slate-800 uppercase border-b pb-2">Historial de Pagos de la Orden</h4>
+            <div class="flex items-center justify-between border-b pb-2">
+              <h4 class="font-bold text-slate-800 uppercase">Pagos de la Orden</h4>
+              <span class="font-mono font-bold text-slate-700">Costo total: ${o.monto}</span>
+            </div>
             <table class="w-full text-center border border-slate-200 general-table">
               <thead>
                 <tr>
                   <th>Fecha</th>
-                  <th>Método</th>
-                  <th>Usuario</th>
+                  <th>Tipo de Pago</th>
+                  <th>Descripción</th>
                   <th>Monto</th>
                 </tr>
               </thead>
               <tbody class="divide-y divide-slate-100">
                 <tr>
-                  <td class="font-mono">${o.libProd}</td>
-                  <td>Anticipo Recepción</td>
-                  <td>admin</td>
-                  <td class="font-mono font-bold text-emerald-700">$900.00</td>
+                  <td class="font-mono">${o.entrega}</td>
+                  <td>${o.metodoPago || 'Efectivo'}</td>
+                  <td>Registro de Orden #${o.serie} (${o.paquetes})</td>
+                  <td class="font-mono font-bold text-emerald-700">${o.monto}</td>
                 </tr>
               </tbody>
             </table>
@@ -2942,70 +8833,79 @@ function renderVistaOrdenTrabajo() {
       ` : ''}
 
       ${currentTabOrden === 'historial' ? `
-        <div class="space-y-3 text-xs">
-          <h4 class="font-bold text-slate-800 uppercase">Bitácora de Operaciones y Trazabilidad CAD/CAM</h4>
-          <table class="w-full text-center border border-slate-200 general-table">
-            <thead>
-              <tr>
-                <th>Fecha / Hora</th>
-                <th>Etapa</th>
-                <th>Operación Realizada</th>
-                <th>Operador Responsable</th>
-                <th>Equipo / Disco</th>
-              </tr>
-            </thead>
-            <tbody class="divide-y divide-slate-100">
-              <tr>
-                <td class="font-mono">${o.libProd}</td>
-                <td><span class="px-2 py-0.5 rounded bg-slate-100 font-bold">Recepción</span></td>
-                <td>Alta de orden y generación de código de barras ${o.serie}</td>
-                <td>Recepción Laboratorio</td>
-                <td>Portal Dent Lab</td>
-              </tr>
-              <tr>
-                <td class="font-mono">2026-10-07 11:40</td>
-                <td><span class="px-2 py-0.5 rounded bg-blue-100 text-blue-800 font-bold">Escaneo</span></td>
-                <td>Recepción de archivo STL intraoral y verificación de oclusión</td>
-                <td>Lic. Daniel Ríos</td>
-                <td>3Shape TRIOS 4</td>
-              </tr>
-              <tr>
-                <td class="font-mono">2026-10-07 14:20</td>
-                <td><span class="px-2 py-0.5 rounded bg-amber-100 text-amber-800 font-bold">${o.estado}</span></td>
-                <td>Modelado anatómico CAD y asignación de lote de disco</td>
-                <td>T.P.D. Marco Antonio Ruiz</td>
-                <td>Disco Aidite ${o.color}</td>
-              </tr>
-            </tbody>
-          </table>
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-5 text-xs">
+          <div class="space-y-2">
+            <h4 class="font-bold text-slate-800 uppercase">Historial de Etapas</h4>
+            <table class="w-full text-center border border-slate-200 general-table">
+              <thead>
+                <tr>
+                  <th>Etapa</th>
+                  <th>SubEstado</th>
+                  <th>Usuario</th>
+                  <th>Fecha</th>
+                </tr>
+              </thead>
+              <tbody class="divide-y divide-slate-100">
+                <tr>
+                  <td>Escaneo</td>
+                  <td>Levantado</td>
+                  <td>${o.usuarioEscaneo || 'Mauricio Sotomayor'}</td>
+                  <td class="font-mono">${o.fechaConfirmada || o.entrega}</td>
+                </tr>
+                <tr>
+                  <td class="font-bold text-blue-700">${o.estado}</td>
+                  <td>${o.subEstado || o.estado}</td>
+                  <td>${o.nombreLib || 'Laboratorio CAD/CAM'}</td>
+                  <td class="font-mono">${o.libProd || o.entrega}</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="space-y-2">
+            <h4 class="font-bold text-slate-800 uppercase">Historial de Operaciones</h4>
+            <table class="w-full text-center border border-slate-200 general-table">
+              <thead>
+                <tr>
+                  <th>Operación</th>
+                  <th>Usuario</th>
+                  <th>Fecha</th>
+                </tr>
+              </thead>
+              <tbody class="divide-y divide-slate-100">
+                <tr>
+                  <td>Creación de Orden #${o.serie} (${o.producto})</td>
+                  <td>${o.usuarioEscaneo || 'Recepción DentLab'}</td>
+                  <td class="font-mono">${o.entrega}</td>
+                </tr>
+                <tr>
+                  <td>Asignación de Colorímetro: ${o.color}</td>
+                  <td>Laboratorio</td>
+                  <td class="font-mono">${o.entrega}</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
         </div>
       ` : ''}
 
       ${currentTabOrden === 'archivos' ? `
         <div class="grid grid-cols-1 lg:grid-cols-2 gap-4 text-xs">
           <div class="bg-slate-50 p-4 rounded-2xl border border-slate-200 space-y-3">
-            <h4 class="font-bold text-slate-800 uppercase">Archivos Digitales STL / DICOM / Fotos Clínicas</h4>
+            <h4 class="font-bold text-slate-800 uppercase">Archivos de la Orden #${o.serie}</h4>
             <div class="space-y-2">
               <div class="p-3 bg-white rounded-xl border border-slate-200 flex items-center justify-between">
                 <div>
-                  <p class="font-bold text-slate-800">${o.serie}_Arcada_Superior.stl</p>
-                  <p class="text-[11px] text-slate-500">Malla Escaneo Intraoral • 14.2 MB</p>
+                  <p class="font-bold text-slate-800">Orden_${o.serie}_${o.paciente.replace(/\s+/g, '_')}.stl</p>
+                  <p class="text-[11px] text-slate-500">Escaneo Digital CAD/CAM • ${o.producto}</p>
                 </div>
-                <button onclick="showToast('Descargando STL', 'Descarga iniciada: ${o.serie}_Arcada_Superior.stl')" class="px-3 py-1.5 rounded-lg bg-blue-600 text-white font-bold">Descargar</button>
-              </div>
-              <div class="p-3 bg-white rounded-xl border border-slate-200 flex items-center justify-between">
-                <div>
-                  <p class="font-bold text-slate-800">${o.serie}_ConstructionInfo.constructionInfo</p>
-                  <p class="text-[11px] text-slate-500">Parámetros CAM Exocad • Autorizado</p>
-                </div>
-                <button onclick="showToast('Descargando XML', 'Descarga iniciada: ${o.serie}_ConstructionInfo')" class="px-3 py-1.5 rounded-lg bg-blue-600 text-white font-bold">Descargar</button>
+                <button onclick="showToast('Descargando STL', 'Descarga iniciada: Orden_${o.serie}.stl')" class="px-3 py-1.5 rounded-lg bg-blue-600 text-white font-bold">Descargar</button>
               </div>
             </div>
           </div>
           <div class="bg-white p-4 rounded-2xl border border-slate-200 flex flex-col items-center justify-center text-center space-y-2">
-            <p class="font-bold text-slate-700">Subir Nuevo Archivo STL, Foto de Colorímetro o Radiografía</p>
+            <p class="font-bold text-slate-700">Subir Archivo a la Orden #${o.serie}</p>
             <button onclick="showToast('Archivo Adjuntado', 'El archivo se anexó correctamente al expediente de la orden.')" class="px-4 py-2 rounded-xl bg-blue-600 text-white font-bold shadow-sm">
-              Seleccionar Archivo...
+              Subir archivo
             </button>
           </div>
         </div>
@@ -3013,16 +8913,56 @@ function renderVistaOrdenTrabajo() {
     </div>
   `;
   animateViewEntrance(container);
-  lucide.createIcons();
+  if (typeof lucide !== 'undefined') lucide.createIcons();
 }
 
 // ============================================================================
-// FICHA DEL DOCTOR (IDÉNTICO A DENT DEMO/Doctor.php)
+// FICHA DEL DOCTOR CON SUS 4 PESTAÑAS EXACTAS DE DENT DEMO/Doctor.php
+// (Datos, Ordenes de trabajo, Paquetes, Pagos)
 // ============================================================================
 
-function abrirDetalleDoctor(doctorNombre) {
-  const doc = DENT_STATE.doctores.find(d => d.nombre === doctorNombre) || DENT_STATE.doctores[0];
-  const ordenesDoc = INICIO_DATA.ordenes.filter(o => o.doctor === doc.nombre);
+let currentDoctorActivo = null;
+let currentTabDoctor = 'datos';
+
+function cambiarTabDoctor(tab) {
+  currentTabDoctor = tab;
+  if (currentDoctorActivo) {
+    renderVistaDetalleDoctor(currentDoctorActivo);
+  }
+}
+
+function guardarCambiosDoctorActual(e) {
+  e.preventDefault();
+  if (!currentDoctorActivo) return;
+  const cel = document.getElementById('docInputCelular')?.value;
+  const mail = document.getElementById('docInputEmail')?.value;
+  const clinica = document.getElementById('docInputClinica')?.value;
+  if (cel !== undefined) currentDoctorActivo.celular = cel;
+  if (mail !== undefined) currentDoctorActivo.mail = mail;
+  if (clinica !== undefined) currentDoctorActivo.clinica = clinica;
+  showToast('Doctor Actualizado', `Se guardaron los datos de ${currentDoctorActivo.nombre}.`);
+}
+
+function abrirDetalleDoctor(doctorQuery) {
+  const doc = window.findDoctorByAny(doctorQuery);
+  currentDoctorActivo = doc;
+  currentTabDoctor = 'datos';
+  renderVistaDetalleDoctor(doc);
+}
+
+function renderVistaDetalleDoctor(doc) {
+  const ordenesDoc = (INICIO_DATA.ordenes || []).filter(
+    o =>
+      Number(o.doctorId) === Number(doc.id) ||
+      (o.doctor && doc.doctorCorto && o.doctor.trim().toUpperCase() === doc.doctorCorto.trim().toUpperCase()) ||
+      (o.doctorNombreCompleto && doc.nombre && o.doctorNombreCompleto.trim().toUpperCase() === doc.nombre.trim().toUpperCase())
+  );
+
+  const paquetesDoc = (DENT_STATE.paquetesDoctores || []).filter(
+    p =>
+      Number(p.doctorId) === Number(doc.id) ||
+      (p.doctor && doc.nombre && p.doctor.trim().toUpperCase() === doc.nombre.trim().toUpperCase())
+  );
 
   const secInicio = document.getElementById('section-inicio');
   const secDynamic = document.getElementById('section-dynamic');
@@ -3037,53 +8977,230 @@ function abrirDetalleDoctor(doctorNombre) {
       <div class="flex items-center justify-between border-b border-slate-200 pb-3">
         <button onclick="openModule('inicio')" class="px-3.5 py-2 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-bold flex items-center gap-2 shadow-sm">
           <i data-lucide="arrow-left" class="w-4 h-4"></i>
-          <span>Regresar a Inicio</span>
+          <span>Regresar</span>
         </button>
-        <span class="font-mono font-bold text-slate-500">Expediente de Doctor • ${doc.id}</span>
+        <div class="flex items-center gap-2">
+          <span class="font-mono font-bold text-slate-500">ID Doctor: #${doc.id}</span>
+          <span class="px-2.5 py-1 rounded-lg ${doc.externo ? 'bg-blue-100 text-blue-800' : 'bg-emerald-100 text-emerald-800'} font-bold">${doc.tipo}</span>
+        </div>
       </div>
 
-      <div class="grid grid-cols-1 md:grid-cols-4 gap-3 bg-slate-50 p-4 rounded-2xl border border-slate-200">
-        <div><span class="text-slate-400 font-bold uppercase text-[10px] block">Doctor</span><strong class="text-sm text-slate-900">${doc.nombre}</strong></div>
-        <div><span class="text-slate-400 font-bold uppercase text-[10px] block">Clínica</span><strong class="text-slate-800">${doc.clinica}</strong></div>
-        <div><span class="text-slate-400 font-bold uppercase text-[10px] block">Celular / Correo</span><strong class="font-mono">${doc.celular} • ${doc.mail}</strong></div>
-        <div><span class="text-slate-400 font-bold uppercase text-[10px] block">Ejecutivo Asignado</span><strong class="text-blue-600">${doc.vendedor} (${doc.tipo})</strong></div>
+      <!-- 4 Pestañas Exactas de DENT DEMO/Doctor.php: Datos | Ordenes de trabajo | Paquetes | Pagos -->
+      <div class="border-b border-slate-200 flex flex-wrap gap-1.5 text-xs font-bold">
+        <button onclick="cambiarTabDoctor('datos')" class="px-4 py-2.5 rounded-t-xl border-t border-l border-r transition-all ${currentTabDoctor === 'datos' ? 'bg-slate-900 text-white border-slate-900' : 'bg-slate-100 text-slate-600 border-transparent hover:bg-slate-200'}">
+          Datos
+        </button>
+        <button onclick="cambiarTabDoctor('ordenes')" class="px-4 py-2.5 rounded-t-xl border-t border-l border-r transition-all ${currentTabDoctor === 'ordenes' ? 'bg-slate-900 text-white border-slate-900' : 'bg-slate-100 text-slate-600 border-transparent hover:bg-slate-200'}">
+          Ordenes de trabajo (${ordenesDoc.length})
+        </button>
+        <button onclick="cambiarTabDoctor('paquetes')" class="px-4 py-2.5 rounded-t-xl border-t border-l border-r transition-all ${currentTabDoctor === 'paquetes' ? 'bg-slate-900 text-white border-slate-900' : 'bg-slate-100 text-slate-600 border-transparent hover:bg-slate-200'}">
+          Paquetes (${paquetesDoc.length})
+        </button>
+        <button onclick="cambiarTabDoctor('pagos')" class="px-4 py-2.5 rounded-t-xl border-t border-l border-r transition-all ${currentTabDoctor === 'pagos' ? 'bg-slate-900 text-white border-slate-900' : 'bg-slate-100 text-slate-600 border-transparent hover:bg-slate-200'}">
+          Pagos
+        </button>
       </div>
 
-      <h4 class="font-bold text-slate-800 uppercase">Historial de Órdenes de Trabajo del Doctor</h4>
-      <table class="w-full text-center border border-slate-200 general-table">
-        <thead>
-          <tr>
-            <th>OT</th>
-            <th>FOLIO</th>
-            <th>PACIENTE</th>
-            <th>PRODUCTO</th>
-            <th>ESTADO</th>
-            <th>ENTREGA</th>
-            <th>MONTO</th>
-          </tr>
-        </thead>
-        <tbody class="divide-y divide-slate-100">
-          ${(ordenesDoc.length > 0 ? ordenesDoc : INICIO_DATA.ordenes.slice(0, 3)).map(o => `
-            <tr class="hover:bg-slate-50">
-              <td><button onclick="abrirOrdenTrabajo('${o.serie}')" class="px-2.5 py-0.5 rounded bg-blue-600 text-white font-mono font-bold">${o.ot}</button></td>
-              <td class="font-mono font-bold">${o.folio}</td>
-              <td>${o.paciente}</td>
-              <td class="font-semibold">${o.producto}</td>
-              <td>${o.estado}</td>
-              <td class="font-mono">${o.entrega}</td>
-              <td class="font-mono font-bold">${o.monto}</td>
-            </tr>
-          `).join('')}
-        </tbody>
-      </table>
+      ${currentTabDoctor === 'datos' ? `
+        <form onsubmit="guardarCambiosDoctorActual(event)" class="grid grid-cols-1 lg:grid-cols-2 gap-5 pt-2">
+          <!-- Columna Izquierda de Doctor.php -->
+          <div class="bg-slate-50 p-4 rounded-2xl border border-slate-200 space-y-3">
+            <h4 class="font-bold text-slate-800 uppercase border-b border-slate-200 pb-2">Información General del Doctor</h4>
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+              <div class="sm:col-span-2">
+                <label class="text-slate-400 font-bold uppercase text-[10px] block mb-1">Nombre Completo:</label>
+                <input type="text" value="${doc.nombre}" class="w-full px-3 py-2 rounded-xl border border-slate-200 bg-white font-bold text-slate-900">
+              </div>
+              <div>
+                <label class="text-slate-400 font-bold uppercase text-[10px] block mb-1">Nombre(s) Corto:</label>
+                <input type="text" value="${doc.doctorCorto || doc.nombre}" class="w-full px-3 py-2 rounded-xl border border-slate-200 bg-white">
+              </div>
+              <div>
+                <label class="text-slate-400 font-bold uppercase text-[10px] block mb-1">Apellido Paterno / Materno:</label>
+                <input type="text" value="${(doc.apellidoPaterno + ' ' + doc.apellidoMaterno).trim() || 'Registrado'}" class="w-full px-3 py-2 rounded-xl border border-slate-200 bg-white">
+              </div>
+              <div>
+                <label class="text-slate-400 font-bold uppercase text-[10px] block mb-1">Email:</label>
+                <input id="docInputEmail" type="text" value="${doc.mail}" class="w-full px-3 py-2 rounded-xl border border-slate-200 bg-white font-mono">
+              </div>
+              <div>
+                <label class="text-slate-400 font-bold uppercase text-[10px] block mb-1">Vendedor Asignado:</label>
+                <input type="text" value="${doc.vendedor || 'Sin Vendedor'}" class="w-full px-3 py-2 rounded-xl border border-slate-200 bg-white font-semibold text-blue-700">
+              </div>
+              <div class="flex items-center gap-6 pt-1">
+                <label class="flex items-center gap-2 font-bold text-slate-700">
+                  <input type="checkbox" ${doc.activo ? 'checked' : ''} class="rounded text-blue-600"> Activo
+                </label>
+                <label class="flex items-center gap-2 font-bold text-slate-700">
+                  <input type="checkbox" ${doc.externo ? 'checked' : ''} class="rounded text-blue-600"> Externo
+                </label>
+              </div>
+              <div class="sm:col-span-2">
+                <label class="text-slate-400 font-bold uppercase text-[10px] block mb-1">Observación:</label>
+                <textarea rows="2" class="w-full p-2.5 rounded-xl border border-slate-200 bg-white">${doc.nota || ''}</textarea>
+              </div>
+            </div>
+          </div>
+
+          <!-- Columna Derecha de Doctor.php (Clínica, Teléfono, Celular, Dirección, Contacto) -->
+          <div class="bg-slate-50 p-4 rounded-2xl border border-slate-200 space-y-3 flex flex-col justify-between">
+            <div class="space-y-3">
+              <h4 class="font-bold text-slate-800 uppercase border-b border-slate-200 pb-2">Clínica, Teléfonos y Ubicación</h4>
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                <div class="sm:col-span-2">
+                  <label class="text-slate-400 font-bold uppercase text-[10px] block mb-1">Clínica / Consultorio:</label>
+                  <input id="docInputClinica" type="text" value="${doc.clinica}" class="w-full px-3 py-2 rounded-xl border border-slate-200 bg-white font-semibold">
+                </div>
+                <div>
+                  <label class="text-slate-400 font-bold uppercase text-[10px] block mb-1">Celular:</label>
+                  <input id="docInputCelular" type="text" value="${doc.celular}" class="w-full px-3 py-2 rounded-xl border border-slate-200 bg-white font-mono font-bold text-slate-900">
+                </div>
+                <div>
+                  <label class="text-slate-400 font-bold uppercase text-[10px] block mb-1">Teléfono Consultorio:</label>
+                  <input type="text" value="${doc.telefono || 'N/A'}" class="w-full px-3 py-2 rounded-xl border border-slate-200 bg-white font-mono">
+                </div>
+                <div>
+                  <label class="text-slate-400 font-bold uppercase text-[10px] block mb-1">Calle:</label>
+                  <input type="text" value="${doc.calle || doc.direccion}" class="w-full px-3 py-2 rounded-xl border border-slate-200 bg-white">
+                </div>
+                <div>
+                  <label class="text-slate-400 font-bold uppercase text-[10px] block mb-1">Colonia:</label>
+                  <input type="text" value="${doc.colonia || ''}" class="w-full px-3 py-2 rounded-xl border border-slate-200 bg-white">
+                </div>
+                <div>
+                  <label class="text-slate-400 font-bold uppercase text-[10px] block mb-1">No° Ext:</label>
+                  <input type="text" value="${doc.numExt || ''}" class="w-full px-3 py-2 rounded-xl border border-slate-200 bg-white font-mono">
+                </div>
+                <div>
+                  <label class="text-slate-400 font-bold uppercase text-[10px] block mb-1">Código Postal:</label>
+                  <input type="text" value="${doc.cp || ''}" class="w-full px-3 py-2 rounded-xl border border-slate-200 bg-white font-mono">
+                </div>
+              </div>
+            </div>
+            <div class="pt-3 border-t border-slate-200 flex justify-end">
+              <button type="submit" class="px-5 py-2 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-bold shadow-sm">
+                Guardar
+              </button>
+            </div>
+          </div>
+        </form>
+      ` : ''}
+
+      ${currentTabDoctor === 'ordenes' ? `
+        <div class="space-y-3 pt-2">
+          <h4 class="font-bold text-slate-800 uppercase">Órdenes de Trabajo de ${doc.nombre}</h4>
+          <table class="w-full text-center border border-slate-200 general-table">
+            <thead>
+              <tr>
+                <th>OT</th>
+                <th>FOLIO</th>
+                <th>PACIENTE</th>
+                <th>PRODUCTO</th>
+                <th>UNIDADES</th>
+                <th>ESTADO</th>
+                <th>ENTREGA</th>
+                <th>MONTO</th>
+              </tr>
+            </thead>
+            <tbody class="divide-y divide-slate-100">
+              ${ordenesDoc.length > 0 ? ordenesDoc.map(o => `
+                <tr class="hover:bg-slate-50">
+                  <td>
+                    <button onclick="abrirOrdenTrabajo('${o.serie}')" class="btnEtiqueta">
+                      <img src="assets/muela.png" class="w-3.5 h-3.5 object-contain" alt="OT">
+                    </button>
+                  </td>
+                  <td class="font-mono font-bold">${o.serie}</td>
+                  <td>${o.paciente}</td>
+                  <td class="font-semibold">${o.producto}</td>
+                  <td class="font-mono font-bold">${o.unidades}</td>
+                  <td>${o.estado}</td>
+                  <td class="font-mono">${o.entrega}</td>
+                  <td class="font-mono font-bold">${o.monto}</td>
+                </tr>
+              `).join('') : `
+                <tr><td colspan="8" class="py-6 text-center text-slate-400 font-semibold">ESTE DOCTOR NO TIENE ÓRDENES EN LA VISTA ACTUAL</td></tr>
+              `}
+            </tbody>
+          </table>
+        </div>
+      ` : ''}
+
+      ${currentTabDoctor === 'paquetes' ? `
+        <div class="space-y-3 pt-2">
+          <div class="flex items-center justify-between">
+            <h4 class="font-bold text-slate-800 uppercase">Paquetes de ${doc.nombre}</h4>
+            <button onclick="showToast('Paquete Asignado', 'Puede asignar un nuevo paquete desde el catálogo.')" class="px-3.5 py-1.5 rounded-xl bg-blue-600 text-white font-bold">Agregar Paquete</button>
+          </div>
+          <table class="w-full text-center border border-slate-200 general-table">
+            <thead>
+              <tr>
+                <th>Serie</th>
+                <th>Paquete</th>
+                <th>Total Pzas</th>
+                <th>Solicitadas</th>
+                <th>Disponibles</th>
+                <th>Costo</th>
+                <th>Estado</th>
+                <th>Registro</th>
+              </tr>
+            </thead>
+            <tbody class="divide-y divide-slate-100">
+              ${paquetesDoc.length > 0 ? paquetesDoc.map(p => `
+                <tr class="hover:bg-slate-50">
+                  <td class="font-mono font-bold">${p.folio}</td>
+                  <td class="font-semibold">${p.paquete}</td>
+                  <td class="font-mono">${p.totalPiezas}</td>
+                  <td class="font-mono">${p.usadas}</td>
+                  <td class="font-mono font-bold text-blue-600">${p.disponibles}</td>
+                  <td class="font-mono font-bold">${p.costo}</td>
+                  <td>${p.saldo}</td>
+                  <td class="font-mono">${p.fecha}</td>
+                </tr>
+              `).join('') : `
+                <tr><td colspan="8" class="py-6 text-center text-slate-400 font-semibold">SIN PAQUETES REGISTRADOS PARA ESTE DOCTOR</td></tr>
+              `}
+            </tbody>
+          </table>
+        </div>
+      ` : ''}
+
+      ${currentTabDoctor === 'pagos' ? `
+        <div class="space-y-3 pt-2">
+          <h4 class="font-bold text-slate-800 uppercase">Historial de Pagos del Doctor</h4>
+          <table class="w-full text-center border border-slate-200 general-table">
+            <thead>
+              <tr>
+                <th>Orden / Serie</th>
+                <th>Paciente</th>
+                <th>Producto</th>
+                <th>Fecha</th>
+                <th>Monto</th>
+              </tr>
+            </thead>
+            <tbody class="divide-y divide-slate-100">
+              ${ordenesDoc.length > 0 ? ordenesDoc.map(o => `
+                <tr class="hover:bg-slate-50">
+                  <td class="font-mono font-bold">#${o.serie}</td>
+                  <td>${o.paciente}</td>
+                  <td>${o.producto}</td>
+                  <td class="font-mono">${o.entrega}</td>
+                  <td class="font-mono font-bold text-emerald-700">${o.monto}</td>
+                </tr>
+              `).join('') : `
+                <tr><td colspan="5" class="py-6 text-center text-slate-400 font-semibold">SIN PAGOS REGISTRADOS</td></tr>
+              `}
+            </tbody>
+          </table>
+        </div>
+      ` : ''}
     </div>
   `;
   animateViewEntrance(container);
-  lucide.createIcons();
+  if (typeof lucide !== 'undefined') lucide.createIcons();
 }
 
 document.addEventListener('DOMContentLoaded', () => {
   renderTablasInicio();
   renderModalsInicio();
 });
-

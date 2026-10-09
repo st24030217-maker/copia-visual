@@ -181,6 +181,24 @@ $perfilActual  = htmlspecialchars($_SESSION['perfil'] ?? 'Administrador', ENT_QU
       border-bottom: 1px solid #f1f5f9;
       white-space: nowrap;
     }
+
+    /* Botones .btnEtiqueta exactos de DENT DEMO (#40C1CA) */
+    .btnEtiqueta {
+      background-color: #40C1CA;
+      border: none;
+      color: #ffffff !important;
+      border-radius: 5px;
+      padding: 5px 9px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      transition: filter 0.15s ease, transform 0.15s ease;
+      cursor: pointer;
+    }
+    .btnEtiqueta:hover {
+      filter: brightness(0.92);
+      transform: translateY(-1px);
+    }
   </style>
 </head>
 <body class="h-full bg-slate-50 text-slate-800 flex overflow-hidden antialiased">
@@ -253,14 +271,14 @@ $perfilActual  = htmlspecialchars($_SESSION['perfil'] ?? 'Administrador', ENT_QU
             <button onclick="openModalCanceladas();" class="px-3.5 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-200 font-semibold text-xs border border-slate-700 transition-all flex items-center gap-2">
               <i data-lucide="ban" class="w-4 h-4 text-rose-400"></i>
               <span>Ordenes canceladas</span>
-              <span class="px-1.5 py-0.5 rounded-md bg-rose-500/20 text-rose-300 border border-rose-500/30 text-[11px] font-bold font-mono" id="NumberOrdenCanceladas">2</span>
+              <span class="px-1.5 py-0.5 rounded-md bg-rose-500/20 text-rose-300 border border-rose-500/30 text-[11px] font-bold font-mono" id="NumberOrdenCanceladas">646</span>
             </button>
 
             <!-- Órdenes Pendientes de pago -->
             <button onclick="openModalPendientes();" class="px-3.5 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-200 font-semibold text-xs border border-slate-700 transition-all flex items-center gap-2">
               <i data-lucide="bell" class="w-4 h-4 text-amber-400"></i>
               <span>Ordenes Pendientes de pago</span>
-              <span class="px-1.5 py-0.5 rounded-md bg-blue-500/20 text-blue-300 border border-blue-500/30 text-[11px] font-bold font-mono" id="NumberOrden">3</span>
+              <span class="px-1.5 py-0.5 rounded-md bg-blue-500/20 text-blue-300 border border-blue-500/30 text-[11px] font-bold font-mono" id="NumberOrden">0</span>
             </button>
           </div>
 
@@ -286,7 +304,7 @@ $perfilActual  = htmlspecialchars($_SESSION['perfil'] ?? 'Administrador', ENT_QU
         <!-- 2. LOS 4 CUADROS DE ETAPA CON TABLAS (Escaneo, Diseño, Fabricación, Entrega) -->
         <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-3.5">
 
-          <!-- CUADRO 1: ESCANEO (TableEscaneo.php) -->
+          <!-- CUADRO 1: ESCANEO (TableEscaneo.php - 7 columnas: OT, PROD, UNI, DOCTOR, SOLI, EST, REGISTRO) -->
           <div class="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden flex flex-col">
             <div class="px-3.5 py-2.5 bg-slate-50 border-b border-slate-200 flex items-center justify-between">
               <div class="flex items-center gap-2">
@@ -295,7 +313,7 @@ $perfilActual  = htmlspecialchars($_SESSION['perfil'] ?? 'Administrador', ENT_QU
                 </span>
                 <h3 class="text-xs font-extrabold text-slate-800 uppercase tracking-wide">Escaneo</h3>
               </div>
-              <span class="text-[11px] font-mono font-bold text-blue-600 bg-blue-50 px-2 py-0.5 rounded-full border border-blue-100" id="badgeCountEscaneo">5</span>
+              <span class="text-[11px] font-mono font-bold text-blue-600 bg-blue-50 px-2 py-0.5 rounded-full border border-blue-100" id="badgeCountEscaneo">4</span>
             </div>
             <div class="table-scroll overflow-auto" style="height: 28vh;">
               <table class="w-full text-center border-collapse stage-table">
@@ -315,7 +333,7 @@ $perfilActual  = htmlspecialchars($_SESSION['perfil'] ?? 'Administrador', ENT_QU
             </div>
           </div>
 
-          <!-- CUADRO 2: DISEÑO (TableDiseno.php) -->
+          <!-- CUADRO 2: DISEÑO (TableDiseno.php - 5 columnas exactas: OT, PROD, UNI, DOCTOR, ENT) -->
           <div class="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden flex flex-col">
             <div class="px-3.5 py-2.5 bg-slate-50 border-b border-slate-200 flex items-center justify-between">
               <div class="flex items-center gap-2">
@@ -324,7 +342,7 @@ $perfilActual  = htmlspecialchars($_SESSION['perfil'] ?? 'Administrador', ENT_QU
                 </span>
                 <h3 class="text-xs font-extrabold text-slate-800 uppercase tracking-wide">Diseño</h3>
               </div>
-              <span class="text-[11px] font-mono font-bold text-blue-600 bg-blue-50 px-2 py-0.5 rounded-full border border-blue-100" id="badgeCountDiseno">5</span>
+              <span class="text-[11px] font-mono font-bold text-blue-600 bg-blue-50 px-2 py-0.5 rounded-full border border-blue-100" id="badgeCountDiseno">18</span>
             </div>
             <div class="table-scroll overflow-auto" style="height: 28vh;">
               <table class="w-full text-center border-collapse stage-table">
@@ -334,9 +352,7 @@ $perfilActual  = htmlspecialchars($_SESSION['perfil'] ?? 'Administrador', ENT_QU
                     <th>PROD</th>
                     <th>UNI</th>
                     <th>DOCTOR</th>
-                    <th>SOLI</th>
-                    <th>EST</th>
-                    <th>REGISTRO</th>
+                    <th>ENT</th>
                   </tr>
                 </thead>
                 <tbody id="tbodyStageDiseno" class="divide-y divide-slate-100 text-slate-700"></tbody>
@@ -344,7 +360,7 @@ $perfilActual  = htmlspecialchars($_SESSION['perfil'] ?? 'Administrador', ENT_QU
             </div>
           </div>
 
-          <!-- CUADRO 3: FABRICACIÓN (TableFabricacion.php) -->
+          <!-- CUADRO 3: FABRICACIÓN (TableFabricacion.php - 5 columnas exactas: OT, PROD, UNI, DOCTOR, ENT) -->
           <div class="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden flex flex-col">
             <div class="px-3.5 py-2.5 bg-slate-50 border-b border-slate-200 flex items-center justify-between">
               <div class="flex items-center gap-2">
@@ -353,7 +369,7 @@ $perfilActual  = htmlspecialchars($_SESSION['perfil'] ?? 'Administrador', ENT_QU
                 </span>
                 <h3 class="text-xs font-extrabold text-slate-800 uppercase tracking-wide">Fabricación</h3>
               </div>
-              <span class="text-[11px] font-mono font-bold text-blue-600 bg-blue-50 px-2 py-0.5 rounded-full border border-blue-100" id="badgeCountFabricacion">4</span>
+              <span class="text-[11px] font-mono font-bold text-blue-600 bg-blue-50 px-2 py-0.5 rounded-full border border-blue-100" id="badgeCountFabricacion">7</span>
             </div>
             <div class="table-scroll overflow-auto" style="height: 28vh;">
               <table class="w-full text-center border-collapse stage-table">
@@ -363,9 +379,7 @@ $perfilActual  = htmlspecialchars($_SESSION['perfil'] ?? 'Administrador', ENT_QU
                     <th>PROD</th>
                     <th>UNI</th>
                     <th>DOCTOR</th>
-                    <th>SOLI</th>
-                    <th>EST</th>
-                    <th>REGISTRO</th>
+                    <th>ENT</th>
                   </tr>
                 </thead>
                 <tbody id="tbodyStageFabricacion" class="divide-y divide-slate-100 text-slate-700"></tbody>
@@ -373,7 +387,7 @@ $perfilActual  = htmlspecialchars($_SESSION['perfil'] ?? 'Administrador', ENT_QU
             </div>
           </div>
 
-          <!-- CUADRO 4: ENTREGA (TableEntrega.php) -->
+          <!-- CUADRO 4: ENTREGA (TableEntrega.php - 6 columnas exactas: OT, PROD, UNI, DOCTOR, ENT, EST) -->
           <div class="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden flex flex-col">
             <div class="px-3.5 py-2.5 bg-slate-50 border-b border-slate-200 flex items-center justify-between">
               <div class="flex items-center gap-2">
@@ -382,7 +396,7 @@ $perfilActual  = htmlspecialchars($_SESSION['perfil'] ?? 'Administrador', ENT_QU
                 </span>
                 <h3 class="text-xs font-extrabold text-slate-800 uppercase tracking-wide">Entrega</h3>
               </div>
-              <span class="text-[11px] font-mono font-bold text-blue-600 bg-blue-50 px-2 py-0.5 rounded-full border border-blue-100" id="badgeCountEntrega">4</span>
+              <span class="text-[11px] font-mono font-bold text-blue-600 bg-blue-50 px-2 py-0.5 rounded-full border border-blue-100" id="badgeCountEntrega">0</span>
             </div>
             <div class="table-scroll overflow-auto" style="height: 28vh;">
               <table class="w-full text-center border-collapse stage-table">
@@ -392,9 +406,8 @@ $perfilActual  = htmlspecialchars($_SESSION['perfil'] ?? 'Administrador', ENT_QU
                     <th>PROD</th>
                     <th>UNI</th>
                     <th>DOCTOR</th>
-                    <th>SOLI</th>
+                    <th>ENT</th>
                     <th>EST</th>
-                    <th>REGISTRO</th>
                   </tr>
                 </thead>
                 <tbody id="tbodyStageEntrega" class="divide-y divide-slate-100 text-slate-700"></tbody>
@@ -498,16 +511,16 @@ $perfilActual  = htmlspecialchars($_SESSION['perfil'] ?? 'Administrador', ENT_QU
           <img src="assets/logoDentlab.png" alt="Dent Lab" class="h-6 w-auto object-contain brightness-0 invert opacity-90">
           <div>
             <div class="flex items-center gap-2">
-              <h3 class="text-lg font-bold font-mono tracking-tight text-white" id="dcOrderNum">#OT-9841</h3>
+              <h3 class="text-lg font-bold font-mono tracking-tight text-white" id="dcOrderNum">#OT-30596</h3>
               <span class="text-[10px] font-mono px-2 py-0.5 rounded bg-blue-600 text-white font-bold">ORDEN DE TRABAJO</span>
             </div>
-            <p class="text-xs text-blue-300 font-medium" id="dcTreatment">Corona Monolítica Zirconio</p>
+            <p class="text-xs text-blue-300 font-medium" id="dcTreatment">Corona Zirconio</p>
           </div>
         </div>
         <div class="flex items-center gap-4">
           <div class="text-right hidden sm:block">
             <span class="text-[10px] text-slate-400 uppercase tracking-wider block">Entrega Solicitada</span>
-            <span class="text-xs font-mono font-bold text-white" id="dcDeliveryDate">01/10/2026</span>
+            <span class="text-xs font-mono font-bold text-white" id="dcDeliveryDate">28/09/2026</span>
           </div>
           <button onclick="closeDigitalCard()" class="p-1.5 text-slate-400 hover:text-white rounded-lg bg-slate-800/80">
             <i data-lucide="x" class="w-4 h-4"></i>
@@ -541,18 +554,18 @@ $perfilActual  = htmlspecialchars($_SESSION['perfil'] ?? 'Administrador', ENT_QU
             <div class="grid grid-cols-2 gap-3 text-xs mb-3">
               <div class="p-3 rounded-xl bg-slate-50 border border-slate-200">
                 <span class="text-[10px] font-bold text-slate-400 uppercase tracking-wider block mb-0.5">Paciente</span>
-                <p class="font-bold text-slate-800 text-xs" id="dcPatient">Carlos Mendoza</p>
+                <p class="font-bold text-slate-800 text-xs" id="dcPatient">LETICIA VARGAS MUÑOZ</p>
               </div>
               <div class="p-3 rounded-xl bg-slate-50 border border-slate-200">
                 <span class="text-[10px] font-bold text-slate-400 uppercase tracking-wider block mb-0.5">Doctor Solicitante</span>
-                <p class="font-bold text-slate-800 text-xs" id="dcDoctor">Dr. Oscar Ramírez</p>
+                <p class="font-bold text-slate-800 text-xs" id="dcDoctor">Dra. Brenda Deyanira</p>
               </div>
             </div>
 
             <div class="p-3 rounded-xl bg-slate-50 border border-slate-200 flex items-center justify-between text-xs">
               <div>
                 <span class="text-[10px] font-bold text-slate-400 uppercase tracking-wider block">Tono Guía Vita</span>
-                <span class="font-mono font-bold text-blue-700 text-sm" id="dcShade">A2</span>
+                <span class="font-mono font-bold text-blue-700 text-sm" id="dcShade">A3</span>
               </div>
               <div>
                 <span class="text-[10px] font-bold text-slate-400 uppercase tracking-wider block">Material</span>
@@ -570,7 +583,7 @@ $perfilActual  = htmlspecialchars($_SESSION['perfil'] ?? 'Administrador', ENT_QU
               <i data-lucide="printer" class="w-3.5 h-3.5"></i>
               <span>Imprimir</span>
             </button>
-            <button onclick="closeDigitalCard(); abrirOrdenTrabajo('OT-9841');" class="px-4 py-2 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-semibold text-xs transition-colors flex items-center gap-1.5 shadow-sm">
+            <button onclick="closeDigitalCard(); abrirOrdenTrabajo('30596');" class="px-4 py-2 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-semibold text-xs transition-colors flex items-center gap-1.5 shadow-sm">
               <span>Abrir Expediente Completo</span>
               <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i>
             </button>
@@ -650,32 +663,23 @@ $perfilActual  = htmlspecialchars($_SESSION['perfil'] ?? 'Administrador', ENT_QU
   </div>
 
   <!-- ========================================================================= -->
-  <!-- MODAL: ÓRDENES CANCELADAS (Idéntico a index.php L233 de DENT DEMO)        -->
+  <!-- MODAL: ÓRDENES CANCELADAS (Idéntico a index.php L233-260 de DENT DEMO)    -->
   <!-- ========================================================================= -->
   <div id="modalCanceladas" class="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-sm hidden flex items-center justify-center p-4">
-    <div class="bg-white rounded-2xl max-w-4xl w-full border border-slate-200 shadow-2xl overflow-hidden">
+    <div class="bg-white rounded-2xl max-w-2xl w-full border border-slate-200 shadow-2xl overflow-hidden">
       <div class="p-4 bg-slate-900 text-white flex items-center justify-between">
         <h4 class="text-sm font-bold">Órdenes canceladas</h4>
         <button onclick="closeModalCanceladas()" class="p-1 text-slate-400 hover:text-white">
           <i data-lucide="x" class="w-4 h-4"></i>
         </button>
       </div>
-      <div class="p-5 overflow-x-auto">
+      <div class="p-5 overflow-y-auto max-h-[65vh] table-scroll">
         <table class="w-full text-center text-xs border-collapse general-table">
           <thead>
             <tr>
-              <th>OT</th>
-              <th>DOC</th>
-              <th>FOLIO</th>
-              <th>CANCELACIÓN</th>
-              <th>ESTADO</th>
-              <th>PRODUCTO</th>
-              <th>DOCTOR</th>
-              <th>PACIENTE</th>
-              <th>UNIDADES</th>
-              <th>LIB PROD</th>
-              <th>MONTO</th>
-              <th>MOTIVO</th>
+              <th>Orden</th>
+              <th>Responsable</th>
+              <th>Comentario</th>
             </tr>
           </thead>
           <tbody id="tbodyModalCanceladas" class="divide-y divide-slate-100 text-slate-700"></tbody>
@@ -688,30 +692,21 @@ $perfilActual  = htmlspecialchars($_SESSION['perfil'] ?? 'Administrador', ENT_QU
   <!-- MODAL: ÓRDENES PENDIENTES DE PAGO (Idéntico a index.php L265 DENT DEMO)   -->
   <!-- ========================================================================= -->
   <div id="modalPendientes" class="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-sm hidden flex items-center justify-center p-4">
-    <div class="bg-white rounded-2xl max-w-5xl w-full border border-slate-200 shadow-2xl overflow-hidden">
+    <div class="bg-white rounded-2xl max-w-2xl w-full border border-slate-200 shadow-2xl overflow-hidden">
       <div class="p-4 bg-slate-900 text-white flex items-center justify-between">
         <h4 class="text-sm font-bold">Órdenes pendientes de pago</h4>
         <button onclick="closeModalPendientes()" class="p-1 text-slate-400 hover:text-white">
           <i data-lucide="x" class="w-4 h-4"></i>
         </button>
       </div>
-      <div class="p-5 overflow-x-auto">
+      <div class="p-5 overflow-y-auto max-h-[65vh] table-scroll">
         <table class="w-full text-center text-xs border-collapse general-table">
           <thead>
             <tr>
-              <th>OT</th>
-              <th>DOC</th>
-              <th>FOLIO</th>
-              <th>ENTREGA</th>
-              <th>ESTADO</th>
-              <th>PRODUCTO</th>
-              <th>DOCTOR</th>
-              <th>PACIENTE</th>
-              <th>UNIDADES</th>
-              <th>LIB PROD</th>
-              <th>MONTO</th>
-              <th>PAGADO</th>
-              <th>SALDO</th>
+              <th>Orden</th>
+              <th>Doctor</th>
+              <th>Paciente</th>
+              <th></th>
             </tr>
           </thead>
           <tbody id="tbodyModalPendientesPago" class="divide-y divide-slate-100 text-slate-700"></tbody>
@@ -842,14 +837,15 @@ $perfilActual  = htmlspecialchars($_SESSION['perfil'] ?? 'Administrador', ENT_QU
       showToast('Odontograma Actualizado', 'Piezas asignadas: ' + Array.from(selectedTeeth).map(t => '#' + t).join(', '));
     }
 
-    // Reloj en Vivo
+    // Reloj en Vivo idéntico a DENT DEMO/scripts/index.js
     function updateClock() {
       const now = new Date();
+      const fechaStr = now.toLocaleDateString('es-ES', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
       const h = String(now.getHours()).padStart(2, '0');
       const m = String(now.getMinutes()).padStart(2, '0');
       const s = String(now.getSeconds()).padStart(2, '0');
       const el = document.getElementById('HoraActual');
-      if (el) el.innerText = `${h}:${m}:${s}`;
+      if (el) el.innerText = `${fechaStr} / ${h}:${m}:${s}`;
     }
     setInterval(updateClock, 1000);
     updateClock();

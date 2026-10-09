@@ -273,16 +273,21 @@
     // Al presionar cualquier Orden de Trabajo (OT) en Escaneo, Diseño, Fabricación, Entrega o Tabla General:
     // Se despliega con la animación @aceternity/expandable-card-demo-standard
     window.abrirOrdenTrabajo = function (serie) {
-      const ordenes = (typeof INICIO_DATA !== 'undefined' && INICIO_DATA.ordenes) ? INICIO_DATA.ordenes : [];
-      const o = ordenes.find(item => item.serie === serie) || ordenes[0];
+      const o =
+        typeof window.findOrdenByAny === 'function'
+          ? window.findOrdenByAny(serie)
+          : ((typeof INICIO_DATA !== 'undefined' && INICIO_DATA.ordenes) ? INICIO_DATA.ordenes.find(item => String(item.serie) === String(serie) || String(item.ot) === String(serie)) || INICIO_DATA.ordenes[0] : null);
       if (!o) {
         if (typeof origAbrirOrden === 'function') origAbrirOrden(serie);
         return;
       }
 
+      const safeDoc = (o.doctor || '').replace(/'/g, "\\'");
+      const safePac = (o.paciente || '').replace(/'/g, "\\'");
+
       window.openExpandableCard({
-        title: `Orden #${o.ot} — ${o.producto}`,
-        description: `${o.doctor} • Paciente: ${o.paciente}`,
+        title: `Orden #${o.serie} — ${o.producto}`,
+        description: `${o.doctorNombreCompleto || o.doctor} • Paciente: ${o.paciente}`,
         src: 'assets/dental_cadcam.jpg',
         ctaHtml: `<span>Abrir Expediente</span><i data-lucide="arrow-right" class="w-3.5 h-3.5"></i>`,
         onCtaClick: () => window.abrirOrdenTrabajoCompleto(o.serie),
@@ -291,20 +296,20 @@
             <span class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider bg-blue-600 text-white mb-1">
               ${o.estado}
             </span>
-            <p class="text-xs font-bold text-slate-200">Folio: ${o.folio} (${o.serie})</p>
+            <p class="text-xs font-bold text-slate-200">Folio: #${o.serie} • ${o.paquetes || 'SIN PAQUETE'}</p>
           </div>
           <div class="text-right">
-            <span class="text-[10px] uppercase tracking-wider text-slate-300 block">Entrega</span>
+            <span class="text-[10px] uppercase tracking-wider text-slate-300 block">Entrega Solicitada</span>
             <span class="text-xs font-bold text-white">${o.entrega}</span>
           </div>
         `,
         content: () => `
           <div class="space-y-3.5 text-xs text-slate-600">
             <div class="grid grid-cols-4 gap-1.5 text-center text-[10px] font-bold">
-              <div class="p-2 rounded-xl ${['Escaneo','Diseño','Fabricación','Terminado'].indexOf(o.estado) >= 0 ? 'bg-blue-50 text-blue-700 border border-blue-200' : 'bg-slate-100 text-slate-400'}">1. Escaneo</div>
-              <div class="p-2 rounded-xl ${['Diseño','Fabricación','Terminado'].indexOf(o.estado) >= 0 ? 'bg-blue-50 text-blue-700 border border-blue-200' : 'bg-slate-100 text-slate-400'}">2. Diseño</div>
-              <div class="p-2 rounded-xl ${['Fabricación','Terminado'].indexOf(o.estado) >= 0 ? 'bg-blue-50 text-blue-700 border border-blue-200' : 'bg-slate-100 text-slate-400'}">3. Fabricación</div>
-              <div class="p-2 rounded-xl ${o.estado === 'Terminado' ? 'bg-emerald-50 text-emerald-700 border border-emerald-200' : 'bg-slate-100 text-slate-400'}">4. Entrega</div>
+              <div class="p-2 rounded-xl ${['Escaneo','Diseño','Fabricación','Entrega','Terminado'].indexOf(o.estado) >= 0 ? 'bg-blue-50 text-blue-700 border border-blue-200' : 'bg-slate-100 text-slate-400'}">1. Escaneo</div>
+              <div class="p-2 rounded-xl ${['Diseño','Fabricación','Entrega','Terminado'].indexOf(o.estado) >= 0 ? 'bg-blue-50 text-blue-700 border border-blue-200' : 'bg-slate-100 text-slate-400'}">2. Diseño</div>
+              <div class="p-2 rounded-xl ${['Fabricación','Entrega','Terminado'].indexOf(o.estado) >= 0 ? 'bg-blue-50 text-blue-700 border border-blue-200' : 'bg-slate-100 text-slate-400'}">3. Fabricación</div>
+              <div class="p-2 rounded-xl ${['Entrega','Terminado'].indexOf(o.estado) >= 0 ? 'bg-emerald-50 text-emerald-700 border border-emerald-200' : 'bg-slate-100 text-slate-400'}">4. Entrega</div>
             </div>
 
             <div class="grid grid-cols-2 sm:grid-cols-3 gap-2.5 bg-slate-50 p-3.5 rounded-2xl border border-slate-200/80">
@@ -322,12 +327,13 @@
               </div>
             </div>
 
-            <p class="text-[11px] leading-relaxed text-slate-500">
-              Orden registrada el <strong class="text-slate-700">${o.libProd}</strong>. Sellado marginal y oclusión verificados en flujo digital CAD/CAM. Presiona <strong>Abrir Expediente</strong> para consultar las 4 pestañas completas (Orden, Pago, Historial y Archivos STL).
-            </p>
+            <div class="bg-slate-50 p-3 rounded-xl border border-slate-200/70">
+              <span class="text-[10px] font-bold uppercase tracking-wider text-slate-400 block mb-0.5">Observaciones de la Orden</span>
+              <p class="text-[11px] leading-relaxed text-slate-700 font-medium">${o.observaciones || 'Sin observaciones adicionales.'}</p>
+            </div>
 
             <div class="pt-2 flex items-center justify-between gap-2 border-t border-slate-100">
-              <button type="button" onclick="window.closeExpandableCard(() => Etiqueta('${o.doctor}', '${o.paciente}', '${o.entrega}', '${o.serie}'))"
+              <button type="button" onclick="window.closeExpandableCard(() => Etiqueta('${safeDoc}', '${safePac}', '${o.entrega}', '${o.serie}'))"
                 class="px-3.5 py-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 font-semibold text-xs transition-colors inline-flex items-center gap-1.5">
                 <i data-lucide="barcode" class="w-3.5 h-3.5"></i>
                 <span>Imprimir Etiqueta</span>
@@ -344,28 +350,34 @@
     };
 
     // Al presionar un Doctor en cualquiera de las tablas:
-    // Se despliega con la animación @aceternity/expandable-card-demo-standard
-    window.abrirDetalleDoctor = function (doctorNombre) {
-      const doctores = (typeof DENT_STATE !== 'undefined' && DENT_STATE.doctores) ? DENT_STATE.doctores : [];
-      const doc = doctores.find(d => d.nombre === doctorNombre) || doctores[0];
+    // Se despliega con la animación @aceternity/expandable-card-demo-standard mostrando su teléfono, correo y órdenes reales
+    window.abrirDetalleDoctor = function (doctorQuery) {
+      const doc =
+        typeof window.findDoctorByAny === 'function'
+          ? window.findDoctorByAny(doctorQuery)
+          : ((typeof DENT_STATE !== 'undefined' && DENT_STATE.doctores) ? DENT_STATE.doctores.find(d => d.nombre === doctorQuery) || DENT_STATE.doctores[0] : null);
       if (!doc) {
-        if (typeof origAbrirDoctor === 'function') origAbrirDoctor(doctorNombre);
+        if (typeof origAbrirDoctor === 'function') origAbrirDoctor(doctorQuery);
         return;
       }
-      const ordenesDoc = ((typeof INICIO_DATA !== 'undefined' && INICIO_DATA.ordenes) ? INICIO_DATA.ordenes : []).filter(
-        o => o.doctor === doc.nombre
+      const allOrders = (typeof INICIO_DATA !== 'undefined' && INICIO_DATA.ordenes) ? INICIO_DATA.ordenes : [];
+      const ordenesDoc = allOrders.filter(
+        o =>
+          Number(o.doctorId) === Number(doc.id) ||
+          (o.doctor && doc.doctorCorto && o.doctor.trim().toUpperCase() === doc.doctorCorto.trim().toUpperCase()) ||
+          (o.doctorNombreCompleto && doc.nombre && o.doctorNombreCompleto.trim().toUpperCase() === doc.nombre.trim().toUpperCase())
       );
 
       window.openExpandableCard({
         title: doc.nombre,
-        description: `${doc.clinica} • ${doc.vendedor} (${doc.tipo})`,
+        description: `${doc.clinica} • Vendedor: ${doc.vendedor || 'DentLab'} (${doc.tipo})`,
         src: 'assets/dental_cadcam.jpg',
         ctaHtml: `<span>Ver Ficha Completa</span><i data-lucide="arrow-right" class="w-3.5 h-3.5"></i>`,
-        onCtaClick: () => window.abrirDetalleDoctorCompleto(doc.nombre),
+        onCtaClick: () => window.abrirDetalleDoctorCompleto(doc.id || doc.nombre),
         overlayHtml: `
           <div>
             <span class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider bg-blue-600 text-white mb-1">
-              Expediente Doctor • ${doc.id}
+              Expediente Doctor • #${doc.id}
             </span>
             <p class="text-xs font-bold text-slate-200">${doc.mail}</p>
           </div>
@@ -378,12 +390,12 @@
           <div class="space-y-3 text-xs text-slate-600">
             <div class="grid grid-cols-3 gap-2.5 bg-slate-50 p-3.5 rounded-2xl border border-slate-200/80">
               <div>
-                <span class="text-[10px] font-bold uppercase tracking-wider text-slate-400 block">Clínica</span>
+                <span class="text-[10px] font-bold uppercase tracking-wider text-slate-400 block">Clínica / Dirección</span>
                 <strong class="text-slate-800">${doc.clinica}</strong>
               </div>
               <div>
-                <span class="text-[10px] font-bold uppercase tracking-wider text-slate-400 block">Órdenes Activas</span>
-                <strong class="text-slate-800">${ordenesDoc.length || 2} órdenes</strong>
+                <span class="text-[10px] font-bold uppercase tracking-wider text-slate-400 block">Órdenes en Sistema</span>
+                <strong class="text-slate-800">${ordenesDoc.length} orden(es)</strong>
               </div>
               <div>
                 <span class="text-[10px] font-bold uppercase tracking-wider text-slate-400 block">Clasificación</span>
@@ -393,12 +405,12 @@
 
             <div class="space-y-1.5">
               <span class="text-[10px] font-bold uppercase tracking-wider text-slate-400 block">Órdenes Recientes del Doctor</span>
-              ${(ordenesDoc.length > 0 ? ordenesDoc : INICIO_DATA.ordenes.slice(0, 2))
+              ${(ordenesDoc.length > 0 ? ordenesDoc.slice(0, 3) : allOrders.slice(0, 2))
                 .map(
                   o => `
-                <div class="p-2.5 rounded-xl bg-white border border-slate-200 flex items-center justify-between">
+                <div onclick="window.abrirOrdenTrabajoCompleto('${o.serie}')" class="p-2.5 rounded-xl bg-white hover:bg-slate-50 border border-slate-200 flex items-center justify-between cursor-pointer transition-colors">
                   <div>
-                    <p class="font-bold text-slate-800">#${o.ot} • ${o.producto}</p>
+                    <p class="font-bold text-slate-800">#${o.serie} • ${o.producto}</p>
                     <p class="text-[11px] text-slate-500">Paciente: ${o.paciente} • Entrega: ${o.entrega}</p>
                   </div>
                   <span class="px-2 py-0.5 rounded-full bg-slate-100 text-slate-700 font-bold text-[10px]">${o.monto}</span>
