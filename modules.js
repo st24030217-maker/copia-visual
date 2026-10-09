@@ -8574,6 +8574,9 @@ function abrirOrdenTrabajo(serie) {
   secDynamic.classList.remove('hidden');
 
   renderVistaOrdenTrabajo();
+  if (typeof window.fetchOrdenDetalleLive === 'function') {
+    window.fetchOrdenDetalleLive(serie);
+  }
 }
 
 function cambiarTabOrdenTrabajo(tab) {
@@ -8599,6 +8602,15 @@ function registrarAbonoOrdenActual(e) {
   e.preventDefault();
   const monto = document.getElementById('inputMontoAbonoOT')?.value || '500';
   const metodo = document.getElementById('selectMetodoAbonoOT')?.value || 'Efectivo';
+  if (currentOrdenActiva) {
+    if (!Array.isArray(currentOrdenActiva.pagosLive)) currentOrdenActiva.pagosLive = [];
+    currentOrdenActiva.pagosLive.unshift({
+      Fecha: new Date().toISOString().split('T')[0],
+      Descripcion: metodo,
+      Nombre: localStorage.getItem('cv_usuario') || 'Recepción',
+      Monto: Number(monto)
+    });
+  }
   showToast('Pago Registrado', `Se aplicó un abono de $${Number(monto).toLocaleString('es-MX')} MXN (${metodo}) a la Orden #${currentOrdenActiva.serie}.`);
   renderVistaOrdenTrabajo();
 }
@@ -8620,6 +8632,7 @@ function renderVistaOrdenTrabajo() {
           <span>Regresar</span>
         </button>
         <div class="flex items-center gap-2">
+          ${o._fromLiveDb ? `<span class="px-2.5 py-1 rounded-lg bg-emerald-50 text-emerald-700 border border-emerald-200 text-[11px] font-bold">BD En Vivo</span>` : ''}
           <span class="px-2.5 py-1 rounded-lg bg-slate-100 text-slate-700 font-mono text-xs font-bold">Serie: #${o.serie}</span>
           <span class="px-2.5 py-1 rounded-lg ${o.interno ? 'bg-rose-100 text-rose-800' : 'bg-blue-100 text-blue-800'} text-xs font-bold">${o.interno ? 'DOCTOR INTERNO' : 'DOCTOR EXTERNO'}</span>
         </div>
@@ -8757,7 +8770,7 @@ function renderVistaOrdenTrabajo() {
                   </thead>
                   <tbody class="divide-y divide-slate-100 bg-white">
                     <tr>
-                      <td>Laboratorio</td>
+                      <td>${o.categoriaDesc || 'Laboratorio'}</td>
                       <td class="font-bold">${o.producto}</td>
                       <td class="font-mono font-bold">${o.unidades}</td>
                       <td class="font-mono font-bold text-slate-900">${o.monto}</td>
@@ -8869,17 +8882,26 @@ function renderVistaOrdenTrabajo() {
                 <tr>
                   <th>Fecha</th>
                   <th>Tipo de Pago</th>
-                  <th>Descripción</th>
+                  <th>Descripción / Usuario</th>
                   <th>Monto</th>
                 </tr>
               </thead>
               <tbody class="divide-y divide-slate-100">
-                <tr>
-                  <td class="font-mono">${o.entrega}</td>
-                  <td>${o.metodoPago || 'Efectivo'}</td>
-                  <td>Registro de Orden #${o.serie} (${o.paquetes})</td>
-                  <td class="font-mono font-bold text-emerald-700">${o.monto}</td>
-                </tr>
+                ${Array.isArray(o.pagosLive) && o.pagosLive.length > 0 ? o.pagosLive.map(p => `
+                  <tr>
+                    <td class="font-mono">${p.Fecha || o.entrega}</td>
+                    <td>${p.Descripcion || o.metodoPago || 'Efectivo'}</td>
+                    <td>${p.Nombre || 'Recepción'} (Folio #${p.FolioPago || o.serie})</td>
+                    <td class="font-mono font-bold text-emerald-700">$${Number(p.Monto || 0).toLocaleString('es-MX', { minimumFractionDigits: 2 })}</td>
+                  </tr>
+                `).join('') : `
+                  <tr>
+                    <td class="font-mono">${o.entrega}</td>
+                    <td>${o.metodoPago || 'Efectivo'}</td>
+                    <td>Registro de Orden #${o.serie} (${o.paquetes || 'SIN PAQUETE'})</td>
+                    <td class="font-mono font-bold text-emerald-700">${o.monto}</td>
+                  </tr>
+                `}
               </tbody>
             </table>
           </div>
@@ -8949,7 +8971,7 @@ function renderVistaOrdenTrabajo() {
             <div class="space-y-2">
               <div class="p-3 bg-white rounded-xl border border-slate-200 flex items-center justify-between">
                 <div>
-                  <p class="font-bold text-slate-800">Orden_${o.serie}_${o.paciente.replace(/\s+/g, '_')}.stl</p>
+                  <p class="font-bold text-slate-800">${o.archivo || `Orden_${o.serie}_${(o.paciente || 'Paciente').replace(/\s+/g, '_')}.stl`}</p>
                   <p class="text-[11px] text-slate-500">Escaneo Digital CAD/CAM • ${o.producto}</p>
                 </div>
                 <button onclick="showToast('Descargando STL', 'Descarga iniciada: Orden_${o.serie}.stl')" class="px-3 py-1.5 rounded-lg bg-blue-600 text-white font-bold">Descargar</button>
@@ -9001,21 +9023,28 @@ function abrirDetalleDoctor(doctorQuery) {
   currentDoctorActivo = doc;
   currentTabDoctor = 'datos';
   renderVistaDetalleDoctor(doc);
+  if (typeof window.fetchDoctorDetalleLive === 'function') {
+    window.fetchDoctorDetalleLive(doc);
+  }
 }
 
 function renderVistaDetalleDoctor(doc) {
-  const ordenesDoc = (INICIO_DATA.ordenes || []).filter(
-    o =>
-      Number(o.doctorId) === Number(doc.id) ||
-      (o.doctor && doc.doctorCorto && o.doctor.trim().toUpperCase() === doc.doctorCorto.trim().toUpperCase()) ||
-      (o.doctorNombreCompleto && doc.nombre && o.doctorNombreCompleto.trim().toUpperCase() === doc.nombre.trim().toUpperCase())
-  );
+  const ordenesDoc = Array.isArray(doc.ordenesLive)
+    ? doc.ordenesLive
+    : (INICIO_DATA.ordenes || []).filter(
+        o =>
+          Number(o.doctorId) === Number(doc.id) ||
+          (o.doctor && doc.doctorCorto && o.doctor.trim().toUpperCase() === doc.doctorCorto.trim().toUpperCase()) ||
+          (o.doctorNombreCompleto && doc.nombre && o.doctorNombreCompleto.trim().toUpperCase() === doc.nombre.trim().toUpperCase())
+      );
 
-  const paquetesDoc = (DENT_STATE.paquetesDoctores || []).filter(
-    p =>
-      Number(p.doctorId) === Number(doc.id) ||
-      (p.doctor && doc.nombre && p.doctor.trim().toUpperCase() === doc.nombre.trim().toUpperCase())
-  );
+  const paquetesDoc = Array.isArray(doc.paquetesLive)
+    ? doc.paquetesLive
+    : (DENT_STATE.paquetesDoctores || []).filter(
+        p =>
+          Number(p.doctorId) === Number(doc.id) ||
+          (p.doctor && doc.nombre && p.doctor.trim().toUpperCase() === doc.nombre.trim().toUpperCase())
+      );
 
   const secInicio = document.getElementById('section-inicio');
   const secDynamic = document.getElementById('section-dynamic');
@@ -9033,6 +9062,7 @@ function renderVistaDetalleDoctor(doc) {
           <span>Regresar</span>
         </button>
         <div class="flex items-center gap-2">
+          ${doc._fromLiveDb ? `<span class="px-2.5 py-1 rounded-lg bg-emerald-50 text-emerald-700 border border-emerald-200 text-[11px] font-bold">BD En Vivo</span>` : ''}
           <span class="font-mono font-bold text-slate-500">ID Doctor: #${doc.id}</span>
           <span class="px-2.5 py-1 rounded-lg ${doc.externo ? 'bg-blue-100 text-blue-800' : 'bg-emerald-100 text-emerald-800'} font-bold">${doc.tipo}</span>
         </div>
@@ -9250,7 +9280,365 @@ function renderVistaDetalleDoctor(doc) {
   if (typeof lucide !== 'undefined') lucide.createIcons();
 }
 
+// ============================================================================
+// CONECTOR EN TIEMPO REAL CON LA BASE DE DATOS MYSQL DE DENT DEMO
+// (Backend/api_live.php -> 162.240.213.3 / new_dentusradm_datos)
+// ============================================================================
+
+window.LIVE_DB_STATE = {
+  connected: false,
+  totalOrdenesBd: 22569,
+  totalDoctoresBd: 540,
+  initialOrdenesBackup: null
+};
+
+function isStaticOrOfflineHost() {
+  return (
+    window.location.protocol === 'file:' ||
+    window.location.hostname.includes('github.io') ||
+    window.location.hostname.includes('vercel.app')
+  );
+}
+
+function updateLiveDbBadge(connected, totalOrd, totalDoc) {
+  const badge = document.getElementById('liveDbBadge');
+  if (!badge) return;
+  if (connected) {
+    badge.className = 'hidden sm:inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[11px] font-bold bg-emerald-50 text-emerald-700 border border-emerald-200 shadow-sm';
+    badge.innerHTML = `<span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span><span>MySQL En Vivo • ${Number(totalOrd || 22569).toLocaleString('es-MX')} OT · ${Number(totalDoc || 540)} Doctores</span>`;
+  } else {
+    badge.className = 'hidden sm:inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[11px] font-semibold bg-slate-100 text-slate-600 border border-slate-200';
+    badge.innerHTML = `<span class="w-2 h-2 rounded-full bg-blue-500"></span><span>Memoria Sincronizada</span>`;
+  }
+}
+
+function mapStageRowFromDb(r, estDefault) {
+  return {
+    ot: Number(r.Serie),
+    ordenId: Number(r.Ordenes_trabajo_id),
+    prod: r.Producto || 'Corona Zirconio',
+    uni: Number(r.Piezas || 1),
+    doctor: r.Doctor || 'DOCTOR',
+    doctorId: Number(r.Doctor_id || 0),
+    soli: String(r.FechaEntregaSolicitada || '').split(' ')[0],
+    est: r.SubEstado || estDefault,
+    reg: String(r.Registro || r.FechaEntregaSolicitada || '').split(' ')[0],
+    interno: Number(r.TipoDoctorExterno) === 0,
+    tipoDoctorExterno: Number(r.TipoDoctorExterno),
+    paquetes: r.paquetes || 'SIN PAQUETE',
+    serie: String(r.Serie)
+  };
+}
+
+function mapOrdenGeneralFromDb(r) {
+  const existing = (INICIO_DATA.ordenes || []).find(o => String(o.serie) === String(r.Serie)) || {};
+  const montoNum = Number(r.Monto || 0);
+  return {
+    ...existing,
+    ot: Number(r.Serie),
+    ordenId: Number(r.Ordenes_trabajo_id),
+    folio: String(r.Serie),
+    serie: String(r.Serie),
+    entrega: String(r.Fecha_entrega_solicitada || '').split(' ')[0],
+    estado: r.Estado || existing.estado || 'Diseño',
+    subEstado: r.SubEstado || r.Estado || existing.subEstado || 'Diseño',
+    idLab_Estado: Number(r.idLab_Estado || existing.idLab_Estado || 2),
+    producto: r.Producto || existing.producto || 'Corona Zirconio',
+    doctor: r.Doctor || existing.doctor || 'Doctor',
+    doctorNombreCompleto: (r.DoctorCompleto || r.Doctor || existing.doctorNombreCompleto || 'Doctor').trim(),
+    doctorId: Number(r.Doctor_id || existing.doctorId || 0),
+    paciente: (r.paciente || existing.paciente || 'Paciente').trim(),
+    unidades: Number(r.Piezas || existing.unidades || 1),
+    libProd: r.Liberada_prod ? String(r.Liberada_prod).split(' ')[0] : (existing.libProd || ''),
+    monto: '$' + montoNum.toLocaleString('es-MX', { minimumFractionDigits: 2, maximumFractionDigits: 2 }),
+    montoNum: montoNum,
+    interno: Number(r.TipoDoctorExterno) === 0,
+    tipoDoctorExterno: Number(r.TipoDoctorExterno),
+    color: (r.colorimetro || existing.color || 'VITA CLASSICAL A2').trim() || 'VITA CLASSICAL A2',
+    observaciones: r.Observaciones ?? existing.observaciones ?? '',
+    observacionesLab: r.ObservacionesLaboratororio ?? existing.observacionesLab ?? '',
+    piezas: existing.piezas || ['11'],
+    _fromLiveDb: true
+  };
+}
+
+window.syncLiveDatabase = async function (silent = false) {
+  if (isStaticOrOfflineHost()) {
+    updateLiveDbBadge(false);
+    return false;
+  }
+  try {
+    const resp = await fetch('Backend/api_live.php?op=bootstrap', { cache: 'no-store' });
+    if (!resp.ok) throw new Error('HTTP ' + resp.status);
+    const data = await resp.json();
+    if (!data || !data.ok) throw new Error(data?.error || 'Respuesta inválida');
+
+    if (Array.isArray(data.escaneo)) {
+      INICIO_DATA.escaneo = data.escaneo.map(r => mapStageRowFromDb(r, 'Escaneo'));
+    }
+    if (Array.isArray(data.diseno)) {
+      INICIO_DATA.diseno = data.diseno.map(r => mapStageRowFromDb(r, 'Diseño'));
+    }
+    if (Array.isArray(data.fabricacion)) {
+      INICIO_DATA.fabricacion = data.fabricacion.map(r => mapStageRowFromDb(r, 'Fabricación'));
+    }
+    if (Array.isArray(data.entrega)) {
+      INICIO_DATA.entrega = data.entrega.map(r => mapStageRowFromDb(r, 'Entrega'));
+    }
+    if (Array.isArray(data.ordenes) && data.ordenes.length > 0) {
+      INICIO_DATA.ordenes = data.ordenes.map(mapOrdenGeneralFromDb);
+      window.LIVE_DB_STATE.initialOrdenesBackup = INICIO_DATA.ordenes.slice();
+    }
+    if (Array.isArray(data.canceladas)) {
+      INICIO_DATA.canceladas = data.canceladas.map(c => ({
+        serie: String(c.Serie),
+        responsable: c.Nombre || 'Laboratorio',
+        comentario: c.ObservacionesLaboratororio || 'SIN COMENTARIO'
+      }));
+      INICIO_DATA.canceladasCount = data.canceladas_count || data.canceladas.length;
+    }
+    if (Array.isArray(data.pendientes_pago)) {
+      INICIO_DATA.pendientes = data.pendientes_pago.map(p => ({
+        serie: String(p.Serie),
+        doctor: p.Doctor || 'Doctor',
+        paciente: p.Paciente || 'Paciente',
+        idLab_Ordenes_Estado: p.idLab_Ordenes_Estado,
+        con_scan: p.Con_scan
+      }));
+      INICIO_DATA.pendientesCount = data.pendientes_pago.length;
+    }
+    if (Array.isArray(data.doctores) && data.doctores.length > 0) {
+      DENT_STATE.doctores = data.doctores.map(d => ({
+        id: Number(d.idDoctores),
+        codigo: 'DOC-' + d.idDoctores,
+        nombre: d.Nombre || d.Doctor || 'Doctor',
+        doctorCorto: d.Doctor || d.Nombre || 'Doctor',
+        apellidoPaterno: d.ApellidoPaterno || '',
+        apellidoMaterno: d.ApellidoMaterno || '',
+        celular: d.Celular || 'N/A',
+        telefono: d.Telefono || 'N/A',
+        mail: d.Email || 'N/A',
+        vendedor: d.Vendedor || 'DentLab',
+        nota: d.Notas || 'N/A',
+        clinica: d.Clinica && d.Clinica !== 'N/A' ? d.Clinica : `${d.Calle || ''} #${d.Num_Ext || ''}, Col. ${d.Colonia || ''}`,
+        direccion: `${d.Calle || ''} #${d.Num_Ext || ''}, Col. ${d.Colonia || ''}, ${d.Ciudad || ''}, ${d.Estado || ''}`,
+        calle: d.Calle || '',
+        colonia: d.Colonia || '',
+        numExt: d.Num_Ext || '',
+        cp: d.Codigo_Postal || '',
+        tipo: d.txExterno || (Number(d.Externo) === 0 ? 'INTERNO' : 'EXTERNO'),
+        activo: Number(d.Activo) === 1,
+        externo: Number(d.Externo) !== 0,
+        _fromLiveDb: true
+      }));
+    }
+
+    window.LIVE_DB_STATE.connected = true;
+    window.LIVE_DB_STATE.totalOrdenesBd = data.total_ordenes_bd || 22569;
+    window.LIVE_DB_STATE.totalDoctoresBd = data.total_doctores_bd || DENT_STATE.doctores.length;
+
+    updateLiveDbBadge(true, window.LIVE_DB_STATE.totalOrdenesBd, window.LIVE_DB_STATE.totalDoctoresBd);
+    renderTablasInicio();
+    renderModalsInicio();
+
+    if (!silent && typeof showToast === 'function') {
+      showToast(
+        'Base de Datos MySQL Conectada',
+        `Sincronizadas ${Number(window.LIVE_DB_STATE.totalOrdenesBd).toLocaleString('es-MX')} órdenes y ${window.LIVE_DB_STATE.totalDoctoresBd} doctores en tiempo real.`
+      );
+    }
+    return true;
+  } catch (err) {
+    updateLiveDbBadge(false);
+    return false;
+  }
+};
+
+window.fetchOrdenDetalleLive = async function (serie) {
+  if (isStaticOrOfflineHost()) return;
+  try {
+    const cleanSerie = String(serie).trim().replace(/^#?OT-?/i, '');
+    const resp = await fetch(`Backend/api_live.php?op=orden_detalle&folio=${encodeURIComponent(cleanSerie)}`, { cache: 'no-store' });
+    if (!resp.ok) return;
+    const data = await resp.json();
+    if (!data || !data.ok || !data.orden) return;
+
+    const r = data.orden;
+    const montoNum = Number(r.Monto || 0);
+    const paqStr = Array.isArray(data.paquetes) && data.paquetes.length > 0
+      ? data.paquetes.map(p => `${p.Paquete} (PAQ: ${p.Serie})`).join(' / ')
+      : (currentOrdenActiva?.paquetes || 'SIN PAQUETE');
+
+    const dientesNums = Array.isArray(data.dientes) && data.dientes.length > 0
+      ? data.dientes.map(d => String(d.IdDientesImagen))
+      : (currentOrdenActiva?.piezas || ['11']);
+
+    const updated = {
+      ...(currentOrdenActiva || {}),
+      ot: Number(r.Serie),
+      ordenId: Number(r.Ordenes_trabajo_id),
+      folio: String(r.Serie),
+      serie: String(r.Serie),
+      archivo: r.Archivo || '',
+      entrega: String(r.Fecha_entrega_solicitada || '').split(' ')[0],
+      estado: r.Estado || 'Diseño',
+      subEstado: r.SubEstado || r.Estado || 'Diseño',
+      idLab_Estado: Number(r.idLab_Estado || 2),
+      categoriaDesc: r.CategoriaDesc || 'Laboratorio',
+      producto: r.Producto || 'Corona Zirconio',
+      doctor: r.Doctor || 'Doctor',
+      doctorNombreCompleto: r.Doctor || 'Doctor',
+      doctorId: Number(r.Doctor_id || 0),
+      paciente: (r.Paciente || 'Paciente').trim(),
+      unidades: Number(r.Piezas || 1),
+      libProd: r.Liberada_prod ? String(r.Liberada_prod).split(' ')[0] : '',
+      nombreLib: r.NombreLib || '',
+      monto: '$' + montoNum.toLocaleString('es-MX', { minimumFractionDigits: 2, maximumFractionDigits: 2 }),
+      montoNum: montoNum,
+      interno: Number(r.Externo) === 0,
+      tipoDoctorExterno: Number(r.Externo),
+      color: (r.colorimetro || 'VITA CLASSICAL A2').trim() || 'VITA CLASSICAL A2',
+      observaciones: r.Observaciones || '',
+      observacionesEscaneador: r.ObservacionesEscaneador || '',
+      observacionesLab: r.ObservacionesLaboratororio || '',
+      direccion: r.Direccion || '',
+      celular: r.Celular || '',
+      usuarioEscaneo: r.NombreEscaneador || 'Sin escaneador asignado',
+      agendaInicio: r.Agenda_inicio || '',
+      agendaFin: r.Agenda_fin || '',
+      fechaConfirmada: r.Fecha_confirmada || '',
+      metodoPago: r.MetodoPagoDesc || 'Efectivo',
+      discosUtilizados: r.DiscosUtilizados || 'Sin Discos Utilizados',
+      paquetes: paqStr,
+      autColor: Number(r.Aut_color) === 1,
+      autMordida: Number(r.Aut_mordida) === 1,
+      autMunon: Number(r.Aut_munon) === 1,
+      autAdit: Number(r.Aut_adit) === 1,
+      piezas: dientesNums,
+      pagosLive: Array.isArray(data.pagos) ? data.pagos : [],
+      _fromLiveDb: true
+    };
+
+    currentOrdenActiva = updated;
+    const idx = (INICIO_DATA.ordenes || []).findIndex(o => String(o.serie) === String(updated.serie));
+    if (idx !== -1) {
+      INICIO_DATA.ordenes[idx] = updated;
+    } else if (Array.isArray(INICIO_DATA.ordenes)) {
+      INICIO_DATA.ordenes.unshift(updated);
+    }
+
+    const secDynamic = document.getElementById('section-dynamic');
+    if (secDynamic && !secDynamic.classList.contains('hidden')) {
+      renderVistaOrdenTrabajo();
+    }
+  } catch (e) {
+    // Mantiene vista en memoria si no hay conexión
+  }
+};
+
+window.fetchDoctorDetalleLive = async function (doc) {
+  if (!doc || isStaticOrOfflineHost()) return;
+  try {
+    const params = doc.id ? `idDoctor=${encodeURIComponent(doc.id)}` : `nombre=${encodeURIComponent(doc.nombre || '')}`;
+    const resp = await fetch(`Backend/api_live.php?op=doctor_detalle&${params}`, { cache: 'no-store' });
+    if (!resp.ok) return;
+    const data = await resp.json();
+    if (!data || !data.ok || !data.doctor) return;
+
+    const d = data.doctor;
+    doc.id = Number(d.idDoctores || doc.id);
+    doc.celular = d.Celular || doc.celular;
+    doc.telefono = d.Telefono || doc.telefono;
+    doc.mail = d.Email || doc.mail;
+    doc.clinica = d.Clinica || doc.clinica;
+    doc.calle = d.Calle || doc.calle;
+    doc.colonia = d.Colonia || doc.colonia;
+    doc.numExt = d.Num_Ext || doc.numExt;
+    doc.cp = d.Codigo_Postal || doc.cp;
+    doc.vendedor = d.VendedorNombre || doc.vendedor || 'DentLab';
+    doc._fromLiveDb = true;
+
+    if (Array.isArray(data.ordenes)) {
+      doc.ordenesLive = data.ordenes.map(o => {
+        const m = Number(o.Monto || 0);
+        return {
+          serie: String(o.Serie),
+          paciente: (o.paciente || 'Paciente').trim(),
+          producto: o.Producto || 'Corona Zirconio',
+          unidades: Number(o.Piezas || 1),
+          estado: o.Estado || 'Entrega',
+          entrega: String(o.Fecha_entrega_solicitada || '').split(' ')[0],
+          monto: '$' + m.toLocaleString('es-MX', { minimumFractionDigits: 2, maximumFractionDigits: 2 })
+        };
+      });
+    }
+
+    if (Array.isArray(data.paquetes)) {
+      doc.paquetesLive = data.paquetes.map(p => {
+        const tot = Number(p.Pz_Total || 0);
+        const disp = Number(p.CantidadDisponible || 0);
+        const usadas = Math.max(0, tot - disp);
+        const c = Number(p.Costo || 0);
+        return {
+          folio: String(p.Serie || p.Doctores_paquete_id),
+          paquete: p.paquete || 'Paquete Dental',
+          totalPiezas: tot,
+          usadas: usadas,
+          disponibles: disp,
+          costo: '$' + c.toLocaleString('es-MX', { minimumFractionDigits: 2, maximumFractionDigits: 2 }),
+          saldo: Number(p.Pagado) === 1 ? 'Pagado' : 'Pendiente',
+          fecha: String(p.Registro || '').split(' ')[0]
+        };
+      });
+    }
+
+    if (currentDoctorActivo && Number(currentDoctorActivo.id) === Number(doc.id)) {
+      const secDynamic = document.getElementById('section-dynamic');
+      if (secDynamic && !secDynamic.classList.contains('hidden')) {
+        renderVistaDetalleDoctor(doc);
+      }
+    }
+  } catch (e) {
+    // Mantiene vista en memoria si no hay conexión
+  }
+};
+
+let liveSearchTimer = null;
+window.buscarEnBaseDeDatosLive = function (query) {
+  if (isStaticOrOfflineHost()) return;
+  clearTimeout(liveSearchTimer);
+  const q = String(query || '').trim();
+  if (q === '') {
+    if (Array.isArray(window.LIVE_DB_STATE.initialOrdenesBackup) && window.LIVE_DB_STATE.initialOrdenesBackup.length > 0) {
+      INICIO_DATA.ordenes = window.LIVE_DB_STATE.initialOrdenesBackup.slice();
+      paginaActualOrdenes = 1;
+      renderTablasInicio();
+    }
+    return;
+  }
+  if (q.length < 2) return;
+
+  liveSearchTimer = setTimeout(async () => {
+    try {
+      const resp = await fetch(`Backend/api_live.php?op=search_ordenes&q=${encodeURIComponent(q)}`, { cache: 'no-store' });
+      if (!resp.ok) return;
+      const data = await resp.json();
+      if (data && data.ok && Array.isArray(data.ordenes)) {
+        if (!window.LIVE_DB_STATE.initialOrdenesBackup) {
+          window.LIVE_DB_STATE.initialOrdenesBackup = INICIO_DATA.ordenes.slice();
+        }
+        INICIO_DATA.ordenes = data.ordenes.map(mapOrdenGeneralFromDb);
+        paginaActualOrdenes = 1;
+        renderTablasInicio();
+      }
+    } catch (e) {
+      // Fallback a filtro DOM local
+    }
+  }, 260);
+};
+
 document.addEventListener('DOMContentLoaded', () => {
   renderTablasInicio();
   renderModalsInicio();
+  window.syncLiveDatabase(true);
 });

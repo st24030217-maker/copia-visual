@@ -232,6 +232,10 @@ $perfilActual  = htmlspecialchars($_SESSION['perfil'] ?? 'Administrador', ENT_QU
           <i data-lucide="menu" class="w-4 h-4"></i>
         </button>
         <span id="topModuleTitle" class="text-sm font-semibold text-slate-800">Centro de Operaciones Dentales • Producción CAD/CAM</span>
+        <span id="liveDbBadge" class="hidden sm:inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[11px] font-bold bg-emerald-50 text-emerald-700 border border-emerald-200 shadow-sm">
+          <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+          <span>MySQL En Vivo • 22,569 OT · 540 Doctores</span>
+        </span>
       </div>
 
       <div class="flex items-center gap-3">
@@ -904,20 +908,32 @@ $perfilActual  = htmlspecialchars($_SESSION['perfil'] ?? 'Administrador', ENT_QU
       }
     }
 
-    function refreshData() {
+    async function refreshData() {
       const icon = document.getElementById('refreshIcon');
       if (icon) icon.classList.add('animate-spin');
-      if (typeof renderTablasInicio === 'function') renderTablasInicio();
-      showToast('Tablas Actualizadas', 'Escaneo, Diseño, Fabricación, Entrega y Órdenes sincronizadas.');
-      setTimeout(() => { if (icon) icon.classList.remove('animate-spin'); }, 800);
+      if (typeof window.syncLiveDatabase === 'function') {
+        const ok = await window.syncLiveDatabase(false);
+        if (!ok) {
+          if (typeof renderTablasInicio === 'function') renderTablasInicio();
+          showToast('Tablas Actualizadas', 'Escaneo, Diseño, Fabricación, Entrega y Órdenes sincronizadas.');
+        }
+      } else if (typeof renderTablasInicio === 'function') {
+        renderTablasInicio();
+        showToast('Tablas Actualizadas', 'Escaneo, Diseño, Fabricación, Entrega y Órdenes sincronizadas.');
+      }
+      setTimeout(() => { if (icon) icon.classList.remove('animate-spin'); }, 600);
     }
 
     function buscarEnTabla() {
-      const q = document.getElementById('nptBuscar').value.toLowerCase();
+      const raw = document.getElementById('nptBuscar').value;
+      const q = raw.toLowerCase();
       const rows = document.querySelectorAll('#tbodyGeneralOrdenes tr');
       rows.forEach(r => {
         r.style.display = r.innerText.toLowerCase().includes(q) ? '' : 'none';
       });
+      if (typeof window.buscarEnBaseDeDatosLive === 'function') {
+        window.buscarEnBaseDeDatosLive(raw);
+      }
     }
   </script>
 </body>

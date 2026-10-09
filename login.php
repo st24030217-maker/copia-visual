@@ -1,9 +1,10 @@
 <?php
 session_start();
 
-// Manejo de autenticación por POST o Fetch AJAX (100% compatible con PHP 8.2+, sin requerir MySQL)
+// Manejo de autenticación por POST o Fetch AJAX conectado a MySQL (con respaldo demo)
 if (($_SERVER['REQUEST_METHOD'] ?? '') === 'POST') {
     $usuario = trim($_POST['usuario'] ?? 'Admin');
+    $clave   = trim($_POST['clave'] ?? '');
     if ($usuario === '') {
         $usuario = 'Admin';
     }
@@ -18,6 +19,35 @@ if (($_SERVER['REQUEST_METHOD'] ?? '') === 'POST') {
     } else {
         $perfil = 'Administrador';
         $idPerfil = 1;
+    }
+
+    // Intentar autenticar contra sys_usuarios en la base de datos real de DENT DEMO
+    if (file_exists(__DIR__ . '/Backend/Conexiones/Conexiones.php')) {
+        try {
+            require_once(__DIR__ . '/Backend/Conexiones/Conexiones.php');
+            $db = new Conexiones();
+            $cons = $db->ExecuteQueryWithParam(
+                "SELECT pe.perfil, sy.usuario, sy.id_perfil, sy.id_sys_usuario, sy.Nombre
+                 FROM sys_usuarios AS sy
+                 INNER JOIN perfiles AS pe ON pe.id_perfil = sy.id_perfil
+                 WHERE (sy.usuario = :u1 OR LOWER(sy.usuario) = :u2) AND sy.estatus = 1
+                 LIMIT 1",
+                [':u1' => $usuario, ':u2' => $userLower]
+            );
+            if (!empty($cons)) {
+                $uRow = $cons[0];
+                $usuario  = $uRow['Nombre'] ?: $uRow['usuario'];
+                $perfil   = $uRow['perfil'] ?: $perfil;
+                $idPerfil = (int)($uRow['id_perfil'] ?? $idPerfil);
+                setcookie("perfil", (string)$perfil, time() + (86400 * 30), "/");
+                setcookie("id_usuario", (string)($uRow["id_sys_usuario"] ?? 1), time() + (86400 * 30), "/");
+                setcookie("usuario", (string)$uRow["usuario"], time() + (86400 * 30), "/");
+                setcookie("id_perfil", (string)$idPerfil, time() + (86400 * 30), "/");
+                setcookie("sesion", "activa", time() + (86400 * 30), "/");
+            }
+        } catch (\Exception $e) {
+            // Respaldo transparente en caso de modo sin red
+        }
     }
 
     $_SESSION['user'] = $usuario;
