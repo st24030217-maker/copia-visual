@@ -10,7 +10,11 @@ if (($_SERVER['REQUEST_METHOD'] ?? '') === 'POST') {
     }
 
     $userLower = strtolower($usuario);
-    if ($userLower === 'diana') {
+    if ($userLower === 'irene') {
+        $usuario = 'Irene';
+        $perfil = 'Administrador Laboratorio';
+        $idPerfil = 12;
+    } elseif ($userLower === 'diana') {
         $perfil = 'Laboratorio';
         $idPerfil = 4;
     } elseif ($userLower === 'oscar') {
@@ -36,7 +40,7 @@ if (($_SERVER['REQUEST_METHOD'] ?? '') === 'POST') {
             );
             if (!empty($cons)) {
                 $uRow = $cons[0];
-                $usuario  = $uRow['Nombre'] ?: $uRow['usuario'];
+                $usuario  = $uRow['usuario'] ?: ($uRow['Nombre'] ?: $usuario);
                 $perfil   = $uRow['perfil'] ?: $perfil;
                 $idPerfil = (int)($uRow['id_perfil'] ?? $idPerfil);
                 setcookie("perfil", (string)$perfil, time() + (86400 * 30), "/");
@@ -285,16 +289,16 @@ $anioActual = date('Y');
             <span class="text-[10px] text-blue-600 bg-blue-50 px-2 py-0.5 rounded-full font-medium">Demo</span>
           </div>
           <div class="grid grid-cols-3 gap-2">
-            <button type="button" onclick="setRole('admin', '1234', 'Administrador')" 
-              class="py-1.5 px-2 rounded-lg border border-slate-200 bg-slate-50 hover:bg-white hover:border-blue-600 hover:text-blue-600 text-xs font-medium text-slate-700 transition-all text-center">
+            <button type="button" onclick="setRole('admin', '1234', 'Administrador', 1)" 
+              class="py-1.5 px-2 rounded-lg border border-slate-200 bg-slate-50 hover:bg-white hover:border-blue-600 hover:text-blue-600 text-xs font-medium text-slate-700 transition-all text-center cursor-pointer">
               Admin
             </button>
-            <button type="button" onclick="setRole('Diana', '8712', 'Laboratorio')" 
-              class="py-1.5 px-2 rounded-lg border border-slate-200 bg-slate-50 hover:bg-white hover:border-blue-600 hover:text-blue-600 text-xs font-medium text-slate-700 transition-all text-center">
-              Laboratorio
+            <button type="button" onclick="setRole('Irene', 'Temporal1', 'Administrador Laboratorio', 12)" 
+              class="py-1.5 px-2 rounded-lg border border-slate-200 bg-slate-50 hover:bg-white hover:border-blue-600 hover:text-blue-600 text-xs font-medium text-slate-700 transition-all text-center cursor-pointer">
+              Irene
             </button>
-            <button type="button" onclick="setRole('Oscar', '1234', 'Medico')" 
-              class="py-1.5 px-2 rounded-lg border border-slate-200 bg-slate-50 hover:bg-white hover:border-blue-600 hover:text-blue-600 text-xs font-medium text-slate-700 transition-all text-center">
+            <button type="button" onclick="setRole('Oscar', '1234', 'Medico', 3)" 
+              class="py-1.5 px-2 rounded-lg border border-slate-200 bg-slate-50 hover:bg-white hover:border-blue-600 hover:text-blue-600 text-xs font-medium text-slate-700 transition-all text-center cursor-pointer">
               Doctor
             </button>
           </div>
@@ -354,11 +358,12 @@ $anioActual = date('Y');
       lucide.createIcons();
     }
 
-    function setRole(user, pass, role) {
+    function setRole(user, pass, role, idPerfil) {
       document.getElementById('usuario').value = user;
       document.getElementById('clave').value = pass;
       localStorage.setItem('cv_usuario', user);
       localStorage.setItem('cv_perfil', role);
+      localStorage.setItem('cv_id_perfil', String(idPerfil || (user.toLowerCase().includes('irene') ? 12 : 1)));
     }
 
     let isLoggingIn = false;
@@ -367,16 +372,23 @@ $anioActual = date('Y');
       e.preventDefault();
       isLoggingIn = true;
 
-      const user = document.getElementById('usuario').value;
+      const user = (document.getElementById('usuario').value || 'admin').trim();
       const pass = document.getElementById('clave').value;
-      localStorage.setItem('cv_usuario', user);
-      if (user.toLowerCase() === 'diana') {
+      const uLower = user.toLowerCase();
+      if (uLower.includes('irene')) {
+        localStorage.setItem('cv_usuario', 'Irene');
+        localStorage.setItem('cv_perfil', 'Administrador Laboratorio');
+        localStorage.setItem('cv_id_perfil', '12');
+      } else if (uLower === 'diana') {
+        localStorage.setItem('cv_usuario', 'Diana');
         localStorage.setItem('cv_perfil', 'Laboratorio');
         localStorage.setItem('cv_id_perfil', '4');
-      } else if (user.toLowerCase() === 'oscar') {
+      } else if (uLower === 'oscar') {
+        localStorage.setItem('cv_usuario', 'Oscar');
         localStorage.setItem('cv_perfil', 'Medico');
         localStorage.setItem('cv_id_perfil', '3');
       } else {
+        localStorage.setItem('cv_usuario', user);
         localStorage.setItem('cv_perfil', 'Administrador');
         localStorage.setItem('cv_id_perfil', '1');
       }

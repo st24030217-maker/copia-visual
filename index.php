@@ -406,7 +406,7 @@ $perfilActual  = htmlspecialchars($_SESSION['perfil'] ?? 'Administrador', ENT_QU
 
             <div class="qm-stagger relative z-10 px-3 py-2 border-b border-slate-100 mb-1 flex items-center justify-between" style="--stagger: 0;">
               <span class="text-[10px] font-bold uppercase tracking-wider text-slate-400">Acciones del Sistema</span>
-              <span class="px-2 py-0.5 rounded-md bg-blue-50 text-blue-700 font-semibold text-[10px]"><?= $perfilActual ?></span>
+              <span id="topPerfilBadge" class="px-2 py-0.5 rounded-md bg-blue-50 text-blue-700 font-semibold text-[10px]"><?= $perfilActual ?></span>
             </div>
 
             <a href="#" onmouseenter="moveQmTracker(this, false)" onclick="closeSettingsDropdown(); openModule('configuracion'); return false;" class="qm-item qm-stagger flex items-center justify-between px-2.5 py-2 rounded-xl text-slate-700 transition-colors" style="--stagger: 1;">
@@ -968,6 +968,9 @@ $perfilActual  = htmlspecialchars($_SESSION['perfil'] ?? 'Administrador', ENT_QU
     const usuario = localStorage.getItem('cv_usuario') || <?= json_encode($usuarioActual) ?>;
     document.getElementById('lblNombreUser').innerText = usuario;
     document.getElementById('topUserLabel').innerText = usuario;
+    if (typeof window.refreshMenuForUser === 'function') {
+      window.refreshMenuForUser();
+    }
 
     function runAnimeCounters() {
       if (typeof renderTablasInicio === 'function') {

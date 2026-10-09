@@ -50,7 +50,7 @@ $perfilMenu  = htmlspecialchars(ucfirst(strtolower($_SESSION['perfil'] ?? 'Admin
       const BM_SUB_INDENT = 24;
       const BM_PAD_Y = 4;
 
-      const BM_ITEMS = [
+      const ALL_BM_ITEMS = [
         {
           label: 'Inicio',
           value: 'inicio',
@@ -175,6 +175,36 @@ $perfilMenu  = htmlspecialchars(ucfirst(strtolower($_SESSION['perfil'] ?? 'Admin
         }
       ];
 
+      function resolveUserMenuItems() {
+        const storedUser = (localStorage.getItem('cv_usuario') || <?= json_encode($usuarioMenu) ?> || 'admin').trim();
+        const isIrene = storedUser.toLowerCase().includes('irene');
+
+        const lblUser = document.getElementById('lblNombreUser');
+        const topUser = document.getElementById('topUserLabel');
+        const lblPerfil = document.getElementById('lblPerfilSidebar');
+        const topPerfil = document.getElementById('topPerfilBadge');
+
+        if (isIrene) {
+          if (lblUser) lblUser.innerText = 'Irene';
+          if (topUser) topUser.innerText = 'Irene';
+          if (lblPerfil) lblPerfil.innerText = 'Administrador laboratorio';
+          if (topPerfil) topPerfil.innerText = 'Administrador Laboratorio';
+          // Irene (id_perfil = 12) no tiene acceso a Dent SPA ni Dent Clinic
+          return ALL_BM_ITEMS.filter(item => item.value !== 'sec-dentspa' && item.value !== 'sec-dentclinic');
+        } else {
+          const displayUser = storedUser || 'admin';
+          const storedPerfil = localStorage.getItem('cv_perfil') || 'Administrador';
+          if (lblUser) lblUser.innerText = displayUser;
+          if (topUser) topUser.innerText = displayUser;
+          if (lblPerfil) lblPerfil.innerText = storedPerfil.charAt(0).toUpperCase() + storedPerfil.slice(1).toLowerCase();
+          if (topPerfil) topPerfil.innerText = storedPerfil;
+          // Admin tiene acceso a todos los módulos (incluyendo Dent SPA y Dent Clinic)
+          return ALL_BM_ITEMS.slice();
+        }
+      }
+
+      let BM_ITEMS = resolveUserMenuItems();
+
       let bmState = {
         openSection: 2,
         openSubs: {},
@@ -231,9 +261,10 @@ $perfilMenu  = htmlspecialchars(ucfirst(strtolower($_SESSION['perfil'] ?? 'Admin
       }
 
       // Construir DOM una sola vez para conservar todas las transiciones CSS (grid-template-rows, SVG stroke-dashoffset, chevron)
-      function initBranchedMenuDOM() {
+      function initBranchedMenuDOM(forceRebuild = false) {
         const container = document.getElementById('bmSectionsContainer');
-        if (!container || bmState.initialized) return;
+        if (!container || (bmState.initialized && !forceRebuild)) return;
+        BM_ITEMS = resolveUserMenuItems();
         bmState.initialized = true;
 
         container.innerHTML = BM_ITEMS.map((item, i) => {
@@ -529,10 +560,16 @@ $perfilMenu  = htmlspecialchars(ucfirst(strtolower($_SESSION['perfil'] ?? 'Admin
         syncBranchedMenuDOM();
       };
 
+      window.refreshMenuForUser = function (newUser, newPerfil) {
+        if (newUser) localStorage.setItem('cv_usuario', newUser);
+        if (newPerfil) localStorage.setItem('cv_perfil', newPerfil);
+        initBranchedMenuDOM(true);
+      };
+
       if (document.readyState === 'loading') {
-        document.addEventListener('DOMContentLoaded', initBranchedMenuDOM);
+        document.addEventListener('DOMContentLoaded', () => initBranchedMenuDOM(false));
       } else {
-        initBranchedMenuDOM();
+        initBranchedMenuDOM(false);
       }
     })();
   </script>

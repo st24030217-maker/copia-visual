@@ -409,7 +409,7 @@
       const BM_SUB_INDENT = 24;
       const BM_PAD_Y = 4;
 
-      const BM_ITEMS = [
+      const ALL_BM_ITEMS = [
         {
           label: 'Inicio',
           value: 'inicio',
@@ -534,6 +534,36 @@
         }
       ];
 
+      function resolveUserMenuItems() {
+        const storedUser = (localStorage.getItem('cv_usuario') || "admin" || 'admin').trim();
+        const isIrene = storedUser.toLowerCase().includes('irene');
+
+        const lblUser = document.getElementById('lblNombreUser');
+        const topUser = document.getElementById('topUserLabel');
+        const lblPerfil = document.getElementById('lblPerfilSidebar');
+        const topPerfil = document.getElementById('topPerfilBadge');
+
+        if (isIrene) {
+          if (lblUser) lblUser.innerText = 'Irene';
+          if (topUser) topUser.innerText = 'Irene';
+          if (lblPerfil) lblPerfil.innerText = 'Administrador laboratorio';
+          if (topPerfil) topPerfil.innerText = 'Administrador Laboratorio';
+          // Irene (id_perfil = 12) no tiene acceso a Dent SPA ni Dent Clinic
+          return ALL_BM_ITEMS.filter(item => item.value !== 'sec-dentspa' && item.value !== 'sec-dentclinic');
+        } else {
+          const displayUser = storedUser || 'admin';
+          const storedPerfil = localStorage.getItem('cv_perfil') || 'Administrador';
+          if (lblUser) lblUser.innerText = displayUser;
+          if (topUser) topUser.innerText = displayUser;
+          if (lblPerfil) lblPerfil.innerText = storedPerfil.charAt(0).toUpperCase() + storedPerfil.slice(1).toLowerCase();
+          if (topPerfil) topPerfil.innerText = storedPerfil;
+          // Admin tiene acceso a todos los módulos (incluyendo Dent SPA y Dent Clinic)
+          return ALL_BM_ITEMS.slice();
+        }
+      }
+
+      let BM_ITEMS = resolveUserMenuItems();
+
       let bmState = {
         openSection: 2,
         openSubs: {},
@@ -590,9 +620,10 @@
       }
 
       // Construir DOM una sola vez para conservar todas las transiciones CSS (grid-template-rows, SVG stroke-dashoffset, chevron)
-      function initBranchedMenuDOM() {
+      function initBranchedMenuDOM(forceRebuild = false) {
         const container = document.getElementById('bmSectionsContainer');
-        if (!container || bmState.initialized) return;
+        if (!container || (bmState.initialized && !forceRebuild)) return;
+        BM_ITEMS = resolveUserMenuItems();
         bmState.initialized = true;
 
         container.innerHTML = BM_ITEMS.map((item, i) => {
@@ -888,10 +919,16 @@
         syncBranchedMenuDOM();
       };
 
+      window.refreshMenuForUser = function (newUser, newPerfil) {
+        if (newUser) localStorage.setItem('cv_usuario', newUser);
+        if (newPerfil) localStorage.setItem('cv_perfil', newPerfil);
+        initBranchedMenuDOM(true);
+      };
+
       if (document.readyState === 'loading') {
-        document.addEventListener('DOMContentLoaded', initBranchedMenuDOM);
+        document.addEventListener('DOMContentLoaded', () => initBranchedMenuDOM(false));
       } else {
-        initBranchedMenuDOM();
+        initBranchedMenuDOM(false);
       }
     })();
   </script>
@@ -934,7 +971,7 @@
 
             <div class="qm-stagger relative z-10 px-3 py-2 border-b border-slate-100 mb-1 flex items-center justify-between" style="--stagger: 0;">
               <span class="text-[10px] font-bold uppercase tracking-wider text-slate-400">Acciones del Sistema</span>
-              <span class="px-2 py-0.5 rounded-md bg-blue-50 text-blue-700 font-semibold text-[10px]">Administrador</span>
+              <span id="topPerfilBadge" class="px-2 py-0.5 rounded-md bg-blue-50 text-blue-700 font-semibold text-[10px]">Administrador</span>
             </div>
 
             <a href="#" onmouseenter="moveQmTracker(this, false)" onclick="closeSettingsDropdown(); openModule('configuracion'); return false;" class="qm-item qm-stagger flex items-center justify-between px-2.5 py-2 rounded-xl text-slate-700 transition-colors" style="--stagger: 1;">
@@ -1496,6 +1533,9 @@
     const usuario = localStorage.getItem('cv_usuario') || "Admin";
     document.getElementById('lblNombreUser').innerText = usuario;
     document.getElementById('topUserLabel').innerText = usuario;
+    if (typeof window.refreshMenuForUser === 'function') {
+      window.refreshMenuForUser();
+    }
 
     function runAnimeCounters() {
       if (typeof renderTablasInicio === 'function') {
