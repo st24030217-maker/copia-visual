@@ -51,13 +51,39 @@ $anioActual = date('Y');
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Dent Clinica Dental | Login</title>
   <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Roboto', '"Helvetica Neue"', 'Arial', 'sans-serif'],
+            mono: ['"Roboto Mono"', 'monospace']
+          },
+          colors: {
+            blue: {
+              50: '#f0f4f8',
+              100: '#d9e2ec',
+              200: '#bcccdc',
+              300: '#9fb3c8',
+              400: '#829ab1',
+              500: '#486581',
+              600: '#334e68',
+              700: '#243b53',
+              800: '#102a43',
+              900: '#0a1929'
+            }
+          }
+        }
+      }
+    };
+  </script>
   <script src="https://unpkg.com/lucide@latest"></script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&family=Roboto+Mono:wght@400;600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="Threads.css">
   <style>
-    body { font-family: 'Plus Jakarta Sans', sans-serif; }
+    body { font-family: 'Roboto', 'Helvetica Neue', Arial, sans-serif; }
 
     /* Aceternity UI Stateful Button Animations */
     .stateful-btn {
@@ -262,26 +288,26 @@ $anioActual = date('Y');
   <script>
     lucide.createIcons();
 
-    // Inicializar fondo @react-bits/Threads-JS-CSS únicamente en el panel del Login
+    // Inicializar fondo @react-bits/Threads-JS-CSS únicamente en el panel del Login con tonos sobrios
     if (typeof window.initThreads === 'function') {
       window.initThreads(document.getElementById('threadsLoginBg'), {
-        color: '#2563eb',
-        accentColor: '#0ea5e9',
-        amplitude: 1.7,
-        distance: 0.42,
+        color: '#64748b',
+        accentColor: '#94a3b8',
+        amplitude: 1.6,
+        distance: 0.4,
         enableMouseInteraction: true,
-        lineCount: 90,
-        thickness: 0.65,
-        softness: 1.3,
-        speed: 0.6,
-        waves: 1.05,
+        lineCount: 85,
+        thickness: 0.55,
+        softness: 1.35,
+        speed: 0.5,
+        waves: 1.0,
         split: 0.04,
         fray: 0.5,
         angle: 25,
-        parting: 0.4,
+        parting: 0.35,
         taper: 0.85,
-        brightness: 1.35,
-        opacity: 0.55
+        brightness: 1.15,
+        opacity: 0.32
       });
     }
 

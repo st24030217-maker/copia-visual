@@ -12,29 +12,108 @@ $perfilActual  = htmlspecialchars($_SESSION['perfil'] ?? 'Administrador', ENT_QU
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Dent Clinica Dental | Sistema de Laboratorio</title>
   <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Roboto', '"Helvetica Neue"', 'Arial', 'sans-serif'],
+            mono: ['"Roboto Mono"', 'monospace']
+          },
+          colors: {
+            blue: {
+              50: '#f0f4f8',
+              100: '#d9e2ec',
+              200: '#bcccdc',
+              300: '#9fb3c8',
+              400: '#829ab1',
+              500: '#486581',
+              600: '#334e68',
+              700: '#243b53',
+              800: '#102a43',
+              900: '#0a1929'
+            },
+            indigo: {
+              50: '#f1f5f9',
+              100: '#e2e8f0',
+              200: '#cbd5e1',
+              300: '#94a3b8',
+              400: '#64748b',
+              500: '#475569',
+              600: '#334155',
+              700: '#1e293b',
+              800: '#0f172a',
+              900: '#020617'
+            },
+            purple: {
+              50: '#f3f4f6',
+              100: '#e5e7eb',
+              200: '#d1d5db',
+              500: '#4b5563',
+              600: '#374151',
+              700: '#1f2937'
+            },
+            emerald: {
+              50: '#f2f7f5',
+              100: '#dcece6',
+              200: '#b9d8cd',
+              300: '#8ebdae',
+              400: '#5e9c89',
+              500: '#3d7a68',
+              600: '#2f6353',
+              700: '#244d40',
+              800: '#1c3b32'
+            },
+            rose: {
+              50: '#f9f2f2',
+              100: '#efdada',
+              200: '#dfb8b8',
+              300: '#c78d8d',
+              400: '#ab6666',
+              500: '#8f4747',
+              600: '#783838',
+              700: '#5e2b2b',
+              800: '#472121'
+            },
+            amber: {
+              50: '#f9f6f0',
+              100: '#efe6d5',
+              200: '#dfd0b3',
+              300: '#c8b087',
+              400: '#af915f',
+              500: '#917444',
+              600: '#755c34',
+              700: '#5c4728',
+              800: '#45351e'
+            }
+          }
+        }
+      }
+    };
+  </script>
   <script src="https://unpkg.com/lucide@latest"></script>
   <script src="https://cdn.jsdelivr.net/npm/jsbarcode@3.11.5/dist/JsBarcode.all.min.js"></script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&family=Roboto+Mono:wght@400;600&display=swap" rel="stylesheet">
   <style>
-    body { font-family: 'Plus Jakarta Sans', sans-serif; }
-    .font-mono { font-family: 'JetBrains Mono', monospace; }
+    body { font-family: 'Roboto', 'Helvetica Neue', Arial, sans-serif; }
+    .font-mono { font-family: 'Roboto Mono', monospace; }
     .table-scroll::-webkit-scrollbar { width: 5px; height: 5px; }
     .table-scroll::-webkit-scrollbar-track { background: transparent; }
     .table-scroll::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 10px; }
 
-    /* Animaciones de filas de doctores internos idénticas a la lógica de DENT DEMO pero modernizadas */
+    /* Animaciones de filas de doctores internos sobrias acordes al sistema */
     @keyframes pulseYellow {
       0%, 100% { background-color: #ffffff; }
-      50% { background-color: #fef9c3; }
+      50% { background-color: #f7f3e8; }
     }
     @keyframes pulseGreen {
       0%, 100% { background-color: #ffffff; }
-      50% { background-color: #dcfce7; }
+      50% { background-color: #edf5f1; }
     }
-    .row-yellow { animation: pulseYellow 2.2s infinite ease-in-out; }
-    .row-green { animation: pulseGreen 2.2s infinite ease-in-out; }
+    .row-yellow { animation: pulseYellow 2.5s infinite ease-in-out; }
+    .row-green { animation: pulseGreen 2.5s infinite ease-in-out; }
 
     /* Tablas compactas de las 4 etapas de inicio (Escaneo, Diseño, Fabricación, Entrega) */
     .stage-table th {
