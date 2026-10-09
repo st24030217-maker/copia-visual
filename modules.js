@@ -2574,24 +2574,120 @@ function renderModalsInicio() {
 }
 
 function Etiqueta(doctor, paciente, fechaEntrega, codigo) {
-  const modal = document.getElementById('modalEtiqueta');
-  if (!modal) return;
-  document.getElementById('etiquetaDoctor').innerText = 'Dr(a): ' + doctor;
-  document.getElementById('etiquetaPaciente').innerText = 'Paciente: ' + paciente;
-  document.getElementById('etiquetaEntrega').innerText = 'Entrega: ' + fechaEntrega;
-  document.getElementById('etiquetaFolioTexto').innerText = codigo;
+  const orden = (INICIO_DATA.ordenes || []).find(o => o.serie === codigo || String(o.ot) === String(codigo)) || INICIO_DATA.ordenes[0];
+  const docObj = (DENT_STATE.doctores || []).find(d => d.nombre === (orden ? orden.doctor : doctor)) || DENT_STATE.doctores[0];
 
+  const serieOT = orden ? String(orden.ot) : String(codigo);
+  const fEnt = orden ? orden.entrega : fechaEntrega;
+  const docNombre = orden ? orden.doctor : doctor;
+  const direccion = docObj ? `${docObj.clinica}, Monterrey, N.L.` : 'Av. Lázaro Cárdenas 2400, San Pedro Garza García';
+  const pacNombre = orden ? orden.paciente : paciente;
+  const celular = docObj ? docObj.celular : '81 1920 4412';
+  const producto = orden ? orden.producto : 'Corona Monolítica Zirconio';
+  const piezas = orden ? `${orden.unidades} (${(orden.piezas || []).join(', ')})` : '1';
+  const colorimetro = orden ? orden.color : 'Vita A2';
+  const observaciones = 'Sellado marginal verificado en escaneo CAD/CAM';
+
+  // 1. Mostrar overlay idéntico a $.blockUI de DENT DEMO ("GENERANDO ETIQUETA, POR FAVOR ESPERE...")
+  let blockOverlay = document.getElementById('dentBlockUIOverlay');
+  if (!blockOverlay) {
+    blockOverlay = document.createElement('div');
+    blockOverlay.id = 'dentBlockUIOverlay';
+    blockOverlay.style.cssText = 'position:fixed;inset:0;z-index:9999;background:rgba(0,0,0,0.65);display:flex;align-items:center;justify-content:center;color:#fff;font-family:Arial,sans-serif;';
+    blockOverlay.innerHTML = '<h4 style="text-align:center;font-size:18px;font-weight:700;letter-spacing:0.04em;">GENERANDO ETIQUETA, POR FAVOR ESPERE...</h4>';
+    document.body.appendChild(blockOverlay);
+  } else {
+    blockOverlay.style.display = 'flex';
+  }
+
+  // 2. Generar SVG del código de barras igual a Codbar(serie) en TableOrdenes.php
+  const tempSvg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
   if (typeof JsBarcode === 'function') {
-    JsBarcode('#barcode', codigo, {
+    JsBarcode(tempSvg, serieOT, {
       format: 'CODE128',
-      lineColor: '#0f172a',
-      width: 2,
-      height: 44,
-      displayValue: false
+      width: 2.5,
+      height: 10,
+      fontSize: 10
     });
   }
-  modal.classList.remove('hidden');
-  lucide.createIcons();
+  const codeBar = `<div class="col-md-12">${tempSvg.outerHTML}</div>`;
+
+  // 3. Crear iframe oculto con el mismo HTML y estilos exactos de DENT DEMO/TableOrdenes.php
+  const frame1 = document.createElement('iframe');
+  const styleContainer = 'style="overflow: hidden;width: 100%;height: auto; text-align:center;font-size:8px"';
+  const row = "style='overflow: hidden;'";
+  frame1.name = 'frame1';
+  frame1.style.position = 'absolute';
+  frame1.style.top = '-1000000px';
+  document.body.appendChild(frame1);
+
+  const frameDoc = frame1.contentWindow
+    ? frame1.contentWindow
+    : frame1.contentDocument.document
+      ? frame1.contentDocument.document
+      : frame1.contentDocument;
+
+  frameDoc.document.open();
+  frameDoc.document.write(`<html>
+    <body style="font-family:Arial; text-align:center;">
+      <div ${styleContainer}>
+        <div ${row}>
+          <table style='width:100%;'>
+            <tr>
+              <td style='text-align:left;width:30%;font-size:12px;'>OT: ${serieOT}</td>
+              <td style='text-align:center;font-weight:bold;font-size:9px'>dentlab.mx</td>
+              <td style='text-align:right;width:30%;font-size:10px;'>F. Ent: ${fEnt}</td>
+            </tr>
+          </table>
+          <table style='width:100%;'>
+            <tr>
+              <td style='text-align:center;width:100%;font-size:13px'><strong>${docNombre}</strong></td>
+            </tr>
+          </table>
+          <table style='width:100%;'>
+            <tr>
+              <td style='text-align:left;width:100%;font-size:9px'>Dirección: <strong>${direccion}</strong></td>
+            </tr>
+          </table>
+          <table style='width:100%;'>
+            <tr>
+              <td style='text-align:left;width:60%;font-size:13px'>Px: <strong>${pacNombre}</strong></td>
+              <td style='text-align:right;width:40%;font-size:9px'>Tel: <strong>${celular}</strong></td>
+            </tr>
+          </table>
+          <table style='width:100%;'>
+            <tr>
+              <td style='text-align:left;width:100%;font-size:9px'>Prod: <strong>${producto}</strong></td>
+            </tr>
+          </table>
+          <table style='width:100%;'>
+            <tr>
+              <td style='text-align:left;width:30%;font-size:9px'>Unid: <strong>${piezas}</strong></td>
+              <td style='text-align:left;width:70%;font-size:9px'>Color: <strong>${colorimetro}</strong></td>
+            </tr>
+          </table>
+          <table style='width:100%;'>
+            <tr>
+              <td style='text-align:left;width:70%;font-size:9px'>Obs: <strong>${observaciones}</strong></td>
+            </tr>
+          </table>
+          ${codeBar}
+        </div>
+      </div>
+    </body>
+  </html>`);
+  frameDoc.document.close();
+
+  setTimeout(function () {
+    blockOverlay.style.display = 'none';
+    frame1.contentWindow.focus();
+    frame1.contentWindow.print();
+    setTimeout(function () {
+      if (frame1.parentNode) document.body.removeChild(frame1);
+    }, 1000);
+  }, 900);
+
+  return false;
 }
 
 // ============================================================================
