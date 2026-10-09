@@ -8632,7 +8632,6 @@ function renderVistaOrdenTrabajo() {
           <span>Regresar</span>
         </button>
         <div class="flex items-center gap-2">
-          ${o._fromLiveDb ? `<span class="px-2.5 py-1 rounded-lg bg-emerald-50 text-emerald-700 border border-emerald-200 text-[11px] font-bold">BD En Vivo</span>` : ''}
           <span class="px-2.5 py-1 rounded-lg bg-slate-100 text-slate-700 font-mono text-xs font-bold">Serie: #${o.serie}</span>
           <span class="px-2.5 py-1 rounded-lg ${o.interno ? 'bg-rose-100 text-rose-800' : 'bg-blue-100 text-blue-800'} text-xs font-bold">${o.interno ? 'DOCTOR INTERNO' : 'DOCTOR EXTERNO'}</span>
         </div>
@@ -9062,7 +9061,6 @@ function renderVistaDetalleDoctor(doc) {
           <span>Regresar</span>
         </button>
         <div class="flex items-center gap-2">
-          ${doc._fromLiveDb ? `<span class="px-2.5 py-1 rounded-lg bg-emerald-50 text-emerald-700 border border-emerald-200 text-[11px] font-bold">BD En Vivo</span>` : ''}
           <span class="font-mono font-bold text-slate-500">ID Doctor: #${doc.id}</span>
           <span class="px-2.5 py-1 rounded-lg ${doc.externo ? 'bg-blue-100 text-blue-800' : 'bg-emerald-100 text-emerald-800'} font-bold">${doc.tipo}</span>
         </div>
@@ -9437,19 +9435,14 @@ window.syncLiveDatabase = async function (silent = false) {
     window.LIVE_DB_STATE.totalOrdenesBd = data.total_ordenes_bd || 22569;
     window.LIVE_DB_STATE.totalDoctoresBd = data.total_doctores_bd || DENT_STATE.doctores.length;
 
-    updateLiveDbBadge(true, window.LIVE_DB_STATE.totalOrdenesBd, window.LIVE_DB_STATE.totalDoctoresBd);
     renderTablasInicio();
     renderModalsInicio();
 
     if (!silent && typeof showToast === 'function') {
-      showToast(
-        'Base de Datos MySQL Conectada',
-        `Sincronizadas ${Number(window.LIVE_DB_STATE.totalOrdenesBd).toLocaleString('es-MX')} órdenes y ${window.LIVE_DB_STATE.totalDoctoresBd} doctores en tiempo real.`
-      );
+      showToast('Tablas Actualizadas', 'Escaneo, Diseño, Fabricación, Entrega y Órdenes sincronizadas.');
     }
     return true;
   } catch (err) {
-    updateLiveDbBadge(false);
     return false;
   }
 };

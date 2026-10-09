@@ -232,33 +232,27 @@ $perfilActual  = htmlspecialchars($_SESSION['perfil'] ?? 'Administrador', ENT_QU
           <i data-lucide="menu" class="w-4 h-4"></i>
         </button>
         <span id="topModuleTitle" class="text-sm font-semibold text-slate-800">Centro de Operaciones Dentales • Producción CAD/CAM</span>
-        <span id="liveDbBadge" class="hidden sm:inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[11px] font-bold bg-emerald-50 text-emerald-700 border border-emerald-200 shadow-sm">
-          <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
-          <span>MySQL En Vivo • 22,569 OT · 540 Doctores</span>
-        </span>
       </div>
 
       <div class="flex items-center gap-3">
-        <!-- Engranaje de Configuración / Permisos (igual que en DENT DEMO) -->
-        <div class="relative">
-          <button onclick="toggleSettingsDropdown()" class="p-2 rounded-lg border border-slate-200 hover:bg-slate-100 text-slate-600 transition-colors" title="Ajustes">
-            <i data-lucide="sliders-horizontal" class="w-4 h-4"></i>
-          </button>
-          <div id="settingsDropdown" class="hidden absolute right-0 mt-2 w-48 bg-white rounded-xl border border-slate-200 shadow-lg py-1.5 z-50 text-xs">
-            <a href="#" onclick="openModule('permisos'); return false;" class="flex items-center gap-2 px-3 py-2 text-slate-700 hover:bg-slate-50 font-medium">
-              <i data-lucide="shield" class="w-4 h-4 text-blue-600"></i> Permisos
-            </a>
-            <a href="#" onclick="openModule('configuracion'); return false;" class="flex items-center gap-2 px-3 py-2 text-slate-700 hover:bg-slate-50 font-medium">
-              <i data-lucide="sliders" class="w-4 h-4 text-blue-600"></i> Configuración
-            </a>
-          </div>
+        <!-- Los 4 botones en la zona superior (Configuraciones, Pantalla Completa, Permisos/Lock, Cerrar Sesión) -->
+        <div class="inline-flex items-center rounded-xl border border-slate-200 bg-slate-50/90 p-1 gap-1 shadow-xs">
+          <a href="#" onclick="openModule('configuracion'); return false;" title="Configuraciones" class="p-1.5 rounded-lg text-slate-600 hover:text-blue-600 hover:bg-white transition-all">
+            <i data-lucide="settings" class="w-4 h-4"></i>
+          </a>
+          <a href="#" onclick="toggleFullScreen(); return false;" title="Pantalla completa" class="p-1.5 rounded-lg text-slate-600 hover:text-blue-600 hover:bg-white transition-all">
+            <i data-lucide="maximize" class="w-4 h-4"></i>
+          </a>
+          <a href="#" onclick="openModule('permisos'); return false;" title="Permisos" class="p-1.5 rounded-lg text-slate-600 hover:text-blue-600 hover:bg-white transition-all">
+            <i data-lucide="eye-off" class="w-4 h-4"></i>
+          </a>
+          <a href="logout.php" onclick="if(location.hostname.includes('github.io')||location.hostname.includes('vercel.app')||location.pathname.endsWith('.html')){localStorage.removeItem('cv_usuario');location.href='login.html';return false;}" title="Cerrar sesión" class="p-1.5 rounded-lg text-slate-600 hover:text-rose-600 hover:bg-white transition-all">
+            <i data-lucide="power" class="w-4 h-4"></i>
+          </a>
         </div>
 
         <div class="flex items-center gap-2 pl-3 border-l border-slate-200">
           <span class="text-xs font-semibold text-slate-700" id="topUserLabel"><?= $usuarioActual ?></span>
-          <a href="logout.php" onclick="if(location.hostname.includes('github.io')||location.hostname.includes('vercel.app')||location.pathname.endsWith('.html')){localStorage.removeItem('cv_usuario');location.href='login.html';return false;}" class="text-slate-400 hover:text-slate-700" title="Salir">
-            <i data-lucide="log-out" class="w-4 h-4"></i>
-          </a>
         </div>
       </div>
     </header>

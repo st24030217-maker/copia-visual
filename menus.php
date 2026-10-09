@@ -36,22 +36,6 @@ $perfilMenu  = htmlspecialchars(ucfirst(strtolower($_SESSION['perfil'] ?? 'Admin
           <div id="bmSectionsContainer"></div>
         </nav>
       </div>
-
-      <!-- 4. Footer Inferior con los 4 Iconos Exactos de DENT DEMO (.sidebar-footer) -->
-      <div class="h-10 border-t border-white/10 grid grid-cols-4 divide-x divide-white/5 text-slate-300 bg-[#172D44] shrink-0">
-        <a href="#" onclick="openModule('configuracion'); return false;" title="Configuraciones" class="flex items-center justify-center hover:text-white hover:bg-white/5 transition-colors">
-          <i data-lucide="settings" class="w-4 h-4"></i>
-        </a>
-        <a href="#" onclick="toggleFullScreen(); return false;" title="Pantalla completa" class="flex items-center justify-center hover:text-white hover:bg-white/5 transition-colors">
-          <i data-lucide="maximize" class="w-4 h-4"></i>
-        </a>
-        <a href="#" onclick="openModule('permisos'); return false;" title="Lock" class="flex items-center justify-center hover:text-white hover:bg-white/5 transition-colors">
-          <i data-lucide="eye-off" class="w-4 h-4"></i>
-        </a>
-        <a href="logout.php" onclick="if(location.hostname.includes('github.io')||location.hostname.includes('vercel.app')||location.pathname.endsWith('.html')){localStorage.removeItem('cv_usuario');location.href='login.html';return false;}" title="Cerrar sesión" class="flex items-center justify-center hover:text-rose-300 hover:bg-white/5 transition-colors">
-          <i data-lucide="power" class="w-4 h-4"></i>
-        </a>
-      </div>
     </div>
   </aside>
 
