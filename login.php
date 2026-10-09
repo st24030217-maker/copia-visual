@@ -99,12 +99,7 @@ $anioActual = date('Y');
            class="absolute inset-0 w-full h-full object-cover object-center brightness-95 filter transition-transform duration-700 hover:scale-105">
       
       <!-- Gradiente superpuesto sutil en tonos azul/gris oscuro -->
-      <div class="absolute inset-0 bg-gradient-to-t from-slate-950/90 via-slate-900/50 to-slate-900/30"></div>
-
-      <!-- Fondo interactivo @react-bits/Threads-JS-CSS (Panel Izquierdo) -->
-      <div id="threadsHeroBg" class="threads-container threads-container--bg z-[5]" aria-hidden="true">
-        <canvas class="threads-canvas"></canvas>
-      </div>
+      <div class="absolute inset-0 bg-gradient-to-t from-slate-950/90 via-slate-900/40 to-slate-900/20"></div>
 
       <!-- Badge superior -->
       <div class="relative z-10 hidden md:flex items-center gap-2">
@@ -267,7 +262,7 @@ $anioActual = date('Y');
   <script>
     lucide.createIcons();
 
-    // Inicializar fondos @react-bits/Threads-JS-CSS en ambos paneles del Login
+    // Inicializar fondo @react-bits/Threads-JS-CSS únicamente en el panel del Login
     if (typeof window.initThreads === 'function') {
       window.initThreads(document.getElementById('threadsLoginBg'), {
         color: '#2563eb',
@@ -287,26 +282,6 @@ $anioActual = date('Y');
         taper: 0.85,
         brightness: 1.35,
         opacity: 0.55
-      });
-
-      window.initThreads(document.getElementById('threadsHeroBg'), {
-        color: '#60a5fa',
-        accentColor: '#e0f2fe',
-        amplitude: 1.7,
-        distance: 0.4,
-        enableMouseInteraction: true,
-        lineCount: 90,
-        thickness: 0.6,
-        softness: 1.3,
-        speed: 0.6,
-        waves: 1.05,
-        split: 0.04,
-        fray: 0.5,
-        angle: 25,
-        parting: 0.45,
-        taper: 0.85,
-        brightness: 1.4,
-        opacity: 0.5
       });
     }
 
