@@ -7,12 +7,12 @@ $perfilMenu  = htmlspecialchars(ucfirst(strtolower($_SESSION['perfil'] ?? 'Admin
   <!-- ========================================================================= -->
   <!-- BARRA LATERAL IZQUIERDA ESTILO DENT DEMO CON @react-bits/BranchedMenu     -->
   <!-- ========================================================================= -->
-  <aside id="sidebar" class="w-64 bg-[#2A3F54] text-slate-100 flex flex-col justify-between shrink-0 transition-all duration-200 border-r border-slate-800 select-none">
+  <aside id="sidebar" class="w-64 bg-[#2A3F54] text-slate-100 flex flex-col justify-between shrink-0 transition-all duration-300 ease-out border-r border-slate-800 select-none">
     <div class="flex flex-col h-full overflow-hidden">
       
       <!-- 1. Título Superior de Perfil (.navbar.nav_title de DENT DEMO) -->
       <div class="h-14 px-4 flex items-center justify-between border-b border-white/10 shrink-0">
-        <a href="#" onclick="openModule('inicio'); return false;" class="flex items-center gap-2.5 text-white hover:opacity-90 transition-opacity">
+        <a href="#" onclick="window.bmSelectLeaf('inicio', 0); return false;" class="flex items-center gap-2.5 text-white hover:opacity-90 transition-opacity">
           <img src="assets/logoDentlab.png" alt="Dent Lab" class="h-6 w-auto object-contain brightness-0 invert">
           <span class="text-sm font-semibold tracking-wide text-slate-200" id="lblPerfilSidebar"><?= $perfilMenu ?></span>
         </a>
@@ -57,7 +57,7 @@ $perfilMenu  = htmlspecialchars(ucfirst(strtolower($_SESSION['perfil'] ?? 'Admin
 
   <script>
     // =========================================================================
-    // MOTOR OFICIAL DE @react-bits/BranchedMenu-JS-CSS CON LA JERARQUÍA DE DENT DEMO
+    // MOTOR @react-bits/BranchedMenu-JS-CSS CON TRANSICIONES DOM IN-PLACE SUAVES
     // =========================================================================
     (function () {
       const BM_ROW = 32;
@@ -192,12 +192,13 @@ $perfilMenu  = htmlspecialchars(ucfirst(strtolower($_SESSION['perfil'] ?? 'Admin
       ];
 
       let bmState = {
-        openSection: 2, // Dent Lab abierto por defecto
-        openSubs: {},   // Subgrupos abiertos dentro de Dent Lab
-        active: 'inicio'
+        openSection: 2,
+        openSubs: {},
+        active: 'inicio',
+        initialized: false
       };
 
-      function buildSubBranchTree(subItem) {
+      function buildSubBranchTreeHTML(subItem) {
         const kids = subItem.children || [];
         const n = kids.length;
         const bodyH = n * BM_SUB_ROW + 4;
@@ -216,17 +217,14 @@ $perfilMenu  = htmlspecialchars(ucfirst(strtolower($_SESSION['perfil'] ?? 'Admin
           const y = midY(j);
           const span = Math.max(1, endX - trunk - r);
           const totalLen = Math.max(0, y - r - 2) + Math.PI * r * 0.5 + span;
-          const isAct = bmState.active === kid.value;
-          const dashOffset = isAct ? 0 : totalLen;
 
           baseBranches += `<path class="branched-menu__base" d="M ${trunk} ${Math.max(2, y - r)} A ${r} ${r} 0 0 0 ${trunk + r} ${y} H ${endX}" />`;
-          reachBranches += `<path class="branched-menu__reach" d="M ${trunk} 2 V ${Math.max(2, y - r)} A ${r} ${r} 0 0 0 ${trunk + r} ${y} H ${endX}" style="stroke-dasharray: ${totalLen}; stroke-dashoffset: ${dashOffset};" />`;
+          reachBranches += `<path class="branched-menu__reach" data-sub-reach="${kid.value}" data-len="${totalLen}" d="M ${trunk} 2 V ${Math.max(2, y - r)} A ${r} ${r} 0 0 0 ${trunk + r} ${y} H ${endX}" style="stroke-dasharray: ${totalLen}; stroke-dashoffset: ${totalLen};" />`;
 
           kidButtons += `
             <button type="button"
               data-module="${kid.value}"
               class="branched-menu__item nav-leaf-btn"
-              ${isAct ? 'data-active=""' : ''}
               onclick="window.bmSelectLeaf('${kid.value}')">
               <span class="branched-menu__icon">
                 <i data-lucide="${kid.icon || 'circle'}" class="w-3 h-3"></i>
@@ -248,15 +246,15 @@ $perfilMenu  = htmlspecialchars(ucfirst(strtolower($_SESSION['perfil'] ?? 'Admin
         `;
       }
 
-      function renderBranchedMenu() {
+      // Construir DOM una sola vez para conservar todas las transiciones CSS (grid-template-rows, SVG stroke-dashoffset, chevron)
+      function initBranchedMenuDOM() {
         const container = document.getElementById('bmSectionsContainer');
-        if (!container) return;
+        if (!container || bmState.initialized) return;
+        bmState.initialized = true;
 
         container.innerHTML = BM_ITEMS.map((item, i) => {
           const kids = item.children || [];
           const hasKids = kids.length > 0;
-          const isOpen = bmState.openSection === i;
-          const isLeafActive = !hasKids && bmState.active === item.value;
 
           if (!hasKids) {
             return `
@@ -264,7 +262,6 @@ $perfilMenu  = htmlspecialchars(ucfirst(strtolower($_SESSION['perfil'] ?? 'Admin
                 <button type="button"
                   data-module="${item.value}"
                   class="branched-menu__head nav-leaf-btn"
-                  ${isLeafActive ? 'data-active=""' : ''}
                   onclick="window.bmSelectLeaf('${item.value}', ${i})">
                   <span class="branched-menu__head-left">
                     <i data-lucide="${item.icon || 'circle'}" class="w-4 h-4"></i>
@@ -275,45 +272,12 @@ $perfilMenu  = htmlspecialchars(ucfirst(strtolower($_SESSION['perfil'] ?? 'Admin
             `;
           }
 
-          // Calcular posiciones Y dinámicas de cada hijo considerando subgrupos desplegados
-          const trunk = Math.round(BM_INDENT * 0.34);
-          const endX = BM_INDENT - 5;
-          const r = Math.min(8, Math.floor((endX - trunk) * 0.65));
-
-          let currentY = BM_PAD_Y;
-          const rowCenters = [];
-          kids.forEach(kid => {
-            rowCenters.push(Math.round(currentY + BM_ROW / 2));
-            currentY += BM_ROW;
-            if (kid.children && bmState.openSubs[kid.value]) {
-              currentY += kid.children.length * BM_SUB_ROW + 4;
-            }
-          });
-          const bodyH = currentY + BM_PAD_Y;
-          const lastY = rowCenters.length > 0 ? rowCenters[rowCenters.length - 1] : BM_PAD_Y;
-          const baseTrunk = rowCenters.length > 0 ? `M ${trunk} ${BM_PAD_Y} V ${Math.max(BM_PAD_Y, lastY - r)}` : '';
-
-          let baseBranches = '';
-          let reachBranches = '';
           let kidButtons = '';
-
           kids.forEach((kid, j) => {
-            const y = rowCenters[j];
-            const span = Math.max(1, endX - trunk - r);
-            const totalLen = Math.max(0, y - r - BM_PAD_Y) + Math.PI * r * 0.5 + span;
             const hasSubKids = Array.isArray(kid.children) && kid.children.length > 0;
-            const isSubOpen = !!bmState.openSubs[kid.value];
-            const isAct = hasSubKids
-              ? kid.children.some(sk => sk.value === bmState.active)
-              : bmState.active === kid.value;
-            const dashOffset = isAct ? 0 : totalLen;
-
-            baseBranches += `<path class="branched-menu__base" d="M ${trunk} ${Math.max(BM_PAD_Y, y - r)} A ${r} ${r} 0 0 0 ${trunk + r} ${y} H ${endX}" />`;
-            reachBranches += `<path class="branched-menu__reach" d="M ${trunk} ${BM_PAD_Y} V ${Math.max(BM_PAD_Y, y - r)} A ${r} ${r} 0 0 0 ${trunk + r} ${y} H ${endX}" style="stroke-dasharray: ${totalLen}; stroke-dashoffset: ${dashOffset};" />`;
-
             if (hasSubKids) {
               kidButtons += `
-                <div class="branched-menu__sub" ${isSubOpen ? 'data-open=""' : ''}>
+                <div class="branched-menu__sub" data-sub-key="${kid.value}">
                   <button type="button"
                     class="branched-menu__sub-head"
                     onclick="window.bmToggleSub('${kid.value}')">
@@ -329,7 +293,7 @@ $perfilMenu  = htmlspecialchars(ucfirst(strtolower($_SESSION['perfil'] ?? 'Admin
                   </button>
                   <div class="branched-menu__sub-body">
                     <div class="branched-menu__fold">
-                      ${buildSubBranchTree(kid)}
+                      ${buildSubBranchTreeHTML(kid)}
                     </div>
                   </div>
                 </div>
@@ -339,7 +303,6 @@ $perfilMenu  = htmlspecialchars(ucfirst(strtolower($_SESSION['perfil'] ?? 'Admin
                 <button type="button"
                   data-module="${kid.value}"
                   class="branched-menu__item nav-leaf-btn"
-                  ${isAct ? 'data-active=""' : ''}
                   onclick="window.bmSelectLeaf('${kid.value}')">
                   <span class="branched-menu__icon">
                     <i data-lucide="${kid.icon || 'circle'}" class="w-3.5 h-3.5"></i>
@@ -351,10 +314,9 @@ $perfilMenu  = htmlspecialchars(ucfirst(strtolower($_SESSION['perfil'] ?? 'Admin
           });
 
           return `
-            <div class="branched-menu__section" data-sec-idx="${i}" ${isOpen ? 'data-open=""' : ''}>
+            <div class="branched-menu__section" data-sec-idx="${i}">
               <button type="button"
                 class="branched-menu__head"
-                aria-expanded="${isOpen ? 'true' : 'false'}"
                 onclick="window.bmToggleSection(${i})">
                 <span class="branched-menu__head-left">
                   <i data-lucide="${item.icon || 'folder'}" class="w-4 h-4"></i>
@@ -366,11 +328,11 @@ $perfilMenu  = htmlspecialchars(ucfirst(strtolower($_SESSION['perfil'] ?? 'Admin
               </button>
               <div class="branched-menu__body">
                 <div class="branched-menu__fold">
-                  <div class="branched-menu__tree" style="height: ${bodyH}px;">
-                    <svg class="branched-menu__lines" width="${BM_INDENT}" height="${bodyH}" aria-hidden="true">
-                      <path class="branched-menu__base" d="${baseTrunk}" />
-                      ${baseBranches}
-                      ${reachBranches}
+                  <div class="branched-menu__tree" id="bmTree-${i}">
+                    <svg class="branched-menu__lines" id="bmSvg-${i}" width="${BM_INDENT}" height="10" aria-hidden="true">
+                      <path class="branched-menu__base" id="bmTrunk-${i}" />
+                      <g id="bmBaseGroup-${i}"></g>
+                      <g id="bmReachGroup-${i}"></g>
                     </svg>
                     ${kidButtons}
                   </div>
@@ -381,6 +343,118 @@ $perfilMenu  = htmlspecialchars(ucfirst(strtolower($_SESSION['perfil'] ?? 'Admin
         }).join('');
 
         if (window.lucide) lucide.createIcons();
+        syncBranchedMenuDOM();
+      }
+
+      // Actualizar estado y geometría SVG sin destruir el DOM para que las animaciones sean 100% fluidas
+      function syncBranchedMenuDOM() {
+        const trunk = Math.round(BM_INDENT * 0.34);
+        const endX = BM_INDENT - 5;
+        const r = Math.min(8, Math.floor((endX - trunk) * 0.65));
+
+        BM_ITEMS.forEach((item, i) => {
+          const secEl = document.querySelector(`.branched-menu__section[data-sec-idx="${i}"]`);
+          if (!secEl) return;
+          const headBtn = secEl.querySelector(':scope > .branched-menu__head');
+          const kids = item.children || [];
+
+          if (kids.length === 0) {
+            if (bmState.active === item.value) {
+              headBtn.setAttribute('data-active', '');
+            } else {
+              headBtn.removeAttribute('data-active');
+            }
+            return;
+          }
+
+          const isOpen = bmState.openSection === i;
+          if (isOpen) {
+            secEl.setAttribute('data-open', '');
+            headBtn.setAttribute('aria-expanded', 'true');
+          } else {
+            secEl.removeAttribute('data-open');
+            headBtn.setAttribute('aria-expanded', 'false');
+          }
+
+          let currentY = BM_PAD_Y;
+          const rowCenters = [];
+          kids.forEach(kid => {
+            rowCenters.push(Math.round(currentY + BM_ROW / 2));
+            currentY += BM_ROW;
+            if (kid.children && bmState.openSubs[kid.value]) {
+              currentY += kid.children.length * BM_SUB_ROW + 4;
+            }
+          });
+
+          const bodyH = currentY + BM_PAD_Y;
+          const lastY = rowCenters.length > 0 ? rowCenters[rowCenters.length - 1] : BM_PAD_Y;
+          const baseTrunk = rowCenters.length > 0 ? `M ${trunk} ${BM_PAD_Y} V ${Math.max(BM_PAD_Y, lastY - r)}` : '';
+
+          const svgEl = document.getElementById(`bmSvg-${i}`);
+          const trunkEl = document.getElementById(`bmTrunk-${i}`);
+          const baseGroup = document.getElementById(`bmBaseGroup-${i}`);
+          const reachGroup = document.getElementById(`bmReachGroup-${i}`);
+
+          if (svgEl) svgEl.setAttribute('height', String(bodyH));
+          if (trunkEl) trunkEl.setAttribute('d', baseTrunk);
+
+          // Asegurar que los paths de cada hijo existan una sola vez y solo actualizar sus atributos
+          if (baseGroup && reachGroup && baseGroup.children.length !== kids.length) {
+            baseGroup.innerHTML = kids.map(() => `<path class="branched-menu__base" />`).join('');
+            reachGroup.innerHTML = kids.map(() => `<path class="branched-menu__reach" />`).join('');
+          }
+
+          kids.forEach((kid, j) => {
+            const y = rowCenters[j];
+            const span = Math.max(1, endX - trunk - r);
+            const totalLen = Math.max(0, y - r - BM_PAD_Y) + Math.PI * r * 0.5 + span;
+            const hasSubKids = Array.isArray(kid.children) && kid.children.length > 0;
+            const isSubOpen = !!bmState.openSubs[kid.value];
+            const isAct = hasSubKids
+              ? kid.children.some(sk => sk.value === bmState.active)
+              : bmState.active === kid.value;
+            const dashOffset = isAct ? 0 : totalLen;
+
+            const basePath = baseGroup?.children[j];
+            const reachPath = reachGroup?.children[j];
+            if (basePath) {
+              basePath.setAttribute('d', `M ${trunk} ${Math.max(BM_PAD_Y, y - r)} A ${r} ${r} 0 0 0 ${trunk + r} ${y} H ${endX}`);
+            }
+            if (reachPath) {
+              reachPath.setAttribute('d', `M ${trunk} ${BM_PAD_Y} V ${Math.max(BM_PAD_Y, y - r)} A ${r} ${r} 0 0 0 ${trunk + r} ${y} H ${endX}`);
+              reachPath.style.strokeDasharray = `${totalLen}`;
+              reachPath.style.strokeDashoffset = `${dashOffset}`;
+            }
+
+            if (hasSubKids) {
+              const subEl = secEl.querySelector(`.branched-menu__sub[data-sub-key="${kid.value}"]`);
+              if (subEl) {
+                if (isSubOpen) subEl.setAttribute('data-open', '');
+                else subEl.removeAttribute('data-open');
+              }
+              kid.children.forEach(sk => {
+                const subBtn = secEl.querySelector(`button[data-module="${sk.value}"]`);
+                const subReach = secEl.querySelector(`path[data-sub-reach="${sk.value}"]`);
+                const subAct = bmState.active === sk.value;
+                if (subBtn) {
+                  if (subAct) subBtn.setAttribute('data-active', '');
+                  else subBtn.removeAttribute('data-active');
+                }
+                if (subReach) {
+                  const len = Number(subReach.getAttribute('data-len') || 60);
+                  subReach.style.strokeDashoffset = subAct ? '0' : `${len}`;
+                }
+              });
+            } else {
+              const btn = secEl.querySelector(`button[data-module="${kid.value}"]`);
+              if (btn) {
+                if (isAct) btn.setAttribute('data-active', '');
+                else btn.removeAttribute('data-active');
+              }
+            }
+          });
+        });
+
         updateBranchedMarker();
       }
 
@@ -419,12 +493,12 @@ $perfilMenu  = htmlspecialchars(ucfirst(strtolower($_SESSION['perfil'] ?? 'Admin
 
       window.bmToggleSection = function (idx) {
         bmState.openSection = bmState.openSection === idx ? null : idx;
-        renderBranchedMenu();
+        syncBranchedMenuDOM();
       };
 
       window.bmToggleSub = function (subValue) {
         bmState.openSubs[subValue] = !bmState.openSubs[subValue];
-        renderBranchedMenu();
+        syncBranchedMenuDOM();
       };
 
       window.bmSelectLeaf = function (moduleValue, secIdx = null) {
@@ -444,13 +518,14 @@ $perfilMenu  = htmlspecialchars(ucfirst(strtolower($_SESSION['perfil'] ?? 'Admin
             });
           });
         }
-        renderBranchedMenu();
+        syncBranchedMenuDOM();
         if (typeof openModule === 'function') {
           openModule(moduleValue);
         }
       };
 
       window.bmSyncActiveState = function (moduleKey) {
+        if (!bmState.initialized) initBranchedMenuDOM();
         if (bmState.active === moduleKey) return;
         bmState.active = moduleKey;
         BM_ITEMS.forEach((it, idx) => {
@@ -467,13 +542,13 @@ $perfilMenu  = htmlspecialchars(ucfirst(strtolower($_SESSION['perfil'] ?? 'Admin
             });
           }
         });
-        renderBranchedMenu();
+        syncBranchedMenuDOM();
       };
 
       if (document.readyState === 'loading') {
-        document.addEventListener('DOMContentLoaded', renderBranchedMenu);
+        document.addEventListener('DOMContentLoaded', initBranchedMenuDOM);
       } else {
-        renderBranchedMenu();
+        initBranchedMenuDOM();
       }
     })();
   </script>

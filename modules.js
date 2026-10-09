@@ -259,6 +259,38 @@ function toggleSubmenu(menuId) {
   }
 }
 
+function animateViewEntrance(containerEl) {
+  if (!containerEl || typeof containerEl.animate !== 'function') return;
+  containerEl.animate(
+    [
+      { opacity: 0, transform: 'translateY(14px) scale(0.992)', filter: 'blur(2px)' },
+      { opacity: 1, transform: 'translateY(0) scale(1)', filter: 'blur(0px)' }
+    ],
+    {
+      duration: 340,
+      easing: 'cubic-bezier(0.22, 1, 0.36, 1)',
+      fill: 'both'
+    }
+  );
+
+  const children = Array.from(containerEl.children);
+  children.forEach((child, idx) => {
+    if (typeof child.animate !== 'function') return;
+    child.animate(
+      [
+        { opacity: 0, transform: 'translateY(12px)' },
+        { opacity: 1, transform: 'translateY(0)' }
+      ],
+      {
+        duration: 320,
+        delay: Math.min(idx * 45, 220),
+        easing: 'cubic-bezier(0.22, 1, 0.36, 1)',
+        fill: 'both'
+      }
+    );
+  });
+}
+
 function openModule(moduleKey) {
   DENT_STATE.currentView = moduleKey;
 
@@ -279,6 +311,7 @@ function openModule(moduleKey) {
     secInicio.classList.remove('hidden');
     secDynamic.classList.add('hidden');
     if (topTitle) topTitle.innerText = 'Centro de Operaciones Dentales • Producción CAD/CAM';
+    animateViewEntrance(secInicio);
     runAnimeCounters();
     lucide.createIcons();
     return;
@@ -288,6 +321,7 @@ function openModule(moduleKey) {
   secDynamic.classList.remove('hidden');
 
   renderDynamicModule(moduleKey);
+  animateViewEntrance(secDynamic);
   lucide.createIcons();
 }
 
@@ -2528,6 +2562,8 @@ function cambiarPaginaOrdenes(p) {
     p2.className = p === 2 ? 'px-3 py-1.5 bg-blue-600 text-white font-bold border-r border-slate-200' : 'px-3 py-1.5 bg-white hover:bg-slate-50 text-slate-700 border-r border-slate-200';
   }
   renderTablasInicio();
+  const tbody = document.getElementById('tbodyOrdenesInicio');
+  if (tbody) animateViewEntrance(tbody);
 }
 
 function renderModalsInicio() {
@@ -2976,6 +3012,7 @@ function renderVistaOrdenTrabajo() {
       ` : ''}
     </div>
   `;
+  animateViewEntrance(container);
   lucide.createIcons();
 }
 
@@ -3041,6 +3078,7 @@ function abrirDetalleDoctor(doctorNombre) {
       </table>
     </div>
   `;
+  animateViewEntrance(container);
   lucide.createIcons();
 }
 
