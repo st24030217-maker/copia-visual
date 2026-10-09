@@ -55,6 +55,7 @@ $anioActual = date('Y');
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="Threads.css">
   <style>
     body { font-family: 'Plus Jakarta Sans', sans-serif; }
 
@@ -98,7 +99,12 @@ $anioActual = date('Y');
            class="absolute inset-0 w-full h-full object-cover object-center brightness-95 filter transition-transform duration-700 hover:scale-105">
       
       <!-- Gradiente superpuesto sutil en tonos azul/gris oscuro -->
-      <div class="absolute inset-0 bg-gradient-to-t from-slate-950/90 via-slate-900/40 to-slate-900/20"></div>
+      <div class="absolute inset-0 bg-gradient-to-t from-slate-950/90 via-slate-900/50 to-slate-900/30"></div>
+
+      <!-- Fondo interactivo @react-bits/Threads-JS-CSS (Panel Izquierdo) -->
+      <div id="threadsHeroBg" class="threads-container threads-container--bg z-[5]" aria-hidden="true">
+        <canvas class="threads-canvas"></canvas>
+      </div>
 
       <!-- Badge superior -->
       <div class="relative z-10 hidden md:flex items-center gap-2">
@@ -128,14 +134,19 @@ $anioActual = date('Y');
       </div>
     </div>
 
-    <!-- LADO DERECHO: Formulario de Login (50%) -->
-    <div class="w-full md:w-1/2 flex flex-col justify-between p-6 sm:p-10 lg:p-14 bg-white overflow-y-auto">
+    <!-- LADO DERECHO: Formulario de Login (50%) con fondo @react-bits/Threads-JS-CSS -->
+    <div class="relative w-full md:w-1/2 flex flex-col justify-between p-6 sm:p-10 lg:p-14 bg-white overflow-y-auto overflow-x-hidden">
       
+      <!-- Fondo interactivo @react-bits/Threads-JS-CSS (Panel Login) -->
+      <div id="threadsLoginBg" class="threads-container threads-container--bg z-0" aria-hidden="true">
+        <canvas class="threads-canvas"></canvas>
+      </div>
+
       <!-- Espacio superior para balancear el centrado vertical -->
-      <div class="hidden sm:block"></div>
+      <div class="hidden sm:block relative z-10"></div>
 
       <!-- Contenedor del Login Centrado -->
-      <div class="w-full max-w-sm mx-auto my-auto py-4">
+      <div class="relative z-10 w-full max-w-sm mx-auto my-auto py-6 px-6 rounded-3xl bg-white/85 backdrop-blur-md border border-slate-200/70 shadow-xl shadow-slate-900/5">
         
         <!-- Encabezado con Logo Oficial y texto solicitado -->
         <div class="text-center mb-8">
@@ -241,7 +252,7 @@ $anioActual = date('Y');
       </div>
 
       <!-- Footer Oficial -->
-      <div class="pt-6 border-t border-slate-100 text-center text-xs text-slate-400 mt-auto">
+      <div class="relative z-10 pt-6 border-t border-slate-100 text-center text-xs text-slate-400 mt-auto">
         <p>© <?= $anioActual ?> Todos los derechos reservados.</p>
         <a href="http://www.resosistemas.mx/" target="_blank" class="text-blue-600 hover:underline mt-0.5 inline-block font-medium">
           RESO Sistemas S.A. de C.V.
@@ -252,8 +263,52 @@ $anioActual = date('Y');
 
   </div>
 
+  <script src="Threads.js"></script>
   <script>
     lucide.createIcons();
+
+    // Inicializar fondos @react-bits/Threads-JS-CSS en ambos paneles del Login
+    if (typeof window.initThreads === 'function') {
+      window.initThreads(document.getElementById('threadsLoginBg'), {
+        color: '#2563eb',
+        accentColor: '#0ea5e9',
+        amplitude: 1.7,
+        distance: 0.42,
+        enableMouseInteraction: true,
+        lineCount: 90,
+        thickness: 0.65,
+        softness: 1.3,
+        speed: 0.6,
+        waves: 1.05,
+        split: 0.04,
+        fray: 0.5,
+        angle: 25,
+        parting: 0.4,
+        taper: 0.85,
+        brightness: 1.35,
+        opacity: 0.55
+      });
+
+      window.initThreads(document.getElementById('threadsHeroBg'), {
+        color: '#60a5fa',
+        accentColor: '#e0f2fe',
+        amplitude: 1.7,
+        distance: 0.4,
+        enableMouseInteraction: true,
+        lineCount: 90,
+        thickness: 0.6,
+        softness: 1.3,
+        speed: 0.6,
+        waves: 1.05,
+        split: 0.04,
+        fray: 0.5,
+        angle: 25,
+        parting: 0.45,
+        taper: 0.85,
+        brightness: 1.4,
+        opacity: 0.5
+      });
+    }
 
     function togglePass() {
       const pass = document.getElementById('clave');
