@@ -103,52 +103,52 @@ $perfilActual  = htmlspecialchars($_SESSION['perfil'] ?? 'Administrador', ENT_QU
     .table-scroll::-webkit-scrollbar-track { background: transparent; }
     .table-scroll::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 10px; }
 
-    /* Resaltado de órdenes con prioridad en Escaneo, Diseño, Fabricación (.row-yellow) y Entrega (.row-green) igual a DENT DEMO */
-    .row-green,
-    .row-green td {
-      color: #ffffff !important;
-      animation: parpadeo-verde 1s ease-in-out infinite alternate;
+    /* Resaltado moderno y ejecutivo para órdenes prioritarias / internas (.row-yellow en proceso y .row-green en entrega) */
+    .row-green {
+      background: linear-gradient(90deg, rgba(209, 250, 229, 0.78) 0%, rgba(236, 253, 245, 0.45) 100%);
+      box-shadow: inset 3.5px 0 0 #10b981;
+      animation: pulse-priority-emerald 2.4s ease-in-out infinite alternate;
     }
-    @keyframes parpadeo-verde {
-      from { background-color: #008000; }
-      to   { background-color: #66cc66; }
+    @keyframes pulse-priority-emerald {
+      from { background-color: rgba(209, 250, 229, 0.48); }
+      to   { background-color: rgba(167, 243, 208, 0.82); }
+    }
+    .row-green td {
+      color: #064e3b !important;
+      border-bottom-color: rgba(16, 185, 129, 0.16) !important;
     }
     .row-green a {
-      color: #ccffcc !important;
+      color: #047857 !important;
       font-weight: 700;
-    }
-    .row-green span {
-      background-color: rgba(255, 255, 255, 0.22) !important;
-      color: #ffffff !important;
     }
 
-    .row-yellow,
-    .row-yellow td {
-      color: #ffffff !important;
-      animation: parpadeo 1s ease-in-out infinite alternate;
+    .row-yellow {
+      background: linear-gradient(90deg, rgba(254, 226, 226, 0.78) 0%, rgba(255, 241, 242, 0.45) 100%);
+      box-shadow: inset 3.5px 0 0 #e11d48;
+      animation: pulse-priority-rose 2.4s ease-in-out infinite alternate;
     }
-    @keyframes parpadeo {
-      from { background-color: #ff0000; }
-      to   { background-color: #ff6666; }
+    @keyframes pulse-priority-rose {
+      from { background-color: rgba(254, 226, 226, 0.48); }
+      to   { background-color: rgba(254, 205, 211, 0.82); }
+    }
+    .row-yellow td {
+      color: #881337 !important;
+      border-bottom-color: rgba(244, 63, 94, 0.15) !important;
     }
     .row-yellow a {
-      color: #ffff66 !important;
+      color: #be123c !important;
       font-weight: 700;
-    }
-    .row-yellow span {
-      background-color: rgba(255, 255, 255, 0.22) !important;
-      color: #ffffff !important;
     }
 
     /* Tablas compactas de las 4 etapas de inicio (Escaneo, Diseño, Fabricación, Entrega) */
     .stage-table th {
       background-color: #0f172a;
-      color: #ffffff;
+      color: #f8fafc;
       font-weight: 700;
-      font-size: 10px;
+      font-size: 9.5px;
       text-transform: uppercase;
-      letter-spacing: 0.03em;
-      padding: 7px 6px;
+      letter-spacing: 0.04em;
+      padding: 7px 5px;
       position: sticky;
       top: 0;
       z-index: 10;
@@ -156,7 +156,7 @@ $perfilActual  = htmlspecialchars($_SESSION['perfil'] ?? 'Administrador', ENT_QU
     }
     .stage-table td {
       font-size: 11px;
-      padding: 6px 6px;
+      padding: 6px 5px;
       border-bottom: 1px solid #f1f5f9;
       white-space: nowrap;
     }
@@ -164,12 +164,12 @@ $perfilActual  = htmlspecialchars($_SESSION['perfil'] ?? 'Administrador', ENT_QU
     /* Tabla general inferior (#tableOrdenes) */
     .general-table th {
       background-color: #0f172a;
-      color: #ffffff;
+      color: #f8fafc;
       font-weight: 700;
-      font-size: 11px;
+      font-size: 10.5px;
       text-transform: uppercase;
-      letter-spacing: 0.03em;
-      padding: 9px 10px;
+      letter-spacing: 0.04em;
+      padding: 10px 10px;
       position: sticky;
       top: 0;
       z-index: 10;
@@ -182,22 +182,37 @@ $perfilActual  = htmlspecialchars($_SESSION['perfil'] ?? 'Administrador', ENT_QU
       white-space: nowrap;
     }
 
-    /* Botones .btnEtiqueta exactos de DENT DEMO (#40C1CA) */
+    /* Botones de acción modernos (.btnEtiqueta) */
     .btnEtiqueta {
-      background-color: #40C1CA;
-      border: none;
+      background: linear-gradient(135deg, #1e293b 0%, #334e68 100%);
+      border: 1px solid rgba(255, 255, 255, 0.14);
       color: #ffffff !important;
-      border-radius: 5px;
+      border-radius: 8px;
       padding: 5px 9px;
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      transition: filter 0.15s ease, transform 0.15s ease;
+      gap: 4px;
+      box-shadow: 0 1px 2px rgba(15, 23, 42, 0.14);
+      transition: all 0.18s cubic-bezier(0.22, 1, 0.36, 1);
       cursor: pointer;
     }
     .btnEtiqueta:hover {
-      filter: brightness(0.92);
+      background: linear-gradient(135deg, #0f172a 0%, #102a43 100%);
       transform: translateY(-1px);
+      box-shadow: 0 4px 10px rgba(15, 23, 42, 0.22);
+    }
+    .btnEtiqueta--ot {
+      background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
+    }
+    .btnEtiqueta--ot:hover {
+      background: linear-gradient(135deg, #1d4ed8 0%, #1e40af 100%);
+    }
+    .btnEtiqueta--doc {
+      background: linear-gradient(135deg, #0d9488 0%, #0f766e 100%);
+    }
+    .btnEtiqueta--doc:hover {
+      background: linear-gradient(135deg, #0f766e 0%, #115e59 100%);
     }
   </style>
 </head>
@@ -304,18 +319,18 @@ $perfilActual  = htmlspecialchars($_SESSION['perfil'] ?? 'Administrador', ENT_QU
         <!-- 2. LOS 4 CUADROS DE ETAPA CON TABLAS (Escaneo, Diseño, Fabricación, Entrega) -->
         <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-3.5">
 
-          <!-- CUADRO 1: ESCANEO (TableEscaneo.php - 7 columnas: OT, PROD, UNI, DOCTOR, SOLI, EST, REGISTRO) -->
-          <div class="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden flex flex-col">
-            <div class="px-3.5 py-2.5 bg-slate-50 border-b border-slate-200 flex items-center justify-between">
+          <!-- CUADRO 1: ESCANEO -->
+          <div class="bg-white rounded-2xl border border-slate-200/90 shadow-sm overflow-hidden flex flex-col">
+            <div class="px-3.5 py-2.5 bg-gradient-to-r from-slate-50 to-white border-b border-slate-200 flex items-center justify-between">
               <div class="flex items-center gap-2">
                 <span class="w-6 h-6 rounded-lg bg-blue-600/10 text-blue-600 flex items-center justify-center">
                   <i data-lucide="video" class="w-3.5 h-3.5"></i>
                 </span>
                 <h3 class="text-xs font-extrabold text-slate-800 uppercase tracking-wide">Escaneo</h3>
               </div>
-              <span class="text-[11px] font-mono font-bold text-blue-600 bg-blue-50 px-2 py-0.5 rounded-full border border-blue-100" id="badgeCountEscaneo">4</span>
+              <span class="text-[11px] font-mono font-bold text-blue-700 bg-blue-50 px-2.5 py-0.5 rounded-full border border-blue-200/80" id="badgeCountEscaneo">4</span>
             </div>
-            <div class="table-scroll overflow-auto" style="height: 28vh;">
+            <div class="table-scroll overflow-y-auto overflow-x-hidden" style="height: 28vh;">
               <table class="w-full text-center border-collapse stage-table">
                 <thead>
                   <tr>
@@ -323,9 +338,7 @@ $perfilActual  = htmlspecialchars($_SESSION['perfil'] ?? 'Administrador', ENT_QU
                     <th>PROD</th>
                     <th>UNI</th>
                     <th>DOCTOR</th>
-                    <th>SOLI</th>
-                    <th>EST</th>
-                    <th>REGISTRO</th>
+                    <th>ENT</th>
                   </tr>
                 </thead>
                 <tbody id="tbodyStageEscaneo" class="divide-y divide-slate-100 text-slate-700"></tbody>
@@ -333,18 +346,18 @@ $perfilActual  = htmlspecialchars($_SESSION['perfil'] ?? 'Administrador', ENT_QU
             </div>
           </div>
 
-          <!-- CUADRO 2: DISEÑO (TableDiseno.php - 5 columnas exactas: OT, PROD, UNI, DOCTOR, ENT) -->
-          <div class="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden flex flex-col">
-            <div class="px-3.5 py-2.5 bg-slate-50 border-b border-slate-200 flex items-center justify-between">
+          <!-- CUADRO 2: DISEÑO -->
+          <div class="bg-white rounded-2xl border border-slate-200/90 shadow-sm overflow-hidden flex flex-col">
+            <div class="px-3.5 py-2.5 bg-gradient-to-r from-slate-50 to-white border-b border-slate-200 flex items-center justify-between">
               <div class="flex items-center gap-2">
                 <span class="w-6 h-6 rounded-lg bg-blue-600/10 text-blue-600 flex items-center justify-center">
                   <i data-lucide="monitor" class="w-3.5 h-3.5"></i>
                 </span>
                 <h3 class="text-xs font-extrabold text-slate-800 uppercase tracking-wide">Diseño</h3>
               </div>
-              <span class="text-[11px] font-mono font-bold text-blue-600 bg-blue-50 px-2 py-0.5 rounded-full border border-blue-100" id="badgeCountDiseno">18</span>
+              <span class="text-[11px] font-mono font-bold text-blue-700 bg-blue-50 px-2.5 py-0.5 rounded-full border border-blue-200/80" id="badgeCountDiseno">18</span>
             </div>
-            <div class="table-scroll overflow-auto" style="height: 28vh;">
+            <div class="table-scroll overflow-y-auto overflow-x-hidden" style="height: 28vh;">
               <table class="w-full text-center border-collapse stage-table">
                 <thead>
                   <tr>
@@ -360,18 +373,18 @@ $perfilActual  = htmlspecialchars($_SESSION['perfil'] ?? 'Administrador', ENT_QU
             </div>
           </div>
 
-          <!-- CUADRO 3: FABRICACIÓN (TableFabricacion.php - 5 columnas exactas: OT, PROD, UNI, DOCTOR, ENT) -->
-          <div class="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden flex flex-col">
-            <div class="px-3.5 py-2.5 bg-slate-50 border-b border-slate-200 flex items-center justify-between">
+          <!-- CUADRO 3: FABRICACIÓN -->
+          <div class="bg-white rounded-2xl border border-slate-200/90 shadow-sm overflow-hidden flex flex-col">
+            <div class="px-3.5 py-2.5 bg-gradient-to-r from-slate-50 to-white border-b border-slate-200 flex items-center justify-between">
               <div class="flex items-center gap-2">
                 <span class="w-6 h-6 rounded-lg bg-blue-600/10 text-blue-600 flex items-center justify-center">
                   <i data-lucide="wrench" class="w-3.5 h-3.5"></i>
                 </span>
                 <h3 class="text-xs font-extrabold text-slate-800 uppercase tracking-wide">Fabricación</h3>
               </div>
-              <span class="text-[11px] font-mono font-bold text-blue-600 bg-blue-50 px-2 py-0.5 rounded-full border border-blue-100" id="badgeCountFabricacion">7</span>
+              <span class="text-[11px] font-mono font-bold text-blue-700 bg-blue-50 px-2.5 py-0.5 rounded-full border border-blue-200/80" id="badgeCountFabricacion">7</span>
             </div>
-            <div class="table-scroll overflow-auto" style="height: 28vh;">
+            <div class="table-scroll overflow-y-auto overflow-x-hidden" style="height: 28vh;">
               <table class="w-full text-center border-collapse stage-table">
                 <thead>
                   <tr>
@@ -387,18 +400,18 @@ $perfilActual  = htmlspecialchars($_SESSION['perfil'] ?? 'Administrador', ENT_QU
             </div>
           </div>
 
-          <!-- CUADRO 4: ENTREGA (TableEntrega.php - 6 columnas exactas: OT, PROD, UNI, DOCTOR, ENT, EST) -->
-          <div class="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden flex flex-col">
-            <div class="px-3.5 py-2.5 bg-slate-50 border-b border-slate-200 flex items-center justify-between">
+          <!-- CUADRO 4: ENTREGA -->
+          <div class="bg-white rounded-2xl border border-slate-200/90 shadow-sm overflow-hidden flex flex-col">
+            <div class="px-3.5 py-2.5 bg-gradient-to-r from-slate-50 to-white border-b border-slate-200 flex items-center justify-between">
               <div class="flex items-center gap-2">
-                <span class="w-6 h-6 rounded-lg bg-blue-600/10 text-blue-600 flex items-center justify-center">
+                <span class="w-6 h-6 rounded-lg bg-emerald-600/10 text-emerald-700 flex items-center justify-center">
                   <i data-lucide="truck" class="w-3.5 h-3.5"></i>
                 </span>
                 <h3 class="text-xs font-extrabold text-slate-800 uppercase tracking-wide">Entrega</h3>
               </div>
-              <span class="text-[11px] font-mono font-bold text-blue-600 bg-blue-50 px-2 py-0.5 rounded-full border border-blue-100" id="badgeCountEntrega">0</span>
+              <span class="text-[11px] font-mono font-bold text-emerald-700 bg-emerald-50 px-2.5 py-0.5 rounded-full border border-emerald-200/80" id="badgeCountEntrega">6</span>
             </div>
-            <div class="table-scroll overflow-auto" style="height: 28vh;">
+            <div class="table-scroll overflow-y-auto overflow-x-hidden" style="height: 28vh;">
               <table class="w-full text-center border-collapse stage-table">
                 <thead>
                   <tr>
@@ -407,7 +420,6 @@ $perfilActual  = htmlspecialchars($_SESSION['perfil'] ?? 'Administrador', ENT_QU
                     <th>UNI</th>
                     <th>DOCTOR</th>
                     <th>ENT</th>
-                    <th>EST</th>
                   </tr>
                 </thead>
                 <tbody id="tbodyStageEntrega" class="divide-y divide-slate-100 text-slate-700"></tbody>

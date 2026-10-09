@@ -5050,12 +5050,7 @@ function submitUniversalModal(e) {
 }
 
 // ============================================================================
-// DATOS Y RENDERIZADO DE LAS 5 TABLAS DE INICIO (100% SINCRONIZADO CON DENT DEMO)
-// 1. TableEscaneo.php (7 cols: OT, PROD, UNI, DOCTOR, SOLI, EST, REGISTRO)
-// 2. TableDiseno.php (5 cols: OT, PROD, UNI, DOCTOR, ENT)
-// 3. TableFabricacion.php (5 cols: OT, PROD, UNI, DOCTOR, ENT)
-// 4. TableEntrega.php (6 cols: OT, PROD, UNI, DOCTOR, ENT, EST)
-// 5. TableOrdenes.php (12 cols: ET, OT, DOC, FOLIO, ENTREGA, ESTADO, PRODUCTO, DOCTOR, PACIENTE, UNIDADES, LIB PROD, MONTO)
+// DATOS Y RENDERIZADO DE LAS 5 TABLAS DE INICIO (DISEÑO EJECUTIVO SINCRONIZADO)
 // ============================================================================
 
 const INICIO_DATA = {
@@ -5500,7 +5495,98 @@ const INICIO_DATA = {
         "serie": "30540"
     }
 ],
-  entrega: [],
+  entrega: [
+    {
+        "ot": 30588,
+        "ordenId": 22574,
+        "prod": "Corona Zirconio",
+        "uni": 2,
+        "doctor": "Dr. Arturo",
+        "doctorId": 125,
+        "soli": "2026-09-29",
+        "est": "Entrega",
+        "reg": "2026-09-29",
+        "interno": false,
+        "tipoDoctorExterno": 1,
+        "paquetes": "SIN PAQUETE",
+        "serie": "30588"
+    },
+    {
+        "ot": 30587,
+        "ordenId": 22573,
+        "prod": "Corona Zirconio",
+        "uni": 3,
+        "doctor": "Dr. Gustavo Jesús",
+        "doctorId": 92,
+        "soli": "2026-09-29",
+        "est": "Entrega",
+        "reg": "2026-09-29",
+        "interno": false,
+        "tipoDoctorExterno": 1,
+        "paquetes": "SIN PAQUETE",
+        "serie": "30587"
+    },
+    {
+        "ot": 30586,
+        "ordenId": 22572,
+        "prod": "Corona Zirconio",
+        "uni": 1,
+        "doctor": "Dr. Cesar Ivan",
+        "doctorId": 568,
+        "soli": "2026-09-29",
+        "est": "Entrega",
+        "reg": "2026-09-29",
+        "interno": false,
+        "tipoDoctorExterno": 1,
+        "paquetes": "SIN PAQUETE",
+        "serie": "30586"
+    },
+    {
+        "ot": 30585,
+        "ordenId": 22571,
+        "prod": "Corona Zirconio",
+        "uni": 11,
+        "doctor": "Dra. Brenda Deyanira",
+        "doctorId": 417,
+        "soli": "2026-09-25",
+        "est": "Entrega",
+        "reg": "2026-09-25",
+        "interno": true,
+        "tipoDoctorExterno": 0,
+        "paquetes": "SIN PAQUETE",
+        "serie": "30585"
+    },
+    {
+        "ot": 30581,
+        "ordenId": 22567,
+        "prod": "Corona Zirconio",
+        "uni": 5,
+        "doctor": "Dra. Sarai",
+        "doctorId": 445,
+        "soli": "2026-09-29",
+        "est": "Entrega",
+        "reg": "2026-09-29",
+        "interno": true,
+        "tipoDoctorExterno": 0,
+        "paquetes": "SIN PAQUETE",
+        "serie": "30581"
+    },
+    {
+        "ot": 30577,
+        "ordenId": 22563,
+        "prod": "Guía Quirúrgica Hiossen",
+        "uni": 2,
+        "doctor": "Dr. Ana Laura",
+        "doctorId": 56,
+        "soli": "2026-09-25",
+        "est": "Entrega",
+        "reg": "2026-09-25",
+        "interno": true,
+        "tipoDoctorExterno": 0,
+        "paquetes": "SIN PAQUETE",
+        "serie": "30577"
+    }
+],
   ordenes: [
     {
         "ot": 30596,
@@ -8146,11 +8232,9 @@ window.findDoctorByAny = function (query) {
   const qStr = String(query).trim();
   const qUpper = qStr.toUpperCase().replace(/\s+/g, ' ');
 
-  // 1. Por ID numérico o código DOC-xxx
   let found = list.find(d => String(d.id) === qStr || String(d.codigo).toUpperCase() === qUpper);
   if (found) return found;
 
-  // 2. Por coincidencia exacta en nombre completo o doctorCorto
   found = list.find(
     d =>
       (d.nombre && d.nombre.trim().toUpperCase().replace(/\s+/g, ' ') === qUpper) ||
@@ -8158,7 +8242,6 @@ window.findDoctorByAny = function (query) {
   );
   if (found) return found;
 
-  // 3. Por prefijo o inclusión (ej. "DRA. BRENDA DEYANIRA" -> "Dra. Brenda Deyanira Hernández Aguirre")
   found = list.find(
     d =>
       (d.nombre && d.nombre.trim().toUpperCase().replace(/\s+/g, ' ').startsWith(qUpper)) ||
@@ -8186,59 +8269,28 @@ window.findOrdenByAny = function (query) {
 
 let paginaActualOrdenes = 1;
 
-// Renderizador exacto para TableEscaneo.php (7 columnas: OT, PROD, UNI, DOCTOR, SOLI, EST, REGISTRO)
-function renderRowEscaneo(item) {
-  const rowClass = item.interno ? 'row-yellow' : 'hover:bg-slate-50';
-  return `
-    <tr class="${rowClass} transition-colors">
-      <td class="text-center font-bold">
-        <a href="javascript:void(0)" onclick="abrirOrdenTrabajo('${item.serie}')" title="${item.paquetes || ''}" class="text-blue-600 hover:underline font-mono">${item.ot}</a>
-      </td>
-      <td class="text-center font-semibold text-slate-800">${item.prod}</td>
-      <td class="text-center font-mono">${item.uni}</td>
-      <td class="text-center">
-        <a href="javascript:void(0)" onclick="abrirDetalleDoctor('${item.doctorId || item.doctor}')" class="text-blue-600 hover:underline">${item.doctor}</a>
-      </td>
-      <td class="text-center font-mono text-slate-600">${item.soli}</td>
-      <td class="text-center">${item.est}</td>
-      <td class="text-center font-mono text-[10px] text-slate-500">${item.reg}</td>
-    </tr>
-  `;
+function formatShortDate(dateStr) {
+  if (!dateStr) return '';
+  const parts = String(dateStr).split(' ')[0].split('-');
+  if (parts.length === 3) return `${parts[1]}/${parts[2]}`;
+  return dateStr;
 }
 
-// Renderizador exacto para TableDiseno.php y TableFabricacion.php (5 columnas: OT, PROD, UNI, DOCTOR, ENT)
-function renderRowDisenoFab(item) {
-  const rowClass = item.interno ? 'row-yellow' : 'hover:bg-slate-50';
+// Renderizador limpio y sin cortes para las 4 tarjetas de etapa (OT | PROD | UNI | DOCTOR | ENT)
+function renderStageRowCompact(item, isEntrega = false) {
+  const rowClass = item.interno ? (isEntrega ? 'row-green' : 'row-yellow') : 'hover:bg-slate-50';
+  const safeDocKey = String(item.doctorId || item.doctor || '').replace(/'/g, "\\'");
   return `
     <tr class="${rowClass} transition-colors">
       <td class="text-center font-bold">
         <a href="javascript:void(0)" onclick="abrirOrdenTrabajo('${item.serie}')" title="${item.paquetes || ''}" class="text-blue-600 hover:underline font-mono">${item.ot}</a>
       </td>
-      <td class="text-center font-semibold text-slate-800">${item.prod}</td>
-      <td class="text-center font-mono">${item.uni}</td>
-      <td class="text-center">
-        <a href="javascript:void(0)" onclick="abrirDetalleDoctor('${item.doctorId || item.doctor}')" class="text-blue-600 hover:underline">${item.doctor}</a>
+      <td class="text-center font-semibold text-slate-800 max-w-[92px] truncate" title="${item.prod}">${item.prod}</td>
+      <td class="text-center font-mono font-bold">${item.uni}</td>
+      <td class="text-center max-w-[100px] truncate" title="${item.doctor}">
+        <a href="javascript:void(0)" onclick="abrirDetalleDoctor('${safeDocKey}')" class="text-blue-600 hover:underline font-medium">${item.doctor}</a>
       </td>
-      <td class="text-center font-mono text-slate-600">${item.soli}</td>
-    </tr>
-  `;
-}
-
-// Renderizador exacto para TableEntrega.php (6 columnas: OT, PROD, UNI, DOCTOR, ENT, EST)
-function renderRowEntrega(item) {
-  const rowClass = item.interno ? 'row-green' : 'hover:bg-slate-50';
-  return `
-    <tr class="${rowClass} transition-colors">
-      <td class="text-center font-bold">
-        <a href="javascript:void(0)" onclick="abrirOrdenTrabajo('${item.serie}')" title="${item.paquetes || ''}" class="text-blue-600 hover:underline font-mono">${item.ot}</a>
-      </td>
-      <td class="text-center font-semibold text-slate-800">${item.prod}</td>
-      <td class="text-center font-mono">${item.uni}</td>
-      <td class="text-center">
-        <a href="javascript:void(0)" onclick="abrirDetalleDoctor('${item.doctorId || item.doctor}')" class="text-blue-600 hover:underline">${item.doctor}</a>
-      </td>
-      <td class="text-center font-mono text-slate-600">${item.soli}</td>
-      <td class="text-center">${item.est}</td>
+      <td class="text-center font-mono text-[10px] text-slate-500" title="${item.soli}">${formatShortDate(item.soli)}</td>
     </tr>
   `;
 }
@@ -8252,23 +8304,23 @@ function renderTablasInicio() {
 
   if (tbEsc) {
     tbEsc.innerHTML = INICIO_DATA.escaneo.length
-      ? INICIO_DATA.escaneo.map(renderRowEscaneo).join('')
-      : '<tr><td colspan="7" class="py-6 text-center text-slate-400 font-semibold">NO HAY ORDENES POR MOSTRAR</td></tr>';
+      ? INICIO_DATA.escaneo.map(i => renderStageRowCompact(i, false)).join('')
+      : '<tr><td colspan="5" class="py-6 text-center text-slate-400 font-semibold">NO HAY ORDENES POR MOSTRAR</td></tr>';
   }
   if (tbDis) {
     tbDis.innerHTML = INICIO_DATA.diseno.length
-      ? INICIO_DATA.diseno.map(renderRowDisenoFab).join('')
+      ? INICIO_DATA.diseno.map(i => renderStageRowCompact(i, false)).join('')
       : '<tr><td colspan="5" class="py-6 text-center text-slate-400 font-semibold">NO HAY ORDENES POR MOSTRAR</td></tr>';
   }
   if (tbFab) {
     tbFab.innerHTML = INICIO_DATA.fabricacion.length
-      ? INICIO_DATA.fabricacion.map(renderRowDisenoFab).join('')
+      ? INICIO_DATA.fabricacion.map(i => renderStageRowCompact(i, false)).join('')
       : '<tr><td colspan="5" class="py-6 text-center text-slate-400 font-semibold">NO HAY ORDENES POR MOSTRAR</td></tr>';
   }
   if (tbEnt) {
     tbEnt.innerHTML = INICIO_DATA.entrega.length
-      ? INICIO_DATA.entrega.map(renderRowEntrega).join('')
-      : '<tr><td colspan="6" class="py-6 text-center text-slate-400 font-semibold">NO HAY ORDENES POR MOSTRAR</td></tr>';
+      ? INICIO_DATA.entrega.map(i => renderStageRowCompact(i, true)).join('')
+      : '<tr><td colspan="5" class="py-6 text-center text-slate-400 font-semibold">NO HAY ORDENES POR MOSTRAR</td></tr>';
   }
 
   const bEsc = document.getElementById('badgeCountEscaneo');
@@ -8290,42 +8342,50 @@ function renderTablasInicio() {
     const start = (paginaActualOrdenes - 1) * perPage;
     const slice = INICIO_DATA.ordenes.slice(start, start + perPage);
     tbOrd.innerHTML = slice.map(o => {
-      // Exactamente igual a DENT DEMO/TableOrdenes.php:
-      // Si TipoDoctorExterno == 0 e idLab_Estado == 4 (Entrega) -> .row-green
-      // Si TipoDoctorExterno == 0 e idLab_Estado != 4 -> .row-yellow
+      const isEnt = Number(o.idLab_Estado) === 4 || o.estado === 'Entrega';
       const rowClass = o.interno
-        ? (Number(o.idLab_Estado) === 4 || o.estado === 'Entrega' ? 'row-green' : 'row-yellow')
+        ? (isEnt ? 'row-green' : 'row-yellow')
         : 'hover:bg-slate-50';
       const safeDoc = (o.doctor || '').replace(/'/g, "\\'");
       const safePac = (o.paciente || '').replace(/'/g, "\\'");
+      const estadoBadge =
+        isEnt
+          ? 'bg-emerald-100/90 text-emerald-800 border border-emerald-200'
+          : o.estado === 'Fabricación'
+            ? 'bg-amber-100/90 text-amber-800 border border-amber-200'
+            : o.estado === 'Diseño'
+              ? 'bg-blue-100/90 text-blue-800 border border-blue-200'
+              : 'bg-slate-100 text-slate-700 border border-slate-200';
       return `
         <tr class="${rowClass} transition-colors">
           <td class="text-center">
-            <button type="button" onclick="Etiqueta('${safeDoc}', '${safePac}', '${o.entrega}', '${o.serie}')" class="btnEtiqueta" title="Imprimir Etiqueta">
+            <button type="button" onclick="Etiqueta('${safeDoc}', '${safePac}', '${o.entrega}', '${o.serie}')" class="btnEtiqueta" title="Imprimir Etiqueta #${o.serie}">
               <i data-lucide="barcode" class="w-3.5 h-3.5"></i>
             </button>
           </td>
           <td class="text-center">
-            <button type="button" onclick="abrirOrdenTrabajo('${o.serie}')" class="btnEtiqueta" title="Orden de Trabajo #${o.serie}">
-              <img src="assets/muela.png" class="w-3.5 h-3.5 object-contain" alt="OT">
+            <button type="button" onclick="abrirOrdenTrabajo('${o.serie}')" class="btnEtiqueta btnEtiqueta--ot" title="Abrir Orden de Trabajo #${o.serie}">
+              <svg class="w-3.5 h-3.5 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5.5c-1.5-2-4-2.5-6-1-2 1.5-2.5 4.5-1.5 7 1 2.5 1.5 5.5 2 8 .3 1.5 1.8 1.5 2.5 0 .5-1.5 1-3.5 3-3.5s2.5 2 3 3.5c.7 1.5 2.2 1.5 2.5 0 .5-2.5 1-5.5 2-8 1-2.5.5-5.5-1.5-7-2-1.5-4.5-1-6 1z"/></svg>
             </button>
           </td>
           <td class="text-center">
-            <button type="button" onclick="abrirDetalleDoctor('${o.doctorId || safeDoc}')" class="btnEtiqueta" title="Ficha del Doctor">
+            <button type="button" onclick="abrirDetalleDoctor('${o.doctorId || safeDoc}')" class="btnEtiqueta btnEtiqueta--doc" title="Expediente del Doctor">
               <i data-lucide="user-round" class="w-3.5 h-3.5"></i>
             </button>
           </td>
-          <td class="font-mono font-bold">${o.serie}</td>
-          <td class="font-mono">${o.entrega}</td>
-          <td>${o.estado}</td>
-          <td class="font-semibold">${o.producto}</td>
+          <td class="font-mono font-bold text-slate-900">${o.serie}</td>
+          <td class="font-mono text-slate-600">${o.entrega}</td>
           <td>
-            <a href="javascript:void(0)" onclick="abrirDetalleDoctor('${o.doctorId || safeDoc}')" class="hover:underline">${o.doctor}</a>
+            <span class="px-2.5 py-0.5 rounded-full text-[10px] font-bold ${estadoBadge}">${o.estado}</span>
           </td>
-          <td>${o.paciente}</td>
+          <td class="font-semibold text-slate-800">${o.producto}</td>
+          <td>
+            <a href="javascript:void(0)" onclick="abrirDetalleDoctor('${o.doctorId || safeDoc}')" class="hover:underline font-semibold">${o.doctor}</a>
+          </td>
+          <td class="text-slate-700 font-medium">${o.paciente}</td>
           <td class="font-mono font-bold">${o.unidades}</td>
-          <td class="font-mono text-[11px]">${o.libProd || ''}</td>
-          <td class="font-mono font-bold">${o.monto}</td>
+          <td class="font-mono text-[11px] text-slate-500">${o.libProd || 'En curso'}</td>
+          <td class="font-mono font-bold text-slate-900">${o.monto}</td>
         </tr>
       `;
     }).join('');
@@ -8372,8 +8432,8 @@ function renderModalsInicio() {
           <td>${p.doctor}</td>
           <td>${p.paciente}</td>
           <td>
-            <button type="button" onclick="document.getElementById('modalPendientes').classList.add('hidden'); abrirOrdenTrabajo('${p.serie}')" class="btnEtiqueta">
-              <img src="assets/muela.png" class="w-3.5 h-3.5 object-contain" alt="OT">
+            <button type="button" onclick="document.getElementById('modalPendientes').classList.add('hidden'); abrirOrdenTrabajo('${p.serie}')" class="btnEtiqueta btnEtiqueta--ot">
+              <svg class="w-3.5 h-3.5 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5.5c-1.5-2-4-2.5-6-1-2 1.5-2.5 4.5-1.5 7 1 2.5 1.5 5.5 2 8 .3 1.5 1.8 1.5 2.5 0 .5-1.5 1-3.5 3-3.5s2.5 2 3 3.5c.7 1.5 2.2 1.5 2.5 0 .5-2.5 1-5.5 2-8 1-2.5.5-5.5-1.5-7-2-1.5-4.5-1-6 1z"/></svg>
             </button>
           </td>
         </tr>
@@ -8398,7 +8458,6 @@ function Etiqueta(doctor, paciente, fechaEntrega, codigo) {
   const colorimetro = orden ? orden.color : 'VITA CLASSICAL A2';
   const observaciones = orden ? (orden.observaciones || '') : '';
 
-  // 1. Mostrar overlay idéntico a $.blockUI de DENT DEMO ("GENERANDO ETIQUETA, POR FAVOR ESPERE...")
   let blockOverlay = document.getElementById('dentBlockUIOverlay');
   if (!blockOverlay) {
     blockOverlay = document.createElement('div');
@@ -8410,7 +8469,6 @@ function Etiqueta(doctor, paciente, fechaEntrega, codigo) {
     blockOverlay.style.display = 'flex';
   }
 
-  // 2. Generar SVG del código de barras igual a Codbar(serie) en TableOrdenes.php
   const tempSvg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
   if (typeof JsBarcode === 'function') {
     JsBarcode(tempSvg, serieOT, {
@@ -8422,7 +8480,6 @@ function Etiqueta(doctor, paciente, fechaEntrega, codigo) {
   }
   const codeBar = `<div class="col-md-12">${tempSvg.outerHTML}</div>`;
 
-  // 3. Crear iframe oculto con el mismo HTML y estilos exactos de DENT DEMO/TableOrdenes.php
   const frame1 = document.createElement('iframe');
   const styleContainer = 'style="overflow: hidden;width: 100%;height: auto; text-align:center;font-size:8px"';
   const row = "style='overflow: hidden;'";
@@ -8586,7 +8643,6 @@ function renderVistaOrdenTrabajo() {
 
       ${currentTabOrden === 'home' ? `
         <div class="grid grid-cols-1 lg:grid-cols-12 gap-5 text-xs">
-          <!-- Columna Izquierda: Escaneo + Discos utilizados + Orden de Trabajo (Idéntico a OrdenTrabajo.php L128-357) -->
           <div class="lg:col-span-7 space-y-4">
             
             <!-- Bloque 1: Escaneo -->
@@ -8636,7 +8692,7 @@ function renderVistaOrdenTrabajo() {
               </table>
             </div>
 
-            <!-- Bloque 3: Orden de Trabajo (Datos completos + Switches + Detalle del pedido) -->
+            <!-- Bloque 3: Orden de Trabajo -->
             <div class="bg-slate-50 p-4 rounded-2xl border border-slate-200 space-y-3">
               <h4 class="font-bold text-slate-800 uppercase tracking-wide border-b border-slate-200 pb-2">Orden de Trabajo</h4>
               <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
@@ -8665,7 +8721,6 @@ function renderVistaOrdenTrabajo() {
                 <textarea rows="2" class="w-full p-2.5 rounded-xl border border-slate-200 bg-white text-xs text-slate-700" placeholder="Ingrese observaciones internas de laboratorio...">${o.observacionesLab || ''}</textarea>
               </div>
 
-              <!-- 5 Switches de Autorización idénticos a OrdenTrabajo.php (Color, Mordida, Muñon, Aditamento, Linea Sellado) -->
               <div class="grid grid-cols-2 sm:grid-cols-5 gap-2 pt-2 border-t border-slate-200">
                 <label class="flex items-center gap-2 bg-white px-3 py-2 rounded-xl border border-slate-200 cursor-pointer">
                   <input type="checkbox" ${o.autColor ? 'checked' : ''} class="rounded text-blue-600">
@@ -8689,7 +8744,6 @@ function renderVistaOrdenTrabajo() {
                 </label>
               </div>
 
-              <!-- Detalle del pedido (Cat, Prod, Pza, Total) -->
               <div class="pt-2">
                 <h5 class="font-bold text-slate-700 uppercase text-[11px] mb-2">Detalle del pedido</h5>
                 <table class="w-full text-center border border-slate-200 general-table">
@@ -8714,7 +8768,7 @@ function renderVistaOrdenTrabajo() {
             </div>
           </div>
 
-          <!-- Columna Derecha: Odontograma de la Orden (#69CEBE PILAR / #F4D77A PÓNTICO) y Control de Etapa -->
+          <!-- Columna Derecha: Odontograma con SVG dental nítido -->
           <div class="lg:col-span-5 space-y-4">
             <div class="bg-slate-50 p-4 rounded-2xl border border-slate-200 flex flex-col justify-between">
               <div>
@@ -8734,7 +8788,7 @@ function renderVistaOrdenTrabajo() {
                       <button type="button" onclick="this.classList.toggle('ring-2'); this.classList.toggle('ring-teal-500'); showToast('Pieza #${d}', 'Selección actualizada en el odontograma.')"
                         style="${sel ? 'background-color:#69CEBE;color:#0f172a;border-color:#14b8a6;' : ''}"
                         class="py-2 rounded-xl border border-slate-200 font-mono font-bold text-[11px] flex flex-col items-center gap-0.5 transition-all ${sel ? 'shadow-sm' : 'bg-white text-slate-700 hover:bg-slate-100'}">
-                        <img src="assets/muela.png" class="w-3.5 h-3.5 object-contain" alt="">
+                        <svg class="w-3.5 h-3.5 shrink-0 opacity-80" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5.5c-1.5-2-4-2.5-6-1-2 1.5-2.5 4.5-1.5 7 1 2.5 1.5 5.5 2 8 .3 1.5 1.8 1.5 2.5 0 .5-1.5 1-3.5 3-3.5s2.5 2 3 3.5c.7 1.5 2.2 1.5 2.5 0 .5-2.5 1-5.5 2-8 1-2.5.5-5.5-1.5-7-2-1.5-4.5-1-6 1z"/></svg>
                         <span>${d}</span>
                       </button>
                     `;
@@ -8749,7 +8803,7 @@ function renderVistaOrdenTrabajo() {
                       <button type="button" onclick="this.classList.toggle('ring-2'); this.classList.toggle('ring-teal-500'); showToast('Pieza #${d}', 'Selección actualizada en el odontograma.')"
                         style="${sel ? 'background-color:#69CEBE;color:#0f172a;border-color:#14b8a6;' : ''}"
                         class="py-2 rounded-xl border border-slate-200 font-mono font-bold text-[11px] flex flex-col items-center gap-0.5 transition-all ${sel ? 'shadow-sm' : 'bg-white text-slate-700 hover:bg-slate-100'}">
-                        <img src="assets/muela.png" class="w-3.5 h-3.5 object-contain" alt="">
+                        <svg class="w-3.5 h-3.5 shrink-0 opacity-80" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5.5c-1.5-2-4-2.5-6-1-2 1.5-2.5 4.5-1.5 7 1 2.5 1.5 5.5 2 8 .3 1.5 1.8 1.5 2.5 0 .5-1.5 1-3.5 3-3.5s2.5 2 3 3.5c.7 1.5 2.2 1.5 2.5 0 .5-2.5 1-5.5 2-8 1-2.5.5-5.5-1.5-7-2-1.5-4.5-1-6 1z"/></svg>
                         <span>${d}</span>
                       </button>
                     `;
@@ -8918,7 +8972,6 @@ function renderVistaOrdenTrabajo() {
 
 // ============================================================================
 // FICHA DEL DOCTOR CON SUS 4 PESTAÑAS EXACTAS DE DENT DEMO/Doctor.php
-// (Datos, Ordenes de trabajo, Paquetes, Pagos)
 // ============================================================================
 
 let currentDoctorActivo = null;
@@ -8985,7 +9038,6 @@ function renderVistaDetalleDoctor(doc) {
         </div>
       </div>
 
-      <!-- 4 Pestañas Exactas de DENT DEMO/Doctor.php: Datos | Ordenes de trabajo | Paquetes | Pagos -->
       <div class="border-b border-slate-200 flex flex-wrap gap-1.5 text-xs font-bold">
         <button onclick="cambiarTabDoctor('datos')" class="px-4 py-2.5 rounded-t-xl border-t border-l border-r transition-all ${currentTabDoctor === 'datos' ? 'bg-slate-900 text-white border-slate-900' : 'bg-slate-100 text-slate-600 border-transparent hover:bg-slate-200'}">
           Datos
@@ -9003,7 +9055,6 @@ function renderVistaDetalleDoctor(doc) {
 
       ${currentTabDoctor === 'datos' ? `
         <form onsubmit="guardarCambiosDoctorActual(event)" class="grid grid-cols-1 lg:grid-cols-2 gap-5 pt-2">
-          <!-- Columna Izquierda de Doctor.php -->
           <div class="bg-slate-50 p-4 rounded-2xl border border-slate-200 space-y-3">
             <h4 class="font-bold text-slate-800 uppercase border-b border-slate-200 pb-2">Información General del Doctor</h4>
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
@@ -9042,7 +9093,6 @@ function renderVistaDetalleDoctor(doc) {
             </div>
           </div>
 
-          <!-- Columna Derecha de Doctor.php (Clínica, Teléfono, Celular, Dirección, Contacto) -->
           <div class="bg-slate-50 p-4 rounded-2xl border border-slate-200 space-y-3 flex flex-col justify-between">
             <div class="space-y-3">
               <h4 class="font-bold text-slate-800 uppercase border-b border-slate-200 pb-2">Clínica, Teléfonos y Ubicación</h4>
@@ -9106,8 +9156,8 @@ function renderVistaDetalleDoctor(doc) {
               ${ordenesDoc.length > 0 ? ordenesDoc.map(o => `
                 <tr class="hover:bg-slate-50">
                   <td>
-                    <button onclick="abrirOrdenTrabajo('${o.serie}')" class="btnEtiqueta">
-                      <img src="assets/muela.png" class="w-3.5 h-3.5 object-contain" alt="OT">
+                    <button onclick="abrirOrdenTrabajo('${o.serie}')" class="btnEtiqueta btnEtiqueta--ot">
+                      <svg class="w-3.5 h-3.5 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5.5c-1.5-2-4-2.5-6-1-2 1.5-2.5 4.5-1.5 7 1 2.5 1.5 5.5 2 8 .3 1.5 1.8 1.5 2.5 0 .5-1.5 1-3.5 3-3.5s2.5 2 3 3.5c.7 1.5 2.2 1.5 2.5 0 .5-2.5 1-5.5 2-8 1-2.5.5-5.5-1.5-7-2-1.5-4.5-1-6 1z"/></svg>
                     </button>
                   </td>
                   <td class="font-mono font-bold">${o.serie}</td>
