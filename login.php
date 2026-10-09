@@ -1,3 +1,47 @@
+<?php
+session_start();
+
+// Manejo de autenticación por POST o Fetch AJAX (100% compatible con PHP 8.2+, sin requerir MySQL)
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $usuario = trim($_POST['usuario'] ?? 'Admin');
+    if ($usuario === '') {
+        $usuario = 'Admin';
+    }
+
+    $userLower = strtolower($usuario);
+    if ($userLower === 'diana') {
+        $perfil = 'Laboratorio';
+        $idPerfil = 4;
+    } elseif ($userLower === 'oscar') {
+        $perfil = 'Medico';
+        $idPerfil = 3;
+    } else {
+        $perfil = 'Administrador';
+        $idPerfil = 1;
+    }
+
+    $_SESSION['user'] = $usuario;
+    $_SESSION['perfil'] = $perfil;
+    $_SESSION['idPerfil'] = $idPerfil;
+
+    if (!empty($_POST['ajax'])) {
+        header('Content-Type: application/json; charset=utf-8');
+        echo json_encode([
+            'ok' => true,
+            'user' => $usuario,
+            'perfil' => $perfil,
+            'idPerfil' => $idPerfil,
+            'redirect' => 'index.php'
+        ]);
+        exit;
+    }
+
+    header('Location: index.php');
+    exit;
+}
+
+$anioActual = date('Y');
+?>
 <!DOCTYPE html>
 <html lang="es" class="h-full bg-slate-50">
 <head>
@@ -106,14 +150,14 @@
         </div>
 
         <!-- Formulario con IDs originales listos para migración -->
-        <form onsubmit="handleLogin(event)" class="space-y-4">
+        <form method="POST" action="login.php" onsubmit="handleLogin(event)" class="space-y-4">
           <div>
             <label class="block text-xs font-semibold text-slate-700 mb-1.5">Usuario</label>
             <div class="relative">
               <span class="absolute inset-y-0 left-0 flex items-center pl-3.5 text-slate-400">
                 <i data-lucide="user" class="w-4 h-4"></i>
               </span>
-              <input type="text" id="usuario" required value="admin"
+              <input type="text" id="usuario" name="usuario" required value="admin"
                 class="w-full pl-10 pr-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-slate-900 placeholder-slate-400 focus:outline-none focus:border-blue-600 focus:bg-white focus:ring-2 focus:ring-blue-600/20 text-sm transition-all"
                 placeholder="Usuario">
             </div>
@@ -127,7 +171,7 @@
               <span class="absolute inset-y-0 left-0 flex items-center pl-3.5 text-slate-400">
                 <i data-lucide="lock" class="w-4 h-4"></i>
               </span>
-              <input type="password" id="clave" required value="1234"
+              <input type="password" id="clave" name="clave" required value="1234"
                 class="w-full pl-10 pr-10 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-slate-900 placeholder-slate-400 focus:outline-none focus:border-blue-600 focus:bg-white focus:ring-2 focus:ring-blue-600/20 text-sm transition-all"
                 placeholder="Contraseña">
               <button type="button" onclick="togglePass()" class="absolute inset-y-0 right-0 pr-3.5 flex items-center text-slate-400 hover:text-slate-600 transition-colors">
@@ -198,7 +242,7 @@
 
       <!-- Footer Oficial -->
       <div class="pt-6 border-t border-slate-100 text-center text-xs text-slate-400 mt-auto">
-        <p>© 2026 Todos los derechos reservados.</p>
+        <p>© <?= $anioActual ?> Todos los derechos reservados.</p>
         <a href="http://www.resosistemas.mx/" target="_blank" class="text-blue-600 hover:underline mt-0.5 inline-block font-medium">
           RESO Sistemas S.A. de C.V.
         </a>
@@ -238,6 +282,7 @@
       isLoggingIn = true;
 
       const user = document.getElementById('usuario').value;
+      const pass = document.getElementById('clave').value;
       localStorage.setItem('cv_usuario', user);
       if (user.toLowerCase() === 'diana') {
         localStorage.setItem('cv_perfil', 'Laboratorio');
@@ -262,6 +307,13 @@
       loader.classList.replace('slot-hidden', 'slot-visible');
       text.innerText = 'Verificando credenciales...';
 
+      // Registrar sesión en PHP vía POST asíncrono
+      const formData = new FormData();
+      formData.append('usuario', user);
+      formData.append('clave', pass);
+      formData.append('ajax', '1');
+      fetch('login.php', { method: 'POST', body: formData }).catch(() => {});
+
       // 2. Estado Éxito tras validación
       setTimeout(() => {
         loader.classList.replace('slot-visible', 'slot-hidden');
@@ -269,7 +321,7 @@
         text.innerText = '¡Acceso concedido!';
 
         setTimeout(() => {
-          window.location.href = 'index.html';
+          window.location.href = 'index.php';
         }, 550);
       }, 900);
     }
