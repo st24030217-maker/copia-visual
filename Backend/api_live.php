@@ -1,5 +1,11 @@
 <?php
+header('Access-Control-Allow-Origin: *');
+header('Access-Control-Allow-Methods: GET, POST, OPTIONS');
+header('Access-Control-Allow-Headers: Content-Type');
 header('Content-Type: application/json; charset=utf-8');
+if (($_SERVER['REQUEST_METHOD'] ?? '') === 'OPTIONS') {
+    exit;
+}
 require_once(__DIR__ . '/Conexiones/Conexiones.php');
 
 $op = $_REQUEST['op'] ?? 'bootstrap';
@@ -124,7 +130,8 @@ try {
             WHERE le.idLab_Estado = 4 AND lse.idLab_SubEstado = 6
             ORDER BY lot.Serie DESC");
 
-        // 5. Ordenes Generales (150 más recientes)
+        // 5. Ordenes Generales
+        $ordLimit = max(150, min(3000, (int)($_REQUEST['limit'] ?? 150)));
         $ordenes = $db->Select("SELECT
                 lot.Doctor_id,
                 lot.Ordenes_trabajo_id,
@@ -154,7 +161,7 @@ try {
             LEFT JOIN Lab_Pacientes_App AS lpa ON lpa.Paciente_Id = lot.Paciente_id
             LEFT JOIN Lab_Tipos_Colorimetros_Colores AS ltcc ON ltcc.Tipos_Colorimetros_Color_Id = lot.Tipos_colorimetros_color_id
             LEFT JOIN Lab_Tipos_Colorimetros_Marcas AS ltcm ON ltcm.Tipos_Colorimetros_Marcas_Id = ltcc.Tipos_Colorimetros_Marca_Id
-            ORDER BY lot.Serie DESC LIMIT 150");
+            ORDER BY lot.Serie DESC LIMIT $ordLimit");
 
         if (empty($entrega)) {
             foreach ($ordenes as $oRow) {

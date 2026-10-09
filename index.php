@@ -1172,11 +1172,6 @@ $perfilActual  = htmlspecialchars($_SESSION['perfil'] ?? 'Administrador', ENT_QU
 
     function buscarEnTabla() {
       const raw = document.getElementById('nptBuscar').value;
-      const q = raw.toLowerCase();
-      const rows = document.querySelectorAll('#tbodyGeneralOrdenes tr');
-      rows.forEach(r => {
-        r.style.display = r.innerText.toLowerCase().includes(q) ? '' : 'none';
-      });
       if (typeof window.buscarEnBaseDeDatosLive === 'function') {
         window.buscarEnBaseDeDatosLive(raw);
       }

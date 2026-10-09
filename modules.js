@@ -9361,16 +9361,48 @@ function mapOrdenGeneralFromDb(r) {
 }
 
 window.syncLiveDatabase = async function (silent = false) {
-  if (isStaticOrOfflineHost()) {
-    updateLiveDbBadge(false);
+  let data = null;
+
+  // 1. Si estamos en localhost o servidor PHP, consultar api_live.php
+  if (!isStaticOrOfflineHost()) {
+    try {
+      const resp = await fetch('Backend/api_live.php?op=bootstrap&limit=2000', { cache: 'no-store' });
+      if (resp.ok) {
+        data = await resp.json();
+      }
+    } catch (e) {}
+  } else {
+    // 2. Si estamos en GitHub Pages, intentar primero conectar con localhost:8095 vía CORS
+    try {
+      const controller = new AbortController();
+      const timeoutId = setTimeout(() => controller.abort(), 1200);
+      const resp = await fetch('http://localhost:8095/Backend/api_live.php?op=bootstrap&limit=2000', {
+        cache: 'no-store',
+        signal: controller.signal
+      });
+      clearTimeout(timeoutId);
+      if (resp.ok) {
+        data = await resp.json();
+        window.LIVE_DB_STATE.corsLocalUrl = 'http://localhost:8095/Backend/api_live.php';
+      }
+    } catch (e) {}
+  }
+
+  // 3. Respaldo universal: cargar Backend/db_snapshot.json con 2,000 órdenes y 540 doctores reales de MySQL
+  if (!data || !data.ok) {
+    try {
+      const resp = await fetch('Backend/db_snapshot.json', { cache: 'no-store' });
+      if (resp.ok) {
+        data = await resp.json();
+      }
+    } catch (e) {}
+  }
+
+  if (!data || !data.ok) {
     return false;
   }
-  try {
-    const resp = await fetch('Backend/api_live.php?op=bootstrap', { cache: 'no-store' });
-    if (!resp.ok) throw new Error('HTTP ' + resp.status);
-    const data = await resp.json();
-    if (!data || !data.ok) throw new Error(data?.error || 'Respuesta inválida');
 
+  try {
     if (Array.isArray(data.escaneo)) {
       INICIO_DATA.escaneo = data.escaneo.map(r => mapStageRowFromDb(r, 'Escaneo'));
     }
@@ -9598,36 +9630,61 @@ window.fetchDoctorDetalleLive = async function (doc) {
 
 let liveSearchTimer = null;
 window.buscarEnBaseDeDatosLive = function (query) {
-  if (isStaticOrOfflineHost()) return;
   clearTimeout(liveSearchTimer);
-  const q = String(query || '').trim();
+  const raw = String(query || '').trim();
+  const q = raw.toLowerCase();
+
+  const allOrders = window.LIVE_DB_STATE.initialOrdenesBackup || INICIO_DATA.ordenes || [];
+  if (!window.LIVE_DB_STATE.initialOrdenesBackup && Array.isArray(INICIO_DATA.ordenes)) {
+    window.LIVE_DB_STATE.initialOrdenesBackup = INICIO_DATA.ordenes.slice();
+  }
+
   if (q === '') {
-    if (Array.isArray(window.LIVE_DB_STATE.initialOrdenesBackup) && window.LIVE_DB_STATE.initialOrdenesBackup.length > 0) {
-      INICIO_DATA.ordenes = window.LIVE_DB_STATE.initialOrdenesBackup.slice();
-      paginaActualOrdenes = 1;
-      renderTablasInicio();
-    }
+    INICIO_DATA.ordenes = (window.LIVE_DB_STATE.initialOrdenesBackup || allOrders).slice();
+    paginaActualOrdenes = 1;
+    renderTablasInicio();
     return;
   }
-  if (q.length < 2) return;
 
-  liveSearchTimer = setTimeout(async () => {
-    try {
-      const resp = await fetch(`Backend/api_live.php?op=search_ordenes&q=${encodeURIComponent(q)}`, { cache: 'no-store' });
-      if (!resp.ok) return;
-      const data = await resp.json();
-      if (data && data.ok && Array.isArray(data.ordenes)) {
-        if (!window.LIVE_DB_STATE.initialOrdenesBackup) {
-          window.LIVE_DB_STATE.initialOrdenesBackup = INICIO_DATA.ordenes.slice();
+  // Filtrado instantáneo en memoria sobre las 2,000 órdenes reales de la base de datos
+  const matches = allOrders.filter(o => {
+    return (
+      String(o.serie || '').toLowerCase().includes(q) ||
+      String(o.ot || '').toLowerCase().includes(q) ||
+      String(o.doctor || '').toLowerCase().includes(q) ||
+      String(o.doctorNombreCompleto || '').toLowerCase().includes(q) ||
+      String(o.paciente || '').toLowerCase().includes(q) ||
+      String(o.producto || '').toLowerCase().includes(q) ||
+      String(o.estado || '').toLowerCase().includes(q) ||
+      String(o.subEstado || '').toLowerCase().includes(q) ||
+      String(o.color || '').toLowerCase().includes(q) ||
+      String(o.observaciones || '').toLowerCase().includes(q)
+    );
+  });
+
+  INICIO_DATA.ordenes = matches;
+  paginaActualOrdenes = 1;
+  renderTablasInicio();
+
+  // Si hay servidor PHP disponible (en localhost o CORS), consultar también en la BD completa (22,569 órdenes)
+  const apiBase = window.LIVE_DB_STATE.corsLocalUrl || (!isStaticOrOfflineHost() ? 'Backend/api_live.php' : null);
+  if (apiBase && raw.length >= 2) {
+    liveSearchTimer = setTimeout(async () => {
+      try {
+        const resp = await fetch(`${apiBase}?op=search_ordenes&q=${encodeURIComponent(raw)}`, { cache: 'no-store' });
+        if (!resp.ok) return;
+        const data = await resp.json();
+        if (data && data.ok && Array.isArray(data.ordenes) && data.ordenes.length > 0) {
+          const liveMapped = data.ordenes.map(mapOrdenGeneralFromDb);
+          const seen = new Set(liveMapped.map(o => String(o.serie)));
+          const combined = liveMapped.concat(matches.filter(o => !seen.has(String(o.serie))));
+          INICIO_DATA.ordenes = combined;
+          paginaActualOrdenes = 1;
+          renderTablasInicio();
         }
-        INICIO_DATA.ordenes = data.ordenes.map(mapOrdenGeneralFromDb);
-        paginaActualOrdenes = 1;
-        renderTablasInicio();
-      }
-    } catch (e) {
-      // Fallback a filtro DOM local
-    }
-  }, 260);
+      } catch (e) {}
+    }, 280);
+  }
 };
 
 document.addEventListener('DOMContentLoaded', () => {
