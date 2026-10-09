@@ -123,10 +123,15 @@ const DENT_STATE = {
   // 11. DOCTORES (ListadosDoctores.php, DoctoresTiposApp.php, PaquetesDoctores.php, etc.)
   doctores: [
     { id: 'DOC-101', nombre: 'Dr. Oscar Ramírez', celular: '81 1920 4412', mail: 'oscar.ramirez@clinicadent.mx', vendedor: 'Lic. Roberto Garza', nota: 'Cliente VIP Puntual', clinica: 'Clínica Dental Matriz', tipo: 'Especialista Prostodoncista', activo: true, externo: false, mesesSinPaquete: 0 },
-    { id: 'DOC-102', nombre: 'Dra. Brenda Solís', celular: '81 2039 8811', mail: 'brenda.solis@ortoalinia.com', vendedor: 'Lic. Roberto Garza', nota: 'Solicita escaneo martes y jueves', clinica: 'OrtoAlinia San Pedro', tipo: 'Ortodoncista Certificada', activo: true, externo: true, mesesSinPaquete: 0 },
-    { id: 'DOC-103', nombre: 'Dr. Arturo Morales', celular: '81 8344 9012', mail: 'arturo.morales@dentalcenter.mx', vendedor: 'Lic. Mariana Peña', nota: 'Preferencia tono Vita A3', clinica: 'Dental Center Valle', tipo: 'Odontólogo General', activo: true, externo: true, mesesSinPaquete: 4 },
-    { id: 'DOC-104', nombre: 'Dra. Fátima Sánchez', celular: '81 1567 3390', mail: 'fatima.sanchez@sonrisas.mx', vendedor: 'Lic. Mariana Peña', nota: 'Especialista en estética E-Max', clinica: 'Estética Dental Cumbres', tipo: 'Rehabilitadora Oral', activo: true, externo: false, mesesSinPaquete: 0 },
-    { id: 'DOC-105', nombre: 'Dr. Luis Cabrera', celular: '81 9011 2233', mail: 'luis.cabrera@cabreradental.mx', vendedor: 'Lic. Roberto Garza', nota: 'Pendiente renovar paquete de coronas', clinica: 'Consultorio Cabrera', tipo: 'Odontólogo General', activo: true, externo: true, mesesSinPaquete: 5 }
+    { id: 'DOC-102', nombre: 'Dra. Elena Torres', celular: '81 2450 7731', mail: 'elena.torres@esteticadentalsp.mx', vendedor: 'Lic. Mariana Peña', nota: 'Especialista en Carillas E-Max', clinica: 'Estética Dental San Pedro', tipo: 'Rehabilitadora Oral / Estética', activo: true, externo: true, mesesSinPaquete: 0 },
+    { id: 'DOC-103', nombre: 'Dr. Mauricio Cárdenas', celular: '81 8391 6024', mail: 'm.cardenas@cardenasdental.com', vendedor: 'Lic. Roberto Garza', nota: 'Rehabilitación sobre implantes y puentes', clinica: 'Centro Odontológico Valle', tipo: 'Especialista Prostodoncista', activo: true, externo: true, mesesSinPaquete: 0 },
+    { id: 'DOC-104', nombre: 'Dra. Sofía Méndez', celular: '81 1782 9340', mail: 'sofia.mendez@ortoalinia.mx', vendedor: 'Lic. Jorge Villarreal', nota: 'Ortodoncia digital y guardas CAD/CAM', clinica: 'Clínica Dent Contry', tipo: 'Ortodoncista Certificada', activo: true, externo: false, mesesSinPaquete: 0 },
+    { id: 'DOC-105', nombre: 'Dr. Roberto Garza', celular: '81 8104 5519', mail: 'roberto.garza@garzadental.mx', vendedor: 'Lic. Mariana Peña', nota: 'Prótesis fija y provisionales PMMA', clinica: 'Consultorio Dental Obispado', tipo: 'Odontólogo General', activo: true, externo: true, mesesSinPaquete: 2 },
+    { id: 'DOC-106', nombre: 'Dr. Alejandro Silva', celular: '81 2619 3845', mail: 'alejandro.silva@clinicadent.mx', vendedor: 'Lic. Roberto Garza', nota: 'Implantología digital guiada', clinica: 'Clínica Dental Cumbres', tipo: 'Especialista Implantólogo', activo: true, externo: false, mesesSinPaquete: 0 },
+    { id: 'DOC-107', nombre: 'Dra. Brenda Solís', celular: '81 2039 8811', mail: 'brenda.solis@ortoalinia.com', vendedor: 'Lic. Roberto Garza', nota: 'Solicita escaneo martes y jueves', clinica: 'OrtoAlinia San Pedro', tipo: 'Ortodoncista Certificada', activo: true, externo: true, mesesSinPaquete: 0 },
+    { id: 'DOC-108', nombre: 'Dr. Arturo Morales', celular: '81 8344 9012', mail: 'arturo.morales@dentalcenter.mx', vendedor: 'Lic. Mariana Peña', nota: 'Preferencia tono Vita A3', clinica: 'Dental Center Valle', tipo: 'Odontólogo General', activo: true, externo: true, mesesSinPaquete: 4 },
+    { id: 'DOC-109', nombre: 'Dra. Fátima Sánchez', celular: '81 1567 3390', mail: 'fatima.sanchez@sonrisas.mx', vendedor: 'Lic. Mariana Peña', nota: 'Especialista en estética E-Max', clinica: 'Estética Dental Cumbres', tipo: 'Rehabilitadora Oral', activo: true, externo: false, mesesSinPaquete: 0 },
+    { id: 'DOC-110', nombre: 'Dr. Luis Cabrera', celular: '81 9011 2233', mail: 'luis.cabrera@cabreradental.mx', vendedor: 'Lic. Roberto Garza', nota: 'Pendiente renovar paquete de coronas', clinica: 'Consultorio Cabrera', tipo: 'Odontólogo General', activo: true, externo: true, mesesSinPaquete: 5 }
   ],
   doctoresTipos: [
     { id: 1, tipo: 'Especialista Prostodoncista', descuento: '15%', creditoDias: 30, estatus: true },
@@ -2383,42 +2388,50 @@ function submitUniversalModal(e) {
 
 const INICIO_DATA = {
   escaneo: [
-    { ot: 1048, prod: 'Zirconio', uni: 2, doctor: 'Dr. Oscar Ramírez', soli: '2026-10-09', est: 'Escaneo', reg: '2026-10-07 09:15', interno: true, serie: 'OT-9841' },
-    { ot: 1047, prod: 'E-Max', uni: 1, doctor: 'Dra. Elena Torres', soli: '2026-10-09', est: 'Escaneo', reg: '2026-10-07 10:20', interno: false, serie: 'OT-9845' },
-    { ot: 1046, prod: 'Alinia', uni: 1, doctor: 'Dr. Mauricio Cárdenas', soli: '2026-10-10', est: 'Escaneo', reg: '2026-10-07 11:05', interno: false, serie: 'OT-9849' },
-    { ot: 1045, prod: 'Guarda', uni: 1, doctor: 'Dra. Sofía Méndez', soli: '2026-10-08', est: 'Escaneo', reg: '2026-10-07 12:30', interno: true, serie: 'OT-9850' },
-    { ot: 1044, prod: 'PMMA', uni: 3, doctor: 'Dr. Roberto Garza', soli: '2026-10-11', est: 'Escaneo', reg: '2026-10-07 13:10', interno: false, serie: 'OT-9851' }
+    { ot: 1048, prod: 'Zirconio', uni: 2, doctor: 'Dr. Oscar Ramírez', soli: '2026-10-09', est: 'Escaneo', reg: '2026-10-07 09:15', interno: true, serie: 'OT-1048' },
+    { ot: 1047, prod: 'E-Max', uni: 1, doctor: 'Dra. Elena Torres', soli: '2026-10-09', est: 'Escaneo', reg: '2026-10-07 10:20', interno: false, serie: 'OT-1047' },
+    { ot: 1046, prod: 'Alinia', uni: 1, doctor: 'Dr. Mauricio Cárdenas', soli: '2026-10-10', est: 'Escaneo', reg: '2026-10-07 11:05', interno: false, serie: 'OT-1046' },
+    { ot: 1045, prod: 'Guarda', uni: 1, doctor: 'Dra. Sofía Méndez', soli: '2026-10-08', est: 'Escaneo', reg: '2026-10-07 12:30', interno: true, serie: 'OT-1045' },
+    { ot: 1044, prod: 'PMMA', uni: 3, doctor: 'Dr. Roberto Garza', soli: '2026-10-11', est: 'Escaneo', reg: '2026-10-07 13:10', interno: false, serie: 'OT-1044' }
   ],
   diseno: [
-    { ot: 1043, prod: 'Zirconio', uni: 1, doctor: 'Dr. Oscar Ramírez', soli: '2026-10-08', est: 'Diseño', reg: '2026-10-06 14:20', interno: true, serie: 'OT-9841' },
-    { ot: 1042, prod: 'E-Max', uni: 4, doctor: 'Dra. Elena Torres', soli: '2026-10-09', est: 'Diseño', reg: '2026-10-06 15:40', interno: false, serie: 'OT-9842' },
-    { ot: 1041, prod: 'Zirconio', uni: 3, doctor: 'Dr. Alejandro Silva', soli: '2026-10-08', est: 'Diseño', reg: '2026-10-06 16:10', interno: true, serie: 'OT-9846' },
-    { ot: 1040, prod: 'Híbrido', uni: 1, doctor: 'Dr. Mauricio Cárdenas', soli: '2026-10-09', est: 'Diseño', reg: '2026-10-06 17:00', interno: false, serie: 'OT-9852' },
-    { ot: 1039, prod: 'Metal', uni: 2, doctor: 'Dr. Roberto Garza', soli: '2026-10-10', est: 'Diseño', reg: '2026-10-06 18:15', interno: false, serie: 'OT-9853' }
+    { ot: 1043, prod: 'Zirconio', uni: 1, doctor: 'Dr. Oscar Ramírez', soli: '2026-10-08', est: 'Diseño', reg: '2026-10-06 14:20', interno: true, serie: 'OT-1043' },
+    { ot: 1042, prod: 'E-Max', uni: 4, doctor: 'Dra. Elena Torres', soli: '2026-10-09', est: 'Diseño', reg: '2026-10-06 15:40', interno: false, serie: 'OT-1042' },
+    { ot: 1041, prod: 'Zirconio', uni: 3, doctor: 'Dr. Alejandro Silva', soli: '2026-10-08', est: 'Diseño', reg: '2026-10-06 16:10', interno: true, serie: 'OT-1041' },
+    { ot: 1040, prod: 'Híbrido', uni: 1, doctor: 'Dr. Mauricio Cárdenas', soli: '2026-10-09', est: 'Diseño', reg: '2026-10-06 17:00', interno: false, serie: 'OT-1040' },
+    { ot: 1039, prod: 'Metal', uni: 2, doctor: 'Dr. Roberto Garza', soli: '2026-10-10', est: 'Diseño', reg: '2026-10-06 18:15', interno: false, serie: 'OT-1039' }
   ],
   fabricacion: [
-    { ot: 1038, prod: 'Zirconio', uni: 3, doctor: 'Dr. Mauricio Cárdenas', soli: '2026-10-07', est: 'Fresado', reg: '2026-10-05 09:30', interno: false, serie: 'OT-9843' },
-    { ot: 1037, prod: 'Guarda', uni: 1, doctor: 'Dra. Sofía Méndez', soli: '2026-10-07', est: 'Impresión 3D', reg: '2026-10-05 11:20', interno: true, serie: 'OT-9844' },
-    { ot: 1036, prod: 'Zirconio', uni: 2, doctor: 'Dr. Oscar Ramírez', soli: '2026-10-08', est: 'Sinterizado', reg: '2026-10-05 12:45', interno: true, serie: 'OT-9854' },
-    { ot: 1035, prod: 'E-Max', uni: 1, doctor: 'Dra. Elena Torres', soli: '2026-10-08', est: 'Glaseado', reg: '2026-10-05 16:00', interno: false, serie: 'OT-9855' }
+    { ot: 1038, prod: 'Zirconio', uni: 3, doctor: 'Dr. Mauricio Cárdenas', soli: '2026-10-07', est: 'Fresado', reg: '2026-10-05 09:30', interno: false, serie: 'OT-1038' },
+    { ot: 1037, prod: 'Guarda', uni: 1, doctor: 'Dra. Sofía Méndez', soli: '2026-10-07', est: 'Impresión 3D', reg: '2026-10-05 11:20', interno: true, serie: 'OT-1037' },
+    { ot: 1036, prod: 'Zirconio', uni: 2, doctor: 'Dr. Oscar Ramírez', soli: '2026-10-08', est: 'Sinterizado', reg: '2026-10-05 12:45', interno: true, serie: 'OT-1036' },
+    { ot: 1035, prod: 'E-Max', uni: 1, doctor: 'Dra. Elena Torres', soli: '2026-10-08', est: 'Glaseado', reg: '2026-10-05 16:00', interno: false, serie: 'OT-1035' }
   ],
   entrega: [
-    { ot: 1034, prod: 'PMMA', uni: 6, doctor: 'Dr. Roberto Garza', soli: '2026-10-07', est: 'Terminado', reg: '2026-10-04 10:00', interno: false, serie: 'OT-9847' },
-    { ot: 1033, prod: 'Zirconio', uni: 1, doctor: 'Dr. Oscar Ramírez', soli: '2026-10-07', est: 'Listo Entrega', reg: '2026-10-04 11:30', interno: true, serie: 'OT-9848' },
-    { ot: 1032, prod: 'Alinia', uni: 2, doctor: 'Dra. Sofía Méndez', soli: '2026-10-07', est: 'En Ruta', reg: '2026-10-04 14:15', interno: true, serie: 'OT-9856' },
-    { ot: 1031, prod: 'E-Max', uni: 2, doctor: 'Dra. Elena Torres', soli: '2026-10-07', est: 'Listo Entrega', reg: '2026-10-04 16:50', interno: false, serie: 'OT-9857' }
+    { ot: 1034, prod: 'PMMA', uni: 6, doctor: 'Dr. Roberto Garza', soli: '2026-10-07', est: 'Terminado', reg: '2026-10-04 10:00', interno: false, serie: 'OT-1034' },
+    { ot: 1033, prod: 'Zirconio', uni: 1, doctor: 'Dr. Oscar Ramírez', soli: '2026-10-07', est: 'Listo Entrega', reg: '2026-10-04 11:30', interno: true, serie: 'OT-1033' },
+    { ot: 1032, prod: 'Alinia', uni: 2, doctor: 'Dra. Sofía Méndez', soli: '2026-10-07', est: 'En Ruta', reg: '2026-10-04 14:15', interno: true, serie: 'OT-1032' },
+    { ot: 1031, prod: 'E-Max', uni: 2, doctor: 'Dra. Elena Torres', soli: '2026-10-07', est: 'Listo Entrega', reg: '2026-10-04 16:50', interno: false, serie: 'OT-1031' }
   ],
   ordenes: [
-    { ot: 1048, folio: 'ORD-26-1048', entrega: '2026-10-09', estado: 'Diseño', producto: 'Corona Monolítica Zirconio', doctor: 'Dr. Oscar Ramírez', paciente: 'María Fernanda Soto', unidades: 1, libProd: '2026-10-07 09:15', monto: '$1,850.00', serie: 'OT-9841', color: 'Vita A2', piezas: ['14'] },
-    { ot: 1047, folio: 'ORD-26-1047', entrega: '2026-10-09', estado: 'Diseño', producto: 'Carillas Disilicato E-Max', doctor: 'Dra. Elena Torres', paciente: 'Carlos Alberto Ruiz', unidades: 4, libProd: '2026-10-07 10:20', monto: '$9,600.00', serie: 'OT-9842', color: 'Bleach BL2', piezas: ['11','12','21','22'] },
-    { ot: 1046, folio: 'ORD-26-1046', entrega: '2026-10-07', estado: 'Fabricación', producto: 'Puente 3 Unidades Zirconio', doctor: 'Dr. Mauricio Cárdenas', paciente: 'Roberto Hernández Gil', unidades: 3, libProd: '2026-10-06 11:05', monto: '$5,550.00', serie: 'OT-9843', color: 'Vita A3', piezas: ['35','36','37'] },
-    { ot: 1045, folio: 'ORD-26-1045', entrega: '2026-10-08', estado: 'Fabricación', producto: 'Guarda Oclusal Termoformada', doctor: 'Dra. Sofía Méndez', paciente: 'Ana Paulina Vega', unidades: 1, libProd: '2026-10-06 12:30', monto: '$1,250.00', serie: 'OT-9844', color: 'Transparente', piezas: ['11','21'] },
-    { ot: 1044, folio: 'ORD-26-1044', entrega: '2026-10-09', estado: 'Escaneo', producto: 'Incrustación Inlay/Onlay E-Max', doctor: 'Dra. Elena Torres', paciente: 'Jorge Luis Pineda', unidades: 1, libProd: '2026-10-07 13:10', monto: '$2,100.00', serie: 'OT-9845', color: 'Vita B1', piezas: ['46'] },
-    { ot: 1043, folio: 'ORD-26-1043', entrega: '2026-10-08', estado: 'Diseño', producto: 'Corona sobre Implante Ti-Base', doctor: 'Dr. Alejandro Silva', paciente: 'Lucía Morales Castro', unidades: 3, libProd: '2026-10-06 16:10', monto: '$7,200.00', serie: 'OT-9846', color: 'Vita A2', piezas: ['16','26','36'] },
-    { ot: 1042, folio: 'ORD-26-1042', entrega: '2026-10-07', estado: 'Terminado', producto: 'Provisional PMMA Larga Duración', doctor: 'Dr. Roberto Garza', paciente: 'Fernando Domínguez', unidades: 6, libProd: '2026-10-04 10:00', monto: '$3,900.00', serie: 'OT-9847', color: 'Vita A1', piezas: ['13','12','11','21','22','23'] },
-    { ot: 1041, folio: 'ORD-26-1041', entrega: '2026-10-07', estado: 'Terminado', producto: 'Corona Zirconio Multicapa', doctor: 'Dr. Oscar Ramírez', paciente: 'Patricia Guzmán Ríos', unidades: 1, libProd: '2026-10-04 11:30', monto: '$1,850.00', serie: 'OT-9848', color: 'Vita A1', piezas: ['21'] },
-    { ot: 1040, folio: 'ORD-26-1040', entrega: '2026-10-10', estado: 'Escaneo', producto: 'Alineador Invisible Alinia', doctor: 'Dr. Mauricio Cárdenas', paciente: 'Gabriela Espinoza', unidades: 1, libProd: '2026-10-07 11:05', monto: '$4,200.00', serie: 'OT-9849', color: 'Clear', piezas: ['11','21'] },
-    { ot: 1039, folio: 'ORD-26-1039', entrega: '2026-10-10', estado: 'Diseño', producto: 'Metal Porcelana Estratificada', doctor: 'Dr. Roberto Garza', paciente: 'Héctor Valdés', unidades: 2, libProd: '2026-10-06 18:15', monto: '$2,900.00', serie: 'OT-9853', color: 'Vita A3.5', piezas: ['44','45'] }
+    { ot: 1048, folio: 'ORD-26-1048', entrega: '2026-10-09', estado: 'Escaneo', producto: 'Corona Monolítica Zirconio', doctor: 'Dr. Oscar Ramírez', paciente: 'María Fernanda Soto', unidades: 2, libProd: '2026-10-07 09:15', monto: '$3,700.00', serie: 'OT-1048', color: 'Vita A2', piezas: ['14','15'] },
+    { ot: 1047, folio: 'ORD-26-1047', entrega: '2026-10-09', estado: 'Escaneo', producto: 'Incrustación Inlay/Onlay E-Max', doctor: 'Dra. Elena Torres', paciente: 'Carlos Alberto Ruiz', unidades: 1, libProd: '2026-10-07 10:20', monto: '$2,400.00', serie: 'OT-1047', color: 'Vita B1', piezas: ['46'] },
+    { ot: 1046, folio: 'ORD-26-1046', entrega: '2026-10-10', estado: 'Escaneo', producto: 'Alineador Invisible Alinia', doctor: 'Dr. Mauricio Cárdenas', paciente: 'Gabriela Espinoza', unidades: 1, libProd: '2026-10-07 11:05', monto: '$4,200.00', serie: 'OT-1046', color: 'Clear', piezas: ['11','21'] },
+    { ot: 1045, folio: 'ORD-26-1045', entrega: '2026-10-08', estado: 'Escaneo', producto: 'Guarda Oclusal Termoformada', doctor: 'Dra. Sofía Méndez', paciente: 'Ana Paulina Vega', unidades: 1, libProd: '2026-10-07 12:30', monto: '$1,250.00', serie: 'OT-1045', color: 'Transparente', piezas: ['11','21'] },
+    { ot: 1044, folio: 'ORD-26-1044', entrega: '2026-10-11', estado: 'Escaneo', producto: 'Provisional PMMA Multicapa', doctor: 'Dr. Roberto Garza', paciente: 'Jorge Luis Pineda', unidades: 3, libProd: '2026-10-07 13:10', monto: '$1,950.00', serie: 'OT-1044', color: 'Vita A2', piezas: ['23','24','25'] },
+    { ot: 1043, folio: 'ORD-26-1043', entrega: '2026-10-08', estado: 'Diseño', producto: 'Corona Zirconio Estratificada', doctor: 'Dr. Oscar Ramírez', paciente: 'Rodrigo Villarreal', unidades: 1, libProd: '2026-10-06 14:20', monto: '$1,950.00', serie: 'OT-1043', color: 'Vita A1', piezas: ['11'] },
+    { ot: 1042, folio: 'ORD-26-1042', entrega: '2026-10-09', estado: 'Diseño', producto: 'Carillas Disilicato E-Max', doctor: 'Dra. Elena Torres', paciente: 'Valeria Lozano Garza', unidades: 4, libProd: '2026-10-06 15:40', monto: '$9,600.00', serie: 'OT-1042', color: 'Bleach BL2', piezas: ['12','11','21','22'] },
+    { ot: 1041, folio: 'ORD-26-1041', entrega: '2026-10-08', estado: 'Diseño', producto: 'Corona sobre Implante Ti-Base', doctor: 'Dr. Alejandro Silva', paciente: 'Lucía Morales Castro', unidades: 3, libProd: '2026-10-06 16:10', monto: '$7,200.00', serie: 'OT-1041', color: 'Vita A2', piezas: ['16','26','36'] },
+    { ot: 1040, folio: 'ORD-26-1040', entrega: '2026-10-09', estado: 'Diseño', producto: 'Incrustación Cerámica Híbrida', doctor: 'Dr. Mauricio Cárdenas', paciente: 'Daniela Cantú', unidades: 1, libProd: '2026-10-06 17:00', monto: '$2,100.00', serie: 'OT-1040', color: 'Vita A3', piezas: ['36'] },
+    { ot: 1039, folio: 'ORD-26-1039', entrega: '2026-10-10', estado: 'Diseño', producto: 'Metal Porcelana Estratificada', doctor: 'Dr. Roberto Garza', paciente: 'Héctor Valdés', unidades: 2, libProd: '2026-10-06 18:15', monto: '$2,900.00', serie: 'OT-1039', color: 'Vita A3.5', piezas: ['44','45'] },
+    { ot: 1038, folio: 'ORD-26-1038', entrega: '2026-10-07', estado: 'Fabricación', producto: 'Puente 3 Unidades Zirconio', doctor: 'Dr. Mauricio Cárdenas', paciente: 'Roberto Hernández Gil', unidades: 3, libProd: '2026-10-05 09:30', monto: '$5,550.00', serie: 'OT-1038', color: 'Vita A3', piezas: ['35','36','37'] },
+    { ot: 1037, folio: 'ORD-26-1037', entrega: '2026-10-07', estado: 'Fabricación', producto: 'Guarda Oclusal Impresión 3D', doctor: 'Dra. Sofía Méndez', paciente: 'Mariana Treviño', unidades: 1, libProd: '2026-10-05 11:20', monto: '$1,350.00', serie: 'OT-1037', color: 'Clear Bio', piezas: ['11','21'] },
+    { ot: 1036, folio: 'ORD-26-1036', entrega: '2026-10-08', estado: 'Fabricación', producto: 'Coronas Zirconio Sinterizado', doctor: 'Dr. Oscar Ramírez', paciente: 'Eduardo Salinas', unidades: 2, libProd: '2026-10-05 12:45', monto: '$3,700.00', serie: 'OT-1036', color: 'Vita A2', piezas: ['24','25'] },
+    { ot: 1035, folio: 'ORD-26-1035', entrega: '2026-10-08', estado: 'Fabricación', producto: 'Corona Anterior E-Max Glaseado', doctor: 'Dra. Elena Torres', paciente: 'Claudia Elizondo', unidades: 1, libProd: '2026-10-05 16:00', monto: '$2,400.00', serie: 'OT-1035', color: 'Vita B1', piezas: ['21'] },
+    { ot: 1034, folio: 'ORD-26-1034', entrega: '2026-10-07', estado: 'Terminado', producto: 'Provisional PMMA Larga Duración', doctor: 'Dr. Roberto Garza', paciente: 'Fernando Domínguez', unidades: 6, libProd: '2026-10-04 10:00', monto: '$3,900.00', serie: 'OT-1034', color: 'Vita A1', piezas: ['13','12','11','21','22','23'] },
+    { ot: 1033, folio: 'ORD-26-1033', entrega: '2026-10-07', estado: 'Terminado', producto: 'Corona Zirconio Multicapa', doctor: 'Dr. Oscar Ramírez', paciente: 'Patricia Guzmán Ríos', unidades: 1, libProd: '2026-10-04 11:30', monto: '$1,850.00', serie: 'OT-1033', color: 'Vita A1', piezas: ['21'] },
+    { ot: 1032, folio: 'ORD-26-1032', entrega: '2026-10-07', estado: 'Terminado', producto: 'Set Alineadores Alinia Etapa 2', doctor: 'Dra. Sofía Méndez', paciente: 'Diego Chapa', unidades: 2, libProd: '2026-10-04 14:15', monto: '$4,200.00', serie: 'OT-1032', color: 'Clear', piezas: ['11','21'] },
+    { ot: 1031, folio: 'ORD-26-1031', entrega: '2026-10-07', estado: 'Terminado', producto: 'Carillas E-Max Alta Estética', doctor: 'Dra. Elena Torres', paciente: 'Sofía Benavides', unidades: 2, libProd: '2026-10-04 16:50', monto: '$4,800.00', serie: 'OT-1031', color: 'Bleach BL1', piezas: ['11','21'] }
   ]
 };
 
