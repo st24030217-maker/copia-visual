@@ -257,16 +257,10 @@ function toggleSubmenu(menuId) {
 function openModule(moduleKey) {
   DENT_STATE.currentView = moduleKey;
 
-  // Actualizar estado activo en el sidebar estilo DENT DEMO
-  document.querySelectorAll('.nav-leaf-btn').forEach(btn => {
-    const isActive = btn.getAttribute('data-module') === moduleKey;
-    btn.classList.toggle('bg-white/10', isActive);
-    btn.classList.toggle('text-white', isActive);
-    btn.classList.toggle('font-semibold', isActive);
-    btn.classList.toggle('border-r-4', isActive);
-    btn.classList.toggle('border-[#1ABB9C]', isActive);
-    btn.classList.toggle('text-slate-300', !isActive);
-  });
+  // Actualizar estado activo en el sidebar (@react-bits/BranchedMenu-JS-CSS)
+  if (typeof window.bmSyncActiveState === 'function') {
+    window.bmSyncActiveState(moduleKey);
+  }
 
   const secInicio = document.getElementById('section-inicio');
   const secDynamic = document.getElementById('section-dynamic');

@@ -1,17 +1,17 @@
-/* @react-bits/BranchedMenu-JS-CSS */
+/* @react-bits/BranchedMenu-JS-CSS adapted to DENT DEMO sidebar (#2A3F54) */
 .branched-menu {
   --bm-w: 236px;
   --bm-ink: #f1f5f9;
-  --bm-accent: #9fb3c8;
-  --bm-line: #334e68;
+  --bm-accent: #1ABB9C;
+  --bm-line: rgba(255, 255, 255, 0.22);
   --bm-font: 12.5px;
   --bm-row: 32px;
-  --bm-indent: 34px;
-  --bm-line-w: 1.5;
+  --bm-indent: 30px;
+  --bm-line-w: 1.6;
   --bm-draw: 420ms;
   --bm-fold: 300ms;
   --bm-ease-out: cubic-bezier(0.23, 1, 0.32, 1);
-  --bm-muted: color-mix(in srgb, var(--bm-ink) 65%, transparent);
+  --bm-muted: color-mix(in srgb, var(--bm-ink) 72%, transparent);
 
   position: relative;
   display: flex;
@@ -33,7 +33,7 @@
   left: 0;
   width: 2px;
   border-radius: 1px;
-  background: linear-gradient(to bottom, var(--bm-line) 0%, var(--bm-line) 75%, transparent 100%);
+  background: linear-gradient(to bottom, var(--bm-line) 0%, var(--bm-line) 80%, transparent 100%);
 }
 
 .branched-menu__marker {
@@ -71,8 +71,8 @@
   background: none;
   color: var(--bm-muted);
   font: inherit;
-  font-size: calc(var(--bm-font) + 1px);
-  font-weight: 600;
+  font-size: calc(var(--bm-font) + 0.5px);
+  font-weight: 500;
   text-align: left;
   cursor: pointer;
   outline: none;
@@ -89,38 +89,43 @@
 .branched-menu__chevron {
   width: 14px;
   height: 14px;
-  opacity: 0.55;
+  opacity: 0.6;
   transition: transform var(--bm-fold) var(--bm-ease-out), opacity 200ms ease;
 }
 
-.branched-menu__section[data-open] .branched-menu__chevron {
+.branched-menu__section[data-open] > .branched-menu__head .branched-menu__chevron,
+.branched-menu__sub[data-open] > .branched-menu__sub-head .branched-menu__chevron {
   transform: rotate(180deg);
   opacity: 0.95;
 }
 
-.branched-menu__section[data-open] .branched-menu__head,
+.branched-menu__section[data-open] > .branched-menu__head,
 .branched-menu__head[data-active] {
   color: var(--bm-ink);
 }
 
 .branched-menu__head[data-active] {
-  color: #e2e8f0;
-  font-weight: 700;
+  color: #ffffff;
+  font-weight: 600;
 }
 
 @media (hover: hover) and (pointer: fine) {
-  .branched-menu__head:hover {
+  .branched-menu__head:hover,
+  .branched-menu__sub-head:hover,
+  .branched-menu__item:hover {
     color: var(--bm-ink);
   }
 }
 
-.branched-menu__body {
+.branched-menu__body,
+.branched-menu__sub-body {
   display: grid;
   grid-template-rows: 0fr;
   transition: grid-template-rows var(--bm-fold) var(--bm-ease-out);
 }
 
-.branched-menu__section[data-open] .branched-menu__body {
+.branched-menu__section[data-open] > .branched-menu__body,
+.branched-menu__sub[data-open] > .branched-menu__sub-body {
   grid-template-rows: 1fr;
 }
 
@@ -131,7 +136,7 @@
 
 .branched-menu__tree {
   position: relative;
-  padding: 6px 0;
+  padding: 4px 0;
   box-sizing: border-box;
 }
 
@@ -145,9 +150,10 @@
   transition: opacity 200ms ease;
 }
 
-.branched-menu__section[data-open] .branched-menu__lines {
+.branched-menu__section[data-open] > .branched-menu__body > .branched-menu__fold > .branched-menu__tree > .branched-menu__lines,
+.branched-menu__sub[data-open] .branched-menu__lines {
   opacity: 1;
-  transition: opacity 250ms ease 80ms;
+  transition: opacity 250ms ease 60ms;
 }
 
 .branched-menu__base,
@@ -167,9 +173,11 @@
   transition: stroke-dashoffset var(--bm-draw) var(--bm-ease-out);
 }
 
-.branched-menu__item {
+.branched-menu__item,
+.branched-menu__sub-head {
   display: flex;
   align-items: center;
+  justify-content: space-between;
   gap: 8px;
   width: 100%;
   height: var(--bm-row);
@@ -185,18 +193,21 @@
   outline: none;
   box-sizing: border-box;
   -webkit-tap-highlight-color: transparent;
-  transition: color 200ms ease, transform 150ms ease;
+  transition: color 200ms ease;
 }
 
-@media (hover: hover) and (pointer: fine) {
-  .branched-menu__item:hover {
-    color: var(--bm-ink);
-  }
+.branched-menu__item {
+  justify-content: flex-start;
+}
+
+.branched-menu__sub[data-open] > .branched-menu__sub-head {
+  color: var(--bm-ink);
+  font-weight: 500;
 }
 
 .branched-menu__item[data-active] {
   color: #ffffff;
-  font-weight: 700;
+  font-weight: 600;
 }
 
 .branched-menu__icon {
@@ -207,7 +218,7 @@
 
 .branched-menu__item[data-active] .branched-menu__icon {
   opacity: 1;
-  color: #9fb3c8;
+  color: var(--bm-accent);
 }
 
 .branched-menu__label {
@@ -216,14 +227,14 @@
   text-overflow: ellipsis;
 }
 
-@media (prefers-reduced-motion: reduce) {
-  .branched-menu__marker {
-    transition: opacity 150ms ease;
-  }
-  .branched-menu__body {
-    transition: none;
-  }
-  .branched-menu__reach {
-    transition: none;
-  }
+.branched-menu__sub-tree {
+  position: relative;
+  margin-left: var(--bm-indent);
+  padding: 2px 0;
+}
+
+.branched-menu__sub-tree .branched-menu__item {
+  height: 29px;
+  padding-left: 24px;
+  font-size: 11.5px;
 }
