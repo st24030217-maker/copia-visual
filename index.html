@@ -1590,37 +1590,67 @@
   </div>
 
   <!-- ========================================================================= -->
-  <!-- MODAL: ODONTOGRAMA DIGITAL INTERACTIVO (32 Piezas)                        -->
+  <!-- MODAL: ODONTOGRAMA DIGITAL INTERACTIVO 3D (32 Piezas FDI)                 -->
   <!-- ========================================================================= -->
-  <div id="modalOdonto" class="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-sm hidden flex items-center justify-center p-4">
-    <div class="bg-white rounded-3xl max-w-2xl w-full border border-slate-200 shadow-2xl overflow-hidden">
-      <div class="p-5 bg-slate-900 text-white flex items-center justify-between">
+  <div id="modalOdonto" class="fixed inset-0 z-50 bg-slate-900/65 backdrop-blur-sm hidden flex items-center justify-center p-3 sm:p-5">
+    <div class="bg-white rounded-3xl max-w-5xl w-full border border-slate-200 shadow-2xl overflow-hidden max-h-[92vh] flex flex-col">
+      <div class="px-5 py-4 bg-slate-900 text-white flex flex-wrap items-center justify-between gap-3 shrink-0">
         <div class="flex items-center gap-2.5">
-          <i data-lucide="scan-face" class="w-5 h-5 text-blue-400"></i>
+          <i data-lucide="scan-face" class="w-5 h-5 text-slate-300"></i>
           <div>
-            <h4 class="text-sm font-bold">Odontograma Digital CAD/CAM (FDI)</h4>
-            <p class="text-[11px] text-slate-400">Selecciona las piezas dentales para asignar a la orden</p>
+            <h4 class="text-sm font-bold">Odontograma Anatómico 3D (Sistema FDI)</h4>
+            <p class="text-[11px] text-slate-400">Selecciona piezas dentales como Pilar o Póntico para la orden de trabajo</p>
           </div>
         </div>
-        <button onclick="closeOdontogramaModal()" class="p-1.5 text-slate-400 hover:text-white rounded-lg bg-slate-800">
-          <i data-lucide="x" class="w-4 h-4"></i>
-        </button>
+        <div class="flex items-center gap-2">
+          <div class="flex items-center gap-1.5 bg-slate-800/90 p-1 rounded-xl border border-slate-700 text-[11px] font-bold">
+            <button type="button" id="btnModalModePilar" onclick="setModalOdontoMode('PILAR')"
+              class="px-3 py-1 rounded-lg transition-all cursor-pointer flex items-center gap-1.5"
+              style="background:#2f6353;color:#ffffff;">
+              <span class="w-2 h-2 rounded-full bg-white"></span>
+              <span>PILAR</span>
+            </button>
+            <button type="button" id="btnModalModePontico" onclick="setModalOdontoMode('PONTICO')"
+              class="px-3 py-1 rounded-lg transition-all cursor-pointer flex items-center gap-1.5 text-slate-300 hover:text-white">
+              <span class="w-2 h-2 rounded-full" style="background:#af915f;"></span>
+              <span>PÓNTICO</span>
+            </button>
+          </div>
+          <button type="button" onclick="clearOdontogramaModal()" class="px-2.5 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 text-[11px] font-semibold border border-slate-700 cursor-pointer">
+            Limpiar
+          </button>
+          <button onclick="closeOdontogramaModal()" class="p-1.5 text-slate-400 hover:text-white rounded-lg bg-slate-800 cursor-pointer">
+            <i data-lucide="x" class="w-4 h-4"></i>
+          </button>
+        </div>
       </div>
-      <div class="p-6 space-y-5">
-        <div>
-          <span class="text-[10px] font-bold text-slate-400 uppercase tracking-wider block text-center mb-2">Arcada Superior (18 - 11 | 21 - 28)</span>
-          <div class="grid grid-cols-8 sm:grid-cols-16 gap-1.5" id="odontoUpper"></div>
-        </div>
-        <div>
-          <span class="text-[10px] font-bold text-slate-400 uppercase tracking-wider block text-center mb-2">Arcada Inferior (48 - 41 | 31 - 38)</span>
-          <div class="grid grid-cols-8 sm:grid-cols-16 gap-1.5" id="odontoLower"></div>
-        </div>
-        <div class="p-3.5 rounded-2xl bg-slate-50 border border-slate-200 flex items-center justify-between">
-          <div class="text-xs">
-            <span class="text-slate-400 font-bold uppercase text-[10px] block">Piezas Seleccionadas:</span>
-            <span id="selectedTeethLabel" class="font-mono font-bold text-blue-600 text-sm">#16, #21</span>
+      <div class="p-5 space-y-4 overflow-y-auto table-scroll">
+        <!-- Arcada Superior -->
+        <div class="bg-slate-50/80 p-3.5 rounded-2xl border border-slate-200/90">
+          <div class="flex items-center justify-between text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-2.5 px-1">
+            <span>Cuadrante 1 • Derecho (18 - 11)</span>
+            <span class="text-slate-700 font-extrabold">Arcada Superior (Maxilar)</span>
+            <span>Cuadrante 2 • Izquierdo (21 - 28)</span>
           </div>
-          <button onclick="saveOdontograma()" class="px-4 py-2 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-semibold text-xs transition-colors">
+          <div class="grid grid-cols-8 lg:grid-cols-16 gap-1.5" id="odontoUpper" style="grid-template-columns: repeat(16, minmax(0, 1fr));"></div>
+        </div>
+
+        <!-- Arcada Inferior -->
+        <div class="bg-slate-50/80 p-3.5 rounded-2xl border border-slate-200/90">
+          <div class="flex items-center justify-between text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-2.5 px-1">
+            <span>Cuadrante 4 • Derecho (48 - 41)</span>
+            <span class="text-slate-700 font-extrabold">Arcada Inferior (Mandibular)</span>
+            <span>Cuadrante 3 • Izquierdo (31 - 38)</span>
+          </div>
+          <div class="grid grid-cols-8 lg:grid-cols-16 gap-1.5" id="odontoLower" style="grid-template-columns: repeat(16, minmax(0, 1fr));"></div>
+        </div>
+
+        <div class="p-3.5 rounded-2xl bg-slate-50 border border-slate-200 flex flex-wrap items-center justify-between gap-3">
+          <div class="text-xs">
+            <span class="text-slate-400 font-bold uppercase text-[10px] block">Piezas Seleccionadas en el Odontograma:</span>
+            <span id="selectedTeethLabel" class="font-mono font-bold text-slate-800 text-sm">#16 (Pilar), #21 (Pilar)</span>
+          </div>
+          <button onclick="saveOdontograma()" class="px-5 py-2.5 rounded-xl bg-slate-900 hover:bg-slate-800 text-white font-semibold text-xs transition-colors cursor-pointer">
             Guardar Selección
           </button>
         </div>
@@ -1759,8 +1789,30 @@
       if (dcShade) dcShade.innerText = label;
     }
 
-    // Odontograma Digital Interactivo (32 Dientes)
-    const selectedTeeth = new Set(['16', '21']);
+    // Odontograma Digital Interactivo 3D (32 Dientes FDI con Pilar / Póntico)
+    const selectedTeeth = new Map([['16', 'PILAR'], ['21', 'PILAR']]);
+    let _modalOdontoMode = 'PILAR';
+
+    function setModalOdontoMode(mode) {
+      _modalOdontoMode = mode;
+      const btnPilar = document.getElementById('btnModalModePilar');
+      const btnPont = document.getElementById('btnModalModePontico');
+      if (btnPilar && btnPont) {
+        if (mode === 'PILAR') {
+          btnPilar.style.cssText = 'background:#2f6353;color:#ffffff;';
+          btnPont.style.cssText = 'background:transparent;color:#cbd5e1;';
+        } else {
+          btnPont.style.cssText = 'background:#755c34;color:#ffffff;';
+          btnPilar.style.cssText = 'background:transparent;color:#cbd5e1;';
+        }
+      }
+    }
+
+    function clearOdontogramaModal() {
+      selectedTeeth.clear();
+      renderOdontograma();
+    }
+
     function renderOdontograma() {
       const upper = [18,17,16,15,14,13,12,11,21,22,23,24,25,26,27,28];
       const lower = [48,47,46,45,44,43,42,41,31,32,33,34,35,36,37,38];
@@ -1770,29 +1822,55 @@
 
       const makeBtn = (num) => {
         const s = String(num);
-        const active = selectedTeeth.has(s);
-        return `<button onclick="toggleTooth('${s}')" class="p-2 rounded-xl border text-center transition-all ${
-          active
-            ? 'bg-blue-600 text-white border-blue-600 shadow-sm scale-105 font-bold'
-            : 'bg-slate-50 hover:bg-blue-50 text-slate-700 border-slate-200'
-        }">
-          <span class="text-[11px] font-mono block">${s}</span>
+        const tipo = selectedTeeth.get(s);
+        let cardStyle = 'background:#ffffff;border-color:#e2e8f0;color:#334155;';
+        let badgeHtml = '<span class="h-3.5"></span>';
+        if (tipo === 'PILAR') {
+          cardStyle = 'background:#dcebe6;border-color:#3d7a68;color:#1c3b32;box-shadow:0 3px 8px rgba(47,99,83,0.18);';
+          badgeHtml = '<span class="px-1.5 py-0.2 rounded text-[8px] font-extrabold uppercase tracking-tight" style="background:#2f6353;color:#ffffff;">Pilar</span>';
+        } else if (tipo === 'PONTICO') {
+          cardStyle = 'background:#efe6d5;border-color:#917444;color:#45351e;box-shadow:0 3px 8px rgba(117,92,52,0.18);';
+          badgeHtml = '<span class="px-1.5 py-0.2 rounded text-[8px] font-extrabold uppercase tracking-tight" style="background:#755c34;color:#ffffff;">Pónt</span>';
+        }
+        return `<button type="button" onclick="toggleTooth('${s}')" style="${cardStyle}" class="group p-1.5 rounded-xl border text-center transition-all hover:-translate-y-0.5 hover:shadow-md flex flex-col items-center justify-between cursor-pointer overflow-hidden">
+          <div class="w-full h-14 flex items-center justify-center overflow-hidden">
+            <img src="assets/odontograma/diente_${s}.png" alt="Diente ${s}" loading="lazy"
+                 class="w-14 h-14 object-contain transition-transform duration-200 group-hover:scale-110 select-none pointer-events-none"
+                 style="transform: scale(1.38); mix-blend-mode: multiply;">
+          </div>
+          <span class="text-[11px] font-mono font-extrabold block mt-0.5">#${s}</span>
+          ${badgeHtml}
         </button>`;
       };
 
       upperEl.innerHTML = upper.map(makeBtn).join('');
       lowerEl.innerHTML = lower.map(makeBtn).join('');
       document.getElementById('selectedTeethLabel').innerText =
-        selectedTeeth.size ? Array.from(selectedTeeth).map(t => '#' + t).join(', ') : 'Ninguna';
+        selectedTeeth.size
+          ? Array.from(selectedTeeth.entries()).map(([t, tipo]) => `#${t} (${tipo === 'PONTICO' ? 'Póntico' : 'Pilar'})`).join(', ')
+          : 'Ninguna pieza seleccionada';
     }
 
     function toggleTooth(num) {
-      if (selectedTeeth.has(num)) selectedTeeth.delete(num);
-      else selectedTeeth.add(num);
+      const s = String(num);
+      const current = selectedTeeth.get(s);
+      if (current === _modalOdontoMode) {
+        selectedTeeth.delete(s);
+      } else {
+        selectedTeeth.set(s, _modalOdontoMode);
+      }
       renderOdontograma();
     }
 
     function openOdontogramaModal() {
+      if (typeof currentOrdenActiva !== 'undefined' && currentOrdenActiva && Array.isArray(currentOrdenActiva.piezas)) {
+        selectedTeeth.clear();
+        const tipos = currentOrdenActiva.tiposPieza || {};
+        currentOrdenActiva.piezas.forEach(p => {
+          const s = String(p);
+          selectedTeeth.set(s, tipos[s] || 'PILAR');
+        });
+      }
       renderOdontograma();
       document.getElementById('modalOdonto').classList.remove('hidden');
       lucide.createIcons();
@@ -1803,8 +1881,19 @@
     }
 
     function saveOdontograma() {
+      if (typeof currentOrdenActiva !== 'undefined' && currentOrdenActiva) {
+        currentOrdenActiva.piezas = Array.from(selectedTeeth.keys());
+        currentOrdenActiva.tiposPieza = Object.fromEntries(selectedTeeth.entries());
+        currentOrdenActiva.unidades = Math.max(1, currentOrdenActiva.piezas.length);
+        if (typeof renderVistaOrdenTrabajo === 'function' && !document.getElementById('section-dynamic').classList.contains('hidden')) {
+          renderVistaOrdenTrabajo();
+        }
+      }
       closeOdontogramaModal();
-      showToast('Odontograma Actualizado', 'Piezas asignadas: ' + Array.from(selectedTeeth).map(t => '#' + t).join(', '));
+      const summary = selectedTeeth.size
+        ? Array.from(selectedTeeth.entries()).map(([t, tipo]) => `#${t} (${tipo === 'PONTICO' ? 'Póntico' : 'Pilar'})`).join(', ')
+        : 'Ninguna';
+      showToast('Odontograma 3D Actualizado', 'Piezas asignadas: ' + summary);
     }
 
     // Reloj en Vivo con manecillas analógicas animadas y flip de dígitos

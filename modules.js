@@ -8615,6 +8615,36 @@ function registrarAbonoOrdenActual(e) {
   renderVistaOrdenTrabajo();
 }
 
+window._odontoBrushMode = 'PILAR';
+
+window.setOdontoBrushMode = function(mode) {
+  window._odontoBrushMode = mode;
+  renderVistaOrdenTrabajo();
+};
+
+window.togglePiezaOrdenActual = function(dienteNum) {
+  const o = currentOrdenActiva || INICIO_DATA.ordenes[0];
+  if (!o) return;
+  const s = String(dienteNum);
+  if (!Array.isArray(o.piezas)) o.piezas = [];
+  if (!o.tiposPieza) o.tiposPieza = {};
+
+  const currentType = o.tiposPieza[s] || (o.piezas.includes(s) ? 'PILAR' : null);
+  const brush = window._odontoBrushMode || 'PILAR';
+
+  if (currentType === brush) {
+    o.piezas = o.piezas.filter(p => String(p) !== s);
+    delete o.tiposPieza[s];
+    showToast(`Pieza #${s}`, 'Pieza removida del odontograma.');
+  } else {
+    if (!o.piezas.includes(s)) o.piezas.push(s);
+    o.tiposPieza[s] = brush;
+    showToast(`Pieza #${s} (${brush})`, `Asignada como ${brush === 'PILAR' ? 'Pilar' : 'Póntico'} en la Orden #${o.serie}.`);
+  }
+  o.unidades = Math.max(1, o.piezas.length);
+  renderVistaOrdenTrabajo();
+};
+
 function renderVistaOrdenTrabajo() {
   const o = currentOrdenActiva || INICIO_DATA.ordenes[0];
   const docObj = window.findDoctorByAny(o.doctorId || o.doctor);
@@ -8623,6 +8653,37 @@ function renderVistaOrdenTrabajo() {
 
   const dientesSup = [18,17,16,15,14,13,12,11, 21,22,23,24,25,26,27,28];
   const dientesInf = [48,47,46,45,44,43,42,41, 31,32,33,34,35,36,37,38];
+  if (!o.tiposPieza) o.tiposPieza = {};
+  const brush = window._odontoBrushMode || 'PILAR';
+  const renderDienteCard3D = (d) => {
+    const s = String(d);
+    const isSel = (o.piezas || []).map(String).includes(s);
+    const tipo = o.tiposPieza[s] || (isSel ? 'PILAR' : null);
+    let cardStyle = 'background:#ffffff;border-color:#e2e8f0;color:#334155;';
+    let badgeHtml = '';
+    if (tipo === 'PILAR') {
+      cardStyle = 'background:#dcebe6;border-color:#3d7a68;color:#1c3b32;box-shadow:0 2px 6px rgba(47,99,83,0.16);';
+      badgeHtml = '<span class="px-1.5 py-0.2 rounded text-[8px] font-extrabold uppercase tracking-tight" style="background:#2f6353;color:#ffffff;">Pilar</span>';
+    } else if (tipo === 'PONTICO') {
+      cardStyle = 'background:#efe6d5;border-color:#917444;color:#45351e;box-shadow:0 2px 6px rgba(117,92,52,0.16);';
+      badgeHtml = '<span class="px-1.5 py-0.2 rounded text-[8px] font-extrabold uppercase tracking-tight" style="background:#755c34;color:#ffffff;">Pónt</span>';
+    }
+    return `
+      <button type="button" onclick="window.togglePiezaOrdenActual('${s}')"
+        style="${cardStyle}"
+        class="group relative p-1.5 rounded-xl border flex flex-col items-center justify-between transition-all hover:-translate-y-0.5 hover:shadow-md cursor-pointer overflow-hidden">
+        <div class="w-full h-12 flex items-center justify-center overflow-hidden">
+          <img src="assets/odontograma/diente_${s}.png" alt="Diente ${s}" loading="lazy"
+               class="w-12 h-12 object-contain transition-transform duration-200 group-hover:scale-110 select-none pointer-events-none"
+               style="transform: scale(1.38); mix-blend-mode: multiply;">
+        </div>
+        <div class="mt-0.5 flex flex-col items-center leading-none gap-0.5">
+          <span class="font-mono font-extrabold text-[11px]">#${s}</span>
+          ${badgeHtml}
+        </div>
+      </button>
+    `;
+  };
 
   container.innerHTML = `
     <div class="bg-white border border-slate-200 rounded-2xl shadow-sm p-5">
@@ -8784,46 +8845,49 @@ function renderVistaOrdenTrabajo() {
             </div>
           </div>
 
-          <!-- Columna Derecha: Odontograma con SVG dental nítido -->
+          <!-- Columna Derecha: Odontograma 3D FDI Interactivo -->
           <div class="min-w-0 lg:col-span-5 space-y-4">
             <div class="bg-slate-50 p-4 rounded-2xl border border-slate-200 flex flex-col justify-between">
               <div>
-                <div class="flex items-center justify-between border-b border-slate-200 pb-2.5 mb-3">
-                  <h4 class="font-bold text-slate-800 uppercase">Odontograma</h4>
-                  <div class="flex items-center gap-3 text-[11px] font-bold">
-                    <span class="flex items-center gap-1.5 px-2.5 py-1 rounded-lg" style="background-color:#69CEBE;color:#0f172a;">PILAR</span>
-                    <span class="flex items-center gap-1.5 px-2.5 py-1 rounded-lg" style="background-color:#F4D77A;color:#0f172a;">PÓNTICO</span>
+                <div class="flex flex-wrap items-center justify-between gap-2 border-b border-slate-200 pb-2.5 mb-3">
+                  <div class="flex items-center gap-2">
+                    <h4 class="font-bold text-slate-800 uppercase">Odontograma 3D (FDI)</h4>
+                    <button type="button" onclick="openOdontogramaModal()" class="px-2 py-0.5 rounded-md border border-slate-200 bg-white hover:bg-slate-100 text-[10px] font-semibold text-slate-600 transition-colors" title="Ver en pantalla amplia">
+                      Ampliar
+                    </button>
+                  </div>
+                  <div class="flex items-center gap-1.5 text-[10px] font-bold">
+                    <button type="button" onclick="window.setOdontoBrushMode('PILAR')"
+                      style="${brush === 'PILAR' ? 'background:#2f6353;color:#ffffff;border-color:#244d40;' : 'background:#dcebe6;color:#1c3b32;border-color:#8ebdae;'}"
+                      class="px-2.5 py-1 rounded-lg border transition-all cursor-pointer flex items-center gap-1.5">
+                      <span class="w-1.5 h-1.5 rounded-full" style="background:${brush === 'PILAR' ? '#ffffff' : '#2f6353'};"></span>
+                      <span>PILAR</span>
+                    </button>
+                    <button type="button" onclick="window.setOdontoBrushMode('PONTICO')"
+                      style="${brush === 'PONTICO' ? 'background:#755c34;color:#ffffff;border-color:#5c4728;' : 'background:#efe6d5;color:#45351e;border-color:#c8b087;'}"
+                      class="px-2.5 py-1 rounded-lg border transition-all cursor-pointer flex items-center gap-1.5">
+                      <span class="w-1.5 h-1.5 rounded-full" style="background:${brush === 'PONTICO' ? '#ffffff' : '#755c34'};"></span>
+                      <span>PÓNTICO</span>
+                    </button>
                   </div>
                 </div>
 
-                <p class="text-[10px] text-center font-bold text-slate-400 uppercase mb-1.5">Arcada Superior (18 - 11 | 21 - 28)</p>
+                <div class="flex items-center justify-between text-[10px] font-bold text-slate-400 uppercase mb-1.5 px-1">
+                  <span>Cuadrante 1 (18-11)</span>
+                  <span class="text-slate-600">Arcada Superior</span>
+                  <span>Cuadrante 2 (21-28)</span>
+                </div>
                 <div class="grid grid-cols-8 gap-1.5 mb-4">
-                  ${dientesSup.map(d => {
-                    const sel = (o.piezas || []).includes(String(d));
-                    return `
-                      <button type="button" onclick="this.classList.toggle('ring-2'); this.classList.toggle('ring-teal-500'); showToast('Pieza #${d}', 'Selección actualizada en el odontograma.')"
-                        style="${sel ? 'background-color:#69CEBE;color:#0f172a;border-color:#14b8a6;' : ''}"
-                        class="py-2 rounded-xl border border-slate-200 font-mono font-bold text-[11px] flex flex-col items-center gap-0.5 transition-all ${sel ? 'shadow-sm' : 'bg-white text-slate-700 hover:bg-slate-100'}">
-                        <svg class="w-3.5 h-3.5 shrink-0 opacity-80" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5.5c-1.5-2-4-2.5-6-1-2 1.5-2.5 4.5-1.5 7 1 2.5 1.5 5.5 2 8 .3 1.5 1.8 1.5 2.5 0 .5-1.5 1-3.5 3-3.5s2.5 2 3 3.5c.7 1.5 2.2 1.5 2.5 0 .5-2.5 1-5.5 2-8 1-2.5.5-5.5-1.5-7-2-1.5-4.5-1-6 1z"/></svg>
-                        <span>${d}</span>
-                      </button>
-                    `;
-                  }).join('')}
+                  ${dientesSup.map(d => renderDienteCard3D(d)).join('')}
                 </div>
 
-                <p class="text-[10px] text-center font-bold text-slate-400 uppercase mb-1.5">Arcada Inferior (48 - 41 | 31 - 38)</p>
+                <div class="flex items-center justify-between text-[10px] font-bold text-slate-400 uppercase mb-1.5 px-1">
+                  <span>Cuadrante 4 (48-41)</span>
+                  <span class="text-slate-600">Arcada Inferior</span>
+                  <span>Cuadrante 3 (31-38)</span>
+                </div>
                 <div class="grid grid-cols-8 gap-1.5">
-                  ${dientesInf.map(d => {
-                    const sel = (o.piezas || []).includes(String(d));
-                    return `
-                      <button type="button" onclick="this.classList.toggle('ring-2'); this.classList.toggle('ring-teal-500'); showToast('Pieza #${d}', 'Selección actualizada en el odontograma.')"
-                        style="${sel ? 'background-color:#69CEBE;color:#0f172a;border-color:#14b8a6;' : ''}"
-                        class="py-2 rounded-xl border border-slate-200 font-mono font-bold text-[11px] flex flex-col items-center gap-0.5 transition-all ${sel ? 'shadow-sm' : 'bg-white text-slate-700 hover:bg-slate-100'}">
-                        <svg class="w-3.5 h-3.5 shrink-0 opacity-80" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5.5c-1.5-2-4-2.5-6-1-2 1.5-2.5 4.5-1.5 7 1 2.5 1.5 5.5 2 8 .3 1.5 1.8 1.5 2.5 0 .5-1.5 1-3.5 3-3.5s2.5 2 3 3.5c.7 1.5 2.2 1.5 2.5 0 .5-2.5 1-5.5 2-8 1-2.5.5-5.5-1.5-7-2-1.5-4.5-1-6 1z"/></svg>
-                        <span>${d}</span>
-                      </button>
-                    `;
-                  }).join('')}
+                  ${dientesInf.map(d => renderDienteCard3D(d)).join('')}
                 </div>
               </div>
 
