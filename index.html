@@ -1824,21 +1824,24 @@
         const s = String(num);
         const tipo = selectedTeeth.get(s);
         let cardStyle = 'background:#ffffff;border-color:#e2e8f0;color:#334155;';
-        let badgeHtml = '<span class="h-3.5"></span>';
+        let topNumStyle = 'color:#475569;';
+        let badgeHtml = '<span class="w-full h-4 rounded-md text-[8px] font-semibold uppercase tracking-wider flex items-center justify-center text-slate-400 bg-slate-100/90 group-hover:bg-slate-200/80 group-hover:text-slate-600 transition-colors">Libre</span>';
         if (tipo === 'PILAR') {
-          cardStyle = 'background:#dcebe6;border-color:#3d7a68;color:#1c3b32;box-shadow:0 3px 8px rgba(47,99,83,0.18);';
-          badgeHtml = '<span class="px-1.5 py-0.2 rounded text-[8px] font-extrabold uppercase tracking-tight" style="background:#2f6353;color:#ffffff;">Pilar</span>';
+          cardStyle = 'background:linear-gradient(180deg,#e6f2ee 0%,#d5e8e1 100%);border-color:#3d7a68;color:#1c3b32;box-shadow:0 3px 10px rgba(47,99,83,0.18);';
+          topNumStyle = 'color:#1c3b32;';
+          badgeHtml = '<span class="w-full h-4 rounded-md text-[8px] font-extrabold uppercase tracking-wider flex items-center justify-center" style="background:#2f6353;color:#ffffff;">Pilar</span>';
         } else if (tipo === 'PONTICO') {
-          cardStyle = 'background:#efe6d5;border-color:#917444;color:#45351e;box-shadow:0 3px 8px rgba(117,92,52,0.18);';
-          badgeHtml = '<span class="px-1.5 py-0.2 rounded text-[8px] font-extrabold uppercase tracking-tight" style="background:#755c34;color:#ffffff;">Pónt</span>';
+          cardStyle = 'background:linear-gradient(180deg,#f5efe2 0%,#eae0cc 100%);border-color:#917444;color:#45351e;box-shadow:0 3px 10px rgba(117,92,52,0.18);';
+          topNumStyle = 'color:#45351e;';
+          badgeHtml = '<span class="w-full h-4 rounded-md text-[8px] font-extrabold uppercase tracking-wider flex items-center justify-center" style="background:#755c34;color:#ffffff;">Pónt</span>';
         }
-        return `<button type="button" onclick="toggleTooth('${s}')" style="${cardStyle}" class="group p-1.5 rounded-xl border text-center transition-all hover:-translate-y-0.5 hover:shadow-md flex flex-col items-center justify-between cursor-pointer overflow-hidden">
-          <div class="w-full h-14 flex items-center justify-center overflow-hidden">
-            <img src="assets/odontograma/diente_${s}.png" alt="Diente ${s}" loading="lazy"
-                 class="w-14 h-14 object-contain transition-transform duration-200 group-hover:scale-110 select-none pointer-events-none"
-                 style="transform: scale(1.38); mix-blend-mode: multiply;">
+        return `<button type="button" onclick="toggleTooth('${s}')" style="${cardStyle}" class="group h-[118px] p-1.5 rounded-xl border text-center transition-all hover:-translate-y-0.5 hover:shadow-md flex flex-col items-center justify-between cursor-pointer overflow-hidden">
+          <span class="text-[10.5px] font-mono font-extrabold leading-none" style="${topNumStyle}">#${s}</span>
+          <div class="w-full h-16 flex items-center justify-center overflow-hidden my-0.5">
+            <img src="assets/odontograma/diente_${s}.png?v=2" alt="Diente ${s}" loading="lazy"
+                 class="h-16 w-auto object-contain transition-transform duration-200 group-hover:scale-108 select-none pointer-events-none"
+                 style="mix-blend-mode: multiply;">
           </div>
-          <span class="text-[11px] font-mono font-extrabold block mt-0.5">#${s}</span>
           ${badgeHtml}
         </button>`;
       };

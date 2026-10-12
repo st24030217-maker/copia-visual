@@ -8660,27 +8660,28 @@ function renderVistaOrdenTrabajo() {
     const isSel = (o.piezas || []).map(String).includes(s);
     const tipo = o.tiposPieza[s] || (isSel ? 'PILAR' : null);
     let cardStyle = 'background:#ffffff;border-color:#e2e8f0;color:#334155;';
-    let badgeHtml = '';
+    let topNumStyle = 'color:#475569;';
+    let badgeHtml = '<span class="w-full h-4 rounded-md text-[8.5px] font-semibold uppercase tracking-wider flex items-center justify-center text-slate-400 bg-slate-100/90 group-hover:bg-slate-200/80 group-hover:text-slate-600 transition-colors">Libre</span>';
     if (tipo === 'PILAR') {
-      cardStyle = 'background:#dcebe6;border-color:#3d7a68;color:#1c3b32;box-shadow:0 2px 6px rgba(47,99,83,0.16);';
-      badgeHtml = '<span class="px-1.5 py-0.2 rounded text-[8px] font-extrabold uppercase tracking-tight" style="background:#2f6353;color:#ffffff;">Pilar</span>';
+      cardStyle = 'background:linear-gradient(180deg,#e6f2ee 0%,#d5e8e1 100%);border-color:#3d7a68;color:#1c3b32;box-shadow:0 3px 10px rgba(47,99,83,0.16);';
+      topNumStyle = 'color:#1c3b32;';
+      badgeHtml = '<span class="w-full h-4 rounded-md text-[8.5px] font-extrabold uppercase tracking-wider flex items-center justify-center shadow-2xs" style="background:#2f6353;color:#ffffff;">Pilar</span>';
     } else if (tipo === 'PONTICO') {
-      cardStyle = 'background:#efe6d5;border-color:#917444;color:#45351e;box-shadow:0 2px 6px rgba(117,92,52,0.16);';
-      badgeHtml = '<span class="px-1.5 py-0.2 rounded text-[8px] font-extrabold uppercase tracking-tight" style="background:#755c34;color:#ffffff;">Pónt</span>';
+      cardStyle = 'background:linear-gradient(180deg,#f5efe2 0%,#eae0cc 100%);border-color:#917444;color:#45351e;box-shadow:0 3px 10px rgba(117,92,52,0.16);';
+      topNumStyle = 'color:#45351e;';
+      badgeHtml = '<span class="w-full h-4 rounded-md text-[8.5px] font-extrabold uppercase tracking-wider flex items-center justify-center shadow-2xs" style="background:#755c34;color:#ffffff;">Póntico</span>';
     }
     return `
       <button type="button" onclick="window.togglePiezaOrdenActual('${s}')"
         style="${cardStyle}"
-        class="group relative p-1.5 rounded-xl border flex flex-col items-center justify-between transition-all hover:-translate-y-0.5 hover:shadow-md cursor-pointer overflow-hidden">
-        <div class="w-full h-12 flex items-center justify-center overflow-hidden">
-          <img src="assets/odontograma/diente_${s}.png" alt="Diente ${s}" loading="lazy"
-               class="w-12 h-12 object-contain transition-transform duration-200 group-hover:scale-110 select-none pointer-events-none"
-               style="transform: scale(1.38); mix-blend-mode: multiply;">
+        class="group relative h-[114px] p-1.5 rounded-xl border flex flex-col items-center justify-between transition-all duration-150 hover:-translate-y-0.5 hover:shadow-md cursor-pointer overflow-hidden">
+        <span class="font-mono font-extrabold text-[10.5px] leading-none" style="${topNumStyle}">#${s}</span>
+        <div class="w-full h-16 flex items-center justify-center overflow-hidden my-0.5">
+          <img src="assets/odontograma/diente_${s}.png?v=2" alt="Diente ${s}" loading="lazy"
+               class="h-16 w-auto object-contain transition-transform duration-200 group-hover:scale-108 select-none pointer-events-none"
+               style="mix-blend-mode: multiply;">
         </div>
-        <div class="mt-0.5 flex flex-col items-center leading-none gap-0.5">
-          <span class="font-mono font-extrabold text-[11px]">#${s}</span>
-          ${badgeHtml}
-        </div>
+        ${badgeHtml}
       </button>
     `;
   };
@@ -8716,7 +8717,7 @@ function renderVistaOrdenTrabajo() {
 
       ${currentTabOrden === 'home' ? `
         <div class="grid grid-cols-1 lg:grid-cols-12 gap-5 text-xs">
-          <div class="min-w-0 lg:col-span-7 space-y-4">
+          <div class="min-w-0 lg:col-span-5 space-y-4">
             
             <!-- Bloque 1: Escaneo -->
             <div class="bg-slate-50 p-4 rounded-2xl border border-slate-200 space-y-2.5">
@@ -8846,67 +8847,83 @@ function renderVistaOrdenTrabajo() {
           </div>
 
           <!-- Columna Derecha: Odontograma 3D FDI Interactivo -->
-          <div class="min-w-0 lg:col-span-5 space-y-4">
-            <div class="bg-slate-50 p-4 rounded-2xl border border-slate-200 flex flex-col justify-between">
+          <div class="min-w-0 lg:col-span-7 space-y-4">
+            <div class="bg-white rounded-2xl border border-slate-200 shadow-xs overflow-hidden flex flex-col justify-between">
               <div>
-                <div class="flex flex-wrap items-center justify-between gap-2 border-b border-slate-200 pb-2.5 mb-3">
-                  <div class="flex items-center gap-2">
-                    <h4 class="font-bold text-slate-800 uppercase">Odontograma 3D (FDI)</h4>
-                    <button type="button" onclick="openOdontogramaModal()" class="px-2 py-0.5 rounded-md border border-slate-200 bg-white hover:bg-slate-100 text-[10px] font-semibold text-slate-600 transition-colors" title="Ver en pantalla amplia">
-                      Ampliar
-                    </button>
+                <!-- Encabezado Oscuro Ejecutivo del Odontograma -->
+                <div class="bg-slate-900 text-white px-4 py-3 flex flex-wrap items-center justify-between gap-2">
+                  <div class="flex items-center gap-2.5">
+                    <span class="w-7 h-7 rounded-lg bg-slate-800 border border-slate-700 flex items-center justify-center text-slate-300">
+                      <i data-lucide="scan-face" class="w-4 h-4"></i>
+                    </span>
+                    <div>
+                      <h4 class="font-bold text-xs uppercase tracking-wider text-slate-100 leading-none">Odontograma Anatómico 3D (FDI)</h4>
+                      <span class="text-[10px] text-slate-400">Piezas activas: <strong class="text-slate-200 font-mono">${(o.piezas || []).length ? (o.piezas || []).map(p => '#' + p).join(', ') : 'Ninguna'}</strong></span>
+                    </div>
                   </div>
                   <div class="flex items-center gap-1.5 text-[10px] font-bold">
                     <button type="button" onclick="window.setOdontoBrushMode('PILAR')"
-                      style="${brush === 'PILAR' ? 'background:#2f6353;color:#ffffff;border-color:#244d40;' : 'background:#dcebe6;color:#1c3b32;border-color:#8ebdae;'}"
+                      style="${brush === 'PILAR' ? 'background:#2f6353;color:#ffffff;border-color:#5e9c89;' : 'background:#1e293b;color:#cbd5e1;border-color:#334155;'}"
                       class="px-2.5 py-1 rounded-lg border transition-all cursor-pointer flex items-center gap-1.5">
-                      <span class="w-1.5 h-1.5 rounded-full" style="background:${brush === 'PILAR' ? '#ffffff' : '#2f6353'};"></span>
+                      <span class="w-1.5 h-1.5 rounded-full" style="background:${brush === 'PILAR' ? '#ffffff' : '#5e9c89'};"></span>
                       <span>PILAR</span>
                     </button>
                     <button type="button" onclick="window.setOdontoBrushMode('PONTICO')"
-                      style="${brush === 'PONTICO' ? 'background:#755c34;color:#ffffff;border-color:#5c4728;' : 'background:#efe6d5;color:#45351e;border-color:#c8b087;'}"
+                      style="${brush === 'PONTICO' ? 'background:#755c34;color:#ffffff;border-color:#af915f;' : 'background:#1e293b;color:#cbd5e1;border-color:#334155;'}"
                       class="px-2.5 py-1 rounded-lg border transition-all cursor-pointer flex items-center gap-1.5">
-                      <span class="w-1.5 h-1.5 rounded-full" style="background:${brush === 'PONTICO' ? '#ffffff' : '#755c34'};"></span>
+                      <span class="w-1.5 h-1.5 rounded-full" style="background:${brush === 'PONTICO' ? '#ffffff' : '#af915f'};"></span>
                       <span>PÓNTICO</span>
+                    </button>
+                    <button type="button" onclick="openOdontogramaModal()" class="px-2.5 py-1 rounded-lg border border-slate-700 bg-slate-800 hover:bg-slate-700 text-slate-200 transition-colors cursor-pointer flex items-center gap-1" title="Ver en pantalla panorámica">
+                      <i data-lucide="maximize-2" class="w-3 h-3"></i>
+                      <span>Ampliar</span>
                     </button>
                   </div>
                 </div>
 
-                <div class="flex items-center justify-between text-[10px] font-bold text-slate-400 uppercase mb-1.5 px-1">
-                  <span>Cuadrante 1 (18-11)</span>
-                  <span class="text-slate-600">Arcada Superior</span>
-                  <span>Cuadrante 2 (21-28)</span>
-                </div>
-                <div class="grid grid-cols-8 gap-1.5 mb-4">
-                  ${dientesSup.map(d => renderDienteCard3D(d)).join('')}
-                </div>
+                <div class="p-4 space-y-4 bg-slate-50/70">
+                  <!-- Arcada Superior -->
+                  <div class="bg-white p-3 rounded-xl border border-slate-200/90 shadow-2xs">
+                    <div class="flex items-center justify-between text-[10px] font-bold text-slate-400 uppercase mb-2 px-1">
+                      <span>Cuadrante 1 • Der (18–11)</span>
+                      <span class="text-slate-700 font-extrabold tracking-wide">Arcada Superior (Maxilar)</span>
+                      <span>Cuadrante 2 • Izq (21–28)</span>
+                    </div>
+                    <div class="grid grid-cols-8 gap-2">
+                      ${dientesSup.map(d => renderDienteCard3D(d)).join('')}
+                    </div>
+                  </div>
 
-                <div class="flex items-center justify-between text-[10px] font-bold text-slate-400 uppercase mb-1.5 px-1">
-                  <span>Cuadrante 4 (48-41)</span>
-                  <span class="text-slate-600">Arcada Inferior</span>
-                  <span>Cuadrante 3 (31-38)</span>
-                </div>
-                <div class="grid grid-cols-8 gap-1.5">
-                  ${dientesInf.map(d => renderDienteCard3D(d)).join('')}
+                  <!-- Arcada Inferior -->
+                  <div class="bg-white p-3 rounded-xl border border-slate-200/90 shadow-2xs">
+                    <div class="flex items-center justify-between text-[10px] font-bold text-slate-400 uppercase mb-2 px-1">
+                      <span>Cuadrante 4 • Der (48–41)</span>
+                      <span class="text-slate-700 font-extrabold tracking-wide">Arcada Inferior (Mandibular)</span>
+                      <span>Cuadrante 3 • Izq (31–38)</span>
+                    </div>
+                    <div class="grid grid-cols-8 gap-2">
+                      ${dientesInf.map(d => renderDienteCard3D(d)).join('')}
+                    </div>
+                  </div>
                 </div>
               </div>
 
-              <div class="mt-4 pt-3 border-t border-slate-200 space-y-3">
+              <div class="p-4 border-t border-slate-200 bg-white space-y-3">
                 <div class="flex items-center justify-between">
                   <span class="font-bold text-slate-600">Etapa Actual: <strong class="text-blue-600">${o.estado} (${o.subEstado || o.estado})</strong></span>
                   <span class="font-mono font-bold text-slate-900">Unidades: ${o.unidades}</span>
                 </div>
                 <div class="flex flex-wrap items-center gap-2">
-                  <select id="selectEtapaOT" class="flex-1 px-3 py-2 rounded-xl border border-slate-200 bg-white font-semibold text-xs">
+                  <select id="selectEtapaOT" class="flex-1 px-3 py-2 rounded-xl border border-slate-200 bg-slate-50 font-semibold text-xs">
                     <option value="Escaneo" ${o.estado === 'Escaneo' ? 'selected' : ''}>Escaneo</option>
                     <option value="Diseño" ${o.estado === 'Diseño' ? 'selected' : ''}>Diseño</option>
                     <option value="Fabricación" ${o.estado === 'Fabricación' ? 'selected' : ''}>Fabricación</option>
                     <option value="Entrega" ${o.estado === 'Entrega' ? 'selected' : ''}>Entrega</option>
                   </select>
-                  <button onclick="avanzarEtapaOrdenActual()" class="px-3.5 py-2 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-bold shadow-sm transition-colors">
+                  <button onclick="avanzarEtapaOrdenActual()" class="px-3.5 py-2 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-bold shadow-sm transition-colors cursor-pointer">
                     Mandar a etapa
                   </button>
-                  <button onclick="Etiqueta('${(o.doctor || '').replace(/'/g, "\\'")}', '${(o.paciente || '').replace(/'/g, "\\'")}', '${o.entrega}', '${o.serie}')" class="px-3.5 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-white font-bold shadow-sm transition-colors">
+                  <button onclick="Etiqueta('${(o.doctor || '').replace(/'/g, "\\'")}', '${(o.paciente || '').replace(/'/g, "\\'")}', '${o.entrega}', '${o.serie}')" class="px-3.5 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-white font-bold shadow-sm transition-colors cursor-pointer">
                     Etiqueta
                   </button>
                 </div>
