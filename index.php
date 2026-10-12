@@ -96,6 +96,7 @@ $perfilActual  = htmlspecialchars($_SESSION['perfil'] ?? 'Administrador', ENT_QU
   <link rel="preconnect" href="https://api.fontshare.com" crossorigin>
   <link href="https://api.fontshare.com/v2/css?f[]=general-sans@200,300,400,500,600,700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="ExpandableCard.css">
+  <link rel="stylesheet" href="AnimatedContent.css">
   <style>
     body, button, input, select, textarea { font-family: 'General Sans', -apple-system, BlinkMacSystemFont, sans-serif; }
     .font-mono { font-family: 'General Sans', -apple-system, BlinkMacSystemFont, sans-serif; font-variant-numeric: tabular-nums; }
@@ -989,6 +990,7 @@ $perfilActual  = htmlspecialchars($_SESSION['perfil'] ?? 'Administrador', ENT_QU
 
   <script src="modules.js"></script>
   <script src="ExpandableCard.js"></script>
+  <script src="AnimatedContent.js"></script>
   <script>
     lucide.createIcons();
 
