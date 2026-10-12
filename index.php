@@ -182,6 +182,34 @@ $perfilActual  = htmlspecialchars($_SESSION['perfil'] ?? 'Administrador', ENT_QU
       white-space: nowrap;
     }
 
+    /* Evitar que textos o tablas largos se salgan de las tarjetas en vistas dinámicas */
+    #section-dynamic > div {
+      max-width: 100%;
+      overflow-x: hidden;
+    }
+    #section-dynamic .grid > * {
+      min-width: 0;
+    }
+    #section-dynamic .general-table {
+      width: 100%;
+      table-layout: auto;
+    }
+    #section-dynamic .general-table th {
+      padding: 9px 8px;
+      font-size: 10px;
+    }
+    #section-dynamic .general-table td {
+      white-space: normal;
+      word-break: break-word;
+      overflow-wrap: anywhere;
+      line-height: 1.35;
+      padding: 8px 8px;
+      vertical-align: middle;
+    }
+    #section-dynamic .general-table td.font-mono {
+      white-space: nowrap;
+    }
+
     /* Botones de acción modernos (.btnEtiqueta) */
     .btnEtiqueta {
       background: linear-gradient(135deg, #1e293b 0%, #334e68 100%);

@@ -8655,7 +8655,7 @@ function renderVistaOrdenTrabajo() {
 
       ${currentTabOrden === 'home' ? `
         <div class="grid grid-cols-1 lg:grid-cols-12 gap-5 text-xs">
-          <div class="lg:col-span-7 space-y-4">
+          <div class="min-w-0 lg:col-span-7 space-y-4">
             
             <!-- Bloque 1: Escaneo -->
             <div class="bg-slate-50 p-4 rounded-2xl border border-slate-200 space-y-2.5">
@@ -8664,10 +8664,10 @@ function renderVistaOrdenTrabajo() {
                 <button type="button" onclick="openModule('calendario')" class="px-3 py-1 rounded-lg bg-blue-600 hover:bg-blue-700 text-white font-bold text-[11px]">Agregar cita</button>
               </div>
               <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
-                <div><span class="text-slate-400 font-bold uppercase text-[10px] block">Nombre de usuario:</span><strong class="text-slate-800">${o.usuarioEscaneo || 'Mauricio Sotomayor'}</strong></div>
-                <div><span class="text-slate-400 font-bold uppercase text-[10px] block">Fecha confirmada:</span><strong class="font-mono text-slate-800">${o.fechaConfirmada || 'Pendiente'}</strong></div>
-                <div><span class="text-slate-400 font-bold uppercase text-[10px] block">Agenda inicio:</span><strong class="font-mono text-slate-700">${o.agendaInicio || 'N/A'}</strong></div>
-                <div><span class="text-slate-400 font-bold uppercase text-[10px] block">Agenda fin:</span><strong class="font-mono text-slate-700">${o.agendaFin || 'N/A'}</strong></div>
+                <div class="min-w-0 break-words"><span class="text-slate-400 font-bold uppercase text-[10px] block">Nombre de usuario:</span><strong class="text-slate-800">${o.usuarioEscaneo || 'Mauricio Sotomayor'}</strong></div>
+                <div class="min-w-0 break-words"><span class="text-slate-400 font-bold uppercase text-[10px] block">Fecha confirmada:</span><strong class="font-mono text-slate-800">${o.fechaConfirmada || 'Pendiente'}</strong></div>
+                <div class="min-w-0 break-words"><span class="text-slate-400 font-bold uppercase text-[10px] block">Agenda inicio:</span><strong class="font-mono text-slate-700">${o.agendaInicio || 'N/A'}</strong></div>
+                <div class="min-w-0 break-words"><span class="text-slate-400 font-bold uppercase text-[10px] block">Agenda fin:</span><strong class="font-mono text-slate-700">${o.agendaFin || 'N/A'}</strong></div>
               </div>
               <div>
                 <span class="text-slate-400 font-bold uppercase text-[10px] block mb-1">Observaciones Escaneador:</span>
@@ -8676,51 +8676,53 @@ function renderVistaOrdenTrabajo() {
             </div>
 
             <!-- Bloque 2: Discos utilizados en la orden -->
-            <div class="bg-white p-4 rounded-2xl border border-slate-200 space-y-2.5">
+            <div class="bg-white p-4 rounded-2xl border border-slate-200 space-y-2.5 overflow-hidden">
               <h4 class="font-bold text-slate-800 uppercase tracking-wide border-b border-slate-100 pb-2">Discos utilizados en la orden</h4>
-              <table class="w-full text-center border border-slate-200 general-table">
-                <thead>
-                  <tr>
-                    <th>Disco</th>
-                    <th>Colorimetro</th>
-                    <th>Tamaño</th>
-                    <th>Cantidad</th>
-                  </tr>
-                </thead>
-                <tbody class="divide-y divide-slate-100">
-                  ${o.discosUtilizados && o.discosUtilizados !== 'Sin Discos Utilizados' ? `
+              <div class="overflow-x-auto rounded-xl border border-slate-200 w-full">
+                <table class="w-full text-center general-table">
+                  <thead>
                     <tr>
-                      <td class="font-mono font-bold">${o.discosUtilizados.split(':')[0]}</td>
-                      <td>${o.color}</td>
-                      <td>18 mm</td>
-                      <td class="font-mono font-bold">${o.unidades}</td>
+                      <th>Disco</th>
+                      <th>Colorimetro</th>
+                      <th>Tamaño</th>
+                      <th>Cantidad</th>
                     </tr>
-                  ` : `
-                    <tr>
-                      <td colspan="4" class="py-3 text-center text-slate-400 font-semibold">Sin Discos Utilizados</td>
-                    </tr>
-                  `}
-                </tbody>
-              </table>
+                  </thead>
+                  <tbody class="divide-y divide-slate-100">
+                    ${o.discosUtilizados && o.discosUtilizados !== 'Sin Discos Utilizados' ? `
+                      <tr>
+                        <td class="font-mono font-bold break-words">${o.discosUtilizados.split(':')[0]}</td>
+                        <td class="break-words">${o.color}</td>
+                        <td>18 mm</td>
+                        <td class="font-mono font-bold">${o.unidades}</td>
+                      </tr>
+                    ` : `
+                      <tr>
+                        <td colspan="4" class="py-3 text-center text-slate-400 font-semibold">Sin Discos Utilizados</td>
+                      </tr>
+                    `}
+                  </tbody>
+                </table>
+              </div>
             </div>
 
             <!-- Bloque 3: Orden de Trabajo -->
-            <div class="bg-slate-50 p-4 rounded-2xl border border-slate-200 space-y-3">
+            <div class="bg-slate-50 p-4 rounded-2xl border border-slate-200 space-y-3 overflow-hidden">
               <h4 class="font-bold text-slate-800 uppercase tracking-wide border-b border-slate-200 pb-2">Orden de Trabajo</h4>
               <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                <div><span class="text-slate-400 font-bold uppercase text-[10px] block">Serie:</span><strong class="font-mono text-sm text-blue-600">${o.serie}</strong></div>
-                <div>
+                <div class="min-w-0 break-words"><span class="text-slate-400 font-bold uppercase text-[10px] block">Serie:</span><strong class="font-mono text-sm text-blue-600">${o.serie}</strong></div>
+                <div class="min-w-0 break-words">
                   <span class="text-slate-400 font-bold uppercase text-[10px] block">Doctor:</span>
-                  <a href="javascript:void(0)" onclick="abrirDetalleDoctor('${o.doctorId || o.doctor}')" class="font-bold text-sm text-blue-600 hover:underline">${o.doctorNombreCompleto || o.doctor}</a>
+                  <a href="javascript:void(0)" onclick="abrirDetalleDoctor('${o.doctorId || o.doctor}')" class="font-bold text-sm text-blue-600 hover:underline break-words">${o.doctorNombreCompleto || o.doctor}</a>
                 </div>
-                <div><span class="text-slate-400 font-bold uppercase text-[10px] block">Paciente:</span><strong class="text-slate-900">${o.paciente}</strong></div>
-                <div><span class="text-slate-400 font-bold uppercase text-[10px] block">Celular Doctor:</span><strong class="font-mono text-slate-800">${o.celular || (docObj ? docObj.celular : '')}</strong></div>
-                <div class="sm:col-span-2"><span class="text-slate-400 font-bold uppercase text-[10px] block">Dirección:</span><strong class="text-slate-700">${o.direccion || (docObj ? docObj.direccion : '')}</strong></div>
-                <div><span class="text-slate-400 font-bold uppercase text-[10px] block">Entrega solicitada:</span><input type="date" value="${o.entrega}" class="mt-0.5 px-2.5 py-1 rounded-lg border border-slate-200 bg-white font-mono text-xs"></div>
-                <div><span class="text-slate-400 font-bold uppercase text-[10px] block">Liberación a prod:</span><strong class="font-mono text-slate-700">${o.libProd || 'Pendiente'} ${o.nombreLib ? '(' + o.nombreLib + ')' : ''}</strong></div>
-                <div><span class="text-slate-400 font-bold uppercase text-[10px] block">Modo de pago:</span><strong class="text-slate-800">${o.metodoPago || 'Efectivo'}</strong></div>
-                <div><span class="text-slate-400 font-bold uppercase text-[10px] block">Colorimetro:</span><strong class="text-blue-700 font-bold">${o.color}</strong></div>
-                <div class="sm:col-span-2"><span class="text-slate-400 font-bold uppercase text-[10px] block">Paquetes usados:</span><strong class="font-mono text-slate-800">${o.paquetes || 'SIN PAQUETE'}</strong></div>
+                <div class="min-w-0 break-words"><span class="text-slate-400 font-bold uppercase text-[10px] block">Paciente:</span><strong class="text-slate-900 break-words">${o.paciente}</strong></div>
+                <div class="min-w-0 break-words"><span class="text-slate-400 font-bold uppercase text-[10px] block">Celular Doctor:</span><strong class="font-mono text-slate-800 break-words">${o.celular || (docObj ? docObj.celular : '')}</strong></div>
+                <div class="min-w-0 sm:col-span-2 break-words"><span class="text-slate-400 font-bold uppercase text-[10px] block">Dirección:</span><strong class="text-slate-700 break-words">${o.direccion || (docObj ? docObj.direccion : '')}</strong></div>
+                <div class="min-w-0"><span class="text-slate-400 font-bold uppercase text-[10px] block">Entrega solicitada:</span><input type="date" value="${o.entrega}" class="mt-0.5 px-2.5 py-1 rounded-lg border border-slate-200 bg-white font-mono text-xs max-w-full"></div>
+                <div class="min-w-0 break-words"><span class="text-slate-400 font-bold uppercase text-[10px] block">Liberación a prod:</span><strong class="font-mono text-slate-700 break-words">${o.libProd || 'Pendiente'} ${o.nombreLib ? '(' + o.nombreLib + ')' : ''}</strong></div>
+                <div class="min-w-0 break-words"><span class="text-slate-400 font-bold uppercase text-[10px] block">Modo de pago:</span><strong class="text-slate-800 break-words">${o.metodoPago || 'Efectivo'}</strong></div>
+                <div class="min-w-0 break-words"><span class="text-slate-400 font-bold uppercase text-[10px] block">Colorimetro:</span><strong class="text-blue-700 font-bold break-words">${o.color}</strong></div>
+                <div class="min-w-0 sm:col-span-2 break-words"><span class="text-slate-400 font-bold uppercase text-[10px] block">Paquetes usados:</span><strong class="font-mono text-slate-800 break-words">${o.paquetes || 'SIN PAQUETE'}</strong></div>
               </div>
 
               <div>
@@ -8758,30 +8760,32 @@ function renderVistaOrdenTrabajo() {
 
               <div class="pt-2">
                 <h5 class="font-bold text-slate-700 uppercase text-[11px] mb-2">Detalle del pedido</h5>
-                <table class="w-full text-center border border-slate-200 general-table">
-                  <thead>
-                    <tr>
-                      <th>Cat</th>
-                      <th>Prod</th>
-                      <th>Pza</th>
-                      <th>Total</th>
-                    </tr>
-                  </thead>
-                  <tbody class="divide-y divide-slate-100 bg-white">
-                    <tr>
-                      <td>${o.categoriaDesc || 'Laboratorio'}</td>
-                      <td class="font-bold">${o.producto}</td>
-                      <td class="font-mono font-bold">${o.unidades}</td>
-                      <td class="font-mono font-bold text-slate-900">${o.monto}</td>
-                    </tr>
-                  </tbody>
-                </table>
+                <div class="overflow-x-auto rounded-xl border border-slate-200 w-full">
+                  <table class="w-full text-center general-table">
+                    <thead>
+                      <tr>
+                        <th>Cat</th>
+                        <th>Prod</th>
+                        <th>Pza</th>
+                        <th>Total</th>
+                      </tr>
+                    </thead>
+                    <tbody class="divide-y divide-slate-100 bg-white">
+                      <tr>
+                        <td class="break-words">${o.categoriaDesc || 'Laboratorio'}</td>
+                        <td class="font-bold break-words">${o.producto}</td>
+                        <td class="font-mono font-bold">${o.unidades}</td>
+                        <td class="font-mono font-bold text-slate-900 whitespace-nowrap">${o.monto}</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
               </div>
             </div>
           </div>
 
           <!-- Columna Derecha: Odontograma con SVG dental nítido -->
-          <div class="lg:col-span-5 space-y-4">
+          <div class="min-w-0 lg:col-span-5 space-y-4">
             <div class="bg-slate-50 p-4 rounded-2xl border border-slate-200 flex flex-col justify-between">
               <div>
                 <div class="flex items-center justify-between border-b border-slate-200 pb-2.5 mb-3">
@@ -8850,7 +8854,7 @@ function renderVistaOrdenTrabajo() {
 
       ${currentTabOrden === 'pago' ? `
         <div class="grid grid-cols-1 lg:grid-cols-2 gap-5 text-xs">
-          <div class="bg-slate-50 p-4 rounded-2xl border border-slate-200 space-y-3">
+          <div class="min-w-0 bg-slate-50 p-4 rounded-2xl border border-slate-200 space-y-3">
             <h4 class="font-bold text-slate-800 uppercase border-b pb-2">Registrar Abono / Pago de Orden #${o.serie}</h4>
             <form onsubmit="registrarAbonoOrdenActual(event)" class="space-y-3">
               <div>
@@ -8871,113 +8875,119 @@ function renderVistaOrdenTrabajo() {
               </button>
             </form>
           </div>
-          <div class="bg-white p-4 rounded-2xl border border-slate-200 space-y-3">
+          <div class="min-w-0 bg-white p-4 rounded-2xl border border-slate-200 space-y-3">
             <div class="flex items-center justify-between border-b pb-2">
               <h4 class="font-bold text-slate-800 uppercase">Pagos de la Orden</h4>
               <span class="font-mono font-bold text-slate-700">Costo total: ${o.monto}</span>
             </div>
-            <table class="w-full text-center border border-slate-200 general-table">
-              <thead>
-                <tr>
-                  <th>Fecha</th>
-                  <th>Tipo de Pago</th>
-                  <th>Descripción / Usuario</th>
-                  <th>Monto</th>
-                </tr>
-              </thead>
-              <tbody class="divide-y divide-slate-100">
-                ${Array.isArray(o.pagosLive) && o.pagosLive.length > 0 ? o.pagosLive.map(p => `
+            <div class="overflow-x-auto rounded-xl border border-slate-200 w-full">
+              <table class="w-full text-center general-table">
+                <thead>
                   <tr>
-                    <td class="font-mono">${p.Fecha || o.entrega}</td>
-                    <td>${p.Descripcion || o.metodoPago || 'Efectivo'}</td>
-                    <td>${p.Nombre || 'Recepción'} (Folio #${p.FolioPago || o.serie})</td>
-                    <td class="font-mono font-bold text-emerald-700">$${Number(p.Monto || 0).toLocaleString('es-MX', { minimumFractionDigits: 2 })}</td>
+                    <th>Fecha</th>
+                    <th>Tipo de Pago</th>
+                    <th>Descripción / Usuario</th>
+                    <th>Monto</th>
                   </tr>
-                `).join('') : `
-                  <tr>
-                    <td class="font-mono">${o.entrega}</td>
-                    <td>${o.metodoPago || 'Efectivo'}</td>
-                    <td>Registro de Orden #${o.serie} (${o.paquetes || 'SIN PAQUETE'})</td>
-                    <td class="font-mono font-bold text-emerald-700">${o.monto}</td>
-                  </tr>
-                `}
-              </tbody>
-            </table>
+                </thead>
+                <tbody class="divide-y divide-slate-100">
+                  ${Array.isArray(o.pagosLive) && o.pagosLive.length > 0 ? o.pagosLive.map(p => `
+                    <tr>
+                      <td class="font-mono">${p.Fecha || o.entrega}</td>
+                      <td>${p.Descripcion || o.metodoPago || 'Efectivo'}</td>
+                      <td class="break-words">${p.Nombre || 'Recepción'} (Folio #${p.FolioPago || o.serie})</td>
+                      <td class="font-mono font-bold text-emerald-700">$${Number(p.Monto || 0).toLocaleString('es-MX', { minimumFractionDigits: 2 })}</td>
+                    </tr>
+                  `).join('') : `
+                    <tr>
+                      <td class="font-mono">${o.entrega}</td>
+                      <td>${o.metodoPago || 'Efectivo'}</td>
+                      <td class="break-words">Registro de Orden #${o.serie} (${o.paquetes || 'SIN PAQUETE'})</td>
+                      <td class="font-mono font-bold text-emerald-700">${o.monto}</td>
+                    </tr>
+                  `}
+                </tbody>
+              </table>
+            </div>
           </div>
         </div>
       ` : ''}
 
       ${currentTabOrden === 'historial' ? `
         <div class="grid grid-cols-1 lg:grid-cols-2 gap-5 text-xs">
-          <div class="space-y-2">
+          <div class="min-w-0 space-y-2">
             <h4 class="font-bold text-slate-800 uppercase">Historial de Etapas</h4>
-            <table class="w-full text-center border border-slate-200 general-table">
-              <thead>
-                <tr>
-                  <th>Etapa</th>
-                  <th>SubEstado</th>
-                  <th>Usuario</th>
-                  <th>Fecha</th>
-                </tr>
-              </thead>
-              <tbody class="divide-y divide-slate-100">
-                <tr>
-                  <td>Escaneo</td>
-                  <td>Levantado</td>
-                  <td>${o.usuarioEscaneo || 'Mauricio Sotomayor'}</td>
-                  <td class="font-mono">${o.fechaConfirmada || o.entrega}</td>
-                </tr>
-                <tr>
-                  <td class="font-bold text-blue-700">${o.estado}</td>
-                  <td>${o.subEstado || o.estado}</td>
-                  <td>${o.nombreLib || 'Laboratorio CAD/CAM'}</td>
-                  <td class="font-mono">${o.libProd || o.entrega}</td>
-                </tr>
-              </tbody>
-            </table>
+            <div class="overflow-x-auto rounded-xl border border-slate-200 w-full">
+              <table class="w-full text-center general-table">
+                <thead>
+                  <tr>
+                    <th>Etapa</th>
+                    <th>SubEstado</th>
+                    <th>Usuario</th>
+                    <th>Fecha</th>
+                  </tr>
+                </thead>
+                <tbody class="divide-y divide-slate-100">
+                  <tr>
+                    <td>Escaneo</td>
+                    <td>Levantado</td>
+                    <td class="break-words">${o.usuarioEscaneo || 'Mauricio Sotomayor'}</td>
+                    <td class="font-mono">${o.fechaConfirmada || o.entrega}</td>
+                  </tr>
+                  <tr>
+                    <td class="font-bold text-blue-700">${o.estado}</td>
+                    <td>${o.subEstado || o.estado}</td>
+                    <td class="break-words">${o.nombreLib || 'Laboratorio CAD/CAM'}</td>
+                    <td class="font-mono">${o.libProd || o.entrega}</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
           </div>
-          <div class="space-y-2">
+          <div class="min-w-0 space-y-2">
             <h4 class="font-bold text-slate-800 uppercase">Historial de Operaciones</h4>
-            <table class="w-full text-center border border-slate-200 general-table">
-              <thead>
-                <tr>
-                  <th>Operación</th>
-                  <th>Usuario</th>
-                  <th>Fecha</th>
-                </tr>
-              </thead>
-              <tbody class="divide-y divide-slate-100">
-                <tr>
-                  <td>Creación de Orden #${o.serie} (${o.producto})</td>
-                  <td>${o.usuarioEscaneo || 'Recepción DentLab'}</td>
-                  <td class="font-mono">${o.entrega}</td>
-                </tr>
-                <tr>
-                  <td>Asignación de Colorímetro: ${o.color}</td>
-                  <td>Laboratorio</td>
-                  <td class="font-mono">${o.entrega}</td>
-                </tr>
-              </tbody>
-            </table>
+            <div class="overflow-x-auto rounded-xl border border-slate-200 w-full">
+              <table class="w-full text-center general-table">
+                <thead>
+                  <tr>
+                    <th>Operación</th>
+                    <th>Usuario</th>
+                    <th>Fecha</th>
+                  </tr>
+                </thead>
+                <tbody class="divide-y divide-slate-100">
+                  <tr>
+                    <td class="break-words">Creación de Orden #${o.serie} (${o.producto})</td>
+                    <td class="break-words">${o.usuarioEscaneo || 'Recepción DentLab'}</td>
+                    <td class="font-mono">${o.entrega}</td>
+                  </tr>
+                  <tr>
+                    <td class="break-words">Asignación de Colorímetro: ${o.color}</td>
+                    <td>Laboratorio</td>
+                    <td class="font-mono">${o.entrega}</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
           </div>
         </div>
       ` : ''}
 
       ${currentTabOrden === 'archivos' ? `
         <div class="grid grid-cols-1 lg:grid-cols-2 gap-4 text-xs">
-          <div class="bg-slate-50 p-4 rounded-2xl border border-slate-200 space-y-3">
+          <div class="min-w-0 bg-slate-50 p-4 rounded-2xl border border-slate-200 space-y-3">
             <h4 class="font-bold text-slate-800 uppercase">Archivos de la Orden #${o.serie}</h4>
             <div class="space-y-2">
-              <div class="p-3 bg-white rounded-xl border border-slate-200 flex items-center justify-between">
-                <div>
-                  <p class="font-bold text-slate-800">${o.archivo || `Orden_${o.serie}_${(o.paciente || 'Paciente').replace(/\s+/g, '_')}.stl`}</p>
-                  <p class="text-[11px] text-slate-500">Escaneo Digital CAD/CAM • ${o.producto}</p>
+              <div class="p-3 bg-white rounded-xl border border-slate-200 flex items-center justify-between gap-3">
+                <div class="min-w-0 flex-1">
+                  <p class="font-bold text-slate-800 break-all">${o.archivo || `Orden_${o.serie}_${(o.paciente || 'Paciente').replace(/\s+/g, '_')}.stl`}</p>
+                  <p class="text-[11px] text-slate-500 break-words">Escaneo Digital CAD/CAM • ${o.producto}</p>
                 </div>
-                <button onclick="showToast('Descargando STL', 'Descarga iniciada: Orden_${o.serie}.stl')" class="px-3 py-1.5 rounded-lg bg-blue-600 text-white font-bold">Descargar</button>
+                <button onclick="showToast('Descargando STL', 'Descarga iniciada: Orden_${o.serie}.stl')" class="shrink-0 px-3 py-1.5 rounded-lg bg-blue-600 text-white font-bold">Descargar</button>
               </div>
             </div>
           </div>
-          <div class="bg-white p-4 rounded-2xl border border-slate-200 flex flex-col items-center justify-center text-center space-y-2">
+          <div class="min-w-0 bg-white p-4 rounded-2xl border border-slate-200 flex flex-col items-center justify-center text-center space-y-2">
             <p class="font-bold text-slate-700">Subir Archivo a la Orden #${o.serie}</p>
             <button onclick="showToast('Archivo Adjuntado', 'El archivo se anexó correctamente al expediente de la orden.')" class="px-4 py-2 rounded-xl bg-blue-600 text-white font-bold shadow-sm">
               Subir archivo
@@ -9165,111 +9175,117 @@ function renderVistaDetalleDoctor(doc) {
       ` : ''}
 
       ${currentTabDoctor === 'ordenes' ? `
-        <div class="space-y-3 pt-2">
+        <div class="space-y-3 pt-2 min-w-0">
           <h4 class="font-bold text-slate-800 uppercase">Órdenes de Trabajo de ${doc.nombre}</h4>
-          <table class="w-full text-center border border-slate-200 general-table">
-            <thead>
-              <tr>
-                <th>OT</th>
-                <th>FOLIO</th>
-                <th>PACIENTE</th>
-                <th>PRODUCTO</th>
-                <th>UNIDADES</th>
-                <th>ESTADO</th>
-                <th>ENTREGA</th>
-                <th>MONTO</th>
-              </tr>
-            </thead>
-            <tbody class="divide-y divide-slate-100">
-              ${ordenesDoc.length > 0 ? ordenesDoc.map(o => `
-                <tr class="hover:bg-slate-50">
-                  <td>
-                    <button onclick="abrirOrdenTrabajo('${o.serie}')" class="btnEtiqueta btnEtiqueta--ot">
-                      <svg class="w-3.5 h-3.5 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5.5c-1.5-2-4-2.5-6-1-2 1.5-2.5 4.5-1.5 7 1 2.5 1.5 5.5 2 8 .3 1.5 1.8 1.5 2.5 0 .5-1.5 1-3.5 3-3.5s2.5 2 3 3.5c.7 1.5 2.2 1.5 2.5 0 .5-2.5 1-5.5 2-8 1-2.5.5-5.5-1.5-7-2-1.5-4.5-1-6 1z"/></svg>
-                    </button>
-                  </td>
-                  <td class="font-mono font-bold">${o.serie}</td>
-                  <td>${o.paciente}</td>
-                  <td class="font-semibold">${o.producto}</td>
-                  <td class="font-mono font-bold">${o.unidades}</td>
-                  <td>${o.estado}</td>
-                  <td class="font-mono">${o.entrega}</td>
-                  <td class="font-mono font-bold">${o.monto}</td>
+          <div class="overflow-x-auto rounded-xl border border-slate-200 w-full">
+            <table class="w-full text-center general-table">
+              <thead>
+                <tr>
+                  <th>OT</th>
+                  <th>FOLIO</th>
+                  <th>PACIENTE</th>
+                  <th>PRODUCTO</th>
+                  <th>UNIDADES</th>
+                  <th>ESTADO</th>
+                  <th>ENTREGA</th>
+                  <th>MONTO</th>
                 </tr>
-              `).join('') : `
-                <tr><td colspan="8" class="py-6 text-center text-slate-400 font-semibold">ESTE DOCTOR NO TIENE ÓRDENES EN LA VISTA ACTUAL</td></tr>
-              `}
-            </tbody>
-          </table>
+              </thead>
+              <tbody class="divide-y divide-slate-100">
+                ${ordenesDoc.length > 0 ? ordenesDoc.map(o => `
+                  <tr class="hover:bg-slate-50">
+                    <td>
+                      <button onclick="abrirOrdenTrabajo('${o.serie}')" class="btnEtiqueta btnEtiqueta--ot">
+                        <svg class="w-3.5 h-3.5 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5.5c-1.5-2-4-2.5-6-1-2 1.5-2.5 4.5-1.5 7 1 2.5 1.5 5.5 2 8 .3 1.5 1.8 1.5 2.5 0 .5-1.5 1-3.5 3-3.5s2.5 2 3 3.5c.7 1.5 2.2 1.5 2.5 0 .5-2.5 1-5.5 2-8 1-2.5.5-5.5-1.5-7-2-1.5-4.5-1-6 1z"/></svg>
+                      </button>
+                    </td>
+                    <td class="font-mono font-bold">${o.serie}</td>
+                    <td class="break-words">${o.paciente}</td>
+                    <td class="font-semibold break-words">${o.producto}</td>
+                    <td class="font-mono font-bold">${o.unidades}</td>
+                    <td>${o.estado}</td>
+                    <td class="font-mono">${o.entrega}</td>
+                    <td class="font-mono font-bold">${o.monto}</td>
+                  </tr>
+                `).join('') : `
+                  <tr><td colspan="8" class="py-6 text-center text-slate-400 font-semibold">ESTE DOCTOR NO TIENE ÓRDENES EN LA VISTA ACTUAL</td></tr>
+                `}
+              </tbody>
+            </table>
+          </div>
         </div>
       ` : ''}
 
       ${currentTabDoctor === 'paquetes' ? `
-        <div class="space-y-3 pt-2">
+        <div class="space-y-3 pt-2 min-w-0">
           <div class="flex items-center justify-between">
             <h4 class="font-bold text-slate-800 uppercase">Paquetes de ${doc.nombre}</h4>
             <button onclick="showToast('Paquete Asignado', 'Puede asignar un nuevo paquete desde el catálogo.')" class="px-3.5 py-1.5 rounded-xl bg-blue-600 text-white font-bold">Agregar Paquete</button>
           </div>
-          <table class="w-full text-center border border-slate-200 general-table">
-            <thead>
-              <tr>
-                <th>Serie</th>
-                <th>Paquete</th>
-                <th>Total Pzas</th>
-                <th>Solicitadas</th>
-                <th>Disponibles</th>
-                <th>Costo</th>
-                <th>Estado</th>
-                <th>Registro</th>
-              </tr>
-            </thead>
-            <tbody class="divide-y divide-slate-100">
-              ${paquetesDoc.length > 0 ? paquetesDoc.map(p => `
-                <tr class="hover:bg-slate-50">
-                  <td class="font-mono font-bold">${p.folio}</td>
-                  <td class="font-semibold">${p.paquete}</td>
-                  <td class="font-mono">${p.totalPiezas}</td>
-                  <td class="font-mono">${p.usadas}</td>
-                  <td class="font-mono font-bold text-blue-600">${p.disponibles}</td>
-                  <td class="font-mono font-bold">${p.costo}</td>
-                  <td>${p.saldo}</td>
-                  <td class="font-mono">${p.fecha}</td>
+          <div class="overflow-x-auto rounded-xl border border-slate-200 w-full">
+            <table class="w-full text-center general-table">
+              <thead>
+                <tr>
+                  <th>Serie</th>
+                  <th>Paquete</th>
+                  <th>Total Pzas</th>
+                  <th>Solicitadas</th>
+                  <th>Disponibles</th>
+                  <th>Costo</th>
+                  <th>Estado</th>
+                  <th>Registro</th>
                 </tr>
-              `).join('') : `
-                <tr><td colspan="8" class="py-6 text-center text-slate-400 font-semibold">SIN PAQUETES REGISTRADOS PARA ESTE DOCTOR</td></tr>
-              `}
-            </tbody>
-          </table>
+              </thead>
+              <tbody class="divide-y divide-slate-100">
+                ${paquetesDoc.length > 0 ? paquetesDoc.map(p => `
+                  <tr class="hover:bg-slate-50">
+                    <td class="font-mono font-bold">${p.folio}</td>
+                    <td class="font-semibold break-words">${p.paquete}</td>
+                    <td class="font-mono">${p.totalPiezas}</td>
+                    <td class="font-mono">${p.usadas}</td>
+                    <td class="font-mono font-bold text-blue-600">${p.disponibles}</td>
+                    <td class="font-mono font-bold">${p.costo}</td>
+                    <td>${p.saldo}</td>
+                    <td class="font-mono">${p.fecha}</td>
+                  </tr>
+                `).join('') : `
+                  <tr><td colspan="8" class="py-6 text-center text-slate-400 font-semibold">SIN PAQUETES REGISTRADOS PARA ESTE DOCTOR</td></tr>
+                `}
+              </tbody>
+            </table>
+          </div>
         </div>
       ` : ''}
 
       ${currentTabDoctor === 'pagos' ? `
-        <div class="space-y-3 pt-2">
+        <div class="space-y-3 pt-2 min-w-0">
           <h4 class="font-bold text-slate-800 uppercase">Historial de Pagos del Doctor</h4>
-          <table class="w-full text-center border border-slate-200 general-table">
-            <thead>
-              <tr>
-                <th>Orden / Serie</th>
-                <th>Paciente</th>
-                <th>Producto</th>
-                <th>Fecha</th>
-                <th>Monto</th>
-              </tr>
-            </thead>
-            <tbody class="divide-y divide-slate-100">
-              ${ordenesDoc.length > 0 ? ordenesDoc.map(o => `
-                <tr class="hover:bg-slate-50">
-                  <td class="font-mono font-bold">#${o.serie}</td>
-                  <td>${o.paciente}</td>
-                  <td>${o.producto}</td>
-                  <td class="font-mono">${o.entrega}</td>
-                  <td class="font-mono font-bold text-emerald-700">${o.monto}</td>
+          <div class="overflow-x-auto rounded-xl border border-slate-200 w-full">
+            <table class="w-full text-center general-table">
+              <thead>
+                <tr>
+                  <th>Orden / Serie</th>
+                  <th>Paciente</th>
+                  <th>Producto</th>
+                  <th>Fecha</th>
+                  <th>Monto</th>
                 </tr>
-              `).join('') : `
-                <tr><td colspan="5" class="py-6 text-center text-slate-400 font-semibold">SIN PAGOS REGISTRADOS</td></tr>
-              `}
-            </tbody>
-          </table>
+              </thead>
+              <tbody class="divide-y divide-slate-100">
+                ${ordenesDoc.length > 0 ? ordenesDoc.map(o => `
+                  <tr class="hover:bg-slate-50">
+                    <td class="font-mono font-bold">#${o.serie}</td>
+                    <td class="break-words">${o.paciente}</td>
+                    <td class="break-words">${o.producto}</td>
+                    <td class="font-mono">${o.entrega}</td>
+                    <td class="font-mono font-bold text-emerald-700">${o.monto}</td>
+                  </tr>
+                `).join('') : `
+                  <tr><td colspan="5" class="py-6 text-center text-slate-400 font-semibold">SIN PAGOS REGISTRADOS</td></tr>
+                `}
+              </tbody>
+            </table>
+          </div>
         </div>
       ` : ''}
     </div>
