@@ -229,7 +229,6 @@ $perfilMenu  = htmlspecialchars(ucfirst(strtolower($_SESSION['perfil'] ?? 'Admin
 
         topTitle.innerHTML = `
           <span class="font-bold text-slate-900">${saludo}, ${nombreMostrar}</span>
-          <span class="px-2.5 py-0.5 rounded-full text-[11px] font-bold bg-blue-50 text-blue-700 border border-blue-200/80">${rolMostrar}</span>
           ${trailHtml}
         `;
       };

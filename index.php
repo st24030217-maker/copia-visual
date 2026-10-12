@@ -404,7 +404,6 @@ $perfilActual  = htmlspecialchars($_SESSION['perfil'] ?? 'Administrador', ENT_QU
         </button>
         <div id="topModuleTitle" class="flex flex-wrap items-center gap-2 text-sm font-semibold text-slate-800">
           <span class="font-bold text-slate-900">Bienvenido(a), <?= $usuarioActual ?></span>
-          <span class="px-2.5 py-0.5 rounded-full text-[11px] font-bold bg-blue-50 text-blue-700 border border-blue-200/80"><?= $perfilActual ?></span>
         </div>
       </div>
 
@@ -414,7 +413,7 @@ $perfilActual  = htmlspecialchars($_SESSION['perfil'] ?? 'Administrador', ENT_QU
           <button type="button" id="userQuickTrigger" onclick="toggleSettingsDropdown(event)" class="qm-trigger h-8 px-3 rounded-full border border-slate-200/90 bg-white flex items-center gap-2 cursor-pointer">
             <span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
             <span class="text-xs font-semibold text-slate-700" id="topUserLabel"><?= $usuarioActual ?></span>
-            <span id="topPerfilBadge" class="hidden sm:inline-block text-[10px] font-medium text-slate-400 border-l border-slate-200 pl-2"><?= $perfilActual ?></span>
+            <span id="topPerfilBadge" class="hidden"><?= $perfilActual ?></span>
             <i data-lucide="chevron-down" id="userModuleChevron" class="qm-chevron w-3.5 h-3.5 text-slate-400"></i>
           </button>
 
