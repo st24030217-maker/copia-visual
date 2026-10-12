@@ -147,6 +147,109 @@ $perfilActual  = htmlspecialchars($_SESSION['perfil'] ?? 'Administrador', ENT_QU
       transform: translateY(0) scale(0.985);
     }
 
+    /* Reloj en vivo con animaciones de pulso radar, manecillas analógicas y flip de dígitos */
+    .hero-clock-pill {
+      position: relative;
+      overflow: hidden;
+      background: rgba(2, 6, 23, 0.62);
+      border: 1px solid rgba(56, 189, 248, 0.28);
+      box-shadow:
+        0 4px 16px -2px rgba(2, 6, 23, 0.45),
+        inset 0 1px 0 0 rgba(255, 255, 255, 0.14);
+      transition: border-color 0.3s ease, box-shadow 0.3s ease, transform 0.25s ease;
+    }
+    .hero-clock-pill:hover {
+      border-color: rgba(56, 189, 248, 0.55);
+      box-shadow:
+        0 6px 20px -2px rgba(14, 165, 233, 0.25),
+        inset 0 1px 0 0 rgba(255, 255, 255, 0.22);
+      transform: translateY(-1px);
+    }
+    .hero-clock-pill::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -120%;
+      width: 65%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(56, 189, 248, 0.12), transparent);
+      transform: skewX(-20deg);
+      animation: clockSheenSweep 6s ease-in-out infinite;
+      pointer-events: none;
+    }
+    @keyframes clockSheenSweep {
+      0%, 70% { left: -120%; }
+      100%    { left: 160%; }
+    }
+    .clock-live-dot-wrap {
+      position: relative;
+      display: inline-flex;
+      width: 8px;
+      height: 8px;
+      align-items: center;
+      justify-content: center;
+    }
+    .clock-live-dot-ping {
+      position: absolute;
+      inset: 0;
+      border-radius: 9999px;
+      background-color: #34d399;
+      animation: clockRadarPing 1.8s cubic-bezier(0, 0, 0.2, 1) infinite;
+    }
+    @keyframes clockRadarPing {
+      0%   { transform: scale(1); opacity: 0.85; }
+      75%, 100% { transform: scale(2.4); opacity: 0; }
+    }
+    .clock-svg-hand {
+      transform-origin: 12px 12px;
+      transition: transform 0.32s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+    .clock-digit-box {
+      display: inline-block;
+      min-width: 1.35em;
+      text-align: center;
+      padding: 1px 3px;
+      border-radius: 5px;
+      background: rgba(15, 23, 42, 0.75);
+      border: 1px solid rgba(148, 163, 184, 0.18);
+      color: #f8fafc;
+    }
+    .clock-digit-sec {
+      color: #7dd3fc;
+      border-color: rgba(56, 189, 248, 0.32);
+      background: rgba(14, 116, 144, 0.24);
+    }
+    .clock-digit-flip {
+      display: inline-block;
+      animation: clockDigitFlip 0.34s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+    @keyframes clockDigitFlip {
+      0% {
+        transform: translateY(-7px) scale(0.88);
+        opacity: 0.25;
+        filter: blur(1px);
+      }
+      60% {
+        transform: translateY(1px) scale(1.04);
+        opacity: 1;
+        filter: blur(0);
+      }
+      100% {
+        transform: translateY(0) scale(1);
+        opacity: 1;
+      }
+    }
+    .clock-colon {
+      display: inline-block;
+      margin: 0 1px;
+      color: #38bdf8;
+      animation: clockColonPulse 1s steps(2, start) infinite;
+    }
+    @keyframes clockColonPulse {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50%      { opacity: 0.3; transform: scale(0.85); }
+    }
+
     /* Resaltado moderno y ejecutivo para órdenes prioritarias / internas (.row-yellow en proceso y .row-green en entrega) */
     .row-green {
       background: linear-gradient(90deg, rgba(209, 250, 229, 0.78) 0%, rgba(236, 253, 245, 0.45) 100%);
@@ -512,12 +615,19 @@ $perfilActual  = htmlspecialchars($_SESSION['perfil'] ?? 'Administrador', ENT_QU
 
             <!-- Reloj en Vivo y Acciones Rápidas (Actualizar y Nueva Orden) -->
             <div class="flex items-center gap-2.5 ml-auto">
-              <!-- Hora Actual -->
-              <div class="flex items-center gap-2 px-3.5 py-2 rounded-xl border border-white/15 backdrop-blur-md"
-                   style="background: rgba(2, 6, 23, 0.55);">
-                <span class="w-2 h-2 rounded-full shrink-0" style="background-color: #34d399; box-shadow: 0 0 8px #34d399;"></span>
-                <i data-lucide="clock" class="w-3.5 h-3.5 text-sky-300 shrink-0"></i>
-                <span class="text-xs font-mono font-bold text-white tracking-wide whitespace-nowrap" id="HoraActual">08:05:22</span>
+              <!-- Hora Actual Animada -->
+              <div class="hero-clock-pill flex items-center gap-2.5 px-3.5 py-2 rounded-xl backdrop-blur-md">
+                <span class="clock-live-dot-wrap shrink-0">
+                  <span class="clock-live-dot-ping"></span>
+                  <span class="relative w-2 h-2 rounded-full" style="background-color: #34d399; box-shadow: 0 0 8px #34d399;"></span>
+                </span>
+                <svg class="w-4 h-4 text-sky-300 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <circle cx="12" cy="12" r="9.5" stroke-opacity="0.75"></circle>
+                  <line id="clockHandMin" class="clock-svg-hand" x1="12" y1="12" x2="12" y2="7.5" stroke="#e0f2fe" stroke-width="2"></line>
+                  <line id="clockHandSec" class="clock-svg-hand" x1="12" y1="12" x2="12" y2="6" stroke="#38bdf8" stroke-width="1.6"></line>
+                  <circle cx="12" cy="12" r="1.3" fill="#38bdf8" stroke="none"></circle>
+                </svg>
+                <span class="text-xs font-mono font-bold text-white tracking-wide whitespace-nowrap flex items-center gap-1.5" id="HoraActual">08:05:22</span>
               </div>
 
               <!-- Botones Recargar y Nueva Orden (+) -->
@@ -1075,15 +1185,54 @@ $perfilActual  = htmlspecialchars($_SESSION['perfil'] ?? 'Administrador', ENT_QU
       showToast('Odontograma Actualizado', 'Piezas asignadas: ' + Array.from(selectedTeeth).map(t => '#' + t).join(', '));
     }
 
-    // Reloj en Vivo idéntico a DENT DEMO/scripts/index.js
+    // Reloj en Vivo con manecillas analógicas animadas y flip de dígitos
+    let _prevClockH = '';
+    let _prevClockM = '';
+    let _prevClockS = '';
+    let _clockSecTurns = 0;
+    let _lastSecNum = -1;
+
     function updateClock() {
       const now = new Date();
       const fechaStr = now.toLocaleDateString('es-ES', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
-      const h = String(now.getHours()).padStart(2, '0');
-      const m = String(now.getMinutes()).padStart(2, '0');
-      const s = String(now.getSeconds()).padStart(2, '0');
+      const hNum = now.getHours();
+      const mNum = now.getMinutes();
+      const sNum = now.getSeconds();
+      const h = String(hNum).padStart(2, '0');
+      const m = String(mNum).padStart(2, '0');
+      const s = String(sNum).padStart(2, '0');
+
+      // Rotación continua hacia adelante para las manecillas SVG
+      if (_lastSecNum === 59 && sNum === 0) _clockSecTurns++;
+      _lastSecNum = sNum;
+      const secDeg = (_clockSecTurns * 360) + (sNum * 6);
+      const minDeg = (mNum * 6) + (sNum * 0.1);
+      const handSec = document.getElementById('clockHandSec');
+      const handMin = document.getElementById('clockHandMin');
+      if (handSec) handSec.style.transform = `rotate(${secDeg}deg)`;
+      if (handMin) handMin.style.transform = `rotate(${minDeg}deg)`;
+
       const el = document.getElementById('HoraActual');
-      if (el) el.innerText = `${fechaStr} / ${h}:${m}:${s}`;
+      if (el) {
+        const hFlip = h !== _prevClockH ? 'clock-digit-flip' : '';
+        const mFlip = m !== _prevClockM ? 'clock-digit-flip' : '';
+        const sFlip = s !== _prevClockS ? 'clock-digit-flip' : '';
+        _prevClockH = h;
+        _prevClockM = m;
+        _prevClockS = s;
+
+        el.innerHTML = `
+          <span class="text-slate-200 font-semibold">${fechaStr}</span>
+          <span class="text-slate-500">/</span>
+          <span class="inline-flex items-center">
+            <span class="clock-digit-box"><span class="${hFlip}">${h}</span></span>
+            <span class="clock-colon">:</span>
+            <span class="clock-digit-box"><span class="${mFlip}">${m}</span></span>
+            <span class="clock-colon">:</span>
+            <span class="clock-digit-box clock-digit-sec"><span class="${sFlip}">${s}</span></span>
+          </span>
+        `;
+      }
     }
     setInterval(updateClock, 1000);
     updateClock();
