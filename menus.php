@@ -70,6 +70,7 @@ $perfilMenu  = htmlspecialchars(ucfirst(strtolower($_SESSION['perfil'] ?? 'Admin
           label: 'Dent Lab',
           value: 'sec-dentlab',
           icon: 'flask-conical',
+          alwaysOpen: true,
           children: [
             {
               label: 'Control de Equipos',
@@ -275,7 +276,7 @@ $perfilMenu  = htmlspecialchars(ucfirst(strtolower($_SESSION['perfil'] ?? 'Admin
       let BM_ITEMS = resolveUserMenuItems();
 
       let bmState = {
-        openSection: 2,
+        openSection: null,
         openSubs: {},
         active: 'inicio',
         initialized: false
@@ -339,6 +340,7 @@ $perfilMenu  = htmlspecialchars(ucfirst(strtolower($_SESSION['perfil'] ?? 'Admin
         container.innerHTML = BM_ITEMS.map((item, i) => {
           const kids = item.children || [];
           const hasKids = kids.length > 0;
+          const isAlwaysOpen = !!item.alwaysOpen || item.value === 'sec-dentlab';
 
           if (!hasKids) {
             return `
@@ -397,6 +399,31 @@ $perfilMenu  = htmlspecialchars(ucfirst(strtolower($_SESSION['perfil'] ?? 'Admin
             }
           });
 
+          if (isAlwaysOpen) {
+            return `
+              <div class="branched-menu__section" data-sec-idx="${i}" data-open="" data-always-open="">
+                <div class="branched-menu__head" style="cursor: default;" aria-expanded="true">
+                  <span class="branched-menu__head-left">
+                    <i data-lucide="${item.icon || 'folder'}" class="w-4 h-4"></i>
+                    <span>${item.label}</span>
+                  </span>
+                </div>
+                <div class="branched-menu__body">
+                  <div class="branched-menu__fold">
+                    <div class="branched-menu__tree" id="bmTree-${i}">
+                      <svg class="branched-menu__lines" id="bmSvg-${i}" width="${BM_INDENT}" height="10" aria-hidden="true">
+                        <path class="branched-menu__base" id="bmTrunk-${i}" />
+                        <g id="bmBaseGroup-${i}"></g>
+                        <g id="bmReachGroup-${i}"></g>
+                      </svg>
+                      ${kidButtons}
+                    </div>
+                  </div>
+                </div>
+              </div>
+            `;
+          }
+
           return `
             <div class="branched-menu__section" data-sec-idx="${i}">
               <button type="button"
@@ -451,7 +478,8 @@ $perfilMenu  = htmlspecialchars(ucfirst(strtolower($_SESSION['perfil'] ?? 'Admin
             return;
           }
 
-          const isOpen = bmState.openSection === i;
+          const isAlwaysOpen = !!item.alwaysOpen || item.value === 'sec-dentlab';
+          const isOpen = isAlwaysOpen || bmState.openSection === i;
           if (isOpen) {
             secEl.setAttribute('data-open', '');
             headBtn.setAttribute('aria-expanded', 'true');
@@ -576,6 +604,7 @@ $perfilMenu  = htmlspecialchars(ucfirst(strtolower($_SESSION['perfil'] ?? 'Admin
       }
 
       window.bmToggleSection = function (idx) {
+        if (BM_ITEMS[idx] && (BM_ITEMS[idx].alwaysOpen || BM_ITEMS[idx].value === 'sec-dentlab')) return;
         bmState.openSection = bmState.openSection === idx ? null : idx;
         syncBranchedMenuDOM();
       };
@@ -592,11 +621,12 @@ $perfilMenu  = htmlspecialchars(ucfirst(strtolower($_SESSION['perfil'] ?? 'Admin
         } else {
           BM_ITEMS.forEach((it, idx) => {
             if (!it.children) return;
+            const isAlwaysOpen = !!it.alwaysOpen || it.value === 'sec-dentlab';
             it.children.forEach(k => {
               if (k.value === moduleValue) {
-                bmState.openSection = idx;
+                bmState.openSection = isAlwaysOpen ? null : idx;
               } else if (k.children && k.children.some(sk => sk.value === moduleValue)) {
-                bmState.openSection = idx;
+                bmState.openSection = isAlwaysOpen ? null : idx;
                 bmState.openSubs[k.value] = true;
               }
             });
@@ -616,11 +646,12 @@ $perfilMenu  = htmlspecialchars(ucfirst(strtolower($_SESSION['perfil'] ?? 'Admin
           if (!it.children && it.value === moduleKey) {
             bmState.openSection = null;
           } else if (it.children) {
+            const isAlwaysOpen = !!it.alwaysOpen || it.value === 'sec-dentlab';
             it.children.forEach(k => {
               if (k.value === moduleKey) {
-                bmState.openSection = idx;
+                bmState.openSection = isAlwaysOpen ? null : idx;
               } else if (k.children && k.children.some(sk => sk.value === moduleKey)) {
-                bmState.openSection = idx;
+                bmState.openSection = isAlwaysOpen ? null : idx;
                 bmState.openSubs[k.value] = true;
               }
             });
