@@ -100,16 +100,16 @@ const DENT_STATE = {
     { id: 3, titulo: 'Alineadores Clear Dent en 5 Días Hábiles', subtitulo: 'Set completo con planificación 3D incluida', imagen: 'assets/dental-bg.jpg', orden: 3, estatus: true }
   ],
 
-  // 9. RECORDATORIOS
+  // 9. RECORDATORIOS Y TIPOS DE RECORDATORIO (Recordatorios.php & TiposRecordatorio.php)
   recordatorios: [
-    { id: 'REC-01', tipo: 'Entrega de Trabajo', doctor: 'Dr. Oscar Ramírez', mensaje: 'Confirmar recepción de Corona Zirconio #OT-9799 a las 14:30 hrs', fecha: '2026-10-07', estatus: 'Activo' },
-    { id: 'REC-02', tipo: 'Renovación de Paquete', doctor: 'Dra. Fátima Sánchez', mensaje: 'Restan solo 2 coronas disponibles en su paquete PACK-ZRC-10', fecha: '2026-10-08', estatus: 'Activo' },
-    { id: 'REC-03', tipo: 'Seguimiento Clínico', doctor: 'Dr. Arturo Morales', mensaje: 'Verificar prueba de bizcocho en puente de 3 unidades #OT-9830', fecha: '2026-10-09', estatus: 'Pendiente' }
+    { id: 1, usuario: 'Diana', tipo: 'Falso', idTipoRecordatorio: 2, doctor: 'Diana V.', mensaje: 'Falso', fecha: '2022-03-15', hora: '21:36:00', estatus: 'Activo' },
+    { id: 2, usuario: 'Irene', tipo: 'Ventas', idTipoRecordatorio: 3, doctor: 'Dr. Ana Laura', mensaje: 'Confirmar recepción de Corona Zirconio #OT-30594 a las 14:30 hrs', fecha: '2026-09-26', hora: '14:30:00', estatus: 'Activo' },
+    { id: 3, usuario: 'JoseD', tipo: 'Ventas', idTipoRecordatorio: 3, doctor: 'Dr. Arturo Camacho', mensaje: 'Seguimiento renovación de paquete PAQ: 3227', fecha: '2026-09-29', hora: '11:00:00', estatus: 'Activo' }
   ],
   tiposRecordatorio: [
-    { id: 1, nombre: 'Entrega de Trabajo', prioridad: 'Alta', canal: 'Push + WhatsApp', estatus: true },
-    { id: 2, nombre: 'Renovación de Paquete', prioridad: 'Media', canal: 'Correo + Push', estatus: true },
-    { id: 3, nombre: 'Seguimiento Clínico', prioridad: 'Normal', canal: 'Llamada / Sistema', estatus: true }
+    { id: 1, idTipoRecordatorio: 1, nombre: 'Fugaz34', prioridad: 'Alta', canal: 'Sistema DentControl', estatus: true },
+    { id: 2, idTipoRecordatorio: 2, nombre: 'Falso', prioridad: 'Media', canal: 'Sistema DentControl', estatus: true },
+    { id: 3, idTipoRecordatorio: 3, nombre: 'Ventas', prioridad: 'Alta', canal: 'Comercial / Vendedores', estatus: true }
   ],
 
   // 10. MARCAS DE DISCOS (MarcasLab.php)
@@ -2514,12 +2514,15 @@ const DENT_STATE = {
     { id: 10, codigo: 'BLEACH 2', marca: 'VITA 3D-Master', equivalente: '0M2 Bright White', hex: '#faf8f5', principal: true, estatus: true }
   ],
 
-  // 14. VENDEDORES & USUARIOS REALES DE DENT DEMO
+  // 14. VENDEDORES & USUARIOS REALES DE DENT DEMO (sys_usuarios & perfiles)
   vendedores: [
     {
-        "id": "VEN-01",
-        "nombre": "",
-        "zona": "Comercial DentLab",
+        "id": 26,
+        "codigo": "Jo2616",
+        "usuario": "JoseA",
+        "nombre": "Jose Alatorre",
+        "correo": "jalatorre@dentlab.mx",
+        "zona": "Torreón / Laguna",
         "doctoresAsignados": 15,
         "metaMensual": "$150,000",
         "avance": "$138,500 (92%)",
@@ -2527,296 +2530,405 @@ const DENT_STATE = {
         "estatus": true
     },
     {
-        "id": "VEN-02",
-        "nombre": "",
-        "zona": "Comercial DentLab",
-        "doctoresAsignados": 12,
+        "id": 31,
+        "codigo": "He3116",
+        "usuario": "HectorM",
+        "nombre": "Hector Minila",
+        "correo": "hminila@dentlab.mx",
+        "zona": "Monterrey / Nuevo León",
+        "doctoresAsignados": 18,
         "metaMensual": "$150,000",
-        "avance": "$138,500 (92%)",
+        "avance": "$142,000 (95%)",
         "comision": "8%",
         "estatus": true
     },
     {
-        "id": "VEN-03",
-        "nombre": "",
-        "zona": "Comercial DentLab",
-        "doctoresAsignados": 9,
+        "id": 32,
+        "codigo": "Jo3216",
+        "usuario": "JoseD",
+        "nombre": "Jose Diosdado",
+        "correo": "jdiosdado@dentlab.mx",
+        "zona": "Torreón / Durango",
+        "doctoresAsignados": 22,
         "metaMensual": "$150,000",
-        "avance": "$138,500 (92%)",
+        "avance": "$148,500 (99%)",
         "comision": "8%",
+        "estatus": true
+    }
+],
+  representantesVenta: [
+    {
+        "id": 5,
+        "usuario": "Representante1",
+        "nombre": "Alejandro",
+        "correo": "cesargue444@gmail.com",
+        "perfil": "Representantes",
         "estatus": true
     }
 ],
   usuarios: [
     {
-        "id": null,
-        "usuario": "",
+        "id": 1,
+        "usuario": "admin",
         "nombre": "Admin",
         "correo": "mhernandez@clinicadent.com",
-        "perfil": "",
+        "perfil": "Administrador",
+        "id_perfil": 1,
         "appEquipos": false,
-        "estatus": false
+        "estatus": true
     },
     {
-        "id": null,
-        "usuario": "",
+        "id": 4,
+        "usuario": "lmendoza",
         "nombre": "Luis",
         "correo": "lmendoza@resosistemas.mx",
-        "perfil": "",
+        "perfil": "Administrador",
+        "id_perfil": 1,
         "appEquipos": false,
         "estatus": false
     },
     {
-        "id": null,
-        "usuario": "",
+        "id": 5,
+        "usuario": "Representante1",
         "nombre": "Alejandro",
         "correo": "cesargue444@gmail.com",
-        "perfil": "",
+        "perfil": "Representantes",
+        "id_perfil": 8,
         "appEquipos": false,
-        "estatus": false
+        "estatus": true
     },
     {
-        "id": null,
-        "usuario": "",
+        "id": 7,
+        "usuario": "Diana",
         "nombre": "Diana V.",
         "correo": "diana@clinicadent.com",
-        "perfil": "",
-        "appEquipos": false,
-        "estatus": false
+        "perfil": "Laboratorio",
+        "id_perfil": 4,
+        "appEquipos": true,
+        "estatus": true
     },
     {
-        "id": null,
-        "usuario": "",
+        "id": 8,
+        "usuario": "Oscar",
         "nombre": "Dr. Oscar",
         "correo": "ochavez@clinicadent.com",
-        "perfil": "",
+        "perfil": "Medico",
+        "id_perfil": 3,
         "appEquipos": false,
-        "estatus": false
+        "estatus": true
     },
     {
-        "id": null,
-        "usuario": "",
+        "id": 9,
+        "usuario": "José",
         "nombre": "José D.",
         "correo": "jdiosdado@dentlab.mx",
-        "perfil": "",
+        "perfil": "Laboratorio",
+        "id_perfil": 4,
         "appEquipos": false,
-        "estatus": false
+        "estatus": true
     },
     {
-        "id": null,
-        "usuario": "",
+        "id": 10,
+        "usuario": "Isaac",
         "nombre": "Dr. Isaac",
         "correo": "icamacho@clinicadent.com",
-        "perfil": "",
+        "perfil": "Medico",
+        "id_perfil": 3,
         "appEquipos": false,
         "estatus": false
     },
     {
-        "id": null,
-        "usuario": "",
+        "id": 11,
+        "usuario": "Luis Gerardo",
         "nombre": "Dr. Luis Gerardo",
         "correo": "lgarellano@clinicadent.com",
-        "perfil": "",
+        "perfil": "Medico",
+        "id_perfil": 3,
         "appEquipos": false,
         "estatus": false
     },
     {
-        "id": null,
-        "usuario": "",
+        "id": 12,
+        "usuario": "Miriam",
         "nombre": "Miriam",
-        "correo": "miriam@c",
-        "perfil": "",
+        "correo": "miriam@clinicadent.com",
+        "perfil": "Medico",
+        "id_perfil": 3,
         "appEquipos": false,
         "estatus": false
     },
     {
-        "id": null,
-        "usuario": "",
+        "id": 13,
+        "usuario": "Alondra",
         "nombre": "Alondra",
-        "correo": "alondra@c",
-        "perfil": "",
+        "correo": "alondra@clinicadent.com",
+        "perfil": "Medico",
+        "id_perfil": 3,
         "appEquipos": false,
         "estatus": false
     },
     {
-        "id": null,
-        "usuario": "",
+        "id": 14,
+        "usuario": "Fatima",
         "nombre": "Fátima S. Dany",
-        "correo": "fatima@c",
-        "perfil": "",
+        "correo": "fatima@clinicadent.com",
+        "perfil": "Medico",
+        "id_perfil": 3,
         "appEquipos": false,
-        "estatus": false
+        "estatus": true
     },
     {
-        "id": null,
-        "usuario": "",
+        "id": 15,
+        "usuario": "Lorena",
         "nombre": "Lorena M.",
-        "correo": "Lorena@c",
-        "perfil": "",
+        "correo": "lorena@clinicadent.com",
+        "perfil": "Medico",
+        "id_perfil": 3,
         "appEquipos": false,
-        "estatus": false
+        "estatus": true
     },
     {
-        "id": null,
-        "usuario": "",
+        "id": 16,
+        "usuario": "Luis",
         "nombre": "Luis C.",
-        "correo": "l@c",
-        "perfil": "",
-        "appEquipos": false,
-        "estatus": false
+        "correo": "lcabrera@clinicadent.com",
+        "perfil": "Medico",
+        "id_perfil": 3,
+        "appEquipos": true,
+        "estatus": true
     },
     {
-        "id": null,
-        "usuario": "",
+        "id": 17,
+        "usuario": "Arturo",
         "nombre": "Arturo M.",
-        "correo": "arturo@c",
-        "perfil": "",
+        "correo": "arturo@clinicadent.com",
+        "perfil": "Medico",
+        "id_perfil": 3,
         "appEquipos": false,
-        "estatus": false
+        "estatus": true
     },
     {
-        "id": null,
-        "usuario": "",
+        "id": 18,
+        "usuario": "Vianeid",
         "nombre": "Vianeid S.",
-        "correo": "Vianeid@d",
-        "perfil": "",
+        "correo": "vianeid@dentlab.mx",
+        "perfil": "Medico",
+        "id_perfil": 3,
         "appEquipos": false,
-        "estatus": false
+        "estatus": true
     },
     {
-        "id": null,
-        "usuario": "",
+        "id": 19,
+        "usuario": "Arely",
         "nombre": "Arely S.",
-        "correo": "Arely@c",
-        "perfil": "",
+        "correo": "arely@clinicadent.com",
+        "perfil": "Medico",
+        "id_perfil": 3,
         "appEquipos": false,
         "estatus": false
     },
     {
-        "id": null,
-        "usuario": "",
+        "id": 20,
+        "usuario": "Isabel",
         "nombre": "Isabel D.",
-        "correo": "Isabel@c",
-        "perfil": "",
+        "correo": "isabel@clinicadent.com",
+        "perfil": "Medico",
+        "id_perfil": 3,
         "appEquipos": false,
         "estatus": false
     },
     {
-        "id": null,
-        "usuario": "",
+        "id": 21,
+        "usuario": "Mauricio",
         "nombre": "Mauricio S.",
-        "correo": "Mauricio@c",
-        "perfil": "",
-        "appEquipos": false,
-        "estatus": false
+        "correo": "mauricio@clinicadent.com",
+        "perfil": "Medico",
+        "id_perfil": 3,
+        "appEquipos": true,
+        "estatus": true
     },
     {
-        "id": null,
-        "usuario": "",
+        "id": 22,
+        "usuario": "Irene",
         "nombre": "Irene Martinez",
         "correo": "imartinez@dentlab.mx",
-        "perfil": "",
+        "perfil": "Administrador Laboratorio",
+        "id_perfil": 12,
         "appEquipos": false,
-        "estatus": false
+        "estatus": true
     },
     {
-        "id": null,
-        "usuario": "",
+        "id": 23,
+        "usuario": "Jose",
         "nombre": "José",
-        "correo": "@dentlab.mx",
-        "perfil": "",
+        "correo": "jose@dentlab.mx",
+        "perfil": "Laboratorio",
+        "id_perfil": 9,
         "appEquipos": false,
-        "estatus": false
+        "estatus": true
     },
     {
-        "id": null,
-        "usuario": "",
+        "id": 24,
+        "usuario": "Oscar",
         "nombre": "Oscar",
-        "correo": "@dentlab.mx",
-        "perfil": "",
+        "correo": "oscar@dentlab.mx",
+        "perfil": "Laboratorio",
+        "id_perfil": 4,
         "appEquipos": false,
-        "estatus": false
+        "estatus": true
     },
     {
-        "id": null,
-        "usuario": "",
+        "id": 25,
+        "usuario": "Amy",
         "nombre": "Amy",
-        "correo": "@dentlab.mx",
-        "perfil": "",
+        "correo": "amy@dentlab.mx",
+        "perfil": "Laboratorio",
+        "id_perfil": 9,
         "appEquipos": false,
-        "estatus": false
+        "estatus": true
     },
     {
-        "id": null,
-        "usuario": "",
+        "id": 26,
+        "usuario": "JoseA",
         "nombre": "Jose Alatorre",
         "correo": "jalatorre@dentlab.mx",
-        "perfil": "",
+        "perfil": "Vendedor",
+        "id_perfil": 11,
+        "codigoVendedor": "Jo2616",
         "appEquipos": false,
-        "estatus": false
+        "estatus": true
     },
     {
-        "id": null,
-        "usuario": "",
+        "id": 27,
+        "usuario": "ChristosV",
         "nombre": "Christos Vasilikostas",
         "correo": "cvasilikostas@dentlab.mx",
-        "perfil": "",
+        "perfil": "Laboratorio",
+        "id_perfil": 4,
         "appEquipos": false,
-        "estatus": false
+        "estatus": true
     },
     {
-        "id": null,
-        "usuario": "",
+        "id": 28,
+        "usuario": "LuisC",
         "nombre": "Luis Cervantes",
         "correo": "lcervantes@dentlab.mx",
-        "perfil": "",
+        "perfil": "Administrador Laboratorio",
+        "id_perfil": 12,
         "appEquipos": false,
         "estatus": false
     },
     {
-        "id": null,
-        "usuario": "",
+        "id": 29,
+        "usuario": "ArturoM",
         "nombre": "Arturo Meza",
         "correo": "ameza@dentlab.mx",
-        "perfil": "",
+        "perfil": "Escaneador",
+        "id_perfil": 10,
         "appEquipos": false,
-        "estatus": false
+        "estatus": true
     },
     {
-        "id": null,
-        "usuario": "",
+        "id": 30,
+        "usuario": "MauricioS",
         "nombre": "Mauricio Sotomayor",
         "correo": "msotomayor@dentlab.mx",
-        "perfil": "",
+        "perfil": "Escaneador",
+        "id_perfil": 10,
         "appEquipos": false,
-        "estatus": false
+        "estatus": true
     },
     {
-        "id": null,
-        "usuario": "",
+        "id": 31,
+        "usuario": "HectorM",
         "nombre": "Hector Minila",
         "correo": "hminila@dentlab.mx",
-        "perfil": "",
+        "perfil": "Vendedor",
+        "id_perfil": 11,
+        "codigoVendedor": "He3116",
         "appEquipos": false,
-        "estatus": false
+        "estatus": true
     },
     {
-        "id": null,
-        "usuario": "",
+        "id": 32,
+        "usuario": "JoseD",
         "nombre": "Jose Diosdado",
         "correo": "jdiosdado@dentlab.mx",
-        "perfil": "",
+        "perfil": "Vendedor",
+        "id_perfil": 11,
+        "codigoVendedor": "Jo3216",
+        "appEquipos": false,
+        "estatus": true
+    },
+    {
+        "id": 33,
+        "usuario": "CarlosE",
+        "nombre": "Carlos Esqueda",
+        "correo": "cesqueda@dentlab.mx",
+        "perfil": "Repartidor",
+        "id_perfil": 13,
         "appEquipos": false,
         "estatus": false
     },
     {
-        "id": null,
-        "usuario": "",
-        "nombre": "Carlos Esqueda",
-        "correo": "cesqueda@dentlab.mx",
-        "perfil": "",
+        "id": 35,
+        "usuario": "Sandra",
+        "nombre": "Sandra",
+        "correo": "sandra@dentlab.mx",
+        "perfil": "Administrador de equipos",
+        "id_perfil": 14,
+        "appEquipos": true,
+        "estatus": true
+    },
+    {
+        "id": 36,
+        "usuario": "Fernanda",
+        "nombre": "Fernanda",
+        "correo": "fernanda@dentlab.mx",
+        "perfil": "Administrador de equipos",
+        "id_perfil": 14,
+        "appEquipos": true,
+        "estatus": true
+    },
+    {
+        "id": 37,
+        "usuario": "Selene",
+        "nombre": "Selene",
+        "correo": "selene@dentlab.mx",
+        "perfil": "Administrador de equipos",
+        "id_perfil": 14,
+        "appEquipos": true,
+        "estatus": true
+    },
+    {
+        "id": 38,
+        "usuario": "Guadalupe",
+        "nombre": "Guadalupe",
+        "correo": "guadalupe@dentlab.mx",
+        "perfil": "Administrador de equipos",
+        "id_perfil": 14,
+        "appEquipos": true,
+        "estatus": true
+    },
+    {
+        "id": 41,
+        "usuario": "IreneEscaneador",
+        "nombre": "Irene Escaneadora",
+        "correo": "imartinez@dentlab.mx",
+        "perfil": "Escaneador",
+        "id_perfil": 10,
         "appEquipos": false,
-        "estatus": false
+        "estatus": true
+    },
+    {
+        "id": 42,
+        "usuario": "MauricioSLab",
+        "nombre": "Mauricio Sotomayor",
+        "correo": "msotomayor@dentlab.mx",
+        "perfil": "Administrador Laboratorio",
+        "id_perfil": 12,
+        "appEquipos": false,
+        "estatus": true
     }
 ],
 
@@ -3625,10 +3737,9 @@ function renderDynamicModule(key) {
       break;
     }
 
-    case 'recordatorios':
-    case 'tipos-recordatorio': {
+    case 'recordatorios': {
       container.innerHTML = `
-        ${renderHeaderBanner('Dent Lab • Recordatorios', key === 'recordatorios' ? 'Programación de Recordatorios' : 'Tipos de Recordatorio', 'Alertas automáticas para seguimiento de entregas, cobros y paquetes.', `
+        ${renderHeaderBanner('Dent Lab • Recordatorios', 'Programación de Recordatorios (Recordatorios.php)', 'Alertas automáticas para seguimiento de entregas, cobros y paquetes.', `
           <button onclick="openSimpleAddModal('recordatorios')" class="px-3.5 py-2 rounded-xl bg-blue-600 hover:bg-blue-700 text-white text-xs font-semibold flex items-center gap-1.5">
             <i data-lucide="plus" class="w-4 h-4"></i><span>Nuevo Recordatorio</span>
           </button>
@@ -3639,8 +3750,8 @@ function renderDynamicModule(key) {
               <tr>
                 <th class="px-3 py-2.5">Folio</th>
                 <th class="px-3 py-2.5">Tipo</th>
-                <th class="px-3 py-2.5">Doctor</th>
-                <th class="px-3 py-2.5">Mensaje de Recordatorio</th>
+                <th class="px-3 py-2.5">Usuario / Doctor</th>
+                <th class="px-3 py-2.5">Descripción de Recordatorio</th>
                 <th class="px-3 py-2.5">Fecha Programada</th>
                 <th class="px-3 py-2.5">Estatus</th>
               </tr>
@@ -3654,6 +3765,45 @@ function renderDynamicModule(key) {
                   <td class="px-3 py-2.5 text-left">${r.mensaje}</td>
                   <td class="px-3 py-2.5 font-mono">${r.fecha}</td>
                   <td class="px-3 py-2.5"><span class="px-2 py-0.5 rounded-full bg-emerald-100 text-emerald-800 text-[10px] font-bold">${r.estatus}</span></td>
+                </tr>
+              `).join('')}
+            </tbody>
+          </table>
+        </div>
+      `;
+      break;
+    }
+
+    case 'tipos-recordatorio': {
+      container.innerHTML = `
+        ${renderHeaderBanner('Dent Lab • Recordatorios', 'Tipos de Recordatorio (TiposRecordatorio.php)', 'Catálogo de clasificaciones de recordatorios del sistema DentControl.', `
+          <button onclick="openSimpleAddModal('tipos-recordatorio')" class="px-3.5 py-2 rounded-xl bg-blue-600 hover:bg-blue-700 text-white text-xs font-semibold flex items-center gap-1.5">
+            <i data-lucide="plus" class="w-4 h-4"></i><span>Nuevo Tipo de Recordatorio</span>
+          </button>
+        `)}
+        <div class="bg-white rounded-2xl border border-slate-200 p-5 shadow-sm">
+          <table class="w-full text-center text-xs">
+            <thead class="bg-slate-100 text-slate-600 font-bold border-b border-slate-200">
+              <tr>
+                <th class="px-3 py-2.5">ID</th>
+                <th class="px-3 py-2.5">Descripción</th>
+                <th class="px-3 py-2.5">Prioridad</th>
+                <th class="px-3 py-2.5">Canal de Notificación</th>
+                <th class="px-3 py-2.5">Estatus</th>
+              </tr>
+            </thead>
+            <tbody class="divide-y divide-slate-100">
+              ${DENT_STATE.tiposRecordatorio.map((t, i) => `
+                <tr class="hover:bg-slate-50">
+                  <td class="px-3 py-2.5 font-mono font-bold text-blue-600">#${t.id}</td>
+                  <td class="px-3 py-2.5 font-bold text-slate-800">${t.nombre}</td>
+                  <td class="px-3 py-2.5">${t.prioridad || 'Normal'}</td>
+                  <td class="px-3 py-2.5 text-slate-500">${t.canal || 'Sistema + Push'}</td>
+                  <td class="px-3 py-2.5">
+                    <button onclick="toggleItemStatus('tiposRecordatorio', ${i}, 'tipos-recordatorio')" class="px-2.5 py-0.5 rounded-full text-[10px] font-bold ${t.estatus ? 'bg-emerald-100 text-emerald-800' : 'bg-slate-200 text-slate-600'}">
+                      ${t.estatus ? 'ACTIVO' : 'INACTIVO'}
+                    </button>
+                  </td>
                 </tr>
               `).join('')}
             </tbody>
@@ -3929,15 +4079,19 @@ function renderDynamicModule(key) {
     // 8. ÓRDENES -> LISTA DE ÓRDENES (ListOrdenes.php)
     // ------------------------------------------------------------------------
     case 'lista-ordenes': {
+      const ordenesList = (typeof INICIO_DATA !== 'undefined' && Array.isArray(INICIO_DATA.ordenes) && INICIO_DATA.ordenes.length)
+        ? INICIO_DATA.ordenes
+        : DENT_STATE.controlLab;
+
       container.innerHTML = `
-        ${renderHeaderBanner('Dent Lab • Órdenes', 'Lista Maestra de Órdenes de Trabajo (ListOrdenes.php)', 'Consulta general de órdenes CAD/CAM, acceso a Hoja de Orden de Trabajo, Odontograma y alta de nueva orden.', `
+        ${renderHeaderBanner('Dent Lab • Órdenes', 'Lista Maestra de Órdenes de Trabajo (ListOrdenes.php)', 'Consulta general de órdenes CAD/CAM sincronizadas con DENT DEMO, acceso directo a Hoja de Orden de Trabajo y Odontograma.', `
           <button onclick="openSimpleAddModal('lista-ordenes')" class="px-3.5 py-2 rounded-xl bg-blue-600 hover:bg-blue-700 text-white text-xs font-semibold flex items-center gap-1.5 shadow-sm">
             <i data-lucide="plus" class="w-4 h-4"></i><span>Crear Nueva Orden</span>
           </button>
         `)}
         <div class="bg-white rounded-2xl border border-slate-200 p-5 shadow-sm space-y-4">
           <div class="flex flex-wrap items-center justify-between gap-3">
-            <input id="searchOrdList" onkeyup="filterDynamicTable('searchOrdList','tbodyOrdList')" placeholder="Buscar por #OT, doctor, paciente o restauración..." class="px-4 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs w-full sm:w-96 focus:outline-none focus:border-blue-600">
+            <input id="searchOrdList" onkeyup="filterDynamicTable('searchOrdList','tbodyOrdList')" placeholder="Buscar por Folio #OT, doctor, paciente, producto o forma de pago..." class="px-4 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs w-full sm:w-96 focus:outline-none focus:border-blue-600">
             <button onclick="openOdontogramaModal()" class="px-3.5 py-2 rounded-xl border border-blue-200 bg-blue-50 text-blue-700 text-xs font-bold flex items-center gap-1.5">
               <i data-lucide="scan-face" class="w-4 h-4"></i><span>Abrir Odontograma FDI</span>
             </button>
@@ -3946,33 +4100,41 @@ function renderDynamicModule(key) {
             <table class="w-full text-center text-xs">
               <thead class="bg-slate-100 text-slate-600 font-bold border-b border-slate-200">
                 <tr>
-                  <th class="px-3 py-2.5">Serie OT</th>
-                  <th class="px-3 py-2.5">Categoría</th>
-                  <th class="px-3 py-2.5">Producto</th>
-                  <th class="px-3 py-2.5">Piezas</th>
-                  <th class="px-3 py-2.5">Doctor</th>
-                  <th class="px-3 py-2.5">Paciente</th>
-                  <th class="px-3 py-2.5">Entrega</th>
-                  <th class="px-3 py-2.5">Orden de Trabajo</th>
+                  <th class="px-3 py-2.5">FOLIO</th>
+                  <th class="px-3 py-2.5">FORMA PAGO</th>
+                  <th class="px-3 py-2.5">ESCAN</th>
+                  <th class="px-3 py-2.5">DOCTOR</th>
+                  <th class="px-3 py-2.5">TIPO DOCTOR</th>
+                  <th class="px-3 py-2.5">PACIENTE</th>
+                  <th class="px-3 py-2.5">PRODUCTO</th>
+                  <th class="px-3 py-2.5">ENTREGA</th>
+                  <th class="px-3 py-2.5">IR A ORDEN</th>
                 </tr>
               </thead>
               <tbody id="tbodyOrdList" class="divide-y divide-slate-100">
-                ${DENT_STATE.controlLab.map(o => `
-                  <tr class="hover:bg-slate-50">
-                    <td class="px-3 py-2.5 font-mono font-bold text-blue-600">#${o.serie}</td>
-                    <td class="px-3 py-2.5"><span class="px-2 py-0.5 rounded bg-blue-50 text-blue-700 font-semibold text-[10px]">${o.categoria}</span></td>
-                    <td class="px-3 py-2.5 font-semibold">${o.producto}</td>
-                    <td class="px-3 py-2.5 font-mono font-bold">${o.piezas}</td>
-                    <td class="px-3 py-2.5">${o.doctor}</td>
-                    <td class="px-3 py-2.5">${o.paciente}</td>
-                    <td class="px-3 py-2.5 font-mono">${o.entrega}</td>
-                    <td class="px-3 py-2.5">
-                      <button onclick="openDigitalCard('${o.serie.replace('OT-','')}', '${o.producto}', '${o.paciente}', '${o.doctor}', 'Vita A2', 'Producción', '${o.entrega}')" class="px-2.5 py-1 rounded-lg bg-slate-900 hover:bg-blue-600 text-white text-[11px] font-semibold transition-colors">
-                        Ver Orden
-                      </button>
-                    </td>
-                  </tr>
-                `).join('')}
+                ${ordenesList.map(o => {
+                  const serie = o.serie || o.ot;
+                  const formaPago = o.paquetes && o.paquetes !== 'SIN PAQUETE' ? o.paquetes : (o.metodoPago || 'Efectivo');
+                  const conScan = o.conScan ? 'CON ESCAN' : 'SIN ESCAN';
+                  const tipoDoc = o.interno ? 'INTERNO' : 'EXTERNO';
+                  return `
+                    <tr class="hover:bg-slate-50">
+                      <td class="px-3 py-2.5 font-mono font-bold text-blue-600">#${serie}</td>
+                      <td class="px-3 py-2.5 font-mono text-[11px] font-semibold text-slate-700">${formaPago}</td>
+                      <td class="px-3 py-2.5"><span class="px-2 py-0.5 rounded text-[10px] font-bold ${o.conScan ? 'bg-blue-50 text-blue-700' : 'bg-slate-100 text-slate-600'}">${conScan}</span></td>
+                      <td class="px-3 py-2.5 font-semibold text-slate-800">${o.doctor}</td>
+                      <td class="px-3 py-2.5"><span class="px-2 py-0.5 rounded text-[10px] font-semibold ${o.interno ? 'bg-slate-900 text-white' : 'bg-slate-100 text-slate-700'}">${tipoDoc}</span></td>
+                      <td class="px-3 py-2.5">${o.paciente}</td>
+                      <td class="px-3 py-2.5 font-semibold">${o.producto}</td>
+                      <td class="px-3 py-2.5 font-mono">${o.entrega}</td>
+                      <td class="px-3 py-2.5">
+                        <button type="button" onclick="abrirOrdenTrabajo('${serie}')" class="btnEtiqueta btnEtiqueta--ot mx-auto" title="Abrir Orden de Trabajo #${serie}">
+                          <svg class="w-3.5 h-3.5 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5.5c-1.5-2-4-2.5-6-1-2 1.5-2.5 4.5-1.5 7 1 2.5 1.5 5.5 2 8 .3 1.5 1.8 1.5 2.5 0 .5-1.5 1-3.5 3-3.5s2.5 2 3 3.5c.7 1.5 2.2 1.5 2.5 0 .5-2.5 1-5.5 2-8 1-2.5.5-5.5-1.5-7-2-1.5-4.5-1-6 1z"/></svg>
+                        </button>
+                      </td>
+                    </tr>
+                  `;
+                }).join('')}
               </tbody>
             </table>
           </div>
@@ -4017,10 +4179,9 @@ function renderDynamicModule(key) {
     // 10. VENDEDOR, VENDEDORES Y USUARIOS
     // ------------------------------------------------------------------------
     case 'vendedor':
-    case 'vendedores-detalle':
-    case 'representantes-venta': {
+    case 'vendedores-detalle': {
       container.innerHTML = `
-        ${renderHeaderBanner('Dent Lab • Comercial', 'Ejecutivos y Representantes de Venta', 'Control de cartera de doctores, metas comerciales y comisiones por vendedor.', `
+        ${renderHeaderBanner('Dent Lab • Comercial', 'Ejecutivos de Venta (Vendedor.php / ListadoVendedores.php)', 'Control de vendedores activos en sys_usuarios (id_perfil = 11), código de vendedor y cartera de doctores.', `
           <button onclick="openSimpleAddModal('vendedores')" class="px-3.5 py-2 rounded-xl bg-blue-600 hover:bg-blue-700 text-white text-xs font-semibold flex items-center gap-1.5">
             <i data-lucide="user-plus" class="w-4 h-4"></i><span>Nuevo Vendedor</span>
           </button>
@@ -4029,25 +4190,63 @@ function renderDynamicModule(key) {
           <table class="w-full text-center text-xs">
             <thead class="bg-slate-100 text-slate-600 font-bold border-b border-slate-200">
               <tr>
-                <th class="px-3 py-2.5">ID</th>
+                <th class="px-3 py-2.5">Código Vendedor</th>
+                <th class="px-3 py-2.5">Usuario</th>
                 <th class="px-3 py-2.5">Ejecutivo Comercial</th>
+                <th class="px-3 py-2.5">Correo</th>
                 <th class="px-3 py-2.5">Zona Asignada</th>
                 <th class="px-3 py-2.5">Doctores en Cartera</th>
                 <th class="px-3 py-2.5">Meta Mensual</th>
                 <th class="px-3 py-2.5">Avance Actual</th>
-                <th class="px-3 py-2.5">Comisión</th>
               </tr>
             </thead>
             <tbody class="divide-y divide-slate-100">
               ${DENT_STATE.vendedores.map(v => `
                 <tr class="hover:bg-slate-50">
-                  <td class="px-3 py-2.5 font-mono font-bold text-blue-600">${v.id}</td>
+                  <td class="px-3 py-2.5 font-mono font-bold text-blue-600">${v.codigo || v.id}</td>
+                  <td class="px-3 py-2.5 font-mono text-slate-600">${v.usuario || ''}</td>
                   <td class="px-3 py-2.5 font-bold text-slate-900">${v.nombre}</td>
+                  <td class="px-3 py-2.5 text-slate-500">${v.correo || ''}</td>
                   <td class="px-3 py-2.5">${v.zona}</td>
                   <td class="px-3 py-2.5 font-mono font-bold">${v.doctoresAsignados} doctores</td>
                   <td class="px-3 py-2.5 font-mono">${v.metaMensual}</td>
                   <td class="px-3 py-2.5 font-mono font-bold text-emerald-700">${v.avance}</td>
-                  <td class="px-3 py-2.5 font-mono">${v.comision}</td>
+                </tr>
+              `).join('')}
+            </tbody>
+          </table>
+        </div>
+      `;
+      break;
+    }
+
+    case 'representantes-venta': {
+      const reps = DENT_STATE.representantesVenta || DENT_STATE.usuarios.filter(u => u.id_perfil === 8);
+      container.innerHTML = `
+        ${renderHeaderBanner('Dent Clinic • Representantes de Venta', 'Representantes de Venta (RepresentantesVenta.php)', 'Representantes comerciales registrados en sys_usuarios (id_perfil = 8) para convenios empresariales.')}
+        <div class="bg-white rounded-2xl border border-slate-200 p-5 shadow-sm">
+          <table class="w-full text-center text-xs">
+            <thead class="bg-slate-100 text-slate-600 font-bold border-b border-slate-200">
+              <tr>
+                <th class="px-3 py-2.5">ID</th>
+                <th class="px-3 py-2.5">Usuario</th>
+                <th class="px-3 py-2.5">Nombre</th>
+                <th class="px-3 py-2.5">Correo</th>
+                <th class="px-3 py-2.5">Empresas Asignadas</th>
+              </tr>
+            </thead>
+            <tbody class="divide-y divide-slate-100">
+              ${reps.map(r => `
+                <tr class="hover:bg-slate-50">
+                  <td class="px-3 py-2.5 font-mono font-bold text-blue-600">#${r.id}</td>
+                  <td class="px-3 py-2.5 font-mono font-semibold">${r.usuario}</td>
+                  <td class="px-3 py-2.5 font-bold text-slate-900">${r.nombre}</td>
+                  <td class="px-3 py-2.5 text-slate-500">${r.correo}</td>
+                  <td class="px-3 py-2.5">
+                    <button onclick="openModule('lista-empresas')" class="px-3 py-1 rounded-lg bg-blue-50 hover:bg-blue-600 text-blue-700 hover:text-white font-semibold text-[11px] transition-colors">
+                      Ver Empresas
+                    </button>
+                  </td>
                 </tr>
               `).join('')}
             </tbody>
@@ -4636,7 +4835,7 @@ function toggleItemStatus(arrayKey, index, viewKey) {
 }
 
 function toggleDoctorActivo(docId, viewKey) {
-  const doc = DENT_STATE.doctores.find(d => d.id === docId);
+  const doc = DENT_STATE.doctores.find(d => String(d.id) === String(docId) || String(d.codigo) === String(docId));
   if (!doc) return;
   doc.activo = !doc.activo;
   renderDynamicModule(viewKey);
@@ -4916,6 +5115,36 @@ function openSimpleAddModal(targetKey) {
         <div><label class="font-bold text-slate-600 block mb-1">Concepto / Orden *</label><input id="uf2" required placeholder="Entrega Corona Zirconio #OT-9850" class="w-full px-3.5 py-2 rounded-xl border border-slate-200"></div>
         <div><label class="font-bold text-slate-600 block mb-1">Doctor y Hora *</label><input id="uf3" required placeholder="Dr. Oscar Ramírez • 16:00" class="w-full px-3.5 py-2 rounded-xl border border-slate-200"></div>
       `
+    },
+    'tipos-recordatorio': {
+      title: 'Agregar Tipo de Recordatorio',
+      html: `
+        <div><label class="font-bold text-slate-600 block mb-1">Descripción *</label><input id="uf1" required placeholder="Ej. Seguimiento Post-Entrega" class="w-full px-3.5 py-2 rounded-xl border border-slate-200"></div>
+      `
+    },
+    'recordatorios': {
+      title: 'Nuevo Recordatorio',
+      html: `
+        <div><label class="font-bold text-slate-600 block mb-1">Usuario *</label><input id="uf1" required value="Admin1" class="w-full px-3.5 py-2 rounded-xl border border-slate-200"></div>
+        <div><label class="font-bold text-slate-600 block mb-1">Descripción *</label><input id="uf2" required placeholder="Ej. Confirmar entrega de corona" class="w-full px-3.5 py-2 rounded-xl border border-slate-200"></div>
+        <div><label class="font-bold text-slate-600 block mb-1">Tipo *</label><input id="uf3" required value="Ventas" class="w-full px-3.5 py-2 rounded-xl border border-slate-200"></div>
+      `
+    },
+    'vendedores': {
+      title: 'Registrar Vendedor (id_perfil = 11)',
+      html: `
+        <div><label class="font-bold text-slate-600 block mb-1">Nombre Completo *</label><input id="uf1" required placeholder="Ej. Lic. Roberto Garza" class="w-full px-3.5 py-2 rounded-xl border border-slate-200"></div>
+        <div><label class="font-bold text-slate-600 block mb-1">Código Vendedor *</label><input id="uf2" required placeholder="Ej. Ro3316" class="w-full px-3.5 py-2 rounded-xl border border-slate-200"></div>
+        <div><label class="font-bold text-slate-600 block mb-1">Correo *</label><input id="uf3" type="email" required placeholder="vendedor@dentlab.com.mx" class="w-full px-3.5 py-2 rounded-xl border border-slate-200"></div>
+      `
+    },
+    'representantes-venta': {
+      title: 'Registrar Representante de Venta (id_perfil = 8)',
+      html: `
+        <div><label class="font-bold text-slate-600 block mb-1">Nombre Completo *</label><input id="uf1" required placeholder="Ej. Lic. Alejandro Torres" class="w-full px-3.5 py-2 rounded-xl border border-slate-200"></div>
+        <div><label class="font-bold text-slate-600 block mb-1">Usuario *</label><input id="uf2" required placeholder="Ej. Representante2" class="w-full px-3.5 py-2 rounded-xl border border-slate-200"></div>
+        <div><label class="font-bold text-slate-600 block mb-1">Correo *</label><input id="uf3" type="email" required placeholder="representante@dentlab.com.mx" class="w-full px-3.5 py-2 rounded-xl border border-slate-200"></div>
+      `
     }
   };
 
@@ -4983,8 +5212,11 @@ function submitUniversalModal(e) {
     case 'baners-app':
       DENT_STATE.banersApp.push({ id: DENT_STATE.banersApp.length + 1, titulo: v1, subtitulo: v2, imagen: 'assets/dental_cadcam.jpg', orden: DENT_STATE.banersApp.length + 1, estatus: true });
       break;
+    case 'tipos-recordatorio':
+      DENT_STATE.tiposRecordatorio.push({ id: DENT_STATE.tiposRecordatorio.length + 1, descripcion: v1, estatus: true });
+      break;
     case 'recordatorios':
-      DENT_STATE.recordatorios.unshift({ id: 'REC-0' + (DENT_STATE.recordatorios.length + 1), tipo: 'Seguimiento', doctor: v1, mensaje: v2, fecha: '2026-10-08', estatus: 'Activo' });
+      DENT_STATE.recordatorios.unshift({ id: DENT_STATE.recordatorios.length + 1, usuario: v1 || 'Admin1', descripcion: v2 || v1, fecha: '2026-10-12 15:00:00', tipo: v3 || 'Ventas', estatus: true });
       break;
     case 'marcas-discos':
       DENT_STATE.marcasDiscos.push({ id: DENT_STATE.marcasDiscos.length + 1, marca: v1, origen: v2, material: v3 || 'Zirconio CAD/CAM', estatus: true });
@@ -4993,7 +5225,10 @@ function submitUniversalModal(e) {
       DENT_STATE.categorias.push({ id: DENT_STATE.categorias.length + 1, nombre: v1, descripcion: v2, productos: 5, estatus: true });
       break;
     case 'vendedores':
-      DENT_STATE.vendedores.push({ id: 'VEN-0' + (DENT_STATE.vendedores.length + 1), nombre: v1, zona: v2, doctoresAsignados: 8, metaMensual: '$120,000', avance: '$45,000 (37%)', comision: '8%', estatus: true });
+      DENT_STATE.vendedores.push({ id: 30 + DENT_STATE.vendedores.length, usuario: v1.split(' ')[0] || 'Vendedor', nombre: v1, codigo: v2 || 'VN' + (3300 + DENT_STATE.vendedores.length), correo: v3 || 'ventas@dentlab.com.mx', doctoresAsignados: 0, perfil: 'Vendedor', estatus: true });
+      break;
+    case 'representantes-venta':
+      DENT_STATE.representantesVenta.push({ id: 40 + DENT_STATE.representantesVenta.length, usuario: v2 || 'Representante', nombre: v1, codigo: 'REP-0' + (DENT_STATE.representantesVenta.length + 1), correo: v3 || 'rep@dentlab.com.mx', perfil: 'Representante de venta', estatus: true });
       break;
     case 'empleados':
       DENT_STATE.empleadosConvenio.unshift({ id: 'EMP-BEN-99', nombre: v1, empresa: v2, puesto: v3 || 'Colaborador', credencial: 'CNV-2026', beneficio: '20% Descuento Convenio', estatus: true });
@@ -8648,6 +8883,12 @@ window.togglePiezaOrdenActual = function(dienteNum) {
   renderVistaOrdenTrabajo();
 };
 
+window.updateCampoOrdenActual = function (campo, valor) {
+  const o = currentOrdenActiva || INICIO_DATA.ordenes[0];
+  if (!o) return;
+  o[campo] = valor;
+};
+
 function renderVistaOrdenTrabajo() {
   const o = currentOrdenActiva || INICIO_DATA.ordenes[0];
   window._currentOdontoOrden = o;
@@ -8746,7 +8987,7 @@ function renderVistaOrdenTrabajo() {
                 <div class="min-w-0 break-words"><span class="text-slate-400 font-semibold uppercase text-[9.5px] block">Agenda fin</span><strong class="font-mono text-slate-700">${o.agendaFin || 'N/A'}</strong></div>
               </div>
               <div>
-                <input type="text" value="${o.observacionesEscaneador || ''}" placeholder="Observaciones de escaneo..." class="w-full px-3 py-1.5 rounded-xl border border-slate-200 bg-white text-xs">
+                <input type="text" value="${o.observacionesEscaneador || ''}" oninput="window.updateCampoOrdenActual('observacionesEscaneador', this.value)" placeholder="Observaciones de escaneo..." class="w-full px-3 py-1.5 rounded-xl border border-slate-200 bg-white text-xs">
               </div>
             </div>
 
@@ -8796,7 +9037,7 @@ function renderVistaOrdenTrabajo() {
                 <div class="min-w-0 break-words"><span class="text-slate-400 font-semibold uppercase text-[9.5px] block">Celular</span><strong class="font-mono text-slate-800 break-words">${o.celular || (docObj ? docObj.celular : '')}</strong></div>
                 <div class="min-w-0 break-words"><span class="text-slate-400 font-semibold uppercase text-[9.5px] block">Colorímetro</span><strong class="text-[#334e68] font-bold break-words">${o.color}</strong></div>
                 <div class="min-w-0 sm:col-span-2 break-words"><span class="text-slate-400 font-semibold uppercase text-[9.5px] block">Dirección</span><strong class="text-slate-700 break-words">${o.direccion || (docObj ? docObj.direccion : '')}</strong></div>
-                <div class="min-w-0"><span class="text-slate-400 font-semibold uppercase text-[9.5px] block">Entrega solicitada</span><input type="date" value="${o.entrega}" class="mt-0.5 px-2.5 py-1 rounded-lg border border-slate-200 bg-white font-mono text-xs max-w-full"></div>
+                <div class="min-w-0"><span class="text-slate-400 font-semibold uppercase text-[9.5px] block">Entrega solicitada</span><input type="date" value="${o.entrega}" onchange="window.updateCampoOrdenActual('entrega', this.value)" class="mt-0.5 px-2.5 py-1 rounded-lg border border-slate-200 bg-white font-mono text-xs max-w-full"></div>
                 <div class="min-w-0 break-words"><span class="text-slate-400 font-semibold uppercase text-[9.5px] block">Liberación</span><strong class="font-mono text-slate-700 break-words">${o.libProd || 'Pendiente'} ${o.nombreLib ? '(' + o.nombreLib + ')' : ''}</strong></div>
                 <div class="min-w-0 break-words"><span class="text-slate-400 font-semibold uppercase text-[9.5px] block">Pago</span><strong class="text-slate-800 break-words">${o.metodoPago || 'Efectivo'}</strong></div>
                 <div class="min-w-0 break-words"><span class="text-slate-400 font-semibold uppercase text-[9.5px] block">Paquete</span><strong class="font-mono text-slate-800 break-words">${o.paquetes || 'SIN PAQUETE'}</strong></div>
@@ -8809,29 +9050,29 @@ function renderVistaOrdenTrabajo() {
                 </div>
                 <div>
                   <label class="text-slate-400 font-semibold uppercase text-[9.5px] block mb-1">Notas Laboratorio</label>
-                  <textarea rows="2" class="w-full p-2 rounded-xl border border-slate-200 bg-white text-[11px] text-slate-700 resize-none" placeholder="Observaciones internas...">${o.observacionesLab || ''}</textarea>
+                  <textarea rows="2" oninput="window.updateCampoOrdenActual('observacionesLab', this.value)" class="w-full p-2 rounded-xl border border-slate-200 bg-white text-[11px] text-slate-700 resize-none" placeholder="Observaciones internas...">${o.observacionesLab || ''}</textarea>
                 </div>
               </div>
 
               <div class="flex flex-wrap items-center gap-1.5 pt-2 border-t border-slate-200/80">
                 <label class="inline-flex items-center gap-1.5 bg-white px-2.5 py-1.5 rounded-lg border border-slate-200 cursor-pointer hover:border-slate-300 transition-colors">
-                  <input type="checkbox" ${o.autColor ? 'checked' : ''} class="rounded text-slate-800 accent-[#334e68]">
+                  <input type="checkbox" ${o.autColor ? 'checked' : ''} onchange="window.updateCampoOrdenActual('autColor', this.checked)" class="rounded text-slate-800 accent-[#334e68]">
                   <span class="font-semibold text-[11px] text-slate-700">Color</span>
                 </label>
                 <label class="inline-flex items-center gap-1.5 bg-white px-2.5 py-1.5 rounded-lg border border-slate-200 cursor-pointer hover:border-slate-300 transition-colors">
-                  <input type="checkbox" ${o.autMordida ? 'checked' : ''} class="rounded text-slate-800 accent-[#334e68]">
+                  <input type="checkbox" ${o.autMordida ? 'checked' : ''} onchange="window.updateCampoOrdenActual('autMordida', this.checked)" class="rounded text-slate-800 accent-[#334e68]">
                   <span class="font-semibold text-[11px] text-slate-700">Mordida</span>
                 </label>
                 <label class="inline-flex items-center gap-1.5 bg-white px-2.5 py-1.5 rounded-lg border border-slate-200 cursor-pointer hover:border-slate-300 transition-colors">
-                  <input type="checkbox" ${o.autMunon ? 'checked' : ''} class="rounded text-slate-800 accent-[#334e68]">
+                  <input type="checkbox" ${o.autMunon ? 'checked' : ''} onchange="window.updateCampoOrdenActual('autMunon', this.checked)" class="rounded text-slate-800 accent-[#334e68]">
                   <span class="font-semibold text-[11px] text-slate-700">Muñón</span>
                 </label>
                 <label class="inline-flex items-center gap-1.5 bg-white px-2.5 py-1.5 rounded-lg border border-slate-200 cursor-pointer hover:border-slate-300 transition-colors">
-                  <input type="checkbox" ${o.autAdit ? 'checked' : ''} class="rounded text-slate-800 accent-[#334e68]">
+                  <input type="checkbox" ${o.autAdit ? 'checked' : ''} onchange="window.updateCampoOrdenActual('autAdit', this.checked)" class="rounded text-slate-800 accent-[#334e68]">
                   <span class="font-semibold text-[11px] text-slate-700">Aditamento</span>
                 </label>
                 <label class="inline-flex items-center gap-1.5 bg-white px-2.5 py-1.5 rounded-lg border border-slate-200 cursor-pointer hover:border-slate-300 transition-colors">
-                  <input type="checkbox" checked class="rounded text-slate-800 accent-[#334e68]">
+                  <input type="checkbox" ${o.autLinea !== false ? 'checked' : ''} onchange="window.updateCampoOrdenActual('autLinea', this.checked)" class="rounded text-slate-800 accent-[#334e68]">
                   <span class="font-semibold text-[11px] text-slate-700">Línea Sellado</span>
                 </label>
               </div>
@@ -9514,7 +9755,7 @@ function mapOrdenGeneralFromDb(r) {
     tipoDoctorExterno: Number(r.TipoDoctorExterno),
     color: (r.colorimetro || existing.color || 'VITA CLASSICAL A2').trim() || 'VITA CLASSICAL A2',
     observaciones: r.Observaciones ?? existing.observaciones ?? '',
-    observacionesLab: r.ObservacionesLaboratororio ?? existing.observacionesLab ?? '',
+    observacionesLab: r.ObservacionesLaboratororio ?? r.ObservacionesLaboratorio ?? existing.observacionesLab ?? '',
     piezas: existing.piezas || ['11'],
     _fromLiveDb: true
   };
@@ -9556,7 +9797,7 @@ function applyDatabasePayload(data) {
     INICIO_DATA.canceladas = data.canceladas.map(c => ({
       serie: String(c.Serie),
       responsable: c.Nombre || 'Laboratorio',
-      comentario: c.ObservacionesLaboratororio || 'SIN COMENTARIO'
+      comentario: c.ObservacionesLaboratororio || c.ObservacionesLaboratorio || 'SIN COMENTARIO'
     }));
     INICIO_DATA.canceladasCount = data.canceladas_count || data.canceladas.length;
   }
@@ -9689,7 +9930,7 @@ window.fetchOrdenDetalleLive = async function (serie) {
       color: (r.colorimetro || 'VITA CLASSICAL A2').trim() || 'VITA CLASSICAL A2',
       observaciones: r.Observaciones || '',
       observacionesEscaneador: r.ObservacionesEscaneador || '',
-      observacionesLab: r.ObservacionesLaboratororio || '',
+      observacionesLab: r.ObservacionesLaboratororio || r.ObservacionesLaboratorio || '',
       direccion: r.Direccion || '',
       celular: r.Celular || '',
       usuarioEscaneo: r.NombreEscaneador || 'Sin escaneador asignado',

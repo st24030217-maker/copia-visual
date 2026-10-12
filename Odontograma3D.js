@@ -432,7 +432,7 @@
         this.lastY = e.clientY;
         this.updateAutoRotateBtn();
       });
-      window.addEventListener('mousemove', (e) => {
+      this._onWinMouseMove = (e) => {
         if (!this.isDragging) return;
         const dx = e.clientX - this.lastX;
         const dy = e.clientY - this.lastY;
@@ -443,10 +443,12 @@
         this.yaw = this.targetYaw;
         this.pitch = this.targetPitch;
         this.requestDraw();
-      });
-      window.addEventListener('mouseup', () => {
+      };
+      this._onWinMouseUp = () => {
         this.isDragging = false;
-      });
+      };
+      window.addEventListener('mousemove', this._onWinMouseMove);
+      window.addEventListener('mouseup', this._onWinMouseUp);
 
       // Soporte táctil para iPad / tablets / móviles (bloquea scroll de página al rotar 3D)
       this.pinchDist = 0;
@@ -503,6 +505,21 @@
         this.zoom = Math.max(0.75, Math.min(1.65, this.zoom - e.deltaY * 0.001));
         this.requestDraw();
       }, { passive: false });
+    }
+
+    dispose() {
+      if (this.rafId) {
+        cancelAnimationFrame(this.rafId);
+        this.rafId = null;
+      }
+      if (this._onWinMouseMove) {
+        window.removeEventListener('mousemove', this._onWinMouseMove);
+        this._onWinMouseMove = null;
+      }
+      if (this._onWinMouseUp) {
+        window.removeEventListener('mouseup', this._onWinMouseUp);
+        this._onWinMouseUp = null;
+      }
     }
 
     updateAutoRotateBtn() {
@@ -608,9 +625,41 @@
     },
 
     initViewer(canvasId, prefix) {
+      const prev = this.instances[prefix];
+      let savedState = null;
+      if (prev) {
+        if (prev.canvas && prev.canvas === document.getElementById(canvasId) && prev.gl) {
+          prev.fdi = this.selectedFdi;
+          this.syncUI(prefix, this.selectedFdi);
+          prev.requestDraw();
+          return prev;
+        }
+        savedState = {
+          yaw: prev.yaw,
+          pitch: prev.pitch,
+          targetYaw: prev.targetYaw,
+          targetPitch: prev.targetPitch,
+          zoom: prev.zoom,
+          autoRotate: prev.autoRotate,
+          prepMode: prev.prepMode,
+          activeView: prev.activeView
+        };
+        if (typeof prev.dispose === 'function') prev.dispose();
+      }
       const inst = new ToothViewerInstance(canvasId, prefix);
       if (inst && inst.gl) {
         inst.fdi = this.selectedFdi;
+        if (savedState) {
+          inst.yaw = savedState.yaw;
+          inst.pitch = savedState.pitch;
+          inst.targetYaw = savedState.targetYaw;
+          inst.targetPitch = savedState.targetPitch;
+          inst.zoom = savedState.zoom;
+          inst.autoRotate = savedState.autoRotate;
+          inst.prepMode = savedState.prepMode;
+          inst.activeView = savedState.activeView;
+          inst.updateAutoRotateBtn();
+        }
         this.instances[prefix] = inst;
         this.syncUI(prefix, this.selectedFdi);
         inst.requestDraw();

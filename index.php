@@ -1574,9 +1574,15 @@ $perfilActual  = htmlspecialchars($_SESSION['perfil'] ?? 'Administrador', ENT_QU
     // Sidebar
     function toggleSidebar() {
       const sb = document.getElementById('sidebar');
+      if (!sb) return;
       sb.classList.toggle('w-64');
       sb.classList.toggle('w-0');
       sb.classList.toggle('overflow-hidden');
+      sb.classList.toggle('border-r');
+      sb.classList.toggle('border-r-0');
+    }
+    if (window.innerWidth < 1024) {
+      toggleSidebar();
     }
 
     function toggleSettingsDropdown(e) {
