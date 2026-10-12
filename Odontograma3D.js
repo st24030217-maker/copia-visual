@@ -479,9 +479,9 @@
       const btn = document.getElementById(this.prefix + 'BtnAutoRotate3D');
       if (btn) {
         if (this.autoRotate) {
-          btn.className = 'px-2.5 py-1 rounded-lg text-[10px] font-bold bg-[#334e68] text-white border border-[#334e68] transition-all';
+          btn.className = 'px-2 py-1 rounded-lg text-[10px] font-bold bg-[#334e68] text-white border border-[#334e68] transition-all cursor-pointer';
         } else {
-          btn.className = 'px-2.5 py-1 rounded-lg text-[10px] font-bold bg-white text-slate-600 border border-slate-200 hover:bg-slate-100 transition-all';
+          btn.className = 'px-2 py-1 rounded-lg text-[10px] font-bold bg-white/90 text-slate-600 border border-slate-200 hover:bg-slate-100 transition-all cursor-pointer';
         }
       }
     }
@@ -501,7 +501,7 @@
       const dpr = Math.min(window.devicePixelRatio || 1, 2);
       const rect = this.canvas.getBoundingClientRect();
       const w = Math.max(220, Math.floor((rect.width || 280) * dpr));
-      const h = Math.max(220, Math.floor((rect.height || 260) * dpr));
+      const h = Math.max(200, Math.floor((rect.height || 220) * dpr));
       if (this.canvas.width !== w || this.canvas.height !== h) {
         this.canvas.width = w;
         this.canvas.height = h;
@@ -631,11 +631,11 @@
       const btn = document.getElementById(prefix + 'BtnPrepMode3D');
       if (btn) {
         if (inst.prepMode === 1) {
-          btn.textContent = 'Muñón Tallado';
-          btn.className = 'px-2.5 py-1 rounded-lg text-[10px] font-bold bg-[#755c34] text-white border border-[#755c34] transition-all cursor-pointer';
+          btn.textContent = 'Muñón';
+          btn.className = 'px-2 py-1 rounded-lg text-[10px] font-bold bg-[#755c34] text-white border border-[#755c34] transition-all cursor-pointer';
         } else {
-          btn.textContent = 'Corona Completa';
-          btn.className = 'px-2.5 py-1 rounded-lg text-[10px] font-bold bg-white text-slate-600 border border-slate-200 hover:bg-slate-100 transition-all cursor-pointer';
+          btn.textContent = 'Corona';
+          btn.className = 'px-2 py-1 rounded-lg text-[10px] font-bold bg-white/90 text-slate-600 border border-slate-200 hover:bg-slate-100 transition-all cursor-pointer';
         }
       }
       inst.requestDraw();
@@ -664,30 +664,30 @@
       const elState = document.getElementById(prefix + '3DToothState');
       const elSpecs = document.getElementById(prefix + '3DToothSpecs');
 
-      if (elNum) elNum.textContent = '#' + fdi;
+      if (elNum) elNum.textContent = fdi;
       if (elName) elName.textContent = meta.name;
-      if (elType) elType.textContent = meta.type;
-      if (elSpecs) elSpecs.textContent = `${meta.cusps} ${meta.cusps === 1 ? 'Cúspide/Borde' : 'Cúspides'} • ${meta.roots} ${meta.roots === 1 ? 'Raíz' : 'Raíces'} • Tono ${shade}`;
+      if (elType) elType.textContent = shade;
+      if (elSpecs) elSpecs.textContent = `${meta.roots}R • ${meta.cusps}C`;
 
       if (elState) {
         if (st === 'PILAR') {
-          elState.textContent = 'PILAR SELECCIONADO';
-          elState.className = 'px-2 py-0.5 rounded-md text-[9px] font-extrabold uppercase tracking-wider bg-[#2f6353] text-white';
+          elState.textContent = 'Pilar';
+          elState.className = 'px-2 py-0.5 rounded-full text-[9.5px] font-bold bg-[#2f6353] text-white';
         } else if (st === 'PONTICO') {
-          elState.textContent = 'PÓNTICO SUSPENDIDO';
-          elState.className = 'px-2 py-0.5 rounded-md text-[9px] font-extrabold uppercase tracking-wider bg-[#755c34] text-white';
+          elState.textContent = 'Póntico';
+          elState.className = 'px-2 py-0.5 rounded-full text-[9.5px] font-bold bg-[#755c34] text-white';
         } else {
-          elState.textContent = 'PIEZA NATURAL';
-          elState.className = 'px-2 py-0.5 rounded-md text-[9px] font-extrabold uppercase tracking-wider bg-slate-200 text-slate-700';
+          elState.textContent = 'Natural';
+          elState.className = 'px-2 py-0.5 rounded-full text-[9.5px] font-semibold bg-slate-200/80 text-slate-600';
         }
       }
 
-      // Actualizar tira de 6 vistas de referencia de la muestra 3D
+      // Actualizar tira de 6 vistas de referencia de la muestra 3D (minimalista)
       const refGrid = document.getElementById(prefix + '3DRefViewsGrid');
       if (refGrid) {
         const views = [
           { key: 'frontal',        short: 'Frontal' },
-          { key: 'posterior',      short: 'Posterior' },
+          { key: 'posterior',      short: 'Lingual' },
           { key: 'lateral_mesial', short: 'Mesial' },
           { key: 'lateral_distal', short: 'Distal' },
           { key: 'oclusal',        short: 'Oclusal' },
@@ -699,11 +699,12 @@
           const imgSrc = `assets/odontograma/ref_${meta.ref}_${v.key}.png`;
           return `
             <button type="button" onclick="window.Odontograma3D.setView('${prefix}', '${v.key}')"
-              class="group flex flex-col items-center p-1 rounded-lg border transition-all ${isAct ? 'border-[#334e68] bg-[#f0f4f8] shadow-sm' : 'border-slate-200/80 bg-white hover:border-slate-300'}">
-              <div class="w-full h-11 rounded bg-[#fafaf9] overflow-hidden flex items-center justify-center">
-                <img src="${imgSrc}" alt="${v.short}" class="h-10 w-auto object-contain transition-transform duration-150 group-hover:scale-110">
+              title="Vista ${v.short}"
+              class="group flex flex-col items-center p-1.5 rounded-xl border transition-all cursor-pointer ${isAct ? 'border-[#334e68] bg-[#f1f5f9] shadow-2xs' : 'border-slate-200/70 bg-white hover:border-slate-300'}">
+              <div class="w-full h-12 rounded-lg bg-[#fafaf9] overflow-hidden flex items-center justify-center">
+                <img src="${imgSrc}" alt="${v.short}" class="h-11 w-auto object-contain transition-transform duration-150 group-hover:scale-110">
               </div>
-              <span class="mt-0.5 text-[9px] font-bold ${isAct ? 'text-[#334e68]' : 'text-slate-500'}">${v.short}</span>
+              <span class="mt-1 text-[8.5px] font-semibold tracking-wide ${isAct ? 'text-[#334e68]' : 'text-slate-400'}">${v.short}</span>
             </button>
           `;
         }).join('');

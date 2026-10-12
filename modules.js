@@ -8655,52 +8655,73 @@ function renderVistaOrdenTrabajo() {
   const container = document.getElementById('section-dynamic');
   if (!container) return;
 
-  const dientesSup = [18,17,16,15,14,13,12,11, 21,22,23,24,25,26,27,28];
-  const dientesInf = [48,47,46,45,44,43,42,41, 31,32,33,34,35,36,37,38];
+  const q1 = [18,17,16,15,14,13,12,11];
+  const q2 = [21,22,23,24,25,26,27,28];
+  const q4 = [48,47,46,45,44,43,42,41];
+  const q3 = [31,32,33,34,35,36,37,38];
   if (!o.tiposPieza) o.tiposPieza = {};
   const brush = window._odontoBrushMode || 'PILAR';
-  const renderDienteCard3D = (d) => {
+
+  const renderDienteCard3D = (d, isLower = false) => {
     const s = String(d);
     const isSel = (o.piezas || []).map(String).includes(s);
     const tipo = o.tiposPieza[s] || (isSel ? 'PILAR' : null);
-    let cardStyle = 'background:#ffffff;border-color:#e2e8f0;color:#334155;';
-    let topNumStyle = 'color:#475569;';
-    let badgeHtml = '<span class="w-full h-4 rounded-md text-[8.5px] font-semibold uppercase tracking-wider flex items-center justify-center text-slate-400 bg-slate-100/90 group-hover:bg-slate-200/80 group-hover:text-slate-600 transition-colors">Libre</span>';
+
+    let cardStyle = 'background:#ffffff;border-color:transparent;color:#64748b;';
+    let numStyle = 'color:#94a3b8;';
+    let dotStyle = 'background:#e2e8f0;';
+
     if (tipo === 'PILAR') {
-      cardStyle = 'background:linear-gradient(180deg,#e6f2ee 0%,#d5e8e1 100%);border-color:#3d7a68;color:#1c3b32;box-shadow:0 3px 10px rgba(47,99,83,0.16);';
-      topNumStyle = 'color:#1c3b32;';
-      badgeHtml = '<span class="w-full h-4 rounded-md text-[8.5px] font-extrabold uppercase tracking-wider flex items-center justify-center shadow-2xs" style="background:#2f6353;color:#ffffff;">Pilar</span>';
+      cardStyle = 'background:linear-gradient(180deg,#eef5f2 0%,#dfece7 100%);border-color:#4b8372;color:#1c3b32;box-shadow:0 2px 8px rgba(47,99,83,0.14);';
+      numStyle = 'color:#1c3b32;font-weight:800;';
+      dotStyle = 'background:#2f6353;transform:scale(1.25);';
     } else if (tipo === 'PONTICO') {
-      cardStyle = 'background:linear-gradient(180deg,#f5efe2 0%,#eae0cc 100%);border-color:#917444;color:#45351e;box-shadow:0 3px 10px rgba(117,92,52,0.16);';
-      topNumStyle = 'color:#45351e;';
-      badgeHtml = '<span class="w-full h-4 rounded-md text-[8.5px] font-extrabold uppercase tracking-wider flex items-center justify-center shadow-2xs" style="background:#755c34;color:#ffffff;">Póntico</span>';
+      cardStyle = 'background:linear-gradient(180deg,#f6f1e7 0%,#ece2cf 100%);border-color:#967949;color:#45351e;box-shadow:0 2px 8px rgba(117,92,52,0.14);';
+      numStyle = 'color:#45351e;font-weight:800;';
+      dotStyle = 'background:#755c34;transform:scale(1.25);';
     }
+
+    const numSpan = `<span class="font-mono text-[9.5px] font-bold leading-none tracking-tight select-none" style="${numStyle}">${s}</span>`;
+    const dotSpan = `<span class="w-1.5 h-1.5 rounded-full transition-all duration-150" style="${dotStyle}"></span>`;
+
     return `
       <button type="button" onclick="window.togglePiezaOrdenActual('${s}')"
         onmouseenter="window.Odontograma3D && window.Odontograma3D.selectTooth(${s})"
+        title="Pieza ${s}${tipo ? ' • ' + (tipo === 'PONTICO' ? 'Póntico' : 'Pilar') : ''}"
         style="${cardStyle}"
-        class="group relative h-[114px] p-1.5 rounded-xl border flex flex-col items-center justify-between transition-all duration-150 hover:-translate-y-0.5 hover:shadow-md cursor-pointer overflow-hidden">
-        <span class="font-mono font-extrabold text-[10.5px] leading-none" style="${topNumStyle}">#${s}</span>
-        <div class="w-full h-16 flex items-center justify-center overflow-hidden my-0.5">
-          <img src="assets/odontograma/diente_${s}.png?v=3" alt="Diente ${s}" loading="lazy"
-               class="h-16 w-auto object-contain transition-transform duration-200 group-hover:scale-108 select-none pointer-events-none"
+        class="group relative h-[86px] py-1.5 px-0.5 rounded-xl border hover:border-slate-200 hover:bg-slate-50/90 flex flex-col items-center justify-between transition-all duration-150 hover:-translate-y-0.5 cursor-pointer overflow-hidden">
+        ${isLower ? dotSpan : numSpan}
+        <div class="w-full h-12 flex items-center justify-center overflow-hidden">
+          <img src="assets/odontograma/diente_${s}.png?v=3" alt="${s}" loading="lazy"
+               class="h-12 w-auto object-contain transition-transform duration-200 group-hover:scale-110 select-none pointer-events-none"
                style="mix-blend-mode: multiply;">
         </div>
-        ${badgeHtml}
+        ${isLower ? numSpan : dotSpan}
       </button>
     `;
   };
 
+  const activePillsHtml = (o.piezas || []).length
+    ? (o.piezas || []).map(p => {
+        const s = String(p);
+        const t = o.tiposPieza[s] || 'PILAR';
+        const bg = t === 'PONTICO' ? '#755c34' : '#2f6353';
+        return `<span class="px-1.5 py-0.5 rounded-md font-mono text-[10px] font-bold text-white" style="background:${bg};">${s}</span>`;
+      }).join('')
+    : `<span class="text-[10px] text-slate-400">Sin selección</span>`;
+
+  const etapaLabel = o.subEstado && o.subEstado !== o.estado ? `${o.estado} · ${o.subEstado}` : o.estado;
+
   container.innerHTML = `
     <div class="bg-white border border-slate-200 rounded-2xl shadow-sm p-5">
       <div class="mb-4 flex items-center justify-between">
-        <button onclick="openModule('inicio')" class="px-3.5 py-2 rounded-xl bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold flex items-center gap-2 shadow-sm transition-colors">
+        <button onclick="openModule('inicio')" class="px-3.5 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-white text-xs font-bold flex items-center gap-2 shadow-xs transition-colors cursor-pointer">
           <i data-lucide="arrow-left" class="w-4 h-4"></i>
           <span>Regresar</span>
         </button>
         <div class="flex items-center gap-2">
-          <span class="px-2.5 py-1 rounded-lg bg-slate-100 text-slate-700 font-mono text-xs font-bold">Serie: #${o.serie}</span>
-          <span class="px-2.5 py-1 rounded-lg ${o.interno ? 'bg-rose-100 text-rose-800' : 'bg-blue-100 text-blue-800'} text-xs font-bold">${o.interno ? 'DOCTOR INTERNO' : 'DOCTOR EXTERNO'}</span>
+          <span class="px-2.5 py-1 rounded-lg bg-slate-100 text-slate-700 font-mono text-xs font-bold">#${o.serie}</span>
+          <span class="px-2.5 py-1 rounded-lg bg-slate-100 text-slate-600 text-[11px] font-semibold">${o.interno ? 'Doctor Interno' : 'Doctor Externo'}</span>
         </div>
       </div>
 
@@ -8725,34 +8746,33 @@ function renderVistaOrdenTrabajo() {
           <div class="min-w-0 lg:col-span-5 space-y-4">
             
             <!-- Bloque 1: Escaneo -->
-            <div class="bg-slate-50 p-4 rounded-2xl border border-slate-200 space-y-2.5">
-              <div class="flex items-center justify-between border-b border-slate-200 pb-2">
-                <h4 class="font-bold text-slate-800 uppercase tracking-wide">Escaneo</h4>
-                <button type="button" onclick="openModule('calendario')" class="px-3 py-1 rounded-lg bg-blue-600 hover:bg-blue-700 text-white font-bold text-[11px]">Agregar cita</button>
+            <div class="bg-slate-50/70 p-4 rounded-2xl border border-slate-200/90 space-y-2.5">
+              <div class="flex items-center justify-between border-b border-slate-200/80 pb-2">
+                <h4 class="font-bold text-slate-800 uppercase tracking-wide text-[11px]">Escaneo</h4>
+                <button type="button" onclick="openModule('calendario')" class="px-2.5 py-1 rounded-lg bg-[#334e68] hover:bg-slate-800 text-white font-semibold text-[11px] transition-colors cursor-pointer">Agregar cita</button>
               </div>
               <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
-                <div class="min-w-0 break-words"><span class="text-slate-400 font-bold uppercase text-[10px] block">Nombre de usuario:</span><strong class="text-slate-800">${o.usuarioEscaneo || 'Mauricio Sotomayor'}</strong></div>
-                <div class="min-w-0 break-words"><span class="text-slate-400 font-bold uppercase text-[10px] block">Fecha confirmada:</span><strong class="font-mono text-slate-800">${o.fechaConfirmada || 'Pendiente'}</strong></div>
-                <div class="min-w-0 break-words"><span class="text-slate-400 font-bold uppercase text-[10px] block">Agenda inicio:</span><strong class="font-mono text-slate-700">${o.agendaInicio || 'N/A'}</strong></div>
-                <div class="min-w-0 break-words"><span class="text-slate-400 font-bold uppercase text-[10px] block">Agenda fin:</span><strong class="font-mono text-slate-700">${o.agendaFin || 'N/A'}</strong></div>
+                <div class="min-w-0 break-words"><span class="text-slate-400 font-semibold uppercase text-[9.5px] block">Escaneador</span><strong class="text-slate-800">${o.usuarioEscaneo || 'Mauricio Sotomayor'}</strong></div>
+                <div class="min-w-0 break-words"><span class="text-slate-400 font-semibold uppercase text-[9.5px] block">Confirmación</span><strong class="font-mono text-slate-800">${o.fechaConfirmada || 'Pendiente'}</strong></div>
+                <div class="min-w-0 break-words"><span class="text-slate-400 font-semibold uppercase text-[9.5px] block">Agenda inicio</span><strong class="font-mono text-slate-700">${o.agendaInicio || 'N/A'}</strong></div>
+                <div class="min-w-0 break-words"><span class="text-slate-400 font-semibold uppercase text-[9.5px] block">Agenda fin</span><strong class="font-mono text-slate-700">${o.agendaFin || 'N/A'}</strong></div>
               </div>
               <div>
-                <span class="text-slate-400 font-bold uppercase text-[10px] block mb-1">Observaciones Escaneador:</span>
-                <input type="text" value="${o.observacionesEscaneador || ''}" placeholder="Sin observaciones de escaneo" class="w-full px-3 py-1.5 rounded-xl border border-slate-200 bg-white text-xs">
+                <input type="text" value="${o.observacionesEscaneador || ''}" placeholder="Observaciones de escaneo..." class="w-full px-3 py-1.5 rounded-xl border border-slate-200 bg-white text-xs">
               </div>
             </div>
 
             <!-- Bloque 2: Discos utilizados en la orden -->
-            <div class="bg-white p-4 rounded-2xl border border-slate-200 space-y-2.5 overflow-hidden">
-              <h4 class="font-bold text-slate-800 uppercase tracking-wide border-b border-slate-100 pb-2">Discos utilizados en la orden</h4>
+            <div class="bg-white p-4 rounded-2xl border border-slate-200/90 space-y-2.5 overflow-hidden">
+              <h4 class="font-bold text-slate-800 uppercase tracking-wide text-[11px] border-b border-slate-100 pb-2">Discos utilizados</h4>
               <div class="overflow-x-auto rounded-xl border border-slate-200 w-full">
                 <table class="w-full text-center general-table">
                   <thead>
                     <tr>
                       <th>Disco</th>
-                      <th>Colorimetro</th>
+                      <th>Color</th>
                       <th>Tamaño</th>
-                      <th>Cantidad</th>
+                      <th>Cant.</th>
                     </tr>
                   </thead>
                   <tbody class="divide-y divide-slate-100">
@@ -8765,7 +8785,7 @@ function renderVistaOrdenTrabajo() {
                       </tr>
                     ` : `
                       <tr>
-                        <td colspan="4" class="py-3 text-center text-slate-400 font-semibold">Sin Discos Utilizados</td>
+                        <td colspan="4" class="py-2.5 text-center text-slate-400 font-medium">Sin discos registrados</td>
                       </tr>
                     `}
                   </tbody>
@@ -8774,65 +8794,67 @@ function renderVistaOrdenTrabajo() {
             </div>
 
             <!-- Bloque 3: Orden de Trabajo -->
-            <div class="bg-slate-50 p-4 rounded-2xl border border-slate-200 space-y-3 overflow-hidden">
-              <h4 class="font-bold text-slate-800 uppercase tracking-wide border-b border-slate-200 pb-2">Orden de Trabajo</h4>
+            <div class="bg-slate-50/70 p-4 rounded-2xl border border-slate-200/90 space-y-3 overflow-hidden">
+              <div class="flex items-center justify-between border-b border-slate-200/80 pb-2">
+                <h4 class="font-bold text-slate-800 uppercase tracking-wide text-[11px]">Ficha de Orden</h4>
+                <span class="font-mono text-xs font-bold text-[#334e68]">#${o.serie}</span>
+              </div>
               <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                <div class="min-w-0 break-words"><span class="text-slate-400 font-bold uppercase text-[10px] block">Serie:</span><strong class="font-mono text-sm text-blue-600">${o.serie}</strong></div>
                 <div class="min-w-0 break-words">
-                  <span class="text-slate-400 font-bold uppercase text-[10px] block">Doctor:</span>
-                  <a href="javascript:void(0)" onclick="abrirDetalleDoctor('${o.doctorId || o.doctor}')" class="font-bold text-sm text-blue-600 hover:underline break-words">${o.doctorNombreCompleto || o.doctor}</a>
+                  <span class="text-slate-400 font-semibold uppercase text-[9.5px] block">Doctor</span>
+                  <a href="javascript:void(0)" onclick="abrirDetalleDoctor('${o.doctorId || o.doctor}')" class="font-bold text-xs text-[#334e68] hover:underline break-words">${o.doctorNombreCompleto || o.doctor}</a>
                 </div>
-                <div class="min-w-0 break-words"><span class="text-slate-400 font-bold uppercase text-[10px] block">Paciente:</span><strong class="text-slate-900 break-words">${o.paciente}</strong></div>
-                <div class="min-w-0 break-words"><span class="text-slate-400 font-bold uppercase text-[10px] block">Celular Doctor:</span><strong class="font-mono text-slate-800 break-words">${o.celular || (docObj ? docObj.celular : '')}</strong></div>
-                <div class="min-w-0 sm:col-span-2 break-words"><span class="text-slate-400 font-bold uppercase text-[10px] block">Dirección:</span><strong class="text-slate-700 break-words">${o.direccion || (docObj ? docObj.direccion : '')}</strong></div>
-                <div class="min-w-0"><span class="text-slate-400 font-bold uppercase text-[10px] block">Entrega solicitada:</span><input type="date" value="${o.entrega}" class="mt-0.5 px-2.5 py-1 rounded-lg border border-slate-200 bg-white font-mono text-xs max-w-full"></div>
-                <div class="min-w-0 break-words"><span class="text-slate-400 font-bold uppercase text-[10px] block">Liberación a prod:</span><strong class="font-mono text-slate-700 break-words">${o.libProd || 'Pendiente'} ${o.nombreLib ? '(' + o.nombreLib + ')' : ''}</strong></div>
-                <div class="min-w-0 break-words"><span class="text-slate-400 font-bold uppercase text-[10px] block">Modo de pago:</span><strong class="text-slate-800 break-words">${o.metodoPago || 'Efectivo'}</strong></div>
-                <div class="min-w-0 break-words"><span class="text-slate-400 font-bold uppercase text-[10px] block">Colorimetro:</span><strong class="text-blue-700 font-bold break-words">${o.color}</strong></div>
-                <div class="min-w-0 sm:col-span-2 break-words"><span class="text-slate-400 font-bold uppercase text-[10px] block">Paquetes usados:</span><strong class="font-mono text-slate-800 break-words">${o.paquetes || 'SIN PAQUETE'}</strong></div>
+                <div class="min-w-0 break-words"><span class="text-slate-400 font-semibold uppercase text-[9.5px] block">Paciente</span><strong class="text-slate-900 break-words">${o.paciente}</strong></div>
+                <div class="min-w-0 break-words"><span class="text-slate-400 font-semibold uppercase text-[9.5px] block">Celular</span><strong class="font-mono text-slate-800 break-words">${o.celular || (docObj ? docObj.celular : '')}</strong></div>
+                <div class="min-w-0 break-words"><span class="text-slate-400 font-semibold uppercase text-[9.5px] block">Colorímetro</span><strong class="text-[#334e68] font-bold break-words">${o.color}</strong></div>
+                <div class="min-w-0 sm:col-span-2 break-words"><span class="text-slate-400 font-semibold uppercase text-[9.5px] block">Dirección</span><strong class="text-slate-700 break-words">${o.direccion || (docObj ? docObj.direccion : '')}</strong></div>
+                <div class="min-w-0"><span class="text-slate-400 font-semibold uppercase text-[9.5px] block">Entrega solicitada</span><input type="date" value="${o.entrega}" class="mt-0.5 px-2.5 py-1 rounded-lg border border-slate-200 bg-white font-mono text-xs max-w-full"></div>
+                <div class="min-w-0 break-words"><span class="text-slate-400 font-semibold uppercase text-[9.5px] block">Liberación</span><strong class="font-mono text-slate-700 break-words">${o.libProd || 'Pendiente'} ${o.nombreLib ? '(' + o.nombreLib + ')' : ''}</strong></div>
+                <div class="min-w-0 break-words"><span class="text-slate-400 font-semibold uppercase text-[9.5px] block">Pago</span><strong class="text-slate-800 break-words">${o.metodoPago || 'Efectivo'}</strong></div>
+                <div class="min-w-0 break-words"><span class="text-slate-400 font-semibold uppercase text-[9.5px] block">Paquete</span><strong class="font-mono text-slate-800 break-words">${o.paquetes || 'SIN PAQUETE'}</strong></div>
               </div>
 
-              <div>
-                <label class="text-slate-500 font-bold uppercase text-[10px] block mb-1">Observaciones doctor:</label>
-                <textarea rows="2" readonly class="w-full p-2.5 rounded-xl border border-slate-200 bg-white text-xs text-slate-700">${o.observaciones || ''}</textarea>
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+                <div>
+                  <label class="text-slate-400 font-semibold uppercase text-[9.5px] block mb-1">Notas Doctor</label>
+                  <textarea rows="2" readonly class="w-full p-2 rounded-xl border border-slate-200 bg-white text-[11px] text-slate-700 resize-none">${o.observaciones || ''}</textarea>
+                </div>
+                <div>
+                  <label class="text-slate-400 font-semibold uppercase text-[9.5px] block mb-1">Notas Laboratorio</label>
+                  <textarea rows="2" class="w-full p-2 rounded-xl border border-slate-200 bg-white text-[11px] text-slate-700 resize-none" placeholder="Observaciones internas...">${o.observacionesLab || ''}</textarea>
+                </div>
               </div>
 
-              <div>
-                <label class="text-slate-500 font-bold uppercase text-[10px] block mb-1">Observaciones laboratorio:</label>
-                <textarea rows="2" class="w-full p-2.5 rounded-xl border border-slate-200 bg-white text-xs text-slate-700" placeholder="Ingrese observaciones internas de laboratorio...">${o.observacionesLab || ''}</textarea>
-              </div>
-
-              <div class="grid grid-cols-2 sm:grid-cols-5 gap-2 pt-2 border-t border-slate-200">
-                <label class="flex items-center gap-2 bg-white px-3 py-2 rounded-xl border border-slate-200 cursor-pointer">
-                  <input type="checkbox" ${o.autColor ? 'checked' : ''} class="rounded text-blue-600">
-                  <span class="font-bold text-[11px]">Color</span>
+              <div class="flex flex-wrap items-center gap-1.5 pt-2 border-t border-slate-200/80">
+                <label class="inline-flex items-center gap-1.5 bg-white px-2.5 py-1.5 rounded-lg border border-slate-200 cursor-pointer hover:border-slate-300 transition-colors">
+                  <input type="checkbox" ${o.autColor ? 'checked' : ''} class="rounded text-slate-800 accent-[#334e68]">
+                  <span class="font-semibold text-[11px] text-slate-700">Color</span>
                 </label>
-                <label class="flex items-center gap-2 bg-white px-3 py-2 rounded-xl border border-slate-200 cursor-pointer">
-                  <input type="checkbox" ${o.autMordida ? 'checked' : ''} class="rounded text-blue-600">
-                  <span class="font-bold text-[11px]">Mordida</span>
+                <label class="inline-flex items-center gap-1.5 bg-white px-2.5 py-1.5 rounded-lg border border-slate-200 cursor-pointer hover:border-slate-300 transition-colors">
+                  <input type="checkbox" ${o.autMordida ? 'checked' : ''} class="rounded text-slate-800 accent-[#334e68]">
+                  <span class="font-semibold text-[11px] text-slate-700">Mordida</span>
                 </label>
-                <label class="flex items-center gap-2 bg-white px-3 py-2 rounded-xl border border-slate-200 cursor-pointer">
-                  <input type="checkbox" ${o.autMunon ? 'checked' : ''} class="rounded text-blue-600">
-                  <span class="font-bold text-[11px]">Muñon</span>
+                <label class="inline-flex items-center gap-1.5 bg-white px-2.5 py-1.5 rounded-lg border border-slate-200 cursor-pointer hover:border-slate-300 transition-colors">
+                  <input type="checkbox" ${o.autMunon ? 'checked' : ''} class="rounded text-slate-800 accent-[#334e68]">
+                  <span class="font-semibold text-[11px] text-slate-700">Muñón</span>
                 </label>
-                <label class="flex items-center gap-2 bg-white px-3 py-2 rounded-xl border border-slate-200 cursor-pointer">
-                  <input type="checkbox" ${o.autAdit ? 'checked' : ''} class="rounded text-blue-600">
-                  <span class="font-bold text-[11px]">Aditamento</span>
+                <label class="inline-flex items-center gap-1.5 bg-white px-2.5 py-1.5 rounded-lg border border-slate-200 cursor-pointer hover:border-slate-300 transition-colors">
+                  <input type="checkbox" ${o.autAdit ? 'checked' : ''} class="rounded text-slate-800 accent-[#334e68]">
+                  <span class="font-semibold text-[11px] text-slate-700">Aditamento</span>
                 </label>
-                <label class="flex items-center gap-2 bg-white px-3 py-2 rounded-xl border border-slate-200 cursor-pointer">
-                  <input type="checkbox" checked class="rounded text-blue-600">
-                  <span class="font-bold text-[11px]">Linea Sellado</span>
+                <label class="inline-flex items-center gap-1.5 bg-white px-2.5 py-1.5 rounded-lg border border-slate-200 cursor-pointer hover:border-slate-300 transition-colors">
+                  <input type="checkbox" checked class="rounded text-slate-800 accent-[#334e68]">
+                  <span class="font-semibold text-[11px] text-slate-700">Línea Sellado</span>
                 </label>
               </div>
 
-              <div class="pt-2">
-                <h5 class="font-bold text-slate-700 uppercase text-[11px] mb-2">Detalle del pedido</h5>
+              <div class="pt-1">
                 <div class="overflow-x-auto rounded-xl border border-slate-200 w-full">
                   <table class="w-full text-center general-table">
                     <thead>
                       <tr>
-                        <th>Cat</th>
-                        <th>Prod</th>
+                        <th>Categoría</th>
+                        <th>Producto</th>
                         <th>Pza</th>
                         <th>Total</th>
                       </tr>
@@ -8851,134 +8873,128 @@ function renderVistaOrdenTrabajo() {
             </div>
           </div>
 
-          <!-- Columna Derecha: Odontograma 3D FDI Interactivo -->
-          <div class="min-w-0 lg:col-span-7 space-y-4">
-            <div class="bg-white rounded-2xl border border-slate-200 shadow-xs overflow-hidden flex flex-col justify-between">
+          <!-- Columna Derecha: Odontograma 3D Minimalista y Estético -->
+          <div class="min-w-0 lg:col-span-7">
+            <div class="bg-white rounded-2xl border border-slate-200/90 shadow-xs overflow-hidden flex flex-col justify-between h-full">
               <div>
-                <!-- Encabezado Oscuro Ejecutivo del Odontograma -->
-                <div class="bg-slate-900 text-white px-4 py-3 flex flex-wrap items-center justify-between gap-2">
+                <!-- Barra Superior Minimalista -->
+                <div class="bg-slate-900 text-white px-4 py-2.5 flex flex-wrap items-center justify-between gap-2">
                   <div class="flex items-center gap-2.5">
-                    <span class="w-7 h-7 rounded-lg bg-slate-800 border border-slate-700 flex items-center justify-center text-slate-300">
-                      <i data-lucide="scan-face" class="w-4 h-4"></i>
-                    </span>
-                    <div>
-                      <h4 class="font-bold text-xs uppercase tracking-wider text-slate-100 leading-none">Odontograma Anatómico 3D (FDI)</h4>
-                      <span class="text-[10px] text-slate-400">Piezas activas: <strong class="text-slate-200 font-mono">${(o.piezas || []).length ? (o.piezas || []).map(p => '#' + p).join(', ') : 'Ninguna'}</strong></span>
+                    <span class="text-xs font-bold tracking-wide text-slate-100">Odontograma 3D</span>
+                    <span class="text-slate-700">|</span>
+                    <div class="flex flex-wrap items-center gap-1">
+                      ${activePillsHtml}
                     </div>
                   </div>
-                  <div class="flex items-center gap-1.5 text-[10px] font-bold">
-                    <button type="button" onclick="window.setOdontoBrushMode('PILAR')"
-                      style="${brush === 'PILAR' ? 'background:#2f6353;color:#ffffff;border-color:#5e9c89;' : 'background:#1e293b;color:#cbd5e1;border-color:#334155;'}"
-                      class="px-2.5 py-1 rounded-lg border transition-all cursor-pointer flex items-center gap-1.5">
-                      <span class="w-1.5 h-1.5 rounded-full" style="background:${brush === 'PILAR' ? '#ffffff' : '#5e9c89'};"></span>
-                      <span>PILAR</span>
-                    </button>
-                    <button type="button" onclick="window.setOdontoBrushMode('PONTICO')"
-                      style="${brush === 'PONTICO' ? 'background:#755c34;color:#ffffff;border-color:#af915f;' : 'background:#1e293b;color:#cbd5e1;border-color:#334155;'}"
-                      class="px-2.5 py-1 rounded-lg border transition-all cursor-pointer flex items-center gap-1.5">
-                      <span class="w-1.5 h-1.5 rounded-full" style="background:${brush === 'PONTICO' ? '#ffffff' : '#af915f'};"></span>
-                      <span>PÓNTICO</span>
-                    </button>
-                    <button type="button" onclick="openOdontogramaModal()" class="px-2.5 py-1 rounded-lg border border-slate-700 bg-slate-800 hover:bg-slate-700 text-slate-200 transition-colors cursor-pointer flex items-center gap-1" title="Ver en pantalla panorámica">
-                      <i data-lucide="maximize-2" class="w-3 h-3"></i>
-                      <span>Ampliar</span>
+                  <div class="flex items-center gap-1.5 text-[10.5px] font-semibold">
+                    <div class="inline-flex items-center bg-slate-800 p-0.5 rounded-lg border border-slate-700/80">
+                      <button type="button" onclick="window.setOdontoBrushMode('PILAR')"
+                        style="${brush === 'PILAR' ? 'background:#2f6353;color:#ffffff;' : 'color:#94a3b8;'}"
+                        class="px-2.5 py-1 rounded-md transition-all cursor-pointer flex items-center gap-1.5">
+                        <span class="w-1.5 h-1.5 rounded-full" style="background:${brush === 'PILAR' ? '#ffffff' : '#5e9c89'};"></span>
+                        <span>Pilar</span>
+                      </button>
+                      <button type="button" onclick="window.setOdontoBrushMode('PONTICO')"
+                        style="${brush === 'PONTICO' ? 'background:#755c34;color:#ffffff;' : 'color:#94a3b8;'}"
+                        class="px-2.5 py-1 rounded-md transition-all cursor-pointer flex items-center gap-1.5">
+                        <span class="w-1.5 h-1.5 rounded-full" style="background:${brush === 'PONTICO' ? '#ffffff' : '#af915f'};"></span>
+                        <span>Póntico</span>
+                      </button>
+                    </div>
+                    <button type="button" onclick="openOdontogramaModal()" class="p-1.5 rounded-lg border border-slate-700 bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-white transition-colors cursor-pointer" title="Ampliar odontograma">
+                      <i data-lucide="maximize-2" class="w-3.5 h-3.5"></i>
                     </button>
                   </div>
                 </div>
 
-                <div class="p-4 space-y-4 bg-slate-50/70">
-                  <!-- Arcada Superior -->
-                  <div class="bg-white p-3 rounded-xl border border-slate-200/90 shadow-2xs">
-                    <div class="flex items-center justify-between text-[10px] font-bold text-slate-400 uppercase mb-2 px-1">
-                      <span>Cuadrante 1 • Der (18–11)</span>
-                      <span class="text-slate-700 font-extrabold tracking-wide">Arcada Superior (Maxilar)</span>
-                      <span>Cuadrante 2 • Izq (21–28)</span>
+                <div class="p-4 space-y-3.5 bg-slate-50/50">
+                  <!-- Mapa Dental Anatómico Unificado (Superior + Inferior sin exceso de texto) -->
+                  <div class="bg-white px-3 py-3.5 rounded-2xl border border-slate-200/80 shadow-2xs space-y-2">
+                    <!-- Arcada Superior (18-11 | 21-28) -->
+                    <div class="grid grid-cols-1 xl:grid-cols-2 gap-1.5">
+                      <div class="grid grid-cols-8 gap-1 xl:pr-1.5 xl:border-r xl:border-slate-200/70">
+                        ${q1.map(d => renderDienteCard3D(d, false)).join('')}
+                      </div>
+                      <div class="grid grid-cols-8 gap-1 xl:pl-0.5">
+                        ${q2.map(d => renderDienteCard3D(d, false)).join('')}
+                      </div>
                     </div>
-                    <div class="grid grid-cols-8 gap-2">
-                      ${dientesSup.map(d => renderDienteCard3D(d)).join('')}
+
+                    <!-- Línea Oclusal Media Sutil -->
+                    <div class="relative flex items-center justify-center py-0.5">
+                      <div class="w-full border-t border-dashed border-slate-200"></div>
+                      <span class="absolute bg-white px-2 text-[9px] font-mono uppercase tracking-widest text-slate-300 select-none">Plano Oclusal</span>
+                    </div>
+
+                    <!-- Arcada Inferior (48-41 | 31-38) -->
+                    <div class="grid grid-cols-1 xl:grid-cols-2 gap-1.5">
+                      <div class="grid grid-cols-8 gap-1 xl:pr-1.5 xl:border-r xl:border-slate-200/70">
+                        ${q4.map(d => renderDienteCard3D(d, true)).join('')}
+                      </div>
+                      <div class="grid grid-cols-8 gap-1 xl:pl-0.5">
+                        ${q3.map(d => renderDienteCard3D(d, true)).join('')}
+                      </div>
                     </div>
                   </div>
 
-                  <!-- Arcada Inferior -->
-                  <div class="bg-white p-3 rounded-xl border border-slate-200/90 shadow-2xs">
-                    <div class="flex items-center justify-between text-[10px] font-bold text-slate-400 uppercase mb-2 px-1">
-                      <span>Cuadrante 4 • Der (48–41)</span>
-                      <span class="text-slate-700 font-extrabold tracking-wide">Arcada Inferior (Mandibular)</span>
-                      <span>Cuadrante 3 • Izq (31–38)</span>
-                    </div>
-                    <div class="grid grid-cols-8 gap-2">
-                      ${dientesInf.map(d => renderDienteCard3D(d)).join('')}
-                    </div>
-                  </div>
-
-                  <!-- Estudio de Modelado 3D Interactivo por Pieza (WebGL 360° + 6 Vistas de Muestra) -->
-                  <div class="bg-white p-3.5 rounded-xl border border-slate-200/90 shadow-2xs">
-                    <div class="grid grid-cols-1 sm:grid-cols-12 gap-3.5 items-center">
-                      <!-- Visor WebGL 3D Interactivo 360° -->
-                      <div class="sm:col-span-5 flex flex-col items-center">
-                        <div class="relative w-full h-[210px] rounded-xl border border-slate-200 bg-[#f8fafc] overflow-hidden shadow-inner">
+                  <!-- Estudio 3D Minimalista por Pieza -->
+                  <div class="bg-white p-3 rounded-2xl border border-slate-200/80 shadow-2xs">
+                    <div class="grid grid-cols-1 sm:grid-cols-12 gap-3 items-center">
+                      <!-- Lienzo 3D Interactivo -->
+                      <div class="sm:col-span-5">
+                        <div class="relative w-full h-[185px] rounded-xl border border-slate-200/80 bg-[#f8fafc] overflow-hidden">
                           <canvas id="inlineOdonto3DCanvas" class="w-full h-full cursor-grab active:cursor-grabbing block"></canvas>
-                          <div class="absolute top-2 left-2.5 flex items-center gap-1.5 pointer-events-none">
-                            <span id="inline3DToothNum" class="px-2 py-0.5 rounded-md bg-slate-900/90 text-white font-mono font-extrabold text-[11px]">#16</span>
-                            <span id="inline3DToothState" class="px-2 py-0.5 rounded-md text-[9px] font-extrabold uppercase tracking-wider bg-[#2f6353] text-white">PILAR SELECCIONADO</span>
+                          <div class="absolute top-2 left-2 flex items-center gap-1.5 pointer-events-none">
+                            <span id="inline3DToothNum" class="px-2 py-0.5 rounded-md bg-slate-900/85 text-white font-mono font-bold text-[11px]">16</span>
+                            <span id="inline3DToothState" class="px-2 py-0.5 rounded-full text-[9.5px] font-bold bg-[#2f6353] text-white">Pilar</span>
                           </div>
-                          <div class="absolute bottom-2 left-2 right-2 flex items-center justify-between gap-1">
-                            <span class="text-[9px] font-semibold text-slate-500 bg-white/85 backdrop-blur-xs px-2 py-0.5 rounded-md border border-slate-200/70 pointer-events-none">
-                              Arrastra para rotar 360°
-                            </span>
-                            <div class="flex items-center gap-1">
-                              <button type="button" id="inlineBtnPrepMode3D" onclick="window.Odontograma3D && window.Odontograma3D.togglePrepMode('inline')"
-                                class="px-2 py-0.5 rounded-md text-[9.5px] font-bold bg-white text-slate-600 border border-slate-200 hover:bg-slate-100 transition-all cursor-pointer">
-                                Corona Completa
-                              </button>
-                              <button type="button" id="inlineBtnAutoRotate3D" onclick="window.Odontograma3D && window.Odontograma3D.toggleAutoRotate('inline')"
-                                class="px-2 py-0.5 rounded-md text-[9.5px] font-bold bg-white text-slate-600 border border-slate-200 hover:bg-slate-100 transition-all cursor-pointer">
-                                Giro 360°
-                              </button>
-                            </div>
+                          <div class="absolute bottom-2 right-2 flex items-center gap-1">
+                            <button type="button" id="inlineBtnPrepMode3D" onclick="window.Odontograma3D && window.Odontograma3D.togglePrepMode('inline')"
+                              class="px-2 py-1 rounded-lg text-[10px] font-bold bg-white/90 text-slate-600 border border-slate-200 hover:bg-slate-100 transition-all cursor-pointer">
+                              Corona
+                            </button>
+                            <button type="button" id="inlineBtnAutoRotate3D" onclick="window.Odontograma3D && window.Odontograma3D.toggleAutoRotate('inline')"
+                              class="px-2 py-1 rounded-lg text-[10px] font-bold bg-white/90 text-slate-600 border border-slate-200 hover:bg-slate-100 transition-all cursor-pointer">
+                              360°
+                            </button>
                           </div>
                         </div>
                       </div>
 
-                      <!-- Información Anatómica + 6 Vistas de Referencia 3D -->
+                      <!-- Cabecera Compacta + 6 Vistas -->
                       <div class="sm:col-span-7 space-y-2.5">
-                        <div class="border-b border-slate-100 pb-2">
-                          <div class="flex items-center justify-between gap-2">
-                            <span class="text-[10px] font-extrabold uppercase tracking-wider text-[#334e68]">Modelado 3D Anatómico de Pieza</span>
-                            <span id="inline3DToothType" class="text-[10px] font-semibold text-slate-500">Molar Superior (Trifurcado)</span>
+                        <div class="flex items-center justify-between gap-2 px-0.5">
+                          <h5 id="inline3DToothName" class="text-xs font-bold text-slate-800 truncate">Primer Molar Superior Derecho</h5>
+                          <div class="flex items-center gap-1.5 shrink-0">
+                            <span id="inline3DToothSpecs" class="text-[10px] font-mono text-slate-400">3R • 4C</span>
+                            <span id="inline3DToothType" class="px-2 py-0.5 rounded-md bg-slate-100 text-slate-700 font-mono text-[10px] font-bold">A2</span>
                           </div>
-                          <h5 id="inline3DToothName" class="text-sm font-extrabold text-slate-800 mt-0.5">Primer Molar Superior Derecho</h5>
-                          <p id="inline3DToothSpecs" class="text-[10.5px] font-semibold text-slate-500 mt-0.5">4 Cúspides • 3 Raíces • Tono A2</p>
                         </div>
-
-                        <div>
-                          <div class="flex items-center justify-between mb-1.5">
-                            <span class="text-[9.5px] font-bold uppercase tracking-wider text-slate-400">6 Ángulos Anatómicos de Referencia (Clic para orientar 3D)</span>
-                          </div>
-                          <div id="inline3DRefViewsGrid" class="grid grid-cols-6 gap-1.5"></div>
-                        </div>
+                        <div id="inline3DRefViewsGrid" class="grid grid-cols-6 gap-1.5"></div>
                       </div>
                     </div>
                   </div>
                 </div>
               </div>
 
-              <div class="p-4 border-t border-slate-200 bg-white space-y-3">
-                <div class="flex items-center justify-between">
-                  <span class="font-bold text-slate-600">Etapa Actual: <strong class="text-blue-600">${o.estado} (${o.subEstado || o.estado})</strong></span>
-                  <span class="font-mono font-bold text-slate-900">Unidades: ${o.unidades}</span>
+              <!-- Barra Inferior de Etapa y Acciones -->
+              <div class="px-4 py-3 border-t border-slate-200/80 bg-white flex flex-wrap items-center justify-between gap-3">
+                <div class="flex items-center gap-3 text-xs">
+                  <span class="text-slate-500 font-medium">Etapa: <strong class="text-slate-900 font-bold">${etapaLabel}</strong></span>
+                  <span class="text-slate-300">•</span>
+                  <span class="font-mono font-bold text-slate-700">${o.unidades} ${Number(o.unidades) === 1 ? 'unidad' : 'unidades'}</span>
                 </div>
                 <div class="flex flex-wrap items-center gap-2">
-                  <select id="selectEtapaOT" class="flex-1 px-3 py-2 rounded-xl border border-slate-200 bg-slate-50 font-semibold text-xs">
+                  <select id="selectEtapaOT" class="px-3 py-1.5 rounded-xl border border-slate-200 bg-slate-50 font-semibold text-xs text-slate-700">
                     <option value="Escaneo" ${o.estado === 'Escaneo' ? 'selected' : ''}>Escaneo</option>
                     <option value="Diseño" ${o.estado === 'Diseño' ? 'selected' : ''}>Diseño</option>
                     <option value="Fabricación" ${o.estado === 'Fabricación' ? 'selected' : ''}>Fabricación</option>
                     <option value="Entrega" ${o.estado === 'Entrega' ? 'selected' : ''}>Entrega</option>
                   </select>
-                  <button onclick="avanzarEtapaOrdenActual()" class="px-3.5 py-2 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-bold shadow-sm transition-colors cursor-pointer">
+                  <button onclick="avanzarEtapaOrdenActual()" class="px-3.5 py-1.5 rounded-xl bg-[#334e68] hover:bg-slate-800 text-white font-semibold text-xs shadow-2xs transition-colors cursor-pointer">
                     Mandar a etapa
                   </button>
-                  <button onclick="Etiqueta('${(o.doctor || '').replace(/'/g, "\\'")}', '${(o.paciente || '').replace(/'/g, "\\'")}', '${o.entrega}', '${o.serie}')" class="px-3.5 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-white font-bold shadow-sm transition-colors cursor-pointer">
+                  <button onclick="Etiqueta('${(o.doctor || '').replace(/'/g, "\\'")}', '${(o.paciente || '').replace(/'/g, "\\'")}', '${o.entrega}', '${o.serie}')" class="px-3.5 py-1.5 rounded-xl bg-slate-900 hover:bg-slate-800 text-white font-semibold text-xs shadow-2xs transition-colors cursor-pointer">
                     Etiqueta
                   </button>
                 </div>

@@ -960,29 +960,26 @@ $perfilActual  = htmlspecialchars($_SESSION['perfil'] ?? 'Administrador', ENT_QU
   <!-- ========================================================================= -->
   <div id="modalOdonto" class="fixed inset-0 z-50 bg-slate-900/65 backdrop-blur-sm hidden flex items-center justify-center p-3 sm:p-5">
     <div class="bg-white rounded-3xl max-w-5xl w-full border border-slate-200 shadow-2xl overflow-hidden max-h-[92vh] flex flex-col">
-      <div class="px-5 py-4 bg-slate-900 text-white flex flex-wrap items-center justify-between gap-3 shrink-0">
+      <div class="px-5 py-3.5 bg-slate-900 text-white flex flex-wrap items-center justify-between gap-3 shrink-0">
         <div class="flex items-center gap-2.5">
-          <i data-lucide="scan-face" class="w-5 h-5 text-slate-300"></i>
-          <div>
-            <h4 class="text-sm font-bold">Odontograma Anatómico 3D (Sistema FDI)</h4>
-            <p class="text-[11px] text-slate-400">Selecciona piezas dentales como Pilar o Póntico para la orden de trabajo</p>
-          </div>
+          <i data-lucide="scan-face" class="w-4 h-4 text-slate-300"></i>
+          <h4 class="text-xs font-bold tracking-wide text-slate-100">Odontograma 3D</h4>
         </div>
         <div class="flex items-center gap-2">
-          <div class="flex items-center gap-1.5 bg-slate-800/90 p-1 rounded-xl border border-slate-700 text-[11px] font-bold">
+          <div class="flex items-center gap-1 bg-slate-800/90 p-0.5 rounded-xl border border-slate-700 text-[11px] font-semibold">
             <button type="button" id="btnModalModePilar" onclick="setModalOdontoMode('PILAR')"
               class="px-3 py-1 rounded-lg transition-all cursor-pointer flex items-center gap-1.5"
               style="background:#2f6353;color:#ffffff;">
-              <span class="w-2 h-2 rounded-full bg-white"></span>
-              <span>PILAR</span>
+              <span class="w-1.5 h-1.5 rounded-full bg-white"></span>
+              <span>Pilar</span>
             </button>
             <button type="button" id="btnModalModePontico" onclick="setModalOdontoMode('PONTICO')"
               class="px-3 py-1 rounded-lg transition-all cursor-pointer flex items-center gap-1.5 text-slate-300 hover:text-white">
-              <span class="w-2 h-2 rounded-full" style="background:#af915f;"></span>
-              <span>PÓNTICO</span>
+              <span class="w-1.5 h-1.5 rounded-full" style="background:#af915f;"></span>
+              <span>Póntico</span>
             </button>
           </div>
-          <button type="button" onclick="clearOdontogramaModal()" class="px-2.5 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 text-[11px] font-semibold border border-slate-700 cursor-pointer">
+          <button type="button" onclick="clearOdontogramaModal()" class="px-2.5 py-1 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 text-[11px] font-semibold border border-slate-700 cursor-pointer">
             Limpiar
           </button>
           <button onclick="closeOdontogramaModal()" class="p-1.5 text-slate-400 hover:text-white rounded-lg bg-slate-800 cursor-pointer">
@@ -990,80 +987,59 @@ $perfilActual  = htmlspecialchars($_SESSION['perfil'] ?? 'Administrador', ENT_QU
           </button>
         </div>
       </div>
-      <div class="p-5 space-y-4 overflow-y-auto table-scroll">
-        <!-- Arcada Superior -->
-        <div class="bg-slate-50/80 p-3.5 rounded-2xl border border-slate-200/90">
-          <div class="flex items-center justify-between text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-2.5 px-1">
-            <span>Cuadrante 1 • Derecho (18 - 11)</span>
-            <span class="text-slate-700 font-extrabold">Arcada Superior (Maxilar)</span>
-            <span>Cuadrante 2 • Izquierdo (21 - 28)</span>
-          </div>
+      <div class="p-5 space-y-4 overflow-y-auto table-scroll bg-slate-50/50">
+        <!-- Mapa Dental Anatómico Unificado -->
+        <div class="bg-white p-4 rounded-2xl border border-slate-200/80 shadow-2xs space-y-2.5">
           <div class="grid grid-cols-8 lg:grid-cols-16 gap-1.5" id="odontoUpper" style="grid-template-columns: repeat(16, minmax(0, 1fr));"></div>
-        </div>
-
-        <!-- Arcada Inferior -->
-        <div class="bg-slate-50/80 p-3.5 rounded-2xl border border-slate-200/90">
-          <div class="flex items-center justify-between text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-2.5 px-1">
-            <span>Cuadrante 4 • Derecho (48 - 41)</span>
-            <span class="text-slate-700 font-extrabold">Arcada Inferior (Mandibular)</span>
-            <span>Cuadrante 3 • Izquierdo (31 - 38)</span>
+          <div class="relative flex items-center justify-center py-0.5">
+            <div class="w-full border-t border-dashed border-slate-200"></div>
+            <span class="absolute bg-white px-2 text-[9px] font-mono uppercase tracking-widest text-slate-300 select-none">Plano Oclusal</span>
           </div>
           <div class="grid grid-cols-8 lg:grid-cols-16 gap-1.5" id="odontoLower" style="grid-template-columns: repeat(16, minmax(0, 1fr));"></div>
         </div>
 
-        <!-- Estudio de Modelado 3D Interactivo por Pieza en Modal -->
-        <div class="bg-slate-50/80 p-3.5 rounded-2xl border border-slate-200/90">
+        <!-- Estudio 3D Minimalista por Pieza en Modal -->
+        <div class="bg-white p-3.5 rounded-2xl border border-slate-200/80 shadow-2xs">
           <div class="grid grid-cols-1 md:grid-cols-12 gap-4 items-center">
-            <div class="md:col-span-5 flex flex-col items-center">
-              <div class="relative w-full h-[215px] rounded-xl border border-slate-200 bg-white overflow-hidden shadow-inner">
+            <div class="md:col-span-5">
+              <div class="relative w-full h-[195px] rounded-xl border border-slate-200/80 bg-[#f8fafc] overflow-hidden">
                 <canvas id="modalOdonto3DCanvas" class="w-full h-full cursor-grab active:cursor-grabbing block"></canvas>
-                <div class="absolute top-2 left-2.5 flex items-center gap-1.5 pointer-events-none">
-                  <span id="modal3DToothNum" class="px-2 py-0.5 rounded-md bg-slate-900/90 text-white font-mono font-extrabold text-[11px]">#16</span>
-                  <span id="modal3DToothState" class="px-2 py-0.5 rounded-md text-[9px] font-extrabold uppercase tracking-wider bg-[#2f6353] text-white">PILAR SELECCIONADO</span>
+                <div class="absolute top-2 left-2 flex items-center gap-1.5 pointer-events-none">
+                  <span id="modal3DToothNum" class="px-2 py-0.5 rounded-md bg-slate-900/85 text-white font-mono font-bold text-[11px]">16</span>
+                  <span id="modal3DToothState" class="px-2 py-0.5 rounded-full text-[9.5px] font-bold bg-[#2f6353] text-white">Pilar</span>
                 </div>
-                <div class="absolute bottom-2 left-2 right-2 flex items-center justify-between gap-1">
-                  <span class="text-[9px] font-semibold text-slate-500 bg-white/85 backdrop-blur-xs px-2 py-0.5 rounded-md border border-slate-200/70 pointer-events-none">
-                    Arrastra para rotar 360°
-                  </span>
-                  <div class="flex items-center gap-1">
-                    <button type="button" id="modalBtnPrepMode3D" onclick="window.Odontograma3D && window.Odontograma3D.togglePrepMode('modal')"
-                      class="px-2 py-0.5 rounded-md text-[9.5px] font-bold bg-white text-slate-600 border border-slate-200 hover:bg-slate-100 transition-all cursor-pointer">
-                      Corona Completa
-                    </button>
-                    <button type="button" id="modalBtnAutoRotate3D" onclick="window.Odontograma3D && window.Odontograma3D.toggleAutoRotate('modal')"
-                      class="px-2 py-0.5 rounded-md text-[9.5px] font-bold bg-white text-slate-600 border border-slate-200 hover:bg-slate-100 transition-all cursor-pointer">
-                      Giro 360°
-                    </button>
-                  </div>
+                <div class="absolute bottom-2 right-2 flex items-center gap-1">
+                  <button type="button" id="modalBtnPrepMode3D" onclick="window.Odontograma3D && window.Odontograma3D.togglePrepMode('modal')"
+                    class="px-2 py-1 rounded-lg text-[10px] font-bold bg-white/90 text-slate-600 border border-slate-200 hover:bg-slate-100 transition-all cursor-pointer">
+                    Corona
+                  </button>
+                  <button type="button" id="modalBtnAutoRotate3D" onclick="window.Odontograma3D && window.Odontograma3D.toggleAutoRotate('modal')"
+                    class="px-2 py-1 rounded-lg text-[10px] font-bold bg-white/90 text-slate-600 border border-slate-200 hover:bg-slate-100 transition-all cursor-pointer">
+                    360°
+                  </button>
                 </div>
               </div>
             </div>
             <div class="md:col-span-7 space-y-2.5">
-              <div class="border-b border-slate-200/80 pb-2">
-                <div class="flex items-center justify-between gap-2">
-                  <span class="text-[10px] font-extrabold uppercase tracking-wider text-[#334e68]">Modelado 3D Anatómico de Pieza</span>
-                  <span id="modal3DToothType" class="text-[10px] font-semibold text-slate-500">Molar Superior (Trifurcado)</span>
+              <div class="flex items-center justify-between gap-2 px-0.5">
+                <h5 id="modal3DToothName" class="text-xs font-bold text-slate-800 truncate">Primer Molar Superior Derecho</h5>
+                <div class="flex items-center gap-1.5 shrink-0">
+                  <span id="modal3DToothSpecs" class="text-[10px] font-mono text-slate-400">3R • 4C</span>
+                  <span id="modal3DToothType" class="px-2 py-0.5 rounded-md bg-slate-100 text-slate-700 font-mono text-[10px] font-bold">A2</span>
                 </div>
-                <h5 id="modal3DToothName" class="text-sm font-extrabold text-slate-800 mt-0.5">Primer Molar Superior Derecho</h5>
-                <p id="modal3DToothSpecs" class="text-[10.5px] font-semibold text-slate-500 mt-0.5">4 Cúspides • 3 Raíces • Tono A2</p>
               </div>
-              <div>
-                <div class="flex items-center justify-between mb-1.5">
-                  <span class="text-[9.5px] font-bold uppercase tracking-wider text-slate-400">6 Ángulos Anatómicos de Referencia (Clic para orientar 3D)</span>
-                </div>
-                <div id="modal3DRefViewsGrid" class="grid grid-cols-6 gap-1.5"></div>
-              </div>
+              <div id="modal3DRefViewsGrid" class="grid grid-cols-6 gap-1.5"></div>
             </div>
           </div>
         </div>
 
-        <div class="p-3.5 rounded-2xl bg-slate-50 border border-slate-200 flex flex-wrap items-center justify-between gap-3">
-          <div class="text-xs">
-            <span class="text-slate-400 font-bold uppercase text-[10px] block">Piezas Seleccionadas en el Odontograma:</span>
-            <span id="selectedTeethLabel" class="font-mono font-bold text-slate-800 text-sm">#16 (Pilar), #21 (Pilar)</span>
+        <div class="px-4 py-3 rounded-2xl bg-white border border-slate-200/80 flex flex-wrap items-center justify-between gap-3">
+          <div class="flex items-center gap-2 text-xs">
+            <span class="text-slate-400 font-semibold">Selección:</span>
+            <span id="selectedTeethLabel" class="font-mono font-bold text-slate-800 text-xs">#16 (Pilar), #21 (Pilar)</span>
           </div>
-          <button onclick="saveOdontograma()" class="px-5 py-2.5 rounded-xl bg-slate-900 hover:bg-slate-800 text-white font-semibold text-xs transition-colors cursor-pointer">
-            Guardar Selección
+          <button onclick="saveOdontograma()" class="px-4 py-2 rounded-xl bg-slate-900 hover:bg-slate-800 text-white font-semibold text-xs transition-colors cursor-pointer">
+            Guardar
           </button>
         </div>
       </div>
@@ -1237,38 +1213,41 @@ $perfilActual  = htmlspecialchars($_SESSION['perfil'] ?? 'Administrador', ENT_QU
       const lowerEl = document.getElementById('odontoLower');
       if (!upperEl || !lowerEl) return;
 
-      const makeBtn = (num) => {
+      const makeBtn = (num, isLower = false) => {
         const s = String(num);
         const tipo = selectedTeeth.get(s);
-        let cardStyle = 'background:#ffffff;border-color:#e2e8f0;color:#334155;';
-        let topNumStyle = 'color:#475569;';
-        let badgeHtml = '<span class="w-full h-4 rounded-md text-[8px] font-semibold uppercase tracking-wider flex items-center justify-center text-slate-400 bg-slate-100/90 group-hover:bg-slate-200/80 group-hover:text-slate-600 transition-colors">Libre</span>';
+        let cardStyle = 'background:#ffffff;border-color:transparent;color:#64748b;';
+        let numStyle = 'color:#94a3b8;';
+        let dotStyle = 'background:#e2e8f0;';
         if (tipo === 'PILAR') {
-          cardStyle = 'background:linear-gradient(180deg,#e6f2ee 0%,#d5e8e1 100%);border-color:#3d7a68;color:#1c3b32;box-shadow:0 3px 10px rgba(47,99,83,0.18);';
-          topNumStyle = 'color:#1c3b32;';
-          badgeHtml = '<span class="w-full h-4 rounded-md text-[8px] font-extrabold uppercase tracking-wider flex items-center justify-center" style="background:#2f6353;color:#ffffff;">Pilar</span>';
+          cardStyle = 'background:linear-gradient(180deg,#eef5f2 0%,#dfece7 100%);border-color:#4b8372;color:#1c3b32;box-shadow:0 2px 8px rgba(47,99,83,0.16);';
+          numStyle = 'color:#1c3b32;font-weight:800;';
+          dotStyle = 'background:#2f6353;transform:scale(1.25);';
         } else if (tipo === 'PONTICO') {
-          cardStyle = 'background:linear-gradient(180deg,#f5efe2 0%,#eae0cc 100%);border-color:#917444;color:#45351e;box-shadow:0 3px 10px rgba(117,92,52,0.18);';
-          topNumStyle = 'color:#45351e;';
-          badgeHtml = '<span class="w-full h-4 rounded-md text-[8px] font-extrabold uppercase tracking-wider flex items-center justify-center" style="background:#755c34;color:#ffffff;">Pónt</span>';
+          cardStyle = 'background:linear-gradient(180deg,#f6f1e7 0%,#ece2cf 100%);border-color:#967949;color:#45351e;box-shadow:0 2px 8px rgba(117,92,52,0.16);';
+          numStyle = 'color:#45351e;font-weight:800;';
+          dotStyle = 'background:#755c34;transform:scale(1.25);';
         }
-        return `<button type="button" onclick="toggleTooth('${s}')" onmouseenter="window.Odontograma3D && window.Odontograma3D.selectTooth(${s})" style="${cardStyle}" class="group h-[118px] p-1.5 rounded-xl border text-center transition-all hover:-translate-y-0.5 hover:shadow-md flex flex-col items-center justify-between cursor-pointer overflow-hidden">
-          <span class="text-[10.5px] font-mono font-extrabold leading-none" style="${topNumStyle}">#${s}</span>
-          <div class="w-full h-16 flex items-center justify-center overflow-hidden my-0.5">
-            <img src="assets/odontograma/diente_${s}.png?v=3" alt="Diente ${s}" loading="lazy"
-                 class="h-16 w-auto object-contain transition-transform duration-200 group-hover:scale-108 select-none pointer-events-none"
+        const numSpan = `<span class="text-[10px] font-mono font-bold leading-none select-none" style="${numStyle}">${s}</span>`;
+        const dotSpan = `<span class="w-1.5 h-1.5 rounded-full transition-all duration-150" style="${dotStyle}"></span>`;
+
+        return `<button type="button" onclick="toggleTooth('${s}')" onmouseenter="window.Odontograma3D && window.Odontograma3D.selectTooth(${s})" style="${cardStyle}" class="group h-[92px] py-1.5 px-1 rounded-xl border hover:border-slate-200 hover:bg-slate-50/90 text-center transition-all hover:-translate-y-0.5 flex flex-col items-center justify-between cursor-pointer overflow-hidden">
+          ${isLower ? dotSpan : numSpan}
+          <div class="w-full h-14 flex items-center justify-center overflow-hidden">
+            <img src="assets/odontograma/diente_${s}.png?v=3" alt="${s}" loading="lazy"
+                 class="h-14 w-auto object-contain transition-transform duration-200 group-hover:scale-110 select-none pointer-events-none"
                  style="mix-blend-mode: multiply;">
           </div>
-          ${badgeHtml}
+          ${isLower ? numSpan : dotSpan}
         </button>`;
       };
 
-      upperEl.innerHTML = upper.map(makeBtn).join('');
-      lowerEl.innerHTML = lower.map(makeBtn).join('');
+      upperEl.innerHTML = upper.map(n => makeBtn(n, false)).join('');
+      lowerEl.innerHTML = lower.map(n => makeBtn(n, true)).join('');
       document.getElementById('selectedTeethLabel').innerText =
         selectedTeeth.size
-          ? Array.from(selectedTeeth.entries()).map(([t, tipo]) => `#${t} (${tipo === 'PONTICO' ? 'Póntico' : 'Pilar'})`).join(', ')
-          : 'Ninguna pieza seleccionada';
+          ? Array.from(selectedTeeth.entries()).map(([t, tipo]) => `${t} (${tipo === 'PONTICO' ? 'Póntico' : 'Pilar'})`).join(', ')
+          : 'Sin selección';
     }
 
     function toggleTooth(num) {
