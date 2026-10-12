@@ -9360,130 +9360,134 @@ function mapOrdenGeneralFromDb(r) {
   };
 }
 
-window.syncLiveDatabase = async function (silent = false) {
-  let data = null;
+function getLiveApiBase() {
+  if (window.LIVE_DB_STATE.corsLocalUrl) return window.LIVE_DB_STATE.corsLocalUrl;
+  if (!isStaticOrOfflineHost()) return 'Backend/api_live.php';
+  return 'http://localhost:8095/Backend/api_live.php';
+}
 
-  // 1. Si estamos en localhost o servidor PHP, consultar api_live.php
-  if (!isStaticOrOfflineHost()) {
-    try {
-      const resp = await fetch('Backend/api_live.php?op=bootstrap&limit=2000', { cache: 'no-store' });
-      if (resp.ok) {
-        data = await resp.json();
-      }
-    } catch (e) {}
+function applyDatabasePayload(data) {
+  if (!data || !data.ok) return false;
+  if (Array.isArray(data.escaneo)) {
+    INICIO_DATA.escaneo = data.escaneo.map(r => mapStageRowFromDb(r, 'Escaneo'));
+  }
+  if (Array.isArray(data.diseno)) {
+    INICIO_DATA.diseno = data.diseno.map(r => mapStageRowFromDb(r, 'Diseño'));
+  }
+  if (Array.isArray(data.fabricacion)) {
+    INICIO_DATA.fabricacion = data.fabricacion.map(r => mapStageRowFromDb(r, 'Fabricación'));
+  }
+  if (Array.isArray(data.entrega)) {
+    INICIO_DATA.entrega = data.entrega.map(r => mapStageRowFromDb(r, 'Entrega'));
+  }
+  if (Array.isArray(data.ordenes) && data.ordenes.length > 0) {
+    const mapped = data.ordenes.map(mapOrdenGeneralFromDb);
+    if (Array.isArray(window.LIVE_DB_STATE.initialOrdenesBackup) && window.LIVE_DB_STATE.initialOrdenesBackup.length > mapped.length) {
+      const seen = new Set(mapped.map(o => String(o.serie)));
+      const merged = mapped.concat(window.LIVE_DB_STATE.initialOrdenesBackup.filter(o => !seen.has(String(o.serie))));
+      INICIO_DATA.ordenes = merged;
+      window.LIVE_DB_STATE.initialOrdenesBackup = merged.slice();
+    } else {
+      INICIO_DATA.ordenes = mapped;
+      window.LIVE_DB_STATE.initialOrdenesBackup = mapped.slice();
+    }
+  }
+  if (Array.isArray(data.canceladas)) {
+    INICIO_DATA.canceladas = data.canceladas.map(c => ({
+      serie: String(c.Serie),
+      responsable: c.Nombre || 'Laboratorio',
+      comentario: c.ObservacionesLaboratororio || 'SIN COMENTARIO'
+    }));
+    INICIO_DATA.canceladasCount = data.canceladas_count || data.canceladas.length;
+  }
+  if (Array.isArray(data.pendientes_pago)) {
+    INICIO_DATA.pendientes = data.pendientes_pago.map(p => ({
+      serie: String(p.Serie),
+      doctor: p.Doctor || 'Doctor',
+      paciente: p.Paciente || 'Paciente',
+      idLab_Ordenes_Estado: p.idLab_Ordenes_Estado,
+      con_scan: p.Con_scan
+    }));
+    INICIO_DATA.pendientesCount = data.pendientes_pago.length;
+  }
+  if (Array.isArray(data.doctores) && data.doctores.length > 0) {
+    DENT_STATE.doctores = data.doctores.map(d => ({
+      id: Number(d.idDoctores),
+      codigo: 'DOC-' + d.idDoctores,
+      nombre: d.Nombre || d.Doctor || 'Doctor',
+      doctorCorto: d.Doctor || d.Nombre || 'Doctor',
+      apellidoPaterno: d.ApellidoPaterno || '',
+      apellidoMaterno: d.ApellidoMaterno || '',
+      celular: d.Celular || 'N/A',
+      telefono: d.Telefono || 'N/A',
+      mail: d.Email || 'N/A',
+      vendedor: d.Vendedor || 'DentLab',
+      nota: d.Notas || 'N/A',
+      clinica: d.Clinica && d.Clinica !== 'N/A' ? d.Clinica : `${d.Calle || ''} #${d.Num_Ext || ''}, Col. ${d.Colonia || ''}`,
+      direccion: `${d.Calle || ''} #${d.Num_Ext || ''}, Col. ${d.Colonia || ''}, ${d.Ciudad || ''}, ${d.Estado || ''}`,
+      calle: d.Calle || '',
+      colonia: d.Colonia || '',
+      numExt: d.Num_Ext || '',
+      cp: d.Codigo_Postal || '',
+      tipo: d.txExterno || (Number(d.Externo) === 0 ? 'INTERNO' : 'EXTERNO'),
+      activo: Number(d.Activo) === 1,
+      externo: Number(d.Externo) !== 0,
+      _fromLiveDb: true
+    }));
+  }
+
+  window.LIVE_DB_STATE.connected = true;
+  window.LIVE_DB_STATE.totalOrdenesBd = data.total_ordenes_bd || 22569;
+  window.LIVE_DB_STATE.totalDoctoresBd = data.total_doctores_bd || DENT_STATE.doctores.length;
+
+  const qInput = document.getElementById('nptBuscar');
+  if (qInput && qInput.value.trim() !== '') {
+    window.buscarEnBaseDeDatosLive(qInput.value);
   } else {
-    // 2. Si estamos en GitHub Pages, intentar primero conectar con localhost:8095 vía CORS
-    try {
-      const controller = new AbortController();
-      const timeoutId = setTimeout(() => controller.abort(), 1200);
-      const resp = await fetch('http://localhost:8095/Backend/api_live.php?op=bootstrap&limit=2000', {
-        cache: 'no-store',
-        signal: controller.signal
-      });
-      clearTimeout(timeoutId);
-      if (resp.ok) {
-        data = await resp.json();
-        window.LIVE_DB_STATE.corsLocalUrl = 'http://localhost:8095/Backend/api_live.php';
-      }
-    } catch (e) {}
-  }
-
-  // 3. Respaldo universal: cargar Backend/db_snapshot.json con 2,000 órdenes y 540 doctores reales de MySQL
-  if (!data || !data.ok) {
-    try {
-      const resp = await fetch('Backend/db_snapshot.json', { cache: 'no-store' });
-      if (resp.ok) {
-        data = await resp.json();
-      }
-    } catch (e) {}
-  }
-
-  if (!data || !data.ok) {
-    return false;
-  }
-
-  try {
-    if (Array.isArray(data.escaneo)) {
-      INICIO_DATA.escaneo = data.escaneo.map(r => mapStageRowFromDb(r, 'Escaneo'));
-    }
-    if (Array.isArray(data.diseno)) {
-      INICIO_DATA.diseno = data.diseno.map(r => mapStageRowFromDb(r, 'Diseño'));
-    }
-    if (Array.isArray(data.fabricacion)) {
-      INICIO_DATA.fabricacion = data.fabricacion.map(r => mapStageRowFromDb(r, 'Fabricación'));
-    }
-    if (Array.isArray(data.entrega)) {
-      INICIO_DATA.entrega = data.entrega.map(r => mapStageRowFromDb(r, 'Entrega'));
-    }
-    if (Array.isArray(data.ordenes) && data.ordenes.length > 0) {
-      INICIO_DATA.ordenes = data.ordenes.map(mapOrdenGeneralFromDb);
-      window.LIVE_DB_STATE.initialOrdenesBackup = INICIO_DATA.ordenes.slice();
-    }
-    if (Array.isArray(data.canceladas)) {
-      INICIO_DATA.canceladas = data.canceladas.map(c => ({
-        serie: String(c.Serie),
-        responsable: c.Nombre || 'Laboratorio',
-        comentario: c.ObservacionesLaboratororio || 'SIN COMENTARIO'
-      }));
-      INICIO_DATA.canceladasCount = data.canceladas_count || data.canceladas.length;
-    }
-    if (Array.isArray(data.pendientes_pago)) {
-      INICIO_DATA.pendientes = data.pendientes_pago.map(p => ({
-        serie: String(p.Serie),
-        doctor: p.Doctor || 'Doctor',
-        paciente: p.Paciente || 'Paciente',
-        idLab_Ordenes_Estado: p.idLab_Ordenes_Estado,
-        con_scan: p.Con_scan
-      }));
-      INICIO_DATA.pendientesCount = data.pendientes_pago.length;
-    }
-    if (Array.isArray(data.doctores) && data.doctores.length > 0) {
-      DENT_STATE.doctores = data.doctores.map(d => ({
-        id: Number(d.idDoctores),
-        codigo: 'DOC-' + d.idDoctores,
-        nombre: d.Nombre || d.Doctor || 'Doctor',
-        doctorCorto: d.Doctor || d.Nombre || 'Doctor',
-        apellidoPaterno: d.ApellidoPaterno || '',
-        apellidoMaterno: d.ApellidoMaterno || '',
-        celular: d.Celular || 'N/A',
-        telefono: d.Telefono || 'N/A',
-        mail: d.Email || 'N/A',
-        vendedor: d.Vendedor || 'DentLab',
-        nota: d.Notas || 'N/A',
-        clinica: d.Clinica && d.Clinica !== 'N/A' ? d.Clinica : `${d.Calle || ''} #${d.Num_Ext || ''}, Col. ${d.Colonia || ''}`,
-        direccion: `${d.Calle || ''} #${d.Num_Ext || ''}, Col. ${d.Colonia || ''}, ${d.Ciudad || ''}, ${d.Estado || ''}`,
-        calle: d.Calle || '',
-        colonia: d.Colonia || '',
-        numExt: d.Num_Ext || '',
-        cp: d.Codigo_Postal || '',
-        tipo: d.txExterno || (Number(d.Externo) === 0 ? 'INTERNO' : 'EXTERNO'),
-        activo: Number(d.Activo) === 1,
-        externo: Number(d.Externo) !== 0,
-        _fromLiveDb: true
-      }));
-    }
-
-    window.LIVE_DB_STATE.connected = true;
-    window.LIVE_DB_STATE.totalOrdenesBd = data.total_ordenes_bd || 22569;
-    window.LIVE_DB_STATE.totalDoctoresBd = data.total_doctores_bd || DENT_STATE.doctores.length;
-
     renderTablasInicio();
-    renderModalsInicio();
-
-    if (!silent && typeof showToast === 'function') {
-      showToast('Tablas Actualizadas', 'Escaneo, Diseño, Fabricación, Entrega y Órdenes sincronizadas.');
-    }
-    return true;
-  } catch (err) {
-    return false;
   }
+  renderModalsInicio();
+  return true;
+}
+
+window.syncLiveDatabase = async function (silent = false) {
+  let hydrated = false;
+
+  // 1. Pre-hidratación instantánea (<50ms) con las 2,000 órdenes reales de Backend/db_snapshot.json
+  try {
+    const snapResp = await fetch('Backend/db_snapshot.json', { cache: 'no-store' });
+    if (snapResp.ok) {
+      const snapData = await snapResp.json();
+      if (applyDatabasePayload(snapData)) {
+        hydrated = true;
+      }
+    }
+  } catch (e) {}
+
+  // 2. Consulta EN VIVO a MySQL (162.240.213.3) vía api_live.php (local o puente CORS desde GitHub Pages)
+  const apiUrl = getLiveApiBase();
+  try {
+    const liveResp = await fetch(`${apiUrl}?op=bootstrap&limit=500`, { cache: 'no-store' });
+    if (liveResp.ok) {
+      const liveData = await liveResp.json();
+      if (applyDatabasePayload(liveData)) {
+        window.LIVE_DB_STATE.corsLocalUrl = apiUrl;
+        hydrated = true;
+      }
+    }
+  } catch (e) {}
+
+  if (hydrated && !silent && typeof showToast === 'function') {
+    showToast('Tablas Actualizadas', 'Escaneo, Diseño, Fabricación, Entrega y Órdenes sincronizadas en vivo.');
+  }
+  return hydrated;
 };
 
 window.fetchOrdenDetalleLive = async function (serie) {
-  if (isStaticOrOfflineHost()) return;
   try {
     const cleanSerie = String(serie).trim().replace(/^#?OT-?/i, '');
-    const resp = await fetch(`Backend/api_live.php?op=orden_detalle&folio=${encodeURIComponent(cleanSerie)}`, { cache: 'no-store' });
+    const apiBase = getLiveApiBase();
+    const resp = await fetch(`${apiBase}?op=orden_detalle&folio=${encodeURIComponent(cleanSerie)}`, { cache: 'no-store' });
     if (!resp.ok) return;
     const data = await resp.json();
     if (!data || !data.ok || !data.orden) return;
@@ -9562,10 +9566,11 @@ window.fetchOrdenDetalleLive = async function (serie) {
 };
 
 window.fetchDoctorDetalleLive = async function (doc) {
-  if (!doc || isStaticOrOfflineHost()) return;
+  if (!doc) return;
   try {
     const params = doc.id ? `idDoctor=${encodeURIComponent(doc.id)}` : `nombre=${encodeURIComponent(doc.nombre || '')}`;
-    const resp = await fetch(`Backend/api_live.php?op=doctor_detalle&${params}`, { cache: 'no-store' });
+    const apiBase = getLiveApiBase();
+    const resp = await fetch(`${apiBase}?op=doctor_detalle&${params}`, { cache: 'no-store' });
     if (!resp.ok) return;
     const data = await resp.json();
     if (!data || !data.ok || !data.doctor) return;
@@ -9646,11 +9651,12 @@ window.buscarEnBaseDeDatosLive = function (query) {
     return;
   }
 
-  // Filtrado instantáneo en memoria sobre las 2,000 órdenes reales de la base de datos
+  // 1. Filtrado instantáneo en memoria (2,000 órdenes reales)
+  const cleanQ = q.replace(/^#?ot-?/i, '');
   const matches = allOrders.filter(o => {
     return (
-      String(o.serie || '').toLowerCase().includes(q) ||
-      String(o.ot || '').toLowerCase().includes(q) ||
+      String(o.serie || '').toLowerCase().includes(cleanQ) ||
+      String(o.ot || '').toLowerCase().includes(cleanQ) ||
       String(o.doctor || '').toLowerCase().includes(q) ||
       String(o.doctorNombreCompleto || '').toLowerCase().includes(q) ||
       String(o.paciente || '').toLowerCase().includes(q) ||
@@ -9666,15 +9672,15 @@ window.buscarEnBaseDeDatosLive = function (query) {
   paginaActualOrdenes = 1;
   renderTablasInicio();
 
-  // Si hay servidor PHP disponible (en localhost o CORS), consultar también en la BD completa (22,569 órdenes)
-  const apiBase = window.LIVE_DB_STATE.corsLocalUrl || (!isStaticOrOfflineHost() ? 'Backend/api_live.php' : null);
-  if (apiBase && raw.length >= 2) {
+  // 2. Consulta EN VIVO a MySQL (162.240.213.3 -> 22,569 órdenes totales)
+  if (raw.length >= 1) {
+    const apiBase = getLiveApiBase();
     liveSearchTimer = setTimeout(async () => {
       try {
         const resp = await fetch(`${apiBase}?op=search_ordenes&q=${encodeURIComponent(raw)}`, { cache: 'no-store' });
         if (!resp.ok) return;
         const data = await resp.json();
-        if (data && data.ok && Array.isArray(data.ordenes) && data.ordenes.length > 0) {
+        if (data && data.ok && Array.isArray(data.ordenes)) {
           const liveMapped = data.ordenes.map(mapOrdenGeneralFromDb);
           const seen = new Set(liveMapped.map(o => String(o.serie)));
           const combined = liveMapped.concat(matches.filter(o => !seen.has(String(o.serie))));
@@ -9683,7 +9689,7 @@ window.buscarEnBaseDeDatosLive = function (query) {
           renderTablasInicio();
         }
       } catch (e) {}
-    }, 280);
+    }, 220);
   }
 };
 

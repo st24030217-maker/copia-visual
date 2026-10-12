@@ -1,14 +1,21 @@
 <?php
 header('Access-Control-Allow-Origin: *');
 header('Access-Control-Allow-Methods: GET, POST, OPTIONS');
-header('Access-Control-Allow-Headers: Content-Type');
+header('Access-Control-Allow-Headers: Content-Type, Access-Control-Request-Private-Network');
+header('Access-Control-Allow-Private-Network: true');
 header('Content-Type: application/json; charset=utf-8');
 if (($_SERVER['REQUEST_METHOD'] ?? '') === 'OPTIONS') {
+    http_response_code(200);
     exit;
 }
-require_once(__DIR__ . '/Conexiones/Conexiones.php');
 
 $op = $_REQUEST['op'] ?? 'bootstrap';
+if ($op === 'health') {
+    echo json_encode(['ok' => true, 'live' => true]);
+    exit;
+}
+
+require_once(__DIR__ . '/Conexiones/Conexiones.php');
 
 try {
     $db = new Conexiones();
@@ -442,9 +449,35 @@ try {
             LEFT JOIN Lab_Tipos_Colorimetros_Marcas AS ltcm ON ltcm.Tipos_Colorimetros_Marcas_Id = ltcc.Tipos_Colorimetros_Marca_Id";
         $params = [];
         if ($qStr !== '') {
-            $sql .= " WHERE lot.Serie LIKE :s1 OR laa.Producto LIKE :s2 OR lda.Doctor LIKE :s3 OR lpa.Nombre LIKE :s4 OR lpa.Apellidos LIKE :s5 OR lot.Fecha_entrega_solicitada LIKE :s6";
+            $cleanQ = preg_replace('/^#?OT-?/i', '', $qStr);
+            $sql .= " WHERE lot.Serie LIKE :s1
+                      OR laa.Producto LIKE :s2
+                      OR lda.Doctor LIKE :s3
+                      OR lda.ApellidoPaterno LIKE :s4
+                      OR lda.ApellidoMaterno LIKE :s5
+                      OR CONCAT(COALESCE(lda.Doctor,''), ' ', COALESCE(lda.ApellidoPaterno,''), ' ', COALESCE(lda.ApellidoMaterno,'')) LIKE :s6
+                      OR lpa.Nombre LIKE :s7
+                      OR lpa.Apellidos LIKE :s8
+                      OR CONCAT(COALESCE(lpa.Nombre,''), ' ', COALESCE(lpa.Apellidos,'')) LIKE :s9
+                      OR le.Estado LIKE :s10
+                      OR ls.SubEstado LIKE :s11
+                      OR lot.Fecha_entrega_solicitada LIKE :s12";
             $like = "%$qStr%";
-            $params = [':s1' => $like, ':s2' => $like, ':s3' => $like, ':s4' => $like, ':s5' => $like, ':s6' => $like];
+            $likeSerie = "%$cleanQ%";
+            $params = [
+                ':s1' => $likeSerie,
+                ':s2' => $like,
+                ':s3' => $like,
+                ':s4' => $like,
+                ':s5' => $like,
+                ':s6' => $like,
+                ':s7' => $like,
+                ':s8' => $like,
+                ':s9' => $like,
+                ':s10' => $like,
+                ':s11' => $like,
+                ':s12' => $like
+            ];
         }
         $sql .= " ORDER BY lot.Serie DESC LIMIT $limit OFFSET $offset";
         $rows = $db->ExecuteQueryWithParam($sql, $params);
