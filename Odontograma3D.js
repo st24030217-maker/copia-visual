@@ -421,6 +421,10 @@
 
     bindEvents() {
       const c = this.canvas;
+      c.style.touchAction = 'none';
+      c.style.webkitUserSelect = 'none';
+      c.style.userSelect = 'none';
+
       c.addEventListener('mousedown', (e) => {
         this.isDragging = true;
         this.autoRotate = false;
@@ -444,29 +448,55 @@
         this.isDragging = false;
       });
 
-      // Touch support
+      // Soporte táctil para iPad / tablets / móviles (bloquea scroll de página al rotar 3D)
+      this.pinchDist = 0;
       c.addEventListener('touchstart', (e) => {
+        if (e.cancelable) e.preventDefault();
         if (e.touches.length === 1) {
           this.isDragging = true;
           this.autoRotate = false;
           this.lastX = e.touches[0].clientX;
           this.lastY = e.touches[0].clientY;
           this.updateAutoRotateBtn();
+        } else if (e.touches.length === 2) {
+          this.isDragging = false;
+          const dx = e.touches[0].clientX - e.touches[1].clientX;
+          const dy = e.touches[0].clientY - e.touches[1].clientY;
+          this.pinchDist = Math.hypot(dx, dy);
         }
-      }, { passive: true });
+      }, { passive: false });
+
       c.addEventListener('touchmove', (e) => {
-        if (!this.isDragging || e.touches.length !== 1) return;
-        const dx = e.touches[0].clientX - this.lastX;
-        const dy = e.touches[0].clientY - this.lastY;
-        this.lastX = e.touches[0].clientX;
-        this.lastY = e.touches[0].clientY;
-        this.targetYaw += dx * 0.014;
-        this.targetPitch = Math.max(-1.48, Math.min(1.48, this.targetPitch + dy * 0.014));
-        this.yaw = this.targetYaw;
-        this.pitch = this.targetPitch;
-        this.requestDraw();
-      }, { passive: true });
-      c.addEventListener('touchend', () => { this.isDragging = false; });
+        if (e.cancelable) e.preventDefault();
+        if (e.touches.length === 1 && this.isDragging) {
+          const dx = e.touches[0].clientX - this.lastX;
+          const dy = e.touches[0].clientY - this.lastY;
+          this.lastX = e.touches[0].clientX;
+          this.lastY = e.touches[0].clientY;
+          this.targetYaw += dx * 0.014;
+          this.targetPitch = Math.max(-1.48, Math.min(1.48, this.targetPitch + dy * 0.014));
+          this.yaw = this.targetYaw;
+          this.pitch = this.targetPitch;
+          this.requestDraw();
+        } else if (e.touches.length === 2 && this.pinchDist > 0) {
+          const dx = e.touches[0].clientX - e.touches[1].clientX;
+          const dy = e.touches[0].clientY - e.touches[1].clientY;
+          const dist = Math.hypot(dx, dy);
+          const delta = (dist - this.pinchDist) * 0.005;
+          this.pinchDist = dist;
+          this.zoom = Math.max(0.75, Math.min(1.65, this.zoom + delta));
+          this.requestDraw();
+        }
+      }, { passive: false });
+
+      c.addEventListener('touchend', () => {
+        this.isDragging = false;
+        this.pinchDist = 0;
+      });
+      c.addEventListener('touchcancel', () => {
+        this.isDragging = false;
+        this.pinchDist = 0;
+      });
 
       c.addEventListener('wheel', (e) => {
         e.preventDefault();

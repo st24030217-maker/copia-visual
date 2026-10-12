@@ -573,6 +573,14 @@ $perfilActual  = htmlspecialchars($_SESSION['perfil'] ?? 'Administrador', ENT_QU
       border: 1px solid var(--od-border);
       background: var(--od-bg);
       overflow: hidden;
+      touch-action: none;
+      overscroll-behavior: contain;
+      -webkit-user-select: none;
+      user-select: none;
+    }
+    .odonto-3d-stage canvas {
+      touch-action: none;
+      -webkit-touch-callout: none;
     }
     .odonto-views-grid {
       display: grid;
