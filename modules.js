@@ -8665,36 +8665,24 @@ function renderVistaOrdenTrabajo() {
   const renderDienteCard3D = (d, isLower = false) => {
     const s = String(d);
     const isSel = (o.piezas || []).map(String).includes(s);
-    const tipo = o.tiposPieza[s] || (isSel ? 'PILAR' : null);
-
-    let cardStyle = 'background:#ffffff;border-color:transparent;color:#64748b;';
-    let numStyle = 'color:#94a3b8;';
-    let dotStyle = 'background:#e2e8f0;';
-
-    if (tipo === 'PILAR') {
-      cardStyle = 'background:linear-gradient(180deg,#eef5f2 0%,#dfece7 100%);border-color:#4b8372;color:#1c3b32;box-shadow:0 2px 8px rgba(47,99,83,0.14);';
-      numStyle = 'color:#1c3b32;font-weight:800;';
-      dotStyle = 'background:#2f6353;transform:scale(1.25);';
-    } else if (tipo === 'PONTICO') {
-      cardStyle = 'background:linear-gradient(180deg,#f6f1e7 0%,#ece2cf 100%);border-color:#967949;color:#45351e;box-shadow:0 2px 8px rgba(117,92,52,0.14);';
-      numStyle = 'color:#45351e;font-weight:800;';
-      dotStyle = 'background:#755c34;transform:scale(1.25);';
-    }
-
-    const numSpan = `<span class="font-mono text-[9.5px] font-bold leading-none tracking-tight select-none" style="${numStyle}">${s}</span>`;
-    const dotSpan = `<span class="w-1.5 h-1.5 rounded-full transition-all duration-150" style="${dotStyle}"></span>`;
+    const tipo = o.tiposPieza[s] || (isSel ? 'PILAR' : 'LIBRE');
+    const numSpan = `<span class="odonto-tooth-num font-mono">${s}</span>`;
+    const dotSpan = `<span class="odonto-tooth-dot" aria-hidden="true"></span>`;
 
     return `
-      <button type="button" onclick="window.togglePiezaOrdenActual('${s}')"
+      <button type="button"
+        onclick="window.togglePiezaOrdenActual('${s}')"
         onmouseenter="window.Odontograma3D && window.Odontograma3D.selectTooth(${s})"
-        title="Pieza ${s}${tipo ? ' • ' + (tipo === 'PONTICO' ? 'Póntico' : 'Pilar') : ''}"
-        style="${cardStyle}"
-        class="group relative h-[86px] py-1.5 px-0.5 rounded-xl border hover:border-slate-200 hover:bg-slate-50/90 flex flex-col items-center justify-between transition-all duration-150 hover:-translate-y-0.5 cursor-pointer overflow-hidden">
+        onfocus="window.Odontograma3D && window.Odontograma3D.selectTooth(${s})"
+        data-tooth="${s}"
+        data-state="${tipo}"
+        aria-pressed="${tipo !== 'LIBRE'}"
+        aria-label="Pieza ${s} ${tipo !== 'LIBRE' ? (tipo === 'PONTICO' ? 'Póntico' : 'Pilar') : 'Libre'}"
+        title="Pieza ${s}${tipo !== 'LIBRE' ? ' • ' + (tipo === 'PONTICO' ? 'Póntico' : 'Pilar') : ''}"
+        class="odonto-tooth-btn">
         ${isLower ? dotSpan : numSpan}
-        <div class="w-full h-12 flex items-center justify-center overflow-hidden">
-          <img src="assets/odontograma/diente_${s}.png?v=3" alt="${s}" loading="lazy"
-               class="h-12 w-auto object-contain transition-transform duration-200 group-hover:scale-110 select-none pointer-events-none"
-               style="mix-blend-mode: multiply;">
+        <div class="w-full flex-1 flex items-center justify-center overflow-hidden">
+          <img src="assets/odontograma/diente_${s}.png?v=3" alt="" loading="lazy" class="odonto-tooth-img select-none">
         </div>
         ${isLower ? numSpan : dotSpan}
       </button>
@@ -8713,7 +8701,7 @@ function renderVistaOrdenTrabajo() {
   const etapaLabel = o.subEstado && o.subEstado !== o.estado ? `${o.estado} · ${o.subEstado}` : o.estado;
 
   container.innerHTML = `
-    <div class="bg-white border border-slate-200 rounded-2xl shadow-sm p-5">
+    <div class="bg-white border border-slate-200 rounded-2xl shadow-sm p-4 sm:p-5">
       <div class="mb-4 flex items-center justify-between">
         <button onclick="openModule('inicio')" class="px-3.5 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-white text-xs font-bold flex items-center gap-2 shadow-xs transition-colors cursor-pointer">
           <i data-lucide="arrow-left" class="w-4 h-4"></i>
@@ -8873,29 +8861,29 @@ function renderVistaOrdenTrabajo() {
             </div>
           </div>
 
-          <!-- Columna Derecha: Odontograma 3D Minimalista y Estético -->
+          <!-- Columna Derecha: Odontograma 3D Adaptativo (Mobile-First) -->
           <div class="min-w-0 lg:col-span-7">
-            <div class="bg-white rounded-2xl border border-slate-200/90 shadow-xs overflow-hidden flex flex-col justify-between h-full">
+            <section class="odonto-studio h-full" aria-label="Odontograma 3D Interactivo">
               <div>
-                <!-- Barra Superior Minimalista -->
-                <div class="bg-slate-900 text-white px-4 py-2.5 flex flex-wrap items-center justify-between gap-2">
+                <!-- 1. Barra Superior Minimalista -->
+                <header class="odonto-topbar">
                   <div class="flex items-center gap-2.5">
-                    <span class="text-xs font-bold tracking-wide text-slate-100">Odontograma 3D</span>
-                    <span class="text-slate-700">|</span>
-                    <div class="flex flex-wrap items-center gap-1">
+                    <h4 class="odonto-title">Odontograma 3D</h4>
+                    <span class="text-slate-700" aria-hidden="true">|</span>
+                    <div class="flex flex-wrap items-center gap-1" aria-label="Piezas seleccionadas">
                       ${activePillsHtml}
                     </div>
                   </div>
                   <div class="flex items-center gap-1.5 text-[10.5px] font-semibold">
-                    <div class="inline-flex items-center bg-slate-800 p-0.5 rounded-lg border border-slate-700/80">
+                    <div class="inline-flex items-center bg-slate-800 p-0.5 rounded-lg border border-slate-700/80" role="group" aria-label="Modo de asignación">
                       <button type="button" onclick="window.setOdontoBrushMode('PILAR')"
-                        style="${brush === 'PILAR' ? 'background:#2f6353;color:#ffffff;' : 'color:#94a3b8;'}"
+                        style="${brush === 'PILAR' ? 'background:#2f6353;color:#ffffff;' : 'color:#cbd5e1;'}"
                         class="px-2.5 py-1 rounded-md transition-all cursor-pointer flex items-center gap-1.5">
                         <span class="w-1.5 h-1.5 rounded-full" style="background:${brush === 'PILAR' ? '#ffffff' : '#5e9c89'};"></span>
                         <span>Pilar</span>
                       </button>
                       <button type="button" onclick="window.setOdontoBrushMode('PONTICO')"
-                        style="${brush === 'PONTICO' ? 'background:#755c34;color:#ffffff;' : 'color:#94a3b8;'}"
+                        style="${brush === 'PONTICO' ? 'background:#755c34;color:#ffffff;' : 'color:#cbd5e1;'}"
                         class="px-2.5 py-1 rounded-md transition-all cursor-pointer flex items-center gap-1.5">
                         <span class="w-1.5 h-1.5 rounded-full" style="background:${brush === 'PONTICO' ? '#ffffff' : '#af915f'};"></span>
                         <span>Póntico</span>
@@ -8905,72 +8893,73 @@ function renderVistaOrdenTrabajo() {
                       <i data-lucide="maximize-2" class="w-3.5 h-3.5"></i>
                     </button>
                   </div>
-                </div>
+                </header>
 
-                <div class="p-4 space-y-3.5 bg-slate-50/50">
-                  <!-- Mapa Dental Anatómico Unificado (Superior + Inferior sin exceso de texto) -->
-                  <div class="bg-white px-3 py-3.5 rounded-2xl border border-slate-200/80 shadow-2xs space-y-2">
+                <!-- 2. Cuerpo del Odontograma (Ritmo múltiplos de 4px/8px) -->
+                <div class="p-3 sm:p-4 space-y-3 sm:space-y-4 bg-slate-50/50">
+                  <!-- Mapa Dental Anatómico Unificado -->
+                  <div class="odonto-arch-card space-y-2">
                     <!-- Arcada Superior (18-11 | 21-28) -->
-                    <div class="grid grid-cols-1 xl:grid-cols-2 gap-1.5">
-                      <div class="grid grid-cols-8 gap-1 xl:pr-1.5 xl:border-r xl:border-slate-200/70">
+                    <div class="odonto-arch-row">
+                      <div class="odonto-quadrant odonto-quadrant--right">
                         ${q1.map(d => renderDienteCard3D(d, false)).join('')}
                       </div>
-                      <div class="grid grid-cols-8 gap-1 xl:pl-0.5">
+                      <div class="odonto-quadrant odonto-quadrant--left">
                         ${q2.map(d => renderDienteCard3D(d, false)).join('')}
                       </div>
                     </div>
 
                     <!-- Línea Oclusal Media Sutil -->
-                    <div class="relative flex items-center justify-center py-0.5">
+                    <div class="relative flex items-center justify-center py-0.5" aria-hidden="true">
                       <div class="w-full border-t border-dashed border-slate-200"></div>
-                      <span class="absolute bg-white px-2 text-[9px] font-mono uppercase tracking-widest text-slate-300 select-none">Plano Oclusal</span>
+                      <span class="absolute bg-white px-2 text-[9px] font-mono uppercase tracking-widest text-slate-400 select-none">Plano Oclusal</span>
                     </div>
 
                     <!-- Arcada Inferior (48-41 | 31-38) -->
-                    <div class="grid grid-cols-1 xl:grid-cols-2 gap-1.5">
-                      <div class="grid grid-cols-8 gap-1 xl:pr-1.5 xl:border-r xl:border-slate-200/70">
+                    <div class="odonto-arch-row">
+                      <div class="odonto-quadrant odonto-quadrant--right">
                         ${q4.map(d => renderDienteCard3D(d, true)).join('')}
                       </div>
-                      <div class="grid grid-cols-8 gap-1 xl:pl-0.5">
+                      <div class="odonto-quadrant odonto-quadrant--left">
                         ${q3.map(d => renderDienteCard3D(d, true)).join('')}
                       </div>
                     </div>
                   </div>
 
-                  <!-- Estudio 3D Minimalista por Pieza -->
-                  <div class="bg-white p-3 rounded-2xl border border-slate-200/80 shadow-2xs">
-                    <div class="grid grid-cols-1 sm:grid-cols-12 gap-3 items-center">
-                      <!-- Lienzo 3D Interactivo -->
-                      <div class="sm:col-span-5">
-                        <div class="relative w-full h-[185px] rounded-xl border border-slate-200/80 bg-[#f8fafc] overflow-hidden">
+                  <!-- 3. Estudio 3D Minimalista por Pieza -->
+                  <div class="odonto-arch-card">
+                    <div class="grid grid-cols-1 md:grid-cols-12 gap-3.5 items-center">
+                      <!-- Lienzo WebGL 3D Interactivo -->
+                      <div class="md:col-span-5">
+                        <div class="odonto-3d-stage">
                           <canvas id="inlineOdonto3DCanvas" class="w-full h-full cursor-grab active:cursor-grabbing block"></canvas>
                           <div class="absolute top-2 left-2 flex items-center gap-1.5 pointer-events-none">
-                            <span id="inline3DToothNum" class="px-2 py-0.5 rounded-md bg-slate-900/85 text-white font-mono font-bold text-[11px]">16</span>
+                            <span id="inline3DToothNum" class="px-2 py-0.5 rounded-md bg-slate-900/90 text-white font-mono font-bold text-[11px]">16</span>
                             <span id="inline3DToothState" class="px-2 py-0.5 rounded-full text-[9.5px] font-bold bg-[#2f6353] text-white">Pilar</span>
                           </div>
                           <div class="absolute bottom-2 right-2 flex items-center gap-1">
                             <button type="button" id="inlineBtnPrepMode3D" onclick="window.Odontograma3D && window.Odontograma3D.togglePrepMode('inline')"
-                              class="px-2 py-1 rounded-lg text-[10px] font-bold bg-white/90 text-slate-600 border border-slate-200 hover:bg-slate-100 transition-all cursor-pointer">
+                              class="px-2 py-1 rounded-lg text-[10px] font-bold bg-white/90 text-slate-700 border border-slate-200 hover:bg-slate-100 transition-all cursor-pointer">
                               Corona
                             </button>
                             <button type="button" id="inlineBtnAutoRotate3D" onclick="window.Odontograma3D && window.Odontograma3D.toggleAutoRotate('inline')"
-                              class="px-2 py-1 rounded-lg text-[10px] font-bold bg-white/90 text-slate-600 border border-slate-200 hover:bg-slate-100 transition-all cursor-pointer">
+                              class="px-2 py-1 rounded-lg text-[10px] font-bold bg-white/90 text-slate-700 border border-slate-200 hover:bg-slate-100 transition-all cursor-pointer">
                               360°
                             </button>
                           </div>
                         </div>
                       </div>
 
-                      <!-- Cabecera Compacta + 6 Vistas -->
-                      <div class="sm:col-span-7 space-y-2.5">
+                      <!-- Cabecera Compacta + 6 Vistas Angulares Adaptativas -->
+                      <div class="md:col-span-7 space-y-2.5">
                         <div class="flex items-center justify-between gap-2 px-0.5">
                           <h5 id="inline3DToothName" class="text-xs font-bold text-slate-800 truncate">Primer Molar Superior Derecho</h5>
                           <div class="flex items-center gap-1.5 shrink-0">
-                            <span id="inline3DToothSpecs" class="text-[10px] font-mono text-slate-400">3R • 4C</span>
+                            <span id="inline3DToothSpecs" class="text-[10px] font-mono text-slate-500">3R • 4C</span>
                             <span id="inline3DToothType" class="px-2 py-0.5 rounded-md bg-slate-100 text-slate-700 font-mono text-[10px] font-bold">A2</span>
                           </div>
                         </div>
-                        <div id="inline3DRefViewsGrid" class="grid grid-cols-6 gap-1.5"></div>
+                        <div id="inline3DRefViewsGrid" class="odonto-views-grid"></div>
                       </div>
                     </div>
                   </div>
@@ -8978,7 +8967,7 @@ function renderVistaOrdenTrabajo() {
               </div>
 
               <!-- Barra Inferior de Etapa y Acciones -->
-              <div class="px-4 py-3 border-t border-slate-200/80 bg-white flex flex-wrap items-center justify-between gap-3">
+              <footer class="px-4 py-3 border-t border-slate-200/80 bg-white flex flex-wrap items-center justify-between gap-3">
                 <div class="flex items-center gap-3 text-xs">
                   <span class="text-slate-500 font-medium">Etapa: <strong class="text-slate-900 font-bold">${etapaLabel}</strong></span>
                   <span class="text-slate-300">•</span>
@@ -8998,8 +8987,8 @@ function renderVistaOrdenTrabajo() {
                     Etiqueta
                   </button>
                 </div>
-              </div>
-            </div>
+              </footer>
+            </section>
           </div>
         </div>
       ` : ''}

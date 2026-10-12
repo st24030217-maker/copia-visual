@@ -699,12 +699,13 @@
           const imgSrc = `assets/odontograma/ref_${meta.ref}_${v.key}.png`;
           return `
             <button type="button" onclick="window.Odontograma3D.setView('${prefix}', '${v.key}')"
+              data-active="${isAct}"
               title="Vista ${v.short}"
-              class="group flex flex-col items-center p-1.5 rounded-xl border transition-all cursor-pointer ${isAct ? 'border-[#334e68] bg-[#f1f5f9] shadow-2xs' : 'border-slate-200/70 bg-white hover:border-slate-300'}">
+              class="odonto-angle-btn group">
               <div class="w-full h-12 rounded-lg bg-[#fafaf9] overflow-hidden flex items-center justify-center">
                 <img src="${imgSrc}" alt="${v.short}" class="h-11 w-auto object-contain transition-transform duration-150 group-hover:scale-110">
               </div>
-              <span class="mt-1 text-[8.5px] font-semibold tracking-wide ${isAct ? 'text-[#334e68]' : 'text-slate-400'}">${v.short}</span>
+              <span class="mt-1 text-[8.5px] font-semibold tracking-wide ${isAct ? 'text-[#334e68]' : 'text-slate-500'}">${v.short}</span>
             </button>
           `;
         }).join('');

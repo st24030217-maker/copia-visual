@@ -390,6 +390,222 @@ $perfilActual  = htmlspecialchars($_SESSION['perfil'] ?? 'Administrador', ENT_QU
     }
 
     /* ===================================================================== */
+    /* SISTEMA DE DISEÑO MODULAR: ODONTOGRAMA 3D ADAPTATIVO (MOBILE-FIRST)   */
+    /* ===================================================================== */
+    .odonto-studio {
+      --od-bg: #f8fafc;
+      --od-surface: #ffffff;
+      --od-header: #0f172a;
+      --od-border: #e2e8f0;
+      --od-border-hover: #cbd5e1;
+      --od-ink: #0f172a;
+      --od-muted: #475569;
+      --od-subtle: #64748b;
+      --od-accent: #334e68;
+      --od-pilar: #2f6353;
+      --od-pilar-ink: #18352c;
+      --od-pilar-bg: linear-gradient(180deg, #eef5f2 0%, #dfece7 100%);
+      --od-pontico: #755c34;
+      --od-pontico-ink: #3d2f1a;
+      --od-pontico-bg: linear-gradient(180deg, #f6f1e7 0%, #ece2cf 100%);
+      --od-ease: cubic-bezier(0.22, 1, 0.36, 1);
+
+      background: var(--od-surface);
+      border: 1px solid var(--od-border);
+      border-radius: 1rem; /* 16px */
+      box-shadow: 0 4px 16px -4px rgba(15, 23, 42, 0.05);
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    /* 1. Barra de Control Superior (Oscura con contraste WCAG AA) */
+    .odonto-topbar {
+      background: var(--od-header);
+      color: #f8fafc;
+      padding: 0.75rem 1rem; /* 12px 16px */
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.5rem; /* 8px */
+    }
+    .odonto-title {
+      font-size: clamp(0.75rem, 0.7rem + 0.2vw, 0.85rem);
+      font-weight: 700;
+      letter-spacing: 0.02em;
+      color: #f8fafc;
+      line-height: 1.2;
+    }
+
+    /* 2. Contenedor de Arcadas (Mobile-First: 1 col en móvil/laptop compacto, 2 cols en wide 1400px+) */
+    .odonto-arch-card {
+      background: var(--od-surface);
+      border: 1px solid var(--od-border);
+      border-radius: 1rem; /* 16px */
+      padding: clamp(0.625rem, 1.2vw, 1rem);
+      box-shadow: 0 1px 3px rgba(15, 23, 42, 0.03);
+    }
+    .odonto-arch-row {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 0.375rem; /* 6px */
+    }
+    .odonto-quadrant {
+      display: grid;
+      grid-template-columns: repeat(8, minmax(0, 1fr));
+      gap: clamp(0.1875rem, 0.4vw, 0.375rem);
+    }
+
+    @media (min-width: 1400px) {
+      .odonto-arch-row {
+        grid-template-columns: 1fr 1fr;
+        gap: 0.75rem; /* 12px */
+      }
+      .odonto-quadrant--right {
+        padding-right: 0.375rem;
+        border-right: 1px solid var(--od-border);
+      }
+      .odonto-quadrant--left {
+        padding-left: 0.125rem;
+      }
+    }
+
+    /* 3. Botón Individual de Pieza Dental (Microinteracciones + Accesibilidad) */
+    .odonto-tooth-btn {
+      position: relative;
+      height: clamp(4.5rem, 7.5vw, 5.5rem); /* 72px a 88px */
+      padding: 0.375rem 0.125rem; /* 6px 2px */
+      border-radius: 0.75rem; /* 12px */
+      border: 1px solid transparent;
+      background: var(--od-surface);
+      color: var(--od-muted);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: space-between;
+      cursor: pointer;
+      user-select: none;
+      transition:
+        transform 200ms var(--od-ease),
+        box-shadow 200ms var(--od-ease),
+        border-color 180ms ease,
+        background 180ms ease;
+    }
+    .odonto-tooth-btn:hover {
+      transform: translateY(-2px);
+      border-color: var(--od-border-hover);
+      background: var(--od-bg);
+      box-shadow: 0 4px 10px -2px rgba(15, 23, 42, 0.06);
+    }
+    .odonto-tooth-btn:active {
+      transform: translateY(0) scale(0.96);
+    }
+    .odonto-tooth-btn:focus-visible {
+      outline: none;
+      box-shadow: 0 0 0 2px var(--od-accent);
+    }
+    .odonto-tooth-btn[data-state="PILAR"] {
+      background: var(--od-pilar-bg);
+      border-color: #4b8372;
+      color: var(--od-pilar-ink);
+      box-shadow: 0 3px 10px -2px rgba(47, 99, 83, 0.15);
+    }
+    .odonto-tooth-btn[data-state="PONTICO"] {
+      background: var(--od-pontico-bg);
+      border-color: #967949;
+      color: var(--od-pontico-ink);
+      box-shadow: 0 3px 10px -2px rgba(117, 92, 52, 0.15);
+    }
+    .odonto-tooth-num {
+      font-size: clamp(0.5625rem, 0.52rem + 0.18vw, 0.65rem);
+      font-weight: 700;
+      font-variant-numeric: tabular-nums;
+      line-height: 1;
+      color: var(--od-subtle);
+      transition: color 180ms ease;
+    }
+    .odonto-tooth-btn[data-state="PILAR"] .odonto-tooth-num {
+      color: var(--od-pilar-ink);
+      font-weight: 800;
+    }
+    .odonto-tooth-btn[data-state="PONTICO"] .odonto-tooth-num {
+      color: var(--od-pontico-ink);
+      font-weight: 800;
+    }
+    .odonto-tooth-img {
+      height: clamp(2.35rem, 4.2vw, 3.1rem);
+      width: auto;
+      object-fit: contain;
+      mix-blend-mode: multiply;
+      pointer-events: none;
+      transition: transform 220ms var(--od-ease);
+    }
+    .odonto-tooth-btn:hover .odonto-tooth-img {
+      transform: scale(1.1);
+    }
+    .odonto-tooth-dot {
+      width: 0.375rem; /* 6px */
+      height: 0.375rem;
+      border-radius: 9999px;
+      background: #e2e8f0;
+      transition: transform 180ms var(--od-ease), background-color 180ms ease;
+    }
+    .odonto-tooth-btn:hover .odonto-tooth-dot {
+      background: #94a3b8;
+    }
+    .odonto-tooth-btn[data-state="PILAR"] .odonto-tooth-dot {
+      background: var(--od-pilar);
+      transform: scale(1.25);
+    }
+    .odonto-tooth-btn[data-state="PONTICO"] .odonto-tooth-dot {
+      background: var(--od-pontico);
+      transform: scale(1.25);
+    }
+
+    /* 4. Estudio 3D Interactivo y Vistas de Referencia */
+    .odonto-3d-stage {
+      position: relative;
+      width: 100%;
+      height: clamp(10.5rem, 18vw, 12rem);
+      border-radius: 0.75rem; /* 12px */
+      border: 1px solid var(--od-border);
+      background: var(--od-bg);
+      overflow: hidden;
+    }
+    .odonto-views-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 0.375rem; /* 6px */
+    }
+    @media (min-width: 640px) {
+      .odonto-views-grid {
+        grid-template-columns: repeat(6, minmax(0, 1fr));
+      }
+    }
+    .odonto-angle-btn {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 0.375rem; /* 6px */
+      border-radius: 0.75rem; /* 12px */
+      border: 1px solid var(--od-border);
+      background: var(--od-surface);
+      cursor: pointer;
+      transition: all 180ms var(--od-ease);
+    }
+    .odonto-angle-btn:hover {
+      border-color: var(--od-border-hover);
+      transform: translateY(-1px);
+    }
+    .odonto-angle-btn[data-active="true"] {
+      border-color: var(--od-accent);
+      background: #f1f5f9;
+      box-shadow: 0 2px 6px -1px rgba(51, 78, 104, 0.12);
+    }
+
+    /* ===================================================================== */
     /* MÓDULO SUPERIOR MINIMALISTA (#userQuickModule)                        */
     /* ===================================================================== */
     .qm-trigger {
@@ -987,34 +1203,34 @@ $perfilActual  = htmlspecialchars($_SESSION['perfil'] ?? 'Administrador', ENT_QU
           </button>
         </div>
       </div>
-      <div class="p-5 space-y-4 overflow-y-auto table-scroll bg-slate-50/50">
-        <!-- Mapa Dental Anatómico Unificado -->
-        <div class="bg-white p-4 rounded-2xl border border-slate-200/80 shadow-2xs space-y-2.5">
-          <div class="grid grid-cols-8 lg:grid-cols-16 gap-1.5" id="odontoUpper" style="grid-template-columns: repeat(16, minmax(0, 1fr));"></div>
-          <div class="relative flex items-center justify-center py-0.5">
+      <div class="p-4 sm:p-5 space-y-4 overflow-y-auto table-scroll bg-slate-50/50">
+        <!-- Mapa Dental Anatómico Unificado (Mobile-First: 8 cols en móvil/tablet, 16 cols en desktop) -->
+        <div class="odonto-arch-card space-y-2.5">
+          <div class="grid grid-cols-8 lg:grid-cols-16 gap-1.5" id="odontoUpper"></div>
+          <div class="relative flex items-center justify-center py-0.5" aria-hidden="true">
             <div class="w-full border-t border-dashed border-slate-200"></div>
-            <span class="absolute bg-white px-2 text-[9px] font-mono uppercase tracking-widest text-slate-300 select-none">Plano Oclusal</span>
+            <span class="absolute bg-white px-2 text-[9px] font-mono uppercase tracking-widest text-slate-400 select-none">Plano Oclusal</span>
           </div>
-          <div class="grid grid-cols-8 lg:grid-cols-16 gap-1.5" id="odontoLower" style="grid-template-columns: repeat(16, minmax(0, 1fr));"></div>
+          <div class="grid grid-cols-8 lg:grid-cols-16 gap-1.5" id="odontoLower"></div>
         </div>
 
         <!-- Estudio 3D Minimalista por Pieza en Modal -->
-        <div class="bg-white p-3.5 rounded-2xl border border-slate-200/80 shadow-2xs">
+        <div class="odonto-arch-card">
           <div class="grid grid-cols-1 md:grid-cols-12 gap-4 items-center">
             <div class="md:col-span-5">
-              <div class="relative w-full h-[195px] rounded-xl border border-slate-200/80 bg-[#f8fafc] overflow-hidden">
+              <div class="odonto-3d-stage">
                 <canvas id="modalOdonto3DCanvas" class="w-full h-full cursor-grab active:cursor-grabbing block"></canvas>
                 <div class="absolute top-2 left-2 flex items-center gap-1.5 pointer-events-none">
-                  <span id="modal3DToothNum" class="px-2 py-0.5 rounded-md bg-slate-900/85 text-white font-mono font-bold text-[11px]">16</span>
+                  <span id="modal3DToothNum" class="px-2 py-0.5 rounded-md bg-slate-900/90 text-white font-mono font-bold text-[11px]">16</span>
                   <span id="modal3DToothState" class="px-2 py-0.5 rounded-full text-[9.5px] font-bold bg-[#2f6353] text-white">Pilar</span>
                 </div>
                 <div class="absolute bottom-2 right-2 flex items-center gap-1">
                   <button type="button" id="modalBtnPrepMode3D" onclick="window.Odontograma3D && window.Odontograma3D.togglePrepMode('modal')"
-                    class="px-2 py-1 rounded-lg text-[10px] font-bold bg-white/90 text-slate-600 border border-slate-200 hover:bg-slate-100 transition-all cursor-pointer">
+                    class="px-2 py-1 rounded-lg text-[10px] font-bold bg-white/90 text-slate-700 border border-slate-200 hover:bg-slate-100 transition-all cursor-pointer">
                     Corona
                   </button>
                   <button type="button" id="modalBtnAutoRotate3D" onclick="window.Odontograma3D && window.Odontograma3D.toggleAutoRotate('modal')"
-                    class="px-2 py-1 rounded-lg text-[10px] font-bold bg-white/90 text-slate-600 border border-slate-200 hover:bg-slate-100 transition-all cursor-pointer">
+                    class="px-2 py-1 rounded-lg text-[10px] font-bold bg-white/90 text-slate-700 border border-slate-200 hover:bg-slate-100 transition-all cursor-pointer">
                     360°
                   </button>
                 </div>
@@ -1024,11 +1240,11 @@ $perfilActual  = htmlspecialchars($_SESSION['perfil'] ?? 'Administrador', ENT_QU
               <div class="flex items-center justify-between gap-2 px-0.5">
                 <h5 id="modal3DToothName" class="text-xs font-bold text-slate-800 truncate">Primer Molar Superior Derecho</h5>
                 <div class="flex items-center gap-1.5 shrink-0">
-                  <span id="modal3DToothSpecs" class="text-[10px] font-mono text-slate-400">3R • 4C</span>
+                  <span id="modal3DToothSpecs" class="text-[10px] font-mono text-slate-500">3R • 4C</span>
                   <span id="modal3DToothType" class="px-2 py-0.5 rounded-md bg-slate-100 text-slate-700 font-mono text-[10px] font-bold">A2</span>
                 </div>
               </div>
-              <div id="modal3DRefViewsGrid" class="grid grid-cols-6 gap-1.5"></div>
+              <div id="modal3DRefViewsGrid" class="odonto-views-grid"></div>
             </div>
           </div>
         </div>
@@ -1036,7 +1252,7 @@ $perfilActual  = htmlspecialchars($_SESSION['perfil'] ?? 'Administrador', ENT_QU
         <div class="px-4 py-3 rounded-2xl bg-white border border-slate-200/80 flex flex-wrap items-center justify-between gap-3">
           <div class="flex items-center gap-2 text-xs">
             <span class="text-slate-400 font-semibold">Selección:</span>
-            <span id="selectedTeethLabel" class="font-mono font-bold text-slate-800 text-xs">#16 (Pilar), #21 (Pilar)</span>
+            <span id="selectedTeethLabel" class="font-mono font-bold text-slate-800 text-xs">16 (Pilar), 21 (Pilar)</span>
           </div>
           <button onclick="saveOdontograma()" class="px-4 py-2 rounded-xl bg-slate-900 hover:bg-slate-800 text-white font-semibold text-xs transition-colors cursor-pointer">
             Guardar
@@ -1215,28 +1431,22 @@ $perfilActual  = htmlspecialchars($_SESSION['perfil'] ?? 'Administrador', ENT_QU
 
       const makeBtn = (num, isLower = false) => {
         const s = String(num);
-        const tipo = selectedTeeth.get(s);
-        let cardStyle = 'background:#ffffff;border-color:transparent;color:#64748b;';
-        let numStyle = 'color:#94a3b8;';
-        let dotStyle = 'background:#e2e8f0;';
-        if (tipo === 'PILAR') {
-          cardStyle = 'background:linear-gradient(180deg,#eef5f2 0%,#dfece7 100%);border-color:#4b8372;color:#1c3b32;box-shadow:0 2px 8px rgba(47,99,83,0.16);';
-          numStyle = 'color:#1c3b32;font-weight:800;';
-          dotStyle = 'background:#2f6353;transform:scale(1.25);';
-        } else if (tipo === 'PONTICO') {
-          cardStyle = 'background:linear-gradient(180deg,#f6f1e7 0%,#ece2cf 100%);border-color:#967949;color:#45351e;box-shadow:0 2px 8px rgba(117,92,52,0.16);';
-          numStyle = 'color:#45351e;font-weight:800;';
-          dotStyle = 'background:#755c34;transform:scale(1.25);';
-        }
-        const numSpan = `<span class="text-[10px] font-mono font-bold leading-none select-none" style="${numStyle}">${s}</span>`;
-        const dotSpan = `<span class="w-1.5 h-1.5 rounded-full transition-all duration-150" style="${dotStyle}"></span>`;
+        const tipo = selectedTeeth.get(s) || 'LIBRE';
+        const numSpan = `<span class="odonto-tooth-num font-mono">${s}</span>`;
+        const dotSpan = `<span class="odonto-tooth-dot" aria-hidden="true"></span>`;
 
-        return `<button type="button" onclick="toggleTooth('${s}')" onmouseenter="window.Odontograma3D && window.Odontograma3D.selectTooth(${s})" style="${cardStyle}" class="group h-[92px] py-1.5 px-1 rounded-xl border hover:border-slate-200 hover:bg-slate-50/90 text-center transition-all hover:-translate-y-0.5 flex flex-col items-center justify-between cursor-pointer overflow-hidden">
+        return `<button type="button"
+          onclick="toggleTooth('${s}')"
+          onmouseenter="window.Odontograma3D && window.Odontograma3D.selectTooth(${s})"
+          onfocus="window.Odontograma3D && window.Odontograma3D.selectTooth(${s})"
+          data-tooth="${s}"
+          data-state="${tipo}"
+          aria-pressed="${tipo !== 'LIBRE'}"
+          aria-label="Pieza ${s} ${tipo !== 'LIBRE' ? (tipo === 'PONTICO' ? 'Póntico' : 'Pilar') : 'Libre'}"
+          class="odonto-tooth-btn">
           ${isLower ? dotSpan : numSpan}
-          <div class="w-full h-14 flex items-center justify-center overflow-hidden">
-            <img src="assets/odontograma/diente_${s}.png?v=3" alt="${s}" loading="lazy"
-                 class="h-14 w-auto object-contain transition-transform duration-200 group-hover:scale-110 select-none pointer-events-none"
-                 style="mix-blend-mode: multiply;">
+          <div class="w-full flex-1 flex items-center justify-center overflow-hidden">
+            <img src="assets/odontograma/diente_${s}.png?v=3" alt="" loading="lazy" class="odonto-tooth-img select-none">
           </div>
           ${isLower ? numSpan : dotSpan}
         </button>`;
