@@ -31,25 +31,27 @@ try {
     }
 
     if ($op === 'login') {
-        $usuario = trim($_POST['usuario'] ?? '');
-        $clave   = trim($_POST['clave'] ?? '');
+        $usuario = trim($_REQUEST['usuario'] ?? '');
+        $clave   = (string)($_REQUEST['clave'] ?? '');
         $q = "SELECT pe.perfil, sy.usuario, sy.id_perfil, sy.id_sys_usuario, sy.Nombre
               FROM sys_usuarios AS sy
               INNER JOIN perfiles AS pe ON pe.id_perfil = sy.id_perfil
-              WHERE sy.usuario = :usuario AND sy.pwd = :clave AND sy.estatus = 1
+              WHERE (sy.usuario = :u1 OR LOWER(sy.usuario) = LOWER(:u2))
+                AND sy.pwd = :clave
+                AND sy.estatus = 1
               LIMIT 1";
-        $cons = $db->ExecuteQueryWithParam($q, [':usuario' => $usuario, ':clave' => $clave]);
+        $cons = $db->ExecuteQueryWithParam($q, [':u1' => $usuario, ':u2' => $usuario, ':clave' => $clave]);
         if (!empty($cons)) {
             $u = $cons[0];
-            setcookie("perfil", $u["perfil"], time() + (86400 * 30), "/");
-            setcookie("id_usuario", $u["id_sys_usuario"], time() + (86400 * 30), "/");
-            setcookie("usuario", $u["usuario"], time() + (86400 * 30), "/");
-            setcookie("id_perfil", $u["id_perfil"], time() + (86400 * 30), "/");
+            setcookie("perfil", (string)$u["perfil"], time() + (86400 * 30), "/");
+            setcookie("id_usuario", (string)$u["id_sys_usuario"], time() + (86400 * 30), "/");
+            setcookie("usuario", (string)$u["usuario"], time() + (86400 * 30), "/");
+            setcookie("id_perfil", (string)$u["id_perfil"], time() + (86400 * 30), "/");
             setcookie("sesion", "activa", time() + (86400 * 30), "/");
             setcookie("tipo_sesion", "1", time() + (86400 * 30), "/");
             echo json_encode(['ok' => true, 'user' => $u], JSON_UNESCAPED_UNICODE);
         } else {
-            echo json_encode(['ok' => false, 'msg' => 'Credenciales incorrectas en la base de datos'], JSON_UNESCAPED_UNICODE);
+            echo json_encode(['ok' => false, 'msg' => 'Accesos incorrectos: Verifique su usuario y contraseña.'], JSON_UNESCAPED_UNICODE);
         }
         exit;
     }

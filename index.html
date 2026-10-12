@@ -565,30 +565,38 @@
 
       function resolveUserMenuItems() {
         const storedUser = (localStorage.getItem('cv_usuario') || "admin" || 'admin').trim();
-        const isIrene = storedUser.toLowerCase().includes('irene');
+        const storedPerfil = (localStorage.getItem('cv_perfil') || "Administrador" || 'Administrador').trim();
+        const storedIdPerfil = parseInt(localStorage.getItem('cv_id_perfil') || '0', 10);
+        const uLower = storedUser.toLowerCase();
+
+        const isAdmin = uLower === 'admin' || storedIdPerfil === 1;
+        const isIrene = uLower.includes('irene') || storedIdPerfil === 12;
 
         const lblUser = document.getElementById('lblNombreUser');
         const topUser = document.getElementById('topUserLabel');
         const lblPerfil = document.getElementById('lblPerfilSidebar');
         const topPerfil = document.getElementById('topPerfilBadge');
 
-        if (isIrene) {
-          if (lblUser) lblUser.innerText = 'Irene';
-          if (topUser) topUser.innerText = 'Irene';
-          if (lblPerfil) lblPerfil.innerText = 'Administrador laboratorio';
-          if (topPerfil) topPerfil.innerText = 'Administrador Laboratorio';
-          // Irene (id_perfil = 12) no tiene acceso a Dent SPA ni Dent Clinic
-          return ALL_BM_ITEMS.filter(item => item.value !== 'sec-dentspa' && item.value !== 'sec-dentclinic');
-        } else {
-          const displayUser = storedUser || 'admin';
-          const storedPerfil = localStorage.getItem('cv_perfil') || 'Administrador';
-          if (lblUser) lblUser.innerText = displayUser;
-          if (topUser) topUser.innerText = displayUser;
-          if (lblPerfil) lblPerfil.innerText = storedPerfil.charAt(0).toUpperCase() + storedPerfil.slice(1).toLowerCase();
-          if (topPerfil) topPerfil.innerText = storedPerfil;
-          // Admin tiene acceso a todos los módulos (incluyendo Dent SPA y Dent Clinic)
+        const displayUser = storedUser || 'admin';
+        const displayPerfil = isIrene && !localStorage.getItem('cv_perfil')
+          ? 'Administrador Laboratorio'
+          : (storedPerfil || 'Administrador');
+
+        if (lblUser) lblUser.innerText = displayUser;
+        if (topUser) topUser.innerText = displayUser;
+        if (lblPerfil) lblPerfil.innerText = displayPerfil.charAt(0).toUpperCase() + displayPerfil.slice(1).toLowerCase();
+        if (topPerfil) topPerfil.innerText = displayPerfil;
+
+        if (isAdmin) {
+          // Admin (id_perfil = 1) tiene acceso completo a todos los módulos (incluyendo Dent SPA y Dent Clinic)
           return ALL_BM_ITEMS.slice();
         }
+        if (storedIdPerfil === 8) {
+          // Representantes (id_perfil = 8): Inicio + Dent Clinic
+          return ALL_BM_ITEMS.filter(item => item.value === 'inicio' || item.value === 'sec-dentclinic');
+        }
+        // Irene (id_perfil = 12) y perfiles de laboratorio/médico/escaneador: sin Dent SPA ni Dent Clinic
+        return ALL_BM_ITEMS.filter(item => item.value !== 'sec-dentspa' && item.value !== 'sec-dentclinic');
       }
 
       let BM_ITEMS = resolveUserMenuItems();

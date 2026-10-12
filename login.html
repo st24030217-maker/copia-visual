@@ -124,7 +124,7 @@
       <div class="hidden sm:block relative z-10"></div>
 
       <!-- Contenedor del Login Centrado -->
-      <div class="relative z-10 w-full max-w-sm mx-auto my-auto py-6 px-6 rounded-3xl bg-white/85 backdrop-blur-md border border-slate-200/70 shadow-xl shadow-slate-900/5">
+      <div id="loginCardBox" class="relative z-10 w-full max-w-sm mx-auto my-auto py-7 px-6 rounded-3xl bg-white/85 backdrop-blur-md border border-slate-200/70 shadow-xl shadow-slate-900/5">
         
         <!-- Encabezado con Logo Oficial y texto solicitado -->
         <div class="text-center mb-8">
@@ -138,17 +138,23 @@
           <p class="text-xs text-slate-500 mt-1 font-normal">Ingrese sus credenciales para acceder a la plataforma</p>
         </div>
 
-        <!-- Formulario con IDs originales listos para migración -->
-        <form method="POST" action="login.php" onsubmit="handleLogin(event)" class="space-y-4">
+        <!-- Mensaje de error de autenticación -->
+        <div id="loginErrorBox" class="hidden mb-4 p-3 rounded-xl bg-rose-50 border border-rose-200 text-rose-700 text-xs font-semibold flex items-center gap-2">
+          <i data-lucide="alert-circle" class="w-4 h-4 shrink-0 text-rose-600"></i>
+          <span id="loginErrorMsg">Accesos incorrectos: Verifique su usuario y contraseña.</span>
+        </div>
+
+        <!-- Formulario con IDs originales conectados a sys_usuarios -->
+        <form id="loginForm" method="POST" action="login.php" onsubmit="handleLogin(event)" class="space-y-4">
           <div>
             <label class="block text-xs font-semibold text-slate-700 mb-1.5">Usuario</label>
             <div class="relative">
               <span class="absolute inset-y-0 left-0 flex items-center pl-3.5 text-slate-400">
                 <i data-lucide="user" class="w-4 h-4"></i>
               </span>
-              <input type="text" id="usuario" name="usuario" required value="admin"
+              <input type="text" id="usuario" name="usuario" required autocomplete="username" autofocus
                 class="w-full pl-10 pr-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-slate-900 placeholder-slate-400 focus:outline-none focus:border-blue-600 focus:bg-white focus:ring-2 focus:ring-blue-600/20 text-sm transition-all"
-                placeholder="Usuario">
+                placeholder="Ingrese su usuario">
             </div>
           </div>
 
@@ -160,9 +166,9 @@
               <span class="absolute inset-y-0 left-0 flex items-center pl-3.5 text-slate-400">
                 <i data-lucide="lock" class="w-4 h-4"></i>
               </span>
-              <input type="password" id="clave" name="clave" required value="1234"
+              <input type="password" id="clave" name="clave" required autocomplete="current-password"
                 class="w-full pl-10 pr-10 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-slate-900 placeholder-slate-400 focus:outline-none focus:border-blue-600 focus:bg-white focus:ring-2 focus:ring-blue-600/20 text-sm transition-all"
-                placeholder="Contraseña">
+                placeholder="Ingrese su contraseña">
               <button type="button" onclick="togglePass()" class="absolute inset-y-0 right-0 pr-3.5 flex items-center text-slate-400 hover:text-slate-600 transition-colors">
                 <i id="eyeIcon" data-lucide="eye" class="w-4 h-4"></i>
               </button>
@@ -204,28 +210,6 @@
             </span>
           </button>
         </form>
-
-        <!-- Selector rápido de roles para demostración visual -->
-        <div class="mt-8 pt-5 border-t border-slate-100">
-          <div class="flex items-center justify-between mb-2">
-            <span class="text-[11px] font-medium text-slate-400 uppercase tracking-wider">Perfiles de prueba</span>
-            <span class="text-[10px] text-blue-600 bg-blue-50 px-2 py-0.5 rounded-full font-medium">Demo</span>
-          </div>
-          <div class="grid grid-cols-3 gap-2">
-            <button type="button" onclick="setRole('admin', '1234', 'Administrador', 1)" 
-              class="py-1.5 px-2 rounded-lg border border-slate-200 bg-slate-50 hover:bg-white hover:border-blue-600 hover:text-blue-600 text-xs font-medium text-slate-700 transition-all text-center cursor-pointer">
-              Admin
-            </button>
-            <button type="button" onclick="setRole('Irene', 'Temporal1', 'Administrador Laboratorio', 12)" 
-              class="py-1.5 px-2 rounded-lg border border-slate-200 bg-slate-50 hover:bg-white hover:border-blue-600 hover:text-blue-600 text-xs font-medium text-slate-700 transition-all text-center cursor-pointer">
-              Irene
-            </button>
-            <button type="button" onclick="setRole('Oscar', '1234', 'Medico', 3)" 
-              class="py-1.5 px-2 rounded-lg border border-slate-200 bg-slate-50 hover:bg-white hover:border-blue-600 hover:text-blue-600 text-xs font-medium text-slate-700 transition-all text-center cursor-pointer">
-              Doctor
-            </button>
-          </div>
-        </div>
 
       </div>
 
@@ -281,40 +265,121 @@
       lucide.createIcons();
     }
 
-    function setRole(user, pass, role, idPerfil) {
-      document.getElementById('usuario').value = user;
-      document.getElementById('clave').value = pass;
-      localStorage.setItem('cv_usuario', user);
-      localStorage.setItem('cv_perfil', role);
-      localStorage.setItem('cv_id_perfil', String(idPerfil || (user.toLowerCase().includes('irene') ? 12 : 1)));
+    // Tabla de verificación criptográfica (SHA-256) de los usuarios activos reales en sys_usuarios (MySQL)
+    const REAL_SYS_USUARIOS = [
+      { h1: "f8e68e8d44bfb5314974a97f787d017ff6ac9d0046083f28665fcf96f0cef80c", h2: "f8e68e8d44bfb5314974a97f787d017ff6ac9d0046083f28665fcf96f0cef80c", id_sys_usuario: 1, usuario: "admin", Nombre: "Admin", id_perfil: 1, perfil: "Administrador" },
+      { h1: "32571a338b438fd87760a915f8b9102fe4836c8bd530b5e5aec7bfe2f77250a0", h2: "f82c6b9bd2109905fd3488c2df1b5e993d315a426e86f9f02478298e699129b7", id_sys_usuario: 8, usuario: "Oscar", Nombre: "Dr. Oscar", id_perfil: 3, perfil: "Medico" },
+      { h1: "7c6a153c8e7d1d5f1aa1ce068812f499e96d68f476692098f6161f7b22ec5959", h2: "d629a781ed95f9624729ce4cb06bd91f5f22b3dea1c66b57fe49409fe4a86f1f", id_sys_usuario: 14, usuario: "Fatima", Nombre: "Fátima S. Dany", id_perfil: 3, perfil: "Medico" },
+      { h1: "6beb80a3349a759bd5481e92d2835514d8766d6e3216c5ca58fef49183a2b965", h2: "b70a69ad00b3277872ffbe39ed6c5f58eaf34d400505cfc5e39e57038c84666e", id_sys_usuario: 15, usuario: "Lorena", Nombre: "Lorena M.", id_perfil: 3, perfil: "Medico" },
+      { h1: "4a6bd4033a54faced86043b380fd11c8cd1258c7aec9d33c588e2b7b7601f285", h2: "859f3263fafde4e69214902182d94421338ca32ee4f58e750c2a2b1278f6a36f", id_sys_usuario: 16, usuario: "Luis", Nombre: "Luis C.", id_perfil: 3, perfil: "Medico" },
+      { h1: "5aadcb4499f7e78183ea1c3c65e7f75ea4bb60664278bbcec52f186647524300", h2: "6cae04aa9270e828b78de991683b0c287d42285812945144b867e0ba3cd44289", id_sys_usuario: 17, usuario: "Arturo", Nombre: "Arturo M.", id_perfil: 3, perfil: "Medico" },
+      { h1: "da6ecac2fe9127d1ff44e2bb6826067f052ab2473124f2673667332c8d0921c6", h2: "844f2e6582b6bf9a8276fff019e53a119da59225035525a00352a5d4974af5cb", id_sys_usuario: 18, usuario: "Vianeid", Nombre: "Vianeid S.", id_perfil: 3, perfil: "Medico" },
+      { h1: "7aef824654ea6eb194877f47b990f6fd6e9f91b029f1fa5a62e3f4804b14d14d", h2: "14f4e0c0ef25000df2e4c5377dd8e9027e0ac1c736dd0a3c9de687b0aef894c0", id_sys_usuario: 21, usuario: "Mauricio", Nombre: "Mauricio S.", id_perfil: 3, perfil: "Medico" },
+      { h1: "0c692872bc144b0dcf8dbd2237d9a765fcab8ffc8fb4dbac6a7bc252c050b8c8", h2: "bbd4141f47bd3c42bfc74b664acc6b10eb2cf7fe08f31081b9439f5a0a25d80e", id_sys_usuario: 40, usuario: "usDrBrenda", Nombre: "DrBrenda", id_perfil: 3, perfil: "Medico" },
+      { h1: "aef1172c5902edcf65847ac74a59a773512eab2d8f38fafb4233b91772facabe", h2: "ed4bda04690c2554601b6fd9f6eced69c27ee87f059785d9443445d04d106e83", id_sys_usuario: 7, usuario: "Diana", Nombre: "Diana V.", id_perfil: 4, perfil: "Laboratorio" },
+      { h1: "a21b74ded578aa66b39ee27f8f0dbc1e4736e08c29f81fdbb774e321d3b8dece", h2: "e5446a045ddaf0eace58739795a2088effb283f668e4c75644f12de0dd9efe5c", id_sys_usuario: 9, usuario: "José", Nombre: "José D.", id_perfil: 4, perfil: "Laboratorio" },
+      { h1: "24558ed61ab089c02c07a65bac7ed61dc9fe52a4210f902cf3dbfc158e48800d", h2: "8313b32433da0d3661c3d590d70b1f40f504378a871a30fdca63727edda47a9d", id_sys_usuario: 27, usuario: "ChristosV", Nombre: "Christos Vasilikostas", id_perfil: 4, perfil: "Laboratorio" },
+      { h1: "def71ee16065e59e364b01ad80ecdb3350e5c825b4f51f2cf926c510117136b0", h2: "52fb492af9eeaaaf927814776506f5620e600820d3d2a495fa2f08640ee11297", id_sys_usuario: 5, usuario: "Representante1", Nombre: "Alejandro", id_perfil: 8, perfil: "Representantes" },
+      { h1: "03cab30e67fd51ca575c8941b2864c207b6fa674c76ce07ee737e650b533fb0f", h2: "8e70284566b2de0e25baa69f24a6a0c581f7c9883d9e86602b2bb18f3f0e61d5", id_sys_usuario: 23, usuario: "Jose", Nombre: "José", id_perfil: 9, perfil: "Laboratorio" },
+      { h1: "05bafd283f5ac779676f5ad359f9e4d5533c944fb79cdfcd6d3208a2e57cd562", h2: "82ec49e9f5206235591bea0108a6b709780a453b21ff2d0bdcccf5f83c5e4115", id_sys_usuario: 25, usuario: "Amy", Nombre: "Amy", id_perfil: 9, perfil: "Laboratorio" },
+      { h1: "d6fabb41a15aaa674fdd4bb9bf56b95eaf14ce8eed2392f07e073587ccf9f5f9", h2: "7eb396d3d828ef51a3dc9186f2485a320d70d76ece52d98190cdd2809ceb076a", id_sys_usuario: 29, usuario: "ArturoM", Nombre: "Arturo Meza", id_perfil: 10, perfil: "Escaneador" },
+      { h1: "a9464bd375f6b87cb1f42b6ff729223804fb9ff5926776252dc0dac436a97f84", h2: "dc7a4afa3dce70d942965a571315a3418e8f2c16d146809e77415eb708b4069b", id_sys_usuario: 30, usuario: "MauricioS", Nombre: "Mauricio Sotomayor", id_perfil: 10, perfil: "Escaneador" },
+      { h1: "abb884972e64e1f5c2557c00b3511396066ab1fbbc4cde391c55e86064332735", h2: "6637f412077cc31402e6e1823de14bd9fdb0bd58e9e5f17f796015bfd772c2b2", id_sys_usuario: 41, usuario: "IreneEscaneador", Nombre: "Irene Escaneadora", id_perfil: 10, perfil: "Escaneador" },
+      { h1: "bdaa0e4624791e265c6c4855b688f17b11b04dafdf037400368a220fbc173f72", h2: "82328a25d2c6959f00b01d893421dbb3de6ecb1d2d223e5004a95547bc0e976c", id_sys_usuario: 26, usuario: "JoseA", Nombre: "Jose Alatorre", id_perfil: 11, perfil: "Vendedor" },
+      { h1: "f80784d084a6dfd930c141b7e40defff07b4c37f2d9cc6a7424f45f64f8c44e7", h2: "c2712b176bd78b1e4e613177627ea8cf9b2dbb9e74454150d1b66528170f3375", id_sys_usuario: 31, usuario: "HectorM", Nombre: "Hector Minila", id_perfil: 11, perfil: "Vendedor" },
+      { h1: "a7fc81369d15cc9c52de0d3a79002cd789b8fdb0aaf45fad9f26d1245049bb56", h2: "5ee4209cddb004d5ae349d0114f18ee54f84262e2c65dbc6f524437a1257e40b", id_sys_usuario: 32, usuario: "JoseD", Nombre: "Jose Diosdado", id_perfil: 11, perfil: "Vendedor" },
+      { h1: "56efcceca3735446d0c6ddb51241e887ea90f732d1992a2f3793dadd0c1b4ebf", h2: "26cf9088a516af3c2d5b43a33439f502d301cb342bbab6e693bfe60b5f0fa39c", id_sys_usuario: 22, usuario: "Irene", Nombre: "Irene Martinez", id_perfil: 12, perfil: "Administrador Laboratorio" },
+      { h1: "630823f885596d5d5771f7f5ec065b299c1e08a92e66f208620786c1345b41ef", h2: "b83ca681b1b970dc2a5204b7f13d497ac0c25ff15b72e15ed18c17a9441e35f3", id_sys_usuario: 42, usuario: "MauricioSLab", Nombre: "Mauricio Sotomayor", id_perfil: 12, perfil: "Administrador Laboratorio" },
+      { h1: "e03018f20c733053df5be652860638ced895e94bdd18355bb505fbc53f3456ee", h2: "145a64ed0d7cc66b8ab6552277444f7bd1bb8b6dc807cd3b9605da9df35131a7", id_sys_usuario: 35, usuario: "Sandra", Nombre: "Sandra", id_perfil: 14, perfil: "Administrador de equipos" },
+      { h1: "e65e7e29b825a9b34b618b8c9138339dc75c209fd3a1a0481470a3155f55023d", h2: "0345bebfdc55f10597b53479a9b7bf84b42ada3737cd3c1cbba8274f28e46335", id_sys_usuario: 36, usuario: "Fernanda", Nombre: "Fernanda", id_perfil: 14, perfil: "Administrador de equipos" },
+      { h1: "208aa957654a4afb686ef584804a21f1682a342533edc4d59c5f38680f2ea07c", h2: "cd857af3901ceecb946dc81d427d31125b16c193db9ad63e8907fa942fba9894", id_sys_usuario: 37, usuario: "Selene", Nombre: "Selene", id_perfil: 14, perfil: "Administrador de equipos" },
+      { h1: "b94e82d10a96bc26f90bea3da76e81d20376514f0a9ab5ab0378bdd3aec77ec6", h2: "e74742786a4343f2692d0f663cfa50eff03696cbcd36734f5b77e52cea7f38a7", id_sys_usuario: 38, usuario: "Guadalupe", Nombre: "Guadalupe", id_perfil: 14, perfil: "Administrador de equipos" }
+    ];
+
+    async function sha256Hex(str) {
+      const buf = new TextEncoder().encode(str);
+      const hashBuffer = await crypto.subtle.digest('SHA-256', buf);
+      return Array.from(new Uint8Array(hashBuffer)).map(b => b.toString(16).padStart(2, '0')).join('');
+    }
+
+    async function authenticateRealUser(user, pass) {
+      // 1. Intentar autenticar en vivo contra MySQL (Backend/api_live.php?op=login)
+      const endpoints = [
+        'Backend/api_live.php?op=login',
+        'http://localhost:8095/Backend/api_live.php?op=login',
+        'http://127.0.0.1:8095/Backend/api_live.php?op=login'
+      ];
+
+      for (const ep of endpoints) {
+        try {
+          const fd = new FormData();
+          fd.append('usuario', user);
+          fd.append('clave', pass);
+          const ctrl = new AbortController();
+          const timer = setTimeout(() => ctrl.abort(), 2200);
+          const res = await fetch(ep, { method: 'POST', body: fd, signal: ctrl.signal });
+          clearTimeout(timer);
+          if (res.ok) {
+            const ct = res.headers.get('content-type') || '';
+            if (ct.includes('application/json')) {
+              const data = await res.json();
+              if (data && data.ok && data.user) {
+                return {
+                  ok: true,
+                  usuario: data.user.usuario,
+                  Nombre: data.user.Nombre || data.user.usuario,
+                  perfil: data.user.perfil,
+                  id_perfil: Number(data.user.id_perfil),
+                  id_sys_usuario: Number(data.user.id_sys_usuario || 1)
+                };
+              } else if (data && data.ok === false) {
+                return { ok: false, msg: data.msg || 'Accesos incorrectos: Verifique su usuario y contraseña.' };
+              }
+            }
+          }
+        } catch (err) {
+          // Intentar siguiente endpoint o verificación SHA-256 de sys_usuarios
+        }
+      }
+
+      // 2. Verificación criptográfica contra la tabla real sys_usuarios (para GitHub Pages estático)
+      const hExact = await sha256Hex(`${user}:${pass}`);
+      const hLower = await sha256Hex(`${user.toLowerCase()}:${pass}`);
+      const match = REAL_SYS_USUARIOS.find(u => u.h1 === hExact || u.h2 === hLower);
+      if (match) {
+        return {
+          ok: true,
+          usuario: match.usuario,
+          Nombre: match.Nombre,
+          perfil: match.perfil,
+          id_perfil: match.id_perfil,
+          id_sys_usuario: match.id_sys_usuario
+        };
+      }
+
+      return { ok: false, msg: 'Accesos incorrectos: Verifique su usuario y contraseña.' };
     }
 
     let isLoggingIn = false;
-    function handleLogin(e) {
-      if (isLoggingIn) return;
+    async function handleLogin(e) {
       e.preventDefault();
-      isLoggingIn = true;
+      if (isLoggingIn) return;
 
-      const user = (document.getElementById('usuario').value || 'admin').trim();
-      const pass = document.getElementById('clave').value;
-      const uLower = user.toLowerCase();
-      if (uLower.includes('irene')) {
-        localStorage.setItem('cv_usuario', 'Irene');
-        localStorage.setItem('cv_perfil', 'Administrador Laboratorio');
-        localStorage.setItem('cv_id_perfil', '12');
-      } else if (uLower === 'diana') {
-        localStorage.setItem('cv_usuario', 'Diana');
-        localStorage.setItem('cv_perfil', 'Laboratorio');
-        localStorage.setItem('cv_id_perfil', '4');
-      } else if (uLower === 'oscar') {
-        localStorage.setItem('cv_usuario', 'Oscar');
-        localStorage.setItem('cv_perfil', 'Medico');
-        localStorage.setItem('cv_id_perfil', '3');
-      } else {
-        localStorage.setItem('cv_usuario', user);
-        localStorage.setItem('cv_perfil', 'Administrador');
-        localStorage.setItem('cv_id_perfil', '1');
+      const user = (document.getElementById('usuario').value || '').trim();
+      const pass = document.getElementById('clave').value || '';
+      const errBox = document.getElementById('loginErrorBox');
+      const errMsg = document.getElementById('loginErrorMsg');
+
+      if (!user || !pass) {
+        if (errBox && errMsg) {
+          errMsg.innerText = 'Faltan datos: Llene todos los campos.';
+          errBox.classList.remove('hidden');
+        }
+        return;
       }
+
+      if (errBox) errBox.classList.add('hidden');
+      isLoggingIn = true;
 
       const btn = document.getElementById('btnLogin');
       const loader = document.getElementById('stateLoader');
@@ -322,30 +387,64 @@
       const arrow = document.getElementById('stateArrow');
       const text = document.getElementById('btnText');
 
-      // 1. Estado Cargando (Aceternity Stateful Button)
+      // 1. Estado Cargando
       btn.disabled = true;
       arrow.classList.replace('slot-visible', 'slot-hidden');
       loader.classList.replace('slot-hidden', 'slot-visible');
       text.innerText = 'Verificando credenciales...';
 
-      // Registrar sesión en PHP vía POST asíncrono
+      const result = await authenticateRealUser(user, pass);
+
+      if (!result || !result.ok) {
+        isLoggingIn = false;
+        btn.disabled = false;
+        loader.classList.replace('slot-visible', 'slot-hidden');
+        arrow.classList.replace('slot-hidden', 'slot-visible');
+        text.innerText = 'Ingresar al sistema';
+        if (errBox && errMsg) {
+          errMsg.innerText = (result && result.msg) || 'Accesos incorrectos: Verifique su usuario y contraseña.';
+          errBox.classList.remove('hidden');
+        }
+        const card = document.getElementById('loginCardBox');
+        if (card && typeof card.animate === 'function') {
+          card.animate(
+            [
+              { transform: 'translateX(0)' },
+              { transform: 'translateX(-8px)' },
+              { transform: 'translateX(8px)' },
+              { transform: 'translateX(-5px)' },
+              { transform: 'translateX(5px)' },
+              { transform: 'translateX(0)' }
+            ],
+            { duration: 340, easing: 'ease-in-out' }
+          );
+        }
+        return;
+      }
+
+      // Guardar sesión autenticada real
+      localStorage.setItem('cv_usuario', result.usuario);
+      localStorage.setItem('cv_nombre', result.Nombre || result.usuario);
+      localStorage.setItem('cv_perfil', result.perfil);
+      localStorage.setItem('cv_id_perfil', String(result.id_perfil));
+      localStorage.setItem('cv_id_usuario', String(result.id_sys_usuario));
+
+      // Sincronizar sesión PHP si estamos en entorno PHP
       const formData = new FormData();
       formData.append('usuario', user);
       formData.append('clave', pass);
       formData.append('ajax', '1');
       fetch('login.php', { method: 'POST', body: formData }).catch(() => {});
 
-      // 2. Estado Éxito tras validación
-      setTimeout(() => {
-        loader.classList.replace('slot-visible', 'slot-hidden');
-        check.classList.replace('slot-hidden', 'slot-visible');
-        text.innerText = '¡Acceso concedido!';
+      // 2. Estado Éxito tras validación real
+      loader.classList.replace('slot-visible', 'slot-hidden');
+      check.classList.replace('slot-hidden', 'slot-visible');
+      text.innerText = `¡Bienvenido(a), ${result.usuario}!`;
 
-        setTimeout(() => {
-          const isStatic = window.location.hostname.includes('github.io') || window.location.hostname.includes('vercel.app') || window.location.pathname.endsWith('.html');
-          window.location.href = isStatic ? 'index.html' : 'index.php';
-        }, 550);
-      }, 900);
+      setTimeout(() => {
+        const isStatic = window.location.hostname.includes('github.io') || window.location.hostname.includes('vercel.app') || window.location.pathname.endsWith('.html');
+        window.location.href = isStatic ? 'index.html' : 'index.php';
+      }, 500);
     }
   </script>
   <script src="AnimatedContent.js"></script>
