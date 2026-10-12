@@ -9762,9 +9762,19 @@ function mapOrdenGeneralFromDb(r) {
 }
 
 function getLiveApiBase() {
+  try {
+    const params = new URLSearchParams(window.location.search);
+    const paramApi = params.get('api');
+    if (paramApi) {
+      localStorage.setItem('dent_live_api_url', paramApi);
+      return paramApi;
+    }
+    const savedApi = localStorage.getItem('dent_live_api_url');
+    if (savedApi) return savedApi;
+  } catch (e) {}
   if (window.LIVE_DB_STATE.corsLocalUrl) return window.LIVE_DB_STATE.corsLocalUrl;
   if (!isStaticOrOfflineHost()) return 'Backend/api_live.php';
-  return 'http://localhost:8095/Backend/api_live.php';
+  return window.LIVE_DB_STATE.publicTunnelUrl || 'https://suggest-custom-opening-likely.trycloudflare.com/Backend/api_live.php';
 }
 
 function applyDatabasePayload(data) {
@@ -9836,6 +9846,57 @@ function applyDatabasePayload(data) {
       _fromLiveDb: true
     }));
   }
+  if (Array.isArray(data.vendedores) && data.vendedores.length > 0) {
+    DENT_STATE.vendedores = data.vendedores.map(v => ({
+      id: Number(v.id),
+      usuario: v.usuario || 'Vendedor',
+      nombre: v.nombre || 'Vendedor',
+      codigo: v.codigo || ('VN-' + v.id),
+      correo: v.correo || 'ventas@dentlab.mx',
+      doctoresAsignados: Number(v.doctoresAsignados || 0),
+      perfil: 'Vendedor',
+      estatus: Number(v.estatus) === 1
+    }));
+  }
+  if (Array.isArray(data.representantes_venta) && data.representantes_venta.length > 0) {
+    DENT_STATE.representantesVenta = data.representantes_venta.map(rv => ({
+      id: Number(rv.id),
+      usuario: rv.usuario || 'Representante',
+      nombre: rv.nombre || 'Representante',
+      codigo: rv.codigo || ('REP-0' + rv.id),
+      correo: rv.correo || 'rep@dentlab.mx',
+      perfil: 'Representante de venta',
+      estatus: Number(rv.estatus) === 1
+    }));
+  }
+  if (Array.isArray(data.usuarios) && data.usuarios.length > 0) {
+    DENT_STATE.usuarios = data.usuarios.map(u => ({
+      id: Number(u.id),
+      usuario: u.usuario || 'usuario',
+      nombre: u.nombre || 'Usuario',
+      correo: u.correo || 'N/A',
+      perfil: u.perfil || 'Sistemas',
+      appEquipos: Number(u.appEquipos) === 1,
+      estatus: Number(u.estatus) === 1
+    }));
+  }
+  if (Array.isArray(data.tipos_recordatorio) && data.tipos_recordatorio.length > 0) {
+    DENT_STATE.tiposRecordatorio = data.tipos_recordatorio.map(t => ({
+      id: Number(t.id),
+      descripcion: t.descripcion || 'Recordatorio',
+      estatus: Number(t.estatus) === 1
+    }));
+  }
+  if (Array.isArray(data.recordatorios) && data.recordatorios.length > 0) {
+    DENT_STATE.recordatorios = data.recordatorios.map(r => ({
+      id: Number(r.id),
+      usuario: r.usuario || 'Admin1',
+      descripcion: r.descripcion || '',
+      fecha: r.fecha || '',
+      tipo: r.tipo || 'General',
+      estatus: Number(r.estatus) === 1
+    }));
+  }
 
   window.LIVE_DB_STATE.connected = true;
   window.LIVE_DB_STATE.totalOrdenesBd = data.total_ordenes_bd || 22569;
@@ -9865,18 +9926,49 @@ window.syncLiveDatabase = async function (silent = false) {
     }
   } catch (e) {}
 
-  // 2. Consulta EN VIVO a MySQL (162.240.213.3) vía api_live.php (local o puente CORS desde GitHub Pages)
-  const apiUrl = getLiveApiBase();
+  // 2. Descubrimiento de endpoint HTTPS en vivo (Backend/live_endpoint.json)
+  let tunnelUrl = 'https://suggest-custom-opening-likely.trycloudflare.com/Backend/api_live.php';
   try {
-    const liveResp = await fetch(`${apiUrl}?op=bootstrap&limit=500`, { cache: 'no-store' });
-    if (liveResp.ok) {
-      const liveData = await liveResp.json();
-      if (applyDatabasePayload(liveData)) {
-        window.LIVE_DB_STATE.corsLocalUrl = apiUrl;
-        hydrated = true;
+    const epResp = await fetch('Backend/live_endpoint.json', { cache: 'no-store' });
+    if (epResp.ok) {
+      const epJson = await epResp.json();
+      if (epJson && epJson.api) {
+        tunnelUrl = epJson.api;
+        window.LIVE_DB_STATE.publicTunnelUrl = tunnelUrl;
       }
     }
   } catch (e) {}
+
+  // 3. Consulta EN VIVO a MySQL (162.240.213.3) desde cualquier dispositivo (iPad, celular, laptop)
+  const candidates = [];
+  if (!isStaticOrOfflineHost()) {
+    candidates.push('Backend/api_live.php');
+  }
+  if (window.LIVE_DB_STATE.corsLocalUrl && !candidates.includes(window.LIVE_DB_STATE.corsLocalUrl)) {
+    candidates.push(window.LIVE_DB_STATE.corsLocalUrl);
+  }
+  if (!candidates.includes(tunnelUrl)) {
+    candidates.push(tunnelUrl);
+  }
+  if (!candidates.includes('http://localhost:8095/Backend/api_live.php')) {
+    candidates.push('http://localhost:8095/Backend/api_live.php');
+  }
+
+  for (const apiUrl of candidates) {
+    try {
+      const liveResp = await fetch(`${apiUrl}?op=bootstrap&limit=500`, { cache: 'no-store' });
+      if (liveResp.ok) {
+        const liveData = await liveResp.json();
+        if (applyDatabasePayload(liveData)) {
+          window.LIVE_DB_STATE.corsLocalUrl = apiUrl;
+          window.LIVE_DB_STATE.liveMode = 'REALTIME_MYSQL';
+          updateLiveDbBadge(true, liveData.total_ordenes_bd, liveData.total_doctores_bd);
+          hydrated = true;
+          break;
+        }
+      }
+    } catch (e) {}
+  }
 
   if (hydrated && !silent && typeof showToast === 'function') {
     showToast('Tablas Actualizadas', 'Escaneo, Diseño, Fabricación, Entrega y Órdenes sincronizadas en vivo.');
@@ -10098,4 +10190,7 @@ document.addEventListener('DOMContentLoaded', () => {
   renderTablasInicio();
   renderModalsInicio();
   window.syncLiveDatabase(true);
+  setInterval(() => {
+    window.syncLiveDatabase(true);
+  }, 30000);
 });

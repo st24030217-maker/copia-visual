@@ -255,6 +255,33 @@ try {
         // 9. Conteo total de órdenes en BD
         $totalOrd = $db->Select("SELECT COUNT(*) AS total FROM Lab_Ordenes_trabajo");
 
+        // 10. Vendedores (id_perfil = 11), Representantes de Venta (id_perfil = 8), Usuarios y Recordatorios
+        $vendedores = $db->Select("SELECT su.id_sys_usuario AS id, su.usuario, su.Nombre AS nombre,
+            COALESCE(NULLIF(su.CodigoVendedor,''), CONCAT('VN-', su.id_sys_usuario)) AS codigo,
+            su.Correo AS correo, su.estatus,
+            (SELECT COUNT(*) FROM Lab_Doctores_App lda WHERE lda.Vendedor_Id = su.id_sys_usuario AND lda.Activo = 1) AS doctoresAsignados
+            FROM sys_usuarios su WHERE su.id_perfil = 11 ORDER BY su.id_sys_usuario ASC");
+
+        $representantesVenta = $db->Select("SELECT su.id_sys_usuario AS id, su.usuario, su.Nombre AS nombre,
+            COALESCE(NULLIF(su.CodigoVendedor,''), CONCAT('REP-0', su.id_sys_usuario)) AS codigo,
+            su.Correo AS correo, su.estatus
+            FROM sys_usuarios su WHERE su.id_perfil = 8 ORDER BY su.id_sys_usuario ASC");
+
+        $usuarios = $db->Select("SELECT su.id_sys_usuario AS id, su.usuario, su.Nombre AS nombre,
+            su.Correo AS correo, COALESCE(pe.perfil, 'Sistemas') AS perfil, su.ApEquipos AS appEquipos, su.estatus
+            FROM sys_usuarios su LEFT JOIN perfiles pe ON pe.id_perfil = su.id_perfil ORDER BY su.id_sys_usuario ASC");
+
+        $tiposRecordatorio = $db->Select("SELECT idTipoRecordatorio AS id, Descripcion AS descripcion, 1 AS estatus
+            FROM TipoRecordatorio ORDER BY idTipoRecordatorio ASC");
+
+        $recordatorios = $db->Select("SELECT r.idRecordatorios AS id, COALESCE(su.usuario, 'Admin1') AS usuario,
+            r.Descripcion AS descripcion, CONCAT(r.Fecha, ' ', COALESCE(r.Hora, '00:00:00')) AS fecha,
+            COALESCE(tr.Descripcion, 'General') AS tipo, 1 AS estatus
+            FROM Recordatorios r
+            LEFT JOIN sys_usuarios su ON su.id_sys_usuario = r.id_sys_usuario
+            LEFT JOIN TipoRecordatorio tr ON tr.idTipoRecordatorio = r.idTipoRecordatorio
+            ORDER BY r.idRecordatorios DESC");
+
         echo json_encode([
             'ok' => true,
             'source' => 'MySQL Live (162.240.213.3 / new_dentusradm_datos)',
@@ -270,7 +297,12 @@ try {
             'doctores' => $doctores,
             'canceladas' => $canceladas,
             'pendientes_pago' => $pendientesPago,
-            'calendario' => $calendario
+            'calendario' => $calendario,
+            'vendedores' => $vendedores,
+            'representantes_venta' => $representantesVenta,
+            'usuarios' => $usuarios,
+            'tipos_recordatorio' => $tiposRecordatorio,
+            'recordatorios' => $recordatorios
         ], JSON_UNESCAPED_UNICODE);
         exit;
     }
