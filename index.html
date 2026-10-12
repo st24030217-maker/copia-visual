@@ -617,6 +617,65 @@
         }
       ];
 
+      const USER_PRESENTATION_MAP = {
+        'admin':           { nombre: 'Administrador General', saludo: 'Bienvenido', rol: 'Dirección General • Acceso Completo' },
+        'irene':           { nombre: 'Irene Martínez',        saludo: 'Bienvenida', rol: 'Administrador Laboratorio' },
+        'mauricioslab':    { nombre: 'Mauricio Sotomayor',    saludo: 'Bienvenido', rol: 'Administrador Laboratorio' },
+        'diana':           { nombre: 'Diana V.',              saludo: 'Bienvenida', rol: 'Especialista de Laboratorio' },
+        'josé':            { nombre: 'José D.',               saludo: 'Bienvenido', rol: 'Especialista de Laboratorio' },
+        'jose':            { nombre: 'José',                  saludo: 'Bienvenido', rol: 'Especialista de Laboratorio' },
+        'christosv':       { nombre: 'Christos Vasilikostas', saludo: 'Bienvenido', rol: 'Especialista de Laboratorio' },
+        'amy':             { nombre: 'Amy',                   saludo: 'Bienvenida', rol: 'Especialista de Laboratorio' },
+        'oscar':           { nombre: 'Dr. Oscar',             saludo: 'Bienvenido', rol: 'Médico Odontólogo' },
+        'fatima':          { nombre: 'Dra. Fátima S. Dany',   saludo: 'Bienvenida', rol: 'Médico Odontólogo' },
+        'lorena':          { nombre: 'Dra. Lorena M.',        saludo: 'Bienvenida', rol: 'Médico Odontólogo' },
+        'luis':            { nombre: 'Dr. Luis C.',           saludo: 'Bienvenido', rol: 'Médico Odontólogo' },
+        'arturo':          { nombre: 'Dr. Arturo M.',         saludo: 'Bienvenido', rol: 'Médico Odontólogo' },
+        'vianeid':         { nombre: 'Dra. Vianeid S.',       saludo: 'Bienvenida', rol: 'Médico Odontólogo' },
+        'mauricio':        { nombre: 'Dr. Mauricio S.',       saludo: 'Bienvenido', rol: 'Médico Odontólogo' },
+        'usdrbrenda':      { nombre: 'Dra. Brenda',           saludo: 'Bienvenida', rol: 'Médico Odontólogo' },
+        'arturom':         { nombre: 'Arturo Meza',           saludo: 'Bienvenido', rol: 'Especialista de Escaneo' },
+        'mauricios':       { nombre: 'Mauricio Sotomayor',    saludo: 'Bienvenido', rol: 'Especialista de Escaneo' },
+        'ireneescaneador': { nombre: 'Irene',                 saludo: 'Bienvenida', rol: 'Especialista de Escaneo' },
+        'josea':           { nombre: 'José Alatorre',         saludo: 'Bienvenido', rol: 'Ejecutivo Comercial' },
+        'hectorm':         { nombre: 'Héctor Minila',         saludo: 'Bienvenido', rol: 'Ejecutivo Comercial' },
+        'josed':           { nombre: 'José Diosdado',         saludo: 'Bienvenido', rol: 'Ejecutivo Comercial' },
+        'representante1':  { nombre: 'Alejandro',             saludo: 'Bienvenido', rol: 'Representante Dent Clinic' },
+        'sandra':          { nombre: 'Sandra',                saludo: 'Bienvenida', rol: 'Administración de Equipos' },
+        'fernanda':        { nombre: 'Fernanda',              saludo: 'Bienvenida', rol: 'Administración de Equipos' },
+        'selene':          { nombre: 'Selene',                saludo: 'Bienvenida', rol: 'Administración de Equipos' },
+        'guadalupe':       { nombre: 'Guadalupe',             saludo: 'Bienvenida', rol: 'Administración de Equipos' }
+      };
+
+      window.updateTopUserPresentation = function (moduleTrail) {
+        const topTitle = document.getElementById('topModuleTitle');
+        if (!topTitle) return;
+
+        const storedUser = (localStorage.getItem('cv_usuario') || "admin" || 'admin').trim();
+        const storedNombre = (localStorage.getItem('cv_nombre') || '').trim();
+        const storedPerfil = (localStorage.getItem('cv_perfil') || "Administrador" || 'Administrador').trim();
+        const uKey = storedUser.toLowerCase();
+        const info = USER_PRESENTATION_MAP[uKey];
+
+        const femaleNames = ['irene', 'diana', 'fatima', 'fátima', 'lorena', 'vianeid', 'brenda', 'amy', 'sandra', 'fernanda', 'selene', 'guadalupe'];
+        const isFemale = femaleNames.some(f => uKey.includes(f) || storedNombre.toLowerCase().includes(f));
+
+        const saludo = info ? info.saludo : (isFemale ? 'Bienvenida' : 'Bienvenido');
+        const nombreMostrar = info ? info.nombre : (storedNombre || storedUser);
+        const rolMostrar = info ? info.rol : storedPerfil;
+
+        const trailHtml = moduleTrail
+          ? `<span class="text-slate-300 font-normal hidden sm:inline">/</span>
+             <span class="text-xs font-semibold text-slate-500 hidden sm:inline">${moduleTrail}</span>`
+          : '';
+
+        topTitle.innerHTML = `
+          <span class="font-bold text-slate-900">${saludo}, ${nombreMostrar}</span>
+          <span class="px-2.5 py-0.5 rounded-full text-[11px] font-bold bg-blue-50 text-blue-700 border border-blue-200/80">${rolMostrar}</span>
+          ${trailHtml}
+        `;
+      };
+
       function resolveUserMenuItems() {
         const storedUser = (localStorage.getItem('cv_usuario') || "admin" || 'admin').trim();
         const storedPerfil = (localStorage.getItem('cv_perfil') || "Administrador" || 'Administrador').trim();
@@ -640,6 +699,9 @@
         if (topUser) topUser.innerText = displayUser;
         if (lblPerfil) lblPerfil.innerText = displayPerfil.charAt(0).toUpperCase() + displayPerfil.slice(1).toLowerCase();
         if (topPerfil) topPerfil.innerText = displayPerfil;
+        if (typeof window.updateTopUserPresentation === 'function') {
+          window.updateTopUserPresentation();
+        }
 
         if (isAdmin) {
           // Admin (id_perfil = 1) tiene acceso completo a todos los módulos (incluyendo Dent SPA y Dent Clinic)
@@ -1031,11 +1093,14 @@
     
     <!-- Top Navbar -->
     <header class="h-14 bg-white border-b border-slate-200 px-6 flex items-center justify-between shrink-0">
-      <div class="flex items-center gap-4">
+      <div class="flex items-center gap-3.5">
         <button onclick="toggleSidebar()" class="p-1.5 rounded-lg border border-slate-200 text-slate-600 hover:bg-slate-100 transition-colors">
           <i data-lucide="menu" class="w-4 h-4"></i>
         </button>
-        <span id="topModuleTitle" class="text-sm font-semibold text-slate-800">Centro de Operaciones Dentales • Producción CAD/CAM</span>
+        <div id="topModuleTitle" class="flex flex-wrap items-center gap-2 text-sm font-semibold text-slate-800">
+          <span class="font-bold text-slate-900">Bienvenido(a), Admin</span>
+          <span class="px-2.5 py-0.5 rounded-full text-[11px] font-bold bg-blue-50 text-blue-700 border border-blue-200/80">Administrador</span>
+        </div>
       </div>
 
       <div class="flex items-center gap-3">

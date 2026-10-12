@@ -458,11 +458,14 @@ $perfilActual  = htmlspecialchars($_SESSION['perfil'] ?? 'Administrador', ENT_QU
     
     <!-- Top Navbar -->
     <header class="h-14 bg-white border-b border-slate-200 px-6 flex items-center justify-between shrink-0">
-      <div class="flex items-center gap-4">
+      <div class="flex items-center gap-3.5">
         <button onclick="toggleSidebar()" class="p-1.5 rounded-lg border border-slate-200 text-slate-600 hover:bg-slate-100 transition-colors">
           <i data-lucide="menu" class="w-4 h-4"></i>
         </button>
-        <span id="topModuleTitle" class="text-sm font-semibold text-slate-800">Centro de Operaciones Dentales • Producción CAD/CAM</span>
+        <div id="topModuleTitle" class="flex flex-wrap items-center gap-2 text-sm font-semibold text-slate-800">
+          <span class="font-bold text-slate-900">Bienvenido(a), <?= $usuarioActual ?></span>
+          <span class="px-2.5 py-0.5 rounded-full text-[11px] font-bold bg-blue-50 text-blue-700 border border-blue-200/80"><?= $perfilActual ?></span>
+        </div>
       </div>
 
       <div class="flex items-center gap-3">

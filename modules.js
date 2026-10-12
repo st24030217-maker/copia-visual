@@ -2948,7 +2948,7 @@ function openModule(moduleKey) {
   if (moduleKey === 'inicio') {
     secInicio.classList.remove('hidden');
     secDynamic.classList.add('hidden');
-    if (topTitle) topTitle.innerText = 'Centro de Operaciones Dentales • Producción CAD/CAM';
+    if (typeof window.updateTopUserPresentation === 'function') window.updateTopUserPresentation();
     animateViewEntrance(secInicio);
     runAnimeCounters();
     lucide.createIcons();
@@ -2965,7 +2965,7 @@ function openModule(moduleKey) {
 
 function renderHeaderBanner(breadcrumb, title, subtitle, actionBtnHtml = '') {
   const topTitle = document.getElementById('topModuleTitle');
-  if (topTitle) topTitle.innerText = `${breadcrumb} / ${title}`;
+  if (typeof window.updateTopUserPresentation === 'function') window.updateTopUserPresentation(`${breadcrumb} • ${title}`);
   return `
     <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm flex flex-wrap items-center justify-between gap-4">
       <div>
