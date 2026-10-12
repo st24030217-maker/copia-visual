@@ -105,57 +105,46 @@ $perfilActual  = htmlspecialchars($_SESSION['perfil'] ?? 'Administrador', ENT_QU
     .table-scroll::-webkit-scrollbar-track { background: transparent; }
     .table-scroll::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 10px; }
 
-    /* Fondo arquitectónico y tarjetas glassmórficas para el panel superior de Inicio */
+    /* Fondo ejecutivo con textura arquitectónica y tarjetas glassmórficas para la barra superior de Inicio */
     .inicio-hero-banner {
       position: relative;
       overflow: hidden;
       background:
-        radial-gradient(circle at 14% 20%, rgba(56, 189, 248, 0.22) 0%, transparent 45%),
-        radial-gradient(circle at 86% 80%, rgba(20, 184, 166, 0.18) 0%, transparent 48%),
-        linear-gradient(115deg, #071324 0%, #0f253e 48%, #163352 100%);
+        radial-gradient(circle at 12% 50%, rgba(56, 189, 248, 0.20) 0%, transparent 45%),
+        radial-gradient(circle at 88% 50%, rgba(37, 99, 235, 0.22) 0%, transparent 50%),
+        linear-gradient(110deg, #0f172a 0%, #16253b 48%, #1e3654 100%);
       box-shadow:
-        0 14px 32px -10px rgba(10, 25, 41, 0.45),
+        0 10px 25px -8px rgba(15, 23, 42, 0.38),
         inset 0 1px 0 0 rgba(255, 255, 255, 0.14);
     }
     .inicio-hero-grid {
-      background-image:
-        linear-gradient(to right, rgba(255, 255, 255, 0.045) 1px, transparent 1px),
-        linear-gradient(to bottom, rgba(255, 255, 255, 0.045) 1px, transparent 1px);
-      background-size: 24px 24px;
-      mask-image: radial-gradient(ellipse at center, black 45%, transparent 90%);
-      -webkit-mask-image: radial-gradient(ellipse at center, black 45%, transparent 90%);
+      background-image: radial-gradient(rgba(255, 255, 255, 0.12) 1px, transparent 1px);
+      background-size: 16px 16px;
+      mask-image: linear-gradient(to right, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0.35) 50%, rgba(0,0,0,0.85) 100%);
+      -webkit-mask-image: linear-gradient(to right, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0.35) 50%, rgba(0,0,0,0.85) 100%);
     }
     .hero-kpi-card {
       position: relative;
-      overflow: hidden;
-      background: linear-gradient(135deg, rgba(255, 255, 255, 0.11) 0%, rgba(255, 255, 255, 0.05) 100%);
-      backdrop-filter: blur(12px);
-      -webkit-backdrop-filter: blur(12px);
-      border: 1px solid rgba(255, 255, 255, 0.14);
+      background: rgba(255, 255, 255, 0.09);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      border: 1px solid rgba(255, 255, 255, 0.16);
       box-shadow:
-        0 8px 20px -6px rgba(2, 6, 23, 0.35),
+        0 4px 12px -2px rgba(2, 6, 23, 0.25),
         inset 0 1px 0 0 rgba(255, 255, 255, 0.18);
-      transition: all 0.28s cubic-bezier(0.22, 1, 0.36, 1);
-    }
-    .hero-kpi-card::before {
-      content: '';
-      position: absolute;
-      inset: 0;
-      background: linear-gradient(120deg, transparent 20%, rgba(255, 255, 255, 0.09) 50%, transparent 80%);
-      transform: translateX(-110%);
-      transition: transform 0.55s cubic-bezier(0.22, 1, 0.36, 1);
-      pointer-events: none;
-    }
-    .hero-kpi-card:hover::before {
-      transform: translateX(110%);
+      transition: all 0.22s cubic-bezier(0.22, 1, 0.36, 1);
+      white-space: nowrap;
     }
     .hero-kpi-card:hover {
-      transform: translateY(-2px);
-      background: linear-gradient(135deg, rgba(255, 255, 255, 0.16) 0%, rgba(255, 255, 255, 0.08) 100%);
-      border-color: rgba(255, 255, 255, 0.28);
+      transform: translateY(-1.5px);
+      background: rgba(255, 255, 255, 0.15);
+      border-color: rgba(255, 255, 255, 0.32);
       box-shadow:
-        0 14px 28px -6px rgba(2, 6, 23, 0.48),
+        0 8px 18px -4px rgba(2, 6, 23, 0.36),
         inset 0 1px 0 0 rgba(255, 255, 255, 0.28);
+    }
+    .hero-kpi-card:active {
+      transform: translateY(0) scale(0.985);
     }
 
     /* Resaltado moderno y ejecutivo para órdenes prioritarias / internas (.row-yellow en proceso y .row-green en entrega) */
@@ -575,93 +564,77 @@ $perfilActual  = htmlspecialchars($_SESSION['perfil'] ?? 'Administrador', ENT_QU
       <!-- ===================================================================== -->
       <div id="section-inicio" class="space-y-4">
 
-        <!-- 1. PANEL SUPERIOR EJECUTIVO CON FONDO INTERACTIVO Y TARJETAS GLASSMÓRFICAS -->
-        <div class="inicio-hero-banner text-white p-4 sm:p-5 rounded-3xl border border-slate-700/70">
-          <!-- Fondo fotográfico CAD/CAM con mezcla sutil -->
+        <!-- 1. BARRA SUPERIOR CON FONDO FOTOGRÁFICO CAD/CAM Y BOTONES GLASSMÓRFICOS -->
+        <div class="inicio-hero-banner text-white px-4 py-3.5 sm:px-5 sm:py-4 rounded-2xl border border-slate-800/80">
+          <!-- Imagen de fondo de Laboratorio CAD/CAM Dental -->
           <img src="assets/dental_cadcam.jpg" alt="" aria-hidden="true"
-               class="absolute inset-0 w-full h-full object-cover object-center opacity-25 mix-blend-luminosity pointer-events-none select-none scale-105">
-          <!-- Gradiente profundo encima de la imagen -->
-          <div class="absolute inset-0 bg-gradient-to-r from-[#071324]/95 via-[#0f253e]/85 to-[#0b1d33]/90 pointer-events-none"></div>
-          <!-- Retícula arquitectónica sutil -->
-          <div class="absolute inset-0 inicio-hero-grid pointer-events-none"></div>
-          <!-- Lienzo interactivo @react-bits/Threads-JS-CSS -->
-          <div id="threadsInicioHero" class="threads-container threads-container--bg z-0 opacity-55" aria-hidden="true">
-            <canvas class="threads-canvas"></canvas>
-          </div>
+               class="absolute inset-0 w-full h-full object-cover object-center brightness-90 pointer-events-none select-none">
+          <!-- Gradiente oscuro translúcido para contraste perfecto del texto sobre la foto -->
+          <div class="absolute inset-0 pointer-events-none"
+               style="background: linear-gradient(90deg, rgba(15, 23, 42, 0.90) 0%, rgba(15, 23, 42, 0.68) 50%, rgba(15, 23, 42, 0.85) 100%);"></div>
 
-          <div class="relative z-10 flex flex-col xl:flex-row xl:items-center justify-between gap-4">
-            <!-- 3 Tarjetas de Acción Principal (Calendario, Órdenes Canceladas, Órdenes Pendientes de Pago) -->
-            <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 flex-1">
-              <!-- Tarjeta 1: Calendario -->
+          <div class="relative z-10 flex flex-wrap items-center justify-between gap-3">
+            <!-- Botones Principales (Calendario, Órdenes Canceladas, Órdenes Pendientes de Pago) -->
+            <div class="flex flex-wrap items-center gap-2.5">
+              <!-- Calendario -->
               <button type="button" onclick="openModule('calendario');"
-                class="hero-kpi-card group text-left px-4 py-3 rounded-2xl flex items-center justify-between gap-3 cursor-pointer">
-                <div class="flex items-center gap-3 min-w-0">
-                  <div class="w-10 h-10 rounded-xl bg-sky-500/20 border border-sky-400/30 flex items-center justify-center text-sky-300 shadow-inner shrink-0 group-hover:scale-110 group-hover:bg-sky-500/30 transition-all duration-300">
-                    <i data-lucide="calendar" class="w-5 h-5"></i>
-                  </div>
-                  <div class="min-w-0">
-                    <span class="block text-[10px] font-bold uppercase tracking-wider text-sky-300/80">Agenda & Escaneo</span>
-                    <span class="block text-sm font-bold text-white truncate">Calendario</span>
-                  </div>
-                </div>
-                <span class="w-7 h-7 rounded-lg bg-white/10 border border-white/15 flex items-center justify-center text-sky-200 group-hover:translate-x-0.5 group-hover:bg-sky-500/30 transition-all shrink-0">
-                  <i data-lucide="arrow-up-right" class="w-4 h-4"></i>
+                class="hero-kpi-card px-3.5 py-2 rounded-xl flex items-center gap-2.5 text-xs font-bold text-white cursor-pointer"
+                style="background: linear-gradient(135deg, rgba(37, 99, 235, 0.85) 0%, rgba(29, 78, 216, 0.85) 100%); border-color: rgba(147, 197, 253, 0.35);">
+                <span class="w-6 h-6 rounded-lg bg-white/15 flex items-center justify-center text-white shrink-0">
+                  <i data-lucide="calendar" class="w-3.5 h-3.5"></i>
                 </span>
+                <span>Calendario</span>
               </button>
 
-              <!-- Tarjeta 2: Órdenes Canceladas -->
+              <!-- Órdenes canceladas -->
               <button type="button" onclick="openModalCanceladas();"
-                class="hero-kpi-card group text-left px-4 py-3 rounded-2xl flex items-center justify-between gap-3 cursor-pointer">
-                <div class="flex items-center gap-3 min-w-0">
-                  <div class="w-10 h-10 rounded-xl bg-rose-500/20 border border-rose-400/30 flex items-center justify-center text-rose-300 shadow-inner shrink-0 group-hover:scale-110 group-hover:bg-rose-500/30 transition-all duration-300">
-                    <i data-lucide="ban" class="w-5 h-5"></i>
-                  </div>
-                  <div class="min-w-0">
-                    <span class="block text-[10px] font-bold uppercase tracking-wider text-rose-300/80">Control de Bajas</span>
-                    <span class="block text-sm font-bold text-white truncate">Ordenes canceladas</span>
-                  </div>
-                </div>
-                <span class="px-2.5 py-1 rounded-xl bg-rose-500/25 text-rose-200 border border-rose-400/35 text-xs font-extrabold font-mono shadow-sm shrink-0" id="NumberOrdenCanceladas">646</span>
+                class="hero-kpi-card px-3.5 py-2 rounded-xl flex items-center gap-2.5 text-xs font-semibold text-white cursor-pointer">
+                <span class="w-6 h-6 rounded-lg flex items-center justify-center shrink-0"
+                      style="background: rgba(244, 63, 94, 0.22); color: #fda4af; border: 1px solid rgba(244, 63, 94, 0.35);">
+                  <i data-lucide="ban" class="w-3.5 h-3.5"></i>
+                </span>
+                <span>Ordenes canceladas</span>
+                <span class="px-2 py-0.5 rounded-lg text-[11px] font-extrabold font-mono"
+                      style="background: rgba(244, 63, 94, 0.28); color: #fecdd3; border: 1px solid rgba(251, 113, 133, 0.4);"
+                      id="NumberOrdenCanceladas">646</span>
               </button>
 
-              <!-- Tarjeta 3: Órdenes Pendientes de Pago -->
+              <!-- Órdenes Pendientes de pago -->
               <button type="button" onclick="openModalPendientes();"
-                class="hero-kpi-card group text-left px-4 py-3 rounded-2xl flex items-center justify-between gap-3 cursor-pointer">
-                <div class="flex items-center gap-3 min-w-0">
-                  <div class="w-10 h-10 rounded-xl bg-amber-500/20 border border-amber-400/30 flex items-center justify-center text-amber-300 shadow-inner shrink-0 group-hover:scale-110 group-hover:bg-amber-500/30 transition-all duration-300">
-                    <i data-lucide="bell" class="w-5 h-5"></i>
-                  </div>
-                  <div class="min-w-0">
-                    <span class="block text-[10px] font-bold uppercase tracking-wider text-amber-300/80">Cobranza Activa</span>
-                    <span class="block text-sm font-bold text-white truncate">Ordenes Pendientes de pago</span>
-                  </div>
-                </div>
-                <span class="px-2.5 py-1 rounded-xl bg-amber-500/25 text-amber-200 border border-amber-400/35 text-xs font-extrabold font-mono shadow-sm shrink-0" id="NumberOrden">0</span>
+                class="hero-kpi-card px-3.5 py-2 rounded-xl flex items-center gap-2.5 text-xs font-semibold text-white cursor-pointer">
+                <span class="w-6 h-6 rounded-lg flex items-center justify-center shrink-0"
+                      style="background: rgba(245, 158, 11, 0.22); color: #fcd34d; border: 1px solid rgba(245, 158, 11, 0.35);">
+                  <i data-lucide="bell" class="w-3.5 h-3.5"></i>
+                </span>
+                <span>Ordenes Pendientes de pago</span>
+                <span class="px-2 py-0.5 rounded-lg text-[11px] font-extrabold font-mono"
+                      style="background: rgba(56, 189, 248, 0.25); color: #bae6fd; border: 1px solid rgba(56, 189, 248, 0.4);"
+                      id="NumberOrden">0</span>
               </button>
             </div>
 
-            <!-- Panel Derecho: Reloj en Vivo y Acciones Rápidas (Actualizar y Nueva Orden) -->
-            <div class="flex flex-wrap items-center justify-between xl:justify-end gap-2.5 pt-2 xl:pt-0 border-t border-white/10 xl:border-t-0 shrink-0">
+            <!-- Reloj en Vivo y Acciones Rápidas (Actualizar y Nueva Orden) -->
+            <div class="flex items-center gap-2.5 ml-auto">
               <!-- Hora Actual -->
-              <div class="flex items-center gap-2.5 bg-slate-950/55 backdrop-blur-md px-3.5 py-2.5 rounded-2xl border border-white/15 shadow-inner">
-                <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse shrink-0"></span>
+              <div class="flex items-center gap-2 px-3.5 py-2 rounded-xl border border-white/15 backdrop-blur-md"
+                   style="background: rgba(2, 6, 23, 0.55);">
+                <span class="w-2 h-2 rounded-full shrink-0" style="background-color: #34d399; box-shadow: 0 0 8px #34d399;"></span>
                 <i data-lucide="clock" class="w-3.5 h-3.5 text-sky-300 shrink-0"></i>
-                <span class="text-xs font-mono font-bold text-slate-100 tracking-wide whitespace-nowrap" id="HoraActual">08:05:22</span>
+                <span class="text-xs font-mono font-bold text-white tracking-wide whitespace-nowrap" id="HoraActual">08:05:22</span>
               </div>
 
               <!-- Botones Recargar y Nueva Orden (+) -->
-              <div class="flex items-center gap-2">
+              <div class="flex items-center gap-1.5">
                 <button type="button" onclick="refreshData()"
-                  class="px-3 py-2.5 rounded-2xl bg-white/10 hover:bg-white/20 text-white border border-white/15 transition-all shadow-sm flex items-center gap-1.5 text-xs font-semibold cursor-pointer"
+                  class="hero-kpi-card p-2.5 rounded-xl text-white cursor-pointer flex items-center justify-center"
                   title="Actualizar Tablas">
-                  <i data-lucide="refresh-cw" class="w-4 h-4 text-sky-300" id="refreshIcon"></i>
-                  <span class="hidden sm:inline">Actualizar</span>
+                  <i data-lucide="refresh-cw" class="w-4 h-4 text-sky-200" id="refreshIcon"></i>
                 </button>
                 <button type="button" onclick="openSimpleAddModal('lista-ordenes')"
-                  class="px-3.5 py-2.5 rounded-2xl bg-gradient-to-r from-sky-500 to-blue-600 hover:from-sky-400 hover:to-blue-500 text-white border border-sky-300/30 transition-all shadow-md flex items-center gap-1.5 text-xs font-bold cursor-pointer"
+                  class="hero-kpi-card p-2.5 rounded-xl text-white cursor-pointer flex items-center justify-center"
+                  style="background: linear-gradient(135deg, rgba(37, 99, 235, 0.9) 0%, rgba(29, 78, 216, 0.9) 100%); border-color: rgba(147, 197, 253, 0.4);"
                   title="Agregar Nueva Orden">
                   <i data-lucide="plus" class="w-4 h-4"></i>
-                  <span>Nueva Orden</span>
                 </button>
               </div>
             </div>
@@ -1106,34 +1079,8 @@ $perfilActual  = htmlspecialchars($_SESSION['perfil'] ?? 'Administrador', ENT_QU
   <script src="modules.js"></script>
   <script src="ExpandableCard.js"></script>
   <script src="AnimatedContent.js"></script>
-  <script src="Threads.js"></script>
   <script>
     lucide.createIcons();
-
-    if (typeof window.initThreads === 'function') {
-      const heroThreads = document.getElementById('threadsInicioHero');
-      if (heroThreads) {
-        window.initThreads(heroThreads, {
-          color: '#38bdf8',
-          accentColor: '#2dd4bf',
-          amplitude: 1.4,
-          distance: 0.35,
-          enableMouseInteraction: true,
-          lineCount: 60,
-          thickness: 0.55,
-          softness: 1.4,
-          speed: 0.45,
-          waves: 1.1,
-          split: 0.05,
-          fray: 0.45,
-          angle: 12,
-          parting: 0.3,
-          taper: 0.85,
-          brightness: 1.25,
-          opacity: 0.42
-        });
-      }
-    }
 
     // Sesión sincronizada entre PHP ($_SESSION) y cliente
     const usuario = localStorage.getItem('cv_usuario') || <?= json_encode($usuarioActual) ?>;
