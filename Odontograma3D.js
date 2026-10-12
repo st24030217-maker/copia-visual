@@ -276,23 +276,30 @@
       vec3 rd = camRot * normalize(vec3(uv * 0.62, -1.0));
 
       float t = 0.0;
+      float minD = 100.0;
+      float bestT = 0.0;
       bool hit = false;
-      for (int i = 0; i < 68; i++) {
+      for (int i = 0; i < 72; i++) {
         vec3 p = ro + rd * t;
         float d = mapDist(p);
-        if (d < 0.0018) {
+        if (d < minD) {
+          minD = d;
+          bestT = t;
+        }
+        if (d < 0.0015) {
           hit = true;
+          bestT = t;
           break;
         }
         t += d * 0.85;
         if (t > 4.2) break;
       }
 
-      float rad = length(vUv);
-      vec3 bgCol = mix(vec3(0.980, 0.982, 0.984), vec3(0.935, 0.945, 0.958), smoothstep(0.15, 1.35, rad));
+      float aaWidth = 2.4 / max(uRes.y, 200.0);
+      float alpha = hit ? 1.0 : (1.0 - smoothstep(0.0015, 0.0015 + aaWidth, minD));
 
-      if (hit) {
-        vec3 pos = ro + rd * t;
+      if (alpha > 0.01) {
+        vec3 pos = ro + rd * bestT;
         vec3 eval = evalTooth(pos);
         float py = eval.y;
         float cejY = eval.z;
@@ -303,16 +310,16 @@
         float crownBlend = (uState == 2) ? 1.0 : smoothstep(cejY - 0.025, cejY + 0.025, py);
 
         float rootApexT = smoothstep(-0.10, -0.82, py);
-        vec3 rootNeckCol = vec3(0.80, 0.73, 0.50);
-        vec3 rootApexCol = vec3(0.91, 0.87, 0.73);
+        vec3 rootNeckCol = vec3(0.82, 0.75, 0.53);
+        vec3 rootApexCol = vec3(0.92, 0.88, 0.75);
         vec3 rootCol = mix(rootNeckCol, rootApexCol, rootApexT);
-        rootCol = mix(vec3(0.68, 0.60, 0.39), rootCol, ao);
+        rootCol = mix(vec3(0.74, 0.66, 0.45), rootCol, ao);
 
         vec3 enamelBase = uVitaCol;
-        vec3 enamelShadow = uVitaCol * 0.88;
+        vec3 enamelShadow = uVitaCol * 0.91;
         if (uPrepMode == 1) {
           enamelBase = vec3(0.84, 0.77, 0.56);
-          enamelShadow = vec3(0.72, 0.64, 0.44);
+          enamelShadow = vec3(0.74, 0.66, 0.46);
         }
 
         vec3 keyLight  = camRot * normalize(vec3(-0.42, 0.52, 0.74));
@@ -323,7 +330,7 @@
         float diffFill = clamp(dot(nor, fillLight) * 0.50 + 0.50, 0.0, 1.0);
         float diffTop  = clamp(dot(nor, topLight) * 0.50 + 0.50, 0.0, 1.0);
 
-        float lightVal = clamp((diffKey * 0.52 + diffFill * 0.34 + diffTop * 0.22) * mix(0.78, 1.0, ao), 0.0, 1.0);
+        float lightVal = clamp((diffKey * 0.52 + diffFill * 0.34 + diffTop * 0.22) * mix(0.82, 1.0, ao), 0.0, 1.0);
 
         vec3 shadedCrown = mix(enamelShadow, enamelBase, lightVal);
         float collarBand = exp(-pow((py - (cejY + 0.03)) / 0.028, 2.0));
@@ -333,13 +340,13 @@
           shadedCrown = mix(shadedCrown, vec3(0.46, 0.36, 0.20), smoothstep(0.24, 0.08, py) * 0.55);
         }
 
-        vec3 shadedRoot = rootCol * mix(0.76, 1.04, lightVal);
+        vec3 shadedRoot = rootCol * mix(0.80, 1.04, lightVal);
         vec3 shaded = mix(shadedRoot, shadedCrown, crownBlend);
 
         float ndotv = clamp(dot(nor, viewDir), 0.0, 1.0);
-        float fresnel = pow(1.0 - ndotv, 2.4);
-        vec3 rimCol = mix(vec3(0.66, 0.59, 0.40), vec3(0.82, 0.84, 0.86), crownBlend);
-        shaded = mix(shaded, rimCol, fresnel * 0.42);
+        float fresnel = pow(1.0 - ndotv, 2.6);
+        vec3 rimCol = mix(vec3(0.90, 0.85, 0.68), vec3(0.99, 0.98, 0.95), crownBlend);
+        shaded = mix(shaded, rimCol, fresnel * 0.18);
 
         vec3 halfKey  = normalize(keyLight + viewDir);
         vec3 halfFill = normalize(fillLight + viewDir);
@@ -347,9 +354,9 @@
         float spec2 = smoothstep(0.90, 0.98, dot(nor, halfFill)) * mix(0.12, 0.22, crownBlend);
         shaded += vec3(spec1 + spec2);
 
-        gl_FragColor = vec4(clamp(shaded, 0.0, 1.0), 1.0);
+        gl_FragColor = vec4(clamp(shaded, 0.0, 1.0), alpha);
       } else {
-        gl_FragColor = vec4(bgCol, 1.0);
+        gl_FragColor = vec4(0.0, 0.0, 0.0, 0.0);
       }
     }
   `;
@@ -380,10 +387,12 @@
     }
 
     initWebGL() {
-      const gl = this.canvas.getContext('webgl', { antialias: true, preserveDrawingBuffer: true }) ||
-                 this.canvas.getContext('experimental-webgl');
+      const ctxOpts = { alpha: true, premultipliedAlpha: false, antialias: true, preserveDrawingBuffer: true };
+      const gl = this.canvas.getContext('webgl', ctxOpts) ||
+                 this.canvas.getContext('experimental-webgl', ctxOpts);
       if (!gl) return;
       this.gl = gl;
+      gl.clearColor(0.0, 0.0, 0.0, 0.0);
 
       const compile = (type, src) => {
         const s = gl.createShader(type);
@@ -555,6 +564,7 @@
       }
 
       gl.viewport(0, 0, w, h);
+      gl.clear(gl.COLOR_BUFFER_BIT);
       gl.useProgram(this.prog);
 
       const dYaw = this.targetYaw - this.yaw;
@@ -781,8 +791,8 @@
               data-active="${isAct}"
               title="Vista ${v.short}"
               class="odonto-angle-btn group">
-              <div class="w-full h-12 rounded-lg bg-[#fafaf9] overflow-hidden flex items-center justify-center">
-                <img src="${imgSrc}" alt="${v.short}" class="h-11 w-auto object-contain transition-transform duration-150 group-hover:scale-110">
+              <div class="w-full h-12 rounded-lg bg-transparent overflow-hidden flex items-center justify-center">
+                <img src="${imgSrc}" alt="${v.short}" class="h-11 w-auto object-contain mix-blend-multiply transition-transform duration-150 group-hover:scale-110">
               </div>
               <span class="mt-1 text-[8.5px] font-semibold tracking-wide ${isAct ? 'text-[#334e68]' : 'text-slate-500'}">${v.short}</span>
             </button>
