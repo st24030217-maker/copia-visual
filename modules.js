@@ -9774,7 +9774,7 @@ function getLiveApiBase() {
   } catch (e) {}
   if (window.LIVE_DB_STATE.corsLocalUrl) return window.LIVE_DB_STATE.corsLocalUrl;
   if (!isStaticOrOfflineHost()) return 'Backend/api_live.php';
-  return window.LIVE_DB_STATE.publicTunnelUrl || 'https://suggest-custom-opening-likely.trycloudflare.com/Backend/api_live.php';
+  return window.LIVE_DB_STATE.publicTunnelUrl || 'https://browsing-listprice-supporters-oldest.trycloudflare.com/Backend/api_live.php';
 }
 
 function applyDatabasePayload(data) {
@@ -9927,7 +9927,7 @@ window.syncLiveDatabase = async function (silent = false) {
   } catch (e) {}
 
   // 2. Descubrimiento de endpoint HTTPS en vivo (Backend/live_endpoint.json)
-  let tunnelUrl = 'https://suggest-custom-opening-likely.trycloudflare.com/Backend/api_live.php';
+  let tunnelUrl = 'https://browsing-listprice-supporters-oldest.trycloudflare.com/Backend/api_live.php';
   try {
     const epResp = await fetch('Backend/live_endpoint.json', { cache: 'no-store' });
     if (epResp.ok) {
