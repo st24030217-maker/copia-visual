@@ -1011,6 +1011,52 @@ $perfilActual  = htmlspecialchars($_SESSION['perfil'] ?? 'Administrador', ENT_QU
           <div class="grid grid-cols-8 lg:grid-cols-16 gap-1.5" id="odontoLower" style="grid-template-columns: repeat(16, minmax(0, 1fr));"></div>
         </div>
 
+        <!-- Estudio de Modelado 3D Interactivo por Pieza en Modal -->
+        <div class="bg-slate-50/80 p-3.5 rounded-2xl border border-slate-200/90">
+          <div class="grid grid-cols-1 md:grid-cols-12 gap-4 items-center">
+            <div class="md:col-span-5 flex flex-col items-center">
+              <div class="relative w-full h-[215px] rounded-xl border border-slate-200 bg-white overflow-hidden shadow-inner">
+                <canvas id="modalOdonto3DCanvas" class="w-full h-full cursor-grab active:cursor-grabbing block"></canvas>
+                <div class="absolute top-2 left-2.5 flex items-center gap-1.5 pointer-events-none">
+                  <span id="modal3DToothNum" class="px-2 py-0.5 rounded-md bg-slate-900/90 text-white font-mono font-extrabold text-[11px]">#16</span>
+                  <span id="modal3DToothState" class="px-2 py-0.5 rounded-md text-[9px] font-extrabold uppercase tracking-wider bg-[#2f6353] text-white">PILAR SELECCIONADO</span>
+                </div>
+                <div class="absolute bottom-2 left-2 right-2 flex items-center justify-between gap-1">
+                  <span class="text-[9px] font-semibold text-slate-500 bg-white/85 backdrop-blur-xs px-2 py-0.5 rounded-md border border-slate-200/70 pointer-events-none">
+                    Arrastra para rotar 360°
+                  </span>
+                  <div class="flex items-center gap-1">
+                    <button type="button" id="modalBtnPrepMode3D" onclick="window.Odontograma3D && window.Odontograma3D.togglePrepMode('modal')"
+                      class="px-2 py-0.5 rounded-md text-[9.5px] font-bold bg-white text-slate-600 border border-slate-200 hover:bg-slate-100 transition-all cursor-pointer">
+                      Corona Completa
+                    </button>
+                    <button type="button" id="modalBtnAutoRotate3D" onclick="window.Odontograma3D && window.Odontograma3D.toggleAutoRotate('modal')"
+                      class="px-2 py-0.5 rounded-md text-[9.5px] font-bold bg-white text-slate-600 border border-slate-200 hover:bg-slate-100 transition-all cursor-pointer">
+                      Giro 360°
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="md:col-span-7 space-y-2.5">
+              <div class="border-b border-slate-200/80 pb-2">
+                <div class="flex items-center justify-between gap-2">
+                  <span class="text-[10px] font-extrabold uppercase tracking-wider text-[#334e68]">Modelado 3D Anatómico de Pieza</span>
+                  <span id="modal3DToothType" class="text-[10px] font-semibold text-slate-500">Molar Superior (Trifurcado)</span>
+                </div>
+                <h5 id="modal3DToothName" class="text-sm font-extrabold text-slate-800 mt-0.5">Primer Molar Superior Derecho</h5>
+                <p id="modal3DToothSpecs" class="text-[10.5px] font-semibold text-slate-500 mt-0.5">4 Cúspides • 3 Raíces • Tono A2</p>
+              </div>
+              <div>
+                <div class="flex items-center justify-between mb-1.5">
+                  <span class="text-[9.5px] font-bold uppercase tracking-wider text-slate-400">6 Ángulos Anatómicos de Referencia (Clic para orientar 3D)</span>
+                </div>
+                <div id="modal3DRefViewsGrid" class="grid grid-cols-6 gap-1.5"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
         <div class="p-3.5 rounded-2xl bg-slate-50 border border-slate-200 flex flex-wrap items-center justify-between gap-3">
           <div class="text-xs">
             <span class="text-slate-400 font-bold uppercase text-[10px] block">Piezas Seleccionadas en el Odontograma:</span>
@@ -1102,6 +1148,7 @@ $perfilActual  = htmlspecialchars($_SESSION['perfil'] ?? 'Administrador', ENT_QU
   <div id="toastContainer" class="fixed bottom-5 right-5 z-50 flex flex-col gap-2.5 pointer-events-none"></div>
 
   <script src="modules.js"></script>
+  <script src="Odontograma3D.js"></script>
   <script src="ExpandableCard.js"></script>
   <script src="AnimatedContent.js"></script>
   <script>
@@ -1158,6 +1205,9 @@ $perfilActual  = htmlspecialchars($_SESSION['perfil'] ?? 'Administrador', ENT_QU
     // Odontograma Digital Interactivo 3D (32 Dientes FDI con Pilar / Póntico)
     const selectedTeeth = new Map([['16', 'PILAR'], ['21', 'PILAR']]);
     let _modalOdontoMode = 'PILAR';
+    window.getModalToothState = function(s) {
+      return selectedTeeth.get(String(s)) || null;
+    };
 
     function setModalOdontoMode(mode) {
       _modalOdontoMode = mode;
@@ -1177,6 +1227,7 @@ $perfilActual  = htmlspecialchars($_SESSION['perfil'] ?? 'Administrador', ENT_QU
     function clearOdontogramaModal() {
       selectedTeeth.clear();
       renderOdontograma();
+      if (window.Odontograma3D) window.Odontograma3D.refreshAll();
     }
 
     function renderOdontograma() {
@@ -1201,10 +1252,10 @@ $perfilActual  = htmlspecialchars($_SESSION['perfil'] ?? 'Administrador', ENT_QU
           topNumStyle = 'color:#45351e;';
           badgeHtml = '<span class="w-full h-4 rounded-md text-[8px] font-extrabold uppercase tracking-wider flex items-center justify-center" style="background:#755c34;color:#ffffff;">Pónt</span>';
         }
-        return `<button type="button" onclick="toggleTooth('${s}')" style="${cardStyle}" class="group h-[118px] p-1.5 rounded-xl border text-center transition-all hover:-translate-y-0.5 hover:shadow-md flex flex-col items-center justify-between cursor-pointer overflow-hidden">
+        return `<button type="button" onclick="toggleTooth('${s}')" onmouseenter="window.Odontograma3D && window.Odontograma3D.selectTooth(${s})" style="${cardStyle}" class="group h-[118px] p-1.5 rounded-xl border text-center transition-all hover:-translate-y-0.5 hover:shadow-md flex flex-col items-center justify-between cursor-pointer overflow-hidden">
           <span class="text-[10.5px] font-mono font-extrabold leading-none" style="${topNumStyle}">#${s}</span>
           <div class="w-full h-16 flex items-center justify-center overflow-hidden my-0.5">
-            <img src="assets/odontograma/diente_${s}.png?v=2" alt="Diente ${s}" loading="lazy"
+            <img src="assets/odontograma/diente_${s}.png?v=3" alt="Diente ${s}" loading="lazy"
                  class="h-16 w-auto object-contain transition-transform duration-200 group-hover:scale-108 select-none pointer-events-none"
                  style="mix-blend-mode: multiply;">
           </div>
@@ -1229,6 +1280,9 @@ $perfilActual  = htmlspecialchars($_SESSION['perfil'] ?? 'Administrador', ENT_QU
         selectedTeeth.set(s, _modalOdontoMode);
       }
       renderOdontograma();
+      if (window.Odontograma3D) {
+        window.Odontograma3D.selectTooth(num);
+      }
     }
 
     function openOdontogramaModal() {
@@ -1243,6 +1297,9 @@ $perfilActual  = htmlspecialchars($_SESSION['perfil'] ?? 'Administrador', ENT_QU
       renderOdontograma();
       document.getElementById('modalOdonto').classList.remove('hidden');
       lucide.createIcons();
+      if (window.Odontograma3D) {
+        requestAnimationFrame(() => window.Odontograma3D.initViewer('modalOdonto3DCanvas', 'modal'));
+      }
     }
 
     function closeOdontogramaModal() {

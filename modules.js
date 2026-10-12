@@ -8626,6 +8626,9 @@ window.togglePiezaOrdenActual = function(dienteNum) {
   const o = currentOrdenActiva || INICIO_DATA.ordenes[0];
   if (!o) return;
   const s = String(dienteNum);
+  if (window.Odontograma3D) {
+    window.Odontograma3D.selectedFdi = parseInt(s, 10);
+  }
   if (!Array.isArray(o.piezas)) o.piezas = [];
   if (!o.tiposPieza) o.tiposPieza = {};
 
@@ -8647,6 +8650,7 @@ window.togglePiezaOrdenActual = function(dienteNum) {
 
 function renderVistaOrdenTrabajo() {
   const o = currentOrdenActiva || INICIO_DATA.ordenes[0];
+  window._currentOdontoOrden = o;
   const docObj = window.findDoctorByAny(o.doctorId || o.doctor);
   const container = document.getElementById('section-dynamic');
   if (!container) return;
@@ -8673,11 +8677,12 @@ function renderVistaOrdenTrabajo() {
     }
     return `
       <button type="button" onclick="window.togglePiezaOrdenActual('${s}')"
+        onmouseenter="window.Odontograma3D && window.Odontograma3D.selectTooth(${s})"
         style="${cardStyle}"
         class="group relative h-[114px] p-1.5 rounded-xl border flex flex-col items-center justify-between transition-all duration-150 hover:-translate-y-0.5 hover:shadow-md cursor-pointer overflow-hidden">
         <span class="font-mono font-extrabold text-[10.5px] leading-none" style="${topNumStyle}">#${s}</span>
         <div class="w-full h-16 flex items-center justify-center overflow-hidden my-0.5">
-          <img src="assets/odontograma/diente_${s}.png?v=2" alt="Diente ${s}" loading="lazy"
+          <img src="assets/odontograma/diente_${s}.png?v=3" alt="Diente ${s}" loading="lazy"
                class="h-16 w-auto object-contain transition-transform duration-200 group-hover:scale-108 select-none pointer-events-none"
                style="mix-blend-mode: multiply;">
         </div>
@@ -8905,6 +8910,56 @@ function renderVistaOrdenTrabajo() {
                       ${dientesInf.map(d => renderDienteCard3D(d)).join('')}
                     </div>
                   </div>
+
+                  <!-- Estudio de Modelado 3D Interactivo por Pieza (WebGL 360° + 6 Vistas de Muestra) -->
+                  <div class="bg-white p-3.5 rounded-xl border border-slate-200/90 shadow-2xs">
+                    <div class="grid grid-cols-1 sm:grid-cols-12 gap-3.5 items-center">
+                      <!-- Visor WebGL 3D Interactivo 360° -->
+                      <div class="sm:col-span-5 flex flex-col items-center">
+                        <div class="relative w-full h-[210px] rounded-xl border border-slate-200 bg-[#f8fafc] overflow-hidden shadow-inner">
+                          <canvas id="inlineOdonto3DCanvas" class="w-full h-full cursor-grab active:cursor-grabbing block"></canvas>
+                          <div class="absolute top-2 left-2.5 flex items-center gap-1.5 pointer-events-none">
+                            <span id="inline3DToothNum" class="px-2 py-0.5 rounded-md bg-slate-900/90 text-white font-mono font-extrabold text-[11px]">#16</span>
+                            <span id="inline3DToothState" class="px-2 py-0.5 rounded-md text-[9px] font-extrabold uppercase tracking-wider bg-[#2f6353] text-white">PILAR SELECCIONADO</span>
+                          </div>
+                          <div class="absolute bottom-2 left-2 right-2 flex items-center justify-between gap-1">
+                            <span class="text-[9px] font-semibold text-slate-500 bg-white/85 backdrop-blur-xs px-2 py-0.5 rounded-md border border-slate-200/70 pointer-events-none">
+                              Arrastra para rotar 360°
+                            </span>
+                            <div class="flex items-center gap-1">
+                              <button type="button" id="inlineBtnPrepMode3D" onclick="window.Odontograma3D && window.Odontograma3D.togglePrepMode('inline')"
+                                class="px-2 py-0.5 rounded-md text-[9.5px] font-bold bg-white text-slate-600 border border-slate-200 hover:bg-slate-100 transition-all cursor-pointer">
+                                Corona Completa
+                              </button>
+                              <button type="button" id="inlineBtnAutoRotate3D" onclick="window.Odontograma3D && window.Odontograma3D.toggleAutoRotate('inline')"
+                                class="px-2 py-0.5 rounded-md text-[9.5px] font-bold bg-white text-slate-600 border border-slate-200 hover:bg-slate-100 transition-all cursor-pointer">
+                                Giro 360°
+                              </button>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+
+                      <!-- Información Anatómica + 6 Vistas de Referencia 3D -->
+                      <div class="sm:col-span-7 space-y-2.5">
+                        <div class="border-b border-slate-100 pb-2">
+                          <div class="flex items-center justify-between gap-2">
+                            <span class="text-[10px] font-extrabold uppercase tracking-wider text-[#334e68]">Modelado 3D Anatómico de Pieza</span>
+                            <span id="inline3DToothType" class="text-[10px] font-semibold text-slate-500">Molar Superior (Trifurcado)</span>
+                          </div>
+                          <h5 id="inline3DToothName" class="text-sm font-extrabold text-slate-800 mt-0.5">Primer Molar Superior Derecho</h5>
+                          <p id="inline3DToothSpecs" class="text-[10.5px] font-semibold text-slate-500 mt-0.5">4 Cúspides • 3 Raíces • Tono A2</p>
+                        </div>
+
+                        <div>
+                          <div class="flex items-center justify-between mb-1.5">
+                            <span class="text-[9.5px] font-bold uppercase tracking-wider text-slate-400">6 Ángulos Anatómicos de Referencia (Clic para orientar 3D)</span>
+                          </div>
+                          <div id="inline3DRefViewsGrid" class="grid grid-cols-6 gap-1.5"></div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
                 </div>
               </div>
 
@@ -9080,6 +9135,9 @@ function renderVistaOrdenTrabajo() {
   `;
   animateViewEntrance(container);
   if (typeof lucide !== 'undefined') lucide.createIcons();
+  if (currentTabOrden === 'home' && window.Odontograma3D) {
+    requestAnimationFrame(() => window.Odontograma3D.initViewer('inlineOdonto3DCanvas', 'inline'));
+  }
 }
 
 // ============================================================================
