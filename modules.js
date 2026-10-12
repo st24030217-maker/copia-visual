@@ -8863,12 +8863,12 @@ function renderVistaOrdenTrabajo() {
 
           <!-- Columna Derecha: Odontograma 3D Adaptativo (Mobile-First) -->
           <div class="min-w-0 lg:col-span-7">
-            <section class="odonto-studio h-full" aria-label="Odontograma 3D Interactivo">
+            <section class="odonto-studio h-full" aria-label="Odontograma Interactivo">
               <div>
                 <!-- 1. Barra Superior Minimalista -->
                 <header class="odonto-topbar">
                   <div class="flex items-center gap-2.5">
-                    <h4 class="odonto-title">Odontograma 3D</h4>
+                    <h4 class="odonto-title">Odontograma</h4>
                     <span class="text-slate-700" aria-hidden="true">|</span>
                     <div class="flex flex-wrap items-center gap-1" aria-label="Piezas seleccionadas">
                       ${activePillsHtml}
