@@ -8894,13 +8894,13 @@ function Etiqueta(doctor, paciente, fechaEntrega, codigo) {
   <html lang="es">
     <head>
       <meta charset="utf-8">
-      <title>Etiqueta OT #${serieOT}</title>
+      <title></title>
       <link rel="preconnect" href="https://api.fontshare.com" crossorigin>
       <link href="https://api.fontshare.com/v2/css?f[]=general-sans@400,500,600,700&display=swap" rel="stylesheet">
       <style>
         @page {
-          size: 100mm 50mm;
-          margin: 1.5mm 2.5mm;
+          size: auto;
+          margin: 0mm !important;
         }
         @media print {
           html, body {
@@ -8915,8 +8915,8 @@ function Etiqueta(doctor, paciente, fechaEntrega, codigo) {
           .dent-print-card {
             width: 100% !important;
             max-width: 96mm !important;
-            margin: 0 auto !important;
-            padding: 1mm 2mm !important;
+            margin: 0 !important;
+            padding: 1.5mm 2.5mm !important;
             overflow: visible !important;
           }
         }
@@ -8924,20 +8924,17 @@ function Etiqueta(doctor, paciente, fechaEntrega, codigo) {
           box-sizing: border-box !important;
           font-family: 'General Sans', -apple-system, BlinkMacSystemFont, sans-serif !important;
         }
-        body {
-          font-family: 'General Sans', -apple-system, BlinkMacSystemFont, sans-serif !important;
-          margin: 0;
-          padding: 1.5mm 2.5mm;
-          text-align: center;
+        html, body {
+          margin: 0 !important;
+          padding: 0 !important;
           background: #ffffff;
           color: #000000;
-          font-size: 8.5px;
-          line-height: 1.25;
         }
         .dent-print-card {
           width: 100%;
           max-width: 96mm;
-          margin: 0 auto;
+          margin: 0;
+          padding: 1.5mm 2.5mm;
           text-align: center;
           overflow: visible;
         }
