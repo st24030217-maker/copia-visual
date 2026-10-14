@@ -988,12 +988,20 @@ $perfilActual  = htmlspecialchars($_SESSION['perfil'] ?? 'Administrador', ENT_QU
               </button>
             </div>
 
-            <!-- Paginación « 1 2 » -->
-            <div class="inline-flex rounded-xl border border-slate-200 overflow-hidden text-xs font-semibold shrink-0">
-              <button onclick="cambiarPaginaOrdenes(1)" class="px-2.5 py-1.5 bg-slate-50 hover:bg-slate-100 text-slate-600 border-r border-slate-200">«</button>
-              <button id="pageBtn1" onclick="cambiarPaginaOrdenes(1)" class="px-3 py-1.5 bg-blue-600 text-white font-bold border-r border-slate-200">1</button>
-              <button id="pageBtn2" onclick="cambiarPaginaOrdenes(2)" class="px-3 py-1.5 bg-white hover:bg-slate-50 text-slate-700 border-r border-slate-200">2</button>
-              <button onclick="cambiarPaginaOrdenes(2)" class="px-2.5 py-1.5 bg-slate-50 hover:bg-slate-100 text-slate-600">»</button>
+            <!-- Paginación de Órdenes -->
+            <div class="inline-flex items-center rounded-xl border border-slate-200 overflow-hidden text-xs font-semibold shrink-0 bg-white shadow-sm">
+              <button type="button" onclick="cambiarPaginaOrdenes(1)" title="Página 1" aria-label="Página anterior" class="w-8 h-8 flex items-center justify-center bg-slate-50 hover:bg-slate-100 text-slate-600 border-r border-slate-200 transition-colors">
+                <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                  <polyline points="15 18 9 12 15 6"></polyline>
+                </svg>
+              </button>
+              <button type="button" id="pageBtn1" onclick="cambiarPaginaOrdenes(1)" class="w-8 h-8 flex items-center justify-center bg-blue-600 text-white font-bold border-r border-slate-200 transition-colors">1</button>
+              <button type="button" id="pageBtn2" onclick="cambiarPaginaOrdenes(2)" class="w-8 h-8 flex items-center justify-center bg-white hover:bg-slate-50 text-slate-700 border-r border-slate-200 transition-colors">2</button>
+              <button type="button" onclick="cambiarPaginaOrdenes(2)" title="Página 2" aria-label="Página siguiente" class="w-8 h-8 flex items-center justify-center bg-slate-50 hover:bg-slate-100 text-slate-600 transition-colors">
+                <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                  <polyline points="9 18 15 12 9 6"></polyline>
+                </svg>
+              </button>
             </div>
           </div>
 

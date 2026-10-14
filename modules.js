@@ -8633,8 +8633,8 @@ function cambiarPaginaOrdenes(p) {
   const p1 = document.getElementById('pageBtn1');
   const p2 = document.getElementById('pageBtn2');
   if (p1 && p2) {
-    p1.className = p === 1 ? 'px-3 py-1.5 bg-blue-600 text-white font-bold border-r border-slate-200' : 'px-3 py-1.5 bg-white hover:bg-slate-50 text-slate-700 border-r border-slate-200';
-    p2.className = p === 2 ? 'px-3 py-1.5 bg-blue-600 text-white font-bold border-r border-slate-200' : 'px-3 py-1.5 bg-white hover:bg-slate-50 text-slate-700 border-r border-slate-200';
+    p1.className = p === 1 ? 'w-8 h-8 flex items-center justify-center bg-blue-600 text-white font-bold border-r border-slate-200 transition-colors' : 'w-8 h-8 flex items-center justify-center bg-white hover:bg-slate-50 text-slate-700 border-r border-slate-200 transition-colors';
+    p2.className = p === 2 ? 'w-8 h-8 flex items-center justify-center bg-blue-600 text-white font-bold border-r border-slate-200 transition-colors' : 'w-8 h-8 flex items-center justify-center bg-white hover:bg-slate-50 text-slate-700 border-r border-slate-200 transition-colors';
   }
   renderTablasInicio();
   const tbody = document.getElementById('tbodyGeneralOrdenes');
