@@ -8811,11 +8811,44 @@ function Etiqueta(doctor, paciente, fechaEntrega, codigo) {
             <div style="height:100%;background:linear-gradient(90deg,#334e68 0%,#2f6353 100%);border-radius:9999px;animation:dentProgressFill 2350ms cubic-bezier(0.2,0.8,0.2,1) forwards;"></div>
           </div>
         </div>
+
+        <!-- Botones de Acción Directa (Evitan bloqueos de permisos del navegador) -->
+        <div style="margin-top:14px;display:flex;align-items:center;gap:8px;">
+          <button type="button" id="dentBtnPrintNow" onclick="window.dentTriggerPrintLabel()" style="flex:1;background:#0f172a;color:#f8fafc;padding:10px 14px;border-radius:10px;border:none;font-size:12px;font-weight:700;display:inline-flex;align-items:center;justify-content:center;gap:6px;cursor:pointer;transition:all 150ms ease;box-shadow:0 4px 12px rgba(15,23,42,0.18);">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 6 2 18 2 18 9"></polyline><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"></path><rect x="6" y="14" width="12" height="8"></rect></svg>
+            <span>Mandar a Imprimir</span>
+          </button>
+          <button type="button" onclick="window.dentClosePrintOverlay()" style="background:#e2e8f0;color:#334155;padding:10px 14px;border-radius:10px;border:none;font-size:12px;font-weight:600;cursor:pointer;transition:all 150ms ease;">
+            Cerrar
+          </button>
+        </div>
       </div>
     </div>
   `;
 
-  // Actualizaciones de estado en tiempo real para dar una experiencia de carga elegante y visible
+  window.dentClosePrintOverlay = function () {
+    const overlay = document.getElementById('dentBlockUIOverlay');
+    if (overlay) {
+      overlay.style.opacity = '0';
+      setTimeout(() => {
+        overlay.style.display = 'none';
+      }, 180);
+    }
+  };
+
+  window.dentTriggerPrintLabel = function () {
+    const f = document.getElementById('dentThermalPrintFrame');
+    if (f && f.contentWindow) {
+      try {
+        f.contentWindow.focus();
+        f.contentWindow.print();
+      } catch (err) {
+        console.error('Error al invocar impresión:', err);
+      }
+    }
+  };
+
+  // Actualizaciones de estado en tiempo real
   setTimeout(function () {
     const sText = document.getElementById('dentPrintStatusText');
     const pText = document.getElementById('dentPrintPercentText');
@@ -8837,13 +8870,16 @@ function Etiqueta(doctor, paciente, fechaEntrega, codigo) {
     if (pText) pText.textContent = '100%';
   }, 2250);
 
-  const frame1 = document.createElement('iframe');
-  const styleContainer = 'style="overflow: hidden;width: 100%;height: auto; text-align:center;font-size:8px"';
-  const row = "style='overflow: hidden;'";
-  frame1.name = 'frame1';
-  frame1.style.position = 'absolute';
-  frame1.style.top = '-1000000px';
-  document.body.appendChild(frame1);
+  // Iframe persistente (nunca se destruye prematuramente para que el navegador jamás pinte la hoja en blanco)
+  let frame1 = document.getElementById('dentThermalPrintFrame');
+  if (!frame1) {
+    frame1 = document.createElement('iframe');
+    frame1.id = 'dentThermalPrintFrame';
+    frame1.name = 'dentThermalPrintFrame';
+    frame1.style.cssText =
+      'position:fixed;right:0;bottom:0;width:300px;height:300px;opacity:0.001;pointer-events:none;z-index:-999;border:none;';
+    document.body.appendChild(frame1);
+  }
 
   const frameDoc = frame1.contentWindow
     ? frame1.contentWindow
@@ -8852,67 +8888,101 @@ function Etiqueta(doctor, paciente, fechaEntrega, codigo) {
       : frame1.contentDocument;
 
   frameDoc.document.open();
-  frameDoc.document.write(`<html>
-    <body style="font-family:Arial; text-align:center;">
-      <div ${styleContainer}>
-        <div ${row}>
-          <table style='width:100%;'>
-            <tr>
-              <td style='text-align:left;width:30%;font-size:12px;'>OT: ${serieOT}</td>
-              <td style='text-align:center;font-weight:bold;font-size:9px'>dentlab.mx</td>
-              <td style='text-align:right;width:30%;font-size:10px;'>F. Ent: ${fEnt}</td>
-            </tr>
-          </table>
-          <table style='width:100%;'>
-            <tr>
-              <td style='text-align:center;width:100%;font-size:13px'><strong>${docNombre}</strong></td>
-            </tr>
-          </table>
-          <table style='width:100%;'>
-            <tr>
-              <td style='text-align:left;width:100%;font-size:9px'>Dirección: <strong>${direccion}</strong></td>
-            </tr>
-          </table>
-          <table style='width:100%;'>
-            <tr>
-              <td style='text-align:left;width:60%;font-size:13px'>Px: <strong>${pacNombre}</strong></td>
-              <td style='text-align:right;width:40%;font-size:9px'>Tel: <strong>${celular}</strong></td>
-            </tr>
-          </table>
-          <table style='width:100%;'>
-            <tr>
-              <td style='text-align:left;width:100%;font-size:9px'>Prod: <strong>${producto}</strong></td>
-            </tr>
-          </table>
-          <table style='width:100%;'>
-            <tr>
-              <td style='text-align:left;width:30%;font-size:9px'>Unid: <strong>${piezas}</strong></td>
-              <td style='text-align:left;width:70%;font-size:9px'>Color: <strong>${colorimetro}</strong></td>
-            </tr>
-          </table>
-          <table style='width:100%;'>
-            <tr>
-              <td style='text-align:left;width:70%;font-size:9px'>Obs: <strong>${observaciones}</strong></td>
-            </tr>
-          </table>
-          ${codeBar}
-        </div>
+  frameDoc.document.write(`<!DOCTYPE html>
+  <html>
+    <head>
+      <meta charset="utf-8">
+      <title>Etiqueta OT #${serieOT}</title>
+      <style>
+        @page {
+          size: auto;
+          margin: 0mm;
+        }
+        @media print {
+          html, body {
+            margin: 0 !important;
+            padding: 0 !important;
+            background: #ffffff !important;
+            color: #000000 !important;
+            -webkit-print-color-adjust: exact;
+            print-color-adjust: exact;
+          }
+        }
+        body {
+          font-family: Arial, Helvetica, sans-serif;
+          margin: 0;
+          padding: 2px 4px;
+          text-align: center;
+          background: #ffffff;
+          color: #000000;
+        }
+        table {
+          width: 100%;
+          border-collapse: collapse;
+          margin: 0;
+          padding: 0;
+        }
+        td {
+          padding: 1px 0;
+        }
+        svg {
+          display: block;
+          margin: 2px auto 0 auto;
+          max-width: 100%;
+          height: auto;
+        }
+      </style>
+    </head>
+    <body>
+      <div style="overflow:hidden;width:100%;height:auto;text-align:center;font-size:8px;">
+        <table style="width:100%;">
+          <tr>
+            <td style="text-align:left;width:30%;font-size:12px;">OT: ${serieOT}</td>
+            <td style="text-align:center;font-weight:bold;font-size:9px;">dentlab.mx</td>
+            <td style="text-align:right;width:30%;font-size:10px;">F. Ent: ${fEnt}</td>
+          </tr>
+        </table>
+        <table style="width:100%;">
+          <tr>
+            <td style="text-align:center;width:100%;font-size:13px;"><strong>${docNombre}</strong></td>
+          </tr>
+        </table>
+        <table style="width:100%;">
+          <tr>
+            <td style="text-align:left;width:100%;font-size:9px;">Dirección: <strong>${direccion}</strong></td>
+          </tr>
+        </table>
+        <table style="width:100%;">
+          <tr>
+            <td style="text-align:left;width:60%;font-size:13px;">Px: <strong>${pacNombre}</strong></td>
+            <td style="text-align:right;width:40%;font-size:9px;">Tel: <strong>${celular}</strong></td>
+          </tr>
+        </table>
+        <table style="width:100%;">
+          <tr>
+            <td style="text-align:left;width:100%;font-size:9px;">Prod: <strong>${producto}</strong></td>
+          </tr>
+        </table>
+        <table style="width:100%;">
+          <tr>
+            <td style="text-align:left;width:30%;font-size:9px;">Unid: <strong>${piezas}</strong></td>
+            <td style="text-align:left;width:70%;font-size:9px;">Color: <strong>${colorimetro}</strong></td>
+          </tr>
+        </table>
+        <table style="width:100%;">
+          <tr>
+            <td style="text-align:left;width:70%;font-size:9px;">Obs: <strong>${observaciones}</strong></td>
+          </tr>
+        </table>
+        ${codeBar}
       </div>
     </body>
   </html>`);
   frameDoc.document.close();
 
-  // Duración pausada de 2.5 segundos para que la previsualización se aprecie con claridad
+  // Al concluir los 2.5 segundos de preparación, se dispara la orden de impresión y se permite al usuario repetir o cerrar cuando guste
   setTimeout(function () {
-    blockOverlay.style.opacity = '0';
-    setTimeout(function () {
-      blockOverlay.style.display = 'none';
-      frame1.contentWindow.focus();
-      frame1.contentWindow.print();
-      setTimeout(function () {
-        if (frame1.parentNode) document.body.removeChild(frame1);
-      }, 1200);
-    }, 220);
+    window.dentTriggerPrintLabel();
   }, 2500);
 
   return false;
