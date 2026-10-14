@@ -8817,28 +8817,24 @@ function Etiqueta(doctor, paciente, fechaEntrega, codigo) {
             <div style="height:100%;background:linear-gradient(90deg,#334e68 0%,#2f6353 100%);border-radius:9999px;animation:dentProgressFill 2350ms cubic-bezier(0.2,0.8,0.2,1) forwards;"></div>
           </div>
         </div>
-
-        <!-- Botones de Acción Directa (Evitan bloqueos de permisos del navegador) -->
-        <div style="margin-top:14px;display:flex;align-items:center;gap:8px;">
-          <button type="button" id="dentBtnPrintNow" onclick="window.dentTriggerPrintLabel()" style="flex:1;background:#0f172a;color:#f8fafc;padding:10px 14px;border-radius:10px;border:none;font-size:12px;font-weight:700;display:inline-flex;align-items:center;justify-content:center;gap:6px;cursor:pointer;transition:all 150ms ease;box-shadow:0 4px 12px rgba(15,23,42,0.18);font-family:'General Sans',-apple-system,BlinkMacSystemFont,sans-serif;">
-            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 6 2 18 2 18 9"></polyline><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"></path><rect x="6" y="14" width="12" height="8"></rect></svg>
-            <span>Mandar a Imprimir</span>
-          </button>
-          <button type="button" onclick="window.dentClosePrintOverlay()" style="background:#e2e8f0;color:#334155;padding:10px 14px;border-radius:10px;border:none;font-size:12px;font-weight:600;cursor:pointer;transition:all 150ms ease;font-family:'General Sans',-apple-system,BlinkMacSystemFont,sans-serif;">
-            Cerrar
-          </button>
-        </div>
       </div>
     </div>
   `;
+
+  blockOverlay.onclick = function (e) {
+    if (e.target === blockOverlay) {
+      window.dentClosePrintOverlay();
+    }
+  };
 
   window.dentClosePrintOverlay = function () {
     const overlay = document.getElementById('dentBlockUIOverlay');
     if (overlay) {
       overlay.style.opacity = '0';
+      overlay.style.pointerEvents = 'none';
       setTimeout(() => {
         overlay.style.display = 'none';
-      }, 180);
+      }, 220);
     }
   };
 
@@ -9018,10 +9014,24 @@ function Etiqueta(doctor, paciente, fechaEntrega, codigo) {
   </html>`);
   frameDoc.document.close();
 
-  // Al concluir los 2.5 segundos de preparación, se dispara la orden de impresión y se permite al usuario repetir o cerrar cuando guste
+  // Al concluir los 2.5 segundos, el ciclo se ejecuta de forma 100% automática:
+  // dispara el diálogo nativo de impresión y desvanece suavemente la pantalla de carga
   setTimeout(function () {
+    const sText = document.getElementById('dentPrintStatusText');
+    if (sText) sText.textContent = '¡Imprimiendo etiqueta!';
     window.dentTriggerPrintLabel();
+    setTimeout(function () {
+      window.dentClosePrintOverlay();
+    }, 500);
   }, 2500);
+
+  const closeOnAfterPrint = function () {
+    window.dentClosePrintOverlay();
+  };
+  window.addEventListener('afterprint', closeOnAfterPrint, { once: true });
+  if (frame1.contentWindow) {
+    frame1.contentWindow.addEventListener('afterprint', closeOnAfterPrint, { once: true });
+  }
 
   return false;
 }
