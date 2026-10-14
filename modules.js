@@ -8693,17 +8693,6 @@ function Etiqueta(doctor, paciente, fechaEntrega, codigo) {
   const colorimetro = orden ? orden.color : 'VITA CLASSICAL A2';
   const observaciones = orden ? (orden.observaciones || '') : '';
 
-  let blockOverlay = document.getElementById('dentBlockUIOverlay');
-  if (!blockOverlay) {
-    blockOverlay = document.createElement('div');
-    blockOverlay.id = 'dentBlockUIOverlay';
-    blockOverlay.style.cssText = 'position:fixed;inset:0;z-index:9999;background:rgba(0,0,0,0.65);display:flex;align-items:center;justify-content:center;color:#fff;font-family:Arial,sans-serif;';
-    blockOverlay.innerHTML = '<h4 style="text-align:center;font-size:18px;font-weight:700;letter-spacing:0.04em;">GENERANDO ETIQUETA, POR FAVOR ESPERE...</h4>';
-    document.body.appendChild(blockOverlay);
-  } else {
-    blockOverlay.style.display = 'flex';
-  }
-
   const tempSvg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
   if (typeof JsBarcode === 'function') {
     JsBarcode(tempSvg, serieOT, {
@@ -8714,6 +8703,115 @@ function Etiqueta(doctor, paciente, fechaEntrega, codigo) {
     });
   }
   const codeBar = `<div class="col-md-12">${tempSvg.outerHTML}</div>`;
+
+  // SVG de vista previa nítida para la pantalla de carga ejecutiva
+  const previewSvg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+  if (typeof JsBarcode === 'function') {
+    JsBarcode(previewSvg, serieOT, {
+      format: 'CODE128',
+      width: 2,
+      height: 34,
+      fontSize: 12,
+      margin: 4,
+      background: 'transparent',
+      lineColor: '#0f172a'
+    });
+  }
+
+  let blockOverlay = document.getElementById('dentBlockUIOverlay');
+  if (!blockOverlay) {
+    blockOverlay = document.createElement('div');
+    blockOverlay.id = 'dentBlockUIOverlay';
+    document.body.appendChild(blockOverlay);
+  }
+
+  blockOverlay.style.cssText =
+    'position:fixed;inset:0;z-index:9999;background:rgba(15,23,42,0.58);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);display:flex;align-items:center;justify-content:center;padding:16px;opacity:1;transition:opacity 220ms ease;';
+
+  blockOverlay.innerHTML = `
+    <style>
+      @keyframes dentScanLine {
+        0% { top: 8%; opacity: 0.25; }
+        50% { top: 86%; opacity: 0.95; }
+        100% { top: 8%; opacity: 0.25; }
+      }
+      @keyframes dentProgressFill {
+        0% { width: 12%; }
+        100% { width: 100%; }
+      }
+      @keyframes dentCardPop {
+        0% { opacity: 0; transform: translateY(10px) scale(0.97); }
+        100% { opacity: 1; transform: translateY(0) scale(1); }
+      }
+    </style>
+    <div style="width:100%;max-width:410px;background:#ffffff;border:1px solid #e2e8f0;border-radius:20px;box-shadow:0 24px 48px -12px rgba(15,23,42,0.32);overflow:hidden;font-family:'Plus Jakarta Sans',system-ui,sans-serif;animation:dentCardPop 240ms cubic-bezier(0.22,1,0.36,1) forwards;">
+      <!-- Cabecera Ejecutiva Sobria -->
+      <div style="background:#0f172a;padding:14px 18px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid #1e293b;">
+        <div style="display:flex;align-items:center;gap:10px;">
+          <span style="width:32px;height:32px;border-radius:10px;background:#334e68;display:inline-flex;align-items:center;justify-content:center;color:#f8fafc;">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="6 9 6 2 18 2 18 9"></polyline>
+              <path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"></path>
+              <rect x="6" y="14" width="12" height="8"></rect>
+            </svg>
+          </span>
+          <div>
+            <div style="font-size:13px;font-weight:700;color:#f8fafc;letter-spacing:-0.01em;">Preparando Etiqueta</div>
+            <div style="font-size:10.5px;color:#94a3b8;font-weight:500;">Formato térmico CAD/CAM • dentlab.mx</div>
+          </div>
+        </div>
+        <span style="padding:4px 10px;border-radius:8px;background:#1e293b;border:1px solid #334155;color:#e2e8f0;font-family:'JetBrains Mono',monospace;font-size:11px;font-weight:700;">
+          OT #${serieOT}
+        </span>
+      </div>
+
+      <!-- Cuerpo: Vista Previa de Etiqueta Térmica -->
+      <div style="padding:16px 18px;background:#f8fafc;">
+        <div style="position:relative;background:#ffffff;border:1px dashed #cbd5e1;border-radius:14px;padding:14px 16px;box-shadow:0 2px 8px rgba(15,23,42,0.04);overflow:hidden;">
+          <!-- Línea láser de escaneo sutil -->
+          <div style="position:absolute;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,#334e68,#2f6353,transparent);animation:dentScanLine 1.15s ease-in-out infinite;pointer-events:none;"></div>
+
+          <div style="display:flex;align-items:center;justify-content:space-between;font-size:10px;color:#64748b;font-weight:600;border-bottom:1px solid #f1f5f9;padding-bottom:6px;margin-bottom:8px;">
+            <span style="font-family:'JetBrains Mono',monospace;color:#0f172a;font-weight:700;">OT: ${serieOT}</span>
+            <span style="text-transform:uppercase;letter-spacing:0.06em;color:#334e68;font-weight:700;">dentlab.mx</span>
+            <span style="font-family:'JetBrains Mono',monospace;">Ent: ${fEnt}</span>
+          </div>
+
+          <div style="text-align:center;font-size:12.5px;font-weight:800;color:#0f172a;margin-bottom:4px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">
+            ${docNombre}
+          </div>
+
+          <div style="display:flex;justify-content:space-between;gap:8px;font-size:10.5px;color:#334155;margin-bottom:4px;">
+            <span style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap;"><strong>Px:</strong> ${pacNombre}</span>
+            <span style="font-family:'JetBrains Mono',monospace;color:#475569;flex-shrink:0;">${celular || ''}</span>
+          </div>
+
+          <div style="display:flex;justify-content:space-between;gap:8px;font-size:10px;color:#475569;background:#f1f5f9;padding:5px 8px;border-radius:8px;margin-bottom:8px;">
+            <span style="font-weight:700;color:#0f172a;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${producto}</span>
+            <span style="font-family:'JetBrains Mono',monospace;font-weight:700;color:#334e68;flex-shrink:0;">${piezas} u. • ${colorimetro}</span>
+          </div>
+
+          <div style="display:flex;justify-content:center;align-items:center;padding-top:2px;">
+            ${previewSvg.outerHTML}
+          </div>
+        </div>
+
+        <!-- Barra de progreso y estado -->
+        <div style="margin-top:14px;">
+          <div style="display:flex;align-items:center;justify-content:space-between;font-size:11px;font-weight:600;color:#475569;margin-bottom:6px;">
+            <span style="display:inline-flex;align-items:center;gap:6px;">
+              <span style="width:7px;height:7px;border-radius:9999px;background:#2f6353;display:inline-block;"></span>
+              <span>Generando código CODE128 e iniciando impresión...</span>
+            </span>
+            <span style="font-family:'JetBrains Mono',monospace;font-size:10px;color:#334e68;font-weight:700;">100%</span>
+          </div>
+          <div style="width:100%;height:5px;background:#e2e8f0;border-radius:9999px;overflow:hidden;">
+            <div style="height:100%;background:linear-gradient(90deg,#334e68 0%,#2f6353 100%);border-radius:9999px;animation:dentProgressFill 820ms cubic-bezier(0.22,1,0.36,1) forwards;"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  `;
 
   const frame1 = document.createElement('iframe');
   const styleContainer = 'style="overflow: hidden;width: 100%;height: auto; text-align:center;font-size:8px"';
@@ -8781,13 +8879,16 @@ function Etiqueta(doctor, paciente, fechaEntrega, codigo) {
   frameDoc.document.close();
 
   setTimeout(function () {
-    blockOverlay.style.display = 'none';
-    frame1.contentWindow.focus();
-    frame1.contentWindow.print();
+    blockOverlay.style.opacity = '0';
     setTimeout(function () {
-      if (frame1.parentNode) document.body.removeChild(frame1);
-    }, 1000);
-  }, 900);
+      blockOverlay.style.display = 'none';
+      frame1.contentWindow.focus();
+      frame1.contentWindow.print();
+      setTimeout(function () {
+        if (frame1.parentNode) document.body.removeChild(frame1);
+      }, 1000);
+    }, 180);
+  }, 850);
 
   return false;
 }

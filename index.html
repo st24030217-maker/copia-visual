@@ -100,7 +100,7 @@
     .table-scroll::-webkit-scrollbar-track { background: transparent; }
     .table-scroll::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 10px; }
 
-    /* Fondo ejecutivo con textura arquitectónica y tarjetas glassmórficas para la barra superior de Inicio */
+    /* Fondo ejecutivo con textura arquitect├│nica y tarjetas glassm├│rficas para la barra superior de Inicio */
     .inicio-hero-banner {
       position: relative;
       overflow: hidden;
@@ -243,7 +243,7 @@
       50%      { opacity: 0.35; }
     }
 
-    /* Resaltado sobrio y ejecutivo para órdenes prioritarias / internas (.row-yellow en proceso y .row-green en entrega) */
+    /* Resaltado sobrio y ejecutivo para ├│rdenes prioritarias / internas (.row-yellow en proceso y .row-green en entrega) */
     .row-green {
       background: linear-gradient(90deg, rgba(217, 232, 227, 0.75) 0%, rgba(238, 245, 243, 0.45) 100%);
       box-shadow: inset 3px 0 0 #3d7a68;
@@ -270,7 +270,7 @@
       font-weight: 700;
     }
 
-    /* Tablas compactas de las 4 etapas de inicio (Escaneo, Diseño, Fabricación, Entrega) */
+    /* Tablas compactas de las 4 etapas de inicio (Escaneo, Dise├▒o, Fabricaci├│n, Entrega) */
     .stage-table {
       width: 100%;
       table-layout: fixed;
@@ -323,7 +323,7 @@
       white-space: nowrap;
     }
 
-    /* Evitar que textos o tablas largos se salgan de las tarjetas en vistas dinámicas */
+    /* Evitar que textos o tablas largos se salgan de las tarjetas en vistas din├ímicas */
     #section-dynamic > div {
       max-width: 100%;
       overflow-x: hidden;
@@ -351,7 +351,7 @@
       white-space: nowrap;
     }
 
-    /* Botones de acción modernos (.btnEtiqueta) */
+    /* Botones de acci├│n modernos (.btnEtiqueta) */
     .btnEtiqueta {
       background: linear-gradient(135deg, #1e293b 0%, #334e68 100%);
       border: 1px solid rgba(255, 255, 255, 0.14);
@@ -385,7 +385,7 @@
     }
 
     /* ===================================================================== */
-    /* SISTEMA DE DISEÑO MODULAR: ODONTOGRAMA 3D ADAPTATIVO (MOBILE-FIRST)   */
+    /* SISTEMA DE DISE├æO MODULAR: ODONTOGRAMA 3D ADAPTATIVO (MOBILE-FIRST)   */
     /* ===================================================================== */
     .odonto-studio {
       --od-bg: #f8fafc;
@@ -434,7 +434,7 @@
       line-height: 1.2;
     }
 
-    /* 2. Contenedor de Arcadas (Mobile-First: 1 col en móvil/laptop compacto, 2 cols en wide 1400px+) */
+    /* 2. Contenedor de Arcadas (Mobile-First: 1 col en m├│vil/laptop compacto, 2 cols en wide 1400px+) */
     .odonto-arch-card {
       background: var(--od-surface);
       border: 1px solid var(--od-border);
@@ -467,7 +467,7 @@
       }
     }
 
-    /* 3. Botón Individual de Pieza Dental (Microinteracciones + Accesibilidad) */
+    /* 3. Bot├│n Individual de Pieza Dental (Microinteracciones + Accesibilidad) */
     .odonto-tooth-btn {
       position: relative;
       height: clamp(4.5rem, 7.5vw, 5.5rem); /* 72px a 88px */
@@ -610,7 +610,7 @@
     }
 
     /* ===================================================================== */
-    /* MÓDULO SUPERIOR MINIMALISTA (#userQuickModule)                        */
+    /* M├ôDULO SUPERIOR MINIMALISTA (#userQuickModule)                        */
     /* ===================================================================== */
     .qm-trigger {
       position: relative;
@@ -708,7 +708,7 @@
   <aside id="sidebar" class="w-64 bg-[#2A3F54] text-slate-100 flex flex-col justify-between shrink-0 transition-all duration-300 ease-out border-r border-slate-800 select-none">
     <div class="flex flex-col h-full overflow-hidden">
       
-      <!-- 1. Título Superior de Perfil (.navbar.nav_title de DENT DEMO) -->
+      <!-- 1. T├¡tulo Superior de Perfil (.navbar.nav_title de DENT DEMO) -->
       <div class="h-14 px-4 flex items-center justify-between border-b border-white/10 shrink-0">
         <a href="#" onclick="window.bmSelectLeaf('inicio', 0); return false;" class="flex items-center gap-2.5 text-white hover:opacity-90 transition-opacity">
           <img src="assets/logoDentlab.png" alt="Dent Lab" class="h-6 w-auto object-contain brightness-0 invert">
@@ -727,9 +727,9 @@
         </div>
       </div>
 
-      <!-- 3. Menú Jerárquico de DENT DEMO renderizado con @react-bits/BranchedMenu-JS-CSS -->
+      <!-- 3. Men├║ Jer├írquico de DENT DEMO renderizado con @react-bits/BranchedMenu-JS-CSS -->
       <div class="p-3.5 flex-1 overflow-y-auto table-scroll">
-        <nav id="dentBranchedMenu" class="branched-menu" aria-label="Navegación Principal Dent">
+        <nav id="dentBranchedMenu" class="branched-menu" aria-label="Navegaci├│n Principal Dent">
           <span id="bmMarker" class="branched-menu__marker" aria-hidden="true"></span>
           <div id="bmSectionsContainer"></div>
         </nav>
@@ -775,11 +775,11 @@
               value: 'sub-equipos',
               icon: 'briefcase',
               children: [
-                { label: 'Equipos en Préstamo', value: 'equipos-prestamo', icon: 'arrow-left-right' },
-                { label: 'Catálogo de Equipos', value: 'catalogo-equipos', icon: 'cpu' }
+                { label: 'Equipos en Pr├®stamo', value: 'equipos-prestamo', icon: 'arrow-left-right' },
+                { label: 'Cat├ílogo de Equipos', value: 'catalogo-equipos', icon: 'cpu' }
               ]
             },
-            { label: 'Motivos de Cancelación', value: 'motivos-cancelacion', icon: 'ban' },
+            { label: 'Motivos de Cancelaci├│n', value: 'motivos-cancelacion', icon: 'ban' },
             {
               label: 'Mensajes Push',
               value: 'sub-push',
@@ -823,7 +823,7 @@
                 { label: 'Lista de Doctores', value: 'listados-doctores', icon: 'users' }
               ]
             },
-            { label: 'Categorías', value: 'categorias', icon: 'list' },
+            { label: 'Categor├¡as', value: 'categorias', icon: 'list' },
             {
               label: 'Cuentas por Cobrar',
               value: 'sub-cxc',
@@ -835,15 +835,15 @@
               ]
             },
             {
-              label: 'Órdenes',
+              label: '├ôrdenes',
               value: 'sub-ordenes',
               icon: 'clipboard-list',
               children: [
-                { label: 'Lista de Órdenes', value: 'lista-ordenes', icon: 'file-text' },
-                { label: 'Órdenes Canceladas', value: 'ordenes-canceladas', icon: 'file-x' }
+                { label: 'Lista de ├ôrdenes', value: 'lista-ordenes', icon: 'file-text' },
+                { label: '├ôrdenes Canceladas', value: 'ordenes-canceladas', icon: 'file-x' }
               ]
             },
-            { label: 'Colorímetro', value: 'colorimetro', icon: 'palette' },
+            { label: 'Color├¡metro', value: 'colorimetro', icon: 'palette' },
             { label: 'Vendedores', value: 'vendedores', icon: 'user-check' },
             { label: 'Usuarios', value: 'usuarios', icon: 'users' }
           ]
@@ -875,33 +875,33 @@
       ];
 
       const USER_PRESENTATION_MAP = {
-        'admin':           { nombre: 'Administrador General', saludo: 'Bienvenido', rol: 'Dirección General • Acceso Completo' },
-        'irene':           { nombre: 'Irene Martínez',        saludo: 'Bienvenida', rol: 'Administrador Laboratorio' },
+        'admin':           { nombre: 'Administrador General', saludo: 'Bienvenido', rol: 'Direcci├│n General ÔÇó Acceso Completo' },
+        'irene':           { nombre: 'Irene Mart├¡nez',        saludo: 'Bienvenida', rol: 'Administrador Laboratorio' },
         'mauricioslab':    { nombre: 'Mauricio Sotomayor',    saludo: 'Bienvenido', rol: 'Administrador Laboratorio' },
         'diana':           { nombre: 'Diana V.',              saludo: 'Bienvenida', rol: 'Especialista de Laboratorio' },
-        'josé':            { nombre: 'José D.',               saludo: 'Bienvenido', rol: 'Especialista de Laboratorio' },
-        'jose':            { nombre: 'José',                  saludo: 'Bienvenido', rol: 'Especialista de Laboratorio' },
+        'jos├®':            { nombre: 'Jos├® D.',               saludo: 'Bienvenido', rol: 'Especialista de Laboratorio' },
+        'jose':            { nombre: 'Jos├®',                  saludo: 'Bienvenido', rol: 'Especialista de Laboratorio' },
         'christosv':       { nombre: 'Christos Vasilikostas', saludo: 'Bienvenido', rol: 'Especialista de Laboratorio' },
         'amy':             { nombre: 'Amy',                   saludo: 'Bienvenida', rol: 'Especialista de Laboratorio' },
-        'oscar':           { nombre: 'Dr. Oscar',             saludo: 'Bienvenido', rol: 'Médico Odontólogo' },
-        'fatima':          { nombre: 'Dra. Fátima S. Dany',   saludo: 'Bienvenida', rol: 'Médico Odontólogo' },
-        'lorena':          { nombre: 'Dra. Lorena M.',        saludo: 'Bienvenida', rol: 'Médico Odontólogo' },
-        'luis':            { nombre: 'Dr. Luis C.',           saludo: 'Bienvenido', rol: 'Médico Odontólogo' },
-        'arturo':          { nombre: 'Dr. Arturo M.',         saludo: 'Bienvenido', rol: 'Médico Odontólogo' },
-        'vianeid':         { nombre: 'Dra. Vianeid S.',       saludo: 'Bienvenida', rol: 'Médico Odontólogo' },
-        'mauricio':        { nombre: 'Dr. Mauricio S.',       saludo: 'Bienvenido', rol: 'Médico Odontólogo' },
-        'usdrbrenda':      { nombre: 'Dra. Brenda',           saludo: 'Bienvenida', rol: 'Médico Odontólogo' },
+        'oscar':           { nombre: 'Dr. Oscar',             saludo: 'Bienvenido', rol: 'M├®dico Odont├│logo' },
+        'fatima':          { nombre: 'Dra. F├ítima S. Dany',   saludo: 'Bienvenida', rol: 'M├®dico Odont├│logo' },
+        'lorena':          { nombre: 'Dra. Lorena M.',        saludo: 'Bienvenida', rol: 'M├®dico Odont├│logo' },
+        'luis':            { nombre: 'Dr. Luis C.',           saludo: 'Bienvenido', rol: 'M├®dico Odont├│logo' },
+        'arturo':          { nombre: 'Dr. Arturo M.',         saludo: 'Bienvenido', rol: 'M├®dico Odont├│logo' },
+        'vianeid':         { nombre: 'Dra. Vianeid S.',       saludo: 'Bienvenida', rol: 'M├®dico Odont├│logo' },
+        'mauricio':        { nombre: 'Dr. Mauricio S.',       saludo: 'Bienvenido', rol: 'M├®dico Odont├│logo' },
+        'usdrbrenda':      { nombre: 'Dra. Brenda',           saludo: 'Bienvenida', rol: 'M├®dico Odont├│logo' },
         'arturom':         { nombre: 'Arturo Meza',           saludo: 'Bienvenido', rol: 'Especialista de Escaneo' },
         'mauricios':       { nombre: 'Mauricio Sotomayor',    saludo: 'Bienvenido', rol: 'Especialista de Escaneo' },
         'ireneescaneador': { nombre: 'Irene',                 saludo: 'Bienvenida', rol: 'Especialista de Escaneo' },
-        'josea':           { nombre: 'José Alatorre',         saludo: 'Bienvenido', rol: 'Ejecutivo Comercial' },
-        'hectorm':         { nombre: 'Héctor Minila',         saludo: 'Bienvenido', rol: 'Ejecutivo Comercial' },
-        'josed':           { nombre: 'José Diosdado',         saludo: 'Bienvenido', rol: 'Ejecutivo Comercial' },
+        'josea':           { nombre: 'Jos├® Alatorre',         saludo: 'Bienvenido', rol: 'Ejecutivo Comercial' },
+        'hectorm':         { nombre: 'H├®ctor Minila',         saludo: 'Bienvenido', rol: 'Ejecutivo Comercial' },
+        'josed':           { nombre: 'Jos├® Diosdado',         saludo: 'Bienvenido', rol: 'Ejecutivo Comercial' },
         'representante1':  { nombre: 'Alejandro',             saludo: 'Bienvenido', rol: 'Representante Dent Clinic' },
-        'sandra':          { nombre: 'Sandra',                saludo: 'Bienvenida', rol: 'Administración de Equipos' },
-        'fernanda':        { nombre: 'Fernanda',              saludo: 'Bienvenida', rol: 'Administración de Equipos' },
-        'selene':          { nombre: 'Selene',                saludo: 'Bienvenida', rol: 'Administración de Equipos' },
-        'guadalupe':       { nombre: 'Guadalupe',             saludo: 'Bienvenida', rol: 'Administración de Equipos' }
+        'sandra':          { nombre: 'Sandra',                saludo: 'Bienvenida', rol: 'Administraci├│n de Equipos' },
+        'fernanda':        { nombre: 'Fernanda',              saludo: 'Bienvenida', rol: 'Administraci├│n de Equipos' },
+        'selene':          { nombre: 'Selene',                saludo: 'Bienvenida', rol: 'Administraci├│n de Equipos' },
+        'guadalupe':       { nombre: 'Guadalupe',             saludo: 'Bienvenida', rol: 'Administraci├│n de Equipos' }
       };
 
       window.updateTopUserPresentation = function (moduleTrail) {
@@ -914,7 +914,7 @@
         const uKey = storedUser.toLowerCase();
         const info = USER_PRESENTATION_MAP[uKey];
 
-        const femaleNames = ['irene', 'diana', 'fatima', 'fátima', 'lorena', 'vianeid', 'brenda', 'amy', 'sandra', 'fernanda', 'selene', 'guadalupe'];
+        const femaleNames = ['irene', 'diana', 'fatima', 'f├ítima', 'lorena', 'vianeid', 'brenda', 'amy', 'sandra', 'fernanda', 'selene', 'guadalupe'];
         const isFemale = femaleNames.some(f => uKey.includes(f) || storedNombre.toLowerCase().includes(f));
 
         const saludo = info ? info.saludo : (isFemale ? 'Bienvenida' : 'Bienvenido');
@@ -960,14 +960,14 @@
         }
 
         if (isAdmin) {
-          // Admin (id_perfil = 1) tiene acceso completo a todos los módulos (incluyendo Dent SPA y Dent Clinic)
+          // Admin (id_perfil = 1) tiene acceso completo a todos los m├│dulos (incluyendo Dent SPA y Dent Clinic)
           return ALL_BM_ITEMS.slice();
         }
         if (storedIdPerfil === 8) {
           // Representantes (id_perfil = 8): Inicio + Dent Clinic
           return ALL_BM_ITEMS.filter(item => item.value === 'inicio' || item.value === 'sec-dentclinic');
         }
-        // Irene (id_perfil = 12) y perfiles de laboratorio/médico/escaneador: sin Dent SPA ni Dent Clinic
+        // Irene (id_perfil = 12) y perfiles de laboratorio/m├®dico/escaneador: sin Dent SPA ni Dent Clinic
         return ALL_BM_ITEMS.filter(item => item.value !== 'sec-dentspa' && item.value !== 'sec-dentclinic');
       }
 
@@ -1155,7 +1155,7 @@
         syncBranchedMenuDOM();
       }
 
-      // Actualizar estado y geometría SVG sin destruir el DOM para que las animaciones sean 100% fluidas
+      // Actualizar estado y geometr├¡a SVG sin destruir el DOM para que las animaciones sean 100% fluidas
       function syncBranchedMenuDOM() {
         const trunk = Math.round(BM_INDENT * 0.34);
         const endX = BM_INDENT - 5;
@@ -1389,7 +1389,7 @@
       </div>
 
       <div class="flex items-center gap-3">
-        <!-- Menú Minimalista de Usuario y Control -->
+        <!-- Men├║ Minimalista de Usuario y Control -->
         <div class="relative select-none" id="userQuickModule" data-open="false">
           <button type="button" id="userQuickTrigger" onclick="toggleSettingsDropdown(event)" class="qm-trigger h-8 px-3 rounded-full border border-slate-200/90 bg-white flex items-center gap-2 cursor-pointer">
             <span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
@@ -1421,38 +1421,38 @@
 
             <a href="logout.php" onmouseenter="moveQmTracker(this, true)" onclick="if(location.hostname.includes('github.io')||location.hostname.includes('vercel.app')||location.pathname.endsWith('.html')){localStorage.removeItem('cv_usuario');location.href='login.html';return false;}" class="qm-item flex items-center gap-2.5 px-2.5 py-2 rounded-lg text-rose-600 hover:text-rose-700 font-medium transition-colors">
               <i data-lucide="log-out" class="qm-item-icon qm-item-icon--power w-3.5 h-3.5 text-rose-500 shrink-0"></i>
-              <span>Cerrar Sesión</span>
+              <span>Cerrar Sesi├│n</span>
             </a>
           </div>
         </div>
       </div>
     </header>
 
-    <!-- Área Principal de Trabajo -->
+    <!-- ├ürea Principal de Trabajo -->
     <main class="flex-1 overflow-y-auto p-4 sm:p-5 space-y-4 bg-slate-50">
 
-      <!-- Contenedor Dinámico para los 36 Módulos del Menú Lateral y OrdenTrabajo.php -->
+      <!-- Contenedor Din├ímico para los 36 M├│dulos del Men├║ Lateral y OrdenTrabajo.php -->
       <div id="section-dynamic" class="hidden space-y-4"></div>
 
       <!-- ===================================================================== -->
-      <!-- PANTALLA PRINCIPAL DE INICIO: MISMO DISEÑO DE DENT DEMO ACTUALIZADO   -->
-      <!-- 1. Barra de Botones (Calendario, Canceladas, Pendientes, Hora, +, ↻)  -->
-      <!-- 2. Los 4 Cuadros con sus Tablas (Escaneo, Diseño, Fabricación, Entrega)-->
-      <!-- 3. Tabla General de Órdenes abajo siempre visible con Buscador        -->
+      <!-- PANTALLA PRINCIPAL DE INICIO: MISMO DISE├æO DE DENT DEMO ACTUALIZADO   -->
+      <!-- 1. Barra de Botones (Calendario, Canceladas, Pendientes, Hora, +, Ôå╗)  -->
+      <!-- 2. Los 4 Cuadros con sus Tablas (Escaneo, Dise├▒o, Fabricaci├│n, Entrega)-->
+      <!-- 3. Tabla General de ├ôrdenes abajo siempre visible con Buscador        -->
       <!-- ===================================================================== -->
       <div id="section-inicio" class="space-y-4">
 
-        <!-- 1. BARRA SUPERIOR CON FONDO FOTOGRÁFICO CAD/CAM Y BOTONES GLASSMÓRFICOS -->
+        <!-- 1. BARRA SUPERIOR CON FONDO FOTOGR├üFICO CAD/CAM Y BOTONES GLASSM├ôRFICOS -->
         <div class="inicio-hero-banner text-white px-4 py-3.5 sm:px-5 sm:py-4 rounded-2xl border border-slate-800/80">
           <!-- Imagen de fondo de Laboratorio CAD/CAM Dental -->
           <img src="assets/dental_cadcam.jpg" alt="" aria-hidden="true"
                class="absolute inset-0 w-full h-full object-cover object-center brightness-90 pointer-events-none select-none">
-          <!-- Gradiente oscuro translúcido para contraste perfecto del texto sobre la foto -->
+          <!-- Gradiente oscuro transl├║cido para contraste perfecto del texto sobre la foto -->
           <div class="absolute inset-0 pointer-events-none"
                style="background: linear-gradient(90deg, rgba(15, 23, 42, 0.90) 0%, rgba(15, 23, 42, 0.68) 50%, rgba(15, 23, 42, 0.85) 100%);"></div>
 
           <div class="relative z-10 flex flex-wrap items-center justify-between gap-3">
-            <!-- Botones Principales (Calendario, Órdenes Canceladas, Órdenes Pendientes de Pago) -->
+            <!-- Botones Principales (Calendario, ├ôrdenes Canceladas, ├ôrdenes Pendientes de Pago) -->
             <div class="flex flex-wrap items-center gap-2.5">
               <!-- Calendario -->
               <button type="button" onclick="openModule('calendario');"
@@ -1464,7 +1464,7 @@
                 <span>Calendario</span>
               </button>
 
-              <!-- Órdenes canceladas -->
+              <!-- ├ôrdenes canceladas -->
               <button type="button" onclick="openModalCanceladas();"
                 class="hero-kpi-card px-3.5 py-2 rounded-xl flex items-center gap-2.5 text-xs font-semibold text-slate-100 cursor-pointer">
                 <span class="w-6 h-6 rounded-lg flex items-center justify-center shrink-0"
@@ -1477,7 +1477,7 @@
                       id="NumberOrdenCanceladas">646</span>
               </button>
 
-              <!-- Órdenes Pendientes de pago -->
+              <!-- ├ôrdenes Pendientes de pago -->
               <button type="button" onclick="openModalPendientes();"
                 class="hero-kpi-card px-3.5 py-2 rounded-xl flex items-center gap-2.5 text-xs font-semibold text-slate-100 cursor-pointer">
                 <span class="w-6 h-6 rounded-lg flex items-center justify-center shrink-0"
@@ -1491,7 +1491,7 @@
               </button>
             </div>
 
-            <!-- Reloj en Vivo y Acciones Rápidas (Actualizar y Nueva Orden) -->
+            <!-- Reloj en Vivo y Acciones R├ípidas (Actualizar y Nueva Orden) -->
             <div class="flex items-center gap-2.5 ml-auto">
               <!-- Hora Actual Animada (Tonos Sobrios) -->
               <div class="hero-clock-pill flex items-center gap-2.5 px-3.5 py-2 rounded-xl backdrop-blur-md">
@@ -1526,7 +1526,7 @@
           </div>
         </div>
 
-        <!-- 2. LOS 4 CUADROS DE ETAPA CON TABLAS (Escaneo, Diseño, Fabricación, Entrega) -->
+        <!-- 2. LOS 4 CUADROS DE ETAPA CON TABLAS (Escaneo, Dise├▒o, Fabricaci├│n, Entrega) -->
         <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-3.5">
 
           <!-- CUADRO 1: ESCANEO -->
@@ -1556,14 +1556,14 @@
             </div>
           </div>
 
-          <!-- CUADRO 2: DISEÑO -->
+          <!-- CUADRO 2: DISE├æO -->
           <div class="bg-white rounded-2xl border border-slate-200/90 shadow-sm overflow-hidden flex flex-col">
             <div class="px-3.5 py-2.5 bg-gradient-to-r from-slate-50 to-white border-b border-slate-200 flex items-center justify-between">
               <div class="flex items-center gap-2">
                 <span class="w-6 h-6 rounded-lg bg-blue-600/10 text-blue-600 flex items-center justify-center">
                   <i data-lucide="monitor" class="w-3.5 h-3.5"></i>
                 </span>
-                <h3 class="text-xs font-extrabold text-slate-800 uppercase tracking-wide">Diseño</h3>
+                <h3 class="text-xs font-extrabold text-slate-800 uppercase tracking-wide">Dise├▒o</h3>
               </div>
               <span class="text-[11px] font-mono font-bold text-blue-700 bg-blue-50 px-2.5 py-0.5 rounded-full border border-blue-200/80" id="badgeCountDiseno">18</span>
             </div>
@@ -1583,14 +1583,14 @@
             </div>
           </div>
 
-          <!-- CUADRO 3: FABRICACIÓN -->
+          <!-- CUADRO 3: FABRICACI├ôN -->
           <div class="bg-white rounded-2xl border border-slate-200/90 shadow-sm overflow-hidden flex flex-col">
             <div class="px-3.5 py-2.5 bg-gradient-to-r from-slate-50 to-white border-b border-slate-200 flex items-center justify-between">
               <div class="flex items-center gap-2">
                 <span class="w-6 h-6 rounded-lg bg-blue-600/10 text-blue-600 flex items-center justify-center">
                   <i data-lucide="wrench" class="w-3.5 h-3.5"></i>
                 </span>
-                <h3 class="text-xs font-extrabold text-slate-800 uppercase tracking-wide">Fabricación</h3>
+                <h3 class="text-xs font-extrabold text-slate-800 uppercase tracking-wide">Fabricaci├│n</h3>
               </div>
               <span class="text-[11px] font-mono font-bold text-blue-700 bg-blue-50 px-2.5 py-0.5 rounded-full border border-blue-200/80" id="badgeCountFabricacion">7</span>
             </div>
@@ -1639,10 +1639,10 @@
 
         </div>
 
-        <!-- 3. TABLA GENERAL DE ÓRDENES SIEMPRE VISIBLE ABAJO (TableOrdenes.php) -->
+        <!-- 3. TABLA GENERAL DE ├ôRDENES SIEMPRE VISIBLE ABAJO (TableOrdenes.php) -->
         <div class="bg-white rounded-2xl border border-slate-200 p-4 shadow-sm space-y-3">
           
-          <!-- Buscador centrado y Paginación igual que en DENT DEMO -->
+          <!-- Buscador centrado y Paginaci├│n igual que en DENT DEMO -->
           <div class="flex flex-col sm:flex-row items-center justify-between gap-3">
             <div class="flex items-center gap-2 w-full sm:max-w-xl mx-auto">
               <input type="text" id="nptBuscar" onkeyup="buscarEnTabla();" placeholder="Introduzca un dato exacto de la orden a buscar"
@@ -1653,12 +1653,12 @@
               </button>
             </div>
 
-            <!-- Paginación « 1 2 » -->
+            <!-- Paginaci├│n ┬½ 1 2 ┬╗ -->
             <div class="inline-flex rounded-xl border border-slate-200 overflow-hidden text-xs font-semibold shrink-0">
-              <button onclick="cambiarPaginaOrdenes(1)" class="px-2.5 py-1.5 bg-slate-50 hover:bg-slate-100 text-slate-600 border-r border-slate-200">«</button>
+              <button onclick="cambiarPaginaOrdenes(1)" class="px-2.5 py-1.5 bg-slate-50 hover:bg-slate-100 text-slate-600 border-r border-slate-200">┬½</button>
               <button id="pageBtn1" onclick="cambiarPaginaOrdenes(1)" class="px-3 py-1.5 bg-blue-600 text-white font-bold border-r border-slate-200">1</button>
               <button id="pageBtn2" onclick="cambiarPaginaOrdenes(2)" class="px-3 py-1.5 bg-white hover:bg-slate-50 text-slate-700 border-r border-slate-200">2</button>
-              <button onclick="cambiarPaginaOrdenes(2)" class="px-2.5 py-1.5 bg-slate-50 hover:bg-slate-100 text-slate-600">»</button>
+              <button onclick="cambiarPaginaOrdenes(2)" class="px-2.5 py-1.5 bg-slate-50 hover:bg-slate-100 text-slate-600">┬╗</button>
             </div>
           </div>
 
@@ -1691,7 +1691,7 @@
   </div>
 
   <!-- ========================================================================= -->
-  <!-- MODAL: ETIQUETA CON CÓDIGO DE BARRAS (Etiqueta() de DENT DEMO)            -->
+  <!-- MODAL: ETIQUETA CON C├ôDIGO DE BARRAS (Etiqueta() de DENT DEMO)            -->
   <!-- ========================================================================= -->
   <div id="modalEtiqueta" class="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-sm hidden flex items-center justify-center p-4">
     <div class="bg-white rounded-2xl max-w-sm w-full border border-slate-200 shadow-2xl overflow-hidden">
@@ -1724,7 +1724,7 @@
   </div>
 
   <!-- ========================================================================= -->
-  <!-- MODAL: HOJA DE ORDEN DE TRABAJO RÁPIDA                                    -->
+  <!-- MODAL: HOJA DE ORDEN DE TRABAJO R├üPIDA                                    -->
   <!-- ========================================================================= -->
   <div id="modalDigitalCard" class="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-sm hidden flex items-center justify-center p-4">
     <div class="bg-white rounded-3xl max-w-3xl w-full border border-slate-200 shadow-2xl overflow-hidden flex flex-col">
@@ -1761,11 +1761,11 @@
               </div>
               <div class="p-2 rounded-xl bg-blue-50 text-blue-700 border border-blue-200">
                 <i data-lucide="check" class="w-3.5 h-3.5 mx-auto mb-1"></i>
-                <span>Diseño</span>
+                <span>Dise├▒o</span>
               </div>
               <div class="p-2 rounded-xl bg-blue-600 text-white shadow-sm">
                 <i data-lucide="settings" class="w-3.5 h-3.5 mx-auto mb-1 animate-spin"></i>
-                <span>Fabricación</span>
+                <span>Fabricaci├│n</span>
               </div>
               <div class="p-2 rounded-xl bg-slate-100 text-slate-400 border border-slate-200">
                 <i data-lucide="truck" class="w-3.5 h-3.5 mx-auto mb-1"></i>
@@ -1776,7 +1776,7 @@
             <div class="grid grid-cols-2 gap-3 text-xs mb-3">
               <div class="p-3 rounded-xl bg-slate-50 border border-slate-200">
                 <span class="text-[10px] font-bold text-slate-400 uppercase tracking-wider block mb-0.5">Paciente</span>
-                <p class="font-bold text-slate-800 text-xs" id="dcPatient">LETICIA VARGAS MUÑOZ</p>
+                <p class="font-bold text-slate-800 text-xs" id="dcPatient">LETICIA VARGAS MU├æOZ</p>
               </div>
               <div class="p-3 rounded-xl bg-slate-50 border border-slate-200">
                 <span class="text-[10px] font-bold text-slate-400 uppercase tracking-wider block mb-0.5">Doctor Solicitante</span>
@@ -1786,12 +1786,12 @@
 
             <div class="p-3 rounded-xl bg-slate-50 border border-slate-200 flex items-center justify-between text-xs">
               <div>
-                <span class="text-[10px] font-bold text-slate-400 uppercase tracking-wider block">Tono Guía Vita</span>
+                <span class="text-[10px] font-bold text-slate-400 uppercase tracking-wider block">Tono Gu├¡a Vita</span>
                 <span class="font-mono font-bold text-blue-700 text-sm" id="dcShade">A3</span>
               </div>
               <div>
                 <span class="text-[10px] font-bold text-slate-400 uppercase tracking-wider block">Material</span>
-                <span class="font-semibold text-slate-700">Zirconio Monolítico</span>
+                <span class="font-semibold text-slate-700">Zirconio Monol├¡tico</span>
               </div>
               <div>
                 <span class="text-[10px] font-bold text-slate-400 uppercase tracking-wider block">Disco CAM</span>
@@ -1815,7 +1815,7 @@
         <div class="p-5 bg-slate-50/60 flex flex-col justify-between space-y-4 text-xs">
           <div class="space-y-3">
             <div class="flex items-center justify-between">
-              <span class="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Colorímetro Guía VITA</span>
+              <span class="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Color├¡metro Gu├¡a VITA</span>
               <span id="shadeLabel3D" class="text-[11px] font-mono font-bold text-blue-600 bg-blue-50 px-2 py-0.5 rounded border border-blue-200">VITA A2</span>
             </div>
 
@@ -1823,7 +1823,7 @@
               <div class="flex items-center gap-2.5">
                 <div id="shadeColorPreview" class="w-8 h-8 rounded-xl border border-slate-300 shadow-inner" style="background-color: #ede2cc;"></div>
                 <div>
-                  <p class="font-bold text-slate-800 text-xs">Selección de Tono</p>
+                  <p class="font-bold text-slate-800 text-xs">Selecci├│n de Tono</p>
                   <p class="text-[10px] text-slate-500">Cambiar tono asignado</p>
                 </div>
               </div>
@@ -1836,8 +1836,8 @@
             </div>
 
             <div class="p-3 rounded-xl bg-white border border-slate-200">
-              <span class="text-[10px] font-bold text-slate-400 uppercase tracking-wider block mb-1">Indicaciones Clínicas</span>
-              <p class="text-[11px] text-slate-600 leading-relaxed">Sellado marginal verificado en escaneo intraoral. Contacto oclusal ligero y anatomía natural solicitada por el doctor.</p>
+              <span class="text-[10px] font-bold text-slate-400 uppercase tracking-wider block mb-1">Indicaciones Cl├¡nicas</span>
+              <p class="text-[11px] text-slate-600 leading-relaxed">Sellado marginal verificado en escaneo intraoral. Contacto oclusal ligero y anatom├¡a natural solicitada por el doctor.</p>
             </div>
           </div>
         </div>
@@ -1866,7 +1866,7 @@
             <button type="button" id="btnModalModePontico" onclick="setModalOdontoMode('PONTICO')"
               class="px-3 py-1 rounded-lg transition-all cursor-pointer flex items-center gap-1.5 text-slate-300 hover:text-white">
               <span class="w-1.5 h-1.5 rounded-full" style="background:#af915f;"></span>
-              <span>Póntico</span>
+              <span>P├│ntico</span>
             </button>
           </div>
           <button type="button" onclick="clearOdontogramaModal()" class="px-2.5 py-1 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 text-[11px] font-semibold border border-slate-700 cursor-pointer">
@@ -1878,7 +1878,7 @@
         </div>
       </div>
       <div class="p-4 sm:p-5 space-y-4 overflow-y-auto table-scroll bg-slate-50/50">
-        <!-- Mapa Dental Anatómico Unificado (Mobile-First: 8 cols en móvil/tablet, 16 cols en desktop) -->
+        <!-- Mapa Dental Anat├│mico Unificado (Mobile-First: 8 cols en m├│vil/tablet, 16 cols en desktop) -->
         <div class="odonto-arch-card space-y-2.5">
           <div class="grid grid-cols-8 lg:grid-cols-16 gap-1.5" id="odontoUpper"></div>
           <div class="relative flex items-center justify-center py-0.5" aria-hidden="true">
@@ -1905,7 +1905,7 @@
                   </button>
                   <button type="button" id="modalBtnAutoRotate3D" onclick="window.Odontograma3D && window.Odontograma3D.toggleAutoRotate('modal')"
                     class="px-2 py-1 rounded-lg text-[10px] font-bold bg-white/90 text-slate-700 border border-slate-200 hover:bg-slate-100 transition-all cursor-pointer">
-                    360°
+                    360┬░
                   </button>
                 </div>
               </div>
@@ -1914,7 +1914,7 @@
               <div class="flex items-center justify-between gap-2 px-0.5">
                 <h5 id="modal3DToothName" class="text-xs font-bold text-slate-800 truncate">Primer Molar Superior Derecho</h5>
                 <div class="flex items-center gap-1.5 shrink-0">
-                  <span id="modal3DToothSpecs" class="text-[10px] font-mono text-slate-500">3R • 4C</span>
+                  <span id="modal3DToothSpecs" class="text-[10px] font-mono text-slate-500">3R ÔÇó 4C</span>
                   <span id="modal3DToothType" class="px-2 py-0.5 rounded-md bg-slate-100 text-slate-700 font-mono text-[10px] font-bold">A2</span>
                 </div>
               </div>
@@ -1925,7 +1925,7 @@
 
         <div class="px-4 py-3 rounded-2xl bg-white border border-slate-200/80 flex flex-wrap items-center justify-between gap-3">
           <div class="flex items-center gap-2 text-xs">
-            <span class="text-slate-400 font-semibold">Selección:</span>
+            <span class="text-slate-400 font-semibold">Selecci├│n:</span>
             <span id="selectedTeethLabel" class="font-mono font-bold text-slate-800 text-xs">16 (Pilar), 21 (Pilar)</span>
           </div>
           <button onclick="saveOdontograma()" class="px-4 py-2 rounded-xl bg-slate-900 hover:bg-slate-800 text-white font-semibold text-xs transition-colors cursor-pointer">
@@ -1937,12 +1937,12 @@
   </div>
 
   <!-- ========================================================================= -->
-  <!-- MODAL: ÓRDENES CANCELADAS (Idéntico a index.php L233-260 de DENT DEMO)    -->
+  <!-- MODAL: ├ôRDENES CANCELADAS (Id├®ntico a index.php L233-260 de DENT DEMO)    -->
   <!-- ========================================================================= -->
   <div id="modalCanceladas" class="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-sm hidden flex items-center justify-center p-4">
     <div class="bg-white rounded-2xl max-w-2xl w-full border border-slate-200 shadow-2xl overflow-hidden">
       <div class="p-4 bg-slate-900 text-white flex items-center justify-between">
-        <h4 class="text-sm font-bold">Órdenes canceladas</h4>
+        <h4 class="text-sm font-bold">├ôrdenes canceladas</h4>
         <button onclick="closeModalCanceladas()" class="p-1 text-slate-400 hover:text-white">
           <i data-lucide="x" class="w-4 h-4"></i>
         </button>
@@ -1963,12 +1963,12 @@
   </div>
 
   <!-- ========================================================================= -->
-  <!-- MODAL: ÓRDENES PENDIENTES DE PAGO (Idéntico a index.php L265 DENT DEMO)   -->
+  <!-- MODAL: ├ôRDENES PENDIENTES DE PAGO (Id├®ntico a index.php L265 DENT DEMO)   -->
   <!-- ========================================================================= -->
   <div id="modalPendientes" class="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-sm hidden flex items-center justify-center p-4">
     <div class="bg-white rounded-2xl max-w-2xl w-full border border-slate-200 shadow-2xl overflow-hidden">
       <div class="p-4 bg-slate-900 text-white flex items-center justify-between">
-        <h4 class="text-sm font-bold">Órdenes pendientes de pago</h4>
+        <h4 class="text-sm font-bold">├ôrdenes pendientes de pago</h4>
         <button onclick="closeModalPendientes()" class="p-1 text-slate-400 hover:text-white">
           <i data-lucide="x" class="w-4 h-4"></i>
         </button>
@@ -1990,7 +1990,7 @@
   </div>
 
   <!-- ============================================== -->
-  <!-- MODAL UNIVERSAL INTERACTIVO PARA ALTA RÁPIDA   -->
+  <!-- MODAL UNIVERSAL INTERACTIVO PARA ALTA R├üPIDA   -->
   <!-- ============================================== -->
   <div id="modalUniversalForm" class="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-sm hidden flex items-center justify-center p-4">
     <div class="bg-white rounded-2xl max-w-md w-full border border-slate-200 shadow-2xl overflow-hidden">
@@ -2020,7 +2020,7 @@
   <script>
     lucide.createIcons();
 
-    // Sesión sincronizada entre PHP ($_SESSION) y cliente
+    // Sesi├│n sincronizada entre PHP ($_SESSION) y cliente
     const usuario = localStorage.getItem('cv_usuario') || "Admin";
     document.getElementById('lblNombreUser').innerText = usuario;
     document.getElementById('topUserLabel').innerText = usuario;
@@ -2058,7 +2058,7 @@
       }, 3200);
     }
 
-    // Selector de Tono Guía VITA
+    // Selector de Tono Gu├¡a VITA
     function changeToothShade(hex, label) {
       const preview = document.getElementById('shadeColorPreview');
       if (preview) preview.style.backgroundColor = hex;
@@ -2068,7 +2068,7 @@
       if (dcShade) dcShade.innerText = label;
     }
 
-    // Odontograma Digital Interactivo 3D (32 Dientes FDI con Pilar / Póntico)
+    // Odontograma Digital Interactivo 3D (32 Dientes FDI con Pilar / P├│ntico)
     const selectedTeeth = new Map([['16', 'PILAR'], ['21', 'PILAR']]);
     let _modalOdontoMode = 'PILAR';
     window.getModalToothState = function(s) {
@@ -2116,7 +2116,7 @@
           data-tooth="${s}"
           data-state="${tipo}"
           aria-pressed="${tipo !== 'LIBRE'}"
-          aria-label="Pieza ${s} ${tipo !== 'LIBRE' ? (tipo === 'PONTICO' ? 'Póntico' : 'Pilar') : 'Libre'}"
+          aria-label="Pieza ${s} ${tipo !== 'LIBRE' ? (tipo === 'PONTICO' ? 'P├│ntico' : 'Pilar') : 'Libre'}"
           class="odonto-tooth-btn">
           ${isLower ? dotSpan : numSpan}
           <div class="w-full flex-1 flex items-center justify-center overflow-hidden">
@@ -2130,8 +2130,8 @@
       lowerEl.innerHTML = lower.map(n => makeBtn(n, true)).join('');
       document.getElementById('selectedTeethLabel').innerText =
         selectedTeeth.size
-          ? Array.from(selectedTeeth.entries()).map(([t, tipo]) => `${t} (${tipo === 'PONTICO' ? 'Póntico' : 'Pilar'})`).join(', ')
-          : 'Sin selección';
+          ? Array.from(selectedTeeth.entries()).map(([t, tipo]) => `${t} (${tipo === 'PONTICO' ? 'P├│ntico' : 'Pilar'})`).join(', ')
+          : 'Sin selecci├│n';
     }
 
     function toggleTooth(num) {
@@ -2180,12 +2180,12 @@
       }
       closeOdontogramaModal();
       const summary = selectedTeeth.size
-        ? Array.from(selectedTeeth.entries()).map(([t, tipo]) => `#${t} (${tipo === 'PONTICO' ? 'Póntico' : 'Pilar'})`).join(', ')
+        ? Array.from(selectedTeeth.entries()).map(([t, tipo]) => `#${t} (${tipo === 'PONTICO' ? 'P├│ntico' : 'Pilar'})`).join(', ')
         : 'Ninguna';
       showToast('Odontograma Actualizado', 'Piezas asignadas: ' + summary);
     }
 
-    // Reloj en Vivo con manecillas analógicas animadas y flip de dígitos
+    // Reloj en Vivo con manecillas anal├│gicas animadas y flip de d├¡gitos
     let _prevClockH = '';
     let _prevClockM = '';
     let _prevClockS = '';
@@ -2202,7 +2202,7 @@
       const m = String(mNum).padStart(2, '0');
       const s = String(sNum).padStart(2, '0');
 
-      // Rotación continua hacia adelante para las manecillas SVG
+      // Rotaci├│n continua hacia adelante para las manecillas SVG
       if (_lastSecNum === 59 && sNum === 0) _clockSecTurns++;
       _lastSecNum = sNum;
       const secDeg = (_clockSecTurns * 360) + (sNum * 6);
@@ -2331,11 +2331,11 @@
         const ok = await window.syncLiveDatabase(false);
         if (!ok) {
           if (typeof renderTablasInicio === 'function') renderTablasInicio();
-          showToast('Tablas Actualizadas', 'Escaneo, Diseño, Fabricación, Entrega y Órdenes sincronizadas.');
+          showToast('Tablas Actualizadas', 'Escaneo, Dise├▒o, Fabricaci├│n, Entrega y ├ôrdenes sincronizadas.');
         }
       } else if (typeof renderTablasInicio === 'function') {
         renderTablasInicio();
-        showToast('Tablas Actualizadas', 'Escaneo, Diseño, Fabricación, Entrega y Órdenes sincronizadas.');
+        showToast('Tablas Actualizadas', 'Escaneo, Dise├▒o, Fabricaci├│n, Entrega y ├ôrdenes sincronizadas.');
       }
       setTimeout(() => { if (icon) icon.classList.remove('animate-spin'); }, 600);
     }
