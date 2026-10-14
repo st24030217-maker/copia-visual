@@ -8731,20 +8731,22 @@ function Etiqueta(doctor, paciente, fechaEntrega, codigo) {
   blockOverlay.innerHTML = `
     <style>
       @keyframes dentScanLine {
-        0% { top: 8%; opacity: 0.25; }
-        50% { top: 86%; opacity: 0.95; }
-        100% { top: 8%; opacity: 0.25; }
+        0% { top: 6%; opacity: 0.2; }
+        50% { top: 88%; opacity: 0.95; }
+        100% { top: 6%; opacity: 0.2; }
       }
       @keyframes dentProgressFill {
-        0% { width: 12%; }
+        0% { width: 10%; }
+        35% { width: 48%; }
+        70% { width: 84%; }
         100% { width: 100%; }
       }
       @keyframes dentCardPop {
-        0% { opacity: 0; transform: translateY(10px) scale(0.97); }
+        0% { opacity: 0; transform: translateY(12px) scale(0.96); }
         100% { opacity: 1; transform: translateY(0) scale(1); }
       }
     </style>
-    <div style="width:100%;max-width:410px;background:#ffffff;border:1px solid #e2e8f0;border-radius:20px;box-shadow:0 24px 48px -12px rgba(15,23,42,0.32);overflow:hidden;font-family:'Plus Jakarta Sans',system-ui,sans-serif;animation:dentCardPop 240ms cubic-bezier(0.22,1,0.36,1) forwards;">
+    <div style="width:100%;max-width:410px;background:#ffffff;border:1px solid #e2e8f0;border-radius:20px;box-shadow:0 24px 48px -12px rgba(15,23,42,0.32);overflow:hidden;font-family:'Plus Jakarta Sans',system-ui,sans-serif;animation:dentCardPop 260ms cubic-bezier(0.22,1,0.36,1) forwards;">
       <!-- Cabecera Ejecutiva Sobria -->
       <div style="background:#0f172a;padding:14px 18px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid #1e293b;">
         <div style="display:flex;align-items:center;gap:10px;">
@@ -8769,7 +8771,7 @@ function Etiqueta(doctor, paciente, fechaEntrega, codigo) {
       <div style="padding:16px 18px;background:#f8fafc;">
         <div style="position:relative;background:#ffffff;border:1px dashed #cbd5e1;border-radius:14px;padding:14px 16px;box-shadow:0 2px 8px rgba(15,23,42,0.04);overflow:hidden;">
           <!-- Línea láser de escaneo sutil -->
-          <div style="position:absolute;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,#334e68,#2f6353,transparent);animation:dentScanLine 1.15s ease-in-out infinite;pointer-events:none;"></div>
+          <div style="position:absolute;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,#334e68,#2f6353,transparent);animation:dentScanLine 1.35s ease-in-out infinite;pointer-events:none;"></div>
 
           <div style="display:flex;align-items:center;justify-content:space-between;font-size:10px;color:#64748b;font-weight:600;border-bottom:1px solid #f1f5f9;padding-bottom:6px;margin-bottom:8px;">
             <span style="font-family:'JetBrains Mono',monospace;color:#0f172a;font-weight:700;">OT: ${serieOT}</span>
@@ -8796,22 +8798,44 @@ function Etiqueta(doctor, paciente, fechaEntrega, codigo) {
           </div>
         </div>
 
-        <!-- Barra de progreso y estado -->
+        <!-- Barra de progreso y estado dinámico -->
         <div style="margin-top:14px;">
           <div style="display:flex;align-items:center;justify-content:space-between;font-size:11px;font-weight:600;color:#475569;margin-bottom:6px;">
             <span style="display:inline-flex;align-items:center;gap:6px;">
-              <span style="width:7px;height:7px;border-radius:9999px;background:#2f6353;display:inline-block;"></span>
-              <span>Generando código CODE128 e iniciando impresión...</span>
+              <span style="width:7px;height:7px;border-radius:9999px;background:#2f6353;display:inline-block;box-shadow:0 0 6px rgba(47,99,83,0.5);"></span>
+              <span id="dentPrintStatusText">Renderizando código CODE128...</span>
             </span>
-            <span style="font-family:'JetBrains Mono',monospace;font-size:10px;color:#334e68;font-weight:700;">100%</span>
+            <span id="dentPrintPercentText" style="font-family:'JetBrains Mono',monospace;font-size:10px;color:#334e68;font-weight:700;">25%</span>
           </div>
-          <div style="width:100%;height:5px;background:#e2e8f0;border-radius:9999px;overflow:hidden;">
-            <div style="height:100%;background:linear-gradient(90deg,#334e68 0%,#2f6353 100%);border-radius:9999px;animation:dentProgressFill 820ms cubic-bezier(0.22,1,0.36,1) forwards;"></div>
+          <div style="width:100%;height:6px;background:#e2e8f0;border-radius:9999px;overflow:hidden;">
+            <div style="height:100%;background:linear-gradient(90deg,#334e68 0%,#2f6353 100%);border-radius:9999px;animation:dentProgressFill 2350ms cubic-bezier(0.2,0.8,0.2,1) forwards;"></div>
           </div>
         </div>
       </div>
     </div>
   `;
+
+  // Actualizaciones de estado en tiempo real para dar una experiencia de carga elegante y visible
+  setTimeout(function () {
+    const sText = document.getElementById('dentPrintStatusText');
+    const pText = document.getElementById('dentPrintPercentText');
+    if (sText) sText.textContent = 'Validando formato térmico CAD/CAM...';
+    if (pText) pText.textContent = '60%';
+  }, 750);
+
+  setTimeout(function () {
+    const sText = document.getElementById('dentPrintStatusText');
+    const pText = document.getElementById('dentPrintPercentText');
+    if (sText) sText.textContent = 'Enviando a cola de impresión térmica...';
+    if (pText) pText.textContent = '88%';
+  }, 1600);
+
+  setTimeout(function () {
+    const sText = document.getElementById('dentPrintStatusText');
+    const pText = document.getElementById('dentPrintPercentText');
+    if (sText) sText.textContent = '¡Listo! Abriendo cuadro de impresión...';
+    if (pText) pText.textContent = '100%';
+  }, 2250);
 
   const frame1 = document.createElement('iframe');
   const styleContainer = 'style="overflow: hidden;width: 100%;height: auto; text-align:center;font-size:8px"';
@@ -8878,6 +8902,7 @@ function Etiqueta(doctor, paciente, fechaEntrega, codigo) {
   </html>`);
   frameDoc.document.close();
 
+  // Duración pausada de 2.5 segundos para que la previsualización se aprecie con claridad
   setTimeout(function () {
     blockOverlay.style.opacity = '0';
     setTimeout(function () {
@@ -8886,9 +8911,9 @@ function Etiqueta(doctor, paciente, fechaEntrega, codigo) {
       frame1.contentWindow.print();
       setTimeout(function () {
         if (frame1.parentNode) document.body.removeChild(frame1);
-      }, 1000);
-    }, 180);
-  }, 850);
+      }, 1200);
+    }, 220);
+  }, 2500);
 
   return false;
 }
