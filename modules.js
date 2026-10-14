@@ -8693,16 +8693,22 @@ function Etiqueta(doctor, paciente, fechaEntrega, codigo) {
   const colorimetro = orden ? orden.color : 'VITA CLASSICAL A2';
   const observaciones = orden ? (orden.observaciones || '') : '';
 
+
+  // SVG de código de barras para la impresión térmica
   const tempSvg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
   if (typeof JsBarcode === 'function') {
     JsBarcode(tempSvg, serieOT, {
       format: 'CODE128',
-      width: 2.5,
-      height: 10,
-      fontSize: 10
+      width: 2,
+      height: 28,
+      fontSize: 11,
+      displayValue: true,
+      margin: 2,
+      textMargin: 2
     });
   }
-  const codeBar = `<div class="col-md-12">${tempSvg.outerHTML}</div>`;
+  tempSvg.style.maxWidth = '100%';
+  tempSvg.style.height = 'auto';
 
   // SVG de vista previa nítida para la pantalla de carga ejecutiva
   const previewSvg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
@@ -8710,8 +8716,8 @@ function Etiqueta(doctor, paciente, fechaEntrega, codigo) {
     JsBarcode(previewSvg, serieOT, {
       format: 'CODE128',
       width: 2,
-      height: 34,
-      fontSize: 12,
+      height: 32,
+      fontSize: 11,
       margin: 4,
       background: 'transparent',
       lineColor: '#0f172a'
@@ -8746,7 +8752,7 @@ function Etiqueta(doctor, paciente, fechaEntrega, codigo) {
         100% { opacity: 1; transform: translateY(0) scale(1); }
       }
     </style>
-    <div style="width:100%;max-width:410px;background:#ffffff;border:1px solid #e2e8f0;border-radius:20px;box-shadow:0 24px 48px -12px rgba(15,23,42,0.32);overflow:hidden;font-family:'Plus Jakarta Sans',system-ui,sans-serif;animation:dentCardPop 260ms cubic-bezier(0.22,1,0.36,1) forwards;">
+    <div style="width:100%;max-width:410px;background:#ffffff;border:1px solid #e2e8f0;border-radius:20px;box-shadow:0 24px 48px -12px rgba(15,23,42,0.32);overflow:hidden;font-family:'General Sans',-apple-system,BlinkMacSystemFont,sans-serif;animation:dentCardPop 260ms cubic-bezier(0.22,1,0.36,1) forwards;">
       <!-- Cabecera Ejecutiva Sobria -->
       <div style="background:#0f172a;padding:14px 18px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid #1e293b;">
         <div style="display:flex;align-items:center;gap:10px;">
@@ -8762,7 +8768,7 @@ function Etiqueta(doctor, paciente, fechaEntrega, codigo) {
             <div style="font-size:10.5px;color:#94a3b8;font-weight:500;">Formato térmico CAD/CAM • dentlab.mx</div>
           </div>
         </div>
-        <span style="padding:4px 10px;border-radius:8px;background:#1e293b;border:1px solid #334155;color:#e2e8f0;font-family:'JetBrains Mono',monospace;font-size:11px;font-weight:700;">
+        <span style="padding:4px 10px;border-radius:8px;background:#1e293b;border:1px solid #334155;color:#e2e8f0;font-family:'General Sans',-apple-system,BlinkMacSystemFont,sans-serif;font-variant-numeric:tabular-nums;font-size:11px;font-weight:700;">
           OT #${serieOT}
         </span>
       </div>
@@ -8773,24 +8779,24 @@ function Etiqueta(doctor, paciente, fechaEntrega, codigo) {
           <!-- Línea láser de escaneo sutil -->
           <div style="position:absolute;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,#334e68,#2f6353,transparent);animation:dentScanLine 1.35s ease-in-out infinite;pointer-events:none;"></div>
 
-          <div style="display:flex;align-items:center;justify-content:space-between;font-size:10px;color:#64748b;font-weight:600;border-bottom:1px solid #f1f5f9;padding-bottom:6px;margin-bottom:8px;">
-            <span style="font-family:'JetBrains Mono',monospace;color:#0f172a;font-weight:700;">OT: ${serieOT}</span>
+          <div style="display:flex;align-items:center;justify-content:space-between;font-size:10.5px;color:#64748b;font-weight:600;border-bottom:1px solid #f1f5f9;padding-bottom:6px;margin-bottom:8px;">
+            <span style="color:#0f172a;font-weight:700;font-variant-numeric:tabular-nums;">OT: ${serieOT}</span>
             <span style="text-transform:uppercase;letter-spacing:0.06em;color:#334e68;font-weight:700;">dentlab.mx</span>
-            <span style="font-family:'JetBrains Mono',monospace;">Ent: ${fEnt}</span>
+            <span style="font-variant-numeric:tabular-nums;">Ent: ${fEnt}</span>
           </div>
 
-          <div style="text-align:center;font-size:12.5px;font-weight:800;color:#0f172a;margin-bottom:4px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">
+          <div style="text-align:center;font-size:12.5px;font-weight:700;color:#0f172a;margin-bottom:4px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">
             ${docNombre}
           </div>
 
           <div style="display:flex;justify-content:space-between;gap:8px;font-size:10.5px;color:#334155;margin-bottom:4px;">
             <span style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap;"><strong>Px:</strong> ${pacNombre}</span>
-            <span style="font-family:'JetBrains Mono',monospace;color:#475569;flex-shrink:0;">${celular || ''}</span>
+            <span style="color:#475569;flex-shrink:0;font-variant-numeric:tabular-nums;">${celular || ''}</span>
           </div>
 
           <div style="display:flex;justify-content:space-between;gap:8px;font-size:10px;color:#475569;background:#f1f5f9;padding:5px 8px;border-radius:8px;margin-bottom:8px;">
             <span style="font-weight:700;color:#0f172a;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${producto}</span>
-            <span style="font-family:'JetBrains Mono',monospace;font-weight:700;color:#334e68;flex-shrink:0;">${piezas} u. • ${colorimetro}</span>
+            <span style="font-weight:700;color:#334e68;flex-shrink:0;font-variant-numeric:tabular-nums;">${piezas} u. • ${colorimetro}</span>
           </div>
 
           <div style="display:flex;justify-content:center;align-items:center;padding-top:2px;">
@@ -8805,7 +8811,7 @@ function Etiqueta(doctor, paciente, fechaEntrega, codigo) {
               <span style="width:7px;height:7px;border-radius:9999px;background:#2f6353;display:inline-block;box-shadow:0 0 6px rgba(47,99,83,0.5);"></span>
               <span id="dentPrintStatusText">Renderizando código CODE128...</span>
             </span>
-            <span id="dentPrintPercentText" style="font-family:'JetBrains Mono',monospace;font-size:10px;color:#334e68;font-weight:700;">25%</span>
+            <span id="dentPrintPercentText" style="font-size:10px;color:#334e68;font-weight:700;font-variant-numeric:tabular-nums;">25%</span>
           </div>
           <div style="width:100%;height:6px;background:#e2e8f0;border-radius:9999px;overflow:hidden;">
             <div style="height:100%;background:linear-gradient(90deg,#334e68 0%,#2f6353 100%);border-radius:9999px;animation:dentProgressFill 2350ms cubic-bezier(0.2,0.8,0.2,1) forwards;"></div>
@@ -8814,11 +8820,11 @@ function Etiqueta(doctor, paciente, fechaEntrega, codigo) {
 
         <!-- Botones de Acción Directa (Evitan bloqueos de permisos del navegador) -->
         <div style="margin-top:14px;display:flex;align-items:center;gap:8px;">
-          <button type="button" id="dentBtnPrintNow" onclick="window.dentTriggerPrintLabel()" style="flex:1;background:#0f172a;color:#f8fafc;padding:10px 14px;border-radius:10px;border:none;font-size:12px;font-weight:700;display:inline-flex;align-items:center;justify-content:center;gap:6px;cursor:pointer;transition:all 150ms ease;box-shadow:0 4px 12px rgba(15,23,42,0.18);">
+          <button type="button" id="dentBtnPrintNow" onclick="window.dentTriggerPrintLabel()" style="flex:1;background:#0f172a;color:#f8fafc;padding:10px 14px;border-radius:10px;border:none;font-size:12px;font-weight:700;display:inline-flex;align-items:center;justify-content:center;gap:6px;cursor:pointer;transition:all 150ms ease;box-shadow:0 4px 12px rgba(15,23,42,0.18);font-family:'General Sans',-apple-system,BlinkMacSystemFont,sans-serif;">
             <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 6 2 18 2 18 9"></polyline><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"></path><rect x="6" y="14" width="12" height="8"></rect></svg>
             <span>Mandar a Imprimir</span>
           </button>
-          <button type="button" onclick="window.dentClosePrintOverlay()" style="background:#e2e8f0;color:#334155;padding:10px 14px;border-radius:10px;border:none;font-size:12px;font-weight:600;cursor:pointer;transition:all 150ms ease;">
+          <button type="button" onclick="window.dentClosePrintOverlay()" style="background:#e2e8f0;color:#334155;padding:10px 14px;border-radius:10px;border:none;font-size:12px;font-weight:600;cursor:pointer;transition:all 150ms ease;font-family:'General Sans',-apple-system,BlinkMacSystemFont,sans-serif;">
             Cerrar
           </button>
         </div>
@@ -8870,14 +8876,14 @@ function Etiqueta(doctor, paciente, fechaEntrega, codigo) {
     if (pText) pText.textContent = '100%';
   }, 2250);
 
-  // Iframe persistente (nunca se destruye prematuramente para que el navegador jamás pinte la hoja en blanco)
+  // Iframe persistente con suficiente ancho para evitar cualquier recorte por viewport
   let frame1 = document.getElementById('dentThermalPrintFrame');
   if (!frame1) {
     frame1 = document.createElement('iframe');
     frame1.id = 'dentThermalPrintFrame';
     frame1.name = 'dentThermalPrintFrame';
     frame1.style.cssText =
-      'position:fixed;right:0;bottom:0;width:300px;height:300px;opacity:0.001;pointer-events:none;z-index:-999;border:none;';
+      'position:fixed;right:0;bottom:0;width:105mm;height:80mm;min-width:440px;opacity:0.001;pointer-events:none;z-index:-999;border:none;';
     document.body.appendChild(frame1);
   }
 
@@ -8889,17 +8895,20 @@ function Etiqueta(doctor, paciente, fechaEntrega, codigo) {
 
   frameDoc.document.open();
   frameDoc.document.write(`<!DOCTYPE html>
-  <html>
+  <html lang="es">
     <head>
       <meta charset="utf-8">
       <title>Etiqueta OT #${serieOT}</title>
+      <link rel="preconnect" href="https://api.fontshare.com" crossorigin>
+      <link href="https://api.fontshare.com/v2/css?f[]=general-sans@400,500,600,700&display=swap" rel="stylesheet">
       <style>
         @page {
-          size: auto;
-          margin: 0mm;
+          size: 100mm 50mm;
+          margin: 1.5mm 2.5mm;
         }
         @media print {
           html, body {
+            width: 100% !important;
             margin: 0 !important;
             padding: 0 !important;
             background: #ffffff !important;
@@ -8907,23 +8916,50 @@ function Etiqueta(doctor, paciente, fechaEntrega, codigo) {
             -webkit-print-color-adjust: exact;
             print-color-adjust: exact;
           }
+          .dent-print-card {
+            width: 100% !important;
+            max-width: 96mm !important;
+            margin: 0 auto !important;
+            padding: 1mm 2mm !important;
+            overflow: visible !important;
+          }
+        }
+        * {
+          box-sizing: border-box !important;
+          font-family: 'General Sans', -apple-system, BlinkMacSystemFont, sans-serif !important;
         }
         body {
-          font-family: Arial, Helvetica, sans-serif;
+          font-family: 'General Sans', -apple-system, BlinkMacSystemFont, sans-serif !important;
           margin: 0;
-          padding: 2px 4px;
+          padding: 1.5mm 2.5mm;
           text-align: center;
           background: #ffffff;
           color: #000000;
+          font-size: 8.5px;
+          line-height: 1.25;
+        }
+        .dent-print-card {
+          width: 100%;
+          max-width: 96mm;
+          margin: 0 auto;
+          text-align: center;
+          overflow: visible;
         }
         table {
           width: 100%;
+          table-layout: fixed;
           border-collapse: collapse;
           margin: 0;
           padding: 0;
         }
         td {
           padding: 1px 0;
+          vertical-align: middle;
+          word-wrap: break-word;
+          overflow-wrap: break-word;
+        }
+        .mono-num {
+          font-variant-numeric: tabular-nums;
         }
         svg {
           display: block;
@@ -8934,47 +8970,49 @@ function Etiqueta(doctor, paciente, fechaEntrega, codigo) {
       </style>
     </head>
     <body>
-      <div style="overflow:hidden;width:100%;height:auto;text-align:center;font-size:8px;">
-        <table style="width:100%;">
+      <div class="dent-print-card">
+        <table>
           <tr>
-            <td style="text-align:left;width:30%;font-size:12px;">OT: ${serieOT}</td>
-            <td style="text-align:center;font-weight:bold;font-size:9px;">dentlab.mx</td>
-            <td style="text-align:right;width:30%;font-size:10px;">F. Ent: ${fEnt}</td>
+            <td style="text-align:left;width:34%;font-size:12px;font-weight:700;white-space:nowrap;" class="mono-num">OT: ${serieOT}</td>
+            <td style="text-align:center;width:32%;font-weight:700;font-size:9px;letter-spacing:0.02em;">dentlab.mx</td>
+            <td style="text-align:right;width:34%;font-size:9.5px;font-weight:600;white-space:nowrap;" class="mono-num">F. Ent: ${fEnt}</td>
           </tr>
         </table>
-        <table style="width:100%;">
+        <table>
           <tr>
-            <td style="text-align:center;width:100%;font-size:13px;"><strong>${docNombre}</strong></td>
+            <td style="text-align:center;width:100%;font-size:12.5px;padding:1px 0;"><strong>${docNombre}</strong></td>
           </tr>
         </table>
-        <table style="width:100%;">
+        <table>
           <tr>
-            <td style="text-align:left;width:100%;font-size:9px;">Dirección: <strong>${direccion}</strong></td>
+            <td style="text-align:left;width:100%;font-size:8.5px;line-height:1.2;">Dirección: <strong>${direccion}</strong></td>
           </tr>
         </table>
-        <table style="width:100%;">
+        <table>
           <tr>
-            <td style="text-align:left;width:60%;font-size:13px;">Px: <strong>${pacNombre}</strong></td>
-            <td style="text-align:right;width:40%;font-size:9px;">Tel: <strong>${celular}</strong></td>
+            <td style="text-align:left;width:65%;font-size:12px;line-height:1.2;">Px: <strong>${pacNombre}</strong></td>
+            <td style="text-align:right;width:35%;font-size:9px;white-space:nowrap;" class="mono-num">Tel: <strong>${celular}</strong></td>
           </tr>
         </table>
-        <table style="width:100%;">
+        <table>
           <tr>
-            <td style="text-align:left;width:100%;font-size:9px;">Prod: <strong>${producto}</strong></td>
+            <td style="text-align:left;width:100%;font-size:8.5px;">Prod: <strong>${producto}</strong></td>
           </tr>
         </table>
-        <table style="width:100%;">
+        <table>
           <tr>
-            <td style="text-align:left;width:30%;font-size:9px;">Unid: <strong>${piezas}</strong></td>
-            <td style="text-align:left;width:70%;font-size:9px;">Color: <strong>${colorimetro}</strong></td>
+            <td style="text-align:left;width:30%;font-size:8.5px;white-space:nowrap;" class="mono-num">Unid: <strong>${piezas}</strong></td>
+            <td style="text-align:left;width:70%;font-size:8.5px;">Color: <strong>${colorimetro}</strong></td>
           </tr>
         </table>
-        <table style="width:100%;">
+        ${observaciones ? `<table>
           <tr>
-            <td style="text-align:left;width:70%;font-size:9px;">Obs: <strong>${observaciones}</strong></td>
+            <td style="text-align:left;width:100%;font-size:8.5px;line-height:1.2;">Obs: <strong>${observaciones}</strong></td>
           </tr>
-        </table>
-        ${codeBar}
+        </table>` : ''}
+        <div style="width:100%;display:flex;justify-content:center;align-items:center;padding-top:2px;">
+          ${tempSvg.outerHTML}
+        </div>
       </div>
     </body>
   </html>`);
