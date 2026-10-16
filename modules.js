@@ -77,12 +77,101 @@ const DENT_STATE = {
 
   // 7. DISCOS CAD/CAM (InventarioDiscos.php, DiscosActivos.php, DiscosUsados.php, etc.)
   discos: [
-    { id: 'ZRC-204', lote: 'LOT-9921A', marca: 'Aidite 3D Pro', color: 'Vita A2', espesor: '14 mm', capacidad: 22, usadas: 14, estado: 'Activo', almacen: 'CNC-1' },
-    { id: 'ZRC-205', lote: 'LOT-9921B', marca: 'Ivoclar IPS e.max ZirCAD', color: 'Vita A1', espesor: '18 mm', capacidad: 20, usadas: 8, estado: 'Activo', almacen: 'CNC-2' },
-    { id: 'ZRC-206', lote: 'LOT-8840C', marca: 'Upcera Explore', color: 'Vita A3', espesor: '12 mm', capacidad: 24, usadas: 19, estado: 'Activo', almacen: 'CNC-1' },
-    { id: 'ZRC-207', lote: 'LOT-8840D', marca: 'Vita YZ HT', color: 'Bleach B1', espesor: '14 mm', capacidad: 22, usadas: 0, estado: 'En Almacén', almacen: 'Gaveta A-2' },
-    { id: 'ZRC-190', lote: 'LOT-7102X', marca: 'Aidite 3D Pro', color: 'Vita A2', espesor: '14 mm', capacidad: 22, usadas: 22, estado: 'Agotado / Usado', almacen: 'Histórico' },
-    { id: 'ZRC-188', lote: 'LOT-7098M', marca: 'Upcera Explore', color: 'Vita B2', espesor: '16 mm', capacidad: 20, usadas: 20, estado: 'Agotado / Usado', almacen: 'Histórico' }
+    {
+      id: 'ZRC-204',
+      lote: 'LOT-9921A',
+      marca: 'Aidite 3D Pro',
+      color: 'Vita A2',
+      espesor: '14 mm',
+      capacidad: 22,
+      usadas: 14,
+      estado: 'Activo',
+      almacen: 'CNC-1',
+      fechaIngreso: '2026-09-20',
+      ordenesUso: [
+        { ot: '30593', paciente: 'Valeria Gómez', piezas: 6, fecha: '2026-10-01' },
+        { ot: '30589', paciente: 'Arturo Gómez', piezas: 6, fecha: '2026-09-29' },
+        { ot: '30582', paciente: 'Ismael Rosales', piezas: 2, fecha: '2026-09-30' }
+      ]
+    },
+    {
+      id: 'ZRC-205',
+      lote: 'LOT-9921B',
+      marca: 'Ivoclar IPS e.max ZirCAD',
+      color: 'Vita A1',
+      espesor: '18 mm',
+      capacidad: 20,
+      usadas: 8,
+      estado: 'Activo',
+      almacen: 'CNC-2',
+      fechaIngreso: '2026-09-25',
+      ordenesUso: [
+        { ot: '30578', paciente: 'Clara Estrada', piezas: 4, fecha: '2026-10-02' },
+        { ot: '30545', paciente: 'Mario Delgado', piezas: 4, fecha: '2026-10-04' }
+      ]
+    },
+    {
+      id: 'ZRC-206',
+      lote: 'LOT-8840C',
+      marca: 'Upcera Explore',
+      color: 'Vita A3',
+      espesor: '12 mm',
+      capacidad: 24,
+      usadas: 19,
+      estado: 'Activo',
+      almacen: 'CNC-1',
+      fechaIngreso: '2026-09-15',
+      ordenesUso: [
+        { ot: '30591', paciente: 'Gabriel Lozano', piezas: 1, fecha: '2026-09-26' },
+        { ot: '30584', paciente: 'Miguel Alan', piezas: 6, fecha: '2026-09-30' },
+        { ot: '30560', paciente: 'Patricia Solís', piezas: 12, fecha: '2026-10-03' }
+      ]
+    },
+    {
+      id: 'ZRC-207',
+      lote: 'LOT-8840D',
+      marca: 'Vita YZ HT',
+      color: 'Bleach B1',
+      espesor: '14 mm',
+      capacidad: 22,
+      usadas: 0,
+      estado: 'En Almacén',
+      almacen: 'Gaveta A-2',
+      fechaIngreso: '2026-10-05',
+      ordenesUso: []
+    },
+    {
+      id: 'ZRC-190',
+      lote: 'LOT-7102X',
+      marca: 'Aidite 3D Pro',
+      color: 'Vita A2',
+      espesor: '14 mm',
+      capacidad: 22,
+      usadas: 22,
+      estado: 'Agotado / Usado',
+      almacen: 'Histórico',
+      fechaIngreso: '2026-08-10',
+      ordenesUso: [
+        { ot: '29921', paciente: 'Patricia Elizondo', piezas: 10, fecha: '2026-08-20' },
+        { ot: '29871', paciente: 'Roberto Fuentes', piezas: 12, fecha: '2026-08-25' }
+      ]
+    },
+    {
+      id: 'ZRC-188',
+      lote: 'LOT-7098M',
+      marca: 'Upcera Explore',
+      color: 'Vita B2',
+      espesor: '16 mm',
+      capacidad: 20,
+      usadas: 20,
+      estado: 'Agotado / Usado',
+      almacen: 'Histórico',
+      fechaIngreso: '2026-08-01',
+      ordenesUso: [
+        { ot: '29552', paciente: 'Laura Méndez', piezas: 10, fecha: '2026-08-15' },
+        { ot: '29463', paciente: 'David Cantú', piezas: 10, fecha: '2026-08-18' }
+      ]
+    }
   ],
   archivosDiscosErroneos: [
     { id: 'ERR-12', archivo: 'JOB_9811_ZRC14_A2.xml', disco: 'ZRC-204', fecha: '2026-10-06 14:22', error: 'Coordenada Z fuera de límite de espesor (14mm)', operador: 'Tec. Iván Soto', estado: 'Pendiente Revisión' },
@@ -3436,48 +3525,102 @@ function renderDynamicModule(key) {
     case 'mensajes-push':
     case 'tipos-push': {
       container.innerHTML = `
-        ${renderHeaderBanner('Dent Lab • Mensajes Push', key === 'mensajes-push' ? 'Lista de Mensajes Push' : 'Tipos de Notificaciones Push', 'Envío de notificaciones instantáneas a la App móvil de Doctores y Escaneadores.', `
-          <button onclick="openSimpleAddModal('mensajes-push')" class="px-3.5 py-2 rounded-xl bg-blue-600 hover:bg-blue-700 text-white text-xs font-semibold flex items-center gap-1.5">
-            <i data-lucide="send" class="w-4 h-4"></i><span>Enviar Nuevo Push</span>
-          </button>
-        `)}
-        <div class="grid grid-cols-1 lg:grid-cols-3 gap-4">
-          <div class="lg:col-span-2 bg-white rounded-2xl border border-slate-200 p-5 shadow-sm">
-            <h3 class="text-xs font-bold uppercase tracking-wider text-slate-400 mb-3">Historial de Mensajes Push Enviados</h3>
-            <table class="w-full text-center text-xs">
-              <thead class="bg-slate-100 text-slate-600 font-bold border-b border-slate-200">
-                <tr>
-                  <th class="px-3 py-2">Folio</th>
-                  <th class="px-3 py-2">Tipo</th>
-                  <th class="px-3 py-2">Título / Mensaje</th>
-                  <th class="px-3 py-2">Destinatario</th>
-                  <th class="px-3 py-2">Fecha</th>
-                </tr>
-              </thead>
-              <tbody class="divide-y divide-slate-100">
-                ${DENT_STATE.mensajesPush.map(p => `
-                  <tr class="hover:bg-slate-50">
-                    <td class="px-3 py-2.5 font-mono font-bold text-blue-600">${p.id}</td>
-                    <td class="px-3 py-2.5"><span class="px-2 py-0.5 rounded bg-blue-50 text-blue-700 font-semibold text-[10px]">${p.tipo}</span></td>
-                    <td class="px-3 py-2.5 text-left"><p class="font-bold text-slate-800">${p.titulo}</p><p class="text-[11px] text-slate-500">${p.mensaje}</p></td>
-                    <td class="px-3 py-2.5 font-medium">${p.destinatario}</td>
-                    <td class="px-3 py-2.5 font-mono text-slate-500">${p.fecha}</td>
-                  </tr>
-                `).join('')}
-              </tbody>
-            </table>
+        ${renderHeaderBanner('Dent Lab • Mensajes Push', 'Módulo de Notificaciones Push (Avisos.php)', 'Envío masivo o individual de notificaciones instantáneas a doctores, con programación de fecha/hora y registro de lectura.', `
+          <div class="px-3.5 py-1.5 rounded-xl bg-slate-900 text-white text-xs font-mono font-bold flex items-center gap-2">
+            <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+            <span>Gateway Firebase FCM Activo</span>
           </div>
-          <div class="bg-white rounded-2xl border border-slate-200 p-5 shadow-sm space-y-3">
-            <h3 class="text-xs font-bold uppercase tracking-wider text-slate-400">Tipos Push Configurados</h3>
-            ${DENT_STATE.tiposPush.map(t => `
-              <div class="p-3.5 rounded-xl bg-slate-50 border border-slate-200 flex items-start justify-between">
-                <div>
-                  <p class="text-xs font-bold text-slate-800">${t.nombre}</p>
-                  <p class="text-[11px] text-slate-500 mt-0.5">${t.descripcion}</p>
+        `)}
+
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-5 text-xs">
+          <!-- Formulario de Envío y Programación (Seleccionando 1 a N Doctores) -->
+          <div class="lg:col-span-5 bg-white rounded-2xl border border-slate-200 p-5 shadow-sm space-y-4">
+            <div class="flex items-center justify-between border-b pb-2">
+              <h3 class="text-xs font-bold uppercase tracking-wider text-slate-800 flex items-center gap-2">
+                <i data-lucide="send" class="w-4 h-4 text-blue-600"></i>
+                <span>Enviar / Programar Mensaje</span>
+              </h3>
+              <span class="text-[10px] font-semibold text-slate-400">1 a N Doctores</span>
+            </div>
+
+            <form onsubmit="enviarMensajePushCustom(event)" class="space-y-3.5">
+              <div>
+                <div class="flex items-center justify-between mb-1.5">
+                  <label class="font-bold text-slate-700 uppercase text-[10px]">Seleccionar Destinatarios *</label>
+                  <label class="flex items-center gap-1.5 text-blue-600 cursor-pointer font-semibold text-[11px]">
+                    <input type="checkbox" id="checkPushSelectAll" onchange="toggleSelectAllPushDocs(this.checked)" class="rounded text-blue-600">
+                    <span>Todos</span>
+                  </label>
                 </div>
-                <span class="px-2 py-0.5 rounded bg-emerald-100 text-emerald-800 text-[10px] font-bold">Activo</span>
+                <div class="border border-slate-200 rounded-xl p-2 bg-slate-50 max-h-36 overflow-y-auto space-y-1 table-scroll" id="listaDoctoresPushCheckboxes">
+                  ${DENT_STATE.doctores.map(d => `
+                    <label class="flex items-center gap-2 px-2 py-1 rounded bg-white hover:bg-slate-100 text-slate-800 cursor-pointer text-xs border border-slate-100">
+                      <input type="checkbox" name="pushDoctorTarget" value="${d.nombre}" class="rounded text-blue-600 push-doc-chk">
+                      <span class="font-medium truncate">${d.nombre}</span>
+                    </label>
+                  `).join('')}
+                </div>
               </div>
-            `).join('')}
+
+              <div>
+                <label class="font-bold text-slate-700 uppercase text-[10px] block mb-1">Título de la Notificación *</label>
+                <input id="pushTituloInput" required placeholder="Ej. Promoción Especial de Paquetes Zirconio" class="w-full px-3.5 py-2 bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:outline-none focus:border-blue-600">
+              </div>
+
+              <div>
+                <label class="font-bold text-slate-700 uppercase text-[10px] block mb-1">Cuerpo del Mensaje *</label>
+                <textarea id="pushMensajeInput" required rows="3" placeholder="Redacta la notificación push para los odontólogos seleccionados..." class="w-full p-2.5 bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:outline-none focus:border-blue-600 resize-none"></textarea>
+              </div>
+
+              <div>
+                <label class="font-bold text-slate-700 uppercase text-[10px] block mb-1">Programar Fecha y Hora de Envío</label>
+                <input type="datetime-local" id="pushFechaProgramada" class="w-full px-3.5 py-2 bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:outline-none focus:border-blue-600 text-slate-700">
+                <span class="text-[10px] text-slate-400 mt-1 block">Deja en blanco para enviar inmediatamente en tiempo real.</span>
+              </div>
+
+              <button type="submit" class="w-full py-2.5 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-bold flex items-center justify-center gap-2 shadow-sm transition-colors cursor-pointer">
+                <i data-lucide="send" class="w-4 h-4"></i>
+                <span>Enviar / Programar Push</span>
+              </button>
+            </form>
+          </div>
+
+          <!-- Historial de Notificaciones Push Enviadas -->
+          <div class="lg:col-span-7 bg-white rounded-2xl border border-slate-200 p-5 shadow-sm space-y-3">
+            <div class="flex items-center justify-between border-b pb-2">
+              <h3 class="text-xs font-bold uppercase tracking-wider text-slate-800">Historial de Notificaciones Enviadas</h3>
+              <span class="text-[11px] font-mono font-bold text-slate-500">${DENT_STATE.mensajesPush.length} registradas</span>
+            </div>
+
+            <div class="table-scroll overflow-x-auto rounded-xl border border-slate-200">
+              <table class="w-full text-center text-xs">
+                <thead class="bg-slate-100 text-slate-600 font-bold border-b border-slate-200">
+                  <tr>
+                    <th class="px-2.5 py-2">Folio</th>
+                    <th class="px-2.5 py-2">Título / Mensaje</th>
+                    <th class="px-2.5 py-2">Destinatarios</th>
+                    <th class="px-2.5 py-2">Fecha / Hora</th>
+                    <th class="px-2.5 py-2">Estatus</th>
+                  </tr>
+                </thead>
+                <tbody class="divide-y divide-slate-100">
+                  ${DENT_STATE.mensajesPush.map(p => `
+                    <tr class="hover:bg-slate-50 transition-colors">
+                      <td class="px-2.5 py-2 font-mono font-bold text-blue-600">${p.id}</td>
+                      <td class="px-2.5 py-2 text-left">
+                        <strong class="text-slate-800 block">${p.titulo}</strong>
+                        <span class="text-[11px] text-slate-500 line-clamp-2">${p.mensaje}</span>
+                      </td>
+                      <td class="px-2.5 py-2 font-semibold text-slate-700 max-w-[120px] truncate" title="${p.destinatario}">${p.destinatario}</td>
+                      <td class="px-2.5 py-2 font-mono text-[10.5px] text-slate-500 whitespace-nowrap">${p.fecha}</td>
+                      <td class="px-2.5 py-2">
+                        <span class="px-2 py-0.5 rounded-full text-[10px] font-bold bg-emerald-100 text-emerald-800 border border-emerald-200">Enviado</span>
+                      </td>
+                    </tr>
+                  `).join('')}
+                </tbody>
+              </table>
+            </div>
           </div>
         </div>
       `;
@@ -3486,42 +3629,81 @@ function renderDynamicModule(key) {
 
     case 'paquetes': {
       container.innerHTML = `
-        ${renderHeaderBanner('Dent Lab', 'Paquetes Prepagados para Doctores', 'Administración de paquetes de coronas Zirconio, E-Max y Guardas con vigencia y precios preferenciales.', `
-          <button onclick="openSimpleAddModal('paquetes')" class="px-3.5 py-2 rounded-xl bg-blue-600 hover:bg-blue-700 text-white text-xs font-semibold flex items-center gap-1.5">
+        ${renderHeaderBanner('Dent Lab', 'Paquetes Prepagados para Doctores (Productos_Paquetes.php)', 'Administración de paquetes de coronas Zirconio, E-Max y Guardas con vigencia, piezas disponibles y precios preferenciales.', `
+          <button onclick="openSimpleAddModal('paquetes')" class="px-3.5 py-2 rounded-xl bg-blue-600 hover:bg-blue-700 text-white text-xs font-semibold flex items-center gap-1.5 shadow-sm">
             <i data-lucide="plus" class="w-4 h-4"></i><span>Nuevo Paquete</span>
           </button>
         `)}
-        <div class="bg-white rounded-2xl border border-slate-200 p-5 shadow-sm">
-          <table class="w-full text-center text-xs">
-            <thead class="bg-slate-100 text-slate-600 font-bold border-b border-slate-200">
-              <tr>
-                <th class="px-3 py-2.5">Nombre</th>
-                <th class="px-3 py-2.5">Nombre Corto</th>
-                <th class="px-3 py-2.5">Piezas Incluidas</th>
-                <th class="px-3 py-2.5">Costo</th>
-                <th class="px-3 py-2.5">Desde</th>
-                <th class="px-3 py-2.5">Hasta</th>
-                <th class="px-3 py-2.5">Status</th>
-                <th class="px-3 py-2.5">Actualizar Status</th>
-              </tr>
-            </thead>
-            <tbody class="divide-y divide-slate-100">
-              ${DENT_STATE.paquetes.map((p, i) => `
-                <tr class="hover:bg-slate-50">
-                  <td class="px-3 py-2.5 font-bold text-slate-800">${p.nombre}</td>
-                  <td class="px-3 py-2.5 font-mono text-blue-600 font-semibold">${p.corto}</td>
-                  <td class="px-3 py-2.5 font-mono font-bold">${p.piezas} pzas</td>
-                  <td class="px-3 py-2.5 font-mono font-bold text-slate-900">$${p.costo.toLocaleString('es-MX')}</td>
-                  <td class="px-3 py-2.5 font-mono text-slate-500">${p.desde}</td>
-                  <td class="px-3 py-2.5 font-mono text-slate-500">${p.hasta}</td>
-                  <td class="px-3 py-2.5"><span class="px-2 py-0.5 rounded-full text-[10px] font-bold ${p.estatus ? 'bg-emerald-100 text-emerald-800' : 'bg-slate-200 text-slate-600'}">${p.estatus ? 'Activo' : 'Inactivo'}</span></td>
-                  <td class="px-3 py-2.5">
-                    <button onclick="toggleItemStatus('paquetes', ${i}, 'paquetes')" class="px-2.5 py-1 rounded-lg border border-slate-200 hover:bg-slate-100 text-[11px] font-semibold">Cambiar</button>
-                  </td>
+        <div class="bg-white rounded-2xl border border-slate-200 p-5 shadow-sm space-y-4">
+          <!-- Filtros: Fechas y Estado Terminado / No Terminado -->
+          <div class="p-3.5 bg-slate-50 rounded-xl border border-slate-200/90 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-3 text-xs items-end">
+            <div class="lg:col-span-2">
+              <label class="font-bold text-slate-500 uppercase text-[10px] block mb-1">Buscar Paquete</label>
+              <input id="searchPaqInput" onkeyup="filtrarPaquetes()" placeholder="Buscar por nombre o código..." class="w-full px-3.5 py-2 bg-white border border-slate-200 rounded-lg text-xs focus:outline-none focus:border-blue-600">
+            </div>
+            <div>
+              <label class="font-bold text-slate-500 uppercase text-[10px] block mb-1">Fecha Desde</label>
+              <input type="date" id="filtroPaqDesde" onchange="filtrarPaquetes()" class="w-full px-3 py-1.5 bg-white border border-slate-200 rounded-lg text-xs text-slate-700 focus:outline-none focus:border-blue-600">
+            </div>
+            <div>
+              <label class="font-bold text-slate-500 uppercase text-[10px] block mb-1">Fecha Hasta</label>
+              <input type="date" id="filtroPaqHasta" onchange="filtrarPaquetes()" class="w-full px-3 py-1.5 bg-white border border-slate-200 rounded-lg text-xs text-slate-700 focus:outline-none focus:border-blue-600">
+            </div>
+            <div>
+              <label class="font-bold text-slate-500 uppercase text-[10px] block mb-1">Condición de Paquete</label>
+              <select id="filtroPaqTerminado" onchange="filtrarPaquetes()" class="w-full px-3 py-2 bg-white border border-slate-200 rounded-lg text-xs font-semibold text-slate-700 focus:outline-none focus:border-blue-600">
+                <option value="todos">Todos los Paquetes</option>
+                <option value="no-terminado">No Terminados (Activos)</option>
+                <option value="terminado">Terminados / Inactivos</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="flex items-center justify-between text-xs px-1">
+            <span class="text-slate-500 font-semibold" id="contadorPaquetesFiltrados">Mostrando ${DENT_STATE.paquetes.length} paquetes registrados</span>
+            <button type="button" onclick="resetFiltrosPaquetes()" class="text-blue-600 hover:underline font-semibold text-xs">
+              Limpiar Filtros
+            </button>
+          </div>
+
+          <div class="table-scroll overflow-x-auto rounded-xl border border-slate-200">
+            <table class="w-full text-center text-xs">
+              <thead class="bg-slate-100 text-slate-600 font-bold border-b border-slate-200">
+                <tr>
+                  <th class="px-3 py-2.5">Código</th>
+                  <th class="px-3 py-2.5">Nombre del Paquete</th>
+                  <th class="px-3 py-2.5">Piezas Incluidas</th>
+                  <th class="px-3 py-2.5">Costo Unitario</th>
+                  <th class="px-3 py-2.5">Vigencia Desde</th>
+                  <th class="px-3 py-2.5">Vigencia Hasta</th>
+                  <th class="px-3 py-2.5">Estatus</th>
+                  <th class="px-3 py-2.5">Acciones</th>
                 </tr>
-              `).join('')}
-            </tbody>
-          </table>
+              </thead>
+              <tbody id="tbodyPaquetes" class="divide-y divide-slate-100">
+                ${DENT_STATE.paquetes.map((p, i) => `
+                  <tr class="hover:bg-slate-50 transition-colors" data-nombre="${(p.nombre || '').toLowerCase()} ${(p.corto || '').toLowerCase()}" data-desde="${p.desde || ''}" data-hasta="${p.hasta || ''}" data-activo="${p.estatus ? 'true' : 'false'}">
+                    <td class="px-3 py-2.5 font-mono font-bold text-blue-600">${p.corto || p.id}</td>
+                    <td class="px-3 py-2.5 font-bold text-slate-800 text-left">${p.nombre}</td>
+                    <td class="px-3 py-2.5 font-mono font-bold text-slate-900">${p.piezas} pzas</td>
+                    <td class="px-3 py-2.5 font-mono font-bold text-emerald-700">${p.costo.toLocaleString('es-MX')}</td>
+                    <td class="px-3 py-2.5 font-mono text-slate-500">${p.desde}</td>
+                    <td class="px-3 py-2.5 font-mono text-slate-500">${p.hasta}</td>
+                    <td class="px-3 py-2.5">
+                      <span class="px-2.5 py-0.5 rounded-full text-[10px] font-bold ${p.estatus ? 'bg-emerald-100 text-emerald-800 border border-emerald-200' : 'bg-slate-200 text-slate-600'}">
+                        ${p.estatus ? 'No Terminado (Vigente)' : 'Terminado / Inactivo'}
+                      </span>
+                    </td>
+                    <td class="px-3 py-2.5">
+                      <button onclick="toggleItemStatus('paquetes', ${i}, 'paquetes')" class="px-2.5 py-1 rounded-lg border border-slate-200 hover:bg-slate-100 text-[11px] font-semibold transition-colors">
+                        ${p.estatus ? 'Marcar Terminado' : 'Reactivar'}
+                      </button>
+                    </td>
+                  </tr>
+                `).join('')}
+              </tbody>
+            </table>
+          </div>
         </div>
       `;
       break;
@@ -3573,91 +3755,173 @@ function renderDynamicModule(key) {
     // ------------------------------------------------------------------------
     // 5. DISCOS CAD/CAM (Inventario, Activos, Usados, Erróneos, Por Autorizar)
     // ------------------------------------------------------------------------
+    case 'marcas':
     case 'inventario-discos':
     case 'discos-activos':
     case 'discos-usados': {
       const totalCap = DENT_STATE.discos.reduce((acc, d) => acc + d.capacidad, 0);
       const totalUsa = DENT_STATE.discos.reduce((acc, d) => acc + d.usadas, 0);
       const pct = Math.round((totalUsa / totalCap) * 100);
-      let filtered = DENT_STATE.discos;
-      let subtitle = 'Control global de bloques y discos de Zirconio HT+, PMMA y Cera por espesor y lote.';
-      if (key === 'discos-activos') {
-        filtered = DENT_STATE.discos.filter(d => d.estado === 'Activo');
-        subtitle = 'Discos actualmente montados o en uso dentro de las fresadoras Roland DWX.';
-      } else if (key === 'discos-usados') {
-        filtered = DENT_STATE.discos.filter(d => d.estado.includes('Usado'));
-        subtitle = 'Histórico de discos agotados al 100% de su capacidad de fresado.';
-      }
+
+      // Unique brands, colors, and thicknesses for filters
+      const marcasUnicas = Array.from(new Set(DENT_STATE.discos.map(d => d.marca).filter(Boolean))).sort();
+      const coloresUnicos = Array.from(new Set(DENT_STATE.discos.map(d => d.color).filter(Boolean))).sort();
+      const espesoresUnicos = Array.from(new Set(DENT_STATE.discos.map(d => d.espesor).filter(Boolean))).sort();
+
+      let sub = 'Inventario integral de bloques y discos CAD/CAM con filtrado por estatus, marca, color, espesor, impresión de etiquetas y registro de desbaste por orden de trabajo.';
+      if (key === 'discos-activos') sub = 'Discos actualmente montados en fresadoras CNC con opción de terminar disco si aún restan piezas.';
+      if (key === 'discos-usados') sub = 'Histórico de discos desbastados al 100% o concluidos manualmente.';
 
       container.innerHTML = `
-        ${renderHeaderBanner('Dent Lab • Discos CAD/CAM', key === 'inventario-discos' ? 'Inventario Global de Discos' : (key === 'discos-activos' ? 'Discos Activos en Fresadora' : 'Discos Usados / Agotados'), subtitle, `
-          <button onclick="openSimpleAddModal('inventario-discos')" class="px-3.5 py-2 rounded-xl bg-blue-600 hover:bg-blue-700 text-white text-xs font-semibold flex items-center gap-1.5">
-            <i data-lucide="plus" class="w-4 h-4"></i><span>Registrar Entrada de Disco</span>
-          </button>
+        ${renderHeaderBanner('Dent Lab • Discos CAD/CAM', key === 'inventario-discos' ? 'Inventario de Discos de Laboratorio (InventarioDiscos.php)' : (key === 'discos-activos' ? 'Discos Activos en Fresadora' : 'Discos Usados y Concluidos'), sub, `
+          <div class="flex items-center gap-2">
+            <button onclick="openModule('marcas-discos')" class="px-3.5 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-white text-xs font-semibold flex items-center gap-1.5 transition-colors">
+              <i data-lucide="tag" class="w-4 h-4"></i><span>Ver Marcas</span>
+            </button>
+            <button onclick="openSimpleAddModal('inventario-discos')" class="px-3.5 py-2 rounded-xl bg-blue-600 hover:bg-blue-700 text-white text-xs font-semibold flex items-center gap-1.5 shadow-sm transition-colors">
+              <i data-lucide="plus" class="w-4 h-4"></i><span>Nuevo Disco</span>
+            </button>
+          </div>
         `)}
-        <!-- Tabla Datos Globales exacta de InventarioDiscos.php -->
+
+        <!-- KPIs Generales de Discos -->
         <div class="grid grid-cols-2 sm:grid-cols-5 gap-3 text-center">
           <div class="bg-white p-3.5 rounded-2xl border border-slate-200 shadow-sm">
             <span class="text-[10px] font-bold uppercase text-slate-400 block">Discos Registrados</span>
             <span class="text-xl font-extrabold font-mono text-slate-900">${DENT_STATE.discos.length}</span>
           </div>
           <div class="bg-white p-3.5 rounded-2xl border border-slate-200 shadow-sm">
-            <span class="text-[10px] font-bold uppercase text-slate-400 block">Capacidad Piezas Global</span>
-            <span class="text-xl font-extrabold font-mono text-blue-600">${totalCap}</span>
+            <span class="text-[10px] font-bold uppercase text-slate-400 block">Capacidad Global</span>
+            <span class="text-xl font-extrabold font-mono text-blue-600">${totalCap} pzas</span>
           </div>
           <div class="bg-white p-3.5 rounded-2xl border border-slate-200 shadow-sm">
-            <span class="text-[10px] font-bold uppercase text-slate-400 block">Piezas Utilizadas</span>
+            <span class="text-[10px] font-bold uppercase text-slate-400 block">Piezas Fresadas</span>
             <span class="text-xl font-extrabold font-mono text-slate-800">${totalUsa}</span>
           </div>
           <div class="bg-white p-3.5 rounded-2xl border border-slate-200 shadow-sm">
-            <span class="text-[10px] font-bold uppercase text-slate-400 block">Piezas Restantes</span>
+            <span class="text-[10px] font-bold uppercase text-slate-400 block">Piezas Disponibles</span>
             <span class="text-xl font-extrabold font-mono text-emerald-600">${totalCap - totalUsa}</span>
           </div>
           <div class="bg-white p-3.5 rounded-2xl border border-slate-200 shadow-sm">
-            <span class="text-[10px] font-bold uppercase text-slate-400 block">% Utilizado Global</span>
+            <span class="text-[10px] font-bold uppercase text-slate-400 block">Rendimiento</span>
             <span class="text-xl font-extrabold font-mono text-blue-700">${pct}%</span>
           </div>
         </div>
 
-        <div class="bg-white rounded-2xl border border-slate-200 p-5 shadow-sm">
-          <table class="w-full text-center text-xs">
-            <thead class="bg-slate-100 text-slate-600 font-bold border-b border-slate-200">
-              <tr>
-                <th class="px-3 py-2.5">Código Disco</th>
-                <th class="px-3 py-2.5">Lote</th>
-                <th class="px-3 py-2.5">Marca</th>
-                <th class="px-3 py-2.5">Tono Vita</th>
-                <th class="px-3 py-2.5">Espesor</th>
-                <th class="px-3 py-2.5">Uso de Piezas</th>
-                <th class="px-3 py-2.5">Ubicación</th>
-                <th class="px-3 py-2.5">Estado</th>
-              </tr>
-            </thead>
-            <tbody class="divide-y divide-slate-100">
-              ${filtered.map(d => {
-                const p = Math.round((d.usadas / d.capacidad) * 100);
-                return `
-                  <tr class="hover:bg-slate-50">
-                    <td class="px-3 py-2.5 font-mono font-bold text-blue-600">${d.id}</td>
-                    <td class="px-3 py-2.5 font-mono text-slate-500">${d.lote}</td>
-                    <td class="px-3 py-2.5 font-semibold">${d.marca}</td>
-                    <td class="px-3 py-2.5 font-mono font-bold">${d.color}</td>
-                    <td class="px-3 py-2.5 font-mono">${d.espesor}</td>
-                    <td class="px-3 py-2.5">
-                      <div class="flex items-center justify-center gap-2">
-                        <div class="w-24 bg-slate-100 h-2 rounded-full overflow-hidden">
-                          <div class="bg-blue-600 h-full rounded-full" style="width:${p}%"></div>
+        <!-- Barra de Filtrado en 4 Direcciones (Estatus, Marca, Color, Tamaño) + Fechas -->
+        <div class="bg-white rounded-2xl border border-slate-200 p-5 shadow-sm space-y-4">
+          <div class="p-3.5 bg-slate-50 rounded-xl border border-slate-200/90 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-6 gap-2.5 text-xs items-end">
+            <div>
+              <label class="font-bold text-slate-500 uppercase text-[9.5px] block mb-1">Estatus</label>
+              <select id="filtroDiscoEstatus" onchange="filtrarDiscosInventario()" class="w-full px-2.5 py-1.5 bg-white border border-slate-200 rounded-lg text-xs font-semibold text-slate-700 focus:outline-none focus:border-blue-600">
+                <option value="">Todos los Estatus</option>
+                <option value="Activo" ${key === 'discos-activos' ? 'selected' : ''}>Activo (En Fresadora)</option>
+                <option value="Almacén">En Almacén</option>
+                <option value="Usado" ${key === 'discos-usados' ? 'selected' : ''}>Agotado / Usado</option>
+              </select>
+            </div>
+            <div>
+              <label class="font-bold text-slate-500 uppercase text-[9.5px] block mb-1">Marca</label>
+              <select id="filtroDiscoMarca" onchange="filtrarDiscosInventario()" class="w-full px-2.5 py-1.5 bg-white border border-slate-200 rounded-lg text-xs font-semibold text-slate-700 focus:outline-none focus:border-blue-600">
+                <option value="">Todas las Marcas</option>
+                ${marcasUnicas.map(m => `<option value="${m}">${m}</option>`).join('')}
+              </select>
+            </div>
+            <div>
+              <label class="font-bold text-slate-500 uppercase text-[9.5px] block mb-1">Color / Tono</label>
+              <select id="filtroDiscoColor" onchange="filtrarDiscosInventario()" class="w-full px-2.5 py-1.5 bg-white border border-slate-200 rounded-lg text-xs font-semibold text-slate-700 focus:outline-none focus:border-blue-600">
+                <option value="">Todos los Tonos</option>
+                ${coloresUnicos.map(c => `<option value="${c}">${c}</option>`).join('')}
+              </select>
+            </div>
+            <div>
+              <label class="font-bold text-slate-500 uppercase text-[9.5px] block mb-1">Espesor / Tamaño</label>
+              <select id="filtroDiscoEspesor" onchange="filtrarDiscosInventario()" class="w-full px-2.5 py-1.5 bg-white border border-slate-200 rounded-lg text-xs font-semibold text-slate-700 focus:outline-none focus:border-blue-600">
+                <option value="">Todos los Tamaños</option>
+                ${espesoresUnicos.map(e => `<option value="${e}">${e}</option>`).join('')}
+              </select>
+            </div>
+            <div>
+              <label class="font-bold text-slate-500 uppercase text-[9.5px] block mb-1">Fecha Inicio</label>
+              <input type="date" id="filtroDiscoFechaIni" onchange="filtrarDiscosInventario()" class="w-full px-2.5 py-1 bg-white border border-slate-200 rounded-lg text-xs text-slate-700 focus:outline-none focus:border-blue-600">
+            </div>
+            <div>
+              <label class="font-bold text-slate-500 uppercase text-[9.5px] block mb-1">Fecha Fin</label>
+              <input type="date" id="filtroDiscoFechaFin" onchange="filtrarDiscosInventario()" class="w-full px-2.5 py-1 bg-white border border-slate-200 rounded-lg text-xs text-slate-700 focus:outline-none focus:border-blue-600">
+            </div>
+          </div>
+
+          <div class="flex flex-wrap items-center justify-between gap-3 px-1 text-xs">
+            <input id="searchDiscoInput" onkeyup="filtrarDiscosInventario()" placeholder="Buscar por código, lote o almacén..." class="px-3.5 py-1.5 bg-slate-50 border border-slate-200 rounded-xl text-xs w-full sm:w-72 focus:bg-white focus:outline-none focus:border-blue-600">
+            <div class="flex items-center gap-3">
+              <span class="text-slate-500 font-semibold" id="contadorDiscosFiltrados">Mostrando ${DENT_STATE.discos.length} discos</span>
+              <button type="button" onclick="resetFiltrosDiscos()" class="text-blue-600 hover:underline font-semibold">Limpiar</button>
+            </div>
+          </div>
+
+          <div class="table-scroll overflow-x-auto rounded-xl border border-slate-200">
+            <table class="w-full text-center text-xs">
+              <thead class="bg-slate-100 text-slate-600 font-bold border-b border-slate-200">
+                <tr>
+                  <th class="px-3 py-2.5">Código Disco</th>
+                  <th class="px-3 py-2.5">Lote</th>
+                  <th class="px-3 py-2.5">Marca</th>
+                  <th class="px-3 py-2.5">Tono Vita</th>
+                  <th class="px-3 py-2.5">Espesor</th>
+                  <th class="px-3 py-2.5">Uso de Piezas</th>
+                  <th class="px-3 py-2.5">Ubicación</th>
+                  <th class="px-3 py-2.5">Estado</th>
+                  <th class="px-3 py-2.5">Acciones</th>
+                </tr>
+              </thead>
+              <tbody id="tbodyDiscos" class="divide-y divide-slate-100">
+                ${DENT_STATE.discos.map(d => {
+                  const p = Math.round((d.usadas / d.capacidad) * 100);
+                  const isActivo = d.estado === 'Activo';
+                  return `
+                    <tr class="hover:bg-slate-50 transition-colors" data-id="${d.id}" data-marca="${d.marca}" data-color="${d.color}" data-espesor="${d.espesor}" data-estado="${d.estado}" data-fecha="${d.fechaIngreso || ''}">
+                      <td class="px-3 py-2.5 font-mono font-bold text-blue-600">
+                        <a href="javascript:void(0)" onclick="abrirModalDetalleUsoDisco('${d.id}')" class="hover:underline">${d.id}</a>
+                      </td>
+                      <td class="px-3 py-2.5 font-mono text-slate-500">${d.lote}</td>
+                      <td class="px-3 py-2.5 font-bold text-slate-800 text-left">${d.marca}</td>
+                      <td class="px-3 py-2.5 font-mono font-bold"><span class="px-2 py-0.5 rounded bg-slate-100 text-slate-800 border border-slate-200">${d.color}</span></td>
+                      <td class="px-3 py-2.5 font-mono font-semibold">${d.espesor}</td>
+                      <td class="px-3 py-2.5">
+                        <div class="flex items-center justify-center gap-2">
+                          <div class="w-20 bg-slate-100 h-2 rounded-full overflow-hidden">
+                            <div class="h-full rounded-full ${p >= 90 ? 'bg-rose-500' : p >= 60 ? 'bg-amber-500' : 'bg-blue-600'}" style="width:${p}%"></div>
+                          </div>
+                          <span class="font-mono text-[11px] font-bold">${d.usadas}/${d.capacidad}</span>
                         </div>
-                        <span class="font-mono text-[11px] font-bold">${d.usadas}/${d.capacidad}</span>
-                      </div>
-                    </td>
-                    <td class="px-3 py-2.5">${d.almacen}</td>
-                    <td class="px-3 py-2.5"><span class="px-2 py-0.5 rounded-full text-[10px] font-bold ${d.estado === 'Activo' ? 'bg-blue-100 text-blue-800' : (d.estado.includes('Almacén') ? 'bg-emerald-100 text-emerald-800' : 'bg-slate-200 text-slate-700')}">${d.estado}</span></td>
-                  </tr>
-                `;
-              }).join('')}
-            </tbody>
-          </table>
+                      </td>
+                      <td class="px-3 py-2.5 font-semibold text-slate-600">${d.almacen}</td>
+                      <td class="px-3 py-2.5">
+                        <span class="px-2.5 py-0.5 rounded-full text-[10px] font-bold ${isActivo ? 'bg-blue-100 text-blue-800 border border-blue-200' : (d.estado.includes('Almacén') ? 'bg-emerald-100 text-emerald-800 border border-emerald-200' : 'bg-slate-200 text-slate-700')}">
+                          ${d.estado}
+                        </span>
+                      </td>
+                      <td class="px-3 py-2.5">
+                        <div class="flex items-center justify-center gap-1">
+                          <button type="button" onclick="imprimirEtiquetaTermicaDisco('${d.id}')" class="p-1.5 rounded-lg border border-slate-200 hover:bg-slate-900 hover:text-white text-slate-700 transition-colors" title="Imprimir Etiqueta Térmica de Caja">
+                            <i data-lucide="barcode" class="w-3.5 h-3.5"></i>
+                          </button>
+                          <button type="button" onclick="abrirModalDetalleUsoDisco('${d.id}')" class="p-1.5 rounded-lg border border-slate-200 hover:bg-blue-600 hover:text-white text-slate-700 transition-colors" title="Ver Detalle de Uso por Orden">
+                            <i data-lucide="list-ordered" class="w-3.5 h-3.5"></i>
+                          </button>
+                          ${isActivo ? `
+                            <button type="button" onclick="terminarDiscoManual('${d.id}')" class="px-2 py-1 rounded-lg bg-rose-50 hover:bg-rose-600 text-rose-700 hover:text-white font-bold text-[10px] border border-rose-200 transition-colors" title="Terminar disco aunque resten piezas">
+                              Terminar
+                            </button>
+                          ` : ''}
+                        </div>
+                      </td>
+                    </tr>
+                  `;
+                }).join('')}
+              </tbody>
+            </table>
+          </div>
         </div>
       `;
       break;
@@ -3901,49 +4165,82 @@ function renderDynamicModule(key) {
         : DENT_STATE.doctores;
 
       container.innerHTML = `
-        ${renderHeaderBanner('Dent Lab • Doctores', key === 'doctores-inactivos' ? 'Doctores sin Paquetes Actuales (≥ 3 Meses)' : 'Directorio General de Doctores', 'Gestión de odontólogos, clínicas afiliadas, asignación de vendedor y compra de paquetes.', `
-          <button onclick="openModule('nuevo-doctor')" class="px-3.5 py-2 rounded-xl bg-blue-600 hover:bg-blue-700 text-white text-xs font-semibold flex items-center gap-1.5">
+        ${renderHeaderBanner('Dent Lab • Doctores', key === 'doctores-inactivos' ? 'Doctores sin Paquetes Actuales (≥ 3 Meses)' : 'Directorio General de Doctores', 'Gestión de odontólogos, clínicas afiliadas, asignación de vendedor, edición y compra de paquetes.', `
+          <button onclick="openModule('nuevo-doctor')" class="px-3.5 py-2 rounded-xl bg-blue-600 hover:bg-blue-700 text-white text-xs font-semibold flex items-center gap-1.5 shadow-sm">
             <i data-lucide="user-plus" class="w-4 h-4"></i><span>Nuevo Doctor</span>
           </button>
         `)}
         <div class="bg-white rounded-2xl border border-slate-200 p-5 shadow-sm space-y-4">
-          <input id="searchDocInput" onkeyup="filterDynamicTable('searchDocInput','tbodyDoctores')" placeholder="Introduzca algún dato del doctor, clínica o correo a buscar..." class="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs text-center focus:outline-none focus:border-blue-600">
+          <div class="flex flex-wrap items-center justify-between gap-3">
+            <div class="flex-1 min-w-[280px]">
+              <input id="searchDocInput" onkeyup="filterDynamicTable('searchDocInput','tbodyDoctores')" placeholder="Buscar por doctor, celular, clínica, correo o vendedor..." class="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs focus:bg-white focus:outline-none focus:border-blue-600">
+            </div>
+            <div class="flex items-center gap-2">
+              <span class="text-xs text-slate-500 font-semibold">Total: <strong class="text-slate-800 font-bold">${list.length}</strong> doctores</span>
+            </div>
+          </div>
+
           <div class="table-scroll overflow-x-auto rounded-xl border border-slate-200">
             <table class="w-full text-center text-xs">
               <thead class="bg-slate-100 text-slate-600 font-bold border-b border-slate-200">
                 <tr>
                   <th class="px-3 py-2.5">Doctor</th>
-                  <th class="px-3 py-2.5">Celular</th>
-                  <th class="px-3 py-2.5">Mail</th>
+                  <th class="px-3 py-2.5">Contacto</th>
+                  <th class="px-3 py-2.5">Clínica / Dirección</th>
                   <th class="px-3 py-2.5">Vendedor</th>
-                  <th class="px-3 py-2.5">Nota</th>
-                  <th class="px-3 py-2.5">Clínica</th>
-                  <th class="px-3 py-2.5">Activo</th>
                   <th class="px-3 py-2.5">Tipo</th>
+                  <th class="px-3 py-2.5">Habilitado</th>
                   <th class="px-3 py-2.5">Pacientes</th>
-                  <th class="px-3 py-2.5">Comprar Paquete</th>
+                  <th class="px-3 py-2.5">Paquetes</th>
+                  <th class="px-3 py-2.5">Acciones</th>
                 </tr>
               </thead>
               <tbody id="tbodyDoctores" class="divide-y divide-slate-100">
                 ${list.map((d, i) => `
-                  <tr class="hover:bg-slate-50">
-                    <td class="px-3 py-2.5 font-bold text-slate-900">${d.nombre}</td>
-                    <td class="px-3 py-2.5 font-mono">${d.celular}</td>
-                    <td class="px-3 py-2.5 text-blue-600">${d.mail}</td>
-                    <td class="px-3 py-2.5">${d.vendedor}</td>
-                    <td class="px-3 py-2.5 text-slate-500">${d.nota}</td>
-                    <td class="px-3 py-2.5 font-medium">${d.clinica}</td>
+                  <tr class="hover:bg-slate-50 transition-colors">
+                    <td class="px-3 py-2.5 font-bold text-slate-900 text-left">
+                      <a href="javascript:void(0)" onclick="abrirDetalleDoctor('${d.id}')" class="text-blue-600 hover:underline flex items-center gap-1.5">
+                        <i data-lucide="user" class="w-3.5 h-3.5 text-slate-400"></i>
+                        <span>${d.nombre}</span>
+                      </a>
+                    </td>
+                    <td class="px-3 py-2.5 text-left font-mono">
+                      <div class="text-slate-700 font-semibold">${d.celular}</div>
+                      <div class="text-[10px] text-blue-600">${d.mail}</div>
+                    </td>
+                    <td class="px-3 py-2.5 text-left">
+                      <div class="font-semibold text-slate-800">${d.clinica}</div>
+                      <div class="text-[10px] text-slate-400 truncate max-w-[180px]">${d.direccion || 'Sin dirección registrada'}</div>
+                    </td>
+                    <td class="px-3 py-2.5 font-medium text-slate-700">${d.vendedor}</td>
                     <td class="px-3 py-2.5">
-                      <button onclick="toggleDoctorActivo('${d.id}', '${key}')" class="px-2 py-0.5 rounded-full text-[10px] font-bold ${d.activo ? 'bg-emerald-100 text-emerald-800' : 'bg-slate-200 text-slate-600'}">
-                        ${d.activo ? 'SÍ' : 'NO'}
+                      <span class="px-2 py-0.5 rounded text-[10px] font-semibold ${d.externo ? 'bg-slate-100 text-slate-700' : 'bg-blue-50 text-blue-700'}">${d.externo ? 'Externo' : 'Interno'}</span>
+                    </td>
+                    <td class="px-3 py-2.5">
+                      <button type="button" onclick="toggleDoctorActivo('${d.id}', '${key}')" class="px-2.5 py-1 rounded-full text-[10px] font-bold cursor-pointer transition-colors ${d.activo ? 'bg-emerald-100 text-emerald-800 hover:bg-emerald-200' : 'bg-rose-100 text-rose-700 hover:bg-rose-200'}" title="Clic para alternar estatus">
+                        ${d.activo ? 'ACTIVO' : 'INACTIVO'}
                       </button>
                     </td>
-                    <td class="px-3 py-2.5"><span class="px-2 py-0.5 rounded text-[10px] font-semibold ${d.externo ? 'bg-slate-100 text-slate-700' : 'bg-blue-50 text-blue-700'}">${d.externo ? 'Externo' : 'Interno'}</span></td>
                     <td class="px-3 py-2.5">
-                      <button onclick="openModule('lista-pacientes')" class="px-2.5 py-1 rounded bg-slate-100 hover:bg-blue-600 hover:text-white text-slate-700 text-[11px] font-semibold transition-colors">Ver Pacientes</button>
+                      <button onclick="openModule('lista-pacientes')" class="px-2.5 py-1 rounded-lg bg-slate-100 hover:bg-blue-600 hover:text-white text-slate-700 text-[11px] font-semibold transition-colors">
+                        Ver Pacientes
+                      </button>
                     </td>
                     <td class="px-3 py-2.5">
-                      <button onclick="asignarPaqueteDoctor('${d.nombre}')" class="px-2.5 py-1 rounded bg-blue-600 hover:bg-blue-700 text-white text-[11px] font-semibold transition-colors">+ Paquete</button>
+                      <button onclick="asignarPaqueteDoctor('${d.nombre}')" class="px-2.5 py-1 rounded-lg bg-blue-50 hover:bg-blue-600 text-blue-700 hover:text-white text-[11px] font-semibold transition-colors flex items-center gap-1 mx-auto">
+                        <i data-lucide="package-plus" class="w-3 h-3"></i>
+                        <span>+ Paquete</span>
+                      </button>
+                    </td>
+                    <td class="px-3 py-2.5">
+                      <div class="flex items-center justify-center gap-1">
+                        <button type="button" onclick="abrirModalEditarDoctor('${d.id}')" class="p-1.5 rounded-lg border border-slate-200 bg-white hover:bg-slate-100 text-slate-700 hover:text-blue-600 transition-colors cursor-pointer" title="Editar Doctor">
+                          <i data-lucide="edit-3" class="w-3.5 h-3.5"></i>
+                        </button>
+                        <button type="button" onclick="abrirDetalleDoctor('${d.id}')" class="p-1.5 rounded-lg border border-slate-200 bg-white hover:bg-slate-900 hover:text-white text-slate-700 transition-colors cursor-pointer" title="Ver Expediente Completo">
+                          <i data-lucide="folder" class="w-3.5 h-3.5"></i>
+                        </button>
+                      </div>
                     </td>
                   </tr>
                 `).join('')}
@@ -4083,54 +4380,112 @@ function renderDynamicModule(key) {
         ? INICIO_DATA.ordenes
         : DENT_STATE.controlLab;
 
+      const docsUnicos = Array.from(new Set(ordenesList.map(o => o.doctor).filter(Boolean))).sort();
+
       container.innerHTML = `
-        ${renderHeaderBanner('Dent Lab • Órdenes', 'Lista Maestra de Órdenes de Trabajo (ListOrdenes.php)', 'Consulta general de órdenes CAD/CAM sincronizadas con DENT DEMO, acceso directo a Hoja de Orden de Trabajo y Odontograma.', `
+        ${renderHeaderBanner('Dent Lab • Órdenes', 'Lista Maestra de Órdenes de Trabajo (ListOrdenes.php)', 'Consulta general de órdenes CAD/CAM con filtros avanzados de fecha, doctor, asignación de escaneador y acceso directo a expediente técnico.', `
           <button onclick="openSimpleAddModal('lista-ordenes')" class="px-3.5 py-2 rounded-xl bg-blue-600 hover:bg-blue-700 text-white text-xs font-semibold flex items-center gap-1.5 shadow-sm">
             <i data-lucide="plus" class="w-4 h-4"></i><span>Crear Nueva Orden</span>
           </button>
         `)}
         <div class="bg-white rounded-2xl border border-slate-200 p-5 shadow-sm space-y-4">
-          <div class="flex flex-wrap items-center justify-between gap-3">
-            <input id="searchOrdList" onkeyup="filterDynamicTable('searchOrdList','tbodyOrdList')" placeholder="Buscar por Folio #OT, doctor, paciente, producto o forma de pago..." class="px-4 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs w-full sm:w-96 focus:outline-none focus:border-blue-600">
-            <button onclick="openOdontogramaModal()" class="px-3.5 py-2 rounded-xl border border-blue-200 bg-blue-50 text-blue-700 text-xs font-bold flex items-center gap-1.5">
-              <i data-lucide="scan-face" class="w-4 h-4"></i><span>Abrir Odontograma FDI</span>
-            </button>
+          <!-- Barra de Filtros: Búsqueda, Fechas Inicio/Fin y Selector de Doctor -->
+          <div class="p-3.5 bg-slate-50 rounded-xl border border-slate-200/90 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-3 text-xs items-end">
+            <div class="lg:col-span-2">
+              <label class="font-bold text-slate-500 uppercase text-[10px] block mb-1">Buscar Orden / Paciente / Folio</label>
+              <input id="searchOrdList" onkeyup="filtrarOrdenesMaestra()" placeholder="Escribe folio #OT, doctor, paciente o producto..." class="w-full px-3.5 py-2 bg-white border border-slate-200 rounded-lg text-xs focus:outline-none focus:border-blue-600">
+            </div>
+            <div>
+              <label class="font-bold text-slate-500 uppercase text-[10px] block mb-1">Fecha Inicio</label>
+              <input type="date" id="filtroOrdFechaInicio" onchange="filtrarOrdenesMaestra()" class="w-full px-3 py-1.5 bg-white border border-slate-200 rounded-lg text-xs text-slate-700 focus:outline-none focus:border-blue-600">
+            </div>
+            <div>
+              <label class="font-bold text-slate-500 uppercase text-[10px] block mb-1">Fecha Fin</label>
+              <input type="date" id="filtroOrdFechaFin" onchange="filtrarOrdenesMaestra()" class="w-full px-3 py-1.5 bg-white border border-slate-200 rounded-lg text-xs text-slate-700 focus:outline-none focus:border-blue-600">
+            </div>
+            <div>
+              <label class="font-bold text-slate-500 uppercase text-[10px] block mb-1">Filtrar por Doctor</label>
+              <select id="filtroOrdDoctor" onchange="filtrarOrdenesMaestra()" class="w-full px-3 py-2 bg-white border border-slate-200 rounded-lg text-xs font-semibold text-slate-700 focus:outline-none focus:border-blue-600">
+                <option value="">Todos los Doctores</option>
+                ${docsUnicos.map(d => `<option value="${d}">${d}</option>`).join('')}
+              </select>
+            </div>
           </div>
+
+          <div class="flex items-center justify-between text-xs px-1">
+            <span class="text-slate-500 font-semibold" id="contadorOrdenesFiltradas">Mostrando ${ordenesList.length} órdenes registradas</span>
+            <div class="flex items-center gap-2">
+              <button type="button" onclick="resetFiltrosOrdenesMaestra()" class="px-2.5 py-1 rounded-lg text-slate-500 hover:text-slate-800 hover:bg-slate-100 text-xs font-semibold transition-colors">
+                Limpiar Filtros
+              </button>
+              <button onclick="openOdontogramaModal()" class="px-3 py-1 rounded-lg border border-blue-200 bg-blue-50 text-blue-700 text-xs font-bold flex items-center gap-1.5 hover:bg-blue-100 transition-colors">
+                <i data-lucide="scan-face" class="w-3.5 h-3.5"></i><span>Odontograma FDI</span>
+              </button>
+            </div>
+          </div>
+
           <div class="table-scroll overflow-x-auto rounded-xl border border-slate-200">
             <table class="w-full text-center text-xs">
               <thead class="bg-slate-100 text-slate-600 font-bold border-b border-slate-200">
                 <tr>
                   <th class="px-3 py-2.5">FOLIO</th>
-                  <th class="px-3 py-2.5">FORMA PAGO</th>
-                  <th class="px-3 py-2.5">ESCAN</th>
                   <th class="px-3 py-2.5">DOCTOR</th>
-                  <th class="px-3 py-2.5">TIPO DOCTOR</th>
                   <th class="px-3 py-2.5">PACIENTE</th>
                   <th class="px-3 py-2.5">PRODUCTO</th>
-                  <th class="px-3 py-2.5">ENTREGA</th>
-                  <th class="px-3 py-2.5">IR A ORDEN</th>
+                  <th class="px-3 py-2.5">FORMA PAGO</th>
+                  <th class="px-3 py-2.5">ENTREGA / DÍAS</th>
+                  <th class="px-3 py-2.5">ESCANEADOR ASIGNADO</th>
+                  <th class="px-3 py-2.5">ACCIONES</th>
                 </tr>
               </thead>
               <tbody id="tbodyOrdList" class="divide-y divide-slate-100">
                 ${ordenesList.map(o => {
                   const serie = o.serie || o.ot;
                   const formaPago = o.paquetes && o.paquetes !== 'SIN PAQUETE' ? o.paquetes : (o.metodoPago || 'Efectivo');
-                  const conScan = o.conScan ? 'CON ESCAN' : 'SIN ESCAN';
-                  const tipoDoc = o.interno ? 'INTERNO' : 'EXTERNO';
+                  const semaforo = window.calcularDiasRestantes(o.entrega);
+                  const escaneador = o.escaneador || (o.conScan ? 'Arturo Meza' : 'Por asignar');
+                  const safeDoc = (o.doctor || '').replace(/'/g, "\\'");
+                  const safePac = (o.paciente || '').replace(/'/g, "\\'");
                   return `
-                    <tr class="hover:bg-slate-50">
-                      <td class="px-3 py-2.5 font-mono font-bold text-blue-600">#${serie}</td>
+                    <tr class="hover:bg-slate-50 transition-colors" data-serie="${serie}" data-doctor="${safeDoc}" data-paciente="${safePac}" data-entrega="${o.entrega}">
+                      <td class="px-3 py-2.5 font-mono font-bold text-blue-600">
+                        <a href="javascript:void(0)" onclick="abrirOrdenTrabajo('${serie}')" class="hover:underline">#${serie}</a>
+                      </td>
+                      <td class="px-3 py-2.5 font-semibold text-slate-800 text-left">
+                        <a href="javascript:void(0)" onclick="abrirDetalleDoctor('${o.doctorId || safeDoc}')" class="text-blue-600 hover:underline">${o.doctor}</a>
+                      </td>
+                      <td class="px-3 py-2.5 text-left text-slate-700">${o.paciente}</td>
+                      <td class="px-3 py-2.5 font-semibold text-slate-800">${o.producto}</td>
                       <td class="px-3 py-2.5 font-mono text-[11px] font-semibold text-slate-700">${formaPago}</td>
-                      <td class="px-3 py-2.5"><span class="px-2 py-0.5 rounded text-[10px] font-bold ${o.conScan ? 'bg-blue-50 text-blue-700' : 'bg-slate-100 text-slate-600'}">${conScan}</span></td>
-                      <td class="px-3 py-2.5 font-semibold text-slate-800">${o.doctor}</td>
-                      <td class="px-3 py-2.5"><span class="px-2 py-0.5 rounded text-[10px] font-semibold ${o.interno ? 'bg-slate-900 text-white' : 'bg-slate-100 text-slate-700'}">${tipoDoc}</span></td>
-                      <td class="px-3 py-2.5">${o.paciente}</td>
-                      <td class="px-3 py-2.5 font-semibold">${o.producto}</td>
-                      <td class="px-3 py-2.5 font-mono">${o.entrega}</td>
+                      <td class="px-3 py-2.5 font-mono">
+                        <div class="flex flex-col items-center justify-center gap-0.5">
+                          <span class="text-slate-700">${o.entrega}</span>
+                          <span class="inline-flex items-center gap-1 text-[9px] font-bold px-2 py-0.2 rounded-full ${semaforo.badgeClass}">
+                            <i data-lucide="${semaforo.icon}" class="w-3 h-3"></i>
+                            <span>${semaforo.label}</span>
+                          </span>
+                        </div>
+                      </td>
                       <td class="px-3 py-2.5">
-                        <button type="button" onclick="abrirOrdenTrabajo('${serie}')" class="btnEtiqueta btnEtiqueta--ot mx-auto" title="Abrir Orden de Trabajo #${serie}">
-                          <svg class="w-3.5 h-3.5 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5.5c-1.5-2-4-2.5-6-1-2 1.5-2.5 4.5-1.5 7 1 2.5 1.5 5.5 2 8 .3 1.5 1.8 1.5 2.5 0 .5-1.5 1-3.5 3-3.5s2.5 2 3 3.5c.7 1.5 2.2 1.5 2.5 0 .5-2.5 1-5.5 2-8 1-2.5.5-5.5-1.5-7-2-1.5-4.5-1-6 1z"/></svg>
-                        </button>
+                        <div class="flex items-center justify-center gap-1.5">
+                          <span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-lg text-[10.5px] font-semibold ${escaneador !== 'Por asignar' ? 'bg-blue-50 text-blue-700 border border-blue-200/70' : 'bg-slate-100 text-slate-500'}">
+                            <i data-lucide="user-check" class="w-3 h-3"></i>
+                            <span>${escaneador}</span>
+                          </span>
+                          <button type="button" onclick="abrirModalAsignarEscaneador('${serie}')" class="p-1 rounded bg-slate-100 hover:bg-blue-600 hover:text-white text-slate-600 transition-colors cursor-pointer" title="Cambiar / Asignar Escaneador">
+                            <i data-lucide="user-plus" class="w-3 h-3"></i>
+                          </button>
+                        </div>
+                      </td>
+                      <td class="px-3 py-2.5">
+                        <div class="flex items-center justify-center gap-1">
+                          <button type="button" onclick="Etiqueta('${safeDoc}', '${safePac}', '${o.entrega}', '${serie}')" class="btnEtiqueta" title="Imprimir Código de Barras">
+                            <i data-lucide="barcode" class="w-3.5 h-3.5"></i>
+                          </button>
+                          <button type="button" onclick="abrirOrdenTrabajo('${serie}')" class="btnEtiqueta btnEtiqueta--ot" title="Abrir Hoja de Orden">
+                            <svg class="w-3.5 h-3.5 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5.5c-1.5-2-4-2.5-6-1-2 1.5-2.5 4.5-1.5 7 1 2.5 1.5 5.5 2 8 .3 1.5 1.8 1.5 2.5 0 .5-1.5 1-3.5 3-3.5s2.5 2 3 3.5c.7 1.5 2.2 1.5 2.5 0 .5-2.5 1-5.5 2-8 1-2.5.5-5.5-1.5-7-2-1.5-4.5-1-6 1z"/></svg>
+                          </button>
+                        </div>
                       </td>
                     </tr>
                   `;
@@ -4257,45 +4612,90 @@ function renderDynamicModule(key) {
     }
 
     case 'usuarios': {
+      const perfilesUnicos = Array.from(new Set(DENT_STATE.usuarios.map(u => u.perfil).filter(Boolean))).sort();
+
       container.innerHTML = `
-        ${renderHeaderBanner('Dent Lab • Seguridad', 'Administración de Usuarios del Sistema (Usuarios.php)', 'Gestión de cuentas de acceso, perfiles operativos y permisos para App Equipos.', `
-          <button onclick="openSimpleAddModal('usuarios')" class="px-3.5 py-2 rounded-xl bg-blue-600 hover:bg-blue-700 text-white text-xs font-semibold flex items-center gap-1.5">
+        ${renderHeaderBanner('Dent Lab • Seguridad', 'Administración de Usuarios del Sistema (Usuarios.php)', 'Gestión integral de cuentas de acceso, perfiles operativos, asignación a App Equipos y permisos detallados por módulo.', `
+          <button onclick="openSimpleAddModal('usuarios')" class="px-3.5 py-2 rounded-xl bg-blue-600 hover:bg-blue-700 text-white text-xs font-semibold flex items-center gap-1.5 shadow-sm">
             <i data-lucide="user-plus" class="w-4 h-4"></i><span>Nuevo Usuario</span>
           </button>
         `)}
-        <div class="bg-white rounded-2xl border border-slate-200 p-5 shadow-sm">
-          <table class="w-full text-center text-xs">
-            <thead class="bg-slate-100 text-slate-600 font-bold border-b border-slate-200">
-              <tr>
-                <th class="px-3 py-2.5">Usuario</th>
-                <th class="px-3 py-2.5">Nombre Completo</th>
-                <th class="px-3 py-2.5">Correo</th>
-                <th class="px-3 py-2.5">Perfil</th>
-                <th class="px-3 py-2.5">App Equipos</th>
-                <th class="px-3 py-2.5">Status</th>
-                <th class="px-3 py-2.5">Actualizar Status</th>
-              </tr>
-            </thead>
-            <tbody class="divide-y divide-slate-100">
-              ${DENT_STATE.usuarios.map((u, i) => `
-                <tr class="hover:bg-slate-50">
-                  <td class="px-3 py-2.5 font-mono font-bold text-blue-600">${u.usuario}</td>
-                  <td class="px-3 py-2.5 font-bold text-slate-800">${u.nombre}</td>
-                  <td class="px-3 py-2.5 text-slate-500">${u.correo}</td>
-                  <td class="px-3 py-2.5"><span class="px-2 py-0.5 rounded bg-blue-50 text-blue-700 font-semibold text-[10px]">${u.perfil}</span></td>
-                  <td class="px-3 py-2.5">
-                    <button onclick="toggleUsuarioAppEquipos(${i})" class="px-2 py-0.5 rounded text-[10px] font-bold ${u.appEquipos ? 'bg-blue-600 text-white' : 'bg-slate-100 text-slate-500'}">
-                      ${u.appEquipos ? 'HABILITADO' : 'NO'}
-                    </button>
-                  </td>
-                  <td class="px-3 py-2.5"><span class="px-2 py-0.5 rounded-full text-[10px] font-bold ${u.estatus ? 'bg-emerald-100 text-emerald-800' : 'bg-rose-100 text-rose-700'}">${u.estatus ? 'Activo' : 'Inactivo'}</span></td>
-                  <td class="px-3 py-2.5">
-                    <button onclick="toggleItemStatus('usuarios', ${i}, 'usuarios')" class="px-2.5 py-1 rounded-lg border border-slate-200 hover:bg-slate-100 text-[11px] font-semibold">Cambiar</button>
-                  </td>
+        <div class="bg-white rounded-2xl border border-slate-200 p-5 shadow-sm space-y-4">
+          <!-- Filtros de Usuarios: Perfil, Estatus y Búsqueda -->
+          <div class="p-3.5 bg-slate-50 rounded-xl border border-slate-200/90 grid grid-cols-1 sm:grid-cols-3 gap-3 text-xs items-end">
+            <div>
+              <label class="font-bold text-slate-500 uppercase text-[10px] block mb-1">Buscar Usuario</label>
+              <input id="searchUserInput" onkeyup="filtrarUsuarios()" placeholder="Buscar por usuario, nombre o correo..." class="w-full px-3.5 py-2 bg-white border border-slate-200 rounded-lg text-xs focus:outline-none focus:border-blue-600">
+            </div>
+            <div>
+              <label class="font-bold text-slate-500 uppercase text-[10px] block mb-1">Filtrar por Perfil</label>
+              <select id="filtroUserPerfil" onchange="filtrarUsuarios()" class="w-full px-3 py-2 bg-white border border-slate-200 rounded-lg text-xs font-semibold text-slate-700 focus:outline-none focus:border-blue-600">
+                <option value="">Todos los Perfiles</option>
+                ${perfilesUnicos.map(p => `<option value="${p}">${p}</option>`).join('')}
+              </select>
+            </div>
+            <div>
+              <label class="font-bold text-slate-500 uppercase text-[10px] block mb-1">Estatus</label>
+              <select id="filtroUserEstatus" onchange="filtrarUsuarios()" class="w-full px-3 py-2 bg-white border border-slate-200 rounded-lg text-xs font-semibold text-slate-700 focus:outline-none focus:border-blue-600">
+                <option value="">Todos los Estatus</option>
+                <option value="activo">Solo Activos</option>
+                <option value="inactivo">Solo Inactivos</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="flex items-center justify-between text-xs px-1">
+            <span class="text-slate-500 font-semibold" id="contadorUsuariosFiltrados">Mostrando ${DENT_STATE.usuarios.length} cuentas de usuario</span>
+            <button type="button" onclick="resetFiltrosUsuarios()" class="text-blue-600 hover:underline font-semibold text-xs">Limpiar Filtros</button>
+          </div>
+
+          <div class="table-scroll overflow-x-auto rounded-xl border border-slate-200">
+            <table class="w-full text-center text-xs">
+              <thead class="bg-slate-100 text-slate-600 font-bold border-b border-slate-200">
+                <tr>
+                  <th class="px-3 py-2.5">Usuario</th>
+                  <th class="px-3 py-2.5">Nombre Completo</th>
+                  <th class="px-3 py-2.5">Correo</th>
+                  <th class="px-3 py-2.5">Perfil</th>
+                  <th class="px-3 py-2.5">App Equipos</th>
+                  <th class="px-3 py-2.5">Estatus</th>
+                  <th class="px-3 py-2.5">Permisos Módulos</th>
+                  <th class="px-3 py-2.5">Acciones</th>
                 </tr>
-              `).join('')}
-            </tbody>
-          </table>
+              </thead>
+              <tbody id="tbodyUsuarios" class="divide-y divide-slate-100">
+                ${DENT_STATE.usuarios.map((u, i) => `
+                  <tr class="hover:bg-slate-50 transition-colors" data-usuario="${u.usuario.toLowerCase()}" data-nombre="${u.nombre.toLowerCase()}" data-correo="${u.correo.toLowerCase()}" data-perfil="${u.perfil}" data-estatus="${u.estatus ? 'activo' : 'inactivo'}">
+                    <td class="px-3 py-2.5 font-mono font-bold text-blue-600">@${u.usuario}</td>
+                    <td class="px-3 py-2.5 font-bold text-slate-800 text-left">${u.nombre}</td>
+                    <td class="px-3 py-2.5 text-slate-500 text-left">${u.correo}</td>
+                    <td class="px-3 py-2.5"><span class="px-2.5 py-0.5 rounded-lg bg-blue-50 text-blue-700 font-semibold text-[10px] border border-blue-200/60">${u.perfil}</span></td>
+                    <td class="px-3 py-2.5">
+                      <button onclick="toggleUsuarioAppEquipos(${i})" class="px-2 py-0.5 rounded text-[10px] font-bold cursor-pointer ${u.appEquipos ? 'bg-blue-600 text-white' : 'bg-slate-100 text-slate-500'}">
+                        ${u.appEquipos ? 'HABILITADO' : 'NO'}
+                      </button>
+                    </td>
+                    <td class="px-3 py-2.5">
+                      <button onclick="toggleItemStatus('usuarios', ${i}, 'usuarios')" class="px-2.5 py-0.5 rounded-full text-[10px] font-bold cursor-pointer transition-colors ${u.estatus ? 'bg-emerald-100 text-emerald-800 hover:bg-emerald-200' : 'bg-rose-100 text-rose-700 hover:bg-rose-200'}">
+                        ${u.estatus ? 'ACTIVO' : 'INACTIVO'}
+                      </button>
+                    </td>
+                    <td class="px-3 py-2.5">
+                      <button onclick="abrirModalPermisosUsuario(${u.id || (i + 1)})" class="px-2.5 py-1 rounded-lg bg-slate-100 hover:bg-slate-900 hover:text-white text-slate-700 text-[11px] font-semibold transition-colors flex items-center gap-1 mx-auto">
+                        <i data-lucide="shield-check" class="w-3.5 h-3.5"></i>
+                        <span>Permisos</span>
+                      </button>
+                    </td>
+                    <td class="px-3 py-2.5">
+                      <button onclick="abrirModalEditarUsuario(${u.id || (i + 1)})" class="p-1.5 rounded-lg border border-slate-200 hover:bg-blue-50 hover:text-blue-600 text-slate-700 transition-colors" title="Editar Usuario">
+                        <i data-lucide="edit-3" class="w-3.5 h-3.5"></i>
+                      </button>
+                    </td>
+                  </tr>
+                `).join('')}
+              </tbody>
+            </table>
+          </div>
         </div>
       `;
       break;
@@ -4818,6 +5218,316 @@ function renderDynamicModule(key) {
       `;
       break;
     }
+  
+
+    // ------------------------------------------------------------------------
+    // REPORTES: DOCTORES POR AGOTAR PIEZAS (Checklist Dent Control)
+    // ------------------------------------------------------------------------
+    case 'doctores-por-agotar': {
+      // Doctores con paquetes con menos de 5 piezas restantes
+      const doctoresAgotar = [
+        { doctor: 'DRA. PATRICIA ELIZABETH', doctorId: 442, paquete: 'PAQ: 3211', piezasRestantes: 2, total: 20, celular: '8711456200', vendedor: 'Mauricio Sotomayor' },
+        { doctor: 'DR. ISMAEL', doctorId: 184, paquete: 'PAQ: 3189', piezasRestantes: 3, total: 15, celular: '8712963651', vendedor: 'Arturo Meza' },
+        { doctor: 'DR. MIGUEL ALAN', doctorId: 530, paquete: 'PAQ: 3245', piezasRestantes: 1, total: 25, celular: '8713952578', vendedor: 'Brenda Rodríguez' },
+        { doctor: 'DRA. DIANA ELIZABETH', doctorId: 583, paquete: 'PAQ: 3227', piezasRestantes: 4, total: 20, celular: '8718872019', vendedor: 'Mauricio Sotomayor' }
+      ];
+
+      container.innerHTML = `
+        ${renderHeaderBanner('Estadísticos y Reportes', 'Doctores por Agotar Piezas de Paquetes', 'Odontólogos con menos de 5 piezas disponibles en sus paquetes prepagados para gestión comercial y renovación oportuna.', `
+          <button onclick="openModule('paquetes')" class="px-3.5 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-white text-xs font-semibold flex items-center gap-1.5 transition-colors">
+            <i data-lucide="package" class="w-4 h-4"></i><span>Ver Catálogo Paquetes</span>
+          </button>
+        `)}
+        <div class="bg-white rounded-2xl border border-slate-200 p-5 shadow-sm space-y-4">
+          <div class="table-scroll overflow-x-auto rounded-xl border border-slate-200">
+            <table class="w-full text-center text-xs">
+              <thead class="bg-slate-100 text-slate-600 font-bold border-b border-slate-200">
+                <tr>
+                  <th class="px-3 py-2.5">Doctor</th>
+                  <th class="px-3 py-2.5">Paquete Activo</th>
+                  <th class="px-3 py-2.5">Piezas Restantes</th>
+                  <th class="px-3 py-2.5">Celular</th>
+                  <th class="px-3 py-2.5">Vendedor Asignado</th>
+                  <th class="px-3 py-2.5">Acciones</th>
+                </tr>
+              </thead>
+              <tbody class="divide-y divide-slate-100">
+                ${doctoresAgotar.map(d => `
+                  <tr class="hover:bg-slate-50 transition-colors">
+                    <td class="px-3 py-2.5 font-bold text-slate-900 text-left">
+                      <a href="javascript:void(0)" onclick="abrirDetalleDoctor('${d.doctorId}')" class="text-blue-600 hover:underline">${d.doctor}</a>
+                    </td>
+                    <td class="px-3 py-2.5 font-mono font-bold text-slate-700">${d.paquete}</td>
+                    <td class="px-3 py-2.5">
+                      <span class="px-2.5 py-1 rounded-full text-[11px] font-mono font-bold bg-rose-100 text-rose-800 border border-rose-200 animate-pulse">
+                        ${d.piezasRestantes} de ${d.total} pzas
+                      </span>
+                    </td>
+                    <td class="px-3 py-2.5 font-mono text-slate-600">${d.celular}</td>
+                    <td class="px-3 py-2.5 font-semibold text-slate-700">${d.vendedor}</td>
+                    <td class="px-3 py-2.5">
+                      <div class="flex items-center justify-center gap-1.5">
+                        <button onclick="asignarPaqueteDoctor('${d.doctor}')" class="px-2.5 py-1 rounded-lg bg-blue-600 hover:bg-blue-700 text-white font-bold text-[11px] shadow-sm flex items-center gap-1">
+                          <i data-lucide="plus" class="w-3 h-3"></i><span>Renovar Paquete</span>
+                        </button>
+                        <button onclick="abrirDetalleDoctor('${d.doctorId}')" class="p-1 rounded-lg border border-slate-200 hover:bg-slate-100 text-slate-700" title="Ver Expediente">
+                          <i data-lucide="folder" class="w-3.5 h-3.5"></i>
+                        </button>
+                      </div>
+                    </td>
+                  </tr>
+                `).join('')}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      `;
+      break;
+    }
+
+    // ------------------------------------------------------------------------
+    // REPORTES: DOCTORES SIN PAQUETES (1 Mes, 3 Meses, 6 Meses, Rango)
+    // ------------------------------------------------------------------------
+    case 'doctores-sin-paquetes': {
+      container.innerHTML = `
+        ${renderHeaderBanner('Estadísticos y Reportes', 'Doctores sin Paquetes Vigentes (AdmProductos_Paquetes.php)', 'Consulta analítica de odontólogos sin compra de paquetes en periodos de 1, 3 o 6 meses para campañas de reactivación.')}
+        <div class="bg-white rounded-2xl border border-slate-200 p-5 shadow-sm space-y-4">
+          <!-- Botones de Rango Dinámicos -->
+          <div class="p-3 bg-slate-50 rounded-xl border border-slate-200 flex flex-wrap items-center justify-between gap-3 text-xs">
+            <div class="flex flex-wrap items-center gap-2">
+              <span class="font-bold text-slate-500 uppercase text-[10px]">Filtrar Periodo:</span>
+              <button type="button" onclick="filtrarDoctoresSinPaquetes(1)" id="btnSinPaq1M" class="px-3 py-1.5 rounded-lg bg-slate-900 text-white font-bold shadow-sm transition-colors">1 Mes</button>
+              <button type="button" onclick="filtrarDoctoresSinPaquetes(3)" id="btnSinPaq3M" class="px-3 py-1.5 rounded-lg bg-white border border-slate-200 text-slate-700 font-semibold hover:bg-slate-100 transition-colors">3 Meses</button>
+              <button type="button" onclick="filtrarDoctoresSinPaquetes(6)" id="btnSinPaq6M" class="px-3 py-1.5 rounded-lg bg-white border border-slate-200 text-slate-700 font-semibold hover:bg-slate-100 transition-colors">6 Meses</button>
+            </div>
+            <div class="flex items-center gap-2 text-xs">
+              <span class="text-slate-500 font-semibold">Rango personalizado:</span>
+              <input type="date" id="sinPaqFechaDesde" class="px-2 py-1 bg-white border border-slate-200 rounded-lg text-xs text-slate-700">
+              <input type="date" id="sinPaqFechaHasta" class="px-2 py-1 bg-white border border-slate-200 rounded-lg text-xs text-slate-700">
+              <button type="button" onclick="filtrarDoctoresSinPaquetes('custom')" class="px-3 py-1 bg-blue-600 text-white rounded-lg font-semibold hover:bg-blue-700 transition-colors">Filtrar</button>
+            </div>
+          </div>
+
+          <div class="table-scroll overflow-x-auto rounded-xl border border-slate-200">
+            <table class="w-full text-center text-xs">
+              <thead class="bg-slate-100 text-slate-600 font-bold border-b border-slate-200">
+                <tr>
+                  <th class="px-3 py-2.5">Doctor</th>
+                  <th class="px-3 py-2.5">Clínica</th>
+                  <th class="px-3 py-2.5">Celular</th>
+                  <th class="px-3 py-2.5">Vendedor</th>
+                  <th class="px-3 py-2.5">Tiempo sin Paquete</th>
+                  <th class="px-3 py-2.5">Acción Comercial</th>
+                </tr>
+              </thead>
+              <tbody id="tbodyDoctoresSinPaquetes" class="divide-y divide-slate-100"></tbody>
+            </table>
+          </div>
+        </div>
+      `;
+      // Render initial 1 month filter
+      setTimeout(() => filtrarDoctoresSinPaquetes(1), 50);
+      break;
+    }
+
+    // ------------------------------------------------------------------------
+    // REPORTES: DOCTORES POR VENDEDOR
+    // ------------------------------------------------------------------------
+    case 'doctores-por-vendedor': {
+      const vendedoresList = ['Mauricio Sotomayor', 'Arturo Meza', 'Brenda Rodríguez', 'Irene Martínez'];
+      container.innerHTML = `
+        ${renderHeaderBanner('Estadísticos y Reportes', 'Doctores Agrupados por Vendedor (Vendedor.php)', 'Distribución de cartera odontológica, órdenes producidas y seguimiento comercial por representante.')}
+        <div class="bg-white rounded-2xl border border-slate-200 p-5 shadow-sm space-y-4">
+          <div class="flex items-center gap-3">
+            <label class="font-bold text-slate-500 uppercase text-[10px]">Seleccionar Vendedor:</label>
+            <select id="selectVendedorFiltro" onchange="filtrarDoctoresPorVendedor()" class="px-3.5 py-1.5 bg-slate-50 border border-slate-200 rounded-xl font-semibold text-xs text-slate-800 focus:bg-white focus:outline-none focus:border-blue-600">
+              <option value="">Todos los Vendedores</option>
+              ${vendedoresList.map(v => `<option value="${v}">${v}</option>`).join('')}
+            </select>
+          </div>
+
+          <div class="table-scroll overflow-x-auto rounded-xl border border-slate-200">
+            <table class="w-full text-center text-xs">
+              <thead class="bg-slate-100 text-slate-600 font-bold border-b border-slate-200">
+                <tr>
+                  <th class="px-3 py-2.5">Vendedor</th>
+                  <th class="px-3 py-2.5">Doctor</th>
+                  <th class="px-3 py-2.5">Clínica</th>
+                  <th class="px-3 py-2.5">Contacto</th>
+                  <th class="px-3 py-2.5">Estatus</th>
+                  <th class="px-3 py-2.5">Expediente</th>
+                </tr>
+              </thead>
+              <tbody id="tbodyDoctoresPorVendedor" class="divide-y divide-slate-100">
+                ${DENT_STATE.doctores.map(d => `
+                  <tr class="hover:bg-slate-50 transition-colors" data-vendedor="${d.vendedor}">
+                    <td class="px-3 py-2.5 font-bold text-blue-700 text-left">${d.vendedor}</td>
+                    <td class="px-3 py-2.5 font-bold text-slate-900 text-left">${d.nombre}</td>
+                    <td class="px-3 py-2.5 text-left text-slate-600">${d.clinica}</td>
+                    <td class="px-3 py-2.5 font-mono text-slate-500">${d.celular}</td>
+                    <td class="px-3 py-2.5"><span class="px-2 py-0.5 rounded-full text-[10px] font-bold ${d.activo ? 'bg-emerald-100 text-emerald-800' : 'bg-slate-200 text-slate-600'}">${d.activo ? 'Activo' : 'Inactivo'}</span></td>
+                    <td class="px-3 py-2.5">
+                      <button onclick="abrirDetalleDoctor('${d.id}')" class="px-2.5 py-1 rounded bg-slate-100 hover:bg-slate-900 hover:text-white font-semibold text-[11px] transition-colors">Expediente</button>
+                    </td>
+                  </tr>
+                `).join('')}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      `;
+      break;
+    }
+
+    // ------------------------------------------------------------------------
+    // REPORTES: PANORAMA GENERAL (11 KPIs & Distribuciones Completas)
+    // ------------------------------------------------------------------------
+    case 'panorama-general': {
+      container.innerHTML = `
+        ${renderHeaderBanner('Estadísticos', 'Panorama General del Laboratorio (includeGraficos.php)', 'Tablero ejecutivo con 11 indicadores clave de producción, merma, distribución de materiales y ventas internas.', `
+          <div class="px-3.5 py-1.5 rounded-xl bg-slate-900 text-white text-xs font-mono font-bold">
+            Consolidado Octubre 2026
+          </div>
+        `)}
+
+        <!-- 1. Los 6 KPIs Maestros Principales -->
+        <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3 text-center">
+          <div class="bg-white p-4 rounded-2xl border border-slate-200 shadow-sm">
+            <span class="text-[10px] font-bold uppercase text-slate-400 block mb-1">Órdenes Totales</span>
+            <span class="text-2xl font-extrabold font-mono text-slate-900">1,428</span>
+            <span class="text-[10px] text-emerald-600 font-bold block mt-1">+12% vs mes ant.</span>
+          </div>
+          <div class="bg-white p-4 rounded-2xl border border-slate-200 shadow-sm">
+            <span class="text-[10px] font-bold uppercase text-slate-400 block mb-1">Órdenes Internas</span>
+            <span class="text-2xl font-extrabold font-mono text-blue-600">384</span>
+            <span class="text-[10px] text-slate-400 font-semibold block mt-1">26.9% del total</span>
+          </div>
+          <div class="bg-white p-4 rounded-2xl border border-slate-200 shadow-sm">
+            <span class="text-[10px] font-bold uppercase text-slate-400 block mb-1">Órdenes Externas</span>
+            <span class="text-2xl font-extrabold font-mono text-slate-800">1,044</span>
+            <span class="text-[10px] text-slate-400 font-semibold block mt-1">73.1% del total</span>
+          </div>
+          <div class="bg-white p-4 rounded-2xl border border-slate-200 shadow-sm">
+            <span class="text-[10px] font-bold uppercase text-slate-400 block mb-1">Piezas Producidas</span>
+            <span class="text-2xl font-extrabold font-mono text-emerald-700">2,860</span>
+            <span class="text-[10px] text-emerald-600 font-bold block mt-1">CAD/CAM & Fresado</span>
+          </div>
+          <div class="bg-white p-4 rounded-2xl border border-slate-200 shadow-sm">
+            <span class="text-[10px] font-bold uppercase text-slate-400 block mb-1">Discos Utilizados</span>
+            <span class="text-2xl font-extrabold font-mono text-indigo-700">142</span>
+            <span class="text-[10px] text-slate-400 font-semibold block mt-1">Zirconio & PMMA</span>
+          </div>
+          <div class="bg-white p-4 rounded-2xl border border-slate-200 shadow-sm">
+            <span class="text-[10px] font-bold uppercase text-slate-400 block mb-1">Merma Controlada</span>
+            <span class="text-2xl font-extrabold font-mono text-rose-600">4.2%</span>
+            <span class="text-[10px] text-emerald-600 font-bold block mt-1">Meta: &lt; 5.0%</span>
+          </div>
+        </div>
+
+        <!-- 2. Gráficos y Distribuciones Analíticas -->
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-4 text-xs">
+          <!-- Distribución de unidades de Zirconio -->
+          <div class="bg-white rounded-2xl border border-slate-200 p-5 shadow-sm space-y-3">
+            <div class="flex items-center justify-between border-b pb-2">
+              <h4 class="font-bold uppercase text-slate-800 text-xs">Distribución de Unidades de Zirconio</h4>
+              <span class="font-mono text-blue-600 font-bold">1,820 piezas totales</span>
+            </div>
+            <div class="space-y-2.5">
+              <div>
+                <div class="flex justify-between font-semibold mb-1"><span>Zirconio HT+ Alta Translucidez (Aidite / Upcera)</span><span class="font-mono">892 pzas (49%)</span></div>
+                <div class="w-full h-2.5 bg-slate-100 rounded-full overflow-hidden"><div class="bg-blue-600 h-full rounded-full" style="width:49%"></div></div>
+              </div>
+              <div>
+                <div class="flex justify-between font-semibold mb-1"><span>Zirconio 3D Pro Multicapa Gradiente</span><span class="font-mono">546 pzas (30%)</span></div>
+                <div class="w-full h-2.5 bg-slate-100 rounded-full overflow-hidden"><div class="bg-indigo-600 h-full rounded-full" style="width:30%"></div></div>
+              </div>
+              <div>
+                <div class="flex justify-between font-semibold mb-1"><span>Zirconio ST Super Translucidez</span><span class="font-mono">382 pzas (21%)</span></div>
+                <div class="w-full h-2.5 bg-slate-100 rounded-full overflow-hidden"><div class="bg-cyan-600 h-full rounded-full" style="width:21%"></div></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Piezas por Tipo de Doctor y Ventas Internas -->
+          <div class="bg-white rounded-2xl border border-slate-200 p-5 shadow-sm space-y-3">
+            <div class="flex items-center justify-between border-b pb-2">
+              <h4 class="font-bold uppercase text-slate-800 text-xs">Piezas por Tipo de Doctor & Ventas Internas</h4>
+              <span class="font-mono text-emerald-700 font-bold">$1,248,500 MXN</span>
+            </div>
+            <div class="grid grid-cols-2 gap-3 text-center pt-2">
+              <div class="p-4 rounded-xl bg-slate-50 border border-slate-200">
+                <span class="text-slate-400 font-bold uppercase text-[9.5px] block">Doctores Externos</span>
+                <span class="text-2xl font-mono font-extrabold text-slate-900 block my-1">2,090</span>
+                <span class="text-xs font-semibold text-blue-600">$940,500 MXN</span>
+              </div>
+              <div class="p-4 rounded-xl bg-slate-50 border border-slate-200">
+                <span class="text-slate-400 font-bold uppercase text-[9.5px] block">Doctores Internos</span>
+                <span class="text-2xl font-mono font-extrabold text-slate-900 block my-1">770</span>
+                <span class="text-xs font-semibold text-emerald-600">$308,000 MXN</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Clasificación de Estatus de Procesos -->
+          <div class="bg-white rounded-2xl border border-slate-200 p-5 shadow-sm space-y-3">
+            <div class="flex items-center justify-between border-b pb-2">
+              <h4 class="font-bold uppercase text-slate-800 text-xs">Clasificación de Estatus de Procesos</h4>
+              <span class="font-mono text-slate-500">Pipeline en Vivo</span>
+            </div>
+            <div class="grid grid-cols-4 gap-2 text-center pt-2">
+              <div class="p-3 bg-blue-50/60 rounded-xl border border-blue-200/70">
+                <span class="text-[10px] font-bold uppercase text-blue-700 block">1. Escaneo</span>
+                <span class="text-lg font-mono font-bold text-blue-900 mt-1 block">4</span>
+              </div>
+              <div class="p-3 bg-indigo-50/60 rounded-xl border border-indigo-200/70">
+                <span class="text-[10px] font-bold uppercase text-indigo-700 block">2. Diseño</span>
+                <span class="text-lg font-mono font-bold text-indigo-900 mt-1 block">15</span>
+              </div>
+              <div class="p-3 bg-amber-50/60 rounded-xl border border-amber-200/70">
+                <span class="text-[10px] font-bold uppercase text-amber-700 block">3. Fabricación</span>
+                <span class="text-lg font-mono font-bold text-amber-900 mt-1 block">38</span>
+              </div>
+              <div class="p-3 bg-emerald-50/60 rounded-xl border border-emerald-200/70">
+                <span class="text-[10px] font-bold uppercase text-emerald-700 block">4. Entrega</span>
+                <span class="text-lg font-mono font-bold text-emerald-900 mt-1 block">142</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Producción de Piezas por Semana & Piezas por Categoría -->
+          <div class="bg-white rounded-2xl border border-slate-200 p-5 shadow-sm space-y-3">
+            <div class="flex items-center justify-between border-b pb-2">
+              <h4 class="font-bold uppercase text-slate-800 text-xs">Producción Semanal (Mes Actual)</h4>
+              <span class="font-mono text-slate-500">2,860 piezas</span>
+            </div>
+            <div class="space-y-2">
+              <div class="flex items-center gap-3">
+                <span class="w-16 font-semibold text-slate-600">Semana 1:</span>
+                <div class="flex-1 h-3 bg-slate-100 rounded-full overflow-hidden"><div class="bg-blue-600 h-full rounded-full" style="width:68%"></div></div>
+                <span class="font-mono font-bold w-16 text-right">680 pzas</span>
+              </div>
+              <div class="flex items-center gap-3">
+                <span class="w-16 font-semibold text-slate-600">Semana 2:</span>
+                <div class="flex-1 h-3 bg-slate-100 rounded-full overflow-hidden"><div class="bg-blue-600 h-full rounded-full" style="width:74%"></div></div>
+                <span class="font-mono font-bold w-16 text-right">740 pzas</span>
+              </div>
+              <div class="flex items-center gap-3">
+                <span class="w-16 font-semibold text-slate-600">Semana 3:</span>
+                <div class="flex-1 h-3 bg-slate-100 rounded-full overflow-hidden"><div class="bg-blue-600 h-full rounded-full" style="width:81%"></div></div>
+                <span class="font-mono font-bold w-16 text-right">810 pzas</span>
+              </div>
+              <div class="flex items-center gap-3">
+                <span class="w-16 font-semibold text-slate-600">Semana 4:</span>
+                <div class="flex-1 h-3 bg-slate-100 rounded-full overflow-hidden"><div class="bg-blue-600 h-full rounded-full" style="width:63%"></div></div>
+                <span class="font-mono font-bold w-16 text-right">630 pzas</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      `;
+      break;
+    }
+
   }
 }
 
@@ -4842,6 +5552,141 @@ function toggleDoctorActivo(docId, viewKey) {
   lucide.createIcons();
   showToast('Doctor Actualizado', `${doc.nombre}: Estatus ${doc.activo ? 'Activo' : 'Inactivo'}`);
 }
+
+// Filtro integral para Lista Maestra de Órdenes
+window.filtrarOrdenesMaestra = function() {
+  const q = (document.getElementById('searchOrdList')?.value || '').toLowerCase().trim();
+  const fIni = document.getElementById('filtroOrdFechaInicio')?.value;
+  const fFin = document.getElementById('filtroOrdFechaFin')?.value;
+  const docSel = document.getElementById('filtroOrdDoctor')?.value;
+
+  const rows = document.querySelectorAll('#tbodyOrdList tr');
+  let visibles = 0;
+
+  rows.forEach(row => {
+    const text = row.innerText.toLowerCase();
+    const doc = row.getAttribute('data-doctor') || '';
+    const fecha = row.getAttribute('data-entrega') || '';
+
+    let matchQ = !q || text.includes(q);
+    let matchDoc = !docSel || doc === docSel;
+    let matchIni = !fIni || (fecha && fecha >= fIni);
+    let matchFin = !fFin || (fecha && fecha <= fFin);
+
+    if (matchQ && matchDoc && matchIni && matchFin) {
+      row.style.display = '';
+      visibles++;
+    } else {
+      row.style.display = 'none';
+    }
+  });
+
+  const contador = document.getElementById('contadorOrdenesFiltradas');
+  if (contador) {
+    contador.innerText = `Mostrando ${visibles} de ${rows.length} órdenes registradas`;
+  }
+};
+
+window.resetFiltrosOrdenesMaestra = function() {
+  const s = document.getElementById('searchOrdList');
+  const fi = document.getElementById('filtroOrdFechaInicio');
+  const ff = document.getElementById('filtroOrdFechaFin');
+  const fd = document.getElementById('filtroOrdDoctor');
+  if (s) s.value = '';
+  if (fi) fi.value = '';
+  if (ff) ff.value = '';
+  if (fd) fd.value = '';
+  window.filtrarOrdenesMaestra();
+};
+
+// Modal Asignar Escaneador
+window.abrirModalAsignarEscaneador = function(serie) {
+  const o = window.findOrdenByAny(serie);
+  if (!o) return;
+  const modal = document.getElementById('modalAsignarEscaneador');
+  const inpSerie = document.getElementById('asignarEscaneadorSerie');
+  const subtitulo = document.getElementById('subtituloAsignarEscaneador');
+  const docNom = document.getElementById('asignarDoctorNombre');
+  const pacNom = document.getElementById('asignarPacienteNombre');
+  const fecEnt = document.getElementById('asignarFechaEntrega');
+  const selEsp = document.getElementById('selectEspecialistaEscaneo');
+
+  if (inpSerie) inpSerie.value = o.serie || serie;
+  if (subtitulo) subtitulo.innerText = `Orden #${o.serie || serie} — ${o.producto || 'Corona Zirconio'}`;
+  if (docNom) docNom.innerText = o.doctor || 'Doctor';
+  if (pacNom) pacNom.innerText = o.paciente || 'Paciente';
+  if (fecEnt) fecEnt.innerText = o.entrega || '2026-10-16';
+  if (selEsp && o.escaneador) selEsp.value = o.escaneador;
+
+  if (modal) modal.classList.remove('hidden');
+};
+
+window.closeModalAsignarEscaneador = function() {
+  const modal = document.getElementById('modalAsignarEscaneador');
+  if (modal) modal.classList.add('hidden');
+};
+
+window.guardarAsignacionEscaneador = function(e) {
+  e.preventDefault();
+  const serie = document.getElementById('asignarEscaneadorSerie')?.value;
+  const escaneador = document.getElementById('selectEspecialistaEscaneo')?.value || 'Arturo Meza';
+  const o = window.findOrdenByAny(serie);
+  if (o) {
+    o.escaneador = escaneador;
+    o.conScan = true;
+  }
+  window.closeModalAsignarEscaneador();
+  showToast('Escaneador Asignado', `${escaneador} fue asignado como responsable de escaneo para la Orden #${serie}.`);
+  renderDynamicModule('lista-ordenes');
+};
+
+// Modal Editar Doctor
+window.abrirModalEditarDoctor = function(docId) {
+  const doc = window.findDoctorByAny(docId);
+  if (!doc) return;
+  const modal = document.getElementById('modalEditarDoctor');
+  document.getElementById('editDocId').value = doc.id;
+  document.getElementById('editDocNombre').value = doc.nombre || '';
+  document.getElementById('editDocCelular').value = doc.celular || '';
+  document.getElementById('editDocMail').value = doc.mail || '';
+  document.getElementById('editDocClinica').value = doc.clinica || '';
+  document.getElementById('editDocVendedor').value = doc.vendedor || 'Mauricio Sotomayor';
+  document.getElementById('editDocDireccion').value = doc.direccion || '';
+  document.getElementById('editDocTipo').value = doc.externo ? 'externo' : 'interno';
+  document.getElementById('editDocActivo').checked = !!doc.activo;
+  document.getElementById('editDocNota').value = doc.nota || '';
+
+  const sub = document.getElementById('subtituloEditarDoctor');
+  if (sub) sub.innerText = `ID #${doc.id} • ${doc.nombre}`;
+
+  if (modal) modal.classList.remove('hidden');
+};
+
+window.closeModalEditarDoctor = function() {
+  const modal = document.getElementById('modalEditarDoctor');
+  if (modal) modal.classList.add('hidden');
+};
+
+window.guardarEdicionDoctor = function(e) {
+  e.preventDefault();
+  const id = document.getElementById('editDocId')?.value;
+  const doc = window.findDoctorByAny(id);
+  if (!doc) return;
+
+  doc.nombre = document.getElementById('editDocNombre').value;
+  doc.celular = document.getElementById('editDocCelular').value;
+  doc.mail = document.getElementById('editDocMail').value;
+  doc.clinica = document.getElementById('editDocClinica').value;
+  doc.vendedor = document.getElementById('editDocVendedor').value;
+  doc.direccion = document.getElementById('editDocDireccion').value;
+  doc.externo = document.getElementById('editDocTipo').value === 'externo';
+  doc.activo = document.getElementById('editDocActivo').checked;
+  doc.nota = document.getElementById('editDocNota').value;
+
+  window.closeModalEditarDoctor();
+  showToast('Doctor Actualizado', `Los cambios para el ${doc.nombre} fueron guardados correctamente.`);
+  renderDynamicModule('listado-doctores');
+};
 
 function toggleUsuarioAppEquipos(index) {
   const u = DENT_STATE.usuarios[index];
@@ -8330,133 +9175,204 @@ const INICIO_DATA = {
   canceladas: [
     {
         "serie": "30543",
+        "fecha": "2026-10-15",
         "responsable": "Mauricio Sotomayor",
         "comentario": "error de captura"
     },
     {
         "serie": "30514",
+        "fecha": "2026-10-14",
         "responsable": "Mauricio Sotomayor",
         "comentario": "Error de captura"
     },
     {
         "serie": "30459",
+        "fecha": "2026-10-12",
         "responsable": "Irene Martinez",
-        "comentario": ""
+        "comentario": "Cancelación solicitada por clínica"
     },
     {
         "serie": "30424",
+        "fecha": "2026-10-10",
         "responsable": "Mauricio Sotomayor",
         "comentario": "error de captura"
     },
     {
         "serie": "30352",
+        "fecha": "2026-10-08",
         "responsable": "Mauricio Sotomayor",
         "comentario": "Orden duplicada"
     },
     {
         "serie": "30336",
+        "fecha": "2026-10-06",
         "responsable": "Mauricio Sotomayor",
         "comentario": "ORDEN DUPLICADA"
     },
     {
         "serie": "30328",
+        "fecha": "2026-10-04",
         "responsable": "Mauricio Sotomayor",
         "comentario": "ERROR DE CAPTURA"
     },
     {
         "serie": "30308",
+        "fecha": "2026-10-02",
         "responsable": "Mauricio Sotomayor",
         "comentario": "error de captura"
     },
     {
         "serie": "30178",
+        "fecha": "2026-09-29",
         "responsable": "Mauricio Sotomayor",
         "comentario": "ERROR DE CAPTURA"
     },
     {
         "serie": "30176",
+        "fecha": "2026-09-28",
         "responsable": "Mauricio Sotomayor",
         "comentario": "ERROR DE CAPTURA"
     },
     {
         "serie": "30157",
+        "fecha": "2026-09-26",
         "responsable": "Mauricio Sotomayor",
         "comentario": "CAMBIO DE TX"
     },
     {
         "serie": "30126",
+        "fecha": "2026-09-24",
         "responsable": "Mauricio Sotomayor",
         "comentario": "ERROR DE CAPTURA EN NUMERO DE PIEZAS"
     },
     {
         "serie": "30112",
+        "fecha": "2026-09-22",
         "responsable": "Mauricio Sotomayor",
         "comentario": "Se van a rehabilitar mas piezas"
     },
     {
         "serie": "29944",
+        "fecha": "2026-09-18",
         "responsable": "Mauricio Sotomayor",
-        "comentario": "Error"
+        "comentario": "Error de asignación de doctor"
     },
     {
         "serie": "29898",
+        "fecha": "2026-09-15",
         "responsable": "Mauricio Sotomayor",
         "comentario": "error de cantidad capturada"
     },
     {
         "serie": "29871",
+        "fecha": "2026-09-14",
         "responsable": "Mauricio Sotomayor",
         "comentario": "Error de Dr en captura"
     },
     {
         "serie": "29870",
+        "fecha": "2026-09-12",
         "responsable": "Mauricio Sotomayor",
         "comentario": "error de captura"
     },
     {
         "serie": "29762",
+        "fecha": "2026-09-08",
         "responsable": "Mauricio Sotomayor",
         "comentario": "Error de captura en numero de unidades"
     },
     {
         "serie": "29552",
+        "fecha": "2026-08-30",
         "responsable": "Mauricio Sotomayor",
         "comentario": "Error en cantidad de alienadores"
     },
     {
         "serie": "29550",
+        "fecha": "2026-08-28",
         "responsable": "Irene Martinez",
         "comentario": "POR SOLICITUD DEL DOCTOR"
     },
     {
         "serie": "29497",
+        "fecha": "2026-08-25",
         "responsable": "Mauricio Sotomayor",
         "comentario": "Error de producto"
     },
     {
         "serie": "29463",
+        "fecha": "2026-08-22",
         "responsable": "Irene Martinez",
-        "comentario": "MODO DE PAGO INOCRRECTO"
+        "comentario": "MODO DE PAGO INCORRECTO"
     },
     {
         "serie": "29428",
+        "fecha": "2026-08-20",
         "responsable": "Irene Martinez",
         "comentario": "ERROR EN EL NOMBRE DEL PACIENTE"
     },
     {
         "serie": "29416",
+        "fecha": "2026-08-18",
         "responsable": "Mauricio Sotomayor",
         "comentario": "Error de captura"
     },
     {
         "serie": "29408",
+        "fecha": "2026-08-15",
         "responsable": "Mauricio Sotomayor",
         "comentario": "error de captura"
     }
 ],
   canceladasCount: 646,
   pendientes: [],
-  pendientesCount: 0
+  pendientesCount: 0,
+  eventosEscaneo: [
+    {
+      id: "ESC-101",
+      fechaHora: "2026-10-16 09:30",
+      doctor: "DRA. DIANA ELIZABETH",
+      doctorId: 583,
+      paciente: "Valeria Gómez Peña",
+      clinica: "Dental Park Consultorio 3",
+      especialista: "Arturo Meza",
+      tipo: "Escaneo Intraoral 3D",
+      estatus: "En camino"
+    },
+    {
+      id: "ESC-102",
+      fechaHora: "2026-10-16 11:45",
+      doctor: "DR. JOSÉ ÁNGEL",
+      doctorId: 586,
+      paciente: "Roberto Cantú Garza",
+      clinica: "Clínica San Patricio",
+      especialista: "Irene Martínez",
+      tipo: "Escaneo de Arcada Completa",
+      estatus: "Confirmado"
+    },
+    {
+      id: "ESC-103",
+      fechaHora: "2026-10-16 14:15",
+      doctor: "DR. ISMAEL",
+      doctorId: 184,
+      paciente: "Carla Sofía Ramos",
+      clinica: "Torre Médica Plaza 402",
+      especialista: "Mauricio Sotomayor",
+      tipo: "Escaneo + Toma de Color",
+      estatus: "Confirmado"
+    },
+    {
+      id: "ESC-104",
+      fechaHora: "2026-10-16 16:30",
+      doctor: "DRA. PATRICIA ELIZABETH",
+      doctorId: 442,
+      paciente: "Manuel Álvarez De la Rosa",
+      clinica: "Consultorio Ángeles",
+      especialista: "Arturo Meza",
+      tipo: "Escaneo de Implante / Muñón",
+      estatus: "Programado"
+    }
+  ]
 };
 
 // Buscadores universales exactos para Doctores y Órdenes de Trabajo
@@ -8572,6 +9488,45 @@ function renderTablasInicio() {
   if (numCanc) numCanc.innerText = INICIO_DATA.canceladasCount ?? 646;
   if (numPend) numPend.innerText = INICIO_DATA.pendientesCount ?? 0;
 
+// Cálculo de semáforo de días restantes o transcurridos para Órdenes
+window.calcularDiasRestantes = function(fechaStr) {
+  if (!fechaStr) return { diff: 0, label: 'Sin fecha', badgeClass: 'bg-slate-100 text-slate-600 border border-slate-200', icon: 'help-circle' };
+  const hoy = new Date();
+  hoy.setHours(0, 0, 0, 0);
+  const f = new Date(fechaStr + 'T00:00:00');
+  if (isNaN(f.getTime())) return { diff: 0, label: fechaStr, badgeClass: 'bg-slate-100 text-slate-600 border border-slate-200', icon: 'help-circle' };
+
+  const diffTime = f.getTime() - hoy.getTime();
+  const diffDays = Math.round(diffTime / (1000 * 60 * 60 * 24));
+
+  if (diffDays < 0) {
+    const abs = Math.abs(diffDays);
+    return {
+      diff: diffDays,
+      label: `${abs}d retraso`,
+      badgeClass: 'bg-rose-100 text-rose-800 border border-rose-200',
+      icon: 'alert-circle'
+    };
+  } else if (diffDays === 0) {
+    return {
+      diff: 0,
+      label: 'Entrega hoy',
+      badgeClass: 'bg-amber-100 text-amber-800 border border-amber-200',
+      icon: 'clock'
+    };
+  } else {
+    return {
+      diff: diffDays,
+      label: `${diffDays}d restantes`,
+      badgeClass: 'bg-emerald-100 text-emerald-800 border border-emerald-200',
+      icon: 'check-circle'
+    };
+  }
+};
+
+  const numProx = document.getElementById('NumberProximosEscaneos');
+  if (numProx) numProx.innerText = INICIO_DATA.eventosEscaneo ? INICIO_DATA.eventosEscaneo.length : 4;
+
   if (tbOrd) {
     const perPage = 20;
     const start = (paginaActualOrdenes - 1) * perPage;
@@ -8583,6 +9538,7 @@ function renderTablasInicio() {
         : 'hover:bg-slate-50';
       const safeDoc = (o.doctor || '').replace(/'/g, "\\'");
       const safePac = (o.paciente || '').replace(/'/g, "\\'");
+      const semaforo = window.calcularDiasRestantes(o.entrega);
       const estadoBadge =
         isEnt
           ? 'bg-emerald-100/90 text-emerald-800 border border-emerald-200'
@@ -8609,7 +9565,15 @@ function renderTablasInicio() {
             </button>
           </td>
           <td class="font-mono font-bold text-slate-900">${o.serie}</td>
-          <td class="font-mono text-slate-600">${o.entrega}</td>
+          <td class="font-mono text-slate-600">
+            <div class="flex flex-col items-center justify-center gap-0.5">
+              <span>${o.entrega}</span>
+              <span class="inline-flex items-center gap-1 text-[9.5px] font-bold px-2 py-0.5 rounded-full ${semaforo.badgeClass}">
+                <i data-lucide="${semaforo.icon}" class="w-3 h-3"></i>
+                <span>${semaforo.label}</span>
+              </span>
+            </div>
+          </td>
           <td>
             <span class="px-2.5 py-0.5 rounded-full text-[10px] font-bold ${estadoBadge}">${o.estado}</span>
           </td>
@@ -8641,20 +9605,95 @@ function cambiarPaginaOrdenes(p) {
   if (tbody) animateViewEntrance(tbody);
 }
 
-// Modales de Inicio idénticos a DENT DEMO/index.php (Órdenes Canceladas y Órdenes Pendientes de Pago)
-function renderModalsInicio() {
-  const tbCanc = document.getElementById('tbodyModalCanceladas');
-  if (tbCanc) {
-    tbCanc.innerHTML = (INICIO_DATA.canceladas || []).map(c => `
-      <tr class="hover:bg-slate-50">
-        <td class="font-mono font-bold">
-          <a href="javascript:void(0)" onclick="document.getElementById('modalCanceladas').classList.add('hidden'); abrirOrdenTrabajo('${c.serie}')" class="text-blue-600 hover:underline">${c.serie}</a>
-        </td>
-        <td class="uppercase font-semibold text-slate-700">${c.responsable}</td>
-        <td class="uppercase text-slate-600">${c.comentario}</td>
-      </tr>
-    `).join('');
+// Filtro interactivo de Órdenes Canceladas por Rango de Fechas
+window.filtrarCanceladasPorFecha = function() {
+  const fDesde = document.getElementById('canceladasFechaDesde')?.value;
+  const fHasta = document.getElementById('canceladasFechaHasta')?.value;
+  const tb = document.getElementById('tbodyModalCanceladas');
+  const badge = document.getElementById('badgeModalCanceladasTotal');
+  if (!tb) return;
+
+  let filtradas = INICIO_DATA.canceladas || [];
+  if (fDesde) {
+    filtradas = filtradas.filter(c => !c.fecha || c.fecha >= fDesde);
   }
+  if (fHasta) {
+    filtradas = filtradas.filter(c => !c.fecha || c.fecha <= fHasta);
+  }
+
+  if (badge) {
+    badge.innerText = `${filtradas.length} mostradas`;
+  }
+
+  if (!filtradas.length) {
+    tb.innerHTML = '<tr><td colspan="4" class="py-6 text-center text-slate-400 font-semibold">NO SE ENCONTRARON ÓRDENES CANCELADAS EN EL RANGO SELECCIONADO</td></tr>';
+    return;
+  }
+
+  tb.innerHTML = filtradas.map(c => `
+    <tr class="hover:bg-slate-50 transition-colors">
+      <td class="font-mono font-bold">
+        <a href="javascript:void(0)" onclick="document.getElementById('modalCanceladas').classList.add('hidden'); abrirOrdenTrabajo('${c.serie}')" class="text-blue-600 hover:underline font-mono">${c.serie}</a>
+      </td>
+      <td class="font-mono text-slate-500 text-[11px]">${c.fecha || '2026-10-14'}</td>
+      <td class="uppercase font-semibold text-slate-700">${c.responsable}</td>
+      <td class="text-slate-600">${c.comentario || 'Cancelación administrativa'}</td>
+    </tr>
+  `).join('');
+};
+
+window.resetFiltroCanceladasMesActual = function() {
+  const hoy = new Date();
+  const y = hoy.getFullYear();
+  const m = String(hoy.getMonth() + 1).padStart(2, '0');
+  const primerDia = `${y}-${m}-01`;
+  const ultimoDia = `${y}-${m}-31`;
+
+  const inpDesde = document.getElementById('canceladasFechaDesde');
+  const inpHasta = document.getElementById('canceladasFechaHasta');
+  if (inpDesde) inpDesde.value = primerDia;
+  if (inpHasta) inpHasta.value = ultimoDia;
+  window.filtrarCanceladasPorFecha();
+};
+
+// Modal de Próximos Eventos de Escaneo
+window.renderEventosEscaneoModal = function() {
+  const tb = document.getElementById('tbodyModalEventosEscaneo');
+  if (!tb) return;
+  const list = INICIO_DATA.eventosEscaneo || [];
+  if (!list.length) {
+    tb.innerHTML = '<tr><td colspan="6" class="py-6 text-center text-slate-400 font-semibold">NO HAY EVENTOS DE ESCANEO PROGRAMADOS</td></tr>';
+    return;
+  }
+  tb.innerHTML = list.map(ev => `
+    <tr class="hover:bg-slate-50 transition-colors">
+      <td class="font-mono font-bold text-slate-900 whitespace-nowrap">${ev.fechaHora}</td>
+      <td class="font-bold text-slate-800">
+        <a href="javascript:void(0)" onclick="document.getElementById('modalEventosEscaneo').classList.add('hidden'); abrirDetalleDoctor('${ev.doctorId || ev.doctor}')" class="text-blue-600 hover:underline">${ev.doctor}</a>
+      </td>
+      <td class="text-slate-700">
+        <div class="font-semibold">${ev.paciente}</div>
+        <div class="text-[10px] text-slate-400">${ev.clinica}</div>
+      </td>
+      <td class="font-semibold text-slate-700">
+        <span class="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-lg bg-blue-50 text-blue-700 border border-blue-200/80 font-medium">
+          <i data-lucide="user-check" class="w-3 h-3"></i>
+          <span>${ev.especialista}</span>
+        </span>
+      </td>
+      <td class="text-slate-600 font-medium text-[11px]">${ev.tipo}</td>
+      <td>
+        <span class="px-2 py-0.5 rounded-full text-[10px] font-bold ${ev.estatus === 'En camino' ? 'bg-amber-100 text-amber-800 border border-amber-200' : ev.estatus === 'Confirmado' ? 'bg-emerald-100 text-emerald-800 border border-emerald-200' : 'bg-slate-100 text-slate-700 border border-slate-200'}">${ev.estatus}</span>
+      </td>
+    </tr>
+  `).join('');
+  if (typeof lucide !== 'undefined') lucide.createIcons();
+};
+
+// Modales de Inicio idénticos a DENT DEMO/index.php (Órdenes Canceladas, Pendientes de Pago y Próximos Escaneos)
+function renderModalsInicio() {
+  window.filtrarCanceladasPorFecha();
+  window.renderEventosEscaneoModal();
 
   const tbPend = document.getElementById('tbodyModalPendientesPago');
   if (tbPend) {
@@ -10435,3 +11474,444 @@ document.addEventListener('DOMContentLoaded', () => {
     window.syncLiveDatabase(true);
   }, 30000);
 });
+
+// ============================================================================
+// FUNCIONES DE APOYO PARA MÓDULOS DE DENT CONTROL (Checklist Integral)
+// ============================================================================
+
+// Filtro de Paquetes
+window.filtrarPaquetes = function() {
+  const q = (document.getElementById('searchPaqInput')?.value || '').toLowerCase().trim();
+  const fDesde = document.getElementById('filtroPaqDesde')?.value;
+  const fHasta = document.getElementById('filtroPaqHasta')?.value;
+  const cond = document.getElementById('filtroPaqTerminado')?.value || 'todos';
+
+  const rows = document.querySelectorAll('#tbodyPaquetes tr');
+  let visibles = 0;
+
+  rows.forEach(row => {
+    const text = row.getAttribute('data-nombre') || '';
+    const desde = row.getAttribute('data-desde') || '';
+    const hasta = row.getAttribute('data-hasta') || '';
+    const activo = row.getAttribute('data-activo') === 'true';
+
+    let matchQ = !q || text.includes(q);
+    let matchDesde = !fDesde || (desde && desde >= fDesde);
+    let matchHasta = !fHasta || (hasta && hasta <= fHasta);
+    let matchCond = true;
+    if (cond === 'no-terminado') matchCond = activo;
+    if (cond === 'terminado') matchCond = !activo;
+
+    if (matchQ && matchDesde && matchHasta && matchCond) {
+      row.style.display = '';
+      visibles++;
+    } else {
+      row.style.display = 'none';
+    }
+  });
+
+  const count = document.getElementById('contadorPaquetesFiltrados');
+  if (count) count.innerText = `Mostrando ${visibles} de ${rows.length} paquetes`;
+};
+
+window.resetFiltrosPaquetes = function() {
+  const s = document.getElementById('searchPaqInput');
+  const fd = document.getElementById('filtroPaqDesde');
+  const fh = document.getElementById('filtroPaqHasta');
+  const c = document.getElementById('filtroPaqTerminado');
+  if (s) s.value = '';
+  if (fd) fd.value = '';
+  if (fh) fh.value = '';
+  if (c) c.value = 'todos';
+  window.filtrarPaquetes();
+};
+
+// Filtro de Discos CAD/CAM en 4 direcciones + fechas
+window.filtrarDiscosInventario = function() {
+  const estatus = document.getElementById('filtroDiscoEstatus')?.value || '';
+  const marca = document.getElementById('filtroDiscoMarca')?.value || '';
+  const color = document.getElementById('filtroDiscoColor')?.value || '';
+  const espesor = document.getElementById('filtroDiscoEspesor')?.value || '';
+  const fIni = document.getElementById('filtroDiscoFechaIni')?.value;
+  const fFin = document.getElementById('filtroDiscoFechaFin')?.value;
+  const q = (document.getElementById('searchDiscoInput')?.value || '').toLowerCase().trim();
+
+  const rows = document.querySelectorAll('#tbodyDiscos tr');
+  let visibles = 0;
+
+  rows.forEach(row => {
+    const rId = (row.getAttribute('data-id') || '').toLowerCase();
+    const rMarca = row.getAttribute('data-marca') || '';
+    const rColor = row.getAttribute('data-color') || '';
+    const rEspesor = row.getAttribute('data-espesor') || '';
+    const rEstado = row.getAttribute('data-estado') || '';
+    const rFecha = row.getAttribute('data-fecha') || '';
+
+    let matchQ = !q || rId.includes(q) || row.innerText.toLowerCase().includes(q);
+    let matchEstatus = !estatus || rEstado.includes(estatus);
+    let matchMarca = !marca || rMarca === marca;
+    let matchColor = !color || rColor === color;
+    let matchEspesor = !espesor || rEspesor === espesor;
+    let matchFini = !fIni || (rFecha && rFecha >= fIni);
+    let matchFfin = !fFin || (rFecha && rFecha <= fFin);
+
+    if (matchQ && matchEstatus && matchMarca && matchColor && matchEspesor && matchFini && matchFfin) {
+      row.style.display = '';
+      visibles++;
+    } else {
+      row.style.display = 'none';
+    }
+  });
+
+  const count = document.getElementById('contadorDiscosFiltrados');
+  if (count) count.innerText = `Mostrando ${visibles} de ${rows.length} discos`;
+};
+
+window.resetFiltrosDiscos = function() {
+  const fe = document.getElementById('filtroDiscoEstatus');
+  const fm = document.getElementById('filtroDiscoMarca');
+  const fc = document.getElementById('filtroDiscoColor');
+  const fesp = document.getElementById('filtroDiscoEspesor');
+  const fi = document.getElementById('filtroDiscoFechaIni');
+  const ff = document.getElementById('filtroDiscoFechaFin');
+  const s = document.getElementById('searchDiscoInput');
+  if (fe) fe.value = '';
+  if (fm) fm.value = '';
+  if (fc) fc.value = '';
+  if (fesp) fesp.value = '';
+  if (fi) fi.value = '';
+  if (ff) ff.value = '';
+  if (s) s.value = '';
+  window.filtrarDiscosInventario();
+};
+
+// Impresión de Etiqueta Térmica de Disco para Caja
+window.imprimirEtiquetaTermicaDisco = function(discoId) {
+  const d = DENT_STATE.discos.find(x => x.id === discoId) || DENT_STATE.discos[0];
+  const win = window.open('', '_blank', 'width=480,height=360');
+  if (!win) {
+    alert('Permite las ventanas emergentes para imprimir la etiqueta.');
+    return;
+  }
+
+  win.document.write(`
+    <!DOCTYPE html>
+    <html>
+    <head>
+      <title>Etiqueta Disco ${d.id}</title>
+      <script src="https://cdn.jsdelivr.net/npm/jsbarcode@3.11.5/dist/JsBarcode.all.min.js"><\/script>
+      <style>
+        @page { size: 80mm 50mm; margin: 0; }
+        body { font-family: monospace; margin: 0; padding: 12px; font-size: 11px; text-transform: uppercase; color: #0f172a; }
+        .hdr { display: flex; justify-content: space-between; border-bottom: 2px solid #000; padding-bottom: 4px; font-weight: bold; }
+        .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; margin-top: 8px; }
+        .barcode { text-align: center; margin-top: 6px; }
+      </style>
+    </head>
+    <body>
+      <div class="hdr">
+        <span>DENT LAB CAD/CAM</span>
+        <span>${d.id}</span>
+      </div>
+      <div class="grid">
+        <div><strong>Marca:</strong> ${d.marca}</div>
+        <div><strong>Lote:</strong> ${d.lote}</div>
+        <div><strong>Tono Vita:</strong> ${d.color}</div>
+        <div><strong>Espesor:</strong> ${d.espesor}</div>
+        <div><strong>Capacidad:</strong> ${d.capacidad} pzas</div>
+        <div><strong>Fresadas:</strong> ${d.usadas} pzas</div>
+      </div>
+      <div class="barcode">
+        <svg id="barcodeSvg"></svg>
+      </div>
+      <script>
+        window.onload = function() {
+          if (typeof JsBarcode === 'function') {
+            JsBarcode('#barcodeSvg', '${d.id}', { format: 'CODE128', width: 2, height: 42, displayValue: true, fontSize: 13 });
+          }
+          setTimeout(() => window.print(), 350);
+        };
+      <\/script>
+    </body>
+    </html>
+  `);
+  win.document.close();
+};
+
+// Modal Detalle de Uso por OT
+window.abrirModalDetalleUsoDisco = function(discoId) {
+  const d = DENT_STATE.discos.find(x => x.id === discoId) || DENT_STATE.discos[0];
+  const modal = document.getElementById('modalDetalleUsoDisco');
+  const sub = document.getElementById('subtituloDetalleDisco');
+  const codLote = document.getElementById('discoDetalleCodigoLote');
+  const specs = document.getElementById('discoDetalleEspecificaciones');
+  const badge = document.getElementById('discoDetalleConsumoBadge');
+  const tb = document.getElementById('tbodyDetalleUsoDisco');
+  const btnPrint = document.getElementById('btnImprimirEtiquetaDesdeModal');
+
+  if (sub) sub.innerText = `Historial de desbaste: ${d.id} (${d.marca})`;
+  if (codLote) codLote.innerText = `${d.id} — ${d.lote}`;
+  if (specs) specs.innerText = `${d.marca} • ${d.color} • ${d.espesor}`;
+  if (badge) badge.innerText = `${d.usadas} de ${d.capacidad} piezas (${Math.round((d.usadas / d.capacidad) * 100)}%)`;
+  if (btnPrint) btnPrint.onclick = () => window.imprimirEtiquetaTermicaDisco(d.id);
+
+  if (tb) {
+    const ordenes = Array.isArray(d.ordenesUso) && d.ordenesUso.length ? d.ordenesUso : [
+      { ot: '30593', paciente: 'Paciente Frecuente', piezas: 4, fecha: '2026-10-01' },
+      { ot: '30589', paciente: 'Clínica San Pedro', piezas: 2, fecha: '2026-09-29' }
+    ];
+
+    tb.innerHTML = ordenes.map(u => `
+      <tr class="hover:bg-slate-50 transition-colors">
+        <td class="font-mono font-bold text-blue-600">#${u.ot}</td>
+        <td class="font-medium text-slate-800">${u.paciente}</td>
+        <td class="font-mono font-bold text-slate-900">${u.piezas} pzas</td>
+        <td class="font-mono text-slate-500 text-[11px]">${u.fecha}</td>
+        <td>
+          <button onclick="document.getElementById('modalDetalleUsoDisco').classList.add('hidden'); abrirOrdenTrabajo('${u.ot}')" class="px-2 py-0.5 rounded bg-blue-50 text-blue-700 hover:bg-blue-600 hover:text-white font-semibold text-[10.5px] transition-colors">
+            Ver OT
+          </button>
+        </td>
+      </tr>
+    `).join('');
+  }
+
+  if (modal) modal.classList.remove('hidden');
+  if (typeof lucide !== 'undefined') lucide.createIcons();
+};
+
+window.closeModalDetalleUsoDisco = function() {
+  const modal = document.getElementById('modalDetalleUsoDisco');
+  if (modal) modal.classList.add('hidden');
+};
+
+// Terminar Disco Manual (incluso si restan piezas)
+window.terminarDiscoManual = function(discoId) {
+  const d = DENT_STATE.discos.find(x => x.id === discoId);
+  if (!d) return;
+  const piezasRestantes = d.capacidad - d.usadas;
+  const confirmar = confirm(`¿Deseas marcar como terminado el disco ${d.id} (${d.marca})? Aún cuenta con ${piezasRestantes} piezas libres. Pasará a estatus 'Agotado / Terminado manual'.`);
+  if (!confirmar) return;
+
+  d.estado = 'Agotado / Terminado manual';
+  d.almacen = 'Histórico CNC';
+  showToast('Disco Terminado', `El disco ${d.id} fue concluido manualmente y liberado de fresadora.`);
+  renderDynamicModule('inventario-discos');
+};
+
+// Filtro de Usuarios
+window.filtrarUsuarios = function() {
+  const q = (document.getElementById('searchUserInput')?.value || '').toLowerCase().trim();
+  const perf = document.getElementById('filtroUserPerfil')?.value || '';
+  const est = document.getElementById('filtroUserEstatus')?.value || '';
+
+  const rows = document.querySelectorAll('#tbodyUsuarios tr');
+  let visibles = 0;
+
+  rows.forEach(row => {
+    const text = row.innerText.toLowerCase();
+    const rPerf = row.getAttribute('data-perfil') || '';
+    const rEst = row.getAttribute('data-estatus') || '';
+
+    let matchQ = !q || text.includes(q);
+    let matchPerf = !perf || rPerf === perf;
+    let matchEst = !est || rEst === est;
+
+    if (matchQ && matchPerf && matchEst) {
+      row.style.display = '';
+      visibles++;
+    } else {
+      row.style.display = 'none';
+    }
+  });
+
+  const count = document.getElementById('contadorUsuariosFiltrados');
+  if (count) count.innerText = `Mostrando ${visibles} de ${rows.length} cuentas de usuario`;
+};
+
+window.resetFiltrosUsuarios = function() {
+  const s = document.getElementById('searchUserInput');
+  const p = document.getElementById('filtroUserPerfil');
+  const e = document.getElementById('filtroUserEstatus');
+  if (s) s.value = '';
+  if (p) p.value = '';
+  if (e) e.value = '';
+  window.filtrarUsuarios();
+};
+
+// Modal Editar Usuario
+window.abrirModalEditarUsuario = function(userId) {
+  const u = DENT_STATE.usuarios.find(x => x.id === userId) || DENT_STATE.usuarios[0];
+  const modal = document.getElementById('modalEditarUsuario');
+  document.getElementById('editUserId').value = u.id || 1;
+  document.getElementById('editUserNombre').value = u.nombre || '';
+  document.getElementById('editUserUsuario').value = u.usuario || '';
+  document.getElementById('editUserCorreo').value = u.correo || '';
+  document.getElementById('editUserPerfil').value = u.perfil || 'Administrador';
+  document.getElementById('editUserAppEquipos').checked = !!u.appEquipos;
+  document.getElementById('editUserEstatus').checked = !!u.estatus;
+
+  const sub = document.getElementById('subtituloEditarUsuario');
+  if (sub) sub.innerText = `ID #${u.id || 1} • @${u.usuario}`;
+
+  if (modal) modal.classList.remove('hidden');
+};
+
+window.closeModalEditarUsuario = function() {
+  const modal = document.getElementById('modalEditarUsuario');
+  if (modal) modal.classList.add('hidden');
+};
+
+window.guardarEdicionUsuario = function(e) {
+  e.preventDefault();
+  const id = Number(document.getElementById('editUserId')?.value);
+  const u = DENT_STATE.usuarios.find(x => x.id === id) || DENT_STATE.usuarios[0];
+  if (!u) return;
+
+  u.nombre = document.getElementById('editUserNombre').value;
+  u.usuario = document.getElementById('editUserUsuario').value;
+  u.correo = document.getElementById('editUserCorreo').value;
+  u.perfil = document.getElementById('editUserPerfil').value;
+  u.appEquipos = document.getElementById('editUserAppEquipos').checked;
+  u.estatus = document.getElementById('editUserEstatus').checked;
+
+  window.closeModalEditarUsuario();
+  showToast('Usuario Actualizado', `Los datos para @${u.usuario} (${u.nombre}) fueron guardados correctamente.`);
+  renderDynamicModule('usuarios');
+};
+
+// Modal Permisos por Módulo
+window.abrirModalPermisosUsuario = function(userId) {
+  const u = DENT_STATE.usuarios.find(x => x.id === userId) || DENT_STATE.usuarios[0];
+  const modal = document.getElementById('modalPermisosUsuario');
+  document.getElementById('permisosUserId').value = u.id || 1;
+  const sub = document.getElementById('subtituloPermisosUsuario');
+  if (sub) sub.innerText = `Configurar permisos para: @${u.usuario} (${u.perfil})`;
+
+  const modulos = [
+    'Dashboard / Inicio',
+    'Módulo de Órdenes (Listado y OT)',
+    'Módulo de Doctores y Pacientes',
+    'Módulo de Paquetes Prepagados',
+    'Módulo de Discos CAD/CAM',
+    'Módulo de Usuarios y Seguridad',
+    'Módulo de Mensajes Push',
+    'Estadísticos y Reportes'
+  ];
+
+  const tb = document.getElementById('tbodyMatrizPermisos');
+  if (tb) {
+    tb.innerHTML = modulos.map((m, idx) => `
+      <tr class="hover:bg-slate-50 transition-colors">
+        <td class="px-3 py-2 text-left font-semibold text-slate-800">${m}</td>
+        <td class="px-3 py-2"><input type="checkbox" checked class="rounded text-blue-600 perm-chk"></td>
+        <td class="px-3 py-2"><input type="checkbox" ${idx !== 0 ? 'checked' : ''} class="rounded text-blue-600 perm-chk"></td>
+        <td class="px-3 py-2"><input type="checkbox" ${idx < 5 ? 'checked' : ''} class="rounded text-blue-600 perm-chk"></td>
+        <td class="px-3 py-2"><input type="checkbox" ${u.perfil === 'Administrador' ? 'checked' : ''} class="rounded text-blue-600 perm-chk"></td>
+      </tr>
+    `).join('');
+  }
+
+  if (modal) modal.classList.remove('hidden');
+};
+
+window.closeModalPermisosUsuario = function() {
+  const modal = document.getElementById('modalPermisosUsuario');
+  if (modal) modal.classList.add('hidden');
+};
+
+window.marcarTodosLosPermisos = function(estado) {
+  document.querySelectorAll('.perm-chk').forEach(c => c.checked = estado);
+};
+
+window.guardarPermisosUsuario = function(e) {
+  e.preventDefault();
+  window.closeModalPermisosUsuario();
+  showToast('Permisos Actualizados', 'La matriz de permisos por módulo fue guardada satisfactoriamente.');
+};
+
+// Mensajes Push
+window.toggleSelectAllPushDocs = function(checked) {
+  document.querySelectorAll('.push-doc-chk').forEach(c => c.checked = checked);
+};
+
+window.enviarMensajePushCustom = function(e) {
+  e.preventDefault();
+  const checkedDocs = Array.from(document.querySelectorAll('.push-doc-chk:checked')).map(c => c.value);
+  const titulo = document.getElementById('pushTituloInput')?.value;
+  const mensaje = document.getElementById('pushMensajeInput')?.value;
+  const fechaProg = document.getElementById('pushFechaProgramada')?.value;
+
+  if (!checkedDocs.length) {
+    alert('Por favor selecciona al menos un doctor destinatario.');
+    return;
+  }
+
+  const destinatarioStr = checkedDocs.length === document.querySelectorAll('.push-doc-chk').length
+    ? 'Todos los Doctores'
+    : (checkedDocs.length === 1 ? checkedDocs[0] : `${checkedDocs[0]} y ${checkedDocs.length - 1} doctores más`);
+
+  const fechaStr = fechaProg ? fechaProg.replace('T', ' ') : 'Ahora mismo';
+
+  DENT_STATE.mensajesPush.unshift({
+    id: 'PSH-' + (45 + DENT_STATE.mensajesPush.length),
+    tipo: 'Notificación App',
+    titulo: titulo,
+    mensaje: mensaje,
+    destinatario: destinatarioStr,
+    fecha: fechaStr,
+    enviado: true
+  });
+
+  showToast('Push Enviado / Programado', `Mensaje "${titulo}" enviado exitosamente a ${checkedDocs.length} doctor(es).`);
+  renderDynamicModule('mensajes-push');
+};
+
+// Reportes: Doctores sin paquetes
+window.filtrarDoctoresSinPaquetes = function(meses) {
+  const tb = document.getElementById('tbodyDoctoresSinPaquetes');
+  if (!tb) return;
+
+  const btn1 = document.getElementById('btnSinPaq1M');
+  const btn3 = document.getElementById('btnSinPaq3M');
+  const btn6 = document.getElementById('btnSinPaq6M');
+  if (btn1 && btn3 && btn6) {
+    btn1.className = meses === 1 ? 'px-3 py-1.5 rounded-lg bg-slate-900 text-white font-bold shadow-sm transition-colors' : 'px-3 py-1.5 rounded-lg bg-white border border-slate-200 text-slate-700 font-semibold hover:bg-slate-100 transition-colors';
+    btn3.className = meses === 3 ? 'px-3 py-1.5 rounded-lg bg-slate-900 text-white font-bold shadow-sm transition-colors' : 'px-3 py-1.5 rounded-lg bg-white border border-slate-200 text-slate-700 font-semibold hover:bg-slate-100 transition-colors';
+    btn6.className = meses === 6 ? 'px-3 py-1.5 rounded-lg bg-slate-900 text-white font-bold shadow-sm transition-colors' : 'px-3 py-1.5 rounded-lg bg-white border border-slate-200 text-slate-700 font-semibold hover:bg-slate-100 transition-colors';
+  }
+
+  const list = DENT_STATE.doctores.filter(d => meses === 'custom' ? true : (d.mesesSinPaquete || 2) >= (typeof meses === 'number' ? meses : 1));
+
+  tb.innerHTML = list.map(d => `
+    <tr class="hover:bg-slate-50 transition-colors">
+      <td class="px-3 py-2.5 font-bold text-slate-900 text-left">
+        <a href="javascript:void(0)" onclick="abrirDetalleDoctor('${d.id}')" class="text-blue-600 hover:underline">${d.nombre}</a>
+      </td>
+      <td class="px-3 py-2.5 text-left text-slate-700">${d.clinica}</td>
+      <td class="px-3 py-2.5 font-mono text-slate-500">${d.celular}</td>
+      <td class="px-3 py-2.5 font-semibold text-slate-700">${d.vendedor}</td>
+      <td class="px-3 py-2.5">
+        <span class="px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-amber-100 text-amber-800 border border-amber-200">
+          ${d.mesesSinPaquete || 3} meses inactivo
+        </span>
+      </td>
+      <td class="px-3 py-2.5">
+        <button onclick="asignarPaqueteDoctor('${d.nombre}')" class="px-3 py-1 rounded-lg bg-blue-600 hover:bg-blue-700 text-white font-bold text-[11px] shadow-sm transition-colors">
+          + Ofrecer Paquete
+        </button>
+      </td>
+    </tr>
+  `).join('');
+};
+
+window.filtrarDoctoresPorVendedor = function() {
+  const sel = document.getElementById('selectVendedorFiltro')?.value || '';
+  const rows = document.querySelectorAll('#tbodyDoctoresPorVendedor tr');
+  rows.forEach(r => {
+    const v = r.getAttribute('data-vendedor') || '';
+    r.style.display = (!sel || v === sel) ? '' : 'none';
+  });
+};
+
+window.filtrarDiscosActivosUsados = window.filtrarDiscosInventario;

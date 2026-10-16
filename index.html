@@ -755,10 +755,14 @@
           icon: 'home'
         },
         {
-          label: 'Estadisticas',
+          label: 'Estadísticas y Reportes',
           value: 'sec-estadisticas',
           icon: 'bar-chart-2',
           children: [
+            { label: 'Panorama General (KPIs)', value: 'panorama-general', icon: 'pie-chart' },
+            { label: 'Doctores por Agotar Piezas', value: 'doctores-por-agotar', icon: 'alert-triangle' },
+            { label: 'Doctores sin Paquetes', value: 'doctores-sin-paquetes', icon: 'user-minus' },
+            { label: 'Doctores por Vendedor', value: 'doctores-por-vendedor', icon: 'user-check' },
             { label: 'Control Laboratorio', value: 'control-lab', icon: 'activity' },
             { label: 'Paquetes vencidos', value: 'paquetes-vencidos', icon: 'package-x' },
             { label: 'Finanzas', value: 'finanzas', icon: 'trending-up' }
@@ -792,13 +796,14 @@
             { label: 'Paquetes', value: 'paquetes', icon: 'package' },
             { label: 'Productos', value: 'productos-app', icon: 'box' },
             {
-              label: 'Discos',
+              label: 'Discos CAD/CAM',
               value: 'sub-discos',
               icon: 'disc',
               children: [
                 { label: 'Inventario de Discos', value: 'inventario-discos', icon: 'layers' },
-                { label: 'Historial de Discos', value: 'historial-discos', icon: 'history' },
-                { label: 'Uso de Discos', value: 'uso-discos', icon: 'pie-chart' }
+                { label: 'Discos Activos', value: 'discos-activos', icon: 'play-circle' },
+                { label: 'Discos Usados', value: 'discos-usados', icon: 'check-circle-2' },
+                { label: 'Marcas de Discos', value: 'marcas-discos', icon: 'award' }
               ]
             },
             { label: 'BanersApp', value: 'baners-app', icon: 'layout' },
@@ -817,10 +822,12 @@
               value: 'sub-doctores',
               icon: 'stethoscope',
               children: [
-                { label: 'Tipos de Doctores', value: 'doctores-tipos', icon: 'user-cog' },
-                { label: 'Paquetes Doctores', value: 'paquetes-doctores', icon: 'package-check' },
+                { label: 'Lista de Doctores', value: 'listado-doctores', icon: 'users' },
+                { label: 'Doctores por Agotar', value: 'doctores-por-agotar', icon: 'alert-triangle' },
                 { label: 'Doctores sin Paquetes', value: 'doctores-sin-paquetes', icon: 'user-minus' },
-                { label: 'Lista de Doctores', value: 'listados-doctores', icon: 'users' }
+                { label: 'Doctores por Vendedor', value: 'doctores-por-vendedor', icon: 'user-check' },
+                { label: 'Paquetes Doctores', value: 'paquetes-doctores', icon: 'package-check' },
+                { label: 'Tipos de Doctores', value: 'doctores-tipos', icon: 'user-cog' }
               ]
             },
             { label: 'Categorías', value: 'categorias', icon: 'list' },
@@ -1489,6 +1496,19 @@
                       style="background: rgba(51, 78, 104, 0.48); color: #d9e2ec; border: 1px solid rgba(159, 179, 200, 0.30);"
                       id="NumberOrden">0</span>
               </button>
+
+              <!-- Próximos Eventos (Escaneos) -->
+              <button type="button" onclick="openModalEventosEscaneo();"
+                class="hero-kpi-card px-3.5 py-2 rounded-xl flex items-center gap-2.5 text-xs font-semibold text-slate-100 cursor-pointer">
+                <span class="w-6 h-6 rounded-lg flex items-center justify-center shrink-0"
+                      style="background: rgba(30, 78, 120, 0.45); color: #93c5fd; border: 1px solid rgba(147, 197, 253, 0.3);">
+                  <i data-lucide="scan" class="w-3.5 h-3.5"></i>
+                </span>
+                <span>Próximos Escaneos</span>
+                <span class="px-2 py-0.5 rounded-lg text-[11px] font-extrabold font-mono"
+                      style="background: rgba(30, 78, 120, 0.55); color: #dbeafe; border: 1px solid rgba(147, 197, 253, 0.35);"
+                      id="NumberProximosEscaneos">4</span>
+              </button>
             </div>
 
             <!-- Reloj en Vivo y Acciones Rápidas (Actualizar y Nueva Orden) -->
@@ -1945,23 +1965,56 @@
   </div>
 
   <!-- ========================================================================= -->
-  <!-- MODAL: ÓRDENES CANCELADAS (Idéntico a index.php L233-260 de DENT DEMO)    -->
+  <!-- MODAL: ÓRDENES CANCELADAS (Con Filtros de Fecha - Checklist Dent Control) -->
   <!-- ========================================================================= -->
   <div id="modalCanceladas" class="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-sm hidden flex items-center justify-center p-4">
-    <div class="bg-white rounded-2xl max-w-2xl w-full border border-slate-200 shadow-2xl overflow-hidden">
+    <div class="bg-white rounded-2xl max-w-3xl w-full border border-slate-200 shadow-2xl overflow-hidden animate-in fade-in zoom-in-95 duration-200">
       <div class="p-4 bg-slate-900 text-white flex items-center justify-between">
-        <h4 class="text-sm font-bold">Órdenes canceladas</h4>
+        <div class="flex items-center gap-2.5">
+          <span class="w-7 h-7 rounded-lg bg-rose-500/20 text-rose-400 flex items-center justify-center">
+            <i data-lucide="ban" class="w-4 h-4"></i>
+          </span>
+          <div>
+            <h4 class="text-sm font-bold text-white">Órdenes Canceladas</h4>
+            <p class="text-[11px] text-slate-400">Cancelaciones del mes en curso y consulta histórica por rango de fechas</p>
+          </div>
+        </div>
         <button onclick="closeModalCanceladas()" class="p-1 text-slate-400 hover:text-white">
           <i data-lucide="x" class="w-4 h-4"></i>
         </button>
       </div>
-      <div class="p-5 overflow-y-auto max-h-[65vh] table-scroll">
+
+      <!-- Barra de Filtros de Fecha -->
+      <div class="px-5 py-3 bg-slate-50 border-b border-slate-200/80 flex flex-wrap items-center justify-between gap-3 text-xs">
+        <div class="flex flex-wrap items-center gap-3">
+          <div class="flex items-center gap-1.5 text-slate-600">
+            <span class="font-semibold text-[11px] text-slate-500 uppercase">Desde:</span>
+            <input type="date" id="canceladasFechaDesde" onchange="filtrarCanceladasPorFecha()" class="px-2.5 py-1 text-xs bg-white border border-slate-200 rounded-lg text-slate-700 focus:outline-none focus:ring-1 focus:ring-slate-400">
+          </div>
+          <div class="flex items-center gap-1.5 text-slate-600">
+            <span class="font-semibold text-[11px] text-slate-500 uppercase">Hasta:</span>
+            <input type="date" id="canceladasFechaHasta" onchange="filtrarCanceladasPorFecha()" class="px-2.5 py-1 text-xs bg-white border border-slate-200 rounded-lg text-slate-700 focus:outline-none focus:ring-1 focus:ring-slate-400">
+          </div>
+          <button type="button" onclick="filtrarCanceladasPorFecha()" class="px-3 py-1 bg-slate-900 hover:bg-slate-800 text-white text-xs font-semibold rounded-lg transition-colors">
+            Filtrar
+          </button>
+        </div>
+        <div class="flex items-center gap-2">
+          <button type="button" onclick="resetFiltroCanceladasMesActual()" class="px-2.5 py-1 bg-white hover:bg-slate-100 border border-slate-200 text-slate-700 text-xs font-semibold rounded-lg transition-colors">
+            Mes en curso
+          </button>
+          <span class="px-2 py-0.5 rounded-full text-[11px] font-mono font-bold bg-rose-50 text-rose-700 border border-rose-200" id="badgeModalCanceladasTotal">20 mostradas</span>
+        </div>
+      </div>
+
+      <div class="p-5 overflow-y-auto max-h-[60vh] table-scroll">
         <table class="w-full text-center text-xs border-collapse general-table">
           <thead>
             <tr>
               <th>Orden</th>
+              <th>Fecha Cancelación</th>
               <th>Responsable</th>
-              <th>Comentario</th>
+              <th>Motivo / Comentario</th>
             </tr>
           </thead>
           <tbody id="tbodyModalCanceladas" class="divide-y divide-slate-100 text-slate-700"></tbody>
@@ -1974,9 +2027,17 @@
   <!-- MODAL: ÓRDENES PENDIENTES DE PAGO (Idéntico a index.php L265 DENT DEMO)   -->
   <!-- ========================================================================= -->
   <div id="modalPendientes" class="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-sm hidden flex items-center justify-center p-4">
-    <div class="bg-white rounded-2xl max-w-2xl w-full border border-slate-200 shadow-2xl overflow-hidden">
+    <div class="bg-white rounded-2xl max-w-2xl w-full border border-slate-200 shadow-2xl overflow-hidden animate-in fade-in zoom-in-95 duration-200">
       <div class="p-4 bg-slate-900 text-white flex items-center justify-between">
-        <h4 class="text-sm font-bold">Órdenes pendientes de pago</h4>
+        <div class="flex items-center gap-2.5">
+          <span class="w-7 h-7 rounded-lg bg-amber-500/20 text-amber-400 flex items-center justify-center">
+            <i data-lucide="bell" class="w-4 h-4"></i>
+          </span>
+          <div>
+            <h4 class="text-sm font-bold text-white">Órdenes pendientes de pago</h4>
+            <p class="text-[11px] text-slate-400">Órdenes activas con saldo o liquidación pendiente</p>
+          </div>
+        </div>
         <button onclick="closeModalPendientes()" class="p-1 text-slate-400 hover:text-white">
           <i data-lucide="x" class="w-4 h-4"></i>
         </button>
@@ -1994,6 +2055,373 @@
           <tbody id="tbodyModalPendientesPago" class="divide-y divide-slate-100 text-slate-700"></tbody>
         </table>
       </div>
+    </div>
+  </div>
+
+  <!-- ========================================================================= -->
+  <!-- MODAL: PRÓXIMOS EVENTOS (ESCANEOS) (Checklist Dent Control)               -->
+  <!-- ========================================================================= -->
+  <div id="modalEventosEscaneo" class="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-sm hidden flex items-center justify-center p-4">
+    <div class="bg-white rounded-2xl max-w-3xl w-full border border-slate-200 shadow-2xl overflow-hidden animate-in fade-in zoom-in-95 duration-200">
+      <div class="p-4 bg-slate-900 text-white flex items-center justify-between">
+        <div class="flex items-center gap-2.5">
+          <span class="w-7 h-7 rounded-lg bg-blue-500/20 text-blue-400 flex items-center justify-center">
+            <i data-lucide="calendar" class="w-4 h-4"></i>
+          </span>
+          <div>
+            <h4 class="text-sm font-bold text-white">Próximos Eventos de Escaneo</h4>
+            <p class="text-[11px] text-slate-400">Citas programadas para escaneo intraoral y recolección clínica</p>
+          </div>
+        </div>
+        <button onclick="closeModalEventosEscaneo()" class="p-1 text-slate-400 hover:text-white">
+          <i data-lucide="x" class="w-4 h-4"></i>
+        </button>
+      </div>
+
+      <!-- Quick stats bar -->
+      <div class="px-5 py-2.5 bg-slate-50 border-b border-slate-200/80 flex items-center justify-between text-xs">
+        <span class="text-slate-600 font-medium">Especialistas asignados en ruta hoy: <strong class="text-slate-900 font-bold">Arturo Meza, Irene Martínez, Mauricio Sotomayor</strong></span>
+        <button type="button" onclick="openModule('calendario'); closeModalEventosEscaneo();" class="text-blue-600 hover:underline font-semibold flex items-center gap-1">
+          <span>Abrir Calendario Completo</span>
+          <i data-lucide="external-link" class="w-3.5 h-3.5"></i>
+        </button>
+      </div>
+
+      <div class="p-5 overflow-y-auto max-h-[60vh] table-scroll">
+        <table class="w-full text-center text-xs border-collapse general-table">
+          <thead>
+            <tr>
+              <th>Fecha / Hora</th>
+              <th>Doctor</th>
+              <th>Paciente / Clínica</th>
+              <th>Especialista Asignado</th>
+              <th>Tipo Cita</th>
+              <th>Estatus</th>
+            </tr>
+          </thead>
+          <tbody id="tbodyModalEventosEscaneo" class="divide-y divide-slate-100 text-slate-700"></tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========================================================================= -->
+  <!-- MODAL: ASIGNAR ESCANEADOR A ORDEN (Checklist Dent Control)               -->
+  <!-- ========================================================================= -->
+  <div id="modalAsignarEscaneador" class="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-sm hidden flex items-center justify-center p-4">
+    <div class="bg-white rounded-2xl max-w-md w-full border border-slate-200 shadow-2xl overflow-hidden animate-in fade-in zoom-in-95 duration-200">
+      <div class="p-4 bg-slate-900 text-white flex items-center justify-between">
+        <div class="flex items-center gap-2.5">
+          <span class="w-7 h-7 rounded-lg bg-blue-500/20 text-blue-400 flex items-center justify-center">
+            <i data-lucide="user-check" class="w-4 h-4"></i>
+          </span>
+          <div>
+            <h4 class="text-sm font-bold text-white">Asignar Escaneador</h4>
+            <p class="text-[11px] text-slate-400" id="subtituloAsignarEscaneador">Orden #OT</p>
+          </div>
+        </div>
+        <button onclick="closeModalAsignarEscaneador()" class="p-1 text-slate-400 hover:text-white">
+          <i data-lucide="x" class="w-4 h-4"></i>
+        </button>
+      </div>
+      <form onsubmit="guardarAsignacionEscaneador(event)" class="p-5 space-y-4 text-xs">
+        <input type="hidden" id="asignarEscaneadorSerie">
+        <div class="p-3 bg-slate-50 rounded-xl border border-slate-200 space-y-1">
+          <div class="flex items-center justify-between text-slate-600">
+            <span class="font-semibold text-slate-500">Doctor:</span>
+            <strong id="asignarDoctorNombre" class="text-slate-900 font-bold">---</strong>
+          </div>
+          <div class="flex items-center justify-between text-slate-600">
+            <span class="font-semibold text-slate-500">Paciente:</span>
+            <span id="asignarPacienteNombre" class="text-slate-800">---</span>
+          </div>
+          <div class="flex items-center justify-between text-slate-600">
+            <span class="font-semibold text-slate-500">Fecha Entrega:</span>
+            <span id="asignarFechaEntrega" class="font-mono text-slate-700">---</span>
+          </div>
+        </div>
+
+        <div>
+          <label class="font-bold text-slate-700 block mb-1.5 uppercase text-[10px]">Seleccionar Especialista de Escaneo *</label>
+          <select id="selectEspecialistaEscaneo" class="w-full px-3.5 py-2.5 bg-white border border-slate-200 rounded-xl font-semibold text-slate-800 focus:outline-none focus:border-blue-600">
+            <option value="Arturo Meza">Arturo Meza — Especialista de Escaneo (Ruta Norte)</option>
+            <option value="Mauricio Sotomayor">Mauricio Sotomayor — Especialista de Escaneo (Ruta Centro)</option>
+            <option value="Irene Martínez">Irene Martínez — Especialista de Escaneo (Ruta Sur)</option>
+            <option value="Marco A. Peña">Marco A. Peña — Escaneo Clínico a Domicilio</option>
+          </select>
+        </div>
+
+        <div>
+          <label class="font-bold text-slate-700 block mb-1.5 uppercase text-[10px]">Indicaciones para el Escaneador (Opcional)</label>
+          <textarea id="notasEscaneador" rows="2" placeholder="Llevar scanner de mano, confirmar cita 30 min antes..." class="w-full p-2.5 bg-white border border-slate-200 rounded-xl text-slate-700 focus:outline-none focus:border-blue-600 resize-none"></textarea>
+        </div>
+
+        <div class="pt-2 flex items-center justify-end gap-2 border-t border-slate-100">
+          <button type="button" onclick="closeModalAsignarEscaneador()" class="px-3.5 py-2 rounded-xl border border-slate-200 text-slate-600 hover:bg-slate-100 font-semibold transition-colors">
+            Cancelar
+          </button>
+          <button type="submit" class="px-4 py-2 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-bold flex items-center gap-1.5 shadow-sm transition-colors">
+            <i data-lucide="check" class="w-4 h-4"></i>
+            <span>Confirmar Asignación</span>
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- ========================================================================= -->
+  <!-- MODAL: EDITAR DOCTOR (Checklist Dent Control)                             -->
+  <!-- ========================================================================= -->
+  <div id="modalEditarDoctor" class="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-sm hidden flex items-center justify-center p-4">
+    <div class="bg-white rounded-2xl max-w-xl w-full border border-slate-200 shadow-2xl overflow-hidden animate-in fade-in zoom-in-95 duration-200">
+      <div class="p-4 bg-slate-900 text-white flex items-center justify-between">
+        <div class="flex items-center gap-2.5">
+          <span class="w-7 h-7 rounded-lg bg-blue-500/20 text-blue-400 flex items-center justify-center">
+            <i data-lucide="user-cog" class="w-4 h-4"></i>
+          </span>
+          <div>
+            <h4 class="text-sm font-bold text-white">Editar Información de Doctor</h4>
+            <p class="text-[11px] text-slate-400" id="subtituloEditarDoctor">Actualizar expediente y preferencias</p>
+          </div>
+        </div>
+        <button onclick="closeModalEditarDoctor()" class="p-1 text-slate-400 hover:text-white">
+          <i data-lucide="x" class="w-4 h-4"></i>
+        </button>
+      </div>
+      <form onsubmit="guardarEdicionDoctor(event)" class="p-5 space-y-4 text-xs">
+        <input type="hidden" id="editDocId">
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
+          <div class="sm:col-span-2">
+            <label class="font-bold text-slate-700 block mb-1">Nombre Completo del Doctor *</label>
+            <input type="text" id="editDocNombre" required class="w-full px-3.5 py-2 rounded-xl border border-slate-200 bg-slate-50 font-semibold focus:bg-white focus:outline-none focus:border-blue-600">
+          </div>
+          <div>
+            <label class="font-bold text-slate-700 block mb-1">Celular / WhatsApp *</label>
+            <input type="text" id="editDocCelular" required class="w-full px-3.5 py-2 rounded-xl border border-slate-200 bg-slate-50 font-mono focus:bg-white focus:outline-none focus:border-blue-600">
+          </div>
+          <div>
+            <label class="font-bold text-slate-700 block mb-1">Correo Electrónico *</label>
+            <input type="email" id="editDocMail" required class="w-full px-3.5 py-2 rounded-xl border border-slate-200 bg-slate-50 focus:bg-white focus:outline-none focus:border-blue-600">
+          </div>
+          <div>
+            <label class="font-bold text-slate-700 block mb-1">Nombre de la Clínica *</label>
+            <input type="text" id="editDocClinica" required class="w-full px-3.5 py-2 rounded-xl border border-slate-200 bg-slate-50 focus:bg-white focus:outline-none focus:border-blue-600">
+          </div>
+          <div>
+            <label class="font-bold text-slate-700 block mb-1">Vendedor Asignado</label>
+            <select id="editDocVendedor" class="w-full px-3.5 py-2 rounded-xl border border-slate-200 bg-slate-50 font-semibold focus:bg-white focus:outline-none focus:border-blue-600">
+              <option value="Mauricio Sotomayor">Mauricio Sotomayor</option>
+              <option value="Arturo Meza">Arturo Meza</option>
+              <option value="Brenda Rodríguez">Brenda Rodríguez</option>
+              <option value="Irene Martínez">Irene Martínez</option>
+            </select>
+          </div>
+          <div class="sm:col-span-2">
+            <label class="font-bold text-slate-700 block mb-1">Dirección / Consultorio</label>
+            <input type="text" id="editDocDireccion" class="w-full px-3.5 py-2 rounded-xl border border-slate-200 bg-slate-50 focus:bg-white focus:outline-none focus:border-blue-600">
+          </div>
+          <div>
+            <label class="font-bold text-slate-700 block mb-1">Tipo de Doctor</label>
+            <select id="editDocTipo" class="w-full px-3.5 py-2 rounded-xl border border-slate-200 bg-slate-50 font-semibold focus:bg-white focus:outline-none focus:border-blue-600">
+              <option value="externo">Externo (Clínica Privada)</option>
+              <option value="interno">Interno (Sucursal DentLab)</option>
+            </select>
+          </div>
+          <div class="flex items-center gap-3 pt-5">
+            <label class="relative inline-flex items-center cursor-pointer">
+              <input type="checkbox" id="editDocActivo" class="sr-only peer">
+              <div class="w-10 h-5 bg-slate-300 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-slate-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-emerald-600"></div>
+              <span class="ml-2.5 font-bold text-slate-800">Doctor Habilitado / Activo</span>
+            </label>
+          </div>
+          <div class="sm:col-span-2">
+            <label class="font-bold text-slate-700 block mb-1">Notas / Observaciones Clínicas</label>
+            <textarea id="editDocNota" rows="2" class="w-full p-2.5 border border-slate-200 rounded-xl bg-slate-50 text-slate-700 focus:bg-white focus:outline-none focus:border-blue-600 resize-none"></textarea>
+          </div>
+        </div>
+        <div class="pt-3 flex items-center justify-end gap-2 border-t border-slate-100">
+          <button type="button" onclick="closeModalEditarDoctor()" class="px-3.5 py-2 rounded-xl border border-slate-200 text-slate-600 hover:bg-slate-100 font-semibold transition-colors">
+            Cancelar
+          </button>
+          <button type="submit" class="px-4 py-2 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-bold flex items-center gap-1.5 shadow-sm transition-colors">
+            <i data-lucide="save" class="w-4 h-4"></i>
+            <span>Guardar Cambios</span>
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- ========================================================================= -->
+  <!-- MODAL: DETALLE DE USO DE DISCO POR ORDEN DE TRABAJO                      -->
+  <!-- ========================================================================= -->
+  <div id="modalDetalleUsoDisco" class="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-sm hidden flex items-center justify-center p-4">
+    <div class="bg-white rounded-2xl max-w-xl w-full border border-slate-200 shadow-2xl overflow-hidden animate-in fade-in zoom-in-95 duration-200">
+      <div class="p-4 bg-slate-900 text-white flex items-center justify-between">
+        <div class="flex items-center gap-2.5">
+          <span class="w-7 h-7 rounded-lg bg-blue-500/20 text-blue-400 flex items-center justify-center">
+            <i data-lucide="disc" class="w-4 h-4"></i>
+          </span>
+          <div>
+            <h4 class="text-sm font-bold text-white">Detalle de Uso de Disco</h4>
+            <p class="text-[11px] text-slate-400" id="subtituloDetalleDisco">Historial de desbaste por Órdenes de Trabajo</p>
+          </div>
+        </div>
+        <button onclick="closeModalDetalleUsoDisco()" class="p-1 text-slate-400 hover:text-white">
+          <i data-lucide="x" class="w-4 h-4"></i>
+        </button>
+      </div>
+
+      <!-- Quick specs card -->
+      <div class="p-4 bg-slate-50 border-b border-slate-200 flex flex-wrap items-center justify-between gap-3 text-xs">
+        <div>
+          <span class="text-slate-400 uppercase text-[10px] font-bold block">Disco & Lote:</span>
+          <strong id="discoDetalleCodigoLote" class="font-mono text-slate-800 text-sm">---</strong>
+        </div>
+        <div>
+          <span class="text-slate-400 uppercase text-[10px] font-bold block">Marca / Tono / Espesor:</span>
+          <span id="discoDetalleEspecificaciones" class="font-semibold text-slate-700">---</span>
+        </div>
+        <div>
+          <span class="text-slate-400 uppercase text-[10px] font-bold block">Consumo Piezas:</span>
+          <span id="discoDetalleConsumoBadge" class="font-mono font-bold px-2 py-0.5 rounded-full bg-blue-50 text-blue-700 border border-blue-200">---</span>
+        </div>
+      </div>
+
+      <div class="p-5 overflow-y-auto max-h-[55vh] table-scroll">
+        <table class="w-full text-center text-xs border-collapse general-table">
+          <thead>
+            <tr>
+              <th>Folio #OT</th>
+              <th>Paciente</th>
+              <th>Piezas Fresadas</th>
+              <th>Fecha de Fresado</th>
+              <th>Ver Orden</th>
+            </tr>
+          </thead>
+          <tbody id="tbodyDetalleUsoDisco" class="divide-y divide-slate-100 text-slate-700"></tbody>
+        </table>
+      </div>
+
+      <div class="p-3 bg-slate-50 border-t border-slate-200 flex items-center justify-between">
+        <button type="button" id="btnImprimirEtiquetaDesdeModal" class="px-3.5 py-1.5 rounded-xl border border-slate-200 bg-white hover:bg-slate-100 text-slate-700 font-semibold text-xs flex items-center gap-1.5 transition-colors">
+          <i data-lucide="barcode" class="w-3.5 h-3.5"></i>
+          <span>Imprimir Etiqueta Térmica</span>
+        </button>
+        <button type="button" onclick="closeModalDetalleUsoDisco()" class="px-4 py-1.5 rounded-xl bg-slate-900 hover:bg-slate-800 text-white font-semibold text-xs transition-colors">
+          Cerrar
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========================================================================= -->
+  <!-- MODAL: EDITAR USUARIO (Checklist Dent Control)                            -->
+  <!-- ========================================================================= -->
+  <div id="modalEditarUsuario" class="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-sm hidden flex items-center justify-center p-4">
+    <div class="bg-white rounded-2xl max-w-md w-full border border-slate-200 shadow-2xl overflow-hidden animate-in fade-in zoom-in-95 duration-200">
+      <div class="p-4 bg-slate-900 text-white flex items-center justify-between">
+        <div class="flex items-center gap-2.5">
+          <span class="w-7 h-7 rounded-lg bg-blue-500/20 text-blue-400 flex items-center justify-center">
+            <i data-lucide="user-check" class="w-4 h-4"></i>
+          </span>
+          <div>
+            <h4 class="text-sm font-bold text-white">Editar Usuario del Sistema</h4>
+            <p class="text-[11px] text-slate-400" id="subtituloEditarUsuario">Modificar perfil y credenciales</p>
+          </div>
+        </div>
+        <button onclick="closeModalEditarUsuario()" class="p-1 text-slate-400 hover:text-white">
+          <i data-lucide="x" class="w-4 h-4"></i>
+        </button>
+      </div>
+      <form onsubmit="guardarEdicionUsuario(event)" class="p-5 space-y-4 text-xs">
+        <input type="hidden" id="editUserId">
+        <div>
+          <label class="font-bold text-slate-700 block mb-1">Nombre Completo *</label>
+          <input type="text" id="editUserNombre" required class="w-full px-3.5 py-2 rounded-xl border border-slate-200 bg-slate-50 focus:bg-white focus:outline-none focus:border-blue-600">
+        </div>
+        <div>
+          <label class="font-bold text-slate-700 block mb-1">Usuario de Acceso *</label>
+          <input type="text" id="editUserUsuario" required class="w-full px-3.5 py-2 rounded-xl border border-slate-200 bg-slate-50 font-mono focus:bg-white focus:outline-none focus:border-blue-600">
+        </div>
+        <div>
+          <label class="font-bold text-slate-700 block mb-1">Correo Electrónico *</label>
+          <input type="email" id="editUserCorreo" required class="w-full px-3.5 py-2 rounded-xl border border-slate-200 bg-slate-50 focus:bg-white focus:outline-none focus:border-blue-600">
+        </div>
+        <div>
+          <label class="font-bold text-slate-700 block mb-1">Perfil Operativo *</label>
+          <select id="editUserPerfil" class="w-full px-3.5 py-2 rounded-xl border border-slate-200 bg-slate-50 font-semibold focus:bg-white focus:outline-none focus:border-blue-600">
+            <option value="Administrador">Administrador</option>
+            <option value="Especialista de Escaneo">Especialista de Escaneo</option>
+            <option value="Especialista de Diseño">Especialista de Diseño</option>
+            <option value="Operador Fabricación CNC">Operador Fabricación CNC</option>
+            <option value="Vendedor">Vendedor</option>
+            <option value="Recepción">Recepción</option>
+          </select>
+        </div>
+        <div class="flex items-center justify-between pt-2">
+          <label class="relative inline-flex items-center cursor-pointer">
+            <input type="checkbox" id="editUserAppEquipos" class="sr-only peer">
+            <div class="w-9 h-5 bg-slate-300 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-slate-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-blue-600"></div>
+            <span class="ml-2 font-bold text-slate-700 text-xs">Acceso App Equipos</span>
+          </label>
+          <label class="relative inline-flex items-center cursor-pointer">
+            <input type="checkbox" id="editUserEstatus" class="sr-only peer">
+            <div class="w-9 h-5 bg-slate-300 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-slate-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-emerald-600"></div>
+            <span class="ml-2 font-bold text-slate-700 text-xs">Usuario Activo</span>
+          </label>
+        </div>
+        <div class="pt-3 border-t border-slate-100 flex justify-end gap-2">
+          <button type="button" onclick="closeModalEditarUsuario()" class="px-3.5 py-2 rounded-xl border border-slate-200 text-slate-600 font-semibold hover:bg-slate-50 transition-colors">Cancelar</button>
+          <button type="submit" class="px-4 py-2 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-bold shadow-sm transition-colors">Guardar Usuario</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- ========================================================================= -->
+  <!-- MODAL: PERMISOS POR MÓDULO (Checklist Dent Control)                       -->
+  <!-- ========================================================================= -->
+  <div id="modalPermisosUsuario" class="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-sm hidden flex items-center justify-center p-4">
+    <div class="bg-white rounded-2xl max-w-2xl w-full border border-slate-200 shadow-2xl overflow-hidden animate-in fade-in zoom-in-95 duration-200">
+      <div class="p-4 bg-slate-900 text-white flex items-center justify-between">
+        <div class="flex items-center gap-2.5">
+          <span class="w-7 h-7 rounded-lg bg-blue-500/20 text-blue-400 flex items-center justify-center">
+            <i data-lucide="shield-check" class="w-4 h-4"></i>
+          </span>
+          <div>
+            <h4 class="text-sm font-bold text-white">Matriz de Permisos por Módulo</h4>
+            <p class="text-[11px] text-slate-400" id="subtituloPermisosUsuario">Control granular de acceso</p>
+          </div>
+        </div>
+        <button onclick="closeModalPermisosUsuario()" class="p-1 text-slate-400 hover:text-white">
+          <i data-lucide="x" class="w-4 h-4"></i>
+        </button>
+      </div>
+      <form onsubmit="guardarPermisosUsuario(event)" class="p-5 space-y-4 text-xs">
+        <input type="hidden" id="permisosUserId">
+        <div class="overflow-x-auto rounded-xl border border-slate-200">
+          <table class="w-full text-center text-xs">
+            <thead class="bg-slate-100 text-slate-600 font-bold border-b border-slate-200">
+              <tr>
+                <th class="px-3 py-2 text-left">Módulo del Sistema</th>
+                <th class="px-3 py-2">Ver</th>
+                <th class="px-3 py-2">Crear</th>
+                <th class="px-3 py-2">Editar</th>
+                <th class="px-3 py-2">Eliminar</th>
+              </tr>
+            </thead>
+            <tbody id="tbodyMatrizPermisos" class="divide-y divide-slate-100"></tbody>
+          </table>
+        </div>
+        <div class="pt-3 border-t border-slate-100 flex items-center justify-between">
+          <button type="button" onclick="marcarTodosLosPermisos(true)" class="text-blue-600 hover:underline font-semibold text-xs">Conceder todos los permisos</button>
+          <div class="flex items-center gap-2">
+            <button type="button" onclick="closeModalPermisosUsuario()" class="px-3.5 py-2 rounded-xl border border-slate-200 text-slate-600 font-semibold hover:bg-slate-50 transition-colors">Cancelar</button>
+            <button type="submit" class="px-4 py-2 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-bold shadow-sm transition-colors">Guardar Permisos</button>
+          </div>
+        </div>
+      </form>
     </div>
   </div>
 
@@ -2319,10 +2747,12 @@
     }
 
     // Modales
-    function openModalCanceladas() { document.getElementById('modalCanceladas').classList.remove('hidden'); }
+    function openModalCanceladas() { document.getElementById('modalCanceladas').classList.remove('hidden'); if (typeof window.filtrarCanceladasPorFecha === 'function') window.filtrarCanceladasPorFecha(); }
     function closeModalCanceladas() { document.getElementById('modalCanceladas').classList.add('hidden'); }
     function openModalPendientes() { document.getElementById('modalPendientes').classList.remove('hidden'); }
     function closeModalPendientes() { document.getElementById('modalPendientes').classList.add('hidden'); }
+    function openModalEventosEscaneo() { document.getElementById('modalEventosEscaneo').classList.remove('hidden'); if (typeof window.renderEventosEscaneoModal === 'function') window.renderEventosEscaneoModal(); }
+    function closeModalEventosEscaneo() { document.getElementById('modalEventosEscaneo').classList.add('hidden'); }
 
     function toggleFullScreen() {
       if (!document.fullscreenElement) {
