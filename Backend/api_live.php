@@ -11,7 +11,13 @@ if (($_SERVER['REQUEST_METHOD'] ?? '') === 'OPTIONS') {
 
 $op = $_REQUEST['op'] ?? 'bootstrap';
 if ($op === 'health') {
-    echo json_encode(['ok' => true, 'live' => true]);
+    echo json_encode([
+        'ok' => true,
+        'live' => true,
+        'php_version' => PHP_VERSION,
+        'php_major' => PHP_MAJOR_VERSION,
+        'engine' => 'PHP ' . PHP_VERSION . ' (PHP 8 Nativo)'
+    ], JSON_UNESCAPED_UNICODE);
     exit;
 }
 
