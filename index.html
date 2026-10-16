@@ -2784,6 +2784,34 @@
         window.buscarEnBaseDeDatosLive(raw);
       }
     }
+
+    // Autocarga segun parametros URL para capturas y deep-linking
+    window.addEventListener('DOMContentLoaded', () => {
+      try {
+        const urlParams = new URLSearchParams(window.location.search);
+        const v = urlParams.get('view');
+        const m = urlParams.get('modal');
+        if (v && typeof openModule === 'function') {
+          setTimeout(() => openModule(v), 150);
+        }
+        if (m) {
+          setTimeout(() => {
+            if (m === 'modalEventosEscaneo') openModalEventosEscaneo();
+            else if (m === 'modalCanceladas') openModalCanceladas();
+            else if (m === 'modalPendientes') openModalPendientes();
+            else if (m === 'modalAsignarEscaneador' && typeof abrirModalAsignarEscaneador === 'function') {
+              abrirModalAsignarEscaneador('OT-8842', 'DRA. PATRICIA ELIZABETH', 'Carlos Martínez', '2026-10-20');
+            } else if (m === 'modalEditarDoctor' && typeof abrirModalEditarDoctor === 'function') {
+              abrirModalEditarDoctor('DOC-101');
+            } else if (m === 'modalDetalleUsoDisco' && typeof abrirModalDetalleUsoDisco === 'function') {
+              abrirModalDetalleUsoDisco('DSC-ZRK-01');
+            } else if (m === 'modalPermisosUsuario' && typeof abrirModalPermisosUsuario === 'function') {
+              abrirModalPermisosUsuario('USR-02');
+            }
+          }, 350);
+        }
+      } catch (e) { console.error('Error auto-loading params:', e); }
+    });
   </script>
 </body>
 </html>
