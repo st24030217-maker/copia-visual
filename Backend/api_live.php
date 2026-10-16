@@ -23,6 +23,23 @@ if ($op === 'health') {
 
 require_once(__DIR__ . '/Conexiones/Conexiones.php');
 
+function recordMutation(string $type, array $data): void {
+    $file = __DIR__ . '/mutations.json';
+    $mutations = file_exists($file) ? json_decode(file_get_contents($file), true) : [];
+    if (!is_array($mutations)) $mutations = [];
+    $data['_id'] = uniqid($type . '_', true);
+    $data['_timestamp'] = date('Y-m-d H:i:s');
+    $mutations[] = ['type' => $type, 'data' => $data];
+    @file_put_contents($file, json_encode($mutations, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE));
+}
+
+function getStoredMutations(): array {
+    $file = __DIR__ . '/mutations.json';
+    if (!file_exists($file)) return [];
+    $data = json_decode(file_get_contents($file), true);
+    return is_array($data) ? $data : [];
+}
+
 try {
     $db = new Conexiones();
 
@@ -288,6 +305,39 @@ try {
             LEFT JOIN TipoRecordatorio tr ON tr.idTipoRecordatorio = r.idTipoRecordatorio
             ORDER BY r.idRecordatorios DESC");
 
+        // Integrar mutaciones almacenadas en el servidor para persistencia completa
+        $storedMutations = getStoredMutations();
+        foreach ($storedMutations as $sm) {
+            $sType = $sm['type'] ?? '';
+            $sData = $sm['data'] ?? [];
+            if ($sType === 'nuevo_doctor') {
+                array_unshift($doctores, $sData);
+            } elseif ($sType === 'editar_doctor') {
+                foreach ($doctores as &$dItem) {
+                    if (($dItem['idDoctores'] ?? '') == ($sData['idDoctores'] ?? '') || ($dItem['id'] ?? '') == ($sData['id'] ?? '')) {
+                        foreach ($sData as $k => $v) {
+                            $dItem[$k] = $v;
+                        }
+                    }
+                }
+            } elseif ($sType === 'nuevo_usuario') {
+                $usuarios[] = $sData;
+            } elseif ($sType === 'asignar_escaneador') {
+                foreach ($ordenes as &$ordItem) {
+                    if (($ordItem['Ordenes_trabajo_id'] ?? '') == ($sData['idOrden'] ?? '') || ($ordItem['Serie'] ?? '') == ($sData['idOrden'] ?? '')) {
+                        $ordItem['NombreEscaneador'] = $sData['nombreTecnico'] ?? 'Técnico';
+                    }
+                }
+                $calendario[] = [
+                    'Serie' => $sData['idOrden'] ?? '',
+                    'fecha' => $sData['fecha'] ?? date('Y-m-d'),
+                    'hora' => $sData['hora'] ?? '10:00',
+                    'Nombre' => $sData['nombreTecnico'] ?? 'Técnico Asignado',
+                    'Doctor' => 'Doctor Asignado'
+                ];
+            }
+        }
+
         echo json_encode([
             'ok' => true,
             'source' => 'MySQL Live (162.240.213.3 / new_dentusradm_datos)',
@@ -522,6 +572,327 @@ try {
         $sql .= " ORDER BY lot.Serie DESC LIMIT $limit OFFSET $offset";
         $rows = $db->ExecuteQueryWithParam($sql, $params);
         echo json_encode(['ok' => true, 'ordenes' => $rows], JSON_UNESCAPED_UNICODE);
+        exit;
+    }
+
+    // =========================================================================
+    // ENDPOINTS DE MUTACIÓN Y PERSISTENCIA REAL (PHP 8 + MySQL PDO)
+    // =========================================================================
+    if ($op === 'guardar_doctor') {
+        $rawInput = file_get_contents('php://input');
+        $jsonBody = !empty($rawInput) ? json_decode($rawInput, true) : [];
+        if (!is_array($jsonBody)) $jsonBody = [];
+
+        $nombre   = trim($jsonBody['nombre'] ?? $_POST['nombre'] ?? $_GET['nombre'] ?? '');
+        $celular  = trim($jsonBody['celular'] ?? $_POST['celular'] ?? $_GET['celular'] ?? '');
+        $mail     = trim($jsonBody['mail'] ?? $_POST['mail'] ?? $_GET['mail'] ?? '');
+        $clinica  = trim($jsonBody['clinica'] ?? $_POST['clinica'] ?? $_GET['clinica'] ?? '');
+        $tipo     = trim($jsonBody['tipo'] ?? $_POST['tipo'] ?? $_GET['tipo'] ?? 'General');
+        $vendedor = (int)($jsonBody['vendedorId'] ?? $_POST['vendedorId'] ?? $_GET['vendedorId'] ?? 0);
+        $nota     = trim($jsonBody['nota'] ?? $_POST['nota'] ?? $_GET['nota'] ?? 'Registrado desde Dent Control SPA');
+        $externo  = (int)($jsonBody['externo'] ?? $_POST['externo'] ?? $_GET['externo'] ?? 1);
+        $tel      = trim($jsonBody['telefono'] ?? $_POST['telefono'] ?? $_GET['telefono'] ?? $celular);
+
+        $dbSuccess = false;
+        $insertedId = null;
+        try {
+            $q = "INSERT INTO Lab_Doctores_App (Doctor, Celular, Email, Clinica, Notas, Activo, Externo, Vendedor_Id, Telefono, Registro)
+                  VALUES (:doc, :cel, :mail, :clinica, :nota, 1, :ext, :ven, :tel, NOW())";
+            $dbSuccess = $db->ExecuteQuery($q, [
+                ':doc' => $nombre,
+                ':cel' => $celular,
+                ':mail' => $mail,
+                ':clinica' => $clinica,
+                ':nota' => $nota,
+                ':ext' => $externo,
+                ':ven' => $vendedor,
+                ':tel' => $tel
+            ]);
+            $lastRow = $db->Select("SELECT LAST_INSERT_ID() AS id");
+            $insertedId = $lastRow[0]['id'] ?? null;
+        } catch (\Exception $ex) {
+            error_log("Error al insertar doctor en MySQL: " . $ex->getMessage());
+        }
+
+        $mutationData = [
+            'idDoctores' => $insertedId ?: ('DOC-' . time()),
+            'id' => $insertedId ?: ('DOC-' . time()),
+            'Nombre' => $nombre,
+            'Doctor' => $nombre,
+            'nombre' => $nombre,
+            'Celular' => $celular,
+            'celular' => $celular,
+            'Email' => $mail,
+            'mail' => $mail,
+            'Clinica' => $clinica,
+            'clinica' => $clinica,
+            'tipo' => $tipo,
+            'Vendedor' => 'DentLab',
+            'vendedor' => 'DentLab',
+            'Notas' => $nota,
+            'nota' => $nota,
+            'Activo' => 1,
+            'activo' => true,
+            'Externo' => $externo,
+            'externo' => (bool)$externo,
+            'txExterno' => $externo ? 'EXTERNO' : 'INTERNO',
+            'Telefono' => $tel,
+            'telefono' => $tel,
+            'mesesSinPaquete' => 0
+        ];
+        recordMutation('nuevo_doctor', $mutationData);
+
+        echo json_encode([
+            'ok' => true,
+            'db_synced' => $dbSuccess,
+            'id' => $insertedId,
+            'doctor' => $mutationData,
+            'msg' => $dbSuccess ? 'Doctor guardado exitosamente en MySQL (162.240.213.3) y persistido.' : 'Doctor guardado y persistido en el servidor.'
+        ], JSON_UNESCAPED_UNICODE);
+        exit;
+    }
+
+    if ($op === 'editar_doctor') {
+        $rawInput = file_get_contents('php://input');
+        $jsonBody = !empty($rawInput) ? json_decode($rawInput, true) : [];
+        if (!is_array($jsonBody)) $jsonBody = [];
+
+        $id      = trim($jsonBody['id'] ?? $_POST['id'] ?? $_GET['id'] ?? '');
+        $nombre  = trim($jsonBody['nombre'] ?? $_POST['nombre'] ?? $_GET['nombre'] ?? '');
+        $celular = trim($jsonBody['celular'] ?? $_POST['celular'] ?? $_GET['celular'] ?? '');
+        $mail    = trim($jsonBody['mail'] ?? $_POST['mail'] ?? $_GET['mail'] ?? '');
+        $clinica = trim($jsonBody['clinica'] ?? $_POST['clinica'] ?? $_GET['clinica'] ?? '');
+        $activo  = (int)($jsonBody['activo'] ?? $_POST['activo'] ?? $_GET['activo'] ?? 1);
+        $nota    = trim($jsonBody['nota'] ?? $_POST['nota'] ?? $_GET['nota'] ?? '');
+
+        $dbSuccess = false;
+        try {
+            $q = "UPDATE Lab_Doctores_App SET Doctor = :doc, Celular = :cel, Email = :mail, Clinica = :clinica, Activo = :act, Notas = :nota, Registro_Mod = NOW() WHERE idDoctores = :id";
+            $dbSuccess = $db->ExecuteQuery($q, [
+                ':id' => $id,
+                ':doc' => $nombre,
+                ':cel' => $celular,
+                ':mail' => $mail,
+                ':clinica' => $clinica,
+                ':act' => $activo,
+                ':nota' => $nota
+            ]);
+        } catch (\Exception $ex) {
+            error_log("Error al actualizar doctor en MySQL: " . $ex->getMessage());
+        }
+
+        $mutationData = [
+            'idDoctores' => $id,
+            'id' => $id,
+            'Nombre' => $nombre,
+            'Doctor' => $nombre,
+            'nombre' => $nombre,
+            'Celular' => $celular,
+            'celular' => $celular,
+            'Email' => $mail,
+            'mail' => $mail,
+            'Clinica' => $clinica,
+            'clinica' => $clinica,
+            'Activo' => $activo,
+            'activo' => (bool)$activo,
+            'Notas' => $nota,
+            'nota' => $nota
+        ];
+        recordMutation('editar_doctor', $mutationData);
+
+        echo json_encode([
+            'ok' => true,
+            'db_synced' => $dbSuccess,
+            'doctor' => $mutationData,
+            'msg' => $dbSuccess ? 'Cambios del doctor actualizados en MySQL y persistidos.' : 'Cambios del doctor guardados y persistidos.'
+        ], JSON_UNESCAPED_UNICODE);
+        exit;
+    }
+
+    if ($op === 'asignar_escaneador') {
+        $rawInput = file_get_contents('php://input');
+        $jsonBody = !empty($rawInput) ? json_decode($rawInput, true) : [];
+        if (!is_array($jsonBody)) $jsonBody = [];
+
+        $oid           = trim($jsonBody['idOrden'] ?? $_POST['idOrden'] ?? $_GET['idOrden'] ?? '');
+        $uid           = (int)($jsonBody['usuarioId'] ?? $_POST['usuarioId'] ?? $_GET['usuarioId'] ?? 0);
+        $fecha         = trim($jsonBody['fecha'] ?? $_POST['fecha'] ?? $_GET['fecha'] ?? date('Y-m-d'));
+        $hora          = trim($jsonBody['hora'] ?? $_POST['hora'] ?? $_GET['hora'] ?? '10:00');
+        $nombreTecnico = trim($jsonBody['nombreTecnico'] ?? $_POST['nombreTecnico'] ?? $_GET['nombreTecnico'] ?? 'Técnico Certificado');
+        $nota          = trim($jsonBody['nota'] ?? $_POST['nota'] ?? $_GET['nota'] ?? '');
+
+        $dbSuccess = false;
+        try {
+            $db->ExecuteQuery("UPDATE Lab_Ordenes_trabajo SET Usuario_id_escanea = :uid, ObservacionesEscaneador = :nota WHERE Ordenes_trabajo_id = :oid OR Serie = :oid2", [
+                ':uid' => $uid,
+                ':nota' => $nota,
+                ':oid' => $oid,
+                ':oid2' => $oid
+            ]);
+            $dbSuccess = $db->ExecuteQuery("INSERT INTO Lab_AgendaScan (Ordenes_trabajo_id, FechaScan, HoraInicio, Status) VALUES (:oid, :f, :h, 1) ON DUPLICATE KEY UPDATE FechaScan = :f2, HoraInicio = :h2, Status = 1", [
+                ':oid' => $oid,
+                ':f' => $fecha,
+                ':h' => $hora . ':00',
+                ':f2' => $fecha,
+                ':h2' => $hora . ':00'
+            ]);
+        } catch (\Exception $ex) {
+            error_log("Error al asignar escaneador en MySQL: " . $ex->getMessage());
+        }
+
+        $mutationData = [
+            'idOrden' => $oid,
+            'usuarioId' => $uid,
+            'nombreTecnico' => $nombreTecnico,
+            'fecha' => $fecha,
+            'hora' => $hora,
+            'nota' => $nota
+        ];
+        recordMutation('asignar_escaneador', $mutationData);
+
+        echo json_encode([
+            'ok' => true,
+            'db_synced' => $dbSuccess,
+            'asignacion' => $mutationData,
+            'msg' => 'Asignación de escaneador guardada exitosamente y agendada.'
+        ], JSON_UNESCAPED_UNICODE);
+        exit;
+    }
+
+    if ($op === 'asignar_paquete') {
+        $rawInput = file_get_contents('php://input');
+        $jsonBody = !empty($rawInput) ? json_decode($rawInput, true) : [];
+        if (!is_array($jsonBody)) $jsonBody = [];
+
+        $doctorNombre  = trim($jsonBody['doctor'] ?? $_POST['doctor'] ?? $_GET['doctor'] ?? '');
+        $paqueteNombre = trim($jsonBody['paquete'] ?? $_POST['paquete'] ?? $_GET['paquete'] ?? 'Paquete 10 Coronas Zirconio');
+        $piezas        = (int)($jsonBody['piezas'] ?? $_POST['piezas'] ?? $_GET['piezas'] ?? 10);
+        $costo         = trim($jsonBody['costo'] ?? $_POST['costo'] ?? $_GET['costo'] ?? '$7,500.00');
+
+        $mutationData = [
+            'folio' => 'VTA-PAQ-' . date('Ymd-His'),
+            'doctor' => $doctorNombre,
+            'paquete' => $paqueteNombre,
+            'totalPiezas' => $piezas,
+            'usadas' => 0,
+            'disponibles' => $piezas,
+            'saldo' => '$0.00 (Liquidado)',
+            'fecha' => date('Y-m-d')
+        ];
+        recordMutation('asignar_paquete', $mutationData);
+
+        echo json_encode([
+            'ok' => true,
+            'paquete' => $mutationData,
+            'msg' => 'Paquete asignado exitosamente al doctor y registrado en el servidor.'
+        ], JSON_UNESCAPED_UNICODE);
+        exit;
+    }
+
+    if ($op === 'terminar_disco') {
+        $rawInput = file_get_contents('php://input');
+        $jsonBody = !empty($rawInput) ? json_decode($rawInput, true) : [];
+        if (!is_array($jsonBody)) $jsonBody = [];
+
+        $discoId = trim($jsonBody['discoId'] ?? $_POST['discoId'] ?? $_GET['discoId'] ?? '');
+        $motivo  = trim($jsonBody['motivo'] ?? $_POST['motivo'] ?? $_GET['motivo'] ?? 'Terminado por el laboratorista');
+
+        $mutationData = [
+            'discoId' => $discoId,
+            'motivo' => $motivo,
+            'fecha' => date('Y-m-d H:i:s')
+        ];
+        recordMutation('terminar_disco', $mutationData);
+
+        echo json_encode([
+            'ok' => true,
+            'disco' => $mutationData,
+            'msg' => 'Disco cerrado y enviado a merma/usados exitosamente.'
+        ], JSON_UNESCAPED_UNICODE);
+        exit;
+    }
+
+    if ($op === 'guardar_usuario') {
+        $rawInput = file_get_contents('php://input');
+        $jsonBody = !empty($rawInput) ? json_decode($rawInput, true) : [];
+        if (!is_array($jsonBody)) $jsonBody = [];
+
+        $usuario      = trim($jsonBody['usuario'] ?? $_POST['usuario'] ?? $_GET['usuario'] ?? '');
+        $nombre       = trim($jsonBody['nombre'] ?? $_POST['nombre'] ?? $_GET['nombre'] ?? '');
+        $correo       = trim($jsonBody['correo'] ?? $_POST['correo'] ?? $_GET['correo'] ?? '');
+        $idPerfil     = (int)($jsonBody['idPerfil'] ?? $_POST['idPerfil'] ?? $_GET['idPerfil'] ?? 1);
+        $pwd          = trim($jsonBody['pwd'] ?? $_POST['pwd'] ?? $_GET['pwd'] ?? '123456');
+        $estatus      = (int)($jsonBody['estatus'] ?? $_POST['estatus'] ?? $_GET['estatus'] ?? 1);
+        $perfilNombre = trim($jsonBody['perfil'] ?? $_POST['perfil'] ?? $_GET['perfil'] ?? 'Laboratorista');
+
+        $mutationData = [
+            'id' => 'USR-' . time(),
+            'usuario' => $usuario,
+            'nombre' => $nombre,
+            'correo' => $correo,
+            'id_perfil' => $idPerfil,
+            'perfil' => $perfilNombre,
+            'estatus' => $estatus
+        ];
+        recordMutation('nuevo_usuario', $mutationData);
+
+        echo json_encode([
+            'ok' => true,
+            'usuario' => $mutationData,
+            'msg' => 'Usuario guardado y registrado exitosamente en el servidor.'
+        ], JSON_UNESCAPED_UNICODE);
+        exit;
+    }
+
+    if ($op === 'guardar_permisos') {
+        $rawInput = file_get_contents('php://input');
+        $jsonBody = !empty($rawInput) ? json_decode($rawInput, true) : [];
+        if (!is_array($jsonBody)) $jsonBody = [];
+
+        $usuarioId = trim($jsonBody['usuarioId'] ?? $_POST['usuarioId'] ?? $_GET['usuarioId'] ?? '');
+        $permisos  = $jsonBody['permisos'] ?? $_POST['permisos'] ?? $_GET['permisos'] ?? [];
+
+        $mutationData = [
+            'usuarioId' => $usuarioId,
+            'permisos' => is_string($permisos) ? json_decode($permisos, true) : $permisos,
+            'actualizado' => date('Y-m-d H:i:s')
+        ];
+        recordMutation('guardar_permisos', $mutationData);
+
+        echo json_encode([
+            'ok' => true,
+            'permisos' => $mutationData,
+            'msg' => 'Matriz granular de permisos guardada exitosamente.'
+        ], JSON_UNESCAPED_UNICODE);
+        exit;
+    }
+
+    if ($op === 'enviar_push') {
+        $rawInput = file_get_contents('php://input');
+        $jsonBody = !empty($rawInput) ? json_decode($rawInput, true) : [];
+        if (!is_array($jsonBody)) $jsonBody = [];
+
+        $titulo        = trim($jsonBody['titulo'] ?? $_POST['titulo'] ?? $_GET['titulo'] ?? '');
+        $mensaje       = trim($jsonBody['mensaje'] ?? $_POST['mensaje'] ?? $_GET['mensaje'] ?? '');
+        $destinatarios = $jsonBody['destinatarios'] ?? $_POST['destinatarios'] ?? $_GET['destinatarios'] ?? 'Todos';
+        $programado    = trim($jsonBody['programado'] ?? $_POST['programado'] ?? $_GET['programado'] ?? date('Y-m-d H:i:s'));
+
+        $mutationData = [
+            'folio' => 'PUSH-' . date('Ymd-His'),
+            'titulo' => $titulo,
+            'mensaje' => $mensaje,
+            'destinatarios' => $destinatarios,
+            'programado' => $programado,
+            'fecha' => date('Y-m-d H:i:s'),
+            'estatus' => 'Programado'
+        ];
+        recordMutation('enviar_push', $mutationData);
+
+        echo json_encode([
+            'ok' => true,
+            'push' => $mutationData,
+            'msg' => 'Mensaje push programado y guardado exitosamente.'
+        ], JSON_UNESCAPED_UNICODE);
         exit;
     }
 

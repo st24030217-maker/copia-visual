@@ -5626,7 +5626,44 @@ window.closeModalAsignarEscaneador = function() {
   if (modal) modal.classList.add('hidden');
 };
 
-window.guardarAsignacionEscaneador = function(e) {
+window.sendLiveMutation = async function(op, payload) {
+  let candidates = [];
+  if (typeof getLiveApiBase === 'function') {
+    candidates.push(getLiveApiBase());
+  }
+  if (window.LIVE_DB_STATE && window.LIVE_DB_STATE.corsLocalUrl && !candidates.includes(window.LIVE_DB_STATE.corsLocalUrl)) {
+    candidates.push(window.LIVE_DB_STATE.corsLocalUrl);
+  }
+  if (!candidates.includes('Backend/api_live.php')) {
+    candidates.push('Backend/api_live.php');
+  }
+  if (!candidates.includes('http://localhost:8095/Backend/api_live.php')) {
+    candidates.push('http://localhost:8095/Backend/api_live.php');
+  }
+
+  for (const apiUrl of candidates) {
+    try {
+      const url = `${apiUrl}?op=${encodeURIComponent(op)}`;
+      const res = await fetch(url, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(payload)
+      });
+      if (res.ok) {
+        const json = await res.json();
+        console.log(`[DentLive Mutation ${op}] Exito:`, json);
+        return json;
+      }
+    } catch (err) {
+      console.warn(`[DentLive Mutation ${op}] Error intentando con ${apiUrl}:`, err);
+    }
+  }
+  return { ok: false, msg: 'No se pudo contactar el endpoint de escritura' };
+};
+
+window.guardarAsignacionEscaneador = async function(e) {
   e.preventDefault();
   const serie = document.getElementById('asignarEscaneadorSerie')?.value;
   const escaneador = document.getElementById('selectEspecialistaEscaneo')?.value || 'Arturo Meza';
@@ -5638,6 +5675,19 @@ window.guardarAsignacionEscaneador = function(e) {
   window.closeModalAsignarEscaneador();
   showToast('Escaneador Asignado', `${escaneador} fue asignado como responsable de escaneo para la Orden #${serie}.`);
   renderDynamicModule('lista-ordenes');
+
+  try {
+    await window.sendLiveMutation('asignar_escaneador', {
+      idOrden: serie,
+      usuarioId: 1,
+      nombreTecnico: escaneador,
+      fecha: new Date().toISOString().split('T')[0],
+      hora: '10:00',
+      nota: `Asignado a ${escaneador} desde Dent Control`
+    });
+  } catch (err) {
+    console.error('Error al guardar asignación en servidor:', err);
+  }
 };
 
 // Modal Editar Doctor
@@ -5667,7 +5717,7 @@ window.closeModalEditarDoctor = function() {
   if (modal) modal.classList.add('hidden');
 };
 
-window.guardarEdicionDoctor = function(e) {
+window.guardarEdicionDoctor = async function(e) {
   e.preventDefault();
   const id = document.getElementById('editDocId')?.value;
   const doc = window.findDoctorByAny(id);
@@ -5686,6 +5736,20 @@ window.guardarEdicionDoctor = function(e) {
   window.closeModalEditarDoctor();
   showToast('Doctor Actualizado', `Los cambios para el ${doc.nombre} fueron guardados correctamente.`);
   renderDynamicModule('listado-doctores');
+
+  try {
+    await window.sendLiveMutation('editar_doctor', {
+      id: doc.id,
+      nombre: doc.nombre,
+      celular: doc.celular,
+      mail: doc.mail,
+      clinica: doc.clinica,
+      activo: doc.activo ? 1 : 0,
+      nota: doc.nota
+    });
+  } catch (err) {
+    console.error('Error al actualizar doctor en servidor:', err);
+  }
 };
 
 function toggleUsuarioAppEquipos(index) {
@@ -5736,28 +5800,44 @@ function probarTonoEn3D(hex, codigo) {
   }, 150);
 }
 
-function guardarNuevoDoctor(e) {
+async function guardarNuevoDoctor(e) {
   e.preventDefault();
-  const nombre = document.getElementById('ndNombre').value;
-  const celular = document.getElementById('ndCelular').value;
-  const mail = document.getElementById('ndMail').value;
-  const clinica = document.getElementById('ndClinica').value;
-  const tipo = document.getElementById('ndTipo').value;
-  const vendedor = document.getElementById('ndVendedor').value;
-  const nota = document.getElementById('ndNota').value || 'Recién registrado';
-  const externo = document.getElementById('ndExterno').value === 'true';
+  const nombre = document.getElementById('ndNombre')?.value || '';
+  const celular = document.getElementById('ndCelular')?.value || '';
+  const mail = document.getElementById('ndMail')?.value || '';
+  const clinica = document.getElementById('ndClinica')?.value || '';
+  const tipo = document.getElementById('ndTipo')?.value || 'General';
+  const vendedor = document.getElementById('ndVendedor')?.value || 'DentLab';
+  const nota = document.getElementById('ndNota')?.value || 'Recién registrado';
+  const externo = document.getElementById('ndExterno')?.value === 'true';
 
-  DENT_STATE.doctores.unshift({
+  const newDoc = {
     id: 'DOC-' + (106 + DENT_STATE.doctores.length),
     nombre, celular, mail, vendedor, nota, clinica, tipo,
     activo: true, externo, mesesSinPaquete: 0
-  });
+  };
+  DENT_STATE.doctores.unshift(newDoc);
   showToast('Doctor Registrado', `${nombre} se agregó exitosamente al directorio.`);
   openModule('listado-doctores');
+
+  try {
+    const res = await window.sendLiveMutation('guardar_doctor', {
+      nombre, celular, mail, clinica, tipo, nota,
+      externo: externo ? 1 : 0,
+      vendedorId: 0,
+      telefono: celular
+    });
+    if (res && res.ok && res.id) {
+      newDoc.id = res.id;
+      newDoc.codigo = 'DOC-' + res.id;
+    }
+  } catch (err) {
+    console.error('Error al persistir doctor en servidor:', err);
+  }
 }
 
-function asignarPaqueteDoctor(nombreDoctor) {
-  DENT_STATE.paquetesDoctores.unshift({
+async function asignarPaqueteDoctor(nombreDoctor) {
+  const nuevoPaq = {
     folio: 'VTA-PAQ-' + (89 + DENT_STATE.paquetesDoctores.length),
     doctor: nombreDoctor,
     paquete: 'Paquete 10 Coronas Zirconio Monolítico',
@@ -5765,10 +5845,22 @@ function asignarPaqueteDoctor(nombreDoctor) {
     usadas: 0,
     disponibles: 10,
     saldo: '$0.00 (Liquidado)',
-    fecha: '2026-10-07'
-  });
+    fecha: new Date().toISOString().split('T')[0]
+  };
+  DENT_STATE.paquetesDoctores.unshift(nuevoPaq);
   showToast('Paquete Asignado', `Se activó un Paquete de 10 Coronas para ${nombreDoctor}.`);
   openModule('paquetes-doctores');
+
+  try {
+    await window.sendLiveMutation('asignar_paquete', {
+      doctor: nombreDoctor,
+      paquete: 'Paquete 10 Coronas Zirconio Monolítico',
+      piezas: 10,
+      costo: '$7,500.00'
+    });
+  } catch (err) {
+    console.error('Error al persistir asignación de paquete en servidor:', err);
+  }
 }
 
 function guardarNuevaEmpresa(e) {
@@ -10680,7 +10772,7 @@ function cambiarTabDoctor(tab) {
   }
 }
 
-function guardarCambiosDoctorActual(e) {
+async function guardarCambiosDoctorActual(e) {
   e.preventDefault();
   if (!currentDoctorActivo) return;
   const cel = document.getElementById('docInputCelular')?.value;
@@ -10690,6 +10782,20 @@ function guardarCambiosDoctorActual(e) {
   if (mail !== undefined) currentDoctorActivo.mail = mail;
   if (clinica !== undefined) currentDoctorActivo.clinica = clinica;
   showToast('Doctor Actualizado', `Se guardaron los datos de ${currentDoctorActivo.nombre}.`);
+
+  try {
+    await window.sendLiveMutation('editar_doctor', {
+      id: currentDoctorActivo.id,
+      nombre: currentDoctorActivo.nombre,
+      celular: currentDoctorActivo.celular,
+      mail: currentDoctorActivo.mail,
+      clinica: currentDoctorActivo.clinica,
+      activo: currentDoctorActivo.activo ? 1 : 0,
+      nota: currentDoctorActivo.nota || ''
+    });
+  } catch (err) {
+    console.error('Error al actualizar doctor actual en servidor:', err);
+  }
 }
 
 function abrirDetalleDoctor(doctorQuery) {
@@ -11685,8 +11791,7 @@ window.closeModalDetalleUsoDisco = function() {
   if (modal) modal.classList.add('hidden');
 };
 
-// Terminar Disco Manual (incluso si restan piezas)
-window.terminarDiscoManual = function(discoId) {
+window.terminarDiscoManual = async function(discoId) {
   const d = DENT_STATE.discos.find(x => x.id === discoId);
   if (!d) return;
   const piezasRestantes = d.capacidad - d.usadas;
@@ -11697,6 +11802,15 @@ window.terminarDiscoManual = function(discoId) {
   d.almacen = 'Histórico CNC';
   showToast('Disco Terminado', `El disco ${d.id} fue concluido manualmente y liberado de fresadora.`);
   renderDynamicModule('inventario-discos');
+
+  try {
+    await window.sendLiveMutation('terminar_disco', {
+      discoId: d.id,
+      motivo: `Cerrado con ${piezasRestantes} piezas restantes`
+    });
+  } catch (err) {
+    console.error('Error al terminar disco en servidor:', err);
+  }
 };
 
 // Filtro de Usuarios
@@ -11762,7 +11876,7 @@ window.closeModalEditarUsuario = function() {
   if (modal) modal.classList.add('hidden');
 };
 
-window.guardarEdicionUsuario = function(e) {
+window.guardarEdicionUsuario = async function(e) {
   e.preventDefault();
   const id = Number(document.getElementById('editUserId')?.value);
   const u = DENT_STATE.usuarios.find(x => x.id === id) || DENT_STATE.usuarios[0];
@@ -11778,6 +11892,18 @@ window.guardarEdicionUsuario = function(e) {
   window.closeModalEditarUsuario();
   showToast('Usuario Actualizado', `Los datos para @${u.usuario} (${u.nombre}) fueron guardados correctamente.`);
   renderDynamicModule('usuarios');
+
+  try {
+    await window.sendLiveMutation('guardar_usuario', {
+      usuario: u.usuario,
+      nombre: u.nombre,
+      correo: u.correo,
+      perfil: u.perfil,
+      estatus: u.estatus ? 1 : 0
+    });
+  } catch (err) {
+    console.error('Error al guardar usuario en servidor:', err);
+  }
 };
 
 // Modal Permisos por Módulo
@@ -11824,10 +11950,27 @@ window.marcarTodosLosPermisos = function(estado) {
   document.querySelectorAll('.perm-chk').forEach(c => c.checked = estado);
 };
 
-window.guardarPermisosUsuario = function(e) {
+window.guardarPermisosUsuario = async function(e) {
   e.preventDefault();
+  const userId = document.getElementById('permisosUserId')?.value || '1';
+  const permisosMatriz = [];
+  document.querySelectorAll('#tbodyMatrizPermisos tr').forEach(tr => {
+    const modulo = tr.cells[0]?.innerText.trim() || '';
+    const chks = Array.from(tr.querySelectorAll('.perm-chk')).map(c => c.checked);
+    permisosMatriz.push({ modulo, ver: chks[0], crear: chks[1], editar: chks[2], eliminar: chks[3] });
+  });
+
   window.closeModalPermisosUsuario();
   showToast('Permisos Actualizados', 'La matriz de permisos por módulo fue guardada satisfactoriamente.');
+
+  try {
+    await window.sendLiveMutation('guardar_permisos', {
+      usuarioId: userId,
+      permisos: permisosMatriz
+    });
+  } catch (err) {
+    console.error('Error al guardar permisos en servidor:', err);
+  }
 };
 
 // Mensajes Push
@@ -11835,7 +11978,7 @@ window.toggleSelectAllPushDocs = function(checked) {
   document.querySelectorAll('.push-doc-chk').forEach(c => c.checked = checked);
 };
 
-window.enviarMensajePushCustom = function(e) {
+window.enviarMensajePushCustom = async function(e) {
   e.preventDefault();
   const checkedDocs = Array.from(document.querySelectorAll('.push-doc-chk:checked')).map(c => c.value);
   const titulo = document.getElementById('pushTituloInput')?.value;
@@ -11865,6 +12008,17 @@ window.enviarMensajePushCustom = function(e) {
 
   showToast('Push Enviado / Programado', `Mensaje "${titulo}" enviado exitosamente a ${checkedDocs.length} doctor(es).`);
   renderDynamicModule('mensajes-push');
+
+  try {
+    await window.sendLiveMutation('enviar_push', {
+      titulo,
+      mensaje,
+      destinatarios: destinatarioStr,
+      programado: fechaStr
+    });
+  } catch (err) {
+    console.error('Error al registrar mensaje push en servidor:', err);
+  }
 };
 
 // Reportes: Doctores sin paquetes
