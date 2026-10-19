@@ -784,28 +784,8 @@
               ]
             },
             { label: 'Motivos de Cancelación', value: 'motivos-cancelacion', icon: 'ban' },
-            {
-              label: 'Mensajes Push',
-              value: 'sub-push',
-              icon: 'message-square',
-              children: [
-                { label: 'Tipos de Push', value: 'tipos-push', icon: 'tag' },
-                { label: 'Enviar Push', value: 'mensajes-push', icon: 'send' }
-              ]
-            },
             { label: 'Paquetes', value: 'paquetes', icon: 'package' },
             { label: 'Productos', value: 'productos-app', icon: 'box' },
-            {
-              label: 'Discos CAD/CAM',
-              value: 'sub-discos',
-              icon: 'disc',
-              children: [
-                { label: 'Inventario de Discos', value: 'inventario-discos', icon: 'layers' },
-                { label: 'Discos Activos', value: 'discos-activos', icon: 'play-circle' },
-                { label: 'Discos Usados', value: 'discos-usados', icon: 'check-circle-2' },
-                { label: 'Marcas de Discos', value: 'marcas-discos', icon: 'award' }
-              ]
-            },
             { label: 'BanersApp', value: 'baners-app', icon: 'layout' },
             {
               label: 'Recordatorios',
@@ -814,20 +794,6 @@
               children: [
                 { label: 'Tipos de Recordatorios', value: 'tipos-recordatorio', icon: 'bookmark' },
                 { label: 'Recordatorios', value: 'recordatorios', icon: 'calendar-clock' }
-              ]
-            },
-            { label: 'Marcas de Discos', value: 'marcas-discos', icon: 'award' },
-            {
-              label: 'Doctores',
-              value: 'sub-doctores',
-              icon: 'stethoscope',
-              children: [
-                { label: 'Lista de Doctores', value: 'listado-doctores', icon: 'users' },
-                { label: 'Doctores por Agotar', value: 'doctores-por-agotar', icon: 'alert-triangle' },
-                { label: 'Doctores sin Paquetes', value: 'doctores-sin-paquetes', icon: 'user-minus' },
-                { label: 'Doctores por Vendedor', value: 'doctores-por-vendedor', icon: 'user-check' },
-                { label: 'Paquetes Doctores', value: 'paquetes-doctores', icon: 'package-check' },
-                { label: 'Tipos de Doctores', value: 'doctores-tipos', icon: 'user-cog' }
               ]
             },
             { label: 'Categorías', value: 'categorias', icon: 'list' },
@@ -853,6 +819,40 @@
             { label: 'Colorímetro', value: 'colorimetro', icon: 'palette' },
             { label: 'Vendedores', value: 'vendedores', icon: 'user-check' },
             { label: 'Usuarios', value: 'usuarios', icon: 'users' }
+          ]
+        },
+        {
+          label: 'Doctores',
+          value: 'sec-doctores',
+          icon: 'stethoscope',
+          children: [
+            { label: 'Lista de Doctores', value: 'listado-doctores', icon: 'users' },
+            { label: 'Nuevo Doctor', value: 'nuevo-doctor', icon: 'user-plus' },
+            { label: 'Doctores por Agotar', value: 'doctores-por-agotar', icon: 'alert-triangle' },
+            { label: 'Doctores sin Paquetes', value: 'doctores-sin-paquetes', icon: 'user-minus' },
+            { label: 'Doctores por Vendedor', value: 'doctores-por-vendedor', icon: 'user-check' },
+            { label: 'Paquetes Doctores', value: 'paquetes-doctores', icon: 'package-check' },
+            { label: 'Tipos de Doctores', value: 'doctores-tipos', icon: 'user-cog' }
+          ]
+        },
+        {
+          label: 'Discos CAD/CAM',
+          value: 'sec-discos',
+          icon: 'disc',
+          children: [
+            { label: 'Inventario de Discos', value: 'inventario-discos', icon: 'layers' },
+            { label: 'Discos Activos', value: 'discos-activos', icon: 'play-circle' },
+            { label: 'Discos Usados', value: 'discos-usados', icon: 'check-circle-2' },
+            { label: 'Marcas de Discos', value: 'marcas-discos', icon: 'award' }
+          ]
+        },
+        {
+          label: 'Mensajes Push',
+          value: 'sec-push',
+          icon: 'message-square',
+          children: [
+            { label: 'Enviar Mensajes Push', value: 'mensajes-push', icon: 'send' },
+            { label: 'Tipos de Push', value: 'tipos-push', icon: 'tag' }
           ]
         },
         {

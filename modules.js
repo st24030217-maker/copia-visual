@@ -3570,10 +3570,12 @@ function renderDynamicModule(key) {
       break;
     }
 
+    case 'sec-push':
+    case 'push':
     case 'mensajes-push':
     case 'tipos-push': {
       container.innerHTML = `
-        ${renderHeaderBanner('Dent Lab • Mensajes Push', 'Módulo de Notificaciones Push (Avisos.php)', 'Envío masivo o individual de notificaciones instantáneas a doctores, con programación de fecha/hora y registro de lectura.', `
+        ${renderHeaderBanner('Mensajes Push', 'Módulo de Notificaciones Push (Avisos.php)', 'Envío masivo o individual de notificaciones instantáneas a doctores, con programación de fecha/hora y registro de lectura.', `
           <div class="px-3.5 py-1.5 rounded-xl bg-slate-900 text-white text-xs font-mono font-bold flex items-center gap-2">
             <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
             <span>Gateway Firebase FCM Activo</span>
@@ -3803,6 +3805,8 @@ function renderDynamicModule(key) {
     // ------------------------------------------------------------------------
     // 5. DISCOS CAD/CAM (Inventario, Activos, Usados, Erróneos, Por Autorizar)
     // ------------------------------------------------------------------------
+    case 'sec-discos':
+    case 'discos':
     case 'marcas':
     case 'inventario-discos':
     case 'discos-activos':
@@ -3821,7 +3825,7 @@ function renderDynamicModule(key) {
       if (key === 'discos-usados') sub = 'Histórico de discos desbastados al 100% o concluidos manualmente.';
 
       container.innerHTML = `
-        ${renderHeaderBanner('Dent Lab • Discos CAD/CAM', key === 'inventario-discos' ? 'Inventario de Discos de Laboratorio (InventarioDiscos.php)' : (key === 'discos-activos' ? 'Discos Activos en Fresadora' : 'Discos Usados y Concluidos'), sub, `
+        ${renderHeaderBanner('Discos CAD/CAM', key === 'inventario-discos' ? 'Inventario de Discos de Laboratorio (InventarioDiscos.php)' : (key === 'discos-activos' ? 'Discos Activos en Fresadora' : 'Discos Usados y Concluidos'), sub, `
           <div class="flex items-center gap-2">
             <button onclick="openModule('marcas-discos')" class="px-3.5 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-white text-xs font-semibold flex items-center gap-1.5 transition-colors">
               <i data-lucide="tag" class="w-4 h-4"></i><span>Ver Marcas</span>
@@ -4227,6 +4231,8 @@ function renderDynamicModule(key) {
     // ------------------------------------------------------------------------
     // 7. DOCTORES (Listado, Nuevo Doctor, Tipos, Paquetes, Sin Paquetes 3M)
     // ------------------------------------------------------------------------
+    case 'sec-doctores':
+    case 'doctores':
     case 'listado-doctores':
     case 'doctores-inactivos': {
       const list = key === 'doctores-inactivos'
@@ -4234,7 +4240,7 @@ function renderDynamicModule(key) {
         : DENT_STATE.doctores;
 
       container.innerHTML = `
-        ${renderHeaderBanner('Dent Lab • Doctores', key === 'doctores-inactivos' ? 'Doctores sin Paquetes Actuales (≥ 3 Meses)' : 'Directorio General de Doctores', 'Gestión de odontólogos, clínicas afiliadas, asignación de vendedor, edición y compra de paquetes.', `
+        ${renderHeaderBanner('Doctores', key === 'doctores-inactivos' ? 'Doctores sin Paquetes Actuales (≥ 3 Meses)' : 'Directorio General de Doctores', 'Gestión de odontólogos, clínicas afiliadas, asignación de vendedor, edición y compra de paquetes.', `
           <button onclick="openModule('nuevo-doctor')" class="px-3.5 py-2 rounded-xl bg-blue-600 hover:bg-blue-700 text-white text-xs font-semibold flex items-center gap-1.5 shadow-sm">
             <i data-lucide="user-plus" class="w-4 h-4"></i><span>Nuevo Doctor</span>
           </button>
