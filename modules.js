@@ -171,6 +171,54 @@ const DENT_STATE = {
         { ot: '29552', paciente: 'Laura Méndez', piezas: 10, fecha: '2026-08-15' },
         { ot: '29463', paciente: 'David Cantú', piezas: 10, fecha: '2026-08-18' }
       ]
+    },
+    {
+      id: 'ZRC-VTA-2079',
+      lote: 'LOT-2079V',
+      marca: 'Aidite 3D Pro Zirconia',
+      color: 'Vita A2',
+      espesor: '20 mm',
+      capacidad: 22,
+      usadas: 0,
+      estado: 'Vendido',
+      almacen: 'Vendido a Clínica',
+      fechaIngreso: '2025-05-08',
+      fechaVenta: '2026-06-04 10:51',
+      usuarioVenta: 'Jose Alatorre',
+      clienteDestino: 'Dr. José Antonio Alatorre Serna',
+      ordenesUso: []
+    },
+    {
+      id: 'ZRC-VTA-2226',
+      lote: 'LOT-2226V',
+      marca: 'Aidite 3D Pro Zirconia',
+      color: 'Vita A1',
+      espesor: '16 mm',
+      capacidad: 20,
+      usadas: 0,
+      estado: 'Vendido',
+      almacen: 'Vendido a Clínica',
+      fechaIngreso: '2025-08-26',
+      fechaVenta: '2026-03-26 15:43',
+      usuarioVenta: 'Irene Martinez',
+      clienteDestino: 'Dra. Alicia Irene Martínez Gómez',
+      ordenesUso: []
+    },
+    {
+      id: 'ZRC-VTA-2286',
+      lote: 'LOT-2286V',
+      marca: 'Upcera Explore',
+      color: 'Vita A1',
+      espesor: '18 mm',
+      capacidad: 20,
+      usadas: 0,
+      estado: 'Vendido',
+      almacen: 'Vendido a Clínica',
+      fechaIngreso: '2025-09-17',
+      fechaVenta: '2026-08-14 11:35',
+      usuarioVenta: 'Jose Alatorre',
+      clienteDestino: 'Clínica Laguna Dental',
+      ordenesUso: []
     }
   ],
   archivosDiscosErroneos: [
@@ -3818,6 +3866,7 @@ function renderDynamicModule(key) {
                 <option value="Activo" ${key === 'discos-activos' ? 'selected' : ''}>Activo (En Fresadora)</option>
                 <option value="Almacén">En Almacén</option>
                 <option value="Usado" ${key === 'discos-usados' ? 'selected' : ''}>Agotado / Usado</option>
+                <option value="Vendido" ${key === 'discos-vendidos' ? 'selected' : ''}>Vendido (Movimiento de Venta)</option>
               </select>
             </div>
             <div>
@@ -3869,7 +3918,7 @@ function renderDynamicModule(key) {
                   <th class="px-3 py-2.5">Tono Vita</th>
                   <th class="px-3 py-2.5">Espesor</th>
                   <th class="px-3 py-2.5">Uso de Piezas</th>
-                  <th class="px-3 py-2.5">Ubicación</th>
+                  <th class="px-3 py-2.5">Ubicación / Movimiento</th>
                   <th class="px-3 py-2.5">Estado</th>
                   <th class="px-3 py-2.5">Acciones</th>
                 </tr>
@@ -3878,8 +3927,9 @@ function renderDynamicModule(key) {
                 ${DENT_STATE.discos.map(d => {
                   const p = Math.round((d.usadas / d.capacidad) * 100);
                   const isActivo = d.estado === 'Activo';
+                  const isVendido = d.estado === 'Vendido';
                   return `
-                    <tr class="hover:bg-slate-50 transition-colors" data-id="${d.id}" data-marca="${d.marca}" data-color="${d.color}" data-espesor="${d.espesor}" data-estado="${d.estado}" data-fecha="${d.fechaIngreso || ''}">
+                    <tr class="hover:bg-slate-50 transition-colors" data-id="${d.id}" data-marca="${d.marca}" data-color="${d.color}" data-espesor="${d.espesor}" data-estado="${d.estado}" data-fecha="${d.fechaVenta || d.fechaIngreso || ''}">
                       <td class="px-3 py-2.5 font-mono font-bold text-blue-600">
                         <a href="javascript:void(0)" onclick="abrirModalDetalleUsoDisco('${d.id}')" class="hover:underline">${d.id}</a>
                       </td>
@@ -3890,16 +3940,35 @@ function renderDynamicModule(key) {
                       <td class="px-3 py-2.5">
                         <div class="flex items-center justify-center gap-2">
                           <div class="w-20 bg-slate-100 h-2 rounded-full overflow-hidden">
-                            <div class="h-full rounded-full ${p >= 90 ? 'bg-rose-500' : p >= 60 ? 'bg-amber-500' : 'bg-blue-600'}" style="width:${p}%"></div>
+                            <div class="h-full rounded-full ${p >= 90 ? 'bg-rose-500' : p >= 60 ? 'bg-amber-500' : (isVendido ? 'bg-purple-600' : 'bg-blue-600')}" style="width:${p}%"></div>
                           </div>
                           <span class="font-mono text-[11px] font-bold">${d.usadas}/${d.capacidad}</span>
                         </div>
                       </td>
-                      <td class="px-3 py-2.5 font-semibold text-slate-600">${d.almacen}</td>
+                      <td class="px-3 py-2.5 text-left font-semibold text-slate-700">
+                        <div>${d.almacen}</div>
+                        ${isVendido ? `<div class="text-[10.5px] text-purple-700 font-normal">Venta por: <strong class="font-bold">${d.usuarioVenta || 'Ventas'}</strong></div>` : ''}
+                      </td>
                       <td class="px-3 py-2.5">
-                        <span class="px-2.5 py-0.5 rounded-full text-[10px] font-bold ${isActivo ? 'bg-blue-100 text-blue-800 border border-blue-200' : (d.estado.includes('Almacén') ? 'bg-emerald-100 text-emerald-800 border border-emerald-200' : 'bg-slate-200 text-slate-700')}">
-                          ${d.estado}
-                        </span>
+                        ${isVendido ? `
+                          <span class="px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-purple-100 text-purple-800 border border-purple-200">
+                            Vendido
+                          </span>
+                          <span class="text-[9.5px] font-mono text-purple-900 block mt-0.5">${d.fechaVenta || '2026-06-04 10:51'}</span>
+                        ` : (isActivo ? `
+                          <span class="px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-blue-100 text-blue-800 border border-blue-200">
+                            Activo
+                          </span>
+                        ` : (d.estado.includes('Almacén') ? `
+                          <span class="px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-emerald-100 text-emerald-800 border border-emerald-200">
+                            En Almacén
+                          </span>
+                        ` : `
+                          <span class="px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-slate-200 text-slate-700">
+                            ${d.estado}
+                          </span>
+                        `))}
+                      </td>
                       </td>
                       <td class="px-3 py-2.5">
                         <div class="flex items-center justify-center gap-1">
@@ -9790,20 +9859,28 @@ function renderModalsInicio() {
   const tbPend = document.getElementById('tbodyModalPendientesPago');
   if (tbPend) {
     if (!INICIO_DATA.pendientes || INICIO_DATA.pendientes.length === 0) {
-      tbPend.innerHTML = '<tr><td colspan="4" class="py-6 text-center text-slate-400 font-semibold">NO HAY ORDENES POR MOSTRAR</td></tr>';
+      tbPend.innerHTML = '<tr><td colspan="6" class="py-6 text-center text-slate-400 font-semibold">NO HAY ORDENES PENDIENTES DE PAGO POR MOSTRAR</td></tr>';
     } else {
-      tbPend.innerHTML = INICIO_DATA.pendientes.map(p => `
-        <tr class="hover:bg-slate-50">
-          <td class="font-mono font-bold">${p.serie}</td>
-          <td>${p.doctor}</td>
-          <td>${p.paciente}</td>
+      tbPend.innerHTML = INICIO_DATA.pendientes.map((p, idx) => {
+        const fechaHoraLib = p.fechaLiberacion || p.libProd || (p.con_scan ? '2026-10-15 14:30' : '2026-10-16 09:15');
+        const userLib = p.usuarioLibero || p.nombreLib || (idx % 2 === 0 ? 'Irene Martinez' : 'Jose Alatorre');
+        return `
+        <tr class="hover:bg-slate-50 transition-colors">
+          <td class="font-mono font-bold text-blue-600">
+            <a href="javascript:void(0)" onclick="document.getElementById('modalPendientes').classList.add('hidden'); abrirOrdenTrabajo('${p.serie}')" class="hover:underline">${p.serie}</a>
+          </td>
+          <td class="font-semibold text-slate-800 text-left">${p.doctor}</td>
+          <td class="text-slate-600 text-left">${p.paciente || 'Paciente General'}</td>
+          <td class="font-mono text-[11px] text-slate-600 font-semibold">${fechaHoraLib}</td>
+          <td class="uppercase font-semibold text-slate-700 text-[11px]"><span class="px-2 py-0.5 rounded bg-slate-100 border border-slate-200">${userLib}</span></td>
           <td>
-            <button type="button" onclick="document.getElementById('modalPendientes').classList.add('hidden'); abrirOrdenTrabajo('${p.serie}')" class="btnEtiqueta btnEtiqueta--ot">
-              <svg class="w-3.5 h-3.5 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5.5c-1.5-2-4-2.5-6-1-2 1.5-2.5 4.5-1.5 7 1 2.5 1.5 5.5 2 8 .3 1.5 1.8 1.5 2.5 0 .5-1.5 1-3.5 3-3.5s2.5 2 3 3.5c.7 1.5 2.2 1.5 2.5 0 .5-2.5 1-5.5 2-8 1-2.5.5-5.5-1.5-7-2-1.5-4.5-1-6 1z"/></svg>
+            <button type="button" onclick="document.getElementById('modalPendientes').classList.add('hidden'); abrirOrdenTrabajo('${p.serie}')" class="px-2.5 py-1 rounded-lg bg-blue-50 text-blue-700 hover:bg-blue-600 hover:text-white font-bold text-[11px] transition-colors">
+              Ver OT
             </button>
           </td>
         </tr>
-      `).join('');
+      `;
+      }).join('');
     }
   }
 }

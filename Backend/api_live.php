@@ -243,8 +243,9 @@ try {
             WHERE lda.Activo = 1
             ORDER BY lda.idDoctores DESC");
 
-        // 7. Canceladas y Pendientes de Pago
-        $canceladas = $db->Select("SELECT lot.Serie, lot.ObservacionesLaboratororio, ss.Nombre
+        // 7. Canceladas y Pendientes de Pago (Requerimientos 18 y 19)
+        $canceladas = $db->Select("SELECT lot.Serie, lot.ObservacionesLaboratororio, ss.Nombre,
+            DATE_FORMAT(loe.Fecha, '%Y-%m-%d %H:%i') AS FechaCancelacion
             FROM Lab_Ordenes_Estado AS loe
             INNER JOIN Lab_Ordenes_trabajo AS lot ON lot.Ordenes_trabajo_id = loe.id_Orden
             INNER JOIN Lab_SubEstados AS ls ON ls.idLab_SubEstado = loe.Flujo
@@ -257,13 +258,33 @@ try {
 
         $pendientesPago = $db->Select("SELECT loe.idLab_Ordenes_Estado, lot.Ordenes_trabajo_id, lot.Con_scan, lot.Serie,
             TRIM(CONCAT(COALESCE(lda.Doctor,''), ' ', COALESCE(lda.ApellidoPaterno,''), ' ', COALESCE(lda.ApellidoMaterno,''))) AS Doctor,
-            IF(lot.Paciente_id IS NULL OR lot.Paciente_id = '', '', TRIM(CONCAT(COALESCE(lpa.Nombre,''), ' ', COALESCE(lpa.Apellidos,'')))) AS Paciente
+            IF(lot.Paciente_id IS NULL OR lot.Paciente_id = '', '', TRIM(CONCAT(COALESCE(lpa.Nombre,''), ' ', COALESCE(lpa.Apellidos,'')))) AS Paciente,
+            DATE_FORMAT(lot.Liberada_prod, '%Y-%m-%d %H:%i') AS FechaLiberacion,
+            COALESCE(lsss.Nombre, 'Cobranza / Admin') AS UsuarioLibero
             FROM Lab_Ordenes_Estado AS loe
             LEFT JOIN Lab_Ordenes_trabajo AS lot ON lot.Ordenes_trabajo_id = loe.id_Orden
             LEFT JOIN Lab_Doctores_App AS lda ON lda.idDoctores = lot.Doctor_id
             LEFT JOIN Lab_Pacientes_App AS lpa ON lpa.Paciente_Id = lot.Paciente_id
+            LEFT JOIN sys_usuarios AS lsss ON lsss.id_sys_usuario = lot.Liberada_usuario_id
             WHERE loe.Flujo = 9
             ORDER BY lot.Serie DESC");
+
+        // 7.1 Discos Vendidos (Status = 3) (Requerimiento 17)
+        $discosVendidos = $db->Select("SELECT
+            LDI.idLab_Discos_Inventario AS id,
+            CONCAT('ZRC-VTA-', LDI.Codigo) AS codigo,
+            COALESCE(M.Marca, 'Zirconio') AS marca,
+            COALESCE(LTCC.Colorimetro, 'Vita A2') AS color,
+            CONCAT(LDI.Tamaño, ' mm') AS espesor,
+            DATE_FORMAT(LDI.FechaSlida, '%Y-%m-%d %H:%i') AS fechaVenta,
+            COALESCE(su.Nombre, su.usuario, 'Almacén / Ventas') AS usuarioVenta,
+            'Vendido' AS estado
+            FROM Lab_Discos_Inventario AS LDI
+            LEFT JOIN Marcas AS M ON M.idMarcas = LDI.idMarca
+            LEFT JOIN Lab_Tipos_Colorimetros_Colores AS LTCC ON LTCC.Tipos_Colorimetros_Color_Id = LDI.idColorimetroColor
+            LEFT JOIN sys_usuarios AS su ON su.id_sys_usuario = LDI.idLab_Discos_UsuariosAlmacen
+            WHERE LDI.Status = 3
+            ORDER BY LDI.FechaSlida DESC LIMIT 100");
 
         // 8. Calendario
         $calendario = $db->Select("SELECT lot.Serie, la.FechaScan AS fecha, DATE_FORMAT(la.HoraInicio, '%H:%i') AS hora,
@@ -353,6 +374,7 @@ try {
             'doctores' => $doctores,
             'canceladas' => $canceladas,
             'pendientes_pago' => $pendientesPago,
+            'discos_vendidos' => $discosVendidos,
             'calendario' => $calendario,
             'vendedores' => $vendedores,
             'representantes_venta' => $representantesVenta,
