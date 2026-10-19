@@ -705,15 +705,25 @@
   <!-- ========================================================================= -->
   <!-- BARRA LATERAL IZQUIERDA ESTILO DENT DEMO CON @react-bits/BranchedMenu     -->
   <!-- ========================================================================= -->
-  <aside id="sidebar" class="w-64 bg-[#2A3F54] text-slate-100 flex flex-col justify-between shrink-0 transition-all duration-300 ease-out border-r border-slate-800 select-none">
+  <!-- Backdrop oscuro para móvil / tablet (< 1024px) -->
+  <div id="sidebarBackdrop" 
+       onclick="closeSidebarMobile()" 
+       class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-40 transition-opacity duration-300 opacity-0 pointer-events-none lg:hidden"
+       aria-hidden="true"></div>
+
+  <aside id="sidebar" class="fixed inset-y-0 left-0 z-50 w-72 max-w-[85vw] -translate-x-full lg:static lg:w-64 lg:translate-x-0 bg-[#2A3F54] text-slate-100 flex flex-col justify-between shrink-0 transition-all duration-300 ease-out border-r border-slate-800 select-none shadow-2xl lg:shadow-none">
     <div class="flex flex-col h-full overflow-hidden">
       
       <!-- 1. Título Superior de Perfil (.navbar.nav_title de DENT DEMO) -->
       <div class="h-14 px-4 flex items-center justify-between border-b border-white/10 shrink-0">
-        <a href="#" onclick="window.bmSelectLeaf('inicio', 0); return false;" class="flex items-center gap-2.5 text-white hover:opacity-90 transition-opacity">
-          <img src="assets/logoDentlab.png" alt="Dent Lab" class="h-6 w-auto object-contain brightness-0 invert">
-          <span class="text-sm font-semibold tracking-wide text-slate-200" id="lblPerfilSidebar">Administrador</span>
+        <a href="#" onclick="window.bmSelectLeaf('inicio', 0); if (window.innerWidth < 1024) closeSidebarMobile(); return false;" class="flex items-center gap-2.5 text-white hover:opacity-90 transition-opacity min-w-0">
+          <img src="assets/logoDentlab.png" alt="Dent Lab" class="h-6 w-auto object-contain brightness-0 invert shrink-0">
+          <span class="text-sm font-semibold tracking-wide text-slate-200 truncate" id="lblPerfilSidebar">Administrador</span>
         </a>
+        <!-- Botón cerrar exclusivo para móvil/tablet -->
+        <button type="button" onclick="closeSidebarMobile()" class="lg:hidden p-1.5 rounded-lg text-slate-400 hover:text-white hover:bg-white/10 transition-colors shrink-0" aria-label="Cerrar menú lateral">
+          <i data-lucide="x" class="w-5 h-5"></i>
+        </button>
       </div>
 
       <!-- 2. Bloque de Perfil Superior (.profile.clearfix de DENT DEMO: Foto + Bienvenido(a): + Usuario) -->
@@ -728,7 +738,7 @@
       </div>
 
       <!-- 3. Menú Jerárquico de DENT DEMO renderizado con @react-bits/BranchedMenu-JS-CSS -->
-      <div class="p-3.5 flex-1 overflow-y-auto table-scroll">
+      <div class="p-3.5 pb-24 flex-1 overflow-y-auto table-scroll">
         <nav id="dentBranchedMenu" class="branched-menu" aria-label="Navegación Principal Dent">
           <span id="bmMarker" class="branched-menu__marker" aria-hidden="true"></span>
           <div id="bmSectionsContainer"></div>
@@ -755,24 +765,9 @@
           icon: 'home'
         },
         {
-          label: 'Estadísticas y Reportes',
-          value: 'sec-estadisticas',
-          icon: 'bar-chart-2',
-          children: [
-            { label: 'Panorama General (KPIs)', value: 'panorama-general', icon: 'pie-chart' },
-            { label: 'Doctores por Agotar Piezas', value: 'doctores-por-agotar', icon: 'alert-triangle' },
-            { label: 'Doctores sin Paquetes', value: 'doctores-sin-paquetes', icon: 'user-minus' },
-            { label: 'Doctores por Vendedor', value: 'doctores-por-vendedor', icon: 'user-check' },
-            { label: 'Control Laboratorio', value: 'control-lab', icon: 'activity' },
-            { label: 'Paquetes vencidos', value: 'paquetes-vencidos', icon: 'package-x' },
-            { label: 'Finanzas', value: 'finanzas', icon: 'trending-up' }
-          ]
-        },
-        {
           label: 'Dent Lab',
           value: 'sec-dentlab',
           icon: 'flask-conical',
-          alwaysOpen: true,
           children: [
             {
               label: 'Control de Equipos',
@@ -853,6 +848,20 @@
           children: [
             { label: 'Enviar Mensajes Push', value: 'mensajes-push', icon: 'send' },
             { label: 'Tipos de Push', value: 'tipos-push', icon: 'tag' }
+          ]
+        },
+        {
+          label: 'Estadísticas y Reportes',
+          value: 'sec-estadisticas',
+          icon: 'bar-chart-2',
+          children: [
+            { label: 'Panorama General (KPIs)', value: 'panorama-general', icon: 'pie-chart' },
+            { label: 'Doctores por Agotar Piezas', value: 'doctores-por-agotar', icon: 'alert-triangle' },
+            { label: 'Doctores sin Paquetes', value: 'doctores-sin-paquetes', icon: 'user-minus' },
+            { label: 'Doctores por Vendedor', value: 'doctores-por-vendedor', icon: 'user-check' },
+            { label: 'Control Laboratorio', value: 'control-lab', icon: 'activity' },
+            { label: 'Paquetes vencidos', value: 'paquetes-vencidos', icon: 'package-x' },
+            { label: 'Finanzas', value: 'finanzas', icon: 'trending-up' }
           ]
         },
         {
@@ -1045,7 +1054,7 @@
         container.innerHTML = BM_ITEMS.map((item, i) => {
           const kids = item.children || [];
           const hasKids = kids.length > 0;
-          const isAlwaysOpen = !!item.alwaysOpen || item.value === 'sec-dentlab';
+          const isAlwaysOpen = !!item.alwaysOpen;
 
           if (!hasKids) {
             return `
@@ -1183,7 +1192,7 @@
             return;
           }
 
-          const isAlwaysOpen = !!item.alwaysOpen || item.value === 'sec-dentlab';
+          const isAlwaysOpen = !!item.alwaysOpen;
           const isOpen = isAlwaysOpen || bmState.openSection === i;
           if (isOpen) {
             secEl.setAttribute('data-open', '');
@@ -1309,7 +1318,7 @@
       }
 
       window.bmToggleSection = function (idx) {
-        if (BM_ITEMS[idx] && (BM_ITEMS[idx].alwaysOpen || BM_ITEMS[idx].value === 'sec-dentlab')) return;
+        if (BM_ITEMS[idx] && BM_ITEMS[idx].alwaysOpen) return;
         bmState.openSection = bmState.openSection === idx ? null : idx;
         syncBranchedMenuDOM();
       };
@@ -1326,7 +1335,7 @@
         } else {
           BM_ITEMS.forEach((it, idx) => {
             if (!it.children) return;
-            const isAlwaysOpen = !!it.alwaysOpen || it.value === 'sec-dentlab';
+            const isAlwaysOpen = !!it.alwaysOpen;
             it.children.forEach(k => {
               if (k.value === moduleValue) {
                 bmState.openSection = isAlwaysOpen ? null : idx;
@@ -1341,6 +1350,9 @@
         if (typeof openModule === 'function') {
           openModule(moduleValue);
         }
+        if (typeof closeSidebarMobile === 'function' && typeof isMobileView === 'function' && isMobileView()) {
+          closeSidebarMobile();
+        }
       };
 
       window.bmSyncActiveState = function (moduleKey) {
@@ -1351,7 +1363,7 @@
           if (!it.children && it.value === moduleKey) {
             bmState.openSection = null;
           } else if (it.children) {
-            const isAlwaysOpen = !!it.alwaysOpen || it.value === 'sec-dentlab';
+            const isAlwaysOpen = !!it.alwaysOpen;
             it.children.forEach(k => {
               if (k.value === moduleKey) {
                 bmState.openSection = isAlwaysOpen ? null : idx;
@@ -2675,19 +2687,79 @@
     setInterval(updateClock, 1000);
     updateClock();
 
-    // Sidebar
+    // Responsive Sidebar Logic (Mobile Drawer + Desktop Accordion)
+    function isMobileView() {
+      return window.innerWidth < 1024;
+    }
+
+    function openSidebarMobile() {
+      const sb = document.getElementById('sidebar');
+      const bd = document.getElementById('sidebarBackdrop');
+      if (!sb) return;
+      sb.classList.remove('-translate-x-full');
+      sb.classList.add('translate-x-0');
+      if (bd) {
+        bd.classList.remove('opacity-0', 'pointer-events-none');
+        bd.classList.add('opacity-100', 'pointer-events-auto');
+      }
+    }
+
+    function closeSidebarMobile() {
+      const sb = document.getElementById('sidebar');
+      const bd = document.getElementById('sidebarBackdrop');
+      if (!sb) return;
+      if (isMobileView()) {
+        sb.classList.add('-translate-x-full');
+        sb.classList.remove('translate-x-0');
+        if (bd) {
+          bd.classList.add('opacity-0', 'pointer-events-none');
+          bd.classList.remove('opacity-100', 'pointer-events-auto');
+        }
+      }
+    }
+
     function toggleSidebar() {
       const sb = document.getElementById('sidebar');
       if (!sb) return;
-      sb.classList.toggle('w-64');
-      sb.classList.toggle('w-0');
-      sb.classList.toggle('overflow-hidden');
-      sb.classList.toggle('border-r');
-      sb.classList.toggle('border-r-0');
+      if (isMobileView()) {
+        const isOpen = sb.classList.contains('translate-x-0');
+        if (isOpen) {
+          closeSidebarMobile();
+        } else {
+          openSidebarMobile();
+        }
+      } else {
+        sb.classList.toggle('w-64');
+        sb.classList.toggle('w-0');
+        sb.classList.toggle('overflow-hidden');
+        sb.classList.toggle('border-r');
+        sb.classList.toggle('border-r-0');
+      }
     }
-    if (window.innerWidth < 1024) {
-      toggleSidebar();
-    }
+
+    window.addEventListener('resize', () => {
+      const sb = document.getElementById('sidebar');
+      const bd = document.getElementById('sidebarBackdrop');
+      if (!sb) return;
+      if (!isMobileView()) {
+        sb.classList.remove('-translate-x-full', 'translate-x-0');
+        if (bd) {
+          bd.classList.add('opacity-0', 'pointer-events-none');
+          bd.classList.remove('opacity-100', 'pointer-events-auto');
+        }
+      } else {
+        if (!sb.classList.contains('translate-x-0')) {
+          sb.classList.add('-translate-x-full');
+        }
+      }
+    });
+
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') {
+        closeSidebarMobile();
+        closeSettingsDropdown();
+      }
+    });
 
     function toggleSettingsDropdown(e) {
       if (e) e.stopPropagation();
