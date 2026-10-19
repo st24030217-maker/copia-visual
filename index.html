@@ -2749,7 +2749,16 @@
     }
 
     // Modales
-    function openModalCanceladas() { document.getElementById('modalCanceladas').classList.remove('hidden'); if (typeof window.filtrarCanceladasPorFecha === 'function') window.filtrarCanceladasPorFecha(); }
+    function openModalCanceladas() {
+      document.getElementById('modalCanceladas').classList.remove('hidden');
+      const d1 = document.getElementById('canceladasFechaDesde');
+      const d2 = document.getElementById('canceladasFechaHasta');
+      if (d1 && d2 && !d1.value && !d2.value && typeof window.resetFiltroCanceladasMesActual === 'function') {
+        window.resetFiltroCanceladasMesActual();
+      } else if (typeof window.filtrarCanceladasPorFecha === 'function') {
+        window.filtrarCanceladasPorFecha();
+      }
+    }
     function closeModalCanceladas() { document.getElementById('modalCanceladas').classList.add('hidden'); }
     function openModalPendientes() { document.getElementById('modalPendientes').classList.remove('hidden'); }
     function closeModalPendientes() { document.getElementById('modalPendientes').classList.add('hidden'); }
