@@ -2461,6 +2461,189 @@
   </div>
 
   <!-- Contenedor Flotante de Notificaciones Animadas -->
+  <!-- ======================================================== -->
+  <!-- MODAL GENERADOR DE TEXTO CON IA (DISEÑO ESTILO WIX)      -->
+  <!-- ======================================================== -->
+  <div id="modalWixAI" class="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-sm hidden flex items-center justify-center p-3 sm:p-5 overflow-y-auto">
+    <div class="bg-white rounded-2xl max-w-2xl w-full border border-slate-200 shadow-2xl overflow-hidden flex flex-col my-auto transition-all animate-fadeIn">
+      
+      <!-- Header estilo Wix Studio -->
+      <div class="p-4 sm:p-5 border-b border-slate-100 flex items-center justify-between bg-gradient-to-r from-slate-50 via-white to-purple-50/40">
+        <div class="flex items-center gap-3">
+          <div class="w-9 h-9 rounded-xl bg-gradient-to-tr from-purple-600 to-indigo-600 flex items-center justify-center text-white shadow-sm shadow-purple-200 shrink-0">
+            <i data-lucide="sparkles" class="w-4 h-4"></i>
+          </div>
+          <div>
+            <div class="flex items-center gap-2">
+              <h3 class="text-base font-bold text-slate-900 leading-tight">Crear texto con IA</h3>
+              <span class="text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-full bg-purple-100 text-purple-800 border border-purple-200">Asistente Inteligente</span>
+            </div>
+            <p class="text-xs text-slate-500 mt-0.5" id="wixAiSubtitle">Configura tus indicaciones para generar 3 opciones personalizadas.</p>
+          </div>
+        </div>
+        <button type="button" onclick="cerrarModalWixAI()" class="p-1.5 text-slate-400 hover:text-slate-700 hover:bg-slate-100 rounded-lg transition-colors cursor-pointer">
+          <i data-lucide="x" class="w-5 h-5"></i>
+        </button>
+      </div>
+
+      <!-- Contenido del Modal -->
+      <div class="p-5 sm:p-6 space-y-5 overflow-y-auto max-h-[78vh]">
+        
+        <!-- PASO 1: INDICACIONES -->
+        <div id="wixAiPaso1" class="space-y-4">
+          
+          <!-- 1. Tipo de texto -->
+          <div>
+            <label class="block text-xs font-bold text-slate-700 mb-2 uppercase tracking-wide">
+              1. ¿Qué deseas comunicar?
+            </label>
+            <div class="flex flex-wrap gap-2" id="wixAiTiposChips">
+              <button type="button" onclick="seleccionarTipoWixAI('entrega', this)" class="wix-tipo-chip px-3 py-1.5 rounded-full text-xs font-semibold border transition-all cursor-pointer bg-purple-50 border-purple-300 text-purple-800 shadow-2xs" data-tipo="entrega">
+                Orden lista para entrega
+              </button>
+              <button type="button" onclick="seleccionarTipoWixAI('cobranza', this)" class="wix-tipo-chip px-3 py-1.5 rounded-full text-xs font-semibold border transition-all cursor-pointer bg-white border-slate-200 text-slate-700 hover:bg-slate-50" data-tipo="cobranza">
+                Recordatorio de saldo
+              </button>
+              <button type="button" onclick="seleccionarTipoWixAI('promocion', this)" class="wix-tipo-chip px-3 py-1.5 rounded-full text-xs font-semibold border transition-all cursor-pointer bg-white border-slate-200 text-slate-700 hover:bg-slate-50" data-tipo="promocion">
+                Promoción de paquetes
+              </button>
+              <button type="button" onclick="seleccionarTipoWixAI('urgente', this)" class="wix-tipo-chip px-3 py-1.5 rounded-full text-xs font-semibold border transition-all cursor-pointer bg-white border-slate-200 text-slate-700 hover:bg-slate-50" data-tipo="urgente">
+                Aviso urgente de horario
+              </button>
+              <button type="button" onclick="seleccionarTipoWixAI('general', this)" class="wix-tipo-chip px-3 py-1.5 rounded-full text-xs font-semibold border transition-all cursor-pointer bg-white border-slate-200 text-slate-700 hover:bg-slate-50" data-tipo="general">
+                Aviso general del laboratorio
+              </button>
+            </div>
+          </div>
+
+          <!-- 2. Detalles clave / Aspectos importantes -->
+          <div>
+            <div class="flex items-center justify-between mb-1.5">
+              <label class="block text-xs font-bold text-slate-700 uppercase tracking-wide">
+                2. Aspectos clave a incluir
+              </label>
+              <span class="text-[11px] text-slate-400">Detalles específicos para la IA</span>
+            </div>
+            <textarea id="wixAiDetalles" rows="3" placeholder="Ej. Dr. Mario García, su orden de 4 coronas zirconia monolítica está lista en recepción. Favor de avisar si requiere envío en moto hoy mismo antes de las 5 PM." class="w-full p-3 bg-slate-50 border border-slate-200 rounded-xl text-xs sm:text-sm text-slate-800 placeholder:text-slate-400 focus:bg-white focus:outline-none focus:border-purple-600 focus:ring-2 focus:ring-purple-100 transition-all resize-none"></textarea>
+            <div class="flex items-center justify-between mt-1 text-[11px] text-slate-400">
+              <span>Incluye nombres, tratamientos, fechas o condiciones especiales.</span>
+              <button type="button" onclick="limpiarDetallesWixAI()" class="hover:text-slate-600 underline cursor-pointer">Limpiar</button>
+            </div>
+          </div>
+
+          <!-- 3. Tono de voz estilo Wix -->
+          <div>
+            <label class="block text-xs font-bold text-slate-700 mb-2 uppercase tracking-wide">
+              3. Tono de voz
+            </label>
+            <div class="flex flex-wrap gap-2" id="wixAiTonosChips">
+              <button type="button" onclick="seleccionarTonoWixAI('Profesional y formal', this)" class="wix-tono-chip px-3 py-1.5 rounded-full text-xs font-semibold border transition-all cursor-pointer bg-purple-50 border-purple-300 text-purple-800 shadow-2xs" data-tono="Profesional y formal">
+                Profesional y formal
+              </button>
+              <button type="button" onclick="seleccionarTonoWixAI('Cordial y cálido', this)" class="wix-tono-chip px-3 py-1.5 rounded-full text-xs font-semibold border transition-all cursor-pointer bg-white border-slate-200 text-slate-700 hover:bg-slate-50" data-tono="Cordial y cálido">
+                Cordial y cálido
+              </button>
+              <button type="button" onclick="seleccionarTonoWixAI('Persuasivo y comercial', this)" class="wix-tono-chip px-3 py-1.5 rounded-full text-xs font-semibold border transition-all cursor-pointer bg-white border-slate-200 text-slate-700 hover:bg-slate-50" data-tono="Persuasivo y comercial">
+                Persuasivo y comercial
+              </button>
+              <button type="button" onclick="seleccionarTonoWixAI('Breve y directo', this)" class="wix-tono-chip px-3 py-1.5 rounded-full text-xs font-semibold border transition-all cursor-pointer bg-white border-slate-200 text-slate-700 hover:bg-slate-50" data-tono="Breve y directo">
+                Breve y directo
+              </button>
+              <button type="button" onclick="seleccionarTonoWixAI('Urgente y resolutivo', this)" class="wix-tono-chip px-3 py-1.5 rounded-full text-xs font-semibold border transition-all cursor-pointer bg-white border-slate-200 text-slate-700 hover:bg-slate-50" data-tono="Urgente y resolutivo">
+                Urgente y resolutivo
+              </button>
+            </div>
+          </div>
+
+          <!-- Indicador de estado del Asistente -->
+          <div class="p-3 bg-slate-50 border border-slate-200 rounded-xl flex items-center justify-between text-xs text-slate-600">
+            <div class="flex items-center gap-2">
+              <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+              <span class="font-medium">Motor: Google Gemini 1.5 Flash</span>
+            </div>
+            <button type="button" onclick="configurarGeminiKey()" class="text-purple-700 hover:text-purple-800 font-semibold cursor-pointer text-[11px]">
+              Gestionar clave API
+            </button>
+          </div>
+
+        </div>
+
+        <!-- PASO 2: SELECCIÓN DE 3 OPCIONES (Wix Comparer) -->
+        <div id="wixAiPaso2" class="space-y-4 hidden">
+          
+          <div class="flex items-center justify-between bg-slate-50 p-2.5 rounded-xl border border-slate-200 text-xs">
+            <div class="flex items-center gap-2 text-slate-700">
+              <i data-lucide="check-circle" class="w-4 h-4 text-purple-600"></i>
+              <span class="font-semibold">3 opciones generadas con IA. Selecciona tu favorita:</span>
+            </div>
+            <button type="button" onclick="volverAIndicacionesWixAI()" class="text-slate-600 hover:text-purple-700 font-medium cursor-pointer flex items-center gap-1 text-[11px]">
+              <i data-lucide="edit-3" class="w-3.5 h-3.5"></i>
+              <span>Editar indicaciones</span>
+            </button>
+          </div>
+
+          <!-- Grid de 3 tarjetas -->
+          <div id="wixAiTarjetasContenedor" class="grid grid-cols-1 md:grid-cols-3 gap-3">
+            <!-- Se llenan dinámicamente con JavaScript -->
+          </div>
+
+          <!-- Vista previa de edición manual de la opción seleccionada -->
+          <div class="bg-purple-50/50 border border-purple-200 rounded-xl p-3.5 space-y-2">
+            <div class="flex items-center justify-between">
+              <span class="text-[10px] font-bold uppercase tracking-wider text-purple-900">Previsualización y ajuste final</span>
+              <span class="text-[10px] text-purple-700 font-semibold" id="wixAiPreviewBadge">Opción 1 seleccionada</span>
+            </div>
+            <div>
+              <label class="block text-[10px] font-bold uppercase text-slate-600 mb-0.5">Título a transferir</label>
+              <input type="text" id="wixAiPreviewTitulo" class="w-full px-2.5 py-1.5 bg-white border border-purple-200 rounded-lg text-xs font-semibold text-slate-900 focus:outline-none focus:border-purple-600">
+            </div>
+            <div>
+              <label class="block text-[10px] font-bold uppercase text-slate-600 mb-0.5">Mensaje a transferir</label>
+              <textarea id="wixAiPreviewMensaje" rows="2" class="w-full p-2 bg-white border border-purple-200 rounded-lg text-xs text-slate-800 focus:outline-none focus:border-purple-600 resize-none"></textarea>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+
+      <!-- Footer de Botones de Acción -->
+      <div class="p-4 sm:p-5 border-t border-slate-100 bg-slate-50/70 flex items-center justify-between gap-3">
+        
+        <!-- Footer cuando está en Paso 1 -->
+        <div id="wixAiFooterPaso1" class="w-full flex items-center justify-between">
+          <button type="button" onclick="cerrarModalWixAI()" class="px-4 py-2 rounded-xl border border-slate-200 text-slate-600 font-semibold text-xs hover:bg-slate-100 transition-colors cursor-pointer">
+            Cancelar
+          </button>
+          <button type="button" id="btnWixAICrear" onclick="ejecutarGeneracionWixAI()" class="px-5 py-2.5 rounded-xl bg-purple-600 hover:bg-purple-700 active:scale-95 text-white font-bold text-xs flex items-center gap-2 shadow-sm shadow-purple-300 transition-all cursor-pointer">
+            <i data-lucide="sparkles" class="w-4 h-4" id="wixAiBtnIcon"></i>
+            <span id="wixAiBtnText">Crear texto</span>
+          </button>
+        </div>
+
+        <!-- Footer cuando está en Paso 2 -->
+        <div id="wixAiFooterPaso2" class="w-full flex items-center justify-between hidden">
+          <div class="flex items-center gap-2">
+            <button type="button" onclick="volverAIndicacionesWixAI()" class="px-3.5 py-2 rounded-xl border border-slate-200 bg-white text-slate-700 font-semibold text-xs hover:bg-slate-100 transition-colors cursor-pointer flex items-center gap-1.5">
+              <i data-lucide="arrow-left" class="w-3.5 h-3.5"></i>
+              <span>Indicaciones</span>
+            </button>
+            <button type="button" id="btnWixAIRegenerar" onclick="ejecutarGeneracionWixAI(true)" class="px-3.5 py-2 rounded-xl border border-purple-200 bg-purple-50 hover:bg-purple-100 text-purple-700 font-semibold text-xs transition-colors cursor-pointer flex items-center gap-1.5">
+              <i data-lucide="refresh-cw" class="w-3.5 h-3.5"></i>
+              <span>Generar más</span>
+            </button>
+          </div>
+          <button type="button" id="btnWixAIAplicar" onclick="aplicarTextoWixAI()" class="px-5 py-2.5 rounded-xl bg-purple-600 hover:bg-purple-700 active:scale-95 text-white font-bold text-xs flex items-center gap-2 shadow-sm shadow-purple-300 transition-all cursor-pointer">
+            <i data-lucide="check" class="w-4 h-4"></i>
+            <span>Usar este texto</span>
+          </button>
+        </div>
+
+      </div>
+
+    </div>
+  </div>
+
   <div id="toastContainer" class="fixed bottom-5 right-5 z-50 flex flex-col gap-2.5 pointer-events-none"></div>
 
   <script src="modules.js"></script>
