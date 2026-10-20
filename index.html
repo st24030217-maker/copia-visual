@@ -1521,6 +1521,16 @@
                       style="background: rgba(30, 78, 120, 0.55); color: #dbeafe; border: 1px solid rgba(147, 197, 253, 0.35);"
                       id="NumberProximosEscaneos">4</span>
               </button>
+              <!-- Crear texto con IA estilo Wix -->
+              <button type="button" onclick="abrirModalWixAIDashboard();"
+                class="hero-kpi-card px-3.5 py-2 rounded-xl flex items-center gap-2 text-xs font-bold text-purple-100 cursor-pointer shadow-xs"
+                style="background: linear-gradient(135deg, rgba(124, 58, 237, 0.85) 0%, rgba(99, 102, 241, 0.9) 100%); border: 1px solid rgba(196, 181, 253, 0.45);">
+                <span class="w-6 h-6 rounded-lg bg-white/20 flex items-center justify-center text-white shrink-0">
+                  <i data-lucide="sparkles" class="w-3.5 h-3.5"></i>
+                </span>
+                <span>Crear texto con IA</span>
+              </button>
+
             </div>
 
             <!-- Reloj en Vivo y Acciones Rápidas (Actualizar y Nueva Orden) -->
@@ -1555,6 +1565,48 @@
                 </button>
               </div>
             </div>
+          </div>
+        </div>
+
+                <!-- BANNER ASISTENTE IA ESTILO WIX EN EL INICIO DEL DASHBOARD -->
+        <div class="bg-gradient-to-r from-purple-50/90 via-indigo-50/50 to-white border border-purple-200/90 rounded-2xl p-4 shadow-sm flex flex-col md:flex-row md:items-center justify-between gap-3.5 transition-all hover:shadow-md">
+          <div class="flex items-center gap-3.5">
+            <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-purple-600 to-indigo-600 text-white flex items-center justify-center shadow-sm shadow-purple-200 shrink-0">
+              <i data-lucide="sparkles" class="w-5 h-5"></i>
+            </div>
+            <div>
+              <div class="flex flex-wrap items-center gap-2">
+                <h3 class="text-sm font-bold text-slate-900 leading-tight">Asistente de Redacción con IA</h3>
+                <span class="text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-full bg-purple-100 text-purple-800 border border-purple-200">Diseño Wix</span>
+                <span class="text-[10px] font-semibold text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded-full border border-emerald-200 flex items-center gap-1">
+                  <span class="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span>
+                  Google Gemini
+                </span>
+              </div>
+              <p class="text-xs text-slate-500 mt-0.5">Genera comunicados para doctores, recordatorios de entrega, cobranza y promociones con 3 opciones personalizadas.</p>
+            </div>
+          </div>
+          
+          <div class="flex flex-wrap items-center gap-2 shrink-0">
+            <!-- Atajos rápidos -->
+            <button type="button" onclick="abrirModalWixAIDashboard('entrega')" class="px-3 py-1.5 rounded-xl bg-white hover:bg-purple-50 border border-slate-200 hover:border-purple-300 text-xs font-semibold text-slate-700 transition-all cursor-pointer shadow-2xs flex items-center gap-1.5">
+              <i data-lucide="truck" class="w-3.5 h-3.5 text-purple-600"></i>
+              <span>Orden lista</span>
+            </button>
+            <button type="button" onclick="abrirModalWixAIDashboard('cobranza')" class="px-3 py-1.5 rounded-xl bg-white hover:bg-purple-50 border border-slate-200 hover:border-purple-300 text-xs font-semibold text-slate-700 transition-all cursor-pointer shadow-2xs flex items-center gap-1.5">
+              <i data-lucide="credit-card" class="w-3.5 h-3.5 text-purple-600"></i>
+              <span>Cobranza</span>
+            </button>
+            <button type="button" onclick="abrirModalWixAIDashboard('promocion')" class="px-3 py-1.5 rounded-xl bg-white hover:bg-purple-50 border border-slate-200 hover:border-purple-300 text-xs font-semibold text-slate-700 transition-all cursor-pointer shadow-2xs flex items-center gap-1.5">
+              <i data-lucide="tag" class="w-3.5 h-3.5 text-purple-600"></i>
+              <span>Promoción</span>
+            </button>
+            
+            <!-- Botón Principal -->
+            <button type="button" onclick="abrirModalWixAIDashboard()" class="px-4 py-2 rounded-xl bg-purple-600 hover:bg-purple-700 active:scale-95 text-white font-bold text-xs flex items-center gap-2 shadow-sm shadow-purple-300 transition-all cursor-pointer ml-1">
+              <i data-lucide="sparkles" class="w-4 h-4"></i>
+              <span>Crear texto con IA</span>
+            </button>
           </div>
         </div>
 

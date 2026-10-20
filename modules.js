@@ -12366,7 +12366,17 @@ window.wixAiConfig = {
   tipo: 'entrega',
   tono: 'Profesional y formal',
   opciones: [],
-  seleccionada: 0
+  seleccionada: 0,
+  origen: 'modulo'
+};
+
+window.abrirModalWixAIDashboard = function(tipo = 'entrega') {
+  window.abrirModalWixAI({
+    targetTitulo: 'pushTituloInput',
+    targetMensaje: 'pushMensajeInput',
+    defaultTipo: tipo,
+    origen: 'dashboard'
+  });
 };
 
 window.abrirModalWixAI = function(opciones = {}) {
@@ -12376,6 +12386,7 @@ window.abrirModalWixAI = function(opciones = {}) {
   if (opciones.targetTitulo) window.wixAiConfig.targetTitulo = opciones.targetTitulo;
   if (opciones.targetMensaje) window.wixAiConfig.targetMensaje = opciones.targetMensaje;
   if (opciones.defaultTipo) window.wixAiConfig.tipo = opciones.defaultTipo;
+  window.wixAiConfig.origen = opciones.origen || 'modulo';
 
   // Restaurar a Paso 1
   const paso1 = document.getElementById('wixAiPaso1');
@@ -12632,7 +12643,6 @@ REGLAS OBLIGATORIAS:
 
   const lista = fallbackMatrix[tipo] || fallbackMatrix['entrega'];
   if (detalles && detalles.trim()) {
-    // Si el usuario incluyó detalles específicos, enriquecer el mensaje
     return lista.map((op, i) => ({
       ...op,
       mensaje: `${op.mensaje.replace(/\.$/, '')}. Detalle específico: ${detalles.trim()}.`
@@ -12645,7 +12655,6 @@ window.ejecutarGeneracionWixAI = async function(esRegeneracion = false) {
   const btnCrear = document.getElementById('btnWixAICrear');
   const btnRegenerar = document.getElementById('btnWixAIRegenerar');
   const btnText = document.getElementById('wixAiBtnText');
-  const icon = document.getElementById('wixAiBtnIcon');
   const detallesInput = document.getElementById('wixAiDetalles');
   const detalles = detallesInput ? detallesInput.value.trim() : '';
 
@@ -12703,7 +12712,7 @@ window.renderizarOpcionesWixAI = function() {
   contenedor.innerHTML = opciones.map((op, idx) => {
     const esActiva = idx === window.wixAiConfig.seleccionada;
     return `
-      <div onclick="seleccionarOpcionWixAI(${idx})" class="wix-opcion-card p-3.5 rounded-xl border transition-all cursor-pointer flex flex-col justify-between select-none ${esActiva ? 'border-purple-600 bg-purple-50/40 ring-2 ring-purple-500/20 shadow-xs' : 'border-slate-200 bg-white hover:border-purple-300 hover:bg-slate-50/50'}" data-index="${idx}">
+      <div onclick="seleccionarOpcionWixAI(${idx})" class="wix-opcion-card p-3.5 rounded-xl border transition-all cursor-pointer flex flex-col justify-between select-none relative ${esActiva ? 'border-purple-600 bg-purple-50/40 ring-2 ring-purple-500/20 shadow-xs' : 'border-slate-200 bg-white hover:border-purple-300 hover:bg-slate-50/50'}" data-index="${idx}">
         <div>
           <div class="flex items-center justify-between mb-2">
             <div class="flex items-center gap-2">
@@ -12712,7 +12721,12 @@ window.renderizarOpcionesWixAI = function() {
               </span>
               <span class="text-xs font-bold ${esActiva ? 'text-purple-900' : 'text-slate-800'}">Opción ${idx + 1}</span>
             </div>
-            <span class="text-[10px] font-semibold px-2 py-0.5 rounded-full ${esActiva ? 'bg-purple-100 text-purple-800 border border-purple-200' : 'bg-slate-100 text-slate-600 border border-slate-200'}">${op.estilo || 'Variación'}</span>
+            <div class="flex items-center gap-1.5">
+              <span class="text-[10px] font-semibold px-2 py-0.5 rounded-full ${esActiva ? 'bg-purple-100 text-purple-800 border border-purple-200' : 'bg-slate-100 text-slate-600 border border-slate-200'}">${op.estilo || 'Variación'}</span>
+              <button type="button" onclick="copiarOpcionIndividual(${idx}, event)" title="Copiar esta opción" class="p-1 rounded-md text-slate-400 hover:text-purple-700 hover:bg-purple-50 transition-colors">
+                <i data-lucide="copy" class="w-3.5 h-3.5"></i>
+              </button>
+            </div>
           </div>
           <h5 class="text-xs font-bold text-slate-900 mb-1.5 leading-snug">${op.titulo}</h5>
           <p class="text-[11px] sm:text-xs text-slate-600 leading-relaxed">${op.mensaje}</p>
@@ -12733,6 +12747,20 @@ window.renderizarOpcionesWixAI = function() {
   }
 };
 
+window.copiarOpcionIndividual = function(idx, e) {
+  if (e) e.stopPropagation();
+  const opciones = window.wixAiConfig.opciones || [];
+  const op = opciones[idx];
+  if (!op) return;
+
+  const texto = `${op.titulo}\n\n${op.mensaje}`;
+  if (navigator.clipboard && navigator.clipboard.writeText) {
+    navigator.clipboard.writeText(texto).then(() => {
+      if (typeof showToast === 'function') showToast('Copiado', 'Opción copiada al portapapeles.');
+    });
+  }
+};
+
 window.seleccionarOpcionWixAI = function(idx) {
   window.wixAiConfig.seleccionada = idx;
   const opciones = window.wixAiConfig.opciones || [];
@@ -12744,9 +12772,9 @@ window.seleccionarOpcionWixAI = function(idx) {
   cards.forEach((card, i) => {
     const esActiva = i === idx;
     if (esActiva) {
-      card.className = 'wix-opcion-card p-3.5 rounded-xl border transition-all cursor-pointer flex flex-col justify-between select-none border-purple-600 bg-purple-50/40 ring-2 ring-purple-500/20 shadow-xs';
+      card.className = 'wix-opcion-card p-3.5 rounded-xl border transition-all cursor-pointer flex flex-col justify-between select-none relative border-purple-600 bg-purple-50/40 ring-2 ring-purple-500/20 shadow-xs';
     } else {
-      card.className = 'wix-opcion-card p-3.5 rounded-xl border transition-all cursor-pointer flex flex-col justify-between select-none border-slate-200 bg-white hover:border-purple-300 hover:bg-slate-50/50';
+      card.className = 'wix-opcion-card p-3.5 rounded-xl border transition-all cursor-pointer flex flex-col justify-between select-none relative border-slate-200 bg-white hover:border-purple-300 hover:bg-slate-50/50';
     }
     const checkIcon = card.querySelector('.lucide-check, [data-lucide="check"]');
     const radioCircle = card.querySelector('.rounded-full');
@@ -12775,7 +12803,40 @@ window.aplicarTextoWixAI = function() {
 
   const tituloFinal = previewTitulo ? previewTitulo.value.trim() : '';
   const mensajeFinal = previewMensaje ? previewMensaje.value.trim() : '';
+  const textoCompleto = `${tituloFinal}\n\n${mensajeFinal}`;
 
+  // Copiar al portapapeles siempre para comodidad
+  if (navigator.clipboard && navigator.clipboard.writeText) {
+    navigator.clipboard.writeText(textoCompleto).catch(() => {});
+  }
+
+  // Si se abrió desde el Dashboard, abrir módulo de mensajes push con los textos precargados
+  if (window.wixAiConfig.origen === 'dashboard') {
+    window.cerrarModalWixAI();
+    if (typeof openModule === 'function') {
+      openModule('mensajes-push');
+      setTimeout(() => {
+        const targetTituloEl = document.getElementById('pushTituloInput');
+        const targetMensajeEl = document.getElementById('pushMensajeInput');
+        if (targetTituloEl && tituloFinal) {
+          targetTituloEl.value = tituloFinal;
+          targetTituloEl.classList.add('ring-2', 'ring-purple-600');
+          setTimeout(() => targetTituloEl.classList.remove('ring-2', 'ring-purple-600'), 1500);
+        }
+        if (targetMensajeEl && mensajeFinal) {
+          targetMensajeEl.value = mensajeFinal;
+          targetMensajeEl.classList.add('ring-2', 'ring-purple-600');
+          setTimeout(() => targetMensajeEl.classList.remove('ring-2', 'ring-purple-600'), 1500);
+        }
+        if (typeof showToast === 'function') {
+          showToast('Texto Aplicado', 'Se abrió Mensajes Push con tu texto generado listo para enviar a los doctores.');
+        }
+      }, 350);
+      return;
+    }
+  }
+
+  // Si se abrió dentro de un formulario específico
   const targetTituloEl = document.getElementById(window.wixAiConfig.targetTitulo);
   const targetMensajeEl = document.getElementById(window.wixAiConfig.targetMensaje);
 
@@ -12794,6 +12855,6 @@ window.aplicarTextoWixAI = function() {
   window.cerrarModalWixAI();
 
   if (typeof showToast === 'function') {
-    showToast('Texto Aplicado', 'Las opciones generadas con IA han sido transferidas al formulario exitosamente.');
+    showToast('Texto Aplicado', 'Las opciones generadas con IA han sido transferidas y copiadas a tu portapapeles.');
   }
 };
