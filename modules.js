@@ -3612,6 +3612,49 @@ function renderDynamicModule(key) {
                 </div>
               </div>
 
+              <!-- Asistente de Redacción con Inteligencia Artificial (Gemini) -->
+              <div class="bg-gradient-to-r from-blue-50/90 to-indigo-50/90 border border-blue-200/90 rounded-2xl p-3.5 space-y-2.5 shadow-sm">
+                <div class="flex items-center justify-between">
+                  <div class="flex items-center gap-2">
+                    <span class="w-6 h-6 rounded-lg bg-blue-600/10 text-blue-600 flex items-center justify-center">
+                      <i data-lucide="sparkles" class="w-3.5 h-3.5 text-blue-600"></i>
+                    </span>
+                    <span class="font-bold text-blue-900 text-xs">Asistente IA Dental (Gemini)</span>
+                  </div>
+                  <span class="text-[10px] text-blue-700 bg-blue-100 px-2 py-0.5 rounded-full font-semibold border border-blue-200">Potenciado con IA</span>
+                </div>
+
+                <!-- Plantillas rápidas -->
+                <div class="space-y-1">
+                  <span class="text-[10px] uppercase font-bold text-slate-500 tracking-wider block">Plantillas Rápidas:</span>
+                  <div class="flex flex-wrap gap-1.5">
+                    <button type="button" onclick="ejecutarPlantillaPushIA('entrega')" class="px-2.5 py-1 rounded-lg bg-white hover:bg-blue-50 border border-slate-200 hover:border-blue-300 text-[11px] font-medium text-slate-700 transition-all flex items-center gap-1 cursor-pointer shadow-2xs">
+                      <span>Orden lista para entrega</span>
+                    </button>
+                    <button type="button" onclick="ejecutarPlantillaPushIA('cobranza')" class="px-2.5 py-1 rounded-lg bg-white hover:bg-blue-50 border border-slate-200 hover:border-blue-300 text-[11px] font-medium text-slate-700 transition-all flex items-center gap-1 cursor-pointer shadow-2xs">
+                      <span>Recordatorio de pago</span>
+                    </button>
+                    <button type="button" onclick="ejecutarPlantillaPushIA('paquetes')" class="px-2.5 py-1 rounded-lg bg-white hover:bg-blue-50 border border-slate-200 hover:border-blue-300 text-[11px] font-medium text-slate-700 transition-all flex items-center gap-1 cursor-pointer shadow-2xs">
+                      <span>Promoción de paquetes</span>
+                    </button>
+                    <button type="button" onclick="ejecutarPlantillaPushIA('escaneo')" class="px-2.5 py-1 rounded-lg bg-white hover:bg-blue-50 border border-slate-200 hover:border-blue-300 text-[11px] font-medium text-slate-700 transition-all flex items-center gap-1 cursor-pointer shadow-2xs">
+                      <span>Confirmar cita de escaneo</span>
+                    </button>
+                  </div>
+                </div>
+
+                <!-- Entrada de prompt libre -->
+                <div class="space-y-1 pt-1">
+                  <div class="flex items-center gap-1.5">
+                    <input type="text" id="aiPushCustomPrompt" placeholder="O escribe una instrucción: ej. Avisar que cerramos a las 6 pm..." class="flex-1 px-3 py-1.5 bg-white border border-slate-200 rounded-xl text-xs focus:bg-white focus:outline-none focus:border-blue-600 text-slate-800">
+                    <button type="button" id="btnGenerarPushIA" onclick="generarPushConIA()" class="px-3.5 py-1.5 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-bold text-xs flex items-center gap-1.5 transition-colors cursor-pointer shrink-0 shadow-sm">
+                      <i data-lucide="sparkles" class="w-3.5 h-3.5" id="aiSparkleIcon"></i>
+                      <span id="aiBtnText">Generar con IA</span>
+                    </button>
+                  </div>
+                </div>
+              </div>
+
               <div>
                 <label class="font-bold text-slate-700 uppercase text-[10px] block mb-1">Título de la Notificación *</label>
                 <input id="pushTituloInput" required placeholder="Ej. Promoción Especial de Paquetes Zirconio" class="w-full px-3.5 py-2 bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:outline-none focus:border-blue-600">
@@ -12183,3 +12226,143 @@ window.filtrarDoctoresPorVendedor = function() {
 };
 
 window.filtrarDiscosActivosUsados = window.filtrarDiscosInventario;
+
+
+// =========================================================================
+// ASISTENTE DE INTELIGENCIA ARTIFICIAL DENTAL (GOOGLE GEMINI)
+// =========================================================================
+window.callDentalAI = async function(promptText, type = 'push') {
+  // 1. Intentar endpoint backend PHP si está disponible
+  try {
+    const apiUrl = (typeof getLiveApiUrl === 'function') ? getLiveApiUrl() : 'Backend/api_live.php';
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), 6000);
+    const resp = await fetch(`${apiUrl}?op=ai_generate`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ prompt: promptText, type }),
+      signal: controller.signal
+    });
+    clearTimeout(timeoutId);
+    if (resp.ok) {
+      const data = await resp.json();
+      if (data && data.ok && data.result) return data.result;
+    }
+  } catch (e) {}
+
+  // 2. Conector directo a Gemini (asegura funcionamiento permanente en GitHub Pages)
+  let key = localStorage.getItem('cv_gemini_api_key');
+  if (!key) {
+    key = prompt('Introduce tu API Key de Gemini para activar el Asistente IA en este navegador (se guardará de forma segura en tu sesión local):', '');
+    if (key && key.trim()) {
+      key = key.trim();
+      localStorage.setItem('cv_gemini_api_key', key);
+    }
+  }
+  if (!key) throw new Error('API Key no configurada');
+  const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-flash-latest:generateContent?key=${encodeURIComponent(key)}`;
+  const systemPrompt = "Actúa como asistente administrativo de un laboratorio dental especializado en CAD/CAM (Dent Control / DentLab). Genera respuestas profesionales y concisas. Devuelve ÚNICAMENTE un objeto JSON válido con las claves 'titulo' (máximo 6 palabras) y 'mensaje' (máximo 25 palabras). Sin formato markdown.";
+
+  const payload = {
+    contents: [{
+      parts: [{ text: `${systemPrompt}\n\nInstrucción: ${promptText}` }]
+    }],
+    generationConfig: {
+      responseMimeType: 'application/json'
+    }
+  };
+
+  const directResp = await fetch(url, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(payload)
+  });
+
+  if (directResp.ok) {
+    const gemData = await directResp.json();
+    const raw = gemData?.candidates?.[0]?.content?.parts?.[0]?.text;
+    if (raw) {
+      try {
+        return JSON.parse(raw);
+      } catch (err) {
+        return { titulo: 'Notificación DentLab', mensaje: raw.trim() };
+      }
+    }
+  }
+  throw new Error('No se pudo generar la respuesta de IA');
+};
+
+window.ejecutarPlantillaPushIA = async function(tipo) {
+  const templates = {
+    'entrega': 'Redacta un aviso notificando al odontólogo que su orden de coronas de zirconio está terminada y lista para entrega hoy.',
+    'cobranza': 'Redacta un recordatorio de pago amable y profesional solicitando confirmar su ficha de transferencia para liberar su pedido programado.',
+    'paquetes': 'Redacta una promoción atractiva para doctores ofreciendo 15% de bonificación en paquetes prepagados de coronas de zirconio este mes.',
+    'escaneo': 'Redacta una confirmación de cita de escaneo intraoral 3D programada en la clínica del doctor para mañana.'
+  };
+
+  const prompt = templates[tipo] || templates['entrega'];
+  await generarPushConIA(prompt);
+};
+
+window.generarPushConIA = async function(customPrompt = null) {
+  const promptInput = document.getElementById('aiPushCustomPrompt');
+  const btn = document.getElementById('btnGenerarPushIA');
+  const txtTitulo = document.getElementById('pushTituloInput');
+  const txtMensaje = document.getElementById('pushMensajeInput');
+
+  const finalPrompt = customPrompt || (promptInput ? promptInput.value.trim() : '') || 'Redacta una notificación importante para los odontólogos sobre sus órdenes en laboratorio.';
+
+  if (btn) {
+    btn.disabled = true;
+    btn.classList.add('opacity-75');
+    const spanText = document.getElementById('aiBtnText');
+    if (spanText) spanText.innerText = 'Redactando con IA...';
+  }
+
+  try {
+    const res = await window.callDentalAI(finalPrompt, 'push');
+    if (res && (res.titulo || res.mensaje)) {
+      if (txtTitulo && res.titulo) {
+        txtTitulo.value = res.titulo;
+        txtTitulo.classList.add('ring-2', 'ring-blue-500');
+        setTimeout(() => txtTitulo.classList.remove('ring-2', 'ring-blue-500'), 1500);
+      }
+      if (txtMensaje && res.mensaje) {
+        txtMensaje.value = res.mensaje;
+        txtMensaje.classList.add('ring-2', 'ring-blue-500');
+        setTimeout(() => txtMensaje.classList.remove('ring-2', 'ring-blue-500'), 1500);
+      }
+      if (promptInput) promptInput.value = '';
+      if (typeof showToast === 'function') {
+        showToast('IA Dental', 'Mensaje y título redactados automáticamente con Gemini.');
+      }
+    }
+  } catch (err) {
+    console.error('Error al generar con IA:', err);
+    if (typeof showToast === 'function') {
+      showToast('Error de IA', 'No fue posible conectar con el servicio de IA. Inténtalo de nuevo.');
+    }
+  } finally {
+    if (btn) {
+      btn.disabled = false;
+      btn.classList.remove('opacity-75');
+      const spanText = document.getElementById('aiBtnText');
+      if (spanText) spanText.innerText = 'Generar con IA';
+    }
+  }
+};
+
+
+window.configurarGeminiKey = function() {
+  const actual = localStorage.getItem('cv_gemini_api_key') || '';
+  const nueva = prompt('Configura tu clave de API de Google Gemini (Google AI Studio):', actual);
+  if (nueva !== null) {
+    if (nueva.trim()) {
+      localStorage.setItem('cv_gemini_api_key', nueva.trim());
+      if (typeof showToast === 'function') showToast('Clave IA Guardada', 'Tu API Key de Gemini ha quedado registrada en este navegador.');
+    } else {
+      localStorage.removeItem('cv_gemini_api_key');
+      if (typeof showToast === 'function') showToast('Clave IA Removida', 'Se eliminó la clave guardada.');
+    }
+  }
+};

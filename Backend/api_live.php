@@ -918,6 +918,69 @@ try {
         exit;
     }
 
+    if ($op === 'ai_generate') {
+        require_once(__DIR__ . '/ai_config.php');
+        $rawInput = file_get_contents('php://input');
+        $jsonBody = !empty($rawInput) ? json_decode($rawInput, true) : [];
+        if (!is_array($jsonBody)) $jsonBody = [];
+
+        $prompt = trim($jsonBody['prompt'] ?? $_POST['prompt'] ?? $_GET['prompt'] ?? '');
+        $type   = trim($jsonBody['type'] ?? $_POST['type'] ?? $_GET['type'] ?? 'push');
+
+        if (empty($prompt)) {
+            echo json_encode(['ok' => false, 'msg' => 'Falta el parámetro prompt'], JSON_UNESCAPED_UNICODE);
+            exit;
+        }
+
+        $systemPrompt = "Actúa como asistente administrativo de un laboratorio dental especializado en CAD/CAM (Dent Control / DentLab). Genera respuestas profesionales y concisas. Si el tipo es 'push', devuelve estrictamente un objeto JSON con las claves 'titulo' (máximo 6 palabras) y 'mensaje' (máximo 25 palabras). Si es otro tipo, devuelve texto claro y clínico.";
+
+        $url = 'https://generativelanguage.googleapis.com/v1beta/models/' . GEMINI_MODEL . ':generateContent?key=' . urlencode(GEMINI_API_KEY);
+
+        $payload = [
+            'contents' => [
+                [
+                    'parts' => [
+                        ['text' => $systemPrompt . "\nTipo: " . $type . "\nInstrucción/Contexto: " . $prompt]
+                    ]
+                ]
+            ],
+            'generationConfig' => [
+                'responseMimeType' => $type === 'push' ? 'application/json' : 'text/plain'
+            ]
+        ];
+
+        $ch = curl_init($url);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_POST, true);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, false);
+        curl_setopt($ch, CURLOPT_HTTPHEADER, ['Content-Type: application/json']);
+        curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($payload));
+        $res = curl_exec($ch);
+        $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+        curl_close($ch);
+
+        if ($httpCode === 200) {
+            $geminiResp = json_decode($res, true);
+            $rawText = $geminiResp['candidates'][0]['content']['parts'][0]['text'] ?? '';
+            $parsed = $type === 'push' ? json_decode($rawText, true) : null;
+            echo json_encode([
+                'ok' => true,
+                'type' => $type,
+                'result' => $parsed ?: ['texto' => $rawText],
+                'raw' => $rawText
+            ], JSON_UNESCAPED_UNICODE);
+        } else {
+            echo json_encode([
+                'ok' => false,
+                'http_code' => $httpCode,
+                'msg' => 'Error al comunicarse con Gemini API',
+                'details' => $res
+            ], JSON_UNESCAPED_UNICODE);
+        }
+        exit;
+    }
+
     echo json_encode(['ok' => false, 'msg' => 'Operación no reconocida'], JSON_UNESCAPED_UNICODE);
 } catch (\Exception $e) {
     echo json_encode([
