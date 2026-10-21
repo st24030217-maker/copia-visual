@@ -873,9 +873,9 @@
               icon: 'clipboard-list',
               children: [
                 { label: 'Lista de Órdenes', value: 'lista-ordenes', icon: 'file-text' },
-                { label: 'Órdenes Canceladas', value: 'ordenes-canceladas', icon: 'file-x' },
-                { label: 'Liberación de Pagos', value: 'liberacion-pendientes', icon: 'unlock' },
-                { label: 'Ventas Mensuales', value: 'ventas-mensuales-cliente', icon: 'dollar-sign' }
+                { label: 'Órdenes Canceladas (Req 18)', value: 'ordenes-canceladas', icon: 'file-x' },
+                { label: 'Liberación de Pagos (Req 19)', value: 'liberacion-pendientes', icon: 'unlock' },
+                { label: 'Ventas Mensuales (Req 15)', value: 'ventas-mensuales-cliente', icon: 'dollar-sign' }
               ]
             },
             { label: 'Colorímetro', value: 'colorimetro', icon: 'palette' },
@@ -888,15 +888,15 @@
           value: 'sec-doctores',
           icon: 'stethoscope',
           children: [
-            { label: 'Lista de Doctores', value: 'listado-doctores', icon: 'users' },
-            { label: 'Clientes Nuevos por Mes', value: 'clientes-nuevos-mes', icon: 'user-check' },
-            { label: 'APP DentControl Doctores', value: 'app-doctores', icon: 'smartphone' },
+            { label: 'Clientes Activos & >90d (Req 13)', value: 'listado-doctores', icon: 'users' },
+            { label: 'Clientes Nuevos por Mes (Req 14)', value: 'clientes-nuevos-mes', icon: 'user-check' },
+            { label: 'Ventas Mensuales x Cliente (Req 15)', value: 'ventas-mensuales-cliente', icon: 'dollar-sign' },
+            { label: 'APP Doctores Alatorre & Irene (Req 16)', value: 'app-doctores', icon: 'smartphone' },
             { label: 'Nuevo Doctor', value: 'nuevo-doctor', icon: 'user-plus' },
             { label: 'Doctores por Agotar', value: 'doctores-por-agotar', icon: 'alert-triangle' },
             { label: 'Doctores sin Paquetes', value: 'doctores-sin-paquetes', icon: 'user-minus' },
             { label: 'Doctores por Vendedor', value: 'doctores-por-vendedor', icon: 'user-check' },
-            { label: 'Paquetes Doctores', value: 'paquetes-doctores', icon: 'package-check' },
-            { label: 'Tipos de Doctores', value: 'doctores-tipos', icon: 'user-cog' }
+            { label: 'Paquetes Doctores', value: 'paquetes-doctores', icon: 'package-check' }
           ]
         },
         {
@@ -907,7 +907,7 @@
             { label: 'Inventario de Discos', value: 'inventario-discos', icon: 'layers' },
             { label: 'Discos Activos', value: 'discos-activos', icon: 'play-circle' },
             { label: 'Discos Usados', value: 'discos-usados', icon: 'check-circle-2' },
-            { label: 'Discos Zirconio Vendidos', value: 'discos-vendidos', icon: 'shopping-bag' },
+            { label: 'Discos Zirconio Vendidos (Req 17)', value: 'discos-vendidos', icon: 'shopping-bag' },
             { label: 'Marcas de Discos', value: 'marcas-discos', icon: 'award' }
           ]
         },
@@ -926,12 +926,14 @@
           icon: 'bar-chart-2',
           children: [
             { label: 'Panorama General (KPIs)', value: 'panorama-general', icon: 'pie-chart' },
+            { label: 'Clientes Activos & >90d (Req 13)', value: 'listado-doctores', icon: 'users' },
+            { label: 'Clientes Nuevos por Mes (Req 14)', value: 'clientes-nuevos-mes', icon: 'user-check' },
+            { label: 'Ventas Mensuales por Cliente (Req 15)', value: 'ventas-mensuales-cliente', icon: 'dollar-sign' },
             { label: 'Doctores por Agotar Piezas', value: 'doctores-por-agotar', icon: 'alert-triangle' },
             { label: 'Doctores sin Paquetes', value: 'doctores-sin-paquetes', icon: 'user-minus' },
             { label: 'Doctores por Vendedor', value: 'doctores-por-vendedor', icon: 'user-check' },
             { label: 'Control Laboratorio', value: 'control-lab', icon: 'activity' },
-            { label: 'Paquetes vencidos', value: 'paquetes-vencidos', icon: 'package-x' },
-            { label: 'Finanzas', value: 'finanzas', icon: 'trending-up' }
+            { label: 'Paquetes vencidos', value: 'paquetes-vencidos', icon: 'package-x' }
           ]
         },
         {
@@ -1636,7 +1638,63 @@
           </div>
         </div>
 
-                <!-- BANNER ASISTENTE IA ESTILO WIX EN EL INICIO DEL DASHBOARD -->
+                <!-- BARRA DE ACCESO DIRECTO DENT LAB (Checklist #13 al #19) -->
+        <div id="dentlabQuickBar" class="bg-white border border-slate-200/90 rounded-2xl p-4 shadow-sm space-y-3">
+          <div class="flex flex-wrap items-center justify-between gap-2 border-b border-slate-100 pb-2.5">
+            <div class="flex items-center gap-2">
+              <span class="w-2 h-2 rounded-full bg-blue-600"></span>
+              <h3 class="text-xs font-extrabold uppercase tracking-wide text-slate-800">Módulos Especiales Dent Lab (Checklist Operativo)</h3>
+            </div>
+            <span class="text-[11px] font-mono text-slate-500 font-semibold">Requerimientos 13 al 19</span>
+          </div>
+
+          <div class="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-7 gap-2 text-xs">
+            <!-- 13 -->
+            <button type="button" onclick="openModule('listado-doctores')" class="p-2.5 rounded-xl border border-slate-200 bg-slate-50 hover:bg-blue-50 hover:border-blue-300 text-left transition-all group">
+              <span class="text-[9.5px] font-bold text-slate-400 uppercase block mb-0.5">Req. #13</span>
+              <span class="font-bold text-slate-800 group-hover:text-blue-700 block text-xs truncate">Clientes Activos</span>
+              <span class="text-[10px] text-slate-500 block truncate">&gt;90d & Acumulado</span>
+            </button>
+            <!-- 14 -->
+            <button type="button" onclick="openModule('clientes-nuevos-mes')" class="p-2.5 rounded-xl border border-slate-200 bg-slate-50 hover:bg-blue-50 hover:border-blue-300 text-left transition-all group">
+              <span class="text-[9.5px] font-bold text-slate-400 uppercase block mb-0.5">Req. #14</span>
+              <span class="font-bold text-slate-800 group-hover:text-blue-700 block text-xs truncate">Clientes Nuevos</span>
+              <span class="text-[10px] text-slate-500 block truncate">Registro por Mes</span>
+            </button>
+            <!-- 15 -->
+            <button type="button" onclick="openModule('ventas-mensuales-cliente')" class="p-2.5 rounded-xl border border-slate-200 bg-slate-50 hover:bg-blue-50 hover:border-blue-300 text-left transition-all group">
+              <span class="text-[9.5px] font-bold text-slate-400 uppercase block mb-0.5">Req. #15</span>
+              <span class="font-bold text-slate-800 group-hover:text-blue-700 block text-xs truncate">Ventas Mensuales</span>
+              <span class="text-[10px] text-slate-500 block truncate">Total x Cliente</span>
+            </button>
+            <!-- 16 -->
+            <button type="button" onclick="openModule('app-doctores')" class="p-2.5 rounded-xl border border-slate-200 bg-slate-50 hover:bg-blue-50 hover:border-blue-300 text-left transition-all group">
+              <span class="text-[9.5px] font-bold text-slate-400 uppercase block mb-0.5">Req. #16</span>
+              <span class="font-bold text-slate-800 group-hover:text-blue-700 block text-xs truncate">APP Doctores</span>
+              <span class="text-[10px] text-slate-500 block truncate">Dr. Alatorre / Dra. Irene</span>
+            </button>
+            <!-- 17 -->
+            <button type="button" onclick="openModule('discos-vendidos')" class="p-2.5 rounded-xl border border-slate-200 bg-slate-50 hover:bg-blue-50 hover:border-blue-300 text-left transition-all group">
+              <span class="text-[9.5px] font-bold text-slate-400 uppercase block mb-0.5">Req. #17</span>
+              <span class="font-bold text-slate-800 group-hover:text-blue-700 block text-xs truncate">Discos Vendidos</span>
+              <span class="text-[10px] text-slate-500 block truncate">Zirconio con Usuario</span>
+            </button>
+            <!-- 18 -->
+            <button type="button" onclick="openModule('ordenes-canceladas')" class="p-2.5 rounded-xl border border-slate-200 bg-slate-50 hover:bg-blue-50 hover:border-blue-300 text-left transition-all group">
+              <span class="text-[9.5px] font-bold text-slate-400 uppercase block mb-0.5">Req. #18</span>
+              <span class="font-bold text-slate-800 group-hover:text-blue-700 block text-xs truncate">Canceladas</span>
+              <span class="text-[10px] text-slate-500 block truncate">Fecha, Hora y Usuario</span>
+            </button>
+            <!-- 19 -->
+            <button type="button" onclick="openModule('liberacion-pendientes')" class="p-2.5 rounded-xl border border-slate-200 bg-slate-50 hover:bg-blue-50 hover:border-blue-300 text-left transition-all group">
+              <span class="text-[9.5px] font-bold text-slate-400 uppercase block mb-0.5">Req. #19</span>
+              <span class="font-bold text-slate-800 group-hover:text-blue-700 block text-xs truncate">Liberación Pagos</span>
+              <span class="text-[10px] text-slate-500 block truncate">Fecha, Hora y Usuario</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- BANNER ASISTENTE IA ESTILO WIX EN EL INICIO DEL DASHBOARD -->
         <div class="bg-gradient-to-r from-purple-50/90 via-indigo-50/50 to-white border border-purple-200/90 rounded-2xl p-4 shadow-sm flex flex-col md:flex-row md:items-center justify-between gap-3.5 transition-all hover:shadow-md">
           <div class="flex items-center gap-3.5">
             <div id="heroBannerLogo3DContainer" class="w-11 h-11 flex items-center justify-center shrink-0 cursor-pointer transition-transform hover:scale-105 active:scale-95" onclick="toggleWixAssistant(true)" title="Asistente Dent Control"></div>
