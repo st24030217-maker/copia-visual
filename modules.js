@@ -13617,12 +13617,40 @@ window.enviarMensajeWixAssistant = async function() {
   `;
   messages.appendChild(userBubble);
 
+  let activeLatticeLoader = null;
+  const latticeContainer = document.getElementById('aiLatticeLoaderContainer');
+  if (latticeContainer && typeof window.crearLatticeLoader === 'function') {
+    activeLatticeLoader = window.crearLatticeLoader(latticeContainer, {
+      label: 'Dent Control procesando...',
+      doneLabel: 'Respuesta completada en',
+      errorLabel: 'Error después de',
+      status: 'working',
+      pattern: 'orbit',
+      grid: 3,
+      shape: 'round',
+      color: '#2563eb',
+      doneColor: '#10b981',
+      errorColor: '#ef4444',
+      cellSize: 6,
+      gap: 2.5,
+      glow: true,
+      glowColor: '#3b82f6',
+      showTimer: true
+    });
+  }
+
   if (body) body.scrollTop = body.scrollHeight;
   if (typing) typing.classList.remove('hidden');
   if (body) body.scrollTop = body.scrollHeight;
 
   try {
     const rawRespuesta = await window.consultarGeminiChat(texto);
+    if (activeLatticeLoader) {
+      activeLatticeLoader.setStatus('done');
+      await new Promise(r => setTimeout(r, 400));
+      activeLatticeLoader.destroy();
+      activeLatticeLoader = null;
+    }
     if (typing) typing.classList.add('hidden');
 
     window.wixAssistantHistory.push({ role: 'model', text: rawRespuesta });
@@ -13727,6 +13755,12 @@ window.enviarMensajeWixAssistant = async function() {
 
   } catch (err) {
     console.error('Error al procesar mensaje con asistente:', err);
+    if (activeLatticeLoader) {
+      activeLatticeLoader.setStatus('error');
+      await new Promise(r => setTimeout(r, 500));
+      activeLatticeLoader.destroy();
+      activeLatticeLoader = null;
+    }
     if (typing) typing.classList.add('hidden');
   } finally {
     if (sendBtn) sendBtn.disabled = false;

@@ -740,6 +740,7 @@
     }
   </style>
 
+  <link rel="stylesheet" href="LatticeLoader.css">
 </head>
 <body class="h-full bg-slate-50 text-slate-800 flex overflow-hidden antialiased">
 
@@ -2820,13 +2821,8 @@
         <div class="w-6 h-6 rounded-full bg-slate-100 border border-slate-200/60 flex items-center justify-center relative shadow-xs shrink-0 mt-0.5 overflow-hidden">
           <img src="assets/ia-logo/dent_control_logo_3d_front_corrected.png" alt="Dent Control 3D" class="w-5 h-5 object-contain" />
         </div>
-        <div class="bg-white border border-slate-200/90 rounded-2xl rounded-tl-sm px-4 py-2.5 shadow-2xs flex items-center gap-2">
-          <div class="flex items-center gap-1 text-slate-400">
-            <span class="w-1.5 h-1.5 rounded-full bg-purple-600 animate-bounce"></span>
-            <span class="w-1.5 h-1.5 rounded-full bg-indigo-600 animate-bounce" style="animation-delay: 0.15s"></span>
-            <span class="w-1.5 h-1.5 rounded-full bg-blue-600 animate-bounce" style="animation-delay: 0.3s"></span>
-          </div>
-          <span class="text-xs text-slate-500 font-medium">Asistente pensando...</span>
+        <div class="bg-white border border-slate-200/90 rounded-2xl rounded-tl-sm px-3.5 py-2 shadow-2xs flex items-center min-h-[36px]">
+          <div id="aiLatticeLoaderContainer" class="flex items-center"></div>
         </div>
       </div>
 
@@ -2879,6 +2875,7 @@
 
   <script src="three.min.js"></script>
   <script src="AgentLogo3D.js?v=2.2"></script>
+  <script src="LatticeLoader.js"></script>
   <script src="modules.js?v=2.3"></script>
   <script src="Odontograma3D.js"></script>
   <script src="ExpandableCard.js"></script>
