@@ -3620,8 +3620,7 @@ function renderDynamicModule(key) {
                   </div>
                   <div>
                     <div class="flex items-center gap-1.5">
-                      <h4 class="text-xs font-bold text-slate-900 leading-tight">Redacción con IA</h4>
-                      <span class="text-[9px] font-bold uppercase tracking-wider px-1.5 py-0.5 rounded-full bg-purple-100 text-purple-700 border border-purple-200">Dent Control</span>
+                      <h4 class="text-xs font-bold text-slate-900 leading-tight">ASISTENTE DENT CONTROL</h4>
                     </div>
                     <p class="text-[11px] text-slate-500">Genera 3 opciones con tono personalizado y aplícalas al instante.</p>
                   </div>
