@@ -13542,6 +13542,7 @@ window.toggleWixAssistant = function(forzar) {
       const input = document.getElementById('wixAssistantInput');
       if (input) input.focus();
       if (typeof updateEyesPosition === 'function') updateEyesPosition();
+      if (typeof window.initWixAssistantSuggestionsAnimatedList === 'function') window.initWixAssistantSuggestionsAnimatedList();
     }, 200);
   } else {
     panel.classList.remove('translate-x-0');
@@ -13563,6 +13564,7 @@ window.reiniciarChatWixAssistant = function() {
   const input = document.getElementById('wixAssistantInput');
 
   if (welcome) welcome.classList.remove('hidden');
+  if (typeof window.initWixAssistantSuggestionsAnimatedList === 'function') window.initWixAssistantSuggestionsAnimatedList();
   if (messages) {
     messages.innerHTML = '';
     messages.classList.add('hidden');
@@ -13665,6 +13667,64 @@ window.handleWixAssistantKey = function(event) {
     event.preventDefault();
     window.enviarMensajeWixAssistant();
   }
+};
+
+
+// -------------------------------------------------------------------------
+// ADAPTADOR ANIMATEDLIST (REACT BITS) PARA EL ASISTENTE DENT CONTROL
+// -------------------------------------------------------------------------
+window.initWixAssistantSuggestionsAnimatedList = function() {
+  const container = document.getElementById('wixAssistantSuggestionsList');
+  if (!container || typeof window.crearAnimatedList !== 'function') return;
+
+  const items = [
+    {
+      icon: 'package',
+      title: 'Órdenes en Fabricación',
+      description: 'Consultar etapas, laboratorio y entregas',
+      meta: 'Hoy',
+      prompt: '¿Cuáles órdenes están en fabricación y entrega hoy?'
+    },
+    {
+      icon: 'clock',
+      title: 'Cuentas por Cobrar',
+      description: 'Doctores con órdenes pendientes de pago',
+      meta: 'Cobranza',
+      prompt: 'Consultar doctores con órdenes pendientes de pago'
+    },
+    {
+      icon: 'calendar',
+      title: 'Calendario Clínico',
+      description: 'Citas de escaneo y recolección en agenda',
+      meta: 'Agenda',
+      prompt: 'Abrir calendario de citas y entregas'
+    },
+    {
+      icon: 'send',
+      title: 'Notificación a Doctor',
+      description: 'Redactar aviso cordial de entrega de coronas',
+      meta: 'Mensaje',
+      prompt: 'Redactar aviso cordial a odontólogo para entrega de coronas'
+    }
+  ];
+
+  window.wixAnimatedSuggestions = window.crearAnimatedList(container, {
+    items: items,
+    initialSelectedIndex: -1,
+    selectOnHover: true,
+    enableArrowNavigation: true,
+    animation: 'pop',
+    stagger: 0.04,
+    theme: 'light',
+    radius: 12,
+    gap: 6,
+    frame: false,
+    onItemSelect: (item) => {
+      if (item && item.prompt && typeof window.enviarPromptSugeridoWix === 'function') {
+        window.enviarPromptSugeridoWix(item.prompt);
+      }
+    }
+  });
 };
 
 window.enviarPromptSugeridoWix = function(promptText) {
