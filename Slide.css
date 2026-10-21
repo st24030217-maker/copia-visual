@@ -1,0 +1,69 @@
+/* loading-dev: Slide loader */
+.ld-slide {
+  --ld-size: 48px;
+  --ld-duration: 2400ms;
+  position: relative;
+  width: var(--ld-size);
+  height: var(--ld-size);
+  color: currentColor;
+  display: inline-block;
+  vertical-align: middle;
+  flex-shrink: 0;
+  box-sizing: border-box;
+}
+
+.ld-slide-dot {
+  position: absolute;
+  top: 6%;
+  left: 6%;
+  width: 34%;
+  height: 34%;
+  background: currentColor;
+  border-radius: 50%;
+  animation: ld-slide-walk var(--ld-duration, 2400ms) ease-in-out infinite;
+  animation-play-state: var(--ld-play-state, running);
+}
+
+.ld-slide-dot:nth-child(1),
+.ld-slide-dot[data-step="0"] {
+  animation-delay: calc(var(--ld-duration, 2400ms) * -1);
+}
+
+.ld-slide-dot:nth-child(2),
+.ld-slide-dot[data-step="1"] {
+  animation-delay: calc(var(--ld-duration, 2400ms) * -2 / 3);
+}
+
+.ld-slide-dot:nth-child(3),
+.ld-slide-dot[data-step="2"] {
+  animation-delay: calc(var(--ld-duration, 2400ms) * -1 / 3);
+}
+
+@keyframes ld-slide-walk {
+  0% {
+    transform: translate(158.8%, 0);
+  }
+  8.33%,
+  25% {
+    transform: translate(158.8%, 158.8%);
+  }
+  33.33%,
+  50% {
+    transform: translate(0, 158.8%);
+  }
+  58.33%,
+  75% {
+    transform: translate(0, 0);
+  }
+  83.33%,
+  100% {
+    transform: translate(158.8%, 0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ld-slide-dot:nth-child(1) { transform: translate(158.8%, 0); }
+  .ld-slide-dot:nth-child(2) { transform: translate(0, 0); }
+  .ld-slide-dot:nth-child(3) { transform: translate(0, 158.8%); }
+  .ld-slide-dot { animation: none; }
+}
