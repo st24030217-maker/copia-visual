@@ -1,9 +1,13 @@
 /**
  * AgentLogo3D.js
  * Modelado 3D Anatómico Interactivo del Logo Oficial de Dent Control
- * Renderizado WebGL Three.js en tiempo real de alta fidelidad ("Perrón"),
- * con seguimiento de cursor en 3D, flotación levitatoria, cero parpadeos (Z-Fighting corregido)
- * y Visor Inspector 360°.
+ * Renderizado WebGL Three.js ultra-pulido ("Perrón"):
+ * - Materiales PBR de porcelana zirconia y satinado metálico dental
+ * - Separación de planos milimétrica (0.035u) sin Z-fighting ni parpadeos
+ * - Sombra de contacto suave con oclusión ambiental en tiempo real
+ * - Seguimiento de cursor fluido con cinemática amortiguada (Lerp)
+ * - Levitación orgánica sinusoidal
+ * - Modal Inspector 360° interactivo
  */
 (function() {
   'use strict';
@@ -17,31 +21,45 @@
     mousePos.y = e.clientY;
   }
 
+  // Generador de textura de sombra de contacto suave
+  let cachedShadowTexture = null;
+  function getContactShadowTexture(THREE) {
+    if (cachedShadowTexture) return cachedShadowTexture;
+    const canvas = document.createElement('canvas');
+    canvas.width = 128;
+    canvas.height = 128;
+    const ctx = canvas.getContext('2d');
+    const grad = ctx.createRadialGradient(64, 64, 0, 64, 64, 64);
+    grad.addColorStop(0, 'rgba(15, 23, 42, 0.28)');
+    grad.addColorStop(0.35, 'rgba(30, 58, 138, 0.12)');
+    grad.addColorStop(0.7, 'rgba(14, 165, 233, 0.04)');
+    grad.addColorStop(1, 'rgba(0, 0, 0, 0)');
+    ctx.fillStyle = grad;
+    ctx.fillRect(0, 0, 128, 128);
+
+    cachedShadowTexture = new THREE.CanvasTexture(canvas);
+    return cachedShadowTexture;
+  }
+
   // Constructor de Geometría y Materiales 3D del Logo de Dent Control
-  // Arquitectura con separación física de planos (0.035 unidades de holgura) para CERO Z-FIGHTING
   function createDentControlLogo3D() {
     if (!window.THREE) return null;
     const THREE = window.THREE;
-    const group = new THREE.Group();
+    const rootGroup = new THREE.Group();
 
-    // Materiales PBR de Grado Dental
+    // Subgrupo para el diente que recibe levitación y rotación
+    const toothGroup = new THREE.Group();
+    rootGroup.add(toothGroup);
+
+    // Materiales PBR Pulidos de Grado Dental
     const matEnamel = new THREE.MeshStandardMaterial({
       color: 0xffffff,
       roughness: 0.12,
-      metalness: 0.04
+      metalness: 0.03
     });
 
     const matRoyalBlue = new THREE.MeshStandardMaterial({
-      color: 0x1a4fb8,
-      roughness: 0.22,
-      metalness: 0.08,
-      polygonOffset: true,
-      polygonOffsetFactor: -1.5,
-      polygonOffsetUnits: -1.5
-    });
-
-    const matCyan = new THREE.MeshStandardMaterial({
-      color: 0x00c4e8,
+      color: 0x1d4ed8,
       roughness: 0.20,
       metalness: 0.08,
       polygonOffset: true,
@@ -49,17 +67,26 @@
       polygonOffsetUnits: -1.5
     });
 
-    const matSmile = new THREE.MeshStandardMaterial({
-      color: 0x0077b6,
+    const matCyan = new THREE.MeshStandardMaterial({
+      color: 0x06b6d4,
       roughness: 0.18,
       metalness: 0.06,
+      polygonOffset: true,
+      polygonOffsetFactor: -1.5,
+      polygonOffsetUnits: -1.5
+    });
+
+    const matSmile = new THREE.MeshStandardMaterial({
+      color: 0x0284c7,
+      roughness: 0.15,
+      metalness: 0.04,
       polygonOffset: true,
       polygonOffsetFactor: -2.0,
       polygonOffsetUnits: -2.0
     });
 
-    // 1. CUERPO DE ESMALTE BLANCO (MOLAR BASE)
-    // Profundidad z: de -0.105 a +0.105 (Recesado respecto a los ribetes exteriores)
+    // 1. CUERPO DE ESMALTE BLANCO (MOLAR ANATÓMICO BASE)
+    // Curvas Bezier pulidas siguiendo con precisión la silueta del logo
     const sEnamel = new THREE.Shape();
     sEnamel.moveTo(0, 0.41);
     sEnamel.bezierCurveTo(-0.16, 0.47, -0.42, 0.53, -0.50, 0.38); // Cúspide superior izq
@@ -81,10 +108,10 @@
     });
     geoEnamel.center();
     const meshEnamel = new THREE.Mesh(geoEnamel, matEnamel);
-    group.add(meshEnamel);
+    toothGroup.add(meshEnamel);
 
-    // 2. RIBETE SUPERIOR IZQUIERDO (AZUL COBALTO)
-    // Profundidad z: de -0.140 a +0.140 (+0.035 de resalte sobre el esmalte -> CERO Z-FIGHTING)
+    // 2. RIBETE SUPERIOR IZQUIERDO (AZUL COBALTO REAL)
+    // Profundidad z mayor para resalte físico (+0.035u) sin Z-fighting
     const sUpperLeft = new THREE.Shape();
     sUpperLeft.moveTo(0, 0.44);
     sUpperLeft.bezierCurveTo(-0.18, 0.52, -0.45, 0.58, -0.54, 0.38);
@@ -105,9 +132,9 @@
     geoUpperLeft.center();
     geoUpperLeft.translate(-0.24, 0.28, 0);
     const meshUpperLeft = new THREE.Mesh(geoUpperLeft, matRoyalBlue);
-    group.add(meshUpperLeft);
+    toothGroup.add(meshUpperLeft);
 
-    // 3. RIBETE INFERIOR RAÍZ IZQUIERDA (AZUL COBALTO)
+    // 3. RIBETE INFERIOR RAÍZ IZQUIERDA (AZUL COBALTO REAL)
     const sLowerLeft = new THREE.Shape();
     sLowerLeft.moveTo(-0.50, -0.06);
     sLowerLeft.lineTo(-0.40, -0.02);
@@ -127,9 +154,9 @@
     geoLowerLeft.center();
     geoLowerLeft.translate(-0.38, -0.32, 0);
     const meshLowerLeft = new THREE.Mesh(geoLowerLeft, matRoyalBlue);
-    group.add(meshLowerLeft);
+    toothGroup.add(meshLowerLeft);
 
-    // 4. ARCO CENTRAL INTER-RADICULAR (GRADIENTE / CIAN)
+    // 4. ARCO CENTRAL INTER-RADICULAR (CIAN TURQUESA)
     const sArch = new THREE.Shape();
     sArch.moveTo(-0.24, -0.54);
     sArch.bezierCurveTo(-0.16, -0.42, -0.08, -0.26, 0, -0.24);
@@ -149,9 +176,9 @@
     geoArch.center();
     geoArch.translate(0, -0.42, 0);
     const meshArch = new THREE.Mesh(geoArch, matCyan);
-    group.add(meshArch);
+    toothGroup.add(meshArch);
 
-    // 5. COLUMNA VERTICAL RAÍZ DERECHA (CIAN)
+    // 5. COLUMNA VERTICAL RAÍZ DERECHA (CIAN TURQUESA)
     const sRightStem = new THREE.Shape();
     sRightStem.moveTo(0.28, -0.56);
     sRightStem.bezierCurveTo(0.38, -0.54, 0.44, -0.36, 0.46, -0.12);
@@ -171,20 +198,20 @@
     geoRightStem.center();
     geoRightStem.translate(0.36, -0.16, 0);
     const meshRightStem = new THREE.Mesh(geoRightStem, matCyan);
-    group.add(meshRightStem);
+    toothGroup.add(meshRightStem);
 
-    // 6. NODO ESFÉRICO CUSPÍDEO DERECHO (CIAN)
+    // 6. NODO ESFÉRICO CUSPÍDEO DERECHO (CIAN TURQUESA)
     const geoSphere = new THREE.SphereGeometry(0.096, 24, 24);
     geoSphere.scale(1, 1, 0.90);
     const meshSphereF = new THREE.Mesh(geoSphere, matCyan);
     meshSphereF.position.set(0.38, 0.34, 0.125);
-    group.add(meshSphereF);
+    toothGroup.add(meshSphereF);
 
     const meshSphereB = new THREE.Mesh(geoSphere, matCyan);
     meshSphereB.position.set(0.38, 0.34, -0.125);
-    group.add(meshSphereB);
+    toothGroup.add(meshSphereB);
 
-    // 7. CÚSPIDE SUPERIOR DERECHA (CIAN)
+    // 7. CÚSPIDE SUPERIOR DERECHA (CIAN TURQUESA)
     const sRightCap = new THREE.Shape();
     sRightCap.moveTo(0.06, 0.42);
     sRightCap.bezierCurveTo(0.18, 0.50, 0.32, 0.48, 0.36, 0.40);
@@ -202,9 +229,9 @@
     geoRightCap.center();
     geoRightCap.translate(0.20, 0.43, 0);
     const meshRightCap = new THREE.Mesh(geoRightCap, matCyan);
-    group.add(meshRightCap);
+    toothGroup.add(meshRightCap);
 
-    // 8. SONRISA CENTRAL TUBULAR CON TERMINALES REDONDAS
+    // 8. SONRISA CENTRAL TUBULAR CON TERMINALES ESFÉRICAS SUAVES
     const smileCurveF = new THREE.CubicBezierCurve3(
       new THREE.Vector3(-0.19, 0.07, 0.135),
       new THREE.Vector3(-0.10, -0.09, 0.135),
@@ -213,16 +240,16 @@
     );
     const geoSmileF = new THREE.TubeGeometry(smileCurveF, 24, 0.030, 14, false);
     const meshSmileF = new THREE.Mesh(geoSmileF, matSmile);
-    group.add(meshSmileF);
+    toothGroup.add(meshSmileF);
 
     const geoCapF = new THREE.SphereGeometry(0.030, 12, 12);
     const capF1 = new THREE.Mesh(geoCapF, matSmile);
     capF1.position.copy(smileCurveF.v0);
     const capF2 = new THREE.Mesh(geoCapF, matSmile);
     capF2.position.copy(smileCurveF.v3);
-    group.add(capF1, capF2);
+    toothGroup.add(capF1, capF2);
 
-    // Sonrisa posterior (cara trasera)
+    // Sonrisa posterior (para vista 360)
     const smileCurveB = new THREE.CubicBezierCurve3(
       new THREE.Vector3(0.19, 0.07, -0.135),
       new THREE.Vector3(0.10, -0.09, -0.135),
@@ -231,18 +258,36 @@
     );
     const geoSmileB = new THREE.TubeGeometry(smileCurveB, 24, 0.030, 14, false);
     const meshSmileB = new THREE.Mesh(geoSmileB, matSmile);
-    group.add(meshSmileB);
+    toothGroup.add(meshSmileB);
 
     const capB1 = new THREE.Mesh(geoCapF, matSmile);
     capB1.position.copy(smileCurveB.v0);
     const capB2 = new THREE.Mesh(geoCapF, matSmile);
     capB2.position.copy(smileCurveB.v3);
-    group.add(capB1, capB2);
+    toothGroup.add(capB1, capB2);
 
-    return group;
+    // 9. SOMBRA DE CONTACTO SUAVE (Oclusión ambiental que ancla el diente en 3D)
+    const shadowTex = getContactShadowTexture(THREE);
+    const shadowGeo = new THREE.PlaneGeometry(1.25, 0.55);
+    const shadowMat = new THREE.MeshBasicMaterial({
+      map: shadowTex,
+      transparent: true,
+      opacity: 0.65,
+      depthWrite: false
+    });
+    const shadowMesh = new THREE.Mesh(shadowGeo, shadowMat);
+    shadowMesh.rotation.x = -Math.PI / 2;
+    shadowMesh.position.y = -0.73;
+    rootGroup.add(shadowMesh);
+
+    return {
+      rootGroup,
+      toothGroup,
+      shadowMesh
+    };
   }
 
-  // Clase Viewport WebGL Individual de Máximo Rendimiento
+  // Clase Viewport WebGL Individual de Máxima Calidad
   class AgentLogo3DViewer {
     constructor(container, options = {}) {
       this.container = typeof container === 'string' ? document.querySelector(container) : container;
@@ -278,7 +323,7 @@
 
       this.container.appendChild(this.canvas);
 
-      // WebGL Renderer con fondo 100% transparente
+      // WebGL Renderer con fondo transparente antialias de alta resolución
       try {
         this.renderer = new THREE.WebGLRenderer({
           canvas: this.canvas,
@@ -294,35 +339,38 @@
       this.renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
       this.renderer.setSize(this.options.width, this.options.height, false);
 
-      // Escena y Cámara con Near Plane a 0.5 para precisión Z máxima
+      // Escena y Cámara con Near Plane a 0.5 para máxima precisión de profundidad
       this.scene = new THREE.Scene();
       this.camera = new THREE.PerspectiveCamera(34, this.options.width / this.options.height, 0.5, 30);
       this.camera.position.set(0, 0, this.options.cameraZ);
 
-      // Iluminación de Estudio CAD/CAM Dental
-      const ambientLight = new THREE.AmbientLight(0xffffff, 0.75);
+      // Iluminación de Estudio Dental CAD/CAM Profesional
+      const ambientLight = new THREE.AmbientLight(0xffffff, 0.85);
       this.scene.add(ambientLight);
 
-      const keyLight = new THREE.DirectionalLight(0xffffff, 1.2);
-      keyLight.position.set(2.5, 4, 3.5);
+      const keyLight = new THREE.DirectionalLight(0xffffff, 1.35);
+      keyLight.position.set(2.5, 4.5, 3.5);
       this.scene.add(keyLight);
 
-      const cyanRim = new THREE.DirectionalLight(0x00d4ff, 0.85);
+      const cyanRim = new THREE.DirectionalLight(0x00e5ff, 0.90);
       cyanRim.position.set(3.5, -1.5, 2.5);
       this.scene.add(cyanRim);
 
-      const blueRim = new THREE.DirectionalLight(0x1d4ed8, 0.65);
-      blueRim.position.set(-3.5, 1.5, -2.5);
+      const blueRim = new THREE.DirectionalLight(0x3b82f6, 0.75);
+      blueRim.position.set(-3.5, 2.5, -2.5);
       this.scene.add(blueRim);
 
-      const fillLight = new THREE.DirectionalLight(0xffffff, 0.4);
-      fillLight.position.set(-2, -3, 2);
+      const fillLight = new THREE.DirectionalLight(0xf8fafc, 0.45);
+      fillLight.position.set(-1.5, -2, 3);
       this.scene.add(fillLight);
 
-      // Modelo 3D
-      this.toothModel = createDentControlLogo3D();
-      if (this.toothModel) {
-        this.scene.add(this.toothModel);
+      // Construcción del Modelo 3D pulido
+      const modelData = createDentControlLogo3D();
+      if (modelData) {
+        this.modelData = modelData;
+        this.toothGroup = modelData.toothGroup;
+        this.shadowMesh = modelData.shadowMesh;
+        this.scene.add(modelData.rootGroup);
       }
 
       this.targetRotY = 0;
@@ -359,12 +407,12 @@
         });
 
         window.addEventListener('mousemove', (e) => {
-          if (!this.isDragging || !this.toothModel) return;
+          if (!this.isDragging || !this.toothGroup) return;
           const deltaX = e.clientX - this.previousMousePosition.x;
           const deltaY = e.clientY - this.previousMousePosition.y;
 
-          this.toothModel.rotation.y += deltaX * 0.015;
-          this.toothModel.rotation.x += deltaY * 0.015;
+          this.toothGroup.rotation.y += deltaX * 0.015;
+          this.toothGroup.rotation.x += deltaY * 0.015;
 
           this.previousMousePosition = { x: e.clientX, y: e.clientY };
         });
@@ -376,7 +424,7 @@
           }
         });
 
-        // Soporte táctil
+        // Soporte táctil en dispositivos móviles
         this.canvas.addEventListener('touchstart', (e) => {
           if (e.touches.length === 1) {
             this.isDragging = true;
@@ -385,12 +433,12 @@
         }, { passive: true });
 
         window.addEventListener('touchmove', (e) => {
-          if (!this.isDragging || e.touches.length !== 1 || !this.toothModel) return;
+          if (!this.isDragging || e.touches.length !== 1 || !this.toothGroup) return;
           const deltaX = e.touches[0].clientX - this.previousMousePosition.x;
           const deltaY = e.touches[0].clientY - this.previousMousePosition.y;
 
-          this.toothModel.rotation.y += deltaX * 0.015;
-          this.toothModel.rotation.x += deltaY * 0.015;
+          this.toothGroup.rotation.y += deltaX * 0.015;
+          this.toothGroup.rotation.x += deltaY * 0.015;
 
           this.previousMousePosition = { x: e.touches[0].clientX, y: e.touches[0].clientY };
         }, { passive: true });
@@ -402,22 +450,31 @@
     }
 
     triggerSpin() {
-      this.spinVelocity = Math.PI * 3.0; // Giro 360° enérgico y fluido
+      this.spinVelocity = Math.PI * 3.2; // Giro enérgico y fluido en 360°
     }
 
     update() {
-      if (!this.renderer || !this.toothModel) return;
+      if (!this.renderer || !this.toothGroup) return;
 
       const delta = this.clock.getDelta();
       const time = this.clock.getElapsedTime();
 
-      // Levitación sinusoidal orgánica
-      const floatY = Math.sin(time * 2.2) * 0.035;
-      this.toothModel.position.y = floatY;
+      // Levitación sinusoidal suave con balanceo sutil
+      const floatY = Math.sin(time * 2.2) * 0.038;
+      const swayZ = Math.sin(time * 1.6) * 0.018;
+      this.toothGroup.position.y = floatY;
+      this.toothGroup.position.x = swayZ * 0.4;
+
+      // La sombra de contacto respira inversamente con la altura del diente
+      if (this.shadowMesh) {
+        const shadowScale = 1 - floatY * 1.5;
+        this.shadowMesh.scale.set(shadowScale, shadowScale, shadowScale);
+        this.shadowMesh.material.opacity = 0.65 - floatY * 2.0;
+      }
 
       if (!this.isDragging) {
         if (this.options.autoRotate) {
-          this.toothModel.rotation.y += 0.012;
+          this.toothGroup.rotation.y += 0.012;
         } else if (this.options.interactive) {
           const rect = this.canvas.getBoundingClientRect();
           if (rect.width > 0 && rect.height > 0 && rect.bottom >= 0 && rect.top <= window.innerHeight) {
@@ -427,20 +484,22 @@
             const dx = (mousePos.x - centerX) / (window.innerWidth / 2);
             const dy = (mousePos.y - centerY) / (window.innerHeight / 2);
 
-            this.targetRotY = Math.max(-0.65, Math.min(0.65, dx * 0.60));
-            this.targetRotX = Math.max(-0.45, Math.min(0.45, -dy * 0.45));
+            this.targetRotY = Math.max(-0.65, Math.min(0.65, dx * 0.65));
+            this.targetRotX = Math.max(-0.45, Math.min(0.45, -dy * 0.50));
 
+            // Cinemática amortiguada elegante (Lerp)
             this.currentRotY += (this.targetRotY - this.currentRotY) * 0.09;
             this.currentRotX += (this.targetRotX - this.currentRotX) * 0.09;
 
-            this.toothModel.rotation.y = this.currentRotY;
-            this.toothModel.rotation.x = this.currentRotX;
+            this.toothGroup.rotation.y = this.currentRotY;
+            this.toothGroup.rotation.x = this.currentRotX;
+            this.toothGroup.rotation.z = swayZ;
           }
         }
 
-        // Giro por click
+        // Giro por interacción
         if (this.spinVelocity > 0.01) {
-          this.toothModel.rotation.y += this.spinVelocity * delta;
+          this.toothGroup.rotation.y += this.spinVelocity * delta;
           this.spinVelocity *= 0.92;
         }
       }
@@ -449,20 +508,20 @@
     }
 
     setCameraAngle(angle) {
-      if (!this.toothModel) return;
+      if (!this.toothGroup) return;
       this.spinVelocity = 0;
       switch (angle) {
         case 'front':
-          this.toothModel.rotation.set(0, 0, 0);
+          this.toothGroup.rotation.set(0, 0, 0);
           break;
         case 'side':
-          this.toothModel.rotation.set(0, Math.PI / 2, 0);
+          this.toothGroup.rotation.set(0, Math.PI / 2, 0);
           break;
         case 'back':
-          this.toothModel.rotation.set(0, Math.PI, 0);
+          this.toothGroup.rotation.set(0, Math.PI, 0);
           break;
         case 'isometric':
-          this.toothModel.rotation.set(0.22, 0.60, 0);
+          this.toothGroup.rotation.set(0.22, 0.60, 0);
           break;
       }
     }
@@ -493,12 +552,12 @@
       new AgentLogo3DViewer(headerTarget, { width: 32, height: 32, cameraZ: 2.15 });
     }
 
-    // 3. Hero de Bienvenida del Chat (96x96 WebGL "Perrón")
+    // 3. Hero de Bienvenida del Chat (112x112 WebGL Pulido)
     const welcomeTarget = document.getElementById('welcomeLogo3DContainer');
     if (welcomeTarget) {
       window._welcomeLogo3D = new AgentLogo3DViewer(welcomeTarget, {
-        width: 96,
-        height: 96,
+        width: 112,
+        height: 112,
         cameraZ: 2.05,
         interactive: true
       });
