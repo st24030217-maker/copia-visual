@@ -1,0 +1,22 @@
+/* @react-bits/AnimatedContent-JS-CSS */
+[data-animated-content],
+.rb-animated-content {
+  will-change: transform, opacity;
+  backface-visibility: hidden;
+  transform-style: preserve-3d;
+}
+
+.rb-animated-content-hidden {
+  visibility: hidden;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  [data-animated-content],
+  .rb-animated-content {
+    transition: none !important;
+    animation: none !important;
+    opacity: 1 !important;
+    transform: none !important;
+    visibility: visible !important;
+  }
+}

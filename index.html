@@ -1,0 +1,3402 @@
+<!DOCTYPE html>
+<html lang="es" class="h-full bg-slate-50">
+<head>
+  <script>
+    (function () {
+      var isAuth = sessionStorage.getItem('cv_sesion_activa') === '1' && localStorage.getItem('cv_usuario');
+      if (!isAuth) {
+        var isStatic = window.location.hostname.includes('github.io') ||
+                       window.location.hostname.includes('vercel.app') ||
+                       window.location.protocol === 'file:' ||
+                       window.location.pathname.endsWith('.html') ||
+                       !window.location.pathname.endsWith('.php');
+        window.location.replace(isStatic ? 'login.html' : 'login.php');
+      }
+    })();
+  </script>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Dent Clinica Dental | Sistema de Laboratorio</title>
+  <script src="tailwind.js"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['"General Sans"', '-apple-system', 'BlinkMacSystemFont', 'sans-serif'],
+            mono: ['"General Sans"', '-apple-system', 'BlinkMacSystemFont', 'sans-serif']
+          },
+          colors: {
+            blue: {
+              50: '#f0f4f8',
+              100: '#d9e2ec',
+              200: '#bcccdc',
+              300: '#9fb3c8',
+              400: '#829ab1',
+              500: '#486581',
+              600: '#334e68',
+              700: '#243b53',
+              800: '#102a43',
+              900: '#0a1929'
+            },
+            indigo: {
+              50: '#f1f5f9',
+              100: '#e2e8f0',
+              200: '#cbd5e1',
+              300: '#94a3b8',
+              400: '#64748b',
+              500: '#475569',
+              600: '#334155',
+              700: '#1e293b',
+              800: '#0f172a',
+              900: '#020617'
+            },
+            purple: {
+              50: '#f3f4f6',
+              100: '#e5e7eb',
+              200: '#d1d5db',
+              500: '#4b5563',
+              600: '#374151',
+              700: '#1f2937'
+            },
+            emerald: {
+              50: '#f2f7f5',
+              100: '#dcece6',
+              200: '#b9d8cd',
+              300: '#8ebdae',
+              400: '#5e9c89',
+              500: '#3d7a68',
+              600: '#2f6353',
+              700: '#244d40',
+              800: '#1c3b32'
+            },
+            rose: {
+              50: '#f9f2f2',
+              100: '#efdada',
+              200: '#dfb8b8',
+              300: '#c78d8d',
+              400: '#ab6666',
+              500: '#8f4747',
+              600: '#783838',
+              700: '#5e2b2b',
+              800: '#472121'
+            },
+            amber: {
+              50: '#f9f6f0',
+              100: '#efe6d5',
+              200: '#dfd0b3',
+              300: '#c8b087',
+              400: '#af915f',
+              500: '#917444',
+              600: '#755c34',
+              700: '#5c4728',
+              800: '#45351e'
+            }
+          }
+        }
+      }
+    };
+  </script>
+  <script src="lucide.js"></script>
+  <script src="jsbarcode.js"></script>
+  <link rel="preconnect" href="https://api.fontshare.com" crossorigin>
+  <link href="https://api.fontshare.com/v2/css?f[]=general-sans@200,300,400,500,600,700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="ExpandableCard.css">
+  <link rel="stylesheet" href="AnimatedContent.css">
+  <link rel="stylesheet" href="Threads.css">
+  <style>
+    body, button, input, select, textarea { font-family: 'General Sans', -apple-system, BlinkMacSystemFont, sans-serif; }
+    .font-mono { font-family: 'General Sans', -apple-system, BlinkMacSystemFont, sans-serif; font-variant-numeric: tabular-nums; }
+    .table-scroll::-webkit-scrollbar { width: 5px; height: 5px; }
+    .table-scroll::-webkit-scrollbar-track { background: transparent; }
+    .table-scroll::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 10px; }
+
+    /* Fondo ejecutivo con textura arquitectónica y tarjetas glassmórficas para la barra superior de Inicio */
+    .inicio-hero-banner {
+      position: relative;
+      overflow: hidden;
+      background:
+        radial-gradient(circle at 12% 50%, rgba(56, 189, 248, 0.20) 0%, transparent 45%),
+        radial-gradient(circle at 88% 50%, rgba(37, 99, 235, 0.22) 0%, transparent 50%),
+        linear-gradient(110deg, #0f172a 0%, #16253b 48%, #1e3654 100%);
+      box-shadow:
+        0 10px 25px -8px rgba(15, 23, 42, 0.38),
+        inset 0 1px 0 0 rgba(255, 255, 255, 0.14);
+    }
+    .inicio-hero-grid {
+      background-image: radial-gradient(rgba(255, 255, 255, 0.12) 1px, transparent 1px);
+      background-size: 16px 16px;
+      mask-image: linear-gradient(to right, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0.35) 50%, rgba(0,0,0,0.85) 100%);
+      -webkit-mask-image: linear-gradient(to right, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0.35) 50%, rgba(0,0,0,0.85) 100%);
+    }
+    .hero-kpi-card {
+      position: relative;
+      background: rgba(255, 255, 255, 0.09);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      border: 1px solid rgba(255, 255, 255, 0.16);
+      box-shadow:
+        0 4px 12px -2px rgba(2, 6, 23, 0.25),
+        inset 0 1px 0 0 rgba(255, 255, 255, 0.18);
+      transition: all 0.22s cubic-bezier(0.22, 1, 0.36, 1);
+      white-space: nowrap;
+    }
+    .hero-kpi-card:hover {
+      transform: translateY(-1.5px);
+      background: rgba(255, 255, 255, 0.15);
+      border-color: rgba(255, 255, 255, 0.32);
+      box-shadow:
+        0 8px 18px -4px rgba(2, 6, 23, 0.36),
+        inset 0 1px 0 0 rgba(255, 255, 255, 0.28);
+    }
+    .hero-kpi-card:active {
+      transform: translateY(0) scale(0.985);
+    }
+
+    /* Reloj en vivo con animaciones sutiles en tonos sobrios (sin colores brillantes) */
+    .hero-clock-pill {
+      position: relative;
+      overflow: hidden;
+      background: rgba(15, 23, 42, 0.72);
+      border: 1px solid rgba(148, 163, 184, 0.22);
+      box-shadow:
+        0 4px 14px -2px rgba(2, 6, 23, 0.4),
+        inset 0 1px 0 0 rgba(255, 255, 255, 0.10);
+      transition: border-color 0.3s ease, box-shadow 0.3s ease, transform 0.25s ease;
+    }
+    .hero-clock-pill:hover {
+      border-color: rgba(148, 163, 184, 0.38);
+      box-shadow:
+        0 6px 18px -2px rgba(2, 6, 23, 0.5),
+        inset 0 1px 0 0 rgba(255, 255, 255, 0.16);
+      transform: translateY(-1px);
+    }
+    .hero-clock-pill::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -120%;
+      width: 65%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.05), transparent);
+      transform: skewX(-20deg);
+      animation: clockSheenSweep 7s ease-in-out infinite;
+      pointer-events: none;
+    }
+    @keyframes clockSheenSweep {
+      0%, 70% { left: -120%; }
+      100%    { left: 160%; }
+    }
+    .clock-live-dot-wrap {
+      position: relative;
+      display: inline-flex;
+      width: 8px;
+      height: 8px;
+      align-items: center;
+      justify-content: center;
+    }
+    .clock-live-dot-ping {
+      position: absolute;
+      inset: 0;
+      border-radius: 9999px;
+      background-color: #5e9c89;
+      animation: clockRadarPing 2.2s cubic-bezier(0, 0, 0.2, 1) infinite;
+    }
+    @keyframes clockRadarPing {
+      0%   { transform: scale(1); opacity: 0.65; }
+      75%, 100% { transform: scale(2.2); opacity: 0; }
+    }
+    .clock-svg-hand {
+      transform-origin: 12px 12px;
+      transition: transform 0.32s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+    .clock-digit-box {
+      display: inline-block;
+      min-width: 1.35em;
+      text-align: center;
+      padding: 1px 4px;
+      border-radius: 5px;
+      background: rgba(30, 41, 59, 0.78);
+      border: 1px solid rgba(148, 163, 184, 0.18);
+      color: #e2e8f0;
+    }
+    .clock-digit-sec {
+      color: #cbd5e1;
+      border-color: rgba(148, 163, 184, 0.26);
+      background: rgba(51, 65, 85, 0.55);
+    }
+    .clock-digit-flip {
+      display: inline-block;
+      animation: clockDigitFlip 0.34s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+    @keyframes clockDigitFlip {
+      0% {
+        transform: translateY(-6px) scale(0.92);
+        opacity: 0.3;
+      }
+      60% {
+        transform: translateY(1px) scale(1.02);
+        opacity: 1;
+      }
+      100% {
+        transform: translateY(0) scale(1);
+        opacity: 1;
+      }
+    }
+    .clock-colon {
+      display: inline-block;
+      margin: 0 1px;
+      color: #94a3b8;
+      animation: clockColonPulse 1s steps(2, start) infinite;
+    }
+    @keyframes clockColonPulse {
+      0%, 100% { opacity: 0.95; }
+      50%      { opacity: 0.35; }
+    }
+
+    /* Resaltado sobrio y ejecutivo para órdenes prioritarias / internas (.row-yellow en proceso y .row-green en entrega) */
+    .row-green {
+      background: linear-gradient(90deg, rgba(217, 232, 227, 0.75) 0%, rgba(238, 245, 243, 0.45) 100%);
+      box-shadow: inset 3px 0 0 #3d7a68;
+    }
+    .row-green td {
+      color: #1c3b32 !important;
+      border-bottom-color: rgba(61, 122, 104, 0.14) !important;
+    }
+    .row-green a {
+      color: #244d40 !important;
+      font-weight: 700;
+    }
+
+    .row-yellow {
+      background: linear-gradient(90deg, rgba(239, 218, 218, 0.75) 0%, rgba(249, 242, 242, 0.45) 100%);
+      box-shadow: inset 3px 0 0 #8f4747;
+    }
+    .row-yellow td {
+      color: #472121 !important;
+      border-bottom-color: rgba(143, 71, 71, 0.14) !important;
+    }
+    .row-yellow a {
+      color: #5e2b2b !important;
+      font-weight: 700;
+    }
+
+    /* Tablas compactas de las 4 etapas de inicio (Escaneo, Diseño, Fabricación, Entrega) */
+    .stage-table {
+      width: 100%;
+      table-layout: fixed;
+    }
+    .stage-table th {
+      background-color: #0f172a;
+      color: #f8fafc;
+      font-weight: 700;
+      font-size: 9px;
+      text-transform: uppercase;
+      letter-spacing: 0.03em;
+      padding: 6px 3px;
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      white-space: nowrap;
+    }
+    .stage-table th:nth-child(1), .stage-table td:nth-child(1) { width: 17%; }
+    .stage-table th:nth-child(2), .stage-table td:nth-child(2) { width: 27%; }
+    .stage-table th:nth-child(3), .stage-table td:nth-child(3) { width: 11%; }
+    .stage-table th:nth-child(4), .stage-table td:nth-child(4) { width: 27%; }
+    .stage-table th:nth-child(5), .stage-table td:nth-child(5) { width: 18%; }
+    .stage-table td {
+      font-size: 10.5px;
+      padding: 5.5px 3px;
+      border-bottom: 1px solid #f1f5f9;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    /* Tabla general inferior (#tableOrdenes) */
+    .general-table th {
+      background-color: #0f172a;
+      color: #f8fafc;
+      font-weight: 700;
+      font-size: 10.5px;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      padding: 10px 10px;
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      white-space: nowrap;
+    }
+    .general-table td {
+      font-size: 12px;
+      padding: 8px 10px;
+      border-bottom: 1px solid #f1f5f9;
+      white-space: nowrap;
+    }
+
+    /* Evitar que textos o tablas largos se salgan de las tarjetas en vistas dinámicas */
+    #section-dynamic > div {
+      max-width: 100%;
+      overflow-x: hidden;
+    }
+    #section-dynamic .grid > * {
+      min-width: 0;
+    }
+    #section-dynamic .general-table {
+      width: 100%;
+      table-layout: auto;
+    }
+    #section-dynamic .general-table th {
+      padding: 9px 8px;
+      font-size: 10px;
+    }
+    #section-dynamic .general-table td {
+      white-space: normal;
+      word-break: break-word;
+      overflow-wrap: anywhere;
+      line-height: 1.35;
+      padding: 8px 8px;
+      vertical-align: middle;
+    }
+    #section-dynamic .general-table td.font-mono {
+      white-space: nowrap;
+    }
+
+    /* Botones de acción modernos (.btnEtiqueta) */
+    .btnEtiqueta {
+      background: linear-gradient(135deg, #1e293b 0%, #334e68 100%);
+      border: 1px solid rgba(255, 255, 255, 0.14);
+      color: #ffffff !important;
+      border-radius: 8px;
+      padding: 5px 9px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 4px;
+      box-shadow: 0 1px 2px rgba(15, 23, 42, 0.14);
+      transition: all 0.18s cubic-bezier(0.22, 1, 0.36, 1);
+      cursor: pointer;
+    }
+    .btnEtiqueta:hover {
+      background: linear-gradient(135deg, #0f172a 0%, #102a43 100%);
+      transform: translateY(-1px);
+      box-shadow: 0 4px 10px rgba(15, 23, 42, 0.22);
+    }
+    .btnEtiqueta--ot {
+      background: linear-gradient(135deg, #334e68 0%, #243b53 100%);
+    }
+    .btnEtiqueta--ot:hover {
+      background: linear-gradient(135deg, #243b53 0%, #102a43 100%);
+    }
+    .btnEtiqueta--doc {
+      background: linear-gradient(135deg, #2f6353 0%, #244d40 100%);
+    }
+    .btnEtiqueta--doc:hover {
+      background: linear-gradient(135deg, #244d40 0%, #1c3b32 100%);
+    }
+
+    /* ===================================================================== */
+    /* SISTEMA DE DISEÑO MODULAR: ODONTOGRAMA 3D ADAPTATIVO (MOBILE-FIRST)   */
+    /* ===================================================================== */
+    .odonto-studio {
+      --od-bg: #f8fafc;
+      --od-surface: #ffffff;
+      --od-header: #0f172a;
+      --od-border: #e2e8f0;
+      --od-border-hover: #cbd5e1;
+      --od-ink: #0f172a;
+      --od-muted: #475569;
+      --od-subtle: #64748b;
+      --od-accent: #334e68;
+      --od-pilar: #2f6353;
+      --od-pilar-ink: #18352c;
+      --od-pilar-bg: linear-gradient(180deg, #eef5f2 0%, #dfece7 100%);
+      --od-pontico: #755c34;
+      --od-pontico-ink: #3d2f1a;
+      --od-pontico-bg: linear-gradient(180deg, #f6f1e7 0%, #ece2cf 100%);
+      --od-ease: cubic-bezier(0.22, 1, 0.36, 1);
+
+      background: var(--od-surface);
+      border: 1px solid var(--od-border);
+      border-radius: 1rem; /* 16px */
+      box-shadow: 0 4px 16px -4px rgba(15, 23, 42, 0.05);
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    /* 1. Barra de Control Superior (Oscura con contraste WCAG AA) */
+    .odonto-topbar {
+      background: var(--od-header);
+      color: #f8fafc;
+      padding: 0.75rem 1rem; /* 12px 16px */
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.5rem; /* 8px */
+    }
+    .odonto-title {
+      font-size: clamp(0.75rem, 0.7rem + 0.2vw, 0.85rem);
+      font-weight: 700;
+      letter-spacing: 0.02em;
+      color: #f8fafc;
+      line-height: 1.2;
+    }
+
+    /* 2. Contenedor de Arcadas (Mobile-First: 1 col en móvil/laptop compacto, 2 cols en wide 1400px+) */
+    .odonto-arch-card {
+      background: var(--od-surface);
+      border: 1px solid var(--od-border);
+      border-radius: 1rem; /* 16px */
+      padding: clamp(0.625rem, 1.2vw, 1rem);
+      box-shadow: 0 1px 3px rgba(15, 23, 42, 0.03);
+    }
+    .odonto-arch-row {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 0.375rem; /* 6px */
+    }
+    .odonto-quadrant {
+      display: grid;
+      grid-template-columns: repeat(8, minmax(0, 1fr));
+      gap: clamp(0.1875rem, 0.4vw, 0.375rem);
+    }
+
+    @media (min-width: 1400px) {
+      .odonto-arch-row {
+        grid-template-columns: 1fr 1fr;
+        gap: 0.75rem; /* 12px */
+      }
+      .odonto-quadrant--right {
+        padding-right: 0.375rem;
+        border-right: 1px solid var(--od-border);
+      }
+      .odonto-quadrant--left {
+        padding-left: 0.125rem;
+      }
+    }
+
+    /* 3. Botón Individual de Pieza Dental (Microinteracciones + Accesibilidad) */
+    .odonto-tooth-btn {
+      position: relative;
+      height: clamp(4.5rem, 7.5vw, 5.5rem); /* 72px a 88px */
+      padding: 0.375rem 0.125rem; /* 6px 2px */
+      border-radius: 0.75rem; /* 12px */
+      border: 1px solid transparent;
+      background: var(--od-surface);
+      color: var(--od-muted);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: space-between;
+      cursor: pointer;
+      user-select: none;
+      transition:
+        transform 200ms var(--od-ease),
+        box-shadow 200ms var(--od-ease),
+        border-color 180ms ease,
+        background 180ms ease;
+    }
+    .odonto-tooth-btn:hover {
+      transform: translateY(-2px);
+      border-color: var(--od-border-hover);
+      background: var(--od-bg);
+      box-shadow: 0 4px 10px -2px rgba(15, 23, 42, 0.06);
+    }
+    .odonto-tooth-btn:active {
+      transform: translateY(0) scale(0.96);
+    }
+    .odonto-tooth-btn:focus-visible {
+      outline: none;
+      box-shadow: 0 0 0 2px var(--od-accent);
+    }
+    .odonto-tooth-btn[data-state="PILAR"] {
+      background: var(--od-pilar-bg);
+      border-color: #4b8372;
+      color: var(--od-pilar-ink);
+      box-shadow: 0 3px 10px -2px rgba(47, 99, 83, 0.15);
+    }
+    .odonto-tooth-btn[data-state="PONTICO"] {
+      background: var(--od-pontico-bg);
+      border-color: #967949;
+      color: var(--od-pontico-ink);
+      box-shadow: 0 3px 10px -2px rgba(117, 92, 52, 0.15);
+    }
+    .odonto-tooth-num {
+      font-size: clamp(0.5625rem, 0.52rem + 0.18vw, 0.65rem);
+      font-weight: 700;
+      font-variant-numeric: tabular-nums;
+      line-height: 1;
+      color: var(--od-subtle);
+      transition: color 180ms ease;
+    }
+    .odonto-tooth-btn[data-state="PILAR"] .odonto-tooth-num {
+      color: var(--od-pilar-ink);
+      font-weight: 800;
+    }
+    .odonto-tooth-btn[data-state="PONTICO"] .odonto-tooth-num {
+      color: var(--od-pontico-ink);
+      font-weight: 800;
+    }
+    .odonto-tooth-img {
+      height: clamp(2.35rem, 4.2vw, 3.1rem);
+      width: auto;
+      object-fit: contain;
+      mix-blend-mode: multiply;
+      pointer-events: none;
+      transition: transform 220ms var(--od-ease);
+    }
+    .odonto-tooth-btn:hover .odonto-tooth-img {
+      transform: scale(1.1);
+    }
+    .odonto-tooth-dot {
+      width: 0.375rem; /* 6px */
+      height: 0.375rem;
+      border-radius: 9999px;
+      background: #e2e8f0;
+      transition: transform 180ms var(--od-ease), background-color 180ms ease;
+    }
+    .odonto-tooth-btn:hover .odonto-tooth-dot {
+      background: #94a3b8;
+    }
+    .odonto-tooth-btn[data-state="PILAR"] .odonto-tooth-dot {
+      background: var(--od-pilar);
+      transform: scale(1.25);
+    }
+    .odonto-tooth-btn[data-state="PONTICO"] .odonto-tooth-dot {
+      background: var(--od-pontico);
+      transform: scale(1.25);
+    }
+
+    /* 4. Estudio 3D Interactivo y Vistas de Referencia */
+    .odonto-3d-stage {
+      position: relative;
+      width: 100%;
+      height: clamp(10.5rem, 18vw, 12rem);
+      border-radius: 0.75rem; /* 12px */
+      border: none;
+      background: transparent;
+      overflow: hidden;
+      touch-action: none;
+      overscroll-behavior: contain;
+      -webkit-user-select: none;
+      user-select: none;
+    }
+    .odonto-3d-stage canvas {
+      background: transparent;
+      touch-action: none;
+      -webkit-touch-callout: none;
+    }
+    .odonto-views-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 0.375rem; /* 6px */
+    }
+    @media (min-width: 640px) {
+      .odonto-views-grid {
+        grid-template-columns: repeat(6, minmax(0, 1fr));
+      }
+    }
+    .odonto-angle-btn {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 0.375rem; /* 6px */
+      border-radius: 0.75rem; /* 12px */
+      border: 1px solid var(--od-border);
+      background: var(--od-surface);
+      cursor: pointer;
+      transition: all 180ms var(--od-ease);
+    }
+    .odonto-angle-btn:hover {
+      border-color: var(--od-border-hover);
+      transform: translateY(-1px);
+    }
+    .odonto-angle-btn[data-active="true"] {
+      border-color: var(--od-accent);
+      background: #f1f5f9;
+      box-shadow: 0 2px 6px -1px rgba(51, 78, 104, 0.12);
+    }
+
+    /* ===================================================================== */
+    /* MÓDULO SUPERIOR MINIMALISTA (#userQuickModule)                        */
+    /* ===================================================================== */
+    .qm-trigger {
+      position: relative;
+      transition:
+        background-color 180ms ease,
+        border-color 180ms ease,
+        box-shadow 200ms ease,
+        transform 180ms ease;
+    }
+    .qm-trigger:hover {
+      background-color: #f8fafc;
+      border-color: #cbd5e1;
+    }
+    .qm-trigger:active {
+      transform: scale(0.98);
+    }
+    #userQuickModule[data-open="true"] .qm-trigger {
+      background-color: #f8fafc;
+      border-color: #94a3b8;
+      box-shadow: 0 0 0 2px rgba(148, 163, 184, 0.15);
+    }
+    .qm-chevron {
+      transition: transform 240ms cubic-bezier(0.22, 1, 0.36, 1), color 180ms ease;
+    }
+    #userQuickModule[data-open="true"] .qm-chevron {
+      transform: rotate(180deg);
+      color: #0f172a;
+    }
+
+    /* Panel desplegable minimalista */
+    .qm-dropdown {
+      transform-origin: top right;
+      opacity: 0;
+      visibility: hidden;
+      pointer-events: none;
+      transform: translateY(-6px) scale(0.96);
+      transition:
+        opacity 180ms cubic-bezier(0.22, 1, 0.36, 1),
+        transform 200ms cubic-bezier(0.22, 1, 0.36, 1),
+        visibility 180ms;
+      will-change: transform, opacity;
+    }
+    #userQuickModule[data-open="true"] .qm-dropdown {
+      opacity: 1;
+      visibility: visible;
+      pointer-events: auto;
+      transform: translateY(0) scale(1);
+    }
+
+    /* Indicador deslizante sutil */
+    .qm-hover-tracker {
+      position: absolute;
+      left: 4px;
+      right: 4px;
+      top: 0;
+      height: 32px;
+      border-radius: 8px;
+      background: #f1f5f9;
+      opacity: 0;
+      pointer-events: none;
+      transform: translateY(0);
+      transition:
+        transform 180ms cubic-bezier(0.22, 1, 0.36, 1),
+        height 180ms cubic-bezier(0.22, 1, 0.36, 1),
+        opacity 150ms ease,
+        background 150ms ease;
+      z-index: 0;
+    }
+    .qm-hover-tracker[data-danger="true"] {
+      background: #fff1f2;
+    }
+
+    .qm-item {
+      position: relative;
+      z-index: 1;
+    }
+    .qm-item-icon {
+      transition: color 180ms ease, transform 200ms ease;
+    }
+    .qm-item:hover .qm-item-icon {
+      color: #0f172a;
+    }
+    .qm-item:hover .qm-item-icon--power {
+      color: #e11d48;
+    }
+  </style>
+
+  <!-- Estilos para el Ojo Interactivo Dent Control AI que sigue el cursor del mouse -->
+  <style id="wixEyeStyles">
+    .wix-eye-container {
+      position: relative;
+      overflow: hidden;
+      user-select: none;
+      transform-origin: center center;
+    }
+    .wix-eye-pupil {
+      position: absolute;
+      border-radius: 9999px;
+      background-color: #ffffff !important;
+      pointer-events: none;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      transition: transform 0.05s linear;
+      box-shadow: 0 0 3px rgba(255, 255, 255, 0.95);
+      will-change: transform;
+    }
+    /* Tamaños explícitos para garantizar renderizado perfecto */
+    .wix-eye-container.eye-lg .wix-eye-pupil {
+      width: 18px !important;
+      height: 18px !important;
+    }
+    .wix-eye-container.eye-md .wix-eye-pupil {
+      width: 11px !important;
+      height: 11px !important;
+    }
+    .wix-eye-container.eye-sm .wix-eye-pupil {
+      width: 8px !important;
+      height: 8px !important;
+    }
+    @keyframes wixBlinkAnim {
+      0%, 94%, 100% { transform: scaleY(1); }
+      96% { transform: scaleY(0.08); }
+    }
+    .wix-eye-blinking {
+      animation: wixBlinkAnim 7.5s infinite ease-in-out;
+    }
+  </style>
+
+  <link rel="stylesheet" href="LatticeLoader.css">
+  <link rel="stylesheet" href="AnimatedList.css">
+  <link rel="stylesheet" href="Slide.css">
+</head>
+<body class="h-full bg-slate-50 text-slate-800 flex overflow-hidden antialiased">
+
+    <link rel="stylesheet" href="BranchedMenu.css">
+
+  <!-- ========================================================================= -->
+  <!-- BARRA LATERAL IZQUIERDA ESTILO DENT DEMO CON @react-bits/BranchedMenu     -->
+  <!-- ========================================================================= -->
+  <!-- Backdrop oscuro para móvil / tablet (< 1024px) -->
+  <div id="sidebarBackdrop" 
+       onclick="closeSidebarMobile()" 
+       class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-40 transition-opacity duration-300 opacity-0 pointer-events-none lg:hidden"
+       aria-hidden="true"></div>
+
+  <aside id="sidebar" class="fixed inset-y-0 left-0 z-50 w-72 max-w-[85vw] -translate-x-full lg:static lg:w-64 lg:translate-x-0 bg-[#2A3F54] text-slate-100 flex flex-col justify-between shrink-0 transition-all duration-300 ease-out border-r border-slate-800 select-none shadow-2xl lg:shadow-none">
+    <div class="flex flex-col h-full overflow-hidden">
+      
+      <!-- 1. Título Superior de Perfil (.navbar.nav_title de DENT DEMO) -->
+      <div class="h-14 px-4 flex items-center justify-between border-b border-white/10 shrink-0">
+        <a href="#" onclick="window.bmSelectLeaf('inicio', 0); if (window.innerWidth < 1024) closeSidebarMobile(); return false;" class="flex items-center gap-2.5 text-white hover:opacity-90 transition-opacity min-w-0">
+          <img src="assets/logoDentlab.png" alt="Dent Lab" class="h-6 w-auto object-contain brightness-0 invert shrink-0">
+          <span class="text-sm font-semibold tracking-wide text-slate-200 truncate" id="lblPerfilSidebar">Administrador</span>
+        </a>
+        <!-- Botón cerrar exclusivo para móvil/tablet -->
+        <button type="button" onclick="closeSidebarMobile()" class="lg:hidden p-1.5 rounded-lg text-slate-400 hover:text-white hover:bg-white/10 transition-colors shrink-0" aria-label="Cerrar menú lateral">
+          <i data-lucide="x" class="w-5 h-5"></i>
+        </button>
+      </div>
+
+      <!-- 2. Bloque de Perfil Superior (.profile.clearfix de DENT DEMO: Foto + Bienvenido(a): + Usuario) -->
+      <div class="px-4 py-3.5 flex items-center gap-3.5 border-b border-white/10 bg-[#233648]/60 shrink-0">
+        <div class="shrink-0">
+          <img src="assets/DentLabLogo.jpeg" alt="DentLab" class="w-12 h-12 rounded-full object-cover border-2 border-white shadow-sm bg-white p-0.5">
+        </div>
+        <div class="leading-tight overflow-hidden">
+          <span class="text-[11px] text-slate-300 font-normal block">Bienvenido(a):</span>
+          <h2 class="text-sm font-semibold text-white truncate mt-0.5" id="lblNombreUser">admin</h2>
+        </div>
+      </div>
+
+      <!-- 3. Menú Jerárquico de DENT DEMO renderizado con @react-bits/BranchedMenu-JS-CSS -->
+      <div class="p-3.5 pb-24 flex-1 overflow-y-auto table-scroll">
+        <nav id="dentBranchedMenu" class="branched-menu" aria-label="Navegación Principal Dent">
+          <span id="bmMarker" class="branched-menu__marker" aria-hidden="true"></span>
+          <div id="bmSectionsContainer"></div>
+        </nav>
+      </div>
+    </div>
+  </aside>
+
+  <script>
+    // =========================================================================
+    // MOTOR @react-bits/BranchedMenu-JS-CSS CON TRANSICIONES DOM IN-PLACE SUAVES
+    // =========================================================================
+    (function () {
+      const BM_ROW = 32;
+      const BM_SUB_ROW = 29;
+      const BM_INDENT = 30;
+      const BM_SUB_INDENT = 24;
+      const BM_PAD_Y = 4;
+
+      const ALL_BM_ITEMS = [
+        {
+          label: 'Inicio',
+          value: 'inicio',
+          icon: 'home'
+        },
+        {
+          label: 'Agentes de IA',
+          badge: 'NUEVO',
+          value: 'agente-ia',
+          icon: 'bot'
+        },
+        {
+          label: 'Dent Lab',
+          value: 'sec-dentlab',
+          icon: 'flask-conical',
+          children: [
+            {
+              label: 'Control de Equipos',
+              value: 'sub-equipos',
+              icon: 'briefcase',
+              children: [
+                { label: 'Equipos en Préstamo', value: 'equipos-prestamo', icon: 'arrow-left-right' },
+                { label: 'Catálogo de Equipos', value: 'catalogo-equipos', icon: 'cpu' }
+              ]
+            },
+            { label: 'Motivos de Cancelación', value: 'motivos-cancelacion', icon: 'ban' },
+            { label: 'Paquetes', value: 'paquetes', icon: 'package' },
+            { label: 'Productos', value: 'productos-app', icon: 'box' },
+            { label: 'BanersApp', value: 'baners-app', icon: 'layout' },
+            {
+              label: 'Recordatorios',
+              value: 'sub-recordatorios',
+              icon: 'bell',
+              children: [
+                { label: 'Tipos de Recordatorios', value: 'tipos-recordatorio', icon: 'bookmark' },
+                { label: 'Recordatorios', value: 'recordatorios', icon: 'calendar-clock' }
+              ]
+            },
+            { label: 'Categorías', value: 'categorias', icon: 'list' },
+            {
+              label: 'Cuentas por Cobrar',
+              value: 'sub-cxc',
+              icon: 'dollar-sign',
+              children: [
+                { label: 'Pendientes de Pago', value: 'pendientes-pago', icon: 'clock' },
+                { label: 'Pagos Realizados', value: 'pagos-realizados', icon: 'check-circle-2' },
+                { label: 'Historial de Abonos', value: 'historial-abonos', icon: 'receipt' }
+              ]
+            },
+            {
+              label: 'Órdenes',
+              value: 'sub-ordenes',
+              icon: 'clipboard-list',
+              children: [
+                { label: 'Lista de Órdenes', value: 'lista-ordenes', icon: 'file-text' },
+                { label: 'Órdenes Canceladas (Req 18)', value: 'ordenes-canceladas', icon: 'file-x' },
+                { label: 'Liberación de Pagos (Req 19)', value: 'liberacion-pendientes', icon: 'unlock' },
+                { label: 'Ventas Mensuales (Req 15)', value: 'ventas-mensuales-cliente', icon: 'dollar-sign' }
+              ]
+            },
+            { label: 'Colorímetro', value: 'colorimetro', icon: 'palette' },
+            { label: 'Vendedores', value: 'vendedores', icon: 'user-check' },
+            { label: 'Usuarios', value: 'usuarios', icon: 'users' }
+          ]
+        },
+        {
+          label: 'Doctores',
+          value: 'sec-doctores',
+          icon: 'stethoscope',
+          children: [
+            { label: 'Clientes Activos & >90d (Req 13)', value: 'listado-doctores', icon: 'users' },
+            { label: 'Clientes Nuevos por Mes (Req 14)', value: 'clientes-nuevos-mes', icon: 'user-check' },
+            { label: 'Ventas Mensuales x Cliente (Req 15)', value: 'ventas-mensuales-cliente', icon: 'dollar-sign' },
+            { label: 'APP Doctores Alatorre & Irene (Req 16)', value: 'app-doctores', icon: 'smartphone' },
+            { label: 'Nuevo Doctor', value: 'nuevo-doctor', icon: 'user-plus' },
+            { label: 'Doctores por Agotar', value: 'doctores-por-agotar', icon: 'alert-triangle' },
+            { label: 'Doctores sin Paquetes', value: 'doctores-sin-paquetes', icon: 'user-minus' },
+            { label: 'Doctores por Vendedor', value: 'doctores-por-vendedor', icon: 'user-check' },
+            { label: 'Paquetes Doctores', value: 'paquetes-doctores', icon: 'package-check' }
+          ]
+        },
+        {
+          label: 'Discos CAD/CAM',
+          value: 'sec-discos',
+          icon: 'disc',
+          children: [
+            { label: 'Inventario de Discos', value: 'inventario-discos', icon: 'layers' },
+            { label: 'Discos Activos', value: 'discos-activos', icon: 'play-circle' },
+            { label: 'Discos Usados', value: 'discos-usados', icon: 'check-circle-2' },
+            { label: 'Discos Zirconio Vendidos (Req 17)', value: 'discos-vendidos', icon: 'shopping-bag' },
+            { label: 'Marcas de Discos', value: 'marcas-discos', icon: 'award' }
+          ]
+        },
+        {
+          label: 'Mensajes Push',
+          value: 'sec-push',
+          icon: 'message-square',
+          children: [
+            { label: 'Enviar Mensajes Push', value: 'mensajes-push', icon: 'send' },
+            { label: 'Tipos de Push', value: 'tipos-push', icon: 'tag' }
+          ]
+        },
+        {
+          label: 'Estadísticas y Reportes',
+          value: 'sec-estadisticas',
+          icon: 'bar-chart-2',
+          children: [
+            { label: 'Panorama General (KPIs)', value: 'panorama-general', icon: 'pie-chart' },
+            { label: 'Clientes Activos & >90d (Req 13)', value: 'listado-doctores', icon: 'users' },
+            { label: 'Clientes Nuevos por Mes (Req 14)', value: 'clientes-nuevos-mes', icon: 'user-check' },
+            { label: 'Ventas Mensuales por Cliente (Req 15)', value: 'ventas-mensuales-cliente', icon: 'dollar-sign' },
+            { label: 'Doctores por Agotar Piezas', value: 'doctores-por-agotar', icon: 'alert-triangle' },
+            { label: 'Doctores sin Paquetes', value: 'doctores-sin-paquetes', icon: 'user-minus' },
+            { label: 'Doctores por Vendedor', value: 'doctores-por-vendedor', icon: 'user-check' },
+            { label: 'Control Laboratorio', value: 'control-lab', icon: 'activity' },
+            { label: 'Paquetes vencidos', value: 'paquetes-vencidos', icon: 'package-x' }
+          ]
+        },
+        {
+          label: 'Dent SPA',
+          value: 'sec-dentspa',
+          icon: 'heart',
+          children: [
+            { label: 'Empresas', value: 'empresas', icon: 'building-2' },
+            { label: 'Empleados', value: 'empleados', icon: 'id-card' },
+            { label: 'Encuestas', value: 'encuestas', icon: 'star' }
+          ]
+        },
+        {
+          label: 'Dent Clinic',
+          value: 'sec-dentclinic',
+          icon: 'user-plus',
+          children: [
+            { label: 'Empresas', value: 'empresas-clinic', icon: 'building' },
+            { label: 'Empleados', value: 'empleados-clinic', icon: 'users' },
+            { label: 'Encuestas', value: 'encuestas-clinic', icon: 'clipboard-check' },
+            { label: 'Productos', value: 'productos-clinica', icon: 'box' },
+            { label: 'Ventas', value: 'ventas', icon: 'shopping-bag' },
+            { label: 'Pacientes', value: 'pacientes', icon: 'heart-handshake' },
+            { label: 'Punto de Venta', value: 'pos', icon: 'credit-card' }
+          ]
+        }
+      ];
+
+      const USER_PRESENTATION_MAP = {
+        'admin':           { nombre: 'Administrador General', saludo: 'Bienvenido', rol: 'Dirección General • Acceso Completo' },
+        'irene':           { nombre: 'Irene Martínez',        saludo: 'Bienvenida', rol: 'Administrador Laboratorio' },
+        'mauricioslab':    { nombre: 'Mauricio Sotomayor',    saludo: 'Bienvenido', rol: 'Administrador Laboratorio' },
+        'diana':           { nombre: 'Diana V.',              saludo: 'Bienvenida', rol: 'Especialista de Laboratorio' },
+        'josé':            { nombre: 'José D.',               saludo: 'Bienvenido', rol: 'Especialista de Laboratorio' },
+        'jose':            { nombre: 'José',                  saludo: 'Bienvenido', rol: 'Especialista de Laboratorio' },
+        'christosv':       { nombre: 'Christos Vasilikostas', saludo: 'Bienvenido', rol: 'Especialista de Laboratorio' },
+        'amy':             { nombre: 'Amy',                   saludo: 'Bienvenida', rol: 'Especialista de Laboratorio' },
+        'oscar':           { nombre: 'Dr. Oscar',             saludo: 'Bienvenido', rol: 'Médico Odontólogo' },
+        'fatima':          { nombre: 'Dra. Fátima S. Dany',   saludo: 'Bienvenida', rol: 'Médico Odontólogo' },
+        'lorena':          { nombre: 'Dra. Lorena M.',        saludo: 'Bienvenida', rol: 'Médico Odontólogo' },
+        'luis':            { nombre: 'Dr. Luis C.',           saludo: 'Bienvenido', rol: 'Médico Odontólogo' },
+        'arturo':          { nombre: 'Dr. Arturo M.',         saludo: 'Bienvenido', rol: 'Médico Odontólogo' },
+        'vianeid':         { nombre: 'Dra. Vianeid S.',       saludo: 'Bienvenida', rol: 'Médico Odontólogo' },
+        'mauricio':        { nombre: 'Dr. Mauricio S.',       saludo: 'Bienvenido', rol: 'Médico Odontólogo' },
+        'usdrbrenda':      { nombre: 'Dra. Brenda',           saludo: 'Bienvenida', rol: 'Médico Odontólogo' },
+        'arturom':         { nombre: 'Arturo Meza',           saludo: 'Bienvenido', rol: 'Especialista de Escaneo' },
+        'mauricios':       { nombre: 'Mauricio Sotomayor',    saludo: 'Bienvenido', rol: 'Especialista de Escaneo' },
+        'ireneescaneador': { nombre: 'Irene',                 saludo: 'Bienvenida', rol: 'Especialista de Escaneo' },
+        'josea':           { nombre: 'José Alatorre',         saludo: 'Bienvenido', rol: 'Ejecutivo Comercial' },
+        'hectorm':         { nombre: 'Héctor Minila',         saludo: 'Bienvenido', rol: 'Ejecutivo Comercial' },
+        'josed':           { nombre: 'José Diosdado',         saludo: 'Bienvenido', rol: 'Ejecutivo Comercial' },
+        'representante1':  { nombre: 'Alejandro',             saludo: 'Bienvenido', rol: 'Representante Dent Clinic' },
+        'sandra':          { nombre: 'Sandra',                saludo: 'Bienvenida', rol: 'Administración de Equipos' },
+        'fernanda':        { nombre: 'Fernanda',              saludo: 'Bienvenida', rol: 'Administración de Equipos' },
+        'selene':          { nombre: 'Selene',                saludo: 'Bienvenida', rol: 'Administración de Equipos' },
+        'guadalupe':       { nombre: 'Guadalupe',             saludo: 'Bienvenida', rol: 'Administración de Equipos' }
+      };
+
+      window.updateTopUserPresentation = function (moduleTrail) {
+        const topTitle = document.getElementById('topModuleTitle');
+        if (!topTitle) return;
+
+        const storedUser = (localStorage.getItem('cv_usuario') || "admin" || 'admin').trim();
+        const storedNombre = (localStorage.getItem('cv_nombre') || '').trim();
+        const storedPerfil = (localStorage.getItem('cv_perfil') || "Administrador" || 'Administrador').trim();
+        const uKey = storedUser.toLowerCase();
+        const info = USER_PRESENTATION_MAP[uKey];
+
+        const femaleNames = ['irene', 'diana', 'fatima', 'fátima', 'lorena', 'vianeid', 'brenda', 'amy', 'sandra', 'fernanda', 'selene', 'guadalupe'];
+        const isFemale = femaleNames.some(f => uKey.includes(f) || storedNombre.toLowerCase().includes(f));
+
+        const saludo = info ? info.saludo : (isFemale ? 'Bienvenida' : 'Bienvenido');
+        const nombreMostrar = info ? info.nombre : (storedNombre || storedUser);
+        const rolMostrar = info ? info.rol : storedPerfil;
+
+        const trailHtml = moduleTrail
+          ? `<span class="text-slate-300 font-normal hidden sm:inline">/</span>
+             <span class="text-xs font-semibold text-slate-500 hidden sm:inline">${moduleTrail}</span>`
+          : '';
+
+        topTitle.innerHTML = `
+          <span class="font-bold text-slate-900">${saludo}, ${nombreMostrar}</span>
+          ${trailHtml}
+        `;
+      };
+
+      function resolveUserMenuItems() {
+        const storedUser = (localStorage.getItem('cv_usuario') || "admin" || 'admin').trim();
+        const storedPerfil = (localStorage.getItem('cv_perfil') || "Administrador" || 'Administrador').trim();
+        const storedIdPerfil = parseInt(localStorage.getItem('cv_id_perfil') || '0', 10);
+        const uLower = storedUser.toLowerCase();
+
+        const isAdmin = uLower === 'admin' || storedIdPerfil === 1;
+        const isIrene = uLower.includes('irene') || storedIdPerfil === 12;
+
+        const lblUser = document.getElementById('lblNombreUser');
+        const topUser = document.getElementById('topUserLabel');
+        const lblPerfil = document.getElementById('lblPerfilSidebar');
+        const topPerfil = document.getElementById('topPerfilBadge');
+
+        const displayUser = storedUser || 'admin';
+        const displayPerfil = isIrene && !localStorage.getItem('cv_perfil')
+          ? 'Administrador Laboratorio'
+          : (storedPerfil || 'Administrador');
+
+        if (lblUser) lblUser.innerText = displayUser;
+        if (topUser) topUser.innerText = displayUser;
+        if (lblPerfil) lblPerfil.innerText = displayPerfil.charAt(0).toUpperCase() + displayPerfil.slice(1).toLowerCase();
+        if (topPerfil) topPerfil.innerText = displayPerfil;
+        if (typeof window.updateTopUserPresentation === 'function') {
+          window.updateTopUserPresentation();
+        }
+
+        if (isAdmin) {
+          // Admin (id_perfil = 1) tiene acceso completo a todos los módulos (incluyendo Dent SPA y Dent Clinic)
+          return ALL_BM_ITEMS.slice();
+        }
+        if (storedIdPerfil === 8) {
+          // Representantes (id_perfil = 8): Inicio + Dent Clinic
+          return ALL_BM_ITEMS.filter(item => item.value === 'inicio' || item.value === 'sec-dentclinic');
+        }
+        // Irene (id_perfil = 12) y perfiles de laboratorio/médico/escaneador: sin Dent SPA ni Dent Clinic
+        return ALL_BM_ITEMS.filter(item => item.value !== 'sec-dentspa' && item.value !== 'sec-dentclinic');
+      }
+
+      let BM_ITEMS = resolveUserMenuItems();
+
+      let bmState = {
+        openSection: null,
+        openSubs: {},
+        active: 'inicio',
+        initialized: false
+      };
+
+      function buildSubBranchTreeHTML(subItem) {
+        const kids = subItem.children || [];
+        const n = kids.length;
+        const bodyH = n * BM_SUB_ROW + 4;
+        const trunk = Math.round(BM_SUB_INDENT * 0.28);
+        const endX = BM_SUB_INDENT - 4;
+        const r = Math.min(7, Math.floor((endX - trunk) * 0.6));
+        const midY = idx => Math.round(2 + idx * BM_SUB_ROW + BM_SUB_ROW / 2);
+        const lastY = n > 0 ? midY(n - 1) : 2;
+        const baseTrunk = n > 0 ? `M ${trunk} 2 V ${Math.max(2, lastY - r)}` : '';
+
+        let baseBranches = '';
+        let reachBranches = '';
+        let kidButtons = '';
+
+        kids.forEach((kid, j) => {
+          const y = midY(j);
+          const span = Math.max(1, endX - trunk - r);
+          const totalLen = Math.max(0, y - r - 2) + Math.PI * r * 0.5 + span;
+
+          baseBranches += `<path class="branched-menu__base" d="M ${trunk} ${Math.max(2, y - r)} A ${r} ${r} 0 0 0 ${trunk + r} ${y} H ${endX}" />`;
+          reachBranches += `<path class="branched-menu__reach" data-sub-reach="${kid.value}" data-len="${totalLen}" d="M ${trunk} 2 V ${Math.max(2, y - r)} A ${r} ${r} 0 0 0 ${trunk + r} ${y} H ${endX}" style="stroke-dasharray: ${totalLen}; stroke-dashoffset: ${totalLen};" />`;
+
+          kidButtons += `
+            <button type="button"
+              data-module="${kid.value}"
+              class="branched-menu__item nav-leaf-btn"
+              onclick="window.bmSelectLeaf('${kid.value}')">
+              <span class="branched-menu__icon">
+                <i data-lucide="${kid.icon || 'circle'}" class="w-3 h-3"></i>
+              </span>
+              <span class="branched-menu__label">${kid.label}</span>
+            </button>
+          `;
+        });
+
+        return `
+          <div class="branched-menu__sub-tree" style="height: ${bodyH}px;">
+            <svg class="branched-menu__lines" width="${BM_SUB_INDENT}" height="${bodyH}" aria-hidden="true">
+              <path class="branched-menu__base" d="${baseTrunk}" />
+              ${baseBranches}
+              ${reachBranches}
+            </svg>
+            ${kidButtons}
+          </div>
+        `;
+      }
+
+      // Construir DOM una sola vez para conservar todas las transiciones CSS (grid-template-rows, SVG stroke-dashoffset, chevron)
+      function initBranchedMenuDOM(forceRebuild = false) {
+        const container = document.getElementById('bmSectionsContainer');
+        if (!container || (bmState.initialized && !forceRebuild)) return;
+        BM_ITEMS = resolveUserMenuItems();
+        bmState.initialized = true;
+
+        container.innerHTML = BM_ITEMS.map((item, i) => {
+          const kids = item.children || [];
+          const hasKids = kids.length > 0;
+          const isAlwaysOpen = !!item.alwaysOpen;
+
+          if (!hasKids) {
+            return `
+              <div class="branched-menu__section" data-sec-idx="${i}">
+                <button type="button"
+                  data-module="${item.value}"
+                  class="branched-menu__head nav-leaf-btn"
+                  onclick="window.bmSelectLeaf('${item.value}', ${i})">
+                  <span class="branched-menu__head-left">
+                    <i data-lucide="${item.icon || 'circle'}" class="w-4 h-4"></i>
+                    <span>${item.label}</span>
+                    ${item.badge ? `<span class="ml-auto text-[9px] font-bold px-1.5 py-0.5 rounded-full bg-purple-600/30 text-purple-300 border border-purple-500/40 uppercase tracking-wider">${item.badge}</span>` : ''}
+                  </span>
+                </button>
+              </div>
+            `;
+          }
+
+          let kidButtons = '';
+          kids.forEach((kid, j) => {
+            const hasSubKids = Array.isArray(kid.children) && kid.children.length > 0;
+            if (hasSubKids) {
+              kidButtons += `
+                <div class="branched-menu__sub" data-sub-key="${kid.value}">
+                  <button type="button"
+                    class="branched-menu__sub-head"
+                    onclick="window.bmToggleSub('${kid.value}')">
+                    <span class="inline-flex items-center gap-2 min-w-0">
+                      <span class="branched-menu__icon">
+                        <i data-lucide="${kid.icon || 'folder'}" class="w-3.5 h-3.5"></i>
+                      </span>
+                      <span class="branched-menu__label">${kid.label}</span>
+                    </span>
+                    <svg class="branched-menu__chevron shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                      <polyline points="6 9 12 15 18 9"></polyline>
+                    </svg>
+                  </button>
+                  <div class="branched-menu__sub-body">
+                    <div class="branched-menu__fold">
+                      ${buildSubBranchTreeHTML(kid)}
+                    </div>
+                  </div>
+                </div>
+              `;
+            } else {
+              kidButtons += `
+                <button type="button"
+                  data-module="${kid.value}"
+                  class="branched-menu__item nav-leaf-btn"
+                  onclick="window.bmSelectLeaf('${kid.value}')">
+                  <span class="branched-menu__icon">
+                    <i data-lucide="${kid.icon || 'circle'}" class="w-3.5 h-3.5"></i>
+                  </span>
+                  <span class="branched-menu__label">${kid.label}</span>
+                </button>
+              `;
+            }
+          });
+
+          if (isAlwaysOpen) {
+            return `
+              <div class="branched-menu__section" data-sec-idx="${i}" data-open="" data-always-open="">
+                <div class="branched-menu__head" style="cursor: default;" aria-expanded="true">
+                  <span class="branched-menu__head-left">
+                    <i data-lucide="${item.icon || 'folder'}" class="w-4 h-4"></i>
+                    <span>${item.label}</span>
+                  </span>
+                </div>
+                <div class="branched-menu__body">
+                  <div class="branched-menu__fold">
+                    <div class="branched-menu__tree" id="bmTree-${i}">
+                      <svg class="branched-menu__lines" id="bmSvg-${i}" width="${BM_INDENT}" height="10" aria-hidden="true">
+                        <path class="branched-menu__base" id="bmTrunk-${i}" />
+                        <g id="bmBaseGroup-${i}"></g>
+                        <g id="bmReachGroup-${i}"></g>
+                      </svg>
+                      ${kidButtons}
+                    </div>
+                  </div>
+                </div>
+              </div>
+            `;
+          }
+
+          return `
+            <div class="branched-menu__section" data-sec-idx="${i}">
+              <button type="button"
+                class="branched-menu__head"
+                onclick="window.bmToggleSection(${i})">
+                <span class="branched-menu__head-left">
+                  <i data-lucide="${item.icon || 'folder'}" class="w-4 h-4"></i>
+                  <span>${item.label}</span>
+                </span>
+                <svg class="branched-menu__chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                  <polyline points="6 9 12 15 18 9"></polyline>
+                </svg>
+              </button>
+              <div class="branched-menu__body">
+                <div class="branched-menu__fold">
+                  <div class="branched-menu__tree" id="bmTree-${i}">
+                    <svg class="branched-menu__lines" id="bmSvg-${i}" width="${BM_INDENT}" height="10" aria-hidden="true">
+                      <path class="branched-menu__base" id="bmTrunk-${i}" />
+                      <g id="bmBaseGroup-${i}"></g>
+                      <g id="bmReachGroup-${i}"></g>
+                    </svg>
+                    ${kidButtons}
+                  </div>
+                </div>
+              </div>
+            </div>
+          `;
+        }).join('');
+
+        if (window.lucide) lucide.createIcons();
+        syncBranchedMenuDOM();
+      }
+
+      // Actualizar estado y geometría SVG sin destruir el DOM para que las animaciones sean 100% fluidas
+      function syncBranchedMenuDOM() {
+        const trunk = Math.round(BM_INDENT * 0.34);
+        const endX = BM_INDENT - 5;
+        const r = Math.min(8, Math.floor((endX - trunk) * 0.65));
+
+        BM_ITEMS.forEach((item, i) => {
+          const secEl = document.querySelector(`.branched-menu__section[data-sec-idx="${i}"]`);
+          if (!secEl) return;
+          const headBtn = secEl.querySelector(':scope > .branched-menu__head');
+          const kids = item.children || [];
+
+          if (kids.length === 0) {
+            if (bmState.active === item.value) {
+              headBtn.setAttribute('data-active', '');
+            } else {
+              headBtn.removeAttribute('data-active');
+            }
+            return;
+          }
+
+          const isAlwaysOpen = !!item.alwaysOpen;
+          const isOpen = isAlwaysOpen || bmState.openSection === i;
+          if (isOpen) {
+            secEl.setAttribute('data-open', '');
+            headBtn.setAttribute('aria-expanded', 'true');
+          } else {
+            secEl.removeAttribute('data-open');
+            headBtn.setAttribute('aria-expanded', 'false');
+          }
+
+          let currentY = BM_PAD_Y;
+          const rowCenters = [];
+          kids.forEach(kid => {
+            rowCenters.push(Math.round(currentY + BM_ROW / 2));
+            currentY += BM_ROW;
+            if (kid.children && bmState.openSubs[kid.value]) {
+              currentY += kid.children.length * BM_SUB_ROW + 4;
+            }
+          });
+
+          const bodyH = currentY + BM_PAD_Y;
+          const lastY = rowCenters.length > 0 ? rowCenters[rowCenters.length - 1] : BM_PAD_Y;
+          const baseTrunk = rowCenters.length > 0 ? `M ${trunk} ${BM_PAD_Y} V ${Math.max(BM_PAD_Y, lastY - r)}` : '';
+
+          const svgEl = document.getElementById(`bmSvg-${i}`);
+          const trunkEl = document.getElementById(`bmTrunk-${i}`);
+          const baseGroup = document.getElementById(`bmBaseGroup-${i}`);
+          const reachGroup = document.getElementById(`bmReachGroup-${i}`);
+
+          if (svgEl) svgEl.setAttribute('height', String(bodyH));
+          if (trunkEl) trunkEl.setAttribute('d', baseTrunk);
+
+          // Asegurar que los paths de cada hijo existan una sola vez y solo actualizar sus atributos
+          if (baseGroup && reachGroup && baseGroup.children.length !== kids.length) {
+            baseGroup.innerHTML = kids.map(() => `<path class="branched-menu__base" />`).join('');
+            reachGroup.innerHTML = kids.map(() => `<path class="branched-menu__reach" />`).join('');
+          }
+
+          kids.forEach((kid, j) => {
+            const y = rowCenters[j];
+            const span = Math.max(1, endX - trunk - r);
+            const totalLen = Math.max(0, y - r - BM_PAD_Y) + Math.PI * r * 0.5 + span;
+            const hasSubKids = Array.isArray(kid.children) && kid.children.length > 0;
+            const isSubOpen = !!bmState.openSubs[kid.value];
+            const isAct = hasSubKids
+              ? kid.children.some(sk => sk.value === bmState.active)
+              : bmState.active === kid.value;
+            const dashOffset = isAct ? 0 : totalLen;
+
+            const basePath = baseGroup?.children[j];
+            const reachPath = reachGroup?.children[j];
+            if (basePath) {
+              basePath.setAttribute('d', `M ${trunk} ${Math.max(BM_PAD_Y, y - r)} A ${r} ${r} 0 0 0 ${trunk + r} ${y} H ${endX}`);
+            }
+            if (reachPath) {
+              reachPath.setAttribute('d', `M ${trunk} ${BM_PAD_Y} V ${Math.max(BM_PAD_Y, y - r)} A ${r} ${r} 0 0 0 ${trunk + r} ${y} H ${endX}`);
+              reachPath.style.strokeDasharray = `${totalLen}`;
+              reachPath.style.strokeDashoffset = `${dashOffset}`;
+            }
+
+            if (hasSubKids) {
+              const subEl = secEl.querySelector(`.branched-menu__sub[data-sub-key="${kid.value}"]`);
+              if (subEl) {
+                if (isSubOpen) subEl.setAttribute('data-open', '');
+                else subEl.removeAttribute('data-open');
+              }
+              kid.children.forEach(sk => {
+                const subBtn = secEl.querySelector(`button[data-module="${sk.value}"]`);
+                const subReach = secEl.querySelector(`path[data-sub-reach="${sk.value}"]`);
+                const subAct = bmState.active === sk.value;
+                if (subBtn) {
+                  if (subAct) subBtn.setAttribute('data-active', '');
+                  else subBtn.removeAttribute('data-active');
+                }
+                if (subReach) {
+                  const len = Number(subReach.getAttribute('data-len') || 60);
+                  subReach.style.strokeDashoffset = subAct ? '0' : `${len}`;
+                }
+              });
+            } else {
+              const btn = secEl.querySelector(`button[data-module="${kid.value}"]`);
+              if (btn) {
+                if (isAct) btn.setAttribute('data-active', '');
+                else btn.removeAttribute('data-active');
+              }
+            }
+          });
+        });
+
+        updateBranchedMarker();
+      }
+
+      function updateBranchedMarker() {
+        const marker = document.getElementById('bmMarker');
+        if (!marker) return;
+
+        let activeSectionIdx = -1;
+        BM_ITEMS.forEach((it, idx) => {
+          if (!it.children && it.value === bmState.active) {
+            activeSectionIdx = idx;
+          } else if (it.children) {
+            const match = it.children.some(k =>
+              k.value === bmState.active || (k.children && k.children.some(sk => sk.value === bmState.active))
+            );
+            if (match) activeSectionIdx = idx;
+          }
+        });
+
+        const targetIdx = bmState.openSection !== null ? bmState.openSection : activeSectionIdx;
+        if (targetIdx === null || targetIdx < 0) {
+          marker.removeAttribute('data-on');
+          return;
+        }
+
+        const secEl = document.querySelector(`.branched-menu__section[data-sec-idx="${targetIdx}"] > .branched-menu__head`);
+        if (!secEl) {
+          marker.removeAttribute('data-on');
+          return;
+        }
+
+        const top = secEl.offsetTop + (secEl.offsetHeight - marker.offsetHeight) / 2;
+        marker.style.top = `${top}px`;
+        marker.setAttribute('data-on', '');
+      }
+
+      window.bmToggleSection = function (idx) {
+        if (BM_ITEMS[idx] && BM_ITEMS[idx].alwaysOpen) return;
+        bmState.openSection = bmState.openSection === idx ? null : idx;
+        syncBranchedMenuDOM();
+      };
+
+      window.bmToggleSub = function (subValue) {
+        bmState.openSubs[subValue] = !bmState.openSubs[subValue];
+        syncBranchedMenuDOM();
+      };
+
+      window.bmSelectLeaf = function (moduleValue, secIdx = null) {
+        if (moduleValue === 'agente-ia') {
+          if (typeof toggleWixAssistant === 'function') toggleWixAssistant(true);
+          if (window.innerWidth < 1024 && typeof closeSidebarMobile === 'function') closeSidebarMobile();
+          return;
+        }
+        bmState.active = moduleValue;
+        if (secIdx !== null) {
+          bmState.openSection = null;
+        } else {
+          BM_ITEMS.forEach((it, idx) => {
+            if (!it.children) return;
+            const isAlwaysOpen = !!it.alwaysOpen;
+            it.children.forEach(k => {
+              if (k.value === moduleValue) {
+                bmState.openSection = isAlwaysOpen ? null : idx;
+              } else if (k.children && k.children.some(sk => sk.value === moduleValue)) {
+                bmState.openSection = isAlwaysOpen ? null : idx;
+                bmState.openSubs[k.value] = true;
+              }
+            });
+          });
+        }
+        syncBranchedMenuDOM();
+        if (typeof openModule === 'function') {
+          openModule(moduleValue);
+        }
+        if (typeof closeSidebarMobile === 'function' && typeof isMobileView === 'function' && isMobileView()) {
+          closeSidebarMobile();
+        }
+      };
+
+      window.bmSyncActiveState = function (moduleKey) {
+        if (!bmState.initialized) initBranchedMenuDOM();
+        if (bmState.active === moduleKey) return;
+        bmState.active = moduleKey;
+        BM_ITEMS.forEach((it, idx) => {
+          if (!it.children && it.value === moduleKey) {
+            bmState.openSection = null;
+          } else if (it.children) {
+            const isAlwaysOpen = !!it.alwaysOpen;
+            it.children.forEach(k => {
+              if (k.value === moduleKey) {
+                bmState.openSection = isAlwaysOpen ? null : idx;
+              } else if (k.children && k.children.some(sk => sk.value === moduleKey)) {
+                bmState.openSection = isAlwaysOpen ? null : idx;
+                bmState.openSubs[k.value] = true;
+              }
+            });
+          }
+        });
+        syncBranchedMenuDOM();
+      };
+
+      window.refreshMenuForUser = function (newUser, newPerfil) {
+        if (newUser) localStorage.setItem('cv_usuario', newUser);
+        if (newPerfil) localStorage.setItem('cv_perfil', newPerfil);
+        initBranchedMenuDOM(true);
+      };
+
+      if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', () => initBranchedMenuDOM(false));
+      } else {
+        initBranchedMenuDOM(false);
+      }
+    })();
+  </script>
+
+  <!-- ========================================== -->
+  <!-- CONTENIDO DERECHO (Navbar + Pantalla DENT) -->
+  <!-- ========================================== -->
+  <div class="flex-1 flex flex-col min-w-0 overflow-hidden">
+    
+    <!-- Top Navbar -->
+    <header class="h-14 bg-white border-b border-slate-200 px-6 flex items-center justify-between shrink-0">
+      <div class="flex items-center gap-3.5">
+        <button onclick="toggleSidebar()" class="p-1.5 rounded-lg border border-slate-200 text-slate-600 hover:bg-slate-100 transition-colors">
+          <i data-lucide="menu" class="w-4 h-4"></i>
+        </button>
+        <div id="topModuleTitle" class="flex flex-wrap items-center gap-2 text-sm font-semibold text-slate-800">
+          <span class="font-bold text-slate-900">Bienvenido(a), Admin</span>
+        </div>
+      </div>
+
+      <div class="flex items-center gap-3">
+        <!-- Menú Minimalista de Usuario y Control -->
+        <div class="relative select-none" id="userQuickModule" data-open="false">
+          <button type="button" id="userQuickTrigger" onclick="toggleSettingsDropdown(event)" class="qm-trigger h-8 px-3 rounded-full border border-slate-200/90 bg-white flex items-center gap-2 cursor-pointer">
+            <span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
+            <span class="text-xs font-semibold text-slate-700" id="topUserLabel">Admin</span>
+            <span id="topPerfilBadge" class="hidden">Administrador</span>
+            <i data-lucide="chevron-down" id="userModuleChevron" class="qm-chevron w-3.5 h-3.5 text-slate-400"></i>
+          </button>
+
+          <!-- Dropdown Minimalista -->
+          <div id="settingsDropdown" class="qm-dropdown absolute right-0 mt-2 w-48 bg-white/95 backdrop-blur-md rounded-xl border border-slate-200/80 shadow-lg p-1 z-50 text-xs overflow-hidden" onmouseleave="hideQmTracker()">
+            <div id="qmHoverTracker" class="qm-hover-tracker"></div>
+
+            <a href="#" onmouseenter="moveQmTracker(this, false)" onclick="closeSettingsDropdown(); openModule('configuracion'); return false;" class="qm-item flex items-center gap-2.5 px-2.5 py-2 rounded-lg text-slate-600 hover:text-slate-900 font-medium transition-colors">
+              <i data-lucide="settings" class="qm-item-icon w-3.5 h-3.5 text-slate-400 shrink-0"></i>
+              <span>Configuraciones</span>
+            </a>
+
+            <a href="#" onmouseenter="moveQmTracker(this, false)" onclick="closeSettingsDropdown(); openModule('permisos'); return false;" class="qm-item flex items-center gap-2.5 px-2.5 py-2 rounded-lg text-slate-600 hover:text-slate-900 font-medium transition-colors">
+              <i data-lucide="shield" class="qm-item-icon w-3.5 h-3.5 text-slate-400 shrink-0"></i>
+              <span>Permisos y Accesos</span>
+            </a>
+
+            <a href="#" onmouseenter="moveQmTracker(this, false)" onclick="closeSettingsDropdown(); toggleFullScreen(); return false;" class="qm-item flex items-center gap-2.5 px-2.5 py-2 rounded-lg text-slate-600 hover:text-slate-900 font-medium transition-colors">
+              <i data-lucide="maximize" class="qm-item-icon w-3.5 h-3.5 text-slate-400 shrink-0"></i>
+              <span>Pantalla Completa</span>
+            </a>
+
+            <div class="relative z-10 my-1 border-t border-slate-100"></div>
+
+            <a href="login.html" onmouseenter="moveQmTracker(this, true)" onclick="window.cerrarSesionDent(); return false;" class="qm-item flex items-center gap-2.5 px-2.5 py-2 rounded-lg text-rose-600 hover:text-rose-700 font-medium transition-colors">
+              <i data-lucide="log-out" class="qm-item-icon qm-item-icon--power w-3.5 h-3.5 text-rose-500 shrink-0"></i>
+              <span>Cerrar Sesión</span>
+            </a>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <!-- Área Principal de Trabajo -->
+    <main class="flex-1 overflow-y-auto p-4 sm:p-5 space-y-4 bg-slate-50">
+
+      <!-- Contenedor Dinámico para los 36 Módulos del Menú Lateral y OrdenTrabajo.php -->
+      <div id="section-dynamic" class="hidden space-y-4"></div>
+
+      <!-- ===================================================================== -->
+      <!-- PANTALLA PRINCIPAL DE INICIO: MISMO DISEÑO DE DENT DEMO ACTUALIZADO   -->
+      <!-- 1. Barra de Botones (Calendario, Canceladas, Pendientes, Hora, +, ↻)  -->
+      <!-- 2. Los 4 Cuadros con sus Tablas (Escaneo, Diseño, Fabricación, Entrega)-->
+      <!-- 3. Tabla General de Órdenes abajo siempre visible con Buscador        -->
+      <!-- ===================================================================== -->
+      <div id="section-inicio" class="space-y-4">
+
+        <!-- 1. BARRA SUPERIOR CON FONDO FOTOGRÁFICO CAD/CAM Y BOTONES GLASSMÓRFICOS -->
+        <div class="inicio-hero-banner text-white px-4 py-3.5 sm:px-5 sm:py-4 rounded-2xl border border-slate-800/80">
+          <!-- Imagen de fondo de Laboratorio CAD/CAM Dental -->
+          <img src="assets/dental_cadcam.jpg" alt="" aria-hidden="true"
+               class="absolute inset-0 w-full h-full object-cover object-center brightness-90 pointer-events-none select-none">
+          <!-- Gradiente oscuro translúcido para contraste perfecto del texto sobre la foto -->
+          <div class="absolute inset-0 pointer-events-none"
+               style="background: linear-gradient(90deg, rgba(15, 23, 42, 0.90) 0%, rgba(15, 23, 42, 0.68) 50%, rgba(15, 23, 42, 0.85) 100%);"></div>
+
+          <div class="relative z-10 flex flex-wrap items-center justify-between gap-3">
+            <!-- Botones Principales (Calendario, Órdenes Canceladas, Órdenes Pendientes de Pago) -->
+            <div class="flex flex-wrap items-center gap-2.5">
+              <!-- Calendario -->
+              <button type="button" onclick="openModule('calendario');"
+                class="hero-kpi-card px-3.5 py-2 rounded-xl flex items-center gap-2.5 text-xs font-bold text-slate-100 cursor-pointer"
+                style="background: linear-gradient(135deg, rgba(51, 78, 104, 0.88) 0%, rgba(36, 59, 83, 0.92) 100%); border-color: rgba(148, 163, 184, 0.28);">
+                <span class="w-6 h-6 rounded-lg bg-white/10 flex items-center justify-center text-slate-200 shrink-0">
+                  <i data-lucide="calendar" class="w-3.5 h-3.5"></i>
+                </span>
+                <span>Calendario</span>
+              </button>
+
+              <!-- Órdenes canceladas -->
+              <button type="button" onclick="openModalCanceladas();"
+                class="hero-kpi-card px-3.5 py-2 rounded-xl flex items-center gap-2.5 text-xs font-semibold text-slate-100 cursor-pointer">
+                <span class="w-6 h-6 rounded-lg flex items-center justify-center shrink-0"
+                      style="background: rgba(120, 56, 56, 0.35); color: #dfb8b8; border: 1px solid rgba(199, 141, 141, 0.28);">
+                  <i data-lucide="ban" class="w-3.5 h-3.5"></i>
+                </span>
+                <span>Ordenes canceladas</span>
+                <span class="px-2 py-0.5 rounded-lg text-[11px] font-extrabold font-mono"
+                      style="background: rgba(120, 56, 56, 0.42); color: #efdada; border: 1px solid rgba(199, 141, 141, 0.32);"
+                      id="NumberOrdenCanceladas">646</span>
+              </button>
+
+              <!-- Órdenes Pendientes de pago -->
+              <button type="button" onclick="openModalPendientes();"
+                class="hero-kpi-card px-3.5 py-2 rounded-xl flex items-center gap-2.5 text-xs font-semibold text-slate-100 cursor-pointer">
+                <span class="w-6 h-6 rounded-lg flex items-center justify-center shrink-0"
+                      style="background: rgba(117, 92, 52, 0.38); color: #dfd0b3; border: 1px solid rgba(200, 176, 135, 0.28);">
+                  <i data-lucide="bell" class="w-3.5 h-3.5"></i>
+                </span>
+                <span>Ordenes Pendientes de pago</span>
+                <span class="px-2 py-0.5 rounded-lg text-[11px] font-extrabold font-mono"
+                      style="background: rgba(51, 78, 104, 0.48); color: #d9e2ec; border: 1px solid rgba(159, 179, 200, 0.30);"
+                      id="NumberOrden">0</span>
+              </button>
+
+              <!-- Próximos Eventos (Escaneos) -->
+              <button type="button" onclick="openModalEventosEscaneo();"
+                class="hero-kpi-card px-3.5 py-2 rounded-xl flex items-center gap-2.5 text-xs font-semibold text-slate-100 cursor-pointer">
+                <span class="w-6 h-6 rounded-lg flex items-center justify-center shrink-0"
+                      style="background: rgba(30, 78, 120, 0.45); color: #93c5fd; border: 1px solid rgba(147, 197, 253, 0.3);">
+                  <i data-lucide="scan" class="w-3.5 h-3.5"></i>
+                </span>
+                <span>Próximos Escaneos</span>
+                <span class="px-2 py-0.5 rounded-lg text-[11px] font-extrabold font-mono"
+                      style="background: rgba(30, 78, 120, 0.55); color: #dbeafe; border: 1px solid rgba(147, 197, 253, 0.35);"
+                      id="NumberProximosEscaneos">4</span>
+              </button>
+              
+
+            </div>
+
+            <!-- Reloj en Vivo y Acciones Rápidas (Actualizar y Nueva Orden) -->
+            <div class="flex items-center gap-2.5 ml-auto">
+              <!-- Hora Actual Animada (Tonos Sobrios) -->
+              <div class="hero-clock-pill flex items-center gap-2.5 px-3.5 py-2 rounded-xl backdrop-blur-md">
+                <span class="clock-live-dot-wrap shrink-0">
+                  <span class="clock-live-dot-ping"></span>
+                  <span class="relative w-2 h-2 rounded-full" style="background-color: #5e9c89;"></span>
+                </span>
+                <svg class="w-4 h-4 text-slate-300 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <circle cx="12" cy="12" r="9.5" stroke-opacity="0.65"></circle>
+                  <line id="clockHandMin" class="clock-svg-hand" x1="12" y1="12" x2="12" y2="7.5" stroke="#e2e8f0" stroke-width="2"></line>
+                  <line id="clockHandSec" class="clock-svg-hand" x1="12" y1="12" x2="12" y2="6" stroke="#94a3b8" stroke-width="1.6"></line>
+                  <circle cx="12" cy="12" r="1.3" fill="#cbd5e1" stroke="none"></circle>
+                </svg>
+                <span class="text-xs font-mono font-bold text-slate-100 tracking-wide whitespace-nowrap flex items-center gap-1.5" id="HoraActual">08:05:22</span>
+              </div>
+
+              <!-- Botones Recargar y Nueva Orden (+) -->
+              <div class="flex items-center gap-1.5">
+                <button type="button" onclick="refreshData()"
+                  class="hero-kpi-card p-2.5 rounded-xl text-slate-200 cursor-pointer flex items-center justify-center"
+                  title="Actualizar Tablas">
+                  <i data-lucide="refresh-cw" class="w-4 h-4 text-slate-300" id="refreshIcon"></i>
+                </button>
+                <button type="button" onclick="openSimpleAddModal('lista-ordenes')"
+                  class="hero-kpi-card p-2.5 rounded-xl text-slate-100 cursor-pointer flex items-center justify-center"
+                  style="background: linear-gradient(135deg, rgba(51, 78, 104, 0.9) 0%, rgba(36, 59, 83, 0.92) 100%); border-color: rgba(148, 163, 184, 0.3);"
+                  title="Agregar Nueva Orden">
+                  <i data-lucide="plus" class="w-4 h-4"></i>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+                <!-- BARRA DE ACCESO DIRECTO DENT LAB (Checklist #13 al #19) -->
+        <div id="dentlabQuickBar" class="bg-white border border-slate-200/90 rounded-2xl p-4 shadow-sm space-y-3">
+          <div class="flex flex-wrap items-center justify-between gap-2 border-b border-slate-100 pb-2.5">
+            <div class="flex items-center gap-2">
+              <span class="w-2 h-2 rounded-full bg-blue-600"></span>
+              <h3 class="text-xs font-extrabold uppercase tracking-wide text-slate-800">Módulos Especiales Dent Lab (Checklist Operativo)</h3>
+            </div>
+            <span class="text-[11px] font-mono text-slate-500 font-semibold">Requerimientos 13 al 19</span>
+          </div>
+
+          <div class="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-7 gap-2 text-xs">
+            <!-- 13 -->
+            <button type="button" onclick="openModule('listado-doctores')" class="p-2.5 rounded-xl border border-slate-200 bg-slate-50 hover:bg-blue-50 hover:border-blue-300 text-left transition-all group">
+              <span class="text-[9.5px] font-bold text-slate-400 uppercase block mb-0.5">Req. #13</span>
+              <span class="font-bold text-slate-800 group-hover:text-blue-700 block text-xs truncate">Clientes Activos</span>
+              <span class="text-[10px] text-slate-500 block truncate">&gt;90d & Acumulado</span>
+            </button>
+            <!-- 14 -->
+            <button type="button" onclick="openModule('clientes-nuevos-mes')" class="p-2.5 rounded-xl border border-slate-200 bg-slate-50 hover:bg-blue-50 hover:border-blue-300 text-left transition-all group">
+              <span class="text-[9.5px] font-bold text-slate-400 uppercase block mb-0.5">Req. #14</span>
+              <span class="font-bold text-slate-800 group-hover:text-blue-700 block text-xs truncate">Clientes Nuevos</span>
+              <span class="text-[10px] text-slate-500 block truncate">Registro por Mes</span>
+            </button>
+            <!-- 15 -->
+            <button type="button" onclick="openModule('ventas-mensuales-cliente')" class="p-2.5 rounded-xl border border-slate-200 bg-slate-50 hover:bg-blue-50 hover:border-blue-300 text-left transition-all group">
+              <span class="text-[9.5px] font-bold text-slate-400 uppercase block mb-0.5">Req. #15</span>
+              <span class="font-bold text-slate-800 group-hover:text-blue-700 block text-xs truncate">Ventas Mensuales</span>
+              <span class="text-[10px] text-slate-500 block truncate">Total x Cliente</span>
+            </button>
+            <!-- 16 -->
+            <button type="button" onclick="openModule('app-doctores')" class="p-2.5 rounded-xl border border-slate-200 bg-slate-50 hover:bg-blue-50 hover:border-blue-300 text-left transition-all group">
+              <span class="text-[9.5px] font-bold text-slate-400 uppercase block mb-0.5">Req. #16</span>
+              <span class="font-bold text-slate-800 group-hover:text-blue-700 block text-xs truncate">APP Doctores</span>
+              <span class="text-[10px] text-slate-500 block truncate">Dr. Alatorre / Dra. Irene</span>
+            </button>
+            <!-- 17 -->
+            <button type="button" onclick="openModule('discos-vendidos')" class="p-2.5 rounded-xl border border-slate-200 bg-slate-50 hover:bg-blue-50 hover:border-blue-300 text-left transition-all group">
+              <span class="text-[9.5px] font-bold text-slate-400 uppercase block mb-0.5">Req. #17</span>
+              <span class="font-bold text-slate-800 group-hover:text-blue-700 block text-xs truncate">Discos Vendidos</span>
+              <span class="text-[10px] text-slate-500 block truncate">Zirconio con Usuario</span>
+            </button>
+            <!-- 18 -->
+            <button type="button" onclick="openModule('ordenes-canceladas')" class="p-2.5 rounded-xl border border-slate-200 bg-slate-50 hover:bg-blue-50 hover:border-blue-300 text-left transition-all group">
+              <span class="text-[9.5px] font-bold text-slate-400 uppercase block mb-0.5">Req. #18</span>
+              <span class="font-bold text-slate-800 group-hover:text-blue-700 block text-xs truncate">Canceladas</span>
+              <span class="text-[10px] text-slate-500 block truncate">Fecha, Hora y Usuario</span>
+            </button>
+            <!-- 19 -->
+            <button type="button" onclick="openModule('liberacion-pendientes')" class="p-2.5 rounded-xl border border-slate-200 bg-slate-50 hover:bg-blue-50 hover:border-blue-300 text-left transition-all group">
+              <span class="text-[9.5px] font-bold text-slate-400 uppercase block mb-0.5">Req. #19</span>
+              <span class="font-bold text-slate-800 group-hover:text-blue-700 block text-xs truncate">Liberación Pagos</span>
+              <span class="text-[10px] text-slate-500 block truncate">Fecha, Hora y Usuario</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- BANNER ASISTENTE IA ESTILO WIX EN EL INICIO DEL DASHBOARD -->
+        <div class="bg-gradient-to-r from-purple-50/90 via-indigo-50/50 to-white border border-purple-200/90 rounded-2xl p-4 shadow-sm flex flex-col md:flex-row md:items-center justify-between gap-3.5 transition-all hover:shadow-md">
+          <div class="flex items-center gap-3.5">
+            <div id="heroBannerLogo3DContainer" class="w-11 h-11 flex items-center justify-center shrink-0 cursor-pointer transition-transform hover:scale-105 active:scale-95" onclick="toggleWixAssistant(true)" title="Asistente Dent Control"></div>
+            <div>
+              <div class="flex flex-wrap items-center gap-2">
+                <h3 class="text-sm font-bold text-slate-900 leading-tight">ASISTENTE DENT CONTROL</h3>
+                <span class="text-[10px] font-semibold text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded-full border border-emerald-200 flex items-center gap-1">
+                  <span class="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span>
+                  En línea
+                </span>
+              </div>
+              <p class="text-xs text-slate-500 mt-0.5">Genera comunicados para doctores, recordatorios de entrega, cobranza y promociones con 3 opciones personalizadas.</p>
+            </div>
+          </div>
+          
+          <div class="flex flex-wrap items-center gap-2 shrink-0">
+            <!-- Atajos rápidos -->
+            <button type="button" onclick="abrirModalWixAIDashboard('entrega')" class="px-3 py-1.5 rounded-xl bg-white hover:bg-purple-50 border border-slate-200 hover:border-purple-300 text-xs font-semibold text-slate-700 transition-all cursor-pointer shadow-2xs flex items-center gap-1.5">
+              <i data-lucide="truck" class="w-3.5 h-3.5 text-purple-600"></i>
+              <span>Orden lista</span>
+            </button>
+            <button type="button" onclick="abrirModalWixAIDashboard('cobranza')" class="px-3 py-1.5 rounded-xl bg-white hover:bg-purple-50 border border-slate-200 hover:border-purple-300 text-xs font-semibold text-slate-700 transition-all cursor-pointer shadow-2xs flex items-center gap-1.5">
+              <i data-lucide="credit-card" class="w-3.5 h-3.5 text-purple-600"></i>
+              <span>Cobranza</span>
+            </button>
+            <button type="button" onclick="abrirModalWixAIDashboard('promocion')" class="px-3 py-1.5 rounded-xl bg-white hover:bg-purple-50 border border-slate-200 hover:border-purple-300 text-xs font-semibold text-slate-700 transition-all cursor-pointer shadow-2xs flex items-center gap-1.5">
+              <i data-lucide="tag" class="w-3.5 h-3.5 text-purple-600"></i>
+              <span>Promoción</span>
+            </button>
+            
+            <!-- Botón Principal -->
+            <button type="button" onclick="abrirModalWixAIDashboard()" class="px-4 py-2 rounded-xl bg-purple-600 hover:bg-purple-700 active:scale-95 text-white font-bold text-xs flex items-center gap-2 shadow-sm shadow-purple-300 transition-all cursor-pointer ml-1">
+              <i data-lucide="edit-3" class="w-3.5 h-3.5"></i>
+              <span>Crear texto</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- 2. LOS 4 CUADROS DE ETAPA CON TABLAS (Escaneo, Diseño, Fabricación, Entrega) -->
+        <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-3.5">
+
+          <!-- CUADRO 1: ESCANEO -->
+          <div class="bg-white rounded-2xl border border-slate-200/90 shadow-sm overflow-hidden flex flex-col">
+            <div class="px-3.5 py-2.5 bg-gradient-to-r from-slate-50 to-white border-b border-slate-200 flex items-center justify-between">
+              <div class="flex items-center gap-2">
+                <span class="w-6 h-6 rounded-lg bg-blue-600/10 text-blue-600 flex items-center justify-center">
+                  <i data-lucide="video" class="w-3.5 h-3.5"></i>
+                </span>
+                <h3 class="text-xs font-extrabold text-slate-800 uppercase tracking-wide">Escaneo</h3>
+              </div>
+              <span class="text-[11px] font-mono font-bold text-blue-700 bg-blue-50 px-2.5 py-0.5 rounded-full border border-blue-200/80" id="badgeCountEscaneo">4</span>
+            </div>
+            <div id="scrollStageEscaneo" class="table-scroll overflow-y-auto overflow-x-hidden relative" style="height: 28vh;">
+              <table class="w-full text-center border-collapse stage-table">
+                <thead>
+                  <tr>
+                    <th>OT</th>
+                    <th>PROD</th>
+                    <th>UNI</th>
+                    <th>DOCTOR</th>
+                    <th>ENT</th>
+                  </tr>
+                </thead>
+                <tbody id="tbodyStageEscaneo" class="divide-y divide-slate-100 text-slate-700"></tbody>
+              </table>
+            </div>
+          </div>
+
+          <!-- CUADRO 2: DISEÑO -->
+          <div class="bg-white rounded-2xl border border-slate-200/90 shadow-sm overflow-hidden flex flex-col">
+            <div class="px-3.5 py-2.5 bg-gradient-to-r from-slate-50 to-white border-b border-slate-200 flex items-center justify-between">
+              <div class="flex items-center gap-2">
+                <span class="w-6 h-6 rounded-lg bg-blue-600/10 text-blue-600 flex items-center justify-center">
+                  <i data-lucide="monitor" class="w-3.5 h-3.5"></i>
+                </span>
+                <h3 class="text-xs font-extrabold text-slate-800 uppercase tracking-wide">Diseño</h3>
+              </div>
+              <span class="text-[11px] font-mono font-bold text-blue-700 bg-blue-50 px-2.5 py-0.5 rounded-full border border-blue-200/80" id="badgeCountDiseno">18</span>
+            </div>
+            <div id="scrollStageDiseno" class="table-scroll overflow-y-auto overflow-x-hidden relative" style="height: 28vh;">
+              <table class="w-full text-center border-collapse stage-table">
+                <thead>
+                  <tr>
+                    <th>OT</th>
+                    <th>PROD</th>
+                    <th>UNI</th>
+                    <th>DOCTOR</th>
+                    <th>ENT</th>
+                  </tr>
+                </thead>
+                <tbody id="tbodyStageDiseno" class="divide-y divide-slate-100 text-slate-700"></tbody>
+              </table>
+            </div>
+          </div>
+
+          <!-- CUADRO 3: FABRICACIÓN -->
+          <div class="bg-white rounded-2xl border border-slate-200/90 shadow-sm overflow-hidden flex flex-col">
+            <div class="px-3.5 py-2.5 bg-gradient-to-r from-slate-50 to-white border-b border-slate-200 flex items-center justify-between">
+              <div class="flex items-center gap-2">
+                <span class="w-6 h-6 rounded-lg bg-blue-600/10 text-blue-600 flex items-center justify-center">
+                  <i data-lucide="wrench" class="w-3.5 h-3.5"></i>
+                </span>
+                <h3 class="text-xs font-extrabold text-slate-800 uppercase tracking-wide">Fabricación</h3>
+              </div>
+              <span class="text-[11px] font-mono font-bold text-blue-700 bg-blue-50 px-2.5 py-0.5 rounded-full border border-blue-200/80" id="badgeCountFabricacion">7</span>
+            </div>
+            <div id="scrollStageFabricacion" class="table-scroll overflow-y-auto overflow-x-hidden relative" style="height: 28vh;">
+              <table class="w-full text-center border-collapse stage-table">
+                <thead>
+                  <tr>
+                    <th>OT</th>
+                    <th>PROD</th>
+                    <th>UNI</th>
+                    <th>DOCTOR</th>
+                    <th>ENT</th>
+                  </tr>
+                </thead>
+                <tbody id="tbodyStageFabricacion" class="divide-y divide-slate-100 text-slate-700"></tbody>
+              </table>
+            </div>
+          </div>
+
+          <!-- CUADRO 4: ENTREGA -->
+          <div class="bg-white rounded-2xl border border-slate-200/90 shadow-sm overflow-hidden flex flex-col">
+            <div class="px-3.5 py-2.5 bg-gradient-to-r from-slate-50 to-white border-b border-slate-200 flex items-center justify-between">
+              <div class="flex items-center gap-2">
+                <span class="w-6 h-6 rounded-lg bg-emerald-600/10 text-emerald-700 flex items-center justify-center">
+                  <i data-lucide="truck" class="w-3.5 h-3.5"></i>
+                </span>
+                <h3 class="text-xs font-extrabold text-slate-800 uppercase tracking-wide">Entrega</h3>
+              </div>
+              <span class="text-[11px] font-mono font-bold text-emerald-700 bg-emerald-50 px-2.5 py-0.5 rounded-full border border-emerald-200/80" id="badgeCountEntrega">6</span>
+            </div>
+            <div id="scrollStageEntrega" class="table-scroll overflow-y-auto overflow-x-hidden relative" style="height: 28vh;">
+              <table class="w-full text-center border-collapse stage-table">
+                <thead>
+                  <tr>
+                    <th>OT</th>
+                    <th>PROD</th>
+                    <th>UNI</th>
+                    <th>DOCTOR</th>
+                    <th>ENT</th>
+                  </tr>
+                </thead>
+                <tbody id="tbodyStageEntrega" class="divide-y divide-slate-100 text-slate-700"></tbody>
+              </table>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- 3. TABLA GENERAL DE ÓRDENES SIEMPRE VISIBLE ABAJO (TableOrdenes.php) -->
+        <div class="bg-white rounded-2xl border border-slate-200 p-4 shadow-sm space-y-3">
+          
+          <!-- Buscador centrado y Paginación igual que en DENT DEMO -->
+          <div class="flex flex-col sm:flex-row items-center justify-between gap-3">
+            <div class="flex items-center gap-2 w-full sm:max-w-xl mx-auto">
+              <input type="text" id="nptBuscar" onkeyup="buscarEnTabla();" placeholder="Introduzca un dato exacto de la orden a buscar"
+                class="flex-1 px-4 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs font-medium focus:outline-none focus:border-blue-600 focus:bg-white text-slate-900 transition-all text-center">
+              <button type="button" onclick="buscarEnTabla()" class="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-xl font-semibold text-xs transition-colors flex items-center gap-1.5 shadow-sm">
+                <i data-lucide="search" class="w-3.5 h-3.5"></i>
+                <span>Buscar</span>
+              </button>
+            </div>
+
+            <!-- Paginación de Órdenes -->
+            <div class="inline-flex items-center rounded-xl border border-slate-200 overflow-hidden text-xs font-semibold shrink-0 bg-white shadow-sm">
+              <button type="button" onclick="cambiarPaginaOrdenes(1)" title="Página 1" aria-label="Página anterior" class="w-8 h-8 flex items-center justify-center bg-slate-50 hover:bg-slate-100 text-slate-600 border-r border-slate-200 transition-colors">
+                <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                  <polyline points="15 18 9 12 15 6"></polyline>
+                </svg>
+              </button>
+              <button type="button" id="pageBtn1" onclick="cambiarPaginaOrdenes(1)" class="w-8 h-8 flex items-center justify-center bg-blue-600 text-white font-bold border-r border-slate-200 transition-colors">1</button>
+              <button type="button" id="pageBtn2" onclick="cambiarPaginaOrdenes(2)" class="w-8 h-8 flex items-center justify-center bg-white hover:bg-slate-50 text-slate-700 border-r border-slate-200 transition-colors">2</button>
+              <button type="button" onclick="cambiarPaginaOrdenes(2)" title="Página 2" aria-label="Página siguiente" class="w-8 h-8 flex items-center justify-center bg-slate-50 hover:bg-slate-100 text-slate-600 transition-colors">
+                <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                  <polyline points="9 18 15 12 9 6"></polyline>
+                </svg>
+              </button>
+            </div>
+          </div>
+
+          <!-- Tabla General con las 12 Columnas Exactas de DENT DEMO (ET, OT, DOC, FOLIO, ENTREGA, ESTADO, PRODUCTO, DOCTOR, PACIENTE, UNIDADES, LIB PROD, MONTO) -->
+          <div id="scrollTableOrdenesGral" class="table-scroll overflow-x-auto rounded-xl border border-slate-200 relative" style="max-height: 36vh;">
+            <table class="w-full text-center border-collapse general-table" id="tableOrdenesGral">
+              <thead>
+                <tr>
+                  <th>ET</th>
+                  <th>OT</th>
+                  <th>DOC</th>
+                  <th>FOLIO</th>
+                  <th>ENTREGA</th>
+                  <th>ESTADO</th>
+                  <th>PRODUCTO</th>
+                  <th>DOCTOR</th>
+                  <th>PACIENTE</th>
+                  <th>UNIDADES</th>
+                  <th>LIB PROD</th>
+                  <th>MONTO</th>
+                </tr>
+              </thead>
+              <tbody class="divide-y divide-slate-100 text-slate-700" id="tbodyGeneralOrdenes"></tbody>
+            </table>
+          </div>
+        </div>
+
+      </div>
+    </main>
+  </div>
+
+  <!-- ========================================================================= -->
+  <!-- MODAL: ETIQUETA CON CÓDIGO DE BARRAS (Etiqueta() de DENT DEMO)            -->
+  <!-- ========================================================================= -->
+  <div id="modalEtiqueta" class="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-sm hidden flex items-center justify-center p-4">
+    <div class="bg-white rounded-2xl max-w-sm w-full border border-slate-200 shadow-2xl overflow-hidden">
+      <div class="p-4 bg-slate-900 text-white flex items-center justify-between">
+        <div class="flex items-center gap-2">
+          <i data-lucide="barcode" class="w-4 h-4 text-blue-400"></i>
+          <h4 class="text-sm font-bold">Etiqueta de Orden de Trabajo</h4>
+        </div>
+        <button onclick="document.getElementById('modalEtiqueta').classList.add('hidden')" class="p-1 text-slate-400 hover:text-white">
+          <i data-lucide="x" class="w-4 h-4"></i>
+        </button>
+      </div>
+      <div class="p-5 text-center space-y-2 text-xs">
+        <p id="etiquetaDoctor" class="font-bold text-slate-900 text-sm"></p>
+        <p id="etiquetaPaciente" class="text-slate-600 font-medium"></p>
+        <p id="etiquetaEntrega" class="font-mono text-slate-500 text-[11px]"></p>
+        <div class="py-3 flex flex-col items-center justify-center bg-slate-50 rounded-xl border border-slate-200 my-2">
+          <svg id="barcode"></svg>
+          <span id="etiquetaFolioTexto" class="font-mono font-bold text-xs text-slate-800 mt-1"></span>
+        </div>
+        <div class="pt-2 flex justify-end gap-2">
+          <button onclick="document.getElementById('modalEtiqueta').classList.add('hidden')" class="px-4 py-2 rounded-xl border border-slate-200 text-slate-600 font-semibold hover:bg-slate-50">Cerrar</button>
+          <button onclick="window.print()" class="px-4 py-2 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-bold flex items-center gap-1.5 shadow-sm">
+            <i data-lucide="printer" class="w-3.5 h-3.5"></i>
+            <span>Imprimir Etiqueta</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========================================================================= -->
+  <!-- MODAL: HOJA DE ORDEN DE TRABAJO RÁPIDA                                    -->
+  <!-- ========================================================================= -->
+  <div id="modalDigitalCard" class="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-sm hidden flex items-center justify-center p-4">
+    <div class="bg-white rounded-3xl max-w-3xl w-full border border-slate-200 shadow-2xl overflow-hidden flex flex-col">
+      <div class="p-5 bg-slate-900 text-white relative flex items-center justify-between">
+        <div class="flex items-center gap-3">
+          <img src="assets/logoDentlab.png" alt="Dent Lab" class="h-6 w-auto object-contain brightness-0 invert opacity-90">
+          <div>
+            <div class="flex items-center gap-2">
+              <h3 class="text-lg font-bold font-mono tracking-tight text-white" id="dcOrderNum">#OT-30596</h3>
+              <span class="text-[10px] font-mono px-2 py-0.5 rounded bg-blue-600 text-white font-bold">ORDEN DE TRABAJO</span>
+            </div>
+            <p class="text-xs text-blue-300 font-medium" id="dcTreatment">Corona Zirconio</p>
+          </div>
+        </div>
+        <div class="flex items-center gap-4">
+          <div class="text-right hidden sm:block">
+            <span class="text-[10px] text-slate-400 uppercase tracking-wider block">Entrega Solicitada</span>
+            <span class="text-xs font-mono font-bold text-white" id="dcDeliveryDate">28/09/2026</span>
+          </div>
+          <button onclick="closeDigitalCard()" class="p-1.5 text-slate-400 hover:text-white rounded-lg bg-slate-800/80">
+            <i data-lucide="x" class="w-4 h-4"></i>
+          </button>
+        </div>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 divide-y md:divide-y-0 md:divide-x divide-slate-200">
+        <div class="p-5 space-y-4 flex flex-col justify-between">
+          <div>
+            <span class="text-[10px] font-bold text-slate-400 uppercase tracking-wider block mb-2.5">Progreso de la Orden</span>
+            <div class="grid grid-cols-4 gap-1.5 text-center text-[10px] font-bold mb-4">
+              <div class="p-2 rounded-xl bg-blue-50 text-blue-700 border border-blue-200">
+                <i data-lucide="check" class="w-3.5 h-3.5 mx-auto mb-1"></i>
+                <span>Escaneo</span>
+              </div>
+              <div class="p-2 rounded-xl bg-blue-50 text-blue-700 border border-blue-200">
+                <i data-lucide="check" class="w-3.5 h-3.5 mx-auto mb-1"></i>
+                <span>Diseño</span>
+              </div>
+              <div class="p-2 rounded-xl bg-blue-600 text-white shadow-sm">
+                <i data-lucide="settings" class="w-3.5 h-3.5 mx-auto mb-1 animate-spin"></i>
+                <span>Fabricación</span>
+              </div>
+              <div class="p-2 rounded-xl bg-slate-100 text-slate-400 border border-slate-200">
+                <i data-lucide="truck" class="w-3.5 h-3.5 mx-auto mb-1"></i>
+                <span>Entrega</span>
+              </div>
+            </div>
+
+            <div class="grid grid-cols-2 gap-3 text-xs mb-3">
+              <div class="p-3 rounded-xl bg-slate-50 border border-slate-200">
+                <span class="text-[10px] font-bold text-slate-400 uppercase tracking-wider block mb-0.5">Paciente</span>
+                <p class="font-bold text-slate-800 text-xs" id="dcPatient">LETICIA VARGAS MUÑOZ</p>
+              </div>
+              <div class="p-3 rounded-xl bg-slate-50 border border-slate-200">
+                <span class="text-[10px] font-bold text-slate-400 uppercase tracking-wider block mb-0.5">Doctor Solicitante</span>
+                <p class="font-bold text-slate-800 text-xs" id="dcDoctor">Dra. Brenda Deyanira</p>
+              </div>
+            </div>
+
+            <div class="p-3 rounded-xl bg-slate-50 border border-slate-200 flex items-center justify-between text-xs">
+              <div>
+                <span class="text-[10px] font-bold text-slate-400 uppercase tracking-wider block">Tono Guía Vita</span>
+                <span class="font-mono font-bold text-blue-700 text-sm" id="dcShade">A3</span>
+              </div>
+              <div>
+                <span class="text-[10px] font-bold text-slate-400 uppercase tracking-wider block">Material</span>
+                <span class="font-semibold text-slate-700">Zirconio Monolítico</span>
+              </div>
+              <div>
+                <span class="text-[10px] font-bold text-slate-400 uppercase tracking-wider block">Disco CAM</span>
+                <span class="font-mono text-slate-700">#ZRC-14mm</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="pt-3 border-t border-slate-100 flex items-center justify-between gap-2">
+            <button onclick="window.print();" class="px-3.5 py-2 rounded-xl border border-slate-200 hover:bg-slate-50 text-slate-700 font-semibold text-xs transition-colors flex items-center gap-1.5">
+              <i data-lucide="printer" class="w-3.5 h-3.5"></i>
+              <span>Imprimir</span>
+            </button>
+            <button onclick="closeDigitalCard(); abrirOrdenTrabajo('30596');" class="px-4 py-2 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-semibold text-xs transition-colors flex items-center gap-1.5 shadow-sm">
+              <span>Abrir Expediente Completo</span>
+              <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i>
+            </button>
+          </div>
+        </div>
+
+        <div class="p-5 bg-slate-50/60 flex flex-col justify-between space-y-4 text-xs">
+          <div class="space-y-3">
+            <div class="flex items-center justify-between">
+              <span class="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Colorímetro Guía VITA</span>
+              <span id="shadeLabel3D" class="text-[11px] font-mono font-bold text-blue-600 bg-blue-50 px-2 py-0.5 rounded border border-blue-200">VITA A2</span>
+            </div>
+
+            <div class="p-3 rounded-xl bg-white border border-slate-200 flex items-center justify-between">
+              <div class="flex items-center gap-2.5">
+                <div id="shadeColorPreview" class="w-8 h-8 rounded-xl border border-slate-300 shadow-inner" style="background-color: #ede2cc;"></div>
+                <div>
+                  <p class="font-bold text-slate-800 text-xs">Selección de Tono</p>
+                  <p class="text-[10px] text-slate-500">Cambiar tono asignado</p>
+                </div>
+              </div>
+              <div class="flex items-center gap-1.5">
+                <button onclick="changeToothShade('#ffffff', 'Bleach')" class="w-6 h-6 rounded-full bg-white border-2 border-slate-300 hover:scale-110 transition-transform" title="Tono Bleach"></button>
+                <button onclick="changeToothShade('#f5f0e6', 'A1')" class="w-6 h-6 rounded-full bg-[#f5f0e6] border-2 border-slate-300 hover:scale-110 transition-transform" title="Tono Vita A1"></button>
+                <button onclick="changeToothShade('#ede2cc', 'A2')" class="w-6 h-6 rounded-full bg-[#ede2cc] border-2 border-blue-500 hover:scale-110 transition-transform" title="Tono Vita A2"></button>
+                <button onclick="changeToothShade('#e2d0b0', 'A3')" class="w-6 h-6 rounded-full bg-[#e2d0b0] border-2 border-slate-300 hover:scale-110 transition-transform" title="Tono Vita A3"></button>
+              </div>
+            </div>
+
+            <div class="p-3 rounded-xl bg-white border border-slate-200">
+              <span class="text-[10px] font-bold text-slate-400 uppercase tracking-wider block mb-1">Indicaciones Clínicas</span>
+              <p class="text-[11px] text-slate-600 leading-relaxed">Sellado marginal verificado en escaneo intraoral. Contacto oclusal ligero y anatomía natural solicitada por el doctor.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========================================================================= -->
+  <!-- MODAL: ODONTOGRAMA DIGITAL INTERACTIVO 3D (32 Piezas FDI)                 -->
+  <!-- ========================================================================= -->
+  <div id="modalOdonto" class="fixed inset-0 z-50 bg-slate-900/65 backdrop-blur-sm hidden flex items-center justify-center p-3 sm:p-5">
+    <div class="bg-white rounded-3xl max-w-5xl w-full border border-slate-200 shadow-2xl overflow-hidden max-h-[92vh] flex flex-col">
+      <div class="px-5 py-3.5 bg-slate-900 text-white flex flex-wrap items-center justify-between gap-3 shrink-0">
+        <div class="flex items-center gap-2.5">
+          <i data-lucide="scan-face" class="w-4 h-4 text-slate-300"></i>
+          <h4 class="text-xs font-bold tracking-wide text-slate-100">Odontograma</h4>
+        </div>
+        <div class="flex items-center gap-2">
+          <div class="flex items-center gap-1 bg-slate-800/90 p-0.5 rounded-xl border border-slate-700 text-[11px] font-semibold">
+            <button type="button" id="btnModalModePilar" onclick="setModalOdontoMode('PILAR')"
+              class="px-3 py-1 rounded-lg transition-all cursor-pointer flex items-center gap-1.5"
+              style="background:#2f6353;color:#ffffff;">
+              <span class="w-1.5 h-1.5 rounded-full bg-white"></span>
+              <span>Pilar</span>
+            </button>
+            <button type="button" id="btnModalModePontico" onclick="setModalOdontoMode('PONTICO')"
+              class="px-3 py-1 rounded-lg transition-all cursor-pointer flex items-center gap-1.5 text-slate-300 hover:text-white">
+              <span class="w-1.5 h-1.5 rounded-full" style="background:#af915f;"></span>
+              <span>Póntico</span>
+            </button>
+          </div>
+          <button type="button" onclick="clearOdontogramaModal()" class="px-2.5 py-1 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 text-[11px] font-semibold border border-slate-700 cursor-pointer">
+            Limpiar
+          </button>
+          <button onclick="closeOdontogramaModal()" class="p-1.5 text-slate-400 hover:text-white rounded-lg bg-slate-800 cursor-pointer">
+            <i data-lucide="x" class="w-4 h-4"></i>
+          </button>
+        </div>
+      </div>
+      <div class="p-4 sm:p-5 space-y-4 overflow-y-auto table-scroll bg-slate-50/50">
+        <!-- Mapa Dental Anatómico Unificado (Mobile-First: 8 cols en móvil/tablet, 16 cols en desktop) -->
+        <div class="odonto-arch-card space-y-2.5">
+          <div class="grid grid-cols-8 lg:grid-cols-16 gap-1.5" id="odontoUpper"></div>
+          <div class="relative flex items-center justify-center py-0.5" aria-hidden="true">
+            <div class="w-full border-t border-dashed border-slate-200"></div>
+            <span class="absolute bg-white px-2 text-[9px] font-mono uppercase tracking-widest text-slate-400 select-none">Plano Oclusal</span>
+          </div>
+          <div class="grid grid-cols-8 lg:grid-cols-16 gap-1.5" id="odontoLower"></div>
+        </div>
+
+        <!-- Estudio 3D Minimalista por Pieza en Modal -->
+        <div class="odonto-arch-card">
+          <div class="grid grid-cols-1 md:grid-cols-12 gap-4 items-center">
+            <div class="md:col-span-5">
+              <div class="odonto-3d-stage">
+                <canvas id="modalOdonto3DCanvas" class="w-full h-full cursor-grab active:cursor-grabbing block"></canvas>
+                <div class="absolute top-2 left-2 flex items-center gap-1.5 pointer-events-none">
+                  <span id="modal3DToothNum" class="px-2 py-0.5 rounded-md bg-slate-900/90 text-white font-mono font-bold text-[11px]">16</span>
+                  <span id="modal3DToothState" class="px-2 py-0.5 rounded-full text-[9.5px] font-bold bg-[#2f6353] text-white">Pilar</span>
+                </div>
+                <div class="absolute bottom-2 right-2 flex items-center gap-1">
+                  <button type="button" id="modalBtnPrepMode3D" onclick="window.Odontograma3D && window.Odontograma3D.togglePrepMode('modal')"
+                    class="px-2 py-1 rounded-lg text-[10px] font-bold bg-white/90 text-slate-700 border border-slate-200 hover:bg-slate-100 transition-all cursor-pointer">
+                    Corona
+                  </button>
+                  <button type="button" id="modalBtnAutoRotate3D" onclick="window.Odontograma3D && window.Odontograma3D.toggleAutoRotate('modal')"
+                    class="px-2 py-1 rounded-lg text-[10px] font-bold bg-white/90 text-slate-700 border border-slate-200 hover:bg-slate-100 transition-all cursor-pointer">
+                    360°
+                  </button>
+                </div>
+              </div>
+            </div>
+            <div class="md:col-span-7 space-y-2.5">
+              <div class="flex items-center justify-between gap-2 px-0.5">
+                <h5 id="modal3DToothName" class="text-xs font-bold text-slate-800 truncate">Primer Molar Superior Derecho</h5>
+                <div class="flex items-center gap-1.5 shrink-0">
+                  <span id="modal3DToothSpecs" class="text-[10px] font-mono text-slate-500">3R • 4C</span>
+                  <span id="modal3DToothType" class="px-2 py-0.5 rounded-md bg-slate-100 text-slate-700 font-mono text-[10px] font-bold">A2</span>
+                </div>
+              </div>
+              <div id="modal3DRefViewsGrid" class="odonto-views-grid"></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="px-4 py-3 rounded-2xl bg-white border border-slate-200/80 flex flex-wrap items-center justify-between gap-3">
+          <div class="flex items-center gap-2 text-xs">
+            <span class="text-slate-400 font-semibold">Selección:</span>
+            <span id="selectedTeethLabel" class="font-mono font-bold text-slate-800 text-xs">16 (Pilar), 21 (Pilar)</span>
+          </div>
+          <button onclick="saveOdontograma()" class="px-4 py-2 rounded-xl bg-slate-900 hover:bg-slate-800 text-white font-semibold text-xs transition-colors cursor-pointer">
+            Guardar
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========================================================================= -->
+  <!-- MODAL: ÓRDENES CANCELADAS (Con Filtros de Fecha - Checklist Dent Control) -->
+  <!-- ========================================================================= -->
+  <div id="modalCanceladas" class="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-sm hidden flex items-center justify-center p-4">
+    <div class="bg-white rounded-2xl max-w-3xl w-full border border-slate-200 shadow-2xl overflow-hidden animate-in fade-in zoom-in-95 duration-200">
+      <div class="p-4 bg-slate-900 text-white flex items-center justify-between">
+        <div class="flex items-center gap-2.5">
+          <span class="w-7 h-7 rounded-lg bg-rose-500/20 text-rose-400 flex items-center justify-center">
+            <i data-lucide="ban" class="w-4 h-4"></i>
+          </span>
+          <div>
+            <h4 class="text-sm font-bold text-white">Órdenes Canceladas</h4>
+            <p class="text-[11px] text-slate-400">Cancelaciones del mes en curso y consulta histórica por rango de fechas</p>
+          </div>
+        </div>
+        <button onclick="closeModalCanceladas()" class="p-1 text-slate-400 hover:text-white">
+          <i data-lucide="x" class="w-4 h-4"></i>
+        </button>
+      </div>
+
+      <!-- Barra de Filtros de Fecha -->
+      <div class="px-5 py-3 bg-slate-50 border-b border-slate-200/80 flex flex-wrap items-center justify-between gap-3 text-xs">
+        <div class="flex flex-wrap items-center gap-3">
+          <div class="flex items-center gap-1.5 text-slate-600">
+            <span class="font-semibold text-[11px] text-slate-500 uppercase">Desde:</span>
+            <input type="date" id="canceladasFechaDesde" onchange="filtrarCanceladasPorFecha()" class="px-2.5 py-1 text-xs bg-white border border-slate-200 rounded-lg text-slate-700 focus:outline-none focus:ring-1 focus:ring-slate-400">
+          </div>
+          <div class="flex items-center gap-1.5 text-slate-600">
+            <span class="font-semibold text-[11px] text-slate-500 uppercase">Hasta:</span>
+            <input type="date" id="canceladasFechaHasta" onchange="filtrarCanceladasPorFecha()" class="px-2.5 py-1 text-xs bg-white border border-slate-200 rounded-lg text-slate-700 focus:outline-none focus:ring-1 focus:ring-slate-400">
+          </div>
+          <button type="button" onclick="filtrarCanceladasPorFecha()" class="px-3 py-1 bg-slate-900 hover:bg-slate-800 text-white text-xs font-semibold rounded-lg transition-colors">
+            Filtrar
+          </button>
+        </div>
+        <div class="flex items-center gap-2">
+          <button type="button" onclick="resetFiltroCanceladasMesActual()" class="px-2.5 py-1 bg-white hover:bg-slate-100 border border-slate-200 text-slate-700 text-xs font-semibold rounded-lg transition-colors">
+            Mes en curso
+          </button>
+          <span class="px-2 py-0.5 rounded-full text-[11px] font-mono font-bold bg-rose-50 text-rose-700 border border-rose-200" id="badgeModalCanceladasTotal">20 mostradas</span>
+        </div>
+      </div>
+
+      <div class="p-5 overflow-y-auto max-h-[60vh] table-scroll">
+        <table class="w-full text-center text-xs border-collapse general-table">
+          <thead>
+            <tr>
+              <th>Orden</th>
+              <th>Fecha Cancelación</th>
+              <th>Responsable</th>
+              <th>Motivo / Comentario</th>
+            </tr>
+          </thead>
+          <tbody id="tbodyModalCanceladas" class="divide-y divide-slate-100 text-slate-700"></tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========================================================================= -->
+  <!-- MODAL: ÓRDENES PENDIENTES DE PAGO (Idéntico a index.php L265 DENT DEMO)   -->
+  <!-- ========================================================================= -->
+  <div id="modalPendientes" class="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-sm hidden flex items-center justify-center p-4">
+    <div class="bg-white rounded-2xl max-w-4xl w-full border border-slate-200 shadow-2xl overflow-hidden animate-in fade-in zoom-in-95 duration-200">
+      <div class="p-4 bg-slate-900 text-white flex items-center justify-between">
+        <div class="flex items-center gap-2.5">
+          <span class="w-7 h-7 rounded-lg bg-amber-500/20 text-amber-400 flex items-center justify-center">
+            <i data-lucide="bell" class="w-4 h-4"></i>
+          </span>
+          <div>
+            <h4 class="text-sm font-bold text-white">Liberación de Órdenes Pendientes de Pago</h4>
+            <p class="text-[11px] text-slate-400">Listado de liberación de órdenes pendientes de pago, con fecha, hora y usuario que realizó el movimiento</p>
+          </div>
+        </div>
+        <button onclick="closeModalPendientes()" class="p-1 text-slate-400 hover:text-white">
+          <i data-lucide="x" class="w-4 h-4"></i>
+        </button>
+      </div>
+      <div class="p-5 overflow-y-auto max-h-[65vh] table-scroll">
+        <table class="w-full text-center text-xs border-collapse general-table">
+          <thead>
+            <tr>
+              <th>Orden</th>
+              <th>Doctor</th>
+              <th>Paciente</th>
+              <th>Fecha y Hora Liberación</th>
+              <th>Usuario que Realizó el Movimiento</th>
+              <th>Acción</th>
+            </tr>
+          </thead>
+          <tbody id="tbodyModalPendientesPago" class="divide-y divide-slate-100 text-slate-700"></tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========================================================================= -->
+  <!-- MODAL: PRÓXIMOS EVENTOS (ESCANEOS) (Checklist Dent Control)               -->
+  <!-- ========================================================================= -->
+  <div id="modalEventosEscaneo" class="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-sm hidden flex items-center justify-center p-4">
+    <div class="bg-white rounded-2xl max-w-3xl w-full border border-slate-200 shadow-2xl overflow-hidden animate-in fade-in zoom-in-95 duration-200">
+      <div class="p-4 bg-slate-900 text-white flex items-center justify-between">
+        <div class="flex items-center gap-2.5">
+          <span class="w-7 h-7 rounded-lg bg-blue-500/20 text-blue-400 flex items-center justify-center">
+            <i data-lucide="calendar" class="w-4 h-4"></i>
+          </span>
+          <div>
+            <h4 class="text-sm font-bold text-white">Próximos Eventos de Escaneo</h4>
+            <p class="text-[11px] text-slate-400">Citas programadas para escaneo intraoral y recolección clínica</p>
+          </div>
+        </div>
+        <button onclick="closeModalEventosEscaneo()" class="p-1 text-slate-400 hover:text-white">
+          <i data-lucide="x" class="w-4 h-4"></i>
+        </button>
+      </div>
+
+      <!-- Quick stats bar -->
+      <div class="px-5 py-2.5 bg-slate-50 border-b border-slate-200/80 flex items-center justify-between text-xs">
+        <span class="text-slate-600 font-medium">Especialistas asignados en ruta hoy: <strong class="text-slate-900 font-bold">Arturo Meza, Irene Martínez, Mauricio Sotomayor</strong></span>
+        <button type="button" onclick="openModule('calendario'); closeModalEventosEscaneo();" class="text-blue-600 hover:underline font-semibold flex items-center gap-1">
+          <span>Abrir Calendario Completo</span>
+          <i data-lucide="external-link" class="w-3.5 h-3.5"></i>
+        </button>
+      </div>
+
+      <div class="p-5 overflow-y-auto max-h-[60vh] table-scroll">
+        <table class="w-full text-center text-xs border-collapse general-table">
+          <thead>
+            <tr>
+              <th>Fecha / Hora</th>
+              <th>Doctor</th>
+              <th>Paciente / Clínica</th>
+              <th>Especialista Asignado</th>
+              <th>Tipo Cita</th>
+              <th>Estatus</th>
+            </tr>
+          </thead>
+          <tbody id="tbodyModalEventosEscaneo" class="divide-y divide-slate-100 text-slate-700"></tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========================================================================= -->
+  <!-- MODAL: ASIGNAR ESCANEADOR A ORDEN (Checklist Dent Control)               -->
+  <!-- ========================================================================= -->
+  <div id="modalAsignarEscaneador" class="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-sm hidden flex items-center justify-center p-4">
+    <div class="bg-white rounded-2xl max-w-md w-full border border-slate-200 shadow-2xl overflow-hidden animate-in fade-in zoom-in-95 duration-200">
+      <div class="p-4 bg-slate-900 text-white flex items-center justify-between">
+        <div class="flex items-center gap-2.5">
+          <span class="w-7 h-7 rounded-lg bg-blue-500/20 text-blue-400 flex items-center justify-center">
+            <i data-lucide="user-check" class="w-4 h-4"></i>
+          </span>
+          <div>
+            <h4 class="text-sm font-bold text-white">Asignar Escaneador</h4>
+            <p class="text-[11px] text-slate-400" id="subtituloAsignarEscaneador">Orden #OT</p>
+          </div>
+        </div>
+        <button onclick="closeModalAsignarEscaneador()" class="p-1 text-slate-400 hover:text-white">
+          <i data-lucide="x" class="w-4 h-4"></i>
+        </button>
+      </div>
+      <form onsubmit="guardarAsignacionEscaneador(event)" class="p-5 space-y-4 text-xs">
+        <input type="hidden" id="asignarEscaneadorSerie">
+        <div class="p-3 bg-slate-50 rounded-xl border border-slate-200 space-y-1">
+          <div class="flex items-center justify-between text-slate-600">
+            <span class="font-semibold text-slate-500">Doctor:</span>
+            <strong id="asignarDoctorNombre" class="text-slate-900 font-bold">---</strong>
+          </div>
+          <div class="flex items-center justify-between text-slate-600">
+            <span class="font-semibold text-slate-500">Paciente:</span>
+            <span id="asignarPacienteNombre" class="text-slate-800">---</span>
+          </div>
+          <div class="flex items-center justify-between text-slate-600">
+            <span class="font-semibold text-slate-500">Fecha Entrega:</span>
+            <span id="asignarFechaEntrega" class="font-mono text-slate-700">---</span>
+          </div>
+        </div>
+
+        <div>
+          <label class="font-bold text-slate-700 block mb-1.5 uppercase text-[10px]">Seleccionar Especialista de Escaneo *</label>
+          <select id="selectEspecialistaEscaneo" class="w-full px-3.5 py-2.5 bg-white border border-slate-200 rounded-xl font-semibold text-slate-800 focus:outline-none focus:border-blue-600">
+            <option value="Arturo Meza">Arturo Meza — Especialista de Escaneo (Ruta Norte)</option>
+            <option value="Mauricio Sotomayor">Mauricio Sotomayor — Especialista de Escaneo (Ruta Centro)</option>
+            <option value="Irene Martínez">Irene Martínez — Especialista de Escaneo (Ruta Sur)</option>
+            <option value="Marco A. Peña">Marco A. Peña — Escaneo Clínico a Domicilio</option>
+          </select>
+        </div>
+
+        <div>
+          <label class="font-bold text-slate-700 block mb-1.5 uppercase text-[10px]">Indicaciones para el Escaneador (Opcional)</label>
+          <textarea id="notasEscaneador" rows="2" placeholder="Llevar scanner de mano, confirmar cita 30 min antes..." class="w-full p-2.5 bg-white border border-slate-200 rounded-xl text-slate-700 focus:outline-none focus:border-blue-600 resize-none"></textarea>
+        </div>
+
+        <div class="pt-2 flex items-center justify-end gap-2 border-t border-slate-100">
+          <button type="button" onclick="closeModalAsignarEscaneador()" class="px-3.5 py-2 rounded-xl border border-slate-200 text-slate-600 hover:bg-slate-100 font-semibold transition-colors">
+            Cancelar
+          </button>
+          <button type="submit" class="px-4 py-2 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-bold flex items-center gap-1.5 shadow-sm transition-colors">
+            <i data-lucide="check" class="w-4 h-4"></i>
+            <span>Confirmar Asignación</span>
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- ========================================================================= -->
+  <!-- MODAL: EDITAR DOCTOR (Checklist Dent Control)                             -->
+  <!-- ========================================================================= -->
+  <div id="modalEditarDoctor" class="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-sm hidden flex items-center justify-center p-4">
+    <div class="bg-white rounded-2xl max-w-xl w-full border border-slate-200 shadow-2xl overflow-hidden animate-in fade-in zoom-in-95 duration-200">
+      <div class="p-4 bg-slate-900 text-white flex items-center justify-between">
+        <div class="flex items-center gap-2.5">
+          <span class="w-7 h-7 rounded-lg bg-blue-500/20 text-blue-400 flex items-center justify-center">
+            <i data-lucide="user-cog" class="w-4 h-4"></i>
+          </span>
+          <div>
+            <h4 class="text-sm font-bold text-white">Editar Información de Doctor</h4>
+            <p class="text-[11px] text-slate-400" id="subtituloEditarDoctor">Actualizar expediente y preferencias</p>
+          </div>
+        </div>
+        <button onclick="closeModalEditarDoctor()" class="p-1 text-slate-400 hover:text-white">
+          <i data-lucide="x" class="w-4 h-4"></i>
+        </button>
+      </div>
+      <form onsubmit="guardarEdicionDoctor(event)" class="p-5 space-y-4 text-xs">
+        <input type="hidden" id="editDocId">
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
+          <div class="sm:col-span-2">
+            <label class="font-bold text-slate-700 block mb-1">Nombre Completo del Doctor *</label>
+            <input type="text" id="editDocNombre" required class="w-full px-3.5 py-2 rounded-xl border border-slate-200 bg-slate-50 font-semibold focus:bg-white focus:outline-none focus:border-blue-600">
+          </div>
+          <div>
+            <label class="font-bold text-slate-700 block mb-1">Celular / WhatsApp *</label>
+            <input type="text" id="editDocCelular" required class="w-full px-3.5 py-2 rounded-xl border border-slate-200 bg-slate-50 font-mono focus:bg-white focus:outline-none focus:border-blue-600">
+          </div>
+          <div>
+            <label class="font-bold text-slate-700 block mb-1">Correo Electrónico *</label>
+            <input type="email" id="editDocMail" required class="w-full px-3.5 py-2 rounded-xl border border-slate-200 bg-slate-50 focus:bg-white focus:outline-none focus:border-blue-600">
+          </div>
+          <div>
+            <label class="font-bold text-slate-700 block mb-1">Nombre de la Clínica *</label>
+            <input type="text" id="editDocClinica" required class="w-full px-3.5 py-2 rounded-xl border border-slate-200 bg-slate-50 focus:bg-white focus:outline-none focus:border-blue-600">
+          </div>
+          <div>
+            <label class="font-bold text-slate-700 block mb-1">Vendedor Asignado</label>
+            <select id="editDocVendedor" class="w-full px-3.5 py-2 rounded-xl border border-slate-200 bg-slate-50 font-semibold focus:bg-white focus:outline-none focus:border-blue-600">
+              <option value="Mauricio Sotomayor">Mauricio Sotomayor</option>
+              <option value="Arturo Meza">Arturo Meza</option>
+              <option value="Brenda Rodríguez">Brenda Rodríguez</option>
+              <option value="Irene Martínez">Irene Martínez</option>
+            </select>
+          </div>
+          <div class="sm:col-span-2">
+            <label class="font-bold text-slate-700 block mb-1">Dirección / Consultorio</label>
+            <input type="text" id="editDocDireccion" class="w-full px-3.5 py-2 rounded-xl border border-slate-200 bg-slate-50 focus:bg-white focus:outline-none focus:border-blue-600">
+          </div>
+          <div>
+            <label class="font-bold text-slate-700 block mb-1">Tipo de Doctor</label>
+            <select id="editDocTipo" class="w-full px-3.5 py-2 rounded-xl border border-slate-200 bg-slate-50 font-semibold focus:bg-white focus:outline-none focus:border-blue-600">
+              <option value="externo">Externo (Clínica Privada)</option>
+              <option value="interno">Interno (Sucursal DentLab)</option>
+            </select>
+          </div>
+          <div class="flex items-center gap-3 pt-5">
+            <label class="relative inline-flex items-center cursor-pointer">
+              <input type="checkbox" id="editDocActivo" class="sr-only peer">
+              <div class="w-10 h-5 bg-slate-300 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-slate-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-emerald-600"></div>
+              <span class="ml-2.5 font-bold text-slate-800">Doctor Habilitado / Activo</span>
+            </label>
+          </div>
+          <div class="sm:col-span-2">
+            <label class="font-bold text-slate-700 block mb-1">Notas / Observaciones Clínicas</label>
+            <textarea id="editDocNota" rows="2" class="w-full p-2.5 border border-slate-200 rounded-xl bg-slate-50 text-slate-700 focus:bg-white focus:outline-none focus:border-blue-600 resize-none"></textarea>
+          </div>
+        </div>
+        <div class="pt-3 flex items-center justify-end gap-2 border-t border-slate-100">
+          <button type="button" onclick="closeModalEditarDoctor()" class="px-3.5 py-2 rounded-xl border border-slate-200 text-slate-600 hover:bg-slate-100 font-semibold transition-colors">
+            Cancelar
+          </button>
+          <button type="submit" class="px-4 py-2 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-bold flex items-center gap-1.5 shadow-sm transition-colors">
+            <i data-lucide="save" class="w-4 h-4"></i>
+            <span>Guardar Cambios</span>
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- ========================================================================= -->
+  <!-- MODAL: DETALLE DE USO DE DISCO POR ORDEN DE TRABAJO                      -->
+  <!-- ========================================================================= -->
+  <div id="modalDetalleUsoDisco" class="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-sm hidden flex items-center justify-center p-4">
+    <div class="bg-white rounded-2xl max-w-xl w-full border border-slate-200 shadow-2xl overflow-hidden animate-in fade-in zoom-in-95 duration-200">
+      <div class="p-4 bg-slate-900 text-white flex items-center justify-between">
+        <div class="flex items-center gap-2.5">
+          <span class="w-7 h-7 rounded-lg bg-blue-500/20 text-blue-400 flex items-center justify-center">
+            <i data-lucide="disc" class="w-4 h-4"></i>
+          </span>
+          <div>
+            <h4 class="text-sm font-bold text-white">Detalle de Uso de Disco</h4>
+            <p class="text-[11px] text-slate-400" id="subtituloDetalleDisco">Historial de desbaste por Órdenes de Trabajo</p>
+          </div>
+        </div>
+        <button onclick="closeModalDetalleUsoDisco()" class="p-1 text-slate-400 hover:text-white">
+          <i data-lucide="x" class="w-4 h-4"></i>
+        </button>
+      </div>
+
+      <!-- Quick specs card -->
+      <div class="p-4 bg-slate-50 border-b border-slate-200 flex flex-wrap items-center justify-between gap-3 text-xs">
+        <div>
+          <span class="text-slate-400 uppercase text-[10px] font-bold block">Disco & Lote:</span>
+          <strong id="discoDetalleCodigoLote" class="font-mono text-slate-800 text-sm">---</strong>
+        </div>
+        <div>
+          <span class="text-slate-400 uppercase text-[10px] font-bold block">Marca / Tono / Espesor:</span>
+          <span id="discoDetalleEspecificaciones" class="font-semibold text-slate-700">---</span>
+        </div>
+        <div>
+          <span class="text-slate-400 uppercase text-[10px] font-bold block">Consumo Piezas:</span>
+          <span id="discoDetalleConsumoBadge" class="font-mono font-bold px-2 py-0.5 rounded-full bg-blue-50 text-blue-700 border border-blue-200">---</span>
+        </div>
+      </div>
+
+      <div class="p-5 overflow-y-auto max-h-[55vh] table-scroll">
+        <table class="w-full text-center text-xs border-collapse general-table">
+          <thead>
+            <tr>
+              <th>Folio #OT</th>
+              <th>Paciente</th>
+              <th>Piezas Fresadas</th>
+              <th>Fecha de Fresado</th>
+              <th>Ver Orden</th>
+            </tr>
+          </thead>
+          <tbody id="tbodyDetalleUsoDisco" class="divide-y divide-slate-100 text-slate-700"></tbody>
+        </table>
+      </div>
+
+      <div class="p-3 bg-slate-50 border-t border-slate-200 flex items-center justify-between">
+        <button type="button" id="btnImprimirEtiquetaDesdeModal" class="px-3.5 py-1.5 rounded-xl border border-slate-200 bg-white hover:bg-slate-100 text-slate-700 font-semibold text-xs flex items-center gap-1.5 transition-colors">
+          <i data-lucide="barcode" class="w-3.5 h-3.5"></i>
+          <span>Imprimir Etiqueta Térmica</span>
+        </button>
+        <button type="button" onclick="closeModalDetalleUsoDisco()" class="px-4 py-1.5 rounded-xl bg-slate-900 hover:bg-slate-800 text-white font-semibold text-xs transition-colors">
+          Cerrar
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========================================================================= -->
+  <!-- MODAL: EDITAR USUARIO (Checklist Dent Control)                            -->
+  <!-- ========================================================================= -->
+  <div id="modalEditarUsuario" class="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-sm hidden flex items-center justify-center p-4">
+    <div class="bg-white rounded-2xl max-w-md w-full border border-slate-200 shadow-2xl overflow-hidden animate-in fade-in zoom-in-95 duration-200">
+      <div class="p-4 bg-slate-900 text-white flex items-center justify-between">
+        <div class="flex items-center gap-2.5">
+          <span class="w-7 h-7 rounded-lg bg-blue-500/20 text-blue-400 flex items-center justify-center">
+            <i data-lucide="user-check" class="w-4 h-4"></i>
+          </span>
+          <div>
+            <h4 class="text-sm font-bold text-white">Editar Usuario del Sistema</h4>
+            <p class="text-[11px] text-slate-400" id="subtituloEditarUsuario">Modificar perfil y credenciales</p>
+          </div>
+        </div>
+        <button onclick="closeModalEditarUsuario()" class="p-1 text-slate-400 hover:text-white">
+          <i data-lucide="x" class="w-4 h-4"></i>
+        </button>
+      </div>
+      <form onsubmit="guardarEdicionUsuario(event)" class="p-5 space-y-4 text-xs">
+        <input type="hidden" id="editUserId">
+        <div>
+          <label class="font-bold text-slate-700 block mb-1">Nombre Completo *</label>
+          <input type="text" id="editUserNombre" required class="w-full px-3.5 py-2 rounded-xl border border-slate-200 bg-slate-50 focus:bg-white focus:outline-none focus:border-blue-600">
+        </div>
+        <div>
+          <label class="font-bold text-slate-700 block mb-1">Usuario de Acceso *</label>
+          <input type="text" id="editUserUsuario" required class="w-full px-3.5 py-2 rounded-xl border border-slate-200 bg-slate-50 font-mono focus:bg-white focus:outline-none focus:border-blue-600">
+        </div>
+        <div>
+          <label class="font-bold text-slate-700 block mb-1">Correo Electrónico *</label>
+          <input type="email" id="editUserCorreo" required class="w-full px-3.5 py-2 rounded-xl border border-slate-200 bg-slate-50 focus:bg-white focus:outline-none focus:border-blue-600">
+        </div>
+        <div>
+          <label class="font-bold text-slate-700 block mb-1">Perfil Operativo *</label>
+          <select id="editUserPerfil" class="w-full px-3.5 py-2 rounded-xl border border-slate-200 bg-slate-50 font-semibold focus:bg-white focus:outline-none focus:border-blue-600">
+            <option value="Administrador">Administrador</option>
+            <option value="Especialista de Escaneo">Especialista de Escaneo</option>
+            <option value="Especialista de Diseño">Especialista de Diseño</option>
+            <option value="Operador Fabricación CNC">Operador Fabricación CNC</option>
+            <option value="Vendedor">Vendedor</option>
+            <option value="Recepción">Recepción</option>
+          </select>
+        </div>
+        <div class="flex items-center justify-between pt-2">
+          <label class="relative inline-flex items-center cursor-pointer">
+            <input type="checkbox" id="editUserAppEquipos" class="sr-only peer">
+            <div class="w-9 h-5 bg-slate-300 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-slate-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-blue-600"></div>
+            <span class="ml-2 font-bold text-slate-700 text-xs">Acceso App Equipos</span>
+          </label>
+          <label class="relative inline-flex items-center cursor-pointer">
+            <input type="checkbox" id="editUserEstatus" class="sr-only peer">
+            <div class="w-9 h-5 bg-slate-300 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-slate-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-emerald-600"></div>
+            <span class="ml-2 font-bold text-slate-700 text-xs">Usuario Activo</span>
+          </label>
+        </div>
+        <div class="pt-3 border-t border-slate-100 flex justify-end gap-2">
+          <button type="button" onclick="closeModalEditarUsuario()" class="px-3.5 py-2 rounded-xl border border-slate-200 text-slate-600 font-semibold hover:bg-slate-50 transition-colors">Cancelar</button>
+          <button type="submit" class="px-4 py-2 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-bold shadow-sm transition-colors">Guardar Usuario</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- ========================================================================= -->
+  <!-- MODAL: PERMISOS POR MÓDULO (Checklist Dent Control)                       -->
+  <!-- ========================================================================= -->
+  <div id="modalPermisosUsuario" class="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-sm hidden flex items-center justify-center p-4">
+    <div class="bg-white rounded-2xl max-w-2xl w-full border border-slate-200 shadow-2xl overflow-hidden animate-in fade-in zoom-in-95 duration-200">
+      <div class="p-4 bg-slate-900 text-white flex items-center justify-between">
+        <div class="flex items-center gap-2.5">
+          <span class="w-7 h-7 rounded-lg bg-blue-500/20 text-blue-400 flex items-center justify-center">
+            <i data-lucide="shield-check" class="w-4 h-4"></i>
+          </span>
+          <div>
+            <h4 class="text-sm font-bold text-white">Matriz de Permisos por Módulo</h4>
+            <p class="text-[11px] text-slate-400" id="subtituloPermisosUsuario">Control granular de acceso</p>
+          </div>
+        </div>
+        <button onclick="closeModalPermisosUsuario()" class="p-1 text-slate-400 hover:text-white">
+          <i data-lucide="x" class="w-4 h-4"></i>
+        </button>
+      </div>
+      <form onsubmit="guardarPermisosUsuario(event)" class="p-5 space-y-4 text-xs">
+        <input type="hidden" id="permisosUserId">
+        <div class="overflow-x-auto rounded-xl border border-slate-200">
+          <table class="w-full text-center text-xs">
+            <thead class="bg-slate-100 text-slate-600 font-bold border-b border-slate-200">
+              <tr>
+                <th class="px-3 py-2 text-left">Módulo del Sistema</th>
+                <th class="px-3 py-2">Ver</th>
+                <th class="px-3 py-2">Crear</th>
+                <th class="px-3 py-2">Editar</th>
+                <th class="px-3 py-2">Eliminar</th>
+              </tr>
+            </thead>
+            <tbody id="tbodyMatrizPermisos" class="divide-y divide-slate-100"></tbody>
+          </table>
+        </div>
+        <div class="pt-3 border-t border-slate-100 flex items-center justify-between">
+          <button type="button" onclick="marcarTodosLosPermisos(true)" class="text-blue-600 hover:underline font-semibold text-xs">Conceder todos los permisos</button>
+          <div class="flex items-center gap-2">
+            <button type="button" onclick="closeModalPermisosUsuario()" class="px-3.5 py-2 rounded-xl border border-slate-200 text-slate-600 font-semibold hover:bg-slate-50 transition-colors">Cancelar</button>
+            <button type="submit" class="px-4 py-2 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-bold shadow-sm transition-colors">Guardar Permisos</button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- ============================================== -->
+  <!-- MODAL UNIVERSAL INTERACTIVO PARA ALTA RÁPIDA   -->
+  <!-- ============================================== -->
+  <div id="modalUniversalForm" class="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-sm hidden flex items-center justify-center p-4">
+    <div class="bg-white rounded-2xl max-w-md w-full border border-slate-200 shadow-2xl overflow-hidden">
+      <div class="p-4 bg-slate-900 text-white flex items-center justify-between">
+        <h4 class="text-sm font-bold" id="uniModalTitle">Nuevo Registro</h4>
+        <button onclick="closeUniversalModal()" class="p-1 text-slate-400 hover:text-white">
+          <i data-lucide="x" class="w-4 h-4"></i>
+        </button>
+      </div>
+      <form onsubmit="submitUniversalModal(event)" class="p-5 space-y-4 text-xs">
+        <div id="uniModalFields" class="space-y-3"></div>
+        <div class="pt-3 border-t border-slate-100 flex justify-end gap-2">
+          <button type="button" onclick="closeUniversalModal()" class="px-4 py-2 rounded-xl border border-slate-200 text-slate-600 font-semibold hover:bg-slate-50">Cancelar</button>
+          <button type="submit" class="px-4 py-2 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-bold shadow-sm">Guardar Cambios</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Contenedor Flotante de Notificaciones Animadas -->
+  <!-- ======================================================== -->
+  <!-- MODAL GENERADOR DE TEXTO CON IA (DISEÑO ESTILO WIX)      -->
+  <!-- ======================================================== -->
+  <div id="modalWixAI" class="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-sm hidden flex items-center justify-center p-3 sm:p-5 overflow-y-auto">
+    <div class="bg-white rounded-2xl max-w-2xl w-full border border-slate-200 shadow-2xl overflow-hidden flex flex-col my-auto transition-all animate-fadeIn">
+      
+      <!-- Header estilo Wix Studio -->
+      <div class="p-4 sm:p-5 border-b border-slate-100 flex items-center justify-between bg-gradient-to-r from-slate-50 via-white to-purple-50/40">
+        <div class="flex items-center gap-3">
+          <div class="w-9 h-9 rounded-xl bg-slate-50 border border-slate-200/80 flex items-center justify-center relative shadow-xs shrink-0 overflow-hidden select-none cursor-pointer" onclick="window.abrirModalLogo3DInspector()" title="Logo 3D Dent Control">
+            <img src="assets/ia-logo/dent_control_logo_3d_front_corrected.png" alt="Dent Control 3D" class="w-7 h-7 object-contain pointer-events-none" />
+          </div>
+          <div>
+            <div class="flex items-center gap-2">
+              <h3 class="text-base font-bold text-slate-900 leading-tight">Crear texto con IA</h3>
+              <span class="text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-full bg-purple-100 text-purple-800 border border-purple-200">Asistente Inteligente</span>
+            </div>
+            <p class="text-xs text-slate-500 mt-0.5" id="wixAiSubtitle">Configura tus indicaciones para generar 3 opciones personalizadas.</p>
+          </div>
+        </div>
+        <button type="button" onclick="cerrarModalWixAI()" class="p-1.5 text-slate-400 hover:text-slate-700 hover:bg-slate-100 rounded-lg transition-colors cursor-pointer">
+          <i data-lucide="x" class="w-5 h-5"></i>
+        </button>
+      </div>
+
+      <!-- Contenido del Modal -->
+      <div class="p-5 sm:p-6 space-y-5 overflow-y-auto max-h-[78vh]">
+        
+        <!-- PASO 1: INDICACIONES -->
+        <div id="wixAiPaso1" class="space-y-4">
+          
+          <!-- 1. Tipo de texto -->
+          <div>
+            <label class="block text-xs font-bold text-slate-700 mb-2 uppercase tracking-wide">
+              1. ¿Qué deseas comunicar?
+            </label>
+            <div class="flex flex-wrap gap-2" id="wixAiTiposChips">
+              <button type="button" onclick="seleccionarTipoWixAI('entrega', this)" class="wix-tipo-chip px-3 py-1.5 rounded-full text-xs font-semibold border transition-all cursor-pointer bg-purple-50 border-purple-300 text-purple-800 shadow-2xs" data-tipo="entrega">
+                Orden lista para entrega
+              </button>
+              <button type="button" onclick="seleccionarTipoWixAI('cobranza', this)" class="wix-tipo-chip px-3 py-1.5 rounded-full text-xs font-semibold border transition-all cursor-pointer bg-white border-slate-200 text-slate-700 hover:bg-slate-50" data-tipo="cobranza">
+                Recordatorio de saldo
+              </button>
+              <button type="button" onclick="seleccionarTipoWixAI('promocion', this)" class="wix-tipo-chip px-3 py-1.5 rounded-full text-xs font-semibold border transition-all cursor-pointer bg-white border-slate-200 text-slate-700 hover:bg-slate-50" data-tipo="promocion">
+                Promoción de paquetes
+              </button>
+              <button type="button" onclick="seleccionarTipoWixAI('urgente', this)" class="wix-tipo-chip px-3 py-1.5 rounded-full text-xs font-semibold border transition-all cursor-pointer bg-white border-slate-200 text-slate-700 hover:bg-slate-50" data-tipo="urgente">
+                Aviso urgente de horario
+              </button>
+              <button type="button" onclick="seleccionarTipoWixAI('general', this)" class="wix-tipo-chip px-3 py-1.5 rounded-full text-xs font-semibold border transition-all cursor-pointer bg-white border-slate-200 text-slate-700 hover:bg-slate-50" data-tipo="general">
+                Aviso general del laboratorio
+              </button>
+            </div>
+          </div>
+
+          <!-- 2. Detalles clave / Aspectos importantes -->
+          <div>
+            <div class="flex items-center justify-between mb-1.5">
+              <label class="block text-xs font-bold text-slate-700 uppercase tracking-wide">
+                2. Aspectos clave a incluir
+              </label>
+              <span class="text-[11px] text-slate-400">Detalles específicos para la IA</span>
+            </div>
+            <textarea id="wixAiDetalles" rows="3" placeholder="Ej. Dr. Mario García, su orden de 4 coronas zirconia monolítica está lista en recepción. Favor de avisar si requiere envío en moto hoy mismo antes de las 5 PM." class="w-full p-3 bg-slate-50 border border-slate-200 rounded-xl text-xs sm:text-sm text-slate-800 placeholder:text-slate-400 focus:bg-white focus:outline-none focus:border-purple-600 focus:ring-2 focus:ring-purple-100 transition-all resize-none"></textarea>
+            <div class="flex items-center justify-between mt-1 text-[11px] text-slate-400">
+              <span>Incluye nombres, tratamientos, fechas o condiciones especiales.</span>
+              <button type="button" onclick="limpiarDetallesWixAI()" class="hover:text-slate-600 underline cursor-pointer">Limpiar</button>
+            </div>
+          </div>
+
+          <!-- 3. Tono de voz estilo Wix -->
+          <div>
+            <label class="block text-xs font-bold text-slate-700 mb-2 uppercase tracking-wide">
+              3. Tono de voz
+            </label>
+            <div class="flex flex-wrap gap-2" id="wixAiTonosChips">
+              <button type="button" onclick="seleccionarTonoWixAI('Profesional y formal', this)" class="wix-tono-chip px-3 py-1.5 rounded-full text-xs font-semibold border transition-all cursor-pointer bg-purple-50 border-purple-300 text-purple-800 shadow-2xs" data-tono="Profesional y formal">
+                Profesional y formal
+              </button>
+              <button type="button" onclick="seleccionarTonoWixAI('Cordial y cálido', this)" class="wix-tono-chip px-3 py-1.5 rounded-full text-xs font-semibold border transition-all cursor-pointer bg-white border-slate-200 text-slate-700 hover:bg-slate-50" data-tono="Cordial y cálido">
+                Cordial y cálido
+              </button>
+              <button type="button" onclick="seleccionarTonoWixAI('Persuasivo y comercial', this)" class="wix-tono-chip px-3 py-1.5 rounded-full text-xs font-semibold border transition-all cursor-pointer bg-white border-slate-200 text-slate-700 hover:bg-slate-50" data-tono="Persuasivo y comercial">
+                Persuasivo y comercial
+              </button>
+              <button type="button" onclick="seleccionarTonoWixAI('Breve y directo', this)" class="wix-tono-chip px-3 py-1.5 rounded-full text-xs font-semibold border transition-all cursor-pointer bg-white border-slate-200 text-slate-700 hover:bg-slate-50" data-tono="Breve y directo">
+                Breve y directo
+              </button>
+              <button type="button" onclick="seleccionarTonoWixAI('Urgente y resolutivo', this)" class="wix-tono-chip px-3 py-1.5 rounded-full text-xs font-semibold border transition-all cursor-pointer bg-white border-slate-200 text-slate-700 hover:bg-slate-50" data-tono="Urgente y resolutivo">
+                Urgente y resolutivo
+              </button>
+            </div>
+          </div>
+
+          <!-- Indicador de estado del Asistente -->
+          <div class="p-3 bg-slate-50 border border-slate-200 rounded-xl flex items-center justify-between text-xs text-slate-600">
+            <div class="flex items-center gap-2">
+              <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+              <span class="font-medium">Motor: Inteligencia DentLab</span>
+            </div>
+            <button type="button" onclick="configurarClaveAsistente()" class="text-purple-700 hover:text-purple-800 font-semibold cursor-pointer text-[11px]">
+              Configuración de Asistente
+            </button>
+          </div>
+
+        </div>
+
+        <!-- PASO 2: SELECCIÓN DE 3 OPCIONES (Wix Comparer) -->
+        <div id="wixAiPaso2" class="space-y-4 hidden">
+          
+          <div class="flex items-center justify-between bg-slate-50 p-2.5 rounded-xl border border-slate-200 text-xs">
+            <div class="flex items-center gap-2 text-slate-700">
+              <i data-lucide="check-circle" class="w-4 h-4 text-purple-600"></i>
+              <span class="font-semibold">3 opciones generadas con IA. Selecciona tu favorita:</span>
+            </div>
+            <button type="button" onclick="volverAIndicacionesWixAI()" class="text-slate-600 hover:text-purple-700 font-medium cursor-pointer flex items-center gap-1 text-[11px]">
+              <i data-lucide="edit-3" class="w-3.5 h-3.5"></i>
+              <span>Editar indicaciones</span>
+            </button>
+          </div>
+
+          <!-- Grid de 3 tarjetas -->
+          <div id="wixAiTarjetasContenedor" class="grid grid-cols-1 md:grid-cols-3 gap-3">
+            <!-- Se llenan dinámicamente con JavaScript -->
+          </div>
+
+          <!-- Vista previa de edición manual de la opción seleccionada -->
+          <div class="bg-purple-50/50 border border-purple-200 rounded-xl p-3.5 space-y-2">
+            <div class="flex items-center justify-between">
+              <span class="text-[10px] font-bold uppercase tracking-wider text-purple-900">Previsualización y ajuste final</span>
+              <span class="text-[10px] text-purple-700 font-semibold" id="wixAiPreviewBadge">Opción 1 seleccionada</span>
+            </div>
+            <div>
+              <label class="block text-[10px] font-bold uppercase text-slate-600 mb-0.5">Título a transferir</label>
+              <input type="text" id="wixAiPreviewTitulo" class="w-full px-2.5 py-1.5 bg-white border border-purple-200 rounded-lg text-xs font-semibold text-slate-900 focus:outline-none focus:border-purple-600">
+            </div>
+            <div>
+              <label class="block text-[10px] font-bold uppercase text-slate-600 mb-0.5">Mensaje a transferir</label>
+              <textarea id="wixAiPreviewMensaje" rows="2" class="w-full p-2 bg-white border border-purple-200 rounded-lg text-xs text-slate-800 focus:outline-none focus:border-purple-600 resize-none"></textarea>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+
+      <!-- Footer de Botones de Acción -->
+      <div class="p-4 sm:p-5 border-t border-slate-100 bg-slate-50/70 flex items-center justify-between gap-3">
+        
+        <!-- Footer cuando está en Paso 1 -->
+        <div id="wixAiFooterPaso1" class="w-full flex items-center justify-between">
+          <button type="button" onclick="cerrarModalWixAI()" class="px-4 py-2 rounded-xl border border-slate-200 text-slate-600 font-semibold text-xs hover:bg-slate-100 transition-colors cursor-pointer">
+            Cancelar
+          </button>
+          <button type="button" id="btnWixAICrear" onclick="ejecutarGeneracionWixAI()" class="px-5 py-2.5 rounded-xl bg-purple-600 hover:bg-purple-700 active:scale-95 text-white font-bold text-xs flex items-center gap-2 shadow-sm shadow-purple-300 transition-all cursor-pointer">
+            <i data-lucide="check-circle" class="w-4 h-4" id="wixAiBtnIcon"></i>
+            <span id="wixAiBtnText">Crear texto</span>
+          </button>
+        </div>
+
+        <!-- Footer cuando está en Paso 2 -->
+        <div id="wixAiFooterPaso2" class="w-full flex items-center justify-between hidden">
+          <div class="flex items-center gap-2">
+            <button type="button" onclick="volverAIndicacionesWixAI()" class="px-3.5 py-2 rounded-xl border border-slate-200 bg-white text-slate-700 font-semibold text-xs hover:bg-slate-100 transition-colors cursor-pointer flex items-center gap-1.5">
+              <i data-lucide="arrow-left" class="w-3.5 h-3.5"></i>
+              <span>Indicaciones</span>
+            </button>
+            <button type="button" id="btnWixAIRegenerar" onclick="ejecutarGeneracionWixAI(true)" class="px-3.5 py-2 rounded-xl border border-purple-200 bg-purple-50 hover:bg-purple-100 text-purple-700 font-semibold text-xs transition-colors cursor-pointer flex items-center gap-1.5">
+              <i data-lucide="refresh-cw" class="w-3.5 h-3.5"></i>
+              <span>Generar más</span>
+            </button>
+          </div>
+          <button type="button" id="btnWixAIAplicar" onclick="aplicarTextoWixAI()" class="px-5 py-2.5 rounded-xl bg-purple-600 hover:bg-purple-700 active:scale-95 text-white font-bold text-xs flex items-center gap-2 shadow-sm shadow-purple-300 transition-all cursor-pointer">
+            <i data-lucide="check" class="w-4 h-4"></i>
+            <span>Usar este texto</span>
+          </button>
+        </div>
+
+      </div>
+
+    </div>
+  </div>
+
+  
+  <!-- ======================================================== -->
+  <!-- PANEL LATERAL ASISTENTE IA WIX (WIX COPILOT CHAT PANEL)  -->
+  <!-- ======================================================== -->
+  <!-- Backdrop translúcido para móviles y pantallas pequeñas -->
+  <div id="wixAssistantBackdrop" onclick="toggleWixAssistant(false)" class="fixed inset-0 bg-slate-900/40 backdrop-blur-xs z-50 hidden transition-opacity duration-300"></div>
+
+  <!-- Panel Lateral derecho (Diseño exacto al panel Copilot de Wix) -->
+  <aside id="wixAssistantPanel" class="fixed inset-y-0 right-0 z-50 w-full sm:w-[390px] md:w-[430px] bg-[#F9FAFC] border-l border-slate-200/90 shadow-2xl flex flex-col transition-transform duration-300 ease-in-out translate-x-full select-none">
+    
+    <!-- Header estilo Wix Studio -->
+    <div class="px-4 py-3.5 bg-white border-b border-slate-100 flex items-center justify-between shrink-0">
+      <!-- Izquierda: Avatar negro Wix + Nuevo chat -->
+      <div class="flex items-center gap-2.5">
+        <!-- Avatar Wix AI (círculo negro con brillo blanco superior estilo Wix) -->
+        <div id="headerLogo3DContainer" class="w-8 h-8 flex items-center justify-center shrink-0 cursor-pointer transition-transform hover:scale-110 active:scale-95" onclick="window.abrirModalLogo3DInspector()" title="Ver Modelo 3D Oficial de Dent Control"></div>
+        <button type="button" onclick="reiniciarChatWixAssistant()" class="flex items-center gap-2 text-slate-800 hover:text-slate-950 font-bold text-sm tracking-tight cursor-pointer">
+          <i data-lucide="menu" class="w-4 h-4 text-slate-500"></i>
+          <span>Nuevo chat</span>
+        </button>
+      </div>
+
+      <!-- Derecha: Acciones (+, reloj/historial, cerrar x) -->
+      <div class="flex items-center gap-1 text-slate-500">
+        <button type="button" onclick="reiniciarChatWixAssistant()" title="Iniciar nuevo chat" class="p-1.5 hover:text-slate-900 hover:bg-slate-100 rounded-lg transition-colors cursor-pointer">
+          <i data-lucide="plus" class="w-4 h-4"></i>
+        </button>
+        <button type="button" onclick="mostrarHistorialWixAssistant()" title="Historial y temas recientes" class="p-1.5 hover:text-slate-900 hover:bg-slate-100 rounded-lg transition-colors cursor-pointer">
+          <i data-lucide="clock" class="w-4 h-4"></i>
+        </button>
+        <button type="button" onclick="toggleWixAssistant(false)" title="Cerrar asistente" class="p-1.5 hover:text-slate-900 hover:bg-slate-100 rounded-lg transition-colors cursor-pointer ml-1">
+          <i data-lucide="x" class="w-4 h-4"></i>
+        </button>
+      </div>
+    </div>
+
+    <!-- Cuerpo del Chat / Mensajes -->
+    <div id="wixAssistantBody" class="flex-1 overflow-y-auto p-4 sm:p-5 space-y-4">
+      
+      <!-- Estado de Bienvenida (Welcome State del screenshot de Wix) -->
+      <div id="wixAssistantWelcome" class="flex flex-col items-center justify-center text-center pt-8 pb-4 space-y-5">
+        <!-- Gran Logo 3D Dent Control con interacción y sombra suave -->
+        <div class="relative group cursor-pointer flex flex-col items-center" onclick="window.abrirModalLogo3DInspector()" title="Clic para rotar en 360° o descargar modelo 3D">
+          <div id="welcomeLogo3DContainer" class="w-[120px] h-[120px] mx-auto flex items-center justify-center select-none transition-transform group-hover:scale-105" style="width: 120px; height: 120px; min-width: 120px; min-height: 120px;"></div>
+        </div>
+
+        <!-- Saludo dinámico personalizado -->
+        <h2 id="wixAssistantGreeting" class="text-xl sm:text-2xl font-bold text-[#1E3A8A] leading-tight px-3">
+          Buenas tardes, Sebastian: ¿En qué puedo ayudarte hoy?
+        </h2>
+
+        <!-- Sugerencias interactivas con AnimatedList (React Bits) -->
+        <div id="wixAssistantSuggestionsList" class="w-full max-w-sm pt-1 px-1">
+          <!-- Fallback en caso de retardo de script -->
+          <div class="space-y-1.5">
+            <button type="button" onclick="enviarPromptSugeridoWix('¿Cuáles órdenes están en fabricación y entrega hoy?')" class="w-full px-3.5 py-2 rounded-xl bg-white hover:bg-slate-50 border border-slate-200 shadow-2xs text-xs font-semibold text-slate-700 hover:text-slate-900 hover:border-slate-300 flex items-center justify-center gap-2 transition-all cursor-pointer">
+              <i data-lucide="package" class="w-3.5 h-3.5 text-slate-500"></i>
+              <span>¿Cuáles órdenes están en fabricación y entrega?</span>
+            </button>
+            <button type="button" onclick="enviarPromptSugeridoWix('Consultar doctores con órdenes pendientes de pago')" class="w-full px-3.5 py-2 rounded-xl bg-white hover:bg-slate-50 border border-slate-200 shadow-2xs text-xs font-semibold text-slate-700 hover:text-slate-900 hover:border-slate-300 flex items-center justify-center gap-2 transition-all cursor-pointer">
+              <i data-lucide="clock" class="w-3.5 h-3.5 text-slate-500"></i>
+              <span>Ver doctores con pagos pendientes</span>
+            </button>
+            <button type="button" onclick="enviarPromptSugeridoWix('Abrir calendario de citas y entregas')" class="w-full px-3.5 py-2 rounded-xl bg-white hover:bg-slate-50 border border-slate-200 shadow-2xs text-xs font-semibold text-slate-700 hover:text-slate-900 hover:border-slate-300 flex items-center justify-center gap-2 transition-all cursor-pointer">
+              <i data-lucide="calendar" class="w-3.5 h-3.5 text-slate-500"></i>
+              <span>Abrir calendario de citas</span>
+            </button>
+            <button type="button" onclick="enviarPromptSugeridoWix('Redactar aviso cordial a odontólogo para entrega de coronas')" class="w-full px-3.5 py-2 rounded-xl bg-white hover:bg-slate-50 border border-slate-200 shadow-2xs text-xs font-semibold text-slate-700 hover:text-slate-900 hover:border-slate-300 flex items-center justify-center gap-2 transition-all cursor-pointer">
+              <i data-lucide="send" class="w-3.5 h-3.5 text-slate-500"></i>
+              <span>Redactar aviso para odontólogo</span>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Contenedor dinámico de mensajes del chat -->
+      <div id="wixAssistantMessages" class="space-y-3.5 hidden"></div>
+
+      <!-- Indicador de que la IA está pensando -->
+      <div id="wixAssistantTyping" class="hidden flex items-start gap-2.5 pt-2">
+        <div class="w-7 h-7 rounded-full bg-slate-100 border border-slate-200/80 flex items-center justify-center relative shadow-xs shrink-0 mt-0.5 overflow-hidden">
+          <img src="assets/ia-logo/dent_control_logo_3d_front_corrected.png" alt="Dent Control 3D" class="w-5 h-5 object-contain" />
+        </div>
+        <div class="bg-white border border-slate-200/90 rounded-2xl rounded-tl-sm p-3 shadow-2xs flex items-center gap-3">
+          <!-- Slide de loading-dev (size={48}) -->
+          <div class="ld-slide" style="--ld-size: 48px; color: #334155;" role="status" aria-label="Cargando respuesta">
+            <div class="ld-slide-dot" data-step="0"></div>
+            <div class="ld-slide-dot" data-step="1"></div>
+            <div class="ld-slide-dot" data-step="2"></div>
+          </div>
+          <!-- Microinteracción de estado y cronómetro en vivo -->
+          <div id="aiLatticeLoaderContainer" class="flex items-center"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Barra de Entrada Inferior (Exacta al Screenshot de Wix) -->
+    <div class="p-3.5 sm:p-4 bg-white/95 border-t border-slate-100 backdrop-blur-sm shrink-0 space-y-2">
+      <!-- Tarjeta del Input -->
+      <div class="bg-slate-50 border border-slate-200 focus-within:border-slate-400 focus-within:bg-white rounded-2xl p-2.5 transition-all shadow-xs">
+        <textarea id="wixAssistantInput" rows="2" placeholder="Pregúntame lo que quieras" onkeydown="handleWixAssistantKey(event)" class="w-full text-xs sm:text-sm text-slate-800 placeholder:text-slate-400 bg-transparent focus:outline-none resize-none leading-relaxed"></textarea>
+        
+        <!-- Barra de herramientas del input -->
+        <div class="flex items-center justify-between pt-1 text-slate-400">
+          <!-- Herramientas izquierda: + y destellos -->
+          <div class="flex items-center gap-1.5">
+            <button type="button" onclick="mostrarMenuHerramientasWix()" title="Acciones y plantillas" class="p-1 hover:text-slate-700 hover:bg-slate-200/60 rounded-lg transition-colors cursor-pointer">
+              <i data-lucide="plus" class="w-4 h-4"></i>
+            </button>
+            <button type="button" onclick="abrirModalWixAI()" title="Abrir creador de 3 opciones de texto" class="p-1 hover:text-slate-700 hover:bg-slate-100 rounded-lg transition-colors cursor-pointer">
+              <i data-lucide="layout-template" class="w-4 h-4 text-slate-600"></i>
+            </button>
+          </div>
+
+          <!-- Herramientas derecha: Micrófono y Flecha de Enviar -->
+          <div class="flex items-center gap-1.5">
+            <button type="button" id="btnWixMic" onclick="activarMicrofonoWix()" title="Dictar por voz" class="p-1 hover:text-slate-700 hover:bg-slate-200/60 rounded-lg transition-colors cursor-pointer">
+              <i data-lucide="mic" class="w-4 h-4" id="wixMicIcon"></i>
+            </button>
+            <button type="button" id="btnWixSend" onclick="enviarMensajeWixAssistant()" title="Enviar mensaje" class="w-7 h-7 rounded-full bg-slate-300 hover:bg-slate-900 text-white flex items-center justify-center transition-all cursor-pointer shrink-0 disabled:opacity-50">
+              <i data-lucide="arrow-up" class="w-3.5 h-3.5"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Texto legal / Disclaimer Wix -->
+      <p class="text-[10px] text-center text-slate-400 tracking-tight select-none">
+        La IA puede cometer errores. Verifica los resultados.
+      </p>
+    </div>
+
+  </aside>
+
+  <!-- BOTÓN FLOTANTE LANZADOR DEL ASISTENTE (LOWER RIGHT CORNER) -->
+  <button id="btnFloatingWixAssistant" onclick="toggleWixAssistant()" title="Abrir Asistente Inteligente Dent Control" class="fixed bottom-5 right-5 z-40 w-16 h-16 flex items-center justify-center bg-transparent border-0 outline-none p-0 transition-transform hover:scale-110 active:scale-95 cursor-pointer group select-none">
+    <div id="floatingLogo3DContainer" class="w-16 h-16 flex items-center justify-center pointer-events-none select-none drop-shadow-md" style="width: 64px; height: 64px;"></div>
+  </button>
+
+  <div id="toastContainer" class="fixed bottom-5 right-5 z-50 flex flex-col gap-2.5 pointer-events-none"></div>
+
+  <script src="three.min.js"></script>
+  <script src="AgentLogo3D.js?v=2.2"></script>
+  <script src="LatticeLoader.js"></script>
+  <script src="AnimatedList.js"></script>
+  <script src="Slide.js"></script>
+  <script src="modules.js?v=2.7"></script>
+  <script src="Odontograma3D.js"></script>
+  <script src="ExpandableCard.js"></script>
+  <script src="AnimatedContent.js"></script>
+  <script>
+    lucide.createIcons();
+
+    // Sesión sincronizada entre PHP ($_SESSION) y cliente
+    const usuario = localStorage.getItem('cv_usuario') || "Admin";
+    document.getElementById('lblNombreUser').innerText = usuario;
+    document.getElementById('topUserLabel').innerText = usuario;
+    if (typeof window.refreshMenuForUser === 'function') {
+      window.refreshMenuForUser();
+    }
+
+    function runAnimeCounters() {
+      if (typeof renderTablasInicio === 'function') {
+        renderTablasInicio();
+      }
+    }
+
+    // 2. SISTEMA DE NOTIFICACIONES TOAST ANIMADAS
+    function showToast(title, message) {
+      const container = document.getElementById('toastContainer');
+      const toast = document.createElement('div');
+      toast.className = 'pointer-events-auto flex items-center gap-3 px-4 py-3 rounded-2xl bg-slate-900 text-white shadow-xl border border-slate-700/80 text-xs transform transition-all duration-300 translate-y-4 opacity-0';
+      toast.innerHTML = `
+        <div class="w-7 h-7 rounded-xl bg-blue-600/20 border border-blue-500/40 flex items-center justify-center text-blue-400 shrink-0">
+          <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+        </div>
+        <div>
+          <p class="font-bold text-white leading-tight">${title}</p>
+          <p class="text-[11px] text-slate-300 mt-0.5">${message}</p>
+        </div>
+      `;
+      container.appendChild(toast);
+      requestAnimationFrame(() => {
+        toast.classList.remove('translate-y-4', 'opacity-0');
+      });
+      setTimeout(() => {
+        toast.classList.add('translate-y-2', 'opacity-0');
+        setTimeout(() => toast.remove(), 300);
+      }, 3200);
+    }
+
+    // Selector de Tono Guía VITA
+    function changeToothShade(hex, label) {
+      const preview = document.getElementById('shadeColorPreview');
+      if (preview) preview.style.backgroundColor = hex;
+      const lbl = document.getElementById('shadeLabel3D');
+      if (lbl) lbl.innerText = 'VITA ' + label.toUpperCase();
+      const dcShade = document.getElementById('dcShade');
+      if (dcShade) dcShade.innerText = label;
+    }
+
+    // Odontograma Digital Interactivo 3D (32 Dientes FDI con Pilar / Póntico)
+    const selectedTeeth = new Map([['16', 'PILAR'], ['21', 'PILAR']]);
+    let _modalOdontoMode = 'PILAR';
+    window.getModalToothState = function(s) {
+      return selectedTeeth.get(String(s)) || null;
+    };
+
+    function setModalOdontoMode(mode) {
+      _modalOdontoMode = mode;
+      const btnPilar = document.getElementById('btnModalModePilar');
+      const btnPont = document.getElementById('btnModalModePontico');
+      if (btnPilar && btnPont) {
+        if (mode === 'PILAR') {
+          btnPilar.style.cssText = 'background:#2f6353;color:#ffffff;';
+          btnPont.style.cssText = 'background:transparent;color:#cbd5e1;';
+        } else {
+          btnPont.style.cssText = 'background:#755c34;color:#ffffff;';
+          btnPilar.style.cssText = 'background:transparent;color:#cbd5e1;';
+        }
+      }
+    }
+
+    function clearOdontogramaModal() {
+      selectedTeeth.clear();
+      renderOdontograma();
+      if (window.Odontograma3D) window.Odontograma3D.refreshAll();
+    }
+
+    function renderOdontograma() {
+      const upper = [18,17,16,15,14,13,12,11,21,22,23,24,25,26,27,28];
+      const lower = [48,47,46,45,44,43,42,41,31,32,33,34,35,36,37,38];
+      const upperEl = document.getElementById('odontoUpper');
+      const lowerEl = document.getElementById('odontoLower');
+      if (!upperEl || !lowerEl) return;
+
+      const makeBtn = (num, isLower = false) => {
+        const s = String(num);
+        const tipo = selectedTeeth.get(s) || 'LIBRE';
+        const numSpan = `<span class="odonto-tooth-num font-mono">${s}</span>`;
+        const dotSpan = `<span class="odonto-tooth-dot" aria-hidden="true"></span>`;
+
+        return `<button type="button"
+          onclick="toggleTooth('${s}')"
+          onmouseenter="window.Odontograma3D && window.Odontograma3D.selectTooth(${s})"
+          onfocus="window.Odontograma3D && window.Odontograma3D.selectTooth(${s})"
+          data-tooth="${s}"
+          data-state="${tipo}"
+          aria-pressed="${tipo !== 'LIBRE'}"
+          aria-label="Pieza ${s} ${tipo !== 'LIBRE' ? (tipo === 'PONTICO' ? 'Póntico' : 'Pilar') : 'Libre'}"
+          class="odonto-tooth-btn">
+          ${isLower ? dotSpan : numSpan}
+          <div class="w-full flex-1 flex items-center justify-center overflow-hidden">
+            <img src="assets/odontograma/diente_${s}.png?v=3" alt="" loading="lazy" class="odonto-tooth-img select-none">
+          </div>
+          ${isLower ? numSpan : dotSpan}
+        </button>`;
+      };
+
+      upperEl.innerHTML = upper.map(n => makeBtn(n, false)).join('');
+      lowerEl.innerHTML = lower.map(n => makeBtn(n, true)).join('');
+      document.getElementById('selectedTeethLabel').innerText =
+        selectedTeeth.size
+          ? Array.from(selectedTeeth.entries()).map(([t, tipo]) => `${t} (${tipo === 'PONTICO' ? 'Póntico' : 'Pilar'})`).join(', ')
+          : 'Sin selección';
+    }
+
+    function toggleTooth(num) {
+      const s = String(num);
+      const current = selectedTeeth.get(s);
+      if (current === _modalOdontoMode) {
+        selectedTeeth.delete(s);
+      } else {
+        selectedTeeth.set(s, _modalOdontoMode);
+      }
+      renderOdontograma();
+      if (window.Odontograma3D) {
+        window.Odontograma3D.selectTooth(num);
+      }
+    }
+
+    function openOdontogramaModal() {
+      if (typeof currentOrdenActiva !== 'undefined' && currentOrdenActiva && Array.isArray(currentOrdenActiva.piezas)) {
+        selectedTeeth.clear();
+        const tipos = currentOrdenActiva.tiposPieza || {};
+        currentOrdenActiva.piezas.forEach(p => {
+          const s = String(p);
+          selectedTeeth.set(s, tipos[s] || 'PILAR');
+        });
+      }
+      renderOdontograma();
+      document.getElementById('modalOdonto').classList.remove('hidden');
+      lucide.createIcons();
+      if (window.Odontograma3D) {
+        requestAnimationFrame(() => window.Odontograma3D.initViewer('modalOdonto3DCanvas', 'modal'));
+      }
+    }
+
+    function closeOdontogramaModal() {
+      document.getElementById('modalOdonto').classList.add('hidden');
+    }
+
+    function saveOdontograma() {
+      if (typeof currentOrdenActiva !== 'undefined' && currentOrdenActiva) {
+        currentOrdenActiva.piezas = Array.from(selectedTeeth.keys());
+        currentOrdenActiva.tiposPieza = Object.fromEntries(selectedTeeth.entries());
+        currentOrdenActiva.unidades = Math.max(1, currentOrdenActiva.piezas.length);
+        if (typeof renderVistaOrdenTrabajo === 'function' && !document.getElementById('section-dynamic').classList.contains('hidden')) {
+          renderVistaOrdenTrabajo();
+        }
+      }
+      closeOdontogramaModal();
+      const summary = selectedTeeth.size
+        ? Array.from(selectedTeeth.entries()).map(([t, tipo]) => `#${t} (${tipo === 'PONTICO' ? 'Póntico' : 'Pilar'})`).join(', ')
+        : 'Ninguna';
+      showToast('Odontograma Actualizado', 'Piezas asignadas: ' + summary);
+    }
+
+    // Reloj en Vivo con manecillas analógicas animadas y flip de dígitos
+    let _prevClockH = '';
+    let _prevClockM = '';
+    let _prevClockS = '';
+    let _clockSecTurns = 0;
+    let _lastSecNum = -1;
+
+    function updateClock() {
+      const now = new Date();
+      const fechaStr = now.toLocaleDateString('es-ES', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
+      const hNum = now.getHours();
+      const mNum = now.getMinutes();
+      const sNum = now.getSeconds();
+      const h = String(hNum).padStart(2, '0');
+      const m = String(mNum).padStart(2, '0');
+      const s = String(sNum).padStart(2, '0');
+
+      // Rotación continua hacia adelante para las manecillas SVG
+      if (_lastSecNum === 59 && sNum === 0) _clockSecTurns++;
+      _lastSecNum = sNum;
+      const secDeg = (_clockSecTurns * 360) + (sNum * 6);
+      const minDeg = (mNum * 6) + (sNum * 0.1);
+      const handSec = document.getElementById('clockHandSec');
+      const handMin = document.getElementById('clockHandMin');
+      if (handSec) handSec.style.transform = `rotate(${secDeg}deg)`;
+      if (handMin) handMin.style.transform = `rotate(${minDeg}deg)`;
+
+      const el = document.getElementById('HoraActual');
+      if (el) {
+        const hFlip = h !== _prevClockH ? 'clock-digit-flip' : '';
+        const mFlip = m !== _prevClockM ? 'clock-digit-flip' : '';
+        const sFlip = s !== _prevClockS ? 'clock-digit-flip' : '';
+        _prevClockH = h;
+        _prevClockM = m;
+        _prevClockS = s;
+
+        el.innerHTML = `
+          <span class="text-slate-200 font-semibold">${fechaStr}</span>
+          <span class="text-slate-500">/</span>
+          <span class="inline-flex items-center">
+            <span class="clock-digit-box"><span class="${hFlip}">${h}</span></span>
+            <span class="clock-colon">:</span>
+            <span class="clock-digit-box"><span class="${mFlip}">${m}</span></span>
+            <span class="clock-colon">:</span>
+            <span class="clock-digit-box clock-digit-sec"><span class="${sFlip}">${s}</span></span>
+          </span>
+        `;
+      }
+    }
+    setInterval(updateClock, 1000);
+    updateClock();
+
+    // Responsive Sidebar Logic (Mobile Drawer + Desktop Accordion)
+    function isMobileView() {
+      return window.innerWidth < 1024;
+    }
+
+    function openSidebarMobile() {
+      const sb = document.getElementById('sidebar');
+      const bd = document.getElementById('sidebarBackdrop');
+      if (!sb) return;
+      sb.classList.remove('-translate-x-full');
+      sb.classList.add('translate-x-0');
+      if (bd) {
+        bd.classList.remove('opacity-0', 'pointer-events-none');
+        bd.classList.add('opacity-100', 'pointer-events-auto');
+      }
+    }
+
+    function closeSidebarMobile() {
+      const sb = document.getElementById('sidebar');
+      const bd = document.getElementById('sidebarBackdrop');
+      if (!sb) return;
+      if (isMobileView()) {
+        sb.classList.add('-translate-x-full');
+        sb.classList.remove('translate-x-0');
+        if (bd) {
+          bd.classList.add('opacity-0', 'pointer-events-none');
+          bd.classList.remove('opacity-100', 'pointer-events-auto');
+        }
+      }
+    }
+
+    function toggleSidebar() {
+      const sb = document.getElementById('sidebar');
+      if (!sb) return;
+      if (isMobileView()) {
+        const isOpen = sb.classList.contains('translate-x-0');
+        if (isOpen) {
+          closeSidebarMobile();
+        } else {
+          openSidebarMobile();
+        }
+      } else {
+        sb.classList.toggle('w-64');
+        sb.classList.toggle('w-0');
+        sb.classList.toggle('overflow-hidden');
+        sb.classList.toggle('border-r');
+        sb.classList.toggle('border-r-0');
+      }
+    }
+
+    window.addEventListener('resize', () => {
+      const sb = document.getElementById('sidebar');
+      const bd = document.getElementById('sidebarBackdrop');
+      if (!sb) return;
+      if (!isMobileView()) {
+        sb.classList.remove('-translate-x-full', 'translate-x-0');
+        if (bd) {
+          bd.classList.add('opacity-0', 'pointer-events-none');
+          bd.classList.remove('opacity-100', 'pointer-events-auto');
+        }
+      } else {
+        if (!sb.classList.contains('translate-x-0')) {
+          sb.classList.add('-translate-x-full');
+        }
+      }
+    });
+
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') {
+        closeSidebarMobile();
+        closeSettingsDropdown();
+      }
+    });
+
+    function toggleSettingsDropdown(e) {
+      if (e) e.stopPropagation();
+      const mod = document.getElementById('userQuickModule');
+      if (!mod) return;
+      const isOpen = mod.getAttribute('data-open') === 'true';
+      mod.setAttribute('data-open', isOpen ? 'false' : 'true');
+      if (isOpen) hideQmTracker();
+    }
+
+    function closeSettingsDropdown() {
+      const mod = document.getElementById('userQuickModule');
+      if (mod) mod.setAttribute('data-open', 'false');
+      hideQmTracker();
+    }
+
+    function moveQmTracker(el, isDanger) {
+      const tracker = document.getElementById('qmHoverTracker');
+      if (!tracker || !el) return;
+      tracker.setAttribute('data-danger', isDanger ? 'true' : 'false');
+      tracker.style.height = `${el.offsetHeight}px`;
+      tracker.style.transform = `translateY(${el.offsetTop}px) scale(1)`;
+      tracker.style.opacity = '1';
+    }
+
+    function hideQmTracker() {
+      const tracker = document.getElementById('qmHoverTracker');
+      if (tracker) {
+        tracker.style.opacity = '0';
+        tracker.style.transform = tracker.style.transform.replace('scale(1)', 'scale(0.96)');
+      }
+    }
+
+    document.addEventListener('click', (e) => {
+      const mod = document.getElementById('userQuickModule');
+      if (mod && !mod.contains(e.target)) {
+        closeSettingsDropdown();
+      }
+    });
+
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') closeSettingsDropdown();
+    });
+
+    // Hoja de Orden de Trabajo Modal
+    function openDigitalCard(ot, treatment, patient, doctor, shade, stage, delivery) {
+      document.getElementById('dcOrderNum').innerText = `#OT-${ot}`;
+      document.getElementById('dcTreatment').innerText = treatment;
+      document.getElementById('dcPatient').innerText = patient;
+      document.getElementById('dcDoctor').innerText = doctor;
+      document.getElementById('dcShade').innerText = shade;
+      document.getElementById('dcDeliveryDate').innerText = delivery;
+      document.getElementById('modalDigitalCard').classList.remove('hidden');
+      lucide.createIcons();
+    }
+
+    function closeDigitalCard() {
+      document.getElementById('modalDigitalCard').classList.add('hidden');
+    }
+
+    // Modales
+    function openModalCanceladas() {
+      document.getElementById('modalCanceladas').classList.remove('hidden');
+      const d1 = document.getElementById('canceladasFechaDesde');
+      const d2 = document.getElementById('canceladasFechaHasta');
+      if (d1 && d2 && !d1.value && !d2.value && typeof window.resetFiltroCanceladasMesActual === 'function') {
+        window.resetFiltroCanceladasMesActual();
+      } else if (typeof window.filtrarCanceladasPorFecha === 'function') {
+        window.filtrarCanceladasPorFecha();
+      }
+    }
+    function closeModalCanceladas() { document.getElementById('modalCanceladas').classList.add('hidden'); }
+    function openModalPendientes() { document.getElementById('modalPendientes').classList.remove('hidden'); }
+    function closeModalPendientes() { document.getElementById('modalPendientes').classList.add('hidden'); }
+    function openModalEventosEscaneo() { document.getElementById('modalEventosEscaneo').classList.remove('hidden'); if (typeof window.renderEventosEscaneoModal === 'function') window.renderEventosEscaneoModal(); }
+    function closeModalEventosEscaneo() { document.getElementById('modalEventosEscaneo').classList.add('hidden'); }
+
+    function toggleFullScreen() {
+      if (!document.fullscreenElement) {
+        document.documentElement.requestFullscreen();
+      } else {
+        if (document.exitFullscreen) document.exitFullscreen();
+      }
+    }
+
+    async function refreshData() {
+      const icon = document.getElementById('refreshIcon');
+      if (icon) icon.classList.add('animate-spin');
+      if (typeof window.syncLiveDatabase === 'function') {
+        const ok = await window.syncLiveDatabase(false);
+        if (!ok) {
+          if (typeof renderTablasInicio === 'function') renderTablasInicio();
+          showToast('Tablas Actualizadas', 'Escaneo, Diseño, Fabricación, Entrega y Órdenes sincronizadas.');
+        }
+      } else if (typeof renderTablasInicio === 'function') {
+        renderTablasInicio();
+        showToast('Tablas Actualizadas', 'Escaneo, Diseño, Fabricación, Entrega y Órdenes sincronizadas.');
+      }
+      setTimeout(() => { if (icon) icon.classList.remove('animate-spin'); }, 600);
+    }
+
+    function buscarEnTabla() {
+      const raw = document.getElementById('nptBuscar').value;
+      if (typeof window.buscarEnBaseDeDatosLive === 'function') {
+        window.buscarEnBaseDeDatosLive(raw);
+      }
+    }
+
+    // Autocarga segun parametros URL para capturas y deep-linking
+    window.addEventListener('DOMContentLoaded', () => {
+      try {
+        const urlParams = new URLSearchParams(window.location.search);
+        const v = urlParams.get('view');
+        const m = urlParams.get('modal');
+        if (v && typeof openModule === 'function') {
+          setTimeout(() => openModule(v), 150);
+        }
+        if (m) {
+          setTimeout(() => {
+            if (m === 'modalEventosEscaneo') openModalEventosEscaneo();
+            else if (m === 'modalCanceladas') openModalCanceladas();
+            else if (m === 'modalPendientes') openModalPendientes();
+            else if (m === 'modalAsignarEscaneador' && typeof abrirModalAsignarEscaneador === 'function') {
+              abrirModalAsignarEscaneador('OT-8842', 'DRA. PATRICIA ELIZABETH', 'Carlos Martínez', '2026-10-20');
+            } else if (m === 'modalEditarDoctor' && typeof abrirModalEditarDoctor === 'function') {
+              abrirModalEditarDoctor('DOC-101');
+            } else if (m === 'modalDetalleUsoDisco' && typeof abrirModalDetalleUsoDisco === 'function') {
+              abrirModalDetalleUsoDisco('DSC-ZRK-01');
+            } else if (m === 'modalPermisosUsuario' && typeof abrirModalPermisosUsuario === 'function') {
+              abrirModalPermisosUsuario('USR-02');
+            }
+          }, 350);
+        }
+      } catch (e) { console.error('Error auto-loading params:', e); }
+    });
+  </script>
+</body>
+</html>

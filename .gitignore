@@ -1,0 +1,14 @@
+*.local.php
+.env
+Backend/ai_key.local.php
+Backend/.env
+Archivos/
+ArchivosOrdenes/
+lab/
+*.GDB
+*.rar
+*.zip
+*.CNC
+*.mp4
+*.tar.gz
+*.7z
