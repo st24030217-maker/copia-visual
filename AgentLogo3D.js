@@ -296,7 +296,7 @@
       this.options = Object.assign({
         width: 48,
         height: 48,
-        cameraZ: 2.1,
+        cameraZ: 2.85,
         autoRotate: false,
         enableTrackball: false,
         interactive: true,
@@ -317,8 +317,8 @@
       this.canvas = document.createElement('canvas');
       this.canvas.className = 'agent-logo-canvas select-none';
       this.canvas.style.display = 'block';
-      this.canvas.style.width = '100%';
-      this.canvas.style.height = '100%';
+      this.canvas.style.width = this.options.width + 'px';
+      this.canvas.style.height = this.options.height + 'px';
       this.canvas.style.cursor = this.options.clickToInspect ? 'pointer' : (this.options.enableTrackball ? 'grab' : 'default');
 
       this.container.appendChild(this.canvas);
@@ -337,7 +337,7 @@
       }
 
       this.renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
-      this.renderer.setSize(this.options.width, this.options.height, false);
+      this.renderer.setSize(this.options.width, this.options.height, true);
 
       // Escena y Cámara con Near Plane a 0.5 para máxima precisión de profundidad
       this.scene = new THREE.Scene();
@@ -543,22 +543,22 @@
     // 1. Botón Flotante Inferior Derecho (38x38 WebGL)
     const floatTarget = document.getElementById('floatingLogo3DContainer');
     if (floatTarget) {
-      new AgentLogo3DViewer(floatTarget, { width: 38, height: 38, cameraZ: 2.15 });
+      new AgentLogo3DViewer(floatTarget, { width: 38, height: 38, cameraZ: 2.85 });
     }
 
     // 2. Cabecera del Asistente (32x32 WebGL)
     const headerTarget = document.getElementById('headerLogo3DContainer');
     if (headerTarget) {
-      new AgentLogo3DViewer(headerTarget, { width: 32, height: 32, cameraZ: 2.15 });
+      new AgentLogo3DViewer(headerTarget, { width: 32, height: 32, cameraZ: 2.85 });
     }
 
-    // 3. Hero de Bienvenida del Chat (112x112 WebGL Pulido)
+    // 3. Hero de Bienvenida del Chat (120x120 WebGL Pulido sin cortes)
     const welcomeTarget = document.getElementById('welcomeLogo3DContainer');
     if (welcomeTarget) {
       window._welcomeLogo3D = new AgentLogo3DViewer(welcomeTarget, {
-        width: 112,
-        height: 112,
-        cameraZ: 2.05,
+        width: 120,
+        height: 120,
+        cameraZ: 2.85,
         interactive: true
       });
     }
@@ -566,7 +566,7 @@
     // 4. Banner Superior del Dashboard (44x44 WebGL)
     const bannerTarget = document.getElementById('heroBannerLogo3DContainer');
     if (bannerTarget) {
-      new AgentLogo3DViewer(bannerTarget, { width: 44, height: 44, cameraZ: 2.15 });
+      new AgentLogo3DViewer(bannerTarget, { width: 44, height: 44, cameraZ: 2.85 });
     }
 
     if (!animId) {
@@ -655,7 +655,7 @@
       window._inspectorViewer = new AgentLogo3DViewer(canvasContainer, {
         width: 256,
         height: 256,
-        cameraZ: 2.05,
+        cameraZ: 2.85,
         interactive: false,
         enableTrackball: true,
         clickToInspect: false

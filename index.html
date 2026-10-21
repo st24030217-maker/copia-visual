@@ -2784,7 +2784,7 @@
       <div id="wixAssistantWelcome" class="flex flex-col items-center justify-center text-center pt-8 pb-4 space-y-5">
         <!-- Gran Logo 3D Dent Control con interacción y sombra suave -->
         <div class="relative group cursor-pointer flex flex-col items-center" onclick="window.abrirModalLogo3DInspector()" title="Clic para rotar en 360° o descargar modelo 3D">
-          <div id="welcomeLogo3DContainer" class="w-28 h-28 mx-auto flex items-center justify-center select-none transition-transform group-hover:scale-105"></div>
+          <div id="welcomeLogo3DContainer" class="w-[120px] h-[120px] mx-auto flex items-center justify-center select-none transition-transform group-hover:scale-105" style="width: 120px; height: 120px; min-width: 120px; min-height: 120px;"></div>
         </div>
 
         <!-- Saludo dinámico personalizado -->
@@ -2879,7 +2879,7 @@
   <div id="toastContainer" class="fixed bottom-5 right-5 z-50 flex flex-col gap-2.5 pointer-events-none"></div>
 
   <script src="three.min.js"></script>
-  <script src="AgentLogo3D.js"></script>
+  <script src="AgentLogo3D.js?v=2.2"></script>
   <script src="modules.js"></script>
   <script src="Odontograma3D.js"></script>
   <script src="ExpandableCard.js"></script>
