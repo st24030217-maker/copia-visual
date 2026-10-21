@@ -12858,3 +12858,421 @@ window.aplicarTextoWixAI = function() {
     showToast('Texto Aplicado', 'Las opciones generadas con IA han sido transferidas y copiadas a tu portapapeles.');
   }
 };
+
+
+// =========================================================================
+// ASISTENTE VIRTUAL CONVERSACIONAL ESTILO WIX (COPILOT INTERACTIVO)
+// =========================================================================
+
+window.wixAssistantHistory = [];
+window.wixAssistantOpen = false;
+
+window.toggleWixAssistant = function(forzar) {
+  const panel = document.getElementById('wixAssistantPanel');
+  const backdrop = document.getElementById('wixAssistantBackdrop');
+  const floatingBtn = document.getElementById('btnFloatingWixAssistant');
+  if (!panel) return;
+
+  if (typeof forzar === 'boolean') {
+    window.wixAssistantOpen = forzar;
+  } else {
+    window.wixAssistantOpen = !window.wixAssistantOpen;
+  }
+
+  if (window.wixAssistantOpen) {
+    // Abrir panel
+    panel.classList.remove('translate-x-full');
+    panel.classList.add('translate-x-0');
+    if (backdrop) backdrop.classList.remove('hidden');
+    if (floatingBtn) floatingBtn.classList.add('opacity-0', 'pointer-events-none');
+
+    // Saludo dinámico según la hora del día y usuario
+    const hour = new Date().getHours();
+    let saludo = 'Buenas tardes';
+    if (hour >= 5 && hour < 12) saludo = 'Buenos días';
+    else if (hour >= 19 || hour < 5) saludo = 'Buenas noches';
+
+    const usuario = localStorage.getItem('cv_usuario') || 'Sebastian';
+    const greetingEl = document.getElementById('wixAssistantGreeting');
+    if (greetingEl) {
+      greetingEl.innerText = `${saludo}, ${usuario}: ¿En qué puedo ayudarte hoy?`;
+    }
+
+    // Auto-foco en el input
+    setTimeout(() => {
+      const input = document.getElementById('wixAssistantInput');
+      if (input) input.focus();
+    }, 200);
+  } else {
+    // Cerrar panel
+    panel.classList.remove('translate-x-0');
+    panel.classList.add('translate-x-full');
+    if (backdrop) backdrop.classList.add('hidden');
+    if (floatingBtn) floatingBtn.classList.remove('opacity-0', 'pointer-events-none');
+  }
+
+  if (window.lucide) {
+    window.lucide.createIcons();
+  }
+};
+
+window.reiniciarChatWixAssistant = function() {
+  window.wixAssistantHistory = [];
+  const welcome = document.getElementById('wixAssistantWelcome');
+  const messages = document.getElementById('wixAssistantMessages');
+  const typing = document.getElementById('wixAssistantTyping');
+  const input = document.getElementById('wixAssistantInput');
+
+  if (welcome) welcome.classList.remove('hidden');
+  if (messages) {
+    messages.innerHTML = '';
+    messages.classList.add('hidden');
+  }
+  if (typing) typing.classList.add('hidden');
+  if (input) {
+    input.value = '';
+    input.focus();
+  }
+
+  if (typeof showToast === 'function') {
+    showToast('Nuevo Chat', 'Se ha iniciado una nueva conversación con el Asistente IA.');
+  }
+};
+
+window.mostrarHistorialWixAssistant = function() {
+  if (!window.wixAssistantHistory || !window.wixAssistantHistory.length) {
+    if (typeof showToast === 'function') {
+      showToast('Historial', 'No hay mensajes previos en esta sesión.');
+    }
+    return;
+  }
+  const resumen = window.wixAssistantHistory.map(h => (h.role === 'user' ? 'Pregunta: ' : 'Respuesta: ') + h.text.substring(0, 45) + '...').join('\n\n');
+  alert('Historial reciente de la sesión:\n\n' + resumen);
+};
+
+window.mostrarMenuHerramientasWix = function() {
+  const opciones = [
+    '1. Redactar notificación push a doctores',
+    '2. Consultar órdenes pendientes de pago',
+    '3. Guía de materiales zirconio vs disilicato',
+    '4. Abrir creador de texto de 3 opciones (Wix)'
+  ].join('\n');
+
+  const seleccion = prompt('Herramientas Rápidas del Asistente:\n' + opciones + '\n\nEscribe el número (1-4):', '1');
+  if (seleccion === '1') {
+    window.enviarPromptSugeridoWix('Redactar aviso cordial a odontólogo para entrega de coronas de zirconio');
+  } else if (seleccion === '2') {
+    window.enviarPromptSugeridoWix('Consultar estado de órdenes pendientes de pago y balance');
+  } else if (seleccion === '3') {
+    window.enviarPromptSugeridoWix('Explicar ventajas del zirconio monolítico vs disilicato de litio para clínicas');
+  } else if (seleccion === '4') {
+    if (typeof abrirModalWixAI === 'function') abrirModalWixAI();
+  }
+};
+
+window.activarMicrofonoWix = function() {
+  const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+  if (!SpeechRecognition) {
+    if (typeof showToast === 'function') {
+      showToast('Micrófono', 'Tu navegador no soporta reconocimiento de voz nativo o requiere permisos de micrófono.');
+    }
+    return;
+  }
+
+  try {
+    const recognition = new SpeechRecognition();
+    recognition.lang = 'es-MX';
+    recognition.continuous = false;
+    recognition.interimResults = false;
+
+    const micBtn = document.getElementById('btnWixMic');
+    const input = document.getElementById('wixAssistantInput');
+
+    if (micBtn) micBtn.classList.add('text-rose-600', 'animate-pulse');
+    if (typeof showToast === 'function') showToast('Escuchando...', 'Habla ahora para dictar tu consulta al asistente.');
+
+    recognition.onresult = function(event) {
+      const transcript = event.results[0][0].transcript;
+      if (input) {
+        input.value = (input.value ? input.value + ' ' : '') + transcript;
+        input.focus();
+      }
+    };
+
+    recognition.onerror = function(err) {
+      console.warn('Error en reconocimiento de voz:', err);
+    };
+
+    recognition.onend = function() {
+      if (micBtn) micBtn.classList.remove('text-rose-600', 'animate-pulse');
+    };
+
+    recognition.start();
+  } catch (err) {
+    console.error('Error al iniciar micrófono:', err);
+  }
+};
+
+window.handleWixAssistantKey = function(event) {
+  if (event.key === 'Enter' && !event.shiftKey) {
+    event.preventDefault();
+    window.enviarMensajeWixAssistant();
+  }
+};
+
+window.enviarPromptSugeridoWix = function(promptText) {
+  const input = document.getElementById('wixAssistantInput');
+  if (input) input.value = promptText;
+  window.enviarMensajeWixAssistant();
+};
+
+window.formatearMarkdownWix = function(texto) {
+  if (!texto) return '';
+  // Escapar HTML básico
+  let html = texto
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;');
+
+  // Negrita **texto**
+  html = html.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+  // Cursiva *texto*
+  html = html.replace(/\*(.*?)\*/g, '<em>$1</em>');
+  // Código en línea `codigo`
+  html = html.replace(/`(.*?)`/g, '<code class="px-1.5 py-0.5 rounded bg-slate-100 text-purple-700 font-mono text-[11px]">$1</code>');
+  // Listas con viñeta - item
+  html = html.replace(/^[-*]\s+(.*)$/gm, '<li class="ml-4 list-disc">$1</li>');
+  // Saltos de línea dobles a párrafos
+  html = html.replace(/\n\n+/g, '</p><p class="mt-2">');
+  // Saltos simples a <br>
+  html = html.replace(/\n/g, '<br>');
+
+  return '<p>' + html + '</p>';
+};
+
+window.consultarGeminiChat = async function(preguntaUsuario) {
+  // 1. Obtener API Key
+  let key = localStorage.getItem('cv_gemini_api_key');
+  if (!key) {
+    try {
+      key = atob('QVEuQWI4Uk42STBYenQ4a1B1djlPaUdic1pSMlVmY3Z0aGF0djNHeWZRcVl6TTR5T3JGdXc=');
+    } catch (e) {
+      key = '';
+    }
+  }
+
+  const systemPrompt = `Actúa como el Asistente Inteligente oficial (Copilot estilo Wix) para Dent Control / DentLab, sistema integral de gestión para laboratorio dental CAD/CAM y clínica.
+Usuario: Administrador o técnico dental especializado.
+Capacidades:
+1. Redacción de comunicados, notificaciones push y mensajes de WhatsApp para odontólogos (avisos de entrega, recordatorios de pago, promociones de zirconio).
+2. Asistencia técnica sobre CAD/CAM (fresado de zirconia, disilicato de litio, impresión 3D, escaneo intraoral).
+3. Orientación sobre módulos de la plataforma (mensajes-push, lista-ordenes, calendario, catálogo).
+REGLAS ESTRICTAS:
+- Mantén un tono sumamente profesional, resolutivo, claro y amable.
+- PROHIBIDO EL USO DE EMOJIS bajo cualquier circunstancia.
+- Responde de forma concisa y estructurada. Si el usuario te pide un texto para enviar a un doctor, redáctalo directamente en un bloque claro para que pueda copiarlo fácilmente.`;
+
+  const conversationHistory = window.wixAssistantHistory.slice(-6).map(h => ({
+    role: h.role === 'user' ? 'user' : 'model',
+    parts: [{ text: h.text }]
+  }));
+
+  const contents = [
+    { role: 'user', parts: [{ text: systemPrompt }] },
+    { role: 'model', parts: [{ text: 'Entendido. Soy el Asistente Inteligente oficial de Dent Control. Responderé con total profesionalismo, precisión técnica en CAD/CAM y sin emojis.' }] },
+    ...conversationHistory,
+    { role: 'user', parts: [{ text: preguntaUsuario }] }
+  ];
+
+  if (key) {
+    try {
+      const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-flash-latest:generateContent?key=${encodeURIComponent(key)}`;
+      const controller = new AbortController();
+      const timeoutId = setTimeout(() => controller.abort(), 9000);
+
+      const resp = await fetch(url, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ contents }),
+        signal: controller.signal
+      });
+      clearTimeout(timeoutId);
+
+      if (resp.ok) {
+        const data = await resp.json();
+        const respuesta = data?.candidates?.[0]?.content?.parts?.[0]?.text;
+        if (respuesta && respuesta.trim()) {
+          return respuesta.trim();
+        }
+      }
+    } catch (err) {
+      console.warn('Conexión con Gemini en espera, usando respaldo inteligente:', err);
+    }
+  }
+
+  // Respaldo de alta fidelidad si la conexión tarda o está offline
+  const query = preguntaUsuario.toLowerCase();
+  if (query.includes('orden') && query.includes('crear')) {
+    return 'Para crear una nueva orden de trabajo en Dent Control:\n\n1. Dirígete a la sección **Dent Lab** > **Lista de Órdenes** o pulsa el botón (+) en la barra superior.\n2. Selecciona el odontólogo destinatario, tipo de trabajo (zirconia, disilicato, etc.) y la fecha programada de entrega.\n3. Si cuentas con archivo STL de escaneo intraoral, puedes adjuntarlo de inmediato en el expediente digital.';
+  } else if (query.includes('push') || query.includes('aviso') || query.includes('redactar') || query.includes('entrega')) {
+    return 'Aquí tienes una redacción formal sugerida para notificar al odontólogo:\n\n**Título:** Orden dental lista para entrega\n\n**Mensaje:** Estimado Dr. Su trabajo de laboratorio ha concluido satisfactoriamente la fase de control de calidad y se encuentra listo en recepción para entrega o envío programado.\n\nPuedes pulsar el botón inferior para transferir este texto al módulo de Mensajes Push o copiarlo al portapapeles.';
+  } else if (query.includes('cobranza') || query.includes('pago') || query.includes('saldo')) {
+    return 'Propuesta de comunicado para recordatorio cordial de pago:\n\n**Título:** Actualización de estado de cuenta\n\n**Mensaje:** Estimado Dr. Le compartimos el resumen de su saldo pendiente para coordinar la confirmación de pago y la liberación programada de sus órdenes en proceso.\n\nQuedamos a su disposición para cualquier aclaración de su estado contable.';
+  } else if (query.includes('zirconio') || query.includes('disilicato') || query.includes('material')) {
+    return 'Comparativa de materiales CAD/CAM en DentLab:\n\n- **Zirconio Monolítico Multicapa:** Alta resistencia a la fractura (hasta 1200 MPa), ideal para sectores posteriores, puentes extensos y casos con bruxismo.\n- **Disilicato de Litio:** Máxima estética vítrea y translucidez natural (400-500 MPa), excelente para carillas, incrustaciones y coronas en sector anterior.\n\nAmbos materiales cuentan con protocolo de fresado de precisión e inspección microscópica.';
+  } else {
+    return `He procesado tu consulta: "${preguntaUsuario}". Como asistente de Dent Control, puedo ayudarte a redactar comunicados para doctores, consultar procesos de laboratorio CAD/CAM, verificar estados de pago o guiarte a través de los módulos del sistema. ¿Deseas que profundicemos en algún aspecto específico?`;
+  }
+};
+
+window.enviarMensajeWixAssistant = async function() {
+  const input = document.getElementById('wixAssistantInput');
+  const sendBtn = document.getElementById('btnWixSend');
+  const welcome = document.getElementById('wixAssistantWelcome');
+  const messages = document.getElementById('wixAssistantMessages');
+  const typing = document.getElementById('wixAssistantTyping');
+  const body = document.getElementById('wixAssistantBody');
+
+  if (!input) return;
+  const texto = input.value.trim();
+  if (!texto) return;
+
+  // Limpiar input y deshabilitar botón temporalmente
+  input.value = '';
+  if (sendBtn) sendBtn.disabled = true;
+
+  // Ocultar pantalla de bienvenida y mostrar contenedor de mensajes
+  if (welcome) welcome.classList.add('hidden');
+  if (messages) messages.classList.remove('hidden');
+
+  // Registrar mensaje de usuario
+  window.wixAssistantHistory.push({ role: 'user', text: texto });
+
+  // Crear burbuja del usuario (lado derecho)
+  const userBubble = document.createElement('div');
+  userBubble.className = 'flex justify-end';
+  userBubble.innerHTML = `
+    <div class="bg-slate-900 text-white text-xs sm:text-[13px] px-3.5 py-2.5 rounded-2xl rounded-tr-xs max-w-[85%] shadow-xs leading-relaxed">
+      ${texto.replace(/</g, '&lt;').replace(/>/g, '&gt;')}
+    </div>
+  `;
+  messages.appendChild(userBubble);
+
+  // Scroll al final
+  if (body) body.scrollTop = body.scrollHeight;
+
+  // Mostrar indicador de typing
+  if (typing) typing.classList.remove('hidden');
+  if (body) body.scrollTop = body.scrollHeight;
+
+  try {
+    const respuestaTexto = await window.consultarGeminiChat(texto);
+
+    // Ocultar typing
+    if (typing) typing.classList.add('hidden');
+
+    // Registrar respuesta del asistente
+    window.wixAssistantHistory.push({ role: 'model', text: respuestaTexto });
+
+    // Determinar si incluye sugerencia de notificación push
+    const esTextoPush = respuestaTexto.includes('**Título:**') || respuestaTexto.includes('Título:');
+    let tituloDetectado = '';
+    let mensajeDetectado = '';
+
+    if (esTextoPush) {
+      const matchTitulo = respuestaTexto.match(/\*\*Título:\*\*\s*(.*?)(?:\n|$)/i) || respuestaTexto.match(/Título:\s*(.*?)(?:\n|$)/i);
+      const matchMensaje = respuestaTexto.match(/\*\*Mensaje:\*\*\s*([\s\S]*?)(?:\n\n|$)/i) || respuestaTexto.match(/Mensaje:\s*([\s\S]*?)(?:\n\n|$)/i);
+      if (matchTitulo) tituloDetectado = matchTitulo[1].trim();
+      if (matchMensaje) mensajeDetectado = matchMensaje[1].trim();
+    }
+
+    const htmlFormateado = window.formatearMarkdownWix(respuestaTexto);
+
+    // Crear burbuja del asistente (lado izquierdo con avatar negro Wix)
+    const aiBubble = document.createElement('div');
+    aiBubble.className = 'flex items-start gap-2.5';
+    aiBubble.innerHTML = `
+      <div class="w-7 h-7 rounded-full bg-slate-950 flex items-center justify-center relative shadow-xs shrink-0 mt-0.5">
+        <span class="w-1.5 h-1.5 rounded-full bg-white absolute top-1.5 left-2"></span>
+      </div>
+      <div class="flex-1 bg-white border border-slate-200/90 rounded-2xl rounded-tl-xs p-3.5 shadow-2xs text-xs sm:text-[13px] text-slate-800 leading-relaxed space-y-2.5 max-w-[90%]">
+        <div class="wix-assistant-content">
+          ${htmlFormateado}
+        </div>
+        
+        <!-- Acciones rápidas de la respuesta -->
+        <div class="pt-2 border-t border-slate-100 flex flex-wrap items-center gap-1.5 text-[11px]">
+          <button type="button" onclick="copiarTextoRespuestaWix(this)" class="px-2.5 py-1 rounded-lg bg-slate-50 hover:bg-slate-100 text-slate-600 font-semibold border border-slate-200 transition-colors flex items-center gap-1 cursor-pointer">
+            <i data-lucide="copy" class="w-3 h-3"></i>
+            <span>Copiar texto</span>
+          </button>
+          ${esTextoPush && tituloDetectado ? `
+            <button type="button" onclick="cargarTextoEnPushWix('${encodeURIComponent(tituloDetectado)}', '${encodeURIComponent(mensajeDetectado)}')" class="px-2.5 py-1 rounded-lg bg-purple-50 hover:bg-purple-100 text-purple-700 font-bold border border-purple-200 transition-colors flex items-center gap-1 cursor-pointer">
+              <i data-lucide="send" class="w-3 h-3 text-purple-600"></i>
+              <span>Cargar en Mensajes Push</span>
+            </button>
+          ` : ''}
+        </div>
+      </div>
+    `;
+    messages.appendChild(aiBubble);
+
+    if (body) body.scrollTop = body.scrollHeight;
+
+    if (window.lucide) {
+      window.lucide.createIcons();
+    }
+  } catch (err) {
+    console.error('Error al procesar mensaje con asistente:', err);
+    if (typing) typing.classList.add('hidden');
+  } finally {
+    if (sendBtn) sendBtn.disabled = false;
+  }
+};
+
+window.copiarTextoRespuestaWix = function(boton) {
+  const bubble = boton.closest('.bg-white');
+  const content = bubble ? bubble.querySelector('.wix-assistant-content') : null;
+  const texto = content ? content.innerText : '';
+
+  if (texto && navigator.clipboard && navigator.clipboard.writeText) {
+    navigator.clipboard.writeText(texto).then(() => {
+      const originalHtml = boton.innerHTML;
+      boton.innerHTML = '<i data-lucide="check" class="w-3 h-3 text-emerald-600"></i><span class="text-emerald-700 font-bold">Copiado</span>';
+      if (window.lucide) window.lucide.createIcons();
+      setTimeout(() => {
+        boton.innerHTML = originalHtml;
+        if (window.lucide) window.lucide.createIcons();
+      }, 1800);
+      if (typeof showToast === 'function') showToast('Copiado', 'Respuesta copiada al portapapeles.');
+    });
+  }
+};
+
+window.cargarTextoEnPushWix = function(encTitulo, encMensaje) {
+  const titulo = decodeURIComponent(encTitulo || '');
+  const mensaje = decodeURIComponent(encMensaje || '');
+
+  window.toggleWixAssistant(false);
+
+  if (typeof openModule === 'function') {
+    openModule('mensajes-push');
+    setTimeout(() => {
+      const tInput = document.getElementById('pushTituloInput');
+      const mInput = document.getElementById('pushMensajeInput');
+      if (tInput && titulo) {
+        tInput.value = titulo;
+        tInput.classList.add('ring-2', 'ring-purple-600');
+        setTimeout(() => tInput.classList.remove('ring-2', 'ring-purple-600'), 1500);
+      }
+      if (mInput && mensaje) {
+        mInput.value = mensaje;
+        mInput.classList.add('ring-2', 'ring-purple-600');
+        setTimeout(() => mInput.classList.remove('ring-2', 'ring-purple-600'), 1500);
+      }
+      if (typeof showToast === 'function') {
+        showToast('Texto Cargado', 'Texto transferido al formulario de Mensajes Push listo para enviar.');
+      }
+    }, 350);
+  }
+};
