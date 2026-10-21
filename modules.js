@@ -13441,8 +13441,8 @@ window.enviarMensajeWixAssistant = async function() {
     const aiBubble = document.createElement('div');
     aiBubble.className = 'flex items-start gap-2.5';
     aiBubble.innerHTML = `
-      <div class="wix-eye-container eye-sm wix-eye-blinking w-7 h-7 rounded-full bg-slate-950 flex items-center justify-center relative shadow-xs shrink-0 mt-0.5 overflow-hidden select-none">
-        <div class="wix-eye-pupil w-2 h-2 rounded-full bg-white absolute pointer-events-none shadow-xs"></div>
+      <div class="w-7 h-7 rounded-full bg-slate-50 border border-slate-200/80 flex items-center justify-center relative shadow-2xs shrink-0 mt-0.5 overflow-hidden select-none cursor-pointer" onclick="window.abrirModalLogo3DInspector()" title="Ver Logo 3D">
+        <img src="assets/ia-logo/dent_control_logo_3d_front_corrected.png" alt="Dent Control 3D" class="w-6 h-6 object-contain pointer-events-none" />
       </div>
       <div class="flex-1 bg-white border border-slate-200/90 rounded-2xl rounded-tl-xs p-3.5 shadow-2xs text-xs sm:text-[13px] text-slate-800 leading-relaxed space-y-2.5 max-w-[90%]">
         <div class="wix-assistant-content">
