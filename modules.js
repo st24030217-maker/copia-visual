@@ -13789,6 +13789,10 @@ window.enviarMensajeWixAssistant = async function() {
   `;
   messages.appendChild(userBubble);
 
+  const startTime = Date.now();
+  // Tiempo de deliberacion y procesamiento para apreciar el microloader sin prisas
+  const minLoadingMs = 2400;
+
   let activeLatticeLoader = null;
   const latticeContainer = document.getElementById('aiLatticeLoaderContainer');
   if (latticeContainer && typeof window.crearLatticeLoader === 'function') {
@@ -13800,13 +13804,14 @@ window.enviarMensajeWixAssistant = async function() {
       pattern: 'orbit',
       grid: 3,
       shape: 'round',
-      color: '#2563eb',
-      doneColor: '#10b981',
-      errorColor: '#ef4444',
+      color: '#334155', // Slate sobrio y elegante (sin colores vibrantes)
+      doneColor: '#1e293b', // Slate oscuro para estado finalizado
+      errorColor: '#7f1d1d', // Rojo apagado sutil
       cellSize: 6,
       gap: 2.5,
+      step: 110, // Cadencia ritmica y tranquila
       glow: true,
-      glowColor: '#3b82f6',
+      glowColor: 'rgba(51, 65, 85, 0.25)', // Sombra sutil sin brillo saturado
       showTimer: true
     });
   }
@@ -13817,9 +13822,17 @@ window.enviarMensajeWixAssistant = async function() {
 
   try {
     const rawRespuesta = await window.consultarGeminiChat(texto);
+
+    // Asegurar que la carga dure un poco mas para apreciar la microinteraccion
+    const elapsed = Date.now() - startTime;
+    if (elapsed < minLoadingMs) {
+      await new Promise(r => setTimeout(r, minLoadingMs - elapsed));
+    }
+
     if (activeLatticeLoader) {
       activeLatticeLoader.setStatus('done');
-      await new Promise(r => setTimeout(r, 400));
+      // Mostrar el estado completado y cronometro final por 800ms
+      await new Promise(r => setTimeout(r, 800));
       activeLatticeLoader.destroy();
       activeLatticeLoader = null;
     }
@@ -13868,8 +13881,8 @@ window.enviarMensajeWixAssistant = async function() {
       botonesAccionHtml = `
         <div class="pt-2 border-t border-slate-100 flex flex-wrap items-center gap-1.5">
           ${acciones.map(a => `
-            <button type="button" onclick="ejecutarAccionDashboard('${a.tipo}', '${a.param}', this, '${encodeURIComponent(a.extra || '')}')" class="px-2.5 py-1 rounded-lg bg-blue-50 hover:bg-blue-100 text-blue-700 font-bold border border-blue-200 text-[11px] transition-colors flex items-center gap-1 cursor-pointer shadow-2xs">
-              <i data-lucide="${a.tipo === 'nav' ? 'arrow-right' : (a.tipo === 'filter' ? 'search' : (a.tipo === 'hojaDigital' ? 'file-text' : (a.tipo === 'modal' ? 'maximize-2' : 'bot')))}" class="w-3 h-3 text-blue-600"></i>
+            <button type="button" onclick="ejecutarAccionDashboard('${a.tipo}', '${a.param}', this, '${encodeURIComponent(a.extra || '')}')" class="px-2.5 py-1 rounded-lg bg-slate-100 hover:bg-slate-200/90 text-slate-800 font-semibold border border-slate-300 text-[11px] transition-colors flex items-center gap-1.5 cursor-pointer shadow-2xs">
+              <i data-lucide="${a.tipo === 'nav' ? 'arrow-right' : (a.tipo === 'filter' ? 'search' : (a.tipo === 'hojaDigital' ? 'file-text' : (a.tipo === 'modal' ? 'maximize-2' : 'bot')))}" class="w-3 h-3 text-slate-600"></i>
               <span>${a.etiqueta}</span>
             </button>
           `).join('')}

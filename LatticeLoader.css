@@ -4,10 +4,10 @@
   --ll-gap: 2px;
   --ll-font: 14px;
   --ll-color: currentColor;
-  --ll-mark: #22c55e;
+  --ll-mark: #334155;
   --ll-idle: 0.15;
   --ll-glow: currentColor;
-  --ll-mark-glow: #22c55e;
+  --ll-mark-glow: rgba(51, 65, 85, 0.25);
   --ll-peak: 1;
   --ll-cycle: 864ms;
   --ll-ease-out: cubic-bezier(0.23, 1, 0.32, 1);
@@ -47,11 +47,11 @@
 }
 
 .lattice-loader[data-glow] .lattice-loader__run .lattice-loader__cell:not([data-hole]) {
-  box-shadow: 0 0 calc(var(--ll-cell) * 1.2) calc(var(--ll-cell) * 0.12) var(--ll-glow);
+  box-shadow: 0 0 calc(var(--ll-cell) * 0.75) rgba(51, 65, 85, 0.25);
 }
 
 .lattice-loader[data-glow] .lattice-loader__mark .lattice-loader__cell[data-on] {
-  box-shadow: 0 0 calc(var(--ll-cell) * 1.2) calc(var(--ll-cell) * 0.12) var(--ll-mark-glow);
+  box-shadow: 0 0 calc(var(--ll-cell) * 0.75) rgba(51, 65, 85, 0.25);
 }
 
 .lattice-loader__run {

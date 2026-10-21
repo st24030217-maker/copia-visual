@@ -59,16 +59,16 @@
         pattern: 'orbit',
         grid: 3,
         shape: 'round',
-        color: '#2563eb', // Azul profesional Dent Control
-        doneColor: '#10b981', // Verde éxito
-        errorColor: '#ef4444',
+        color: '#334155', // Azul profesional Dent Control
+        doneColor: '#1e293b', // Verde éxito
+        errorColor: '#7f1d1d',
         cellSize: 6,
         gap: 2.5,
         fontSize: 12.5,
-        step: 90,
+        step: 110,
         idleOpacity: 0.20,
         glow: true,
-        glowColor: '#3b82f6',
+        glowColor: 'rgba(51, 65, 85, 0.25)',
         showTimer: true
       }, options);
 
