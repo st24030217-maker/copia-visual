@@ -1,6 +1,18 @@
 <!DOCTYPE html>
 <html lang="es" class="h-full bg-slate-50">
 <head>
+  <script>
+    (function () {
+      var isAuth = sessionStorage.getItem('cv_sesion_activa') === '1' && localStorage.getItem('cv_usuario');
+      if (isAuth) {
+        var isStatic = window.location.hostname.includes('github.io') ||
+                       window.location.hostname.includes('vercel.app') ||
+                       window.location.protocol === 'file:' ||
+                       window.location.pathname.endsWith('.html');
+        window.location.replace(isStatic ? 'index.html' : 'index.php');
+      }
+    })();
+  </script>
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -428,6 +440,8 @@
       localStorage.setItem('cv_perfil', result.perfil);
       localStorage.setItem('cv_id_perfil', String(result.id_perfil));
       localStorage.setItem('cv_id_usuario', String(result.id_sys_usuario));
+      sessionStorage.setItem('cv_sesion_activa', '1');
+      localStorage.setItem('cv_sesion_activa', '1');
 
       // Sincronizar sesión PHP si estamos en entorno PHP
       const formData = new FormData();

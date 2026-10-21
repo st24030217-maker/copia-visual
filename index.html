@@ -1,6 +1,19 @@
 <!DOCTYPE html>
 <html lang="es" class="h-full bg-slate-50">
 <head>
+  <script>
+    (function () {
+      var isAuth = sessionStorage.getItem('cv_sesion_activa') === '1' && localStorage.getItem('cv_usuario');
+      if (!isAuth) {
+        var isStatic = window.location.hostname.includes('github.io') ||
+                       window.location.hostname.includes('vercel.app') ||
+                       window.location.protocol === 'file:' ||
+                       window.location.pathname.endsWith('.html') ||
+                       !window.location.pathname.endsWith('.php');
+        window.location.replace(isStatic ? 'login.html' : 'login.php');
+      }
+    })();
+  </script>
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -1494,7 +1507,7 @@
 
             <div class="relative z-10 my-1 border-t border-slate-100"></div>
 
-            <a href="logout.php" onmouseenter="moveQmTracker(this, true)" onclick="if(location.hostname.includes('github.io')||location.hostname.includes('vercel.app')||location.pathname.endsWith('.html')){localStorage.removeItem('cv_usuario');location.href='login.html';return false;}" class="qm-item flex items-center gap-2.5 px-2.5 py-2 rounded-lg text-rose-600 hover:text-rose-700 font-medium transition-colors">
+            <a href="login.html" onmouseenter="moveQmTracker(this, true)" onclick="window.cerrarSesionDent(); return false;" class="qm-item flex items-center gap-2.5 px-2.5 py-2 rounded-lg text-rose-600 hover:text-rose-700 font-medium transition-colors">
               <i data-lucide="log-out" class="qm-item-icon qm-item-icon--power w-3.5 h-3.5 text-rose-500 shrink-0"></i>
               <span>Cerrar Sesión</span>
             </a>
