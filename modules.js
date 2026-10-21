@@ -3616,18 +3616,18 @@ function renderDynamicModule(key) {
               <div class="bg-gradient-to-r from-purple-50/80 via-indigo-50/50 to-white border border-purple-200/90 rounded-2xl p-3.5 flex items-center justify-between shadow-2xs">
                 <div class="flex items-center gap-3">
                   <div class="w-8 h-8 rounded-xl bg-gradient-to-tr from-purple-600 to-indigo-600 text-white flex items-center justify-center shadow-xs shrink-0">
-                    <i data-lucide="sparkles" class="w-4 h-4"></i>
+                    <i data-lucide="bot" class="w-4 h-4"></i>
                   </div>
                   <div>
                     <div class="flex items-center gap-1.5">
                       <h4 class="text-xs font-bold text-slate-900 leading-tight">Redacción con IA</h4>
-                      <span class="text-[9px] font-bold uppercase tracking-wider px-1.5 py-0.5 rounded-full bg-purple-100 text-purple-700 border border-purple-200">Estilo Wix</span>
+                      <span class="text-[9px] font-bold uppercase tracking-wider px-1.5 py-0.5 rounded-full bg-purple-100 text-purple-700 border border-purple-200">Dent Control</span>
                     </div>
                     <p class="text-[11px] text-slate-500">Genera 3 opciones con tono personalizado y aplícalas al instante.</p>
                   </div>
                 </div>
                 <button type="button" onclick="abrirModalWixAI({ targetTitulo: 'pushTituloInput', targetMensaje: 'pushMensajeInput', defaultTipo: 'entrega' })" class="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-bold text-white bg-purple-600 hover:bg-purple-700 active:scale-95 rounded-xl transition-all shadow-xs cursor-pointer shrink-0">
-                  <i data-lucide="sparkles" class="w-3.5 h-3.5"></i>
+                  <i data-lucide="bot" class="w-3.5 h-3.5"></i>
                   <span>Crear texto con IA</span>
                 </button>
               </div>
@@ -3636,7 +3636,7 @@ function renderDynamicModule(key) {
                 <div class="flex items-center justify-between mb-1">
                   <label class="font-bold text-slate-700 uppercase text-[10px]">Título de la Notificación *</label>
                   <button type="button" onclick="abrirModalWixAI({ targetTitulo: 'pushTituloInput', targetMensaje: 'pushMensajeInput', defaultTipo: 'entrega' })" class="inline-flex items-center gap-1 text-[11px] font-semibold text-purple-700 hover:text-purple-800 cursor-pointer">
-                    <i data-lucide="sparkles" class="w-3 h-3 text-purple-600"></i>
+                    <i data-lucide="edit-3" class="w-3 h-3 text-purple-600"></i>
                     <span>Escribir con IA</span>
                   </button>
                 </div>
@@ -3647,7 +3647,7 @@ function renderDynamicModule(key) {
                 <div class="flex items-center justify-between mb-1">
                   <label class="font-bold text-slate-700 uppercase text-[10px]">Cuerpo del Mensaje *</label>
                   <button type="button" onclick="abrirModalWixAI({ targetTitulo: 'pushTituloInput', targetMensaje: 'pushMensajeInput', defaultTipo: 'entrega' })" class="inline-flex items-center gap-1 text-[11px] font-semibold text-purple-700 hover:text-purple-800 cursor-pointer">
-                    <i data-lucide="sparkles" class="w-3 h-3 text-purple-600"></i>
+                    <i data-lucide="edit-3" class="w-3 h-3 text-purple-600"></i>
                     <span>Escribir con IA</span>
                   </button>
                 </div>
@@ -12323,7 +12323,7 @@ window.generarPushConIA = async function(customPrompt = null) {
       }
       if (promptInput) promptInput.value = '';
       if (typeof showToast === 'function') {
-        showToast('IA Dental', 'Mensaje y título redactados automáticamente con Gemini.');
+        showToast('IA Dental', 'Mensaje y título redactados automáticamente con Inteligencia Artificial.');
       }
     }
   } catch (err) {
@@ -12342,13 +12342,13 @@ window.generarPushConIA = async function(customPrompt = null) {
 };
 
 
-window.configurarGeminiKey = function() {
+window.configurarClaveAsistente = function() {
   const actual = localStorage.getItem('cv_gemini_api_key') || '';
-  const nueva = prompt('Configura tu clave de API de Google Gemini (Google AI Studio):', actual);
+  const nueva = prompt('Configura tu clave de API de Inteligencia DentLab (Google AI Studio):', actual);
   if (nueva !== null) {
     if (nueva.trim()) {
       localStorage.setItem('cv_gemini_api_key', nueva.trim());
-      if (typeof showToast === 'function') showToast('Clave IA Guardada', 'Tu API Key de Gemini ha quedado registrada en este navegador.');
+      if (typeof showToast === 'function') showToast('Clave IA Guardada', 'Clave del Asistente registrada exitosamente en este navegador.');
     } else {
       localStorage.removeItem('cv_gemini_api_key');
       if (typeof showToast === 'function') showToast('Clave IA Removida', 'Se eliminó la clave guardada.');
@@ -13198,7 +13198,7 @@ window.consultarGeminiChat = async function(preguntaUsuario) {
     }
   }
 
-  const systemPrompt = `Actúa como el Asistente Inteligente oficial (Copilot estilo Wix) para Dent Control / DentLab, sistema de gestión para laboratorio dental CAD/CAM y clínica.
+  const systemPrompt = `Actúa como el Asistente Inteligente oficial de Dent Control / DentLab. REGLA ESTRICTA DE IDENTIDAD: Eres exclusivamente el Asistente Dental de Dent Control. Todo gira en torno al sistema Dent Control. PROHIBIDO TERMINANTEMENTE mencionar a Google o a Gemini, sistema de gestión para laboratorio dental CAD/CAM y clínica.
 Usuario conectado: ${liveCtx.usuario}.
 
 INFORMACIÓN EN VIVO DEL DASHBOARD EN ESTE INSTANTE:
@@ -13257,7 +13257,7 @@ REGLAS ESTRICTAS:
         }
       }
     } catch (err) {
-      console.warn('Conexión con Gemini en espera, activando respuesta en vivo local:', err);
+      console.warn('Conexión con Inteligencia Artificial en espera, activando respuesta en vivo local:', err);
     }
   }
 
@@ -13356,7 +13356,7 @@ window.enviarMensajeWixAssistant = async function() {
         <div class="pt-2 border-t border-slate-100 flex flex-wrap items-center gap-1.5">
           ${acciones.map(a => `
             <button type="button" onclick="ejecutarAccionDashboard('${a.tipo}', '${a.param}', this)" class="px-2.5 py-1 rounded-lg bg-blue-50 hover:bg-blue-100 text-blue-700 font-bold border border-blue-200 text-[11px] transition-colors flex items-center gap-1 cursor-pointer shadow-2xs">
-              <i data-lucide="${a.tipo === 'nav' ? 'arrow-right' : (a.tipo === 'modal' ? 'maximize-2' : 'sparkles')}" class="w-3 h-3 text-blue-600"></i>
+              <i data-lucide="${a.tipo === 'nav' ? 'arrow-right' : (a.tipo === 'modal' ? 'maximize-2' : 'bot')}" class="w-3 h-3 text-blue-600"></i>
               <span>${a.etiqueta}</span>
             </button>
           `).join('')}
@@ -13368,7 +13368,7 @@ window.enviarMensajeWixAssistant = async function() {
     const aiBubble = document.createElement('div');
     aiBubble.className = 'flex items-start gap-2.5';
     aiBubble.innerHTML = `
-      <div class="wix-eye-container wix-eye-blinking w-7 h-7 rounded-full bg-slate-950 flex items-center justify-center relative shadow-xs shrink-0 mt-0.5 overflow-hidden select-none">
+      <div class="wix-eye-container eye-sm wix-eye-blinking w-7 h-7 rounded-full bg-slate-950 flex items-center justify-center relative shadow-xs shrink-0 mt-0.5 overflow-hidden select-none">
         <div class="wix-eye-pupil w-2 h-2 rounded-full bg-white absolute pointer-events-none shadow-xs"></div>
       </div>
       <div class="flex-1 bg-white border border-slate-200/90 rounded-2xl rounded-tl-xs p-3.5 shadow-2xs text-xs sm:text-[13px] text-slate-800 leading-relaxed space-y-2.5 max-w-[90%]">
