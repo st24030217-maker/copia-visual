@@ -9629,11 +9629,11 @@ function formatShortDate(dateStr) {
 }
 
 // Renderizador limpio y sin cortes para las 4 tarjetas de etapa (OT | PROD | UNI | DOCTOR | ENT)
-function renderStageRowCompact(item, isEntrega = false) {
+function renderStageRowCompact(item, isEntrega = false, index = 0) {
   const rowClass = item.interno ? (isEntrega ? 'row-green' : 'row-yellow') : 'hover:bg-slate-50';
   const safeDocKey = String(item.doctorId || item.doctor || '').replace(/'/g, "\\'");
   return `
-    <tr class="${rowClass} transition-colors">
+    <tr class="${rowClass} al-stage-row transition-colors" style="--al-index: ${index};">
       <td class="text-center font-bold">
         <a href="javascript:void(0)" onclick="abrirOrdenTrabajo('${item.serie}')" title="${item.paquetes || ''}" class="text-blue-600 hover:underline font-mono">${item.ot}</a>
       </td>
@@ -9657,22 +9657,22 @@ function renderTablasInicio() {
 
   if (tbEsc) {
     tbEsc.innerHTML = INICIO_DATA.escaneo.length
-      ? INICIO_DATA.escaneo.map(i => renderStageRowCompact(i, false)).join('')
+      ? INICIO_DATA.escaneo.map((i, idx) => renderStageRowCompact(i, false, idx)).join('')
       : '<tr><td colspan="5" class="py-6 text-center text-slate-400 font-semibold">NO HAY ORDENES POR MOSTRAR</td></tr>';
   }
   if (tbDis) {
     tbDis.innerHTML = INICIO_DATA.diseno.length
-      ? INICIO_DATA.diseno.map(i => renderStageRowCompact(i, false)).join('')
+      ? INICIO_DATA.diseno.map((i, idx) => renderStageRowCompact(i, false, idx)).join('')
       : '<tr><td colspan="5" class="py-6 text-center text-slate-400 font-semibold">NO HAY ORDENES POR MOSTRAR</td></tr>';
   }
   if (tbFab) {
     tbFab.innerHTML = INICIO_DATA.fabricacion.length
-      ? INICIO_DATA.fabricacion.map(i => renderStageRowCompact(i, false)).join('')
+      ? INICIO_DATA.fabricacion.map((i, idx) => renderStageRowCompact(i, false, idx)).join('')
       : '<tr><td colspan="5" class="py-6 text-center text-slate-400 font-semibold">NO HAY ORDENES POR MOSTRAR</td></tr>';
   }
   if (tbEnt) {
     tbEnt.innerHTML = INICIO_DATA.entrega.length
-      ? INICIO_DATA.entrega.map(i => renderStageRowCompact(i, true)).join('')
+      ? INICIO_DATA.entrega.map((i, idx) => renderStageRowCompact(i, true, idx)).join('')
       : '<tr><td colspan="5" class="py-6 text-center text-slate-400 font-semibold">NO HAY ORDENES POR MOSTRAR</td></tr>';
   }
 
@@ -9733,7 +9733,7 @@ window.calcularDiasRestantes = function(fechaStr) {
     const perPage = 20;
     const start = (paginaActualOrdenes - 1) * perPage;
     const slice = INICIO_DATA.ordenes.slice(start, start + perPage);
-    tbOrd.innerHTML = slice.map(o => {
+    tbOrd.innerHTML = slice.map((o, idx) => {
       const isEnt = Number(o.idLab_Estado) === 4 || o.estado === 'Entrega';
       const rowClass = o.interno
         ? (isEnt ? 'row-green' : 'row-yellow')
@@ -9750,7 +9750,7 @@ window.calcularDiasRestantes = function(fechaStr) {
               ? 'bg-blue-100/90 text-blue-800 border border-blue-200'
               : 'bg-slate-100 text-slate-700 border border-slate-200';
       return `
-        <tr class="${rowClass} transition-colors">
+        <tr class="${rowClass} al-master-row transition-colors" style="--al-index: ${idx};">
           <td class="text-center">
             <button type="button" onclick="Etiqueta('${safeDoc}', '${safePac}', '${o.entrega}', '${o.serie}')" class="btnEtiqueta" title="Imprimir Etiqueta #${o.serie}">
               <i data-lucide="barcode" class="w-3.5 h-3.5"></i>
@@ -9791,6 +9791,9 @@ window.calcularDiasRestantes = function(fechaStr) {
       `;
     }).join('');
     if (typeof lucide !== 'undefined') lucide.createIcons();
+  }
+  if (typeof window.initDashboardAnimatedLists === 'function') {
+    window.initDashboardAnimatedLists();
   }
 }
 

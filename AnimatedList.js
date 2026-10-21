@@ -421,8 +421,193 @@
     }
   }
 
+  class TableSpringTracker {
+    constructor(container, options = {}) {
+      this.container = typeof container === 'string' ? document.getElementById(container) : container;
+      if (!this.container) return;
+
+      this.rowSelector = options.rowSelector || 'tbody tr';
+      this.motion = { y: 0, h: 36, vy: 0, vh: 0, ty: 0, th: 36, active: false };
+      this.raf = null;
+      this.lastTime = 0;
+      this.currentRow = null;
+
+      this.init();
+    }
+
+    init() {
+      if (getComputedStyle(this.container).position === 'static') {
+        this.container.style.position = 'relative';
+      }
+
+      let ind = Array.from(this.container.children).find(c => c.classList && c.classList.contains('al-table-indicator'));
+      if (!ind) {
+        ind = document.createElement('div');
+        ind.className = 'al-table-indicator';
+        ind.setAttribute('aria-hidden', 'true');
+        const ring = document.createElement('div');
+        ring.className = 'al-table-indicator__ring';
+        ind.appendChild(ring);
+        this.container.appendChild(ind);
+      }
+      this.indicator = ind;
+
+      this.onPointerMove = this.onPointerMove.bind(this);
+      this.onPointerLeave = this.onPointerLeave.bind(this);
+
+      this.container.addEventListener('pointermove', this.onPointerMove, { passive: true });
+      this.container.addEventListener('pointerleave', this.onPointerLeave, { passive: true });
+    }
+
+    onPointerMove(e) {
+      const tr = e.target.closest(this.rowSelector);
+      if (!tr || !this.container.contains(tr)) {
+        return;
+      }
+      if (tr.querySelector('td[colspan]')) {
+        this.hideIndicator();
+        return;
+      }
+
+      const contRect = this.container.getBoundingClientRect();
+      const trRect = tr.getBoundingClientRect();
+      const table = this.container.querySelector('table');
+
+      const targetY = trRect.top - contRect.top + this.container.scrollTop;
+      const targetH = trRect.height;
+
+      if (table) {
+        const fullW = Math.max(this.container.clientWidth, table.offsetWidth);
+        this.indicator.style.width = `${fullW}px`;
+      }
+
+      this.motion.ty = targetY;
+      this.motion.th = targetH;
+
+      if (!this.motion.active) {
+        this.motion.active = true;
+        this.motion.y = targetY;
+        this.motion.h = targetH;
+        this.motion.vy = 0;
+        this.motion.vh = 0;
+        this.renderPosition();
+        this.indicator.style.opacity = '1';
+      }
+
+      this.currentRow = tr;
+      this.startSpring();
+    }
+
+    onPointerLeave() {
+      this.hideIndicator();
+    }
+
+    hideIndicator() {
+      this.motion.active = false;
+      this.currentRow = null;
+      if (this.indicator) {
+        this.indicator.style.opacity = '0';
+      }
+    }
+
+    startSpring() {
+      if (!this.raf) {
+        this.lastTime = performance.now();
+        this.raf = requestAnimationFrame((now) => this.springStep(now));
+      }
+    }
+
+    springStep(now) {
+      this.raf = null;
+      if (!this.motion.active) return;
+
+      const dt = Math.min(0.05, (now - this.lastTime) / 1000 || 0);
+      this.lastTime = now;
+
+      const omega = 32;
+      const zeta = 0.76;
+      const steps = Math.max(1, Math.ceil(dt / (1 / 240)));
+      const h = dt / steps;
+
+      for (let i = 0; i < steps; i++) {
+        this.motion.vy += (omega * omega * (this.motion.ty - this.motion.y) - 2 * zeta * omega * this.motion.vy) * h;
+        this.motion.vh += (omega * omega * (this.motion.th - this.motion.h) - 2 * zeta * omega * this.motion.vh) * h;
+        this.motion.y += this.motion.vy * h;
+        this.motion.h += this.motion.vh * h;
+      }
+
+      const isMoving =
+        Math.abs(this.motion.ty - this.motion.y) > 0.05 ||
+        Math.abs(this.motion.th - this.motion.h) > 0.05 ||
+        Math.abs(this.motion.vy) + Math.abs(this.motion.vh) > 0.5;
+
+      if (!isMoving) {
+        this.motion.y = this.motion.ty;
+        this.motion.h = this.motion.th;
+        this.motion.vy = 0;
+        this.motion.vh = 0;
+      }
+
+      this.renderPosition();
+
+      if (isMoving && this.motion.active) {
+        this.raf = requestAnimationFrame((n) => this.springStep(n));
+      }
+    }
+
+    renderPosition() {
+      if (this.indicator) {
+        this.indicator.style.transform = `translate3d(0, ${this.motion.y.toFixed(2)}px, 0)`;
+        this.indicator.style.height = `${this.motion.h.toFixed(2)}px`;
+      }
+    }
+
+    refresh() {
+      if (this.currentRow && !this.container.contains(this.currentRow)) {
+        this.hideIndicator();
+      }
+    }
+
+    destroy() {
+      if (this.raf) cancelAnimationFrame(this.raf);
+      this.container.removeEventListener('pointermove', this.onPointerMove);
+      this.container.removeEventListener('pointerleave', this.onPointerLeave);
+      if (this.indicator && this.indicator.parentNode) {
+        this.indicator.parentNode.removeChild(this.indicator);
+      }
+    }
+  }
+
   window.AnimatedList = AnimatedList;
   window.crearAnimatedList = function(container, options) {
     return new AnimatedList(container, options);
+  };
+
+  window.attachTableSprings = function(container, options) {
+    const el = typeof container === 'string' ? document.getElementById(container) : container;
+    if (!el) return null;
+    if (el._alTableSpring) {
+      el._alTableSpring.refresh();
+      return el._alTableSpring;
+    }
+    const tracker = new TableSpringTracker(el, options);
+    el._alTableSpring = tracker;
+    return tracker;
+  };
+
+  window.initDashboardAnimatedLists = function() {
+    const targetIds = [
+      'scrollStageEscaneo',
+      'scrollStageDiseno',
+      'scrollStageFabricacion',
+      'scrollStageEntrega',
+      'scrollTableOrdenesGral'
+    ];
+    targetIds.forEach(id => {
+      const container = document.getElementById(id);
+      if (container) {
+        window.attachTableSprings(container);
+      }
+    });
   };
 })();
