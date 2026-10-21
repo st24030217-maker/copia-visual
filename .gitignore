@@ -12,3 +12,6 @@ lab/
 *.mp4
 *.tar.gz
 *.7z
+.DS_Store
+._*
+Thumbs.db
