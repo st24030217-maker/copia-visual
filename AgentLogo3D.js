@@ -540,10 +540,10 @@
   window.initAgentLogo3D = function() {
     activeInstances.length = 0;
 
-    // 1. Botón Flotante Inferior Derecho (38x38 WebGL)
+    // 1. Botón Flotante Inferior Derecho (64x64 WebGL sin recuadro)
     const floatTarget = document.getElementById('floatingLogo3DContainer');
     if (floatTarget) {
-      new AgentLogo3DViewer(floatTarget, { width: 38, height: 38, cameraZ: 2.85 });
+      new AgentLogo3DViewer(floatTarget, { width: 64, height: 64, cameraZ: 2.85 });
     }
 
     // 2. Cabecera del Asistente (32x32 WebGL)
