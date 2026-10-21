@@ -12862,11 +12862,110 @@ window.aplicarTextoWixAI = function() {
 
 // =========================================================================
 // ASISTENTE VIRTUAL CONVERSACIONAL ESTILO WIX (COPILOT INTERACTIVO)
+// Con Ojo Interactivo que sigue el cursor del mouse y Acceso Total al Dashboard
 // =========================================================================
 
 window.wixAssistantHistory = [];
 window.wixAssistantOpen = false;
 
+// -------------------------------------------------------------------------
+// 1. MOTOR DEL OJO INTERACTIVO WIX (SEGUIMIENTO DEL CURSOR DEL MOUSE)
+// -------------------------------------------------------------------------
+let eyeAnimationReq = null;
+let lastMousePos = { x: window.innerWidth / 2, y: window.innerHeight / 2 };
+
+window.initWixEyeTracking = function() {
+  window.addEventListener('mousemove', (e) => {
+    lastMousePos.x = e.clientX;
+    lastMousePos.y = e.clientY;
+    if (!eyeAnimationReq) {
+      eyeAnimationReq = requestAnimationFrame(updateEyesPosition);
+    }
+  }, { passive: true });
+};
+
+function updateEyesPosition() {
+  eyeAnimationReq = null;
+  const eyes = document.querySelectorAll('.wix-eye-container');
+  eyes.forEach(eye => {
+    const pupil = eye.querySelector('.wix-eye-pupil');
+    if (!pupil) return;
+
+    const rect = eye.getBoundingClientRect();
+    if (rect.width === 0 || rect.height === 0) return; // Si no es visible, omitir
+
+    const eyeCenterX = rect.left + rect.width / 2;
+    const eyeCenterY = rect.top + rect.height / 2;
+
+    const dx = lastMousePos.x - eyeCenterX;
+    const dy = lastMousePos.y - eyeCenterY;
+    const angle = Math.atan2(dy, dx);
+    const dist = Math.hypot(dx, dy);
+
+    // Límite de radio para que la pupila nunca salga del ojo negro
+    const pupilRect = pupil.getBoundingClientRect();
+    const pupilRadius = (pupilRect.width || 8) / 2;
+    const maxRadius = Math.max(3, (rect.width / 2) - pupilRadius - 2);
+
+    const moveDist = Math.min(dist / 14, maxRadius);
+    const pupilX = Math.cos(angle) * moveDist;
+    const pupilY = Math.sin(angle) * moveDist;
+
+    pupil.style.transform = `translate(calc(-50% + ${pupilX.toFixed(1)}px), calc(-50% + ${pupilY.toFixed(1)}px))`;
+  });
+}
+
+// Inicializar el tracking de ojos de inmediato
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', () => window.initWixEyeTracking());
+} else {
+  window.initWixEyeTracking();
+}
+
+// -------------------------------------------------------------------------
+// 2. CONTEXTO EN VIVO DEL DASHBOARD PARA EL AGENTE
+// -------------------------------------------------------------------------
+window.obtenerContextoEnVivoDashboard = function() {
+  const d = window.INICIO_DATA || {};
+  const escaneo = Array.isArray(d.escaneo) ? d.escaneo : [];
+  const diseno = Array.isArray(d.diseno) ? d.diseno : [];
+  const fabricacion = Array.isArray(d.fabricacion) ? d.fabricacion : [];
+  const entrega = Array.isArray(d.entrega) ? d.entrega : [];
+  const pendientes = Array.isArray(d.pendientes) ? d.pendientes : [];
+  const canceladas = Array.isArray(d.canceladas) ? d.canceladas : (window.HISTORIAL_CANCELADAS || []);
+
+  const totalActivas = escaneo.length + diseno.length + fabricacion.length + entrega.length;
+  const usuario = localStorage.getItem('cv_usuario') || 'Sebastian';
+  const proximosEscaneos = document.getElementById('NumberProximosEscaneos')?.innerText || '4';
+
+  return {
+    usuario,
+    totalActivas,
+    escaneo,
+    diseno,
+    fabricacion,
+    entrega,
+    pendientes,
+    canceladas,
+    proximosEscaneos,
+    resumenTexto: `
+ESTADO ACTUAL EN VIVO DEL DASHBOARD DE DENT CONTROL:
+- Usuario activo: ${usuario}
+- Total de órdenes activas en laboratorio: ${totalActivas}
+- En ESCANEO (${escaneo.length}): ${escaneo.slice(0, 4).map(o => `OT #${o.serie || o.ot}: ${o.prod} (Dr. ${o.doctor})`).join(' | ') || 'Sin órdenes en escaneo'}
+- En DISEÑO (${diseno.length}): ${diseno.slice(0, 4).map(o => `OT #${o.serie || o.ot}: ${o.prod} (Dr. ${o.doctor})`).join(' | ') || 'Sin órdenes en diseño'}
+- En FABRICACIÓN (${fabricacion.length}): ${fabricacion.slice(0, 4).map(o => `OT #${o.serie || o.ot}: ${o.prod} (Dr. ${o.doctor})`).join(' | ') || 'Sin órdenes en fabricación'}
+- En ENTREGA (${entrega.length}): ${entrega.slice(0, 4).map(o => `OT #${o.serie || o.ot}: ${o.prod} (Dr. ${o.doctor})`).join(' | ') || 'Sin órdenes en entrega'}
+- ÓRDENES PENDIENTES DE PAGO (${pendientes.length}): ${pendientes.slice(0, 4).map(p => `OT #${p.serie}: ${p.doctor} (${p.paciente || 'Paciente General'})`).join(' | ') || 'Sin adeudos pendientes'}
+- Próximos escaneos programados en clínica: ${proximosEscaneos} citas
+- Órdenes canceladas del mes: ${canceladas.length} órdenes
+`
+  };
+};
+
+// -------------------------------------------------------------------------
+// 3. CONTROLADOR DEL PANEL LATERAL Y NAVEGACIÓN RÁPIDA
+// -------------------------------------------------------------------------
 window.toggleWixAssistant = function(forzar) {
   const panel = document.getElementById('wixAssistantPanel');
   const backdrop = document.getElementById('wixAssistantBackdrop');
@@ -12880,7 +12979,6 @@ window.toggleWixAssistant = function(forzar) {
   }
 
   if (window.wixAssistantOpen) {
-    // Abrir panel
     panel.classList.remove('translate-x-full');
     panel.classList.add('translate-x-0');
     if (backdrop) backdrop.classList.remove('hidden');
@@ -12902,9 +13000,9 @@ window.toggleWixAssistant = function(forzar) {
     setTimeout(() => {
       const input = document.getElementById('wixAssistantInput');
       if (input) input.focus();
+      updateEyesPosition();
     }, 200);
   } else {
-    // Cerrar panel
     panel.classList.remove('translate-x-0');
     panel.classList.add('translate-x-full');
     if (backdrop) backdrop.classList.add('hidden');
@@ -12935,7 +13033,7 @@ window.reiniciarChatWixAssistant = function() {
   }
 
   if (typeof showToast === 'function') {
-    showToast('Nuevo Chat', 'Se ha iniciado una nueva conversación con el Asistente IA.');
+    showToast('Nuevo Chat', 'Conversación reiniciada con acceso total al Dashboard.');
   }
 };
 
@@ -12946,26 +13044,30 @@ window.mostrarHistorialWixAssistant = function() {
     }
     return;
   }
-  const resumen = window.wixAssistantHistory.map(h => (h.role === 'user' ? 'Pregunta: ' : 'Respuesta: ') + h.text.substring(0, 45) + '...').join('\n\n');
-  alert('Historial reciente de la sesión:\n\n' + resumen);
+  const resumen = window.wixAssistantHistory.map(h => (h.role === 'user' ? 'Pregunta: ' : 'Respuesta: ') + h.text.substring(0, 50) + '...').join('\n\n');
+  alert('Historial reciente de consultas:\n\n' + resumen);
 };
 
 window.mostrarMenuHerramientasWix = function() {
+  const ctx = window.obtenerContextoEnVivoDashboard();
   const opciones = [
-    '1. Redactar notificación push a doctores',
-    '2. Consultar órdenes pendientes de pago',
-    '3. Guía de materiales zirconio vs disilicato',
-    '4. Abrir creador de texto de 3 opciones (Wix)'
+    `1. Ver ${ctx.fabricacion.length} órdenes en fabricación y ${ctx.entrega.length} en entrega`,
+    `2. Consultar ${ctx.pendientes.length} órdenes pendientes de pago`,
+    `3. Abrir Calendario de citas y entregas`,
+    `4. Redactar notificación push para odontólogos`,
+    `5. Abrir creador de texto de 3 opciones (Wix)`
   ].join('\n');
 
-  const seleccion = prompt('Herramientas Rápidas del Asistente:\n' + opciones + '\n\nEscribe el número (1-4):', '1');
+  const seleccion = prompt('Herramientas Rápidas del Asistente:\n' + opciones + '\n\nEscribe el número (1-5):', '1');
   if (seleccion === '1') {
-    window.enviarPromptSugeridoWix('Redactar aviso cordial a odontólogo para entrega de coronas de zirconio');
+    window.enviarPromptSugeridoWix('¿Cuáles órdenes están en fabricación y entrega hoy?');
   } else if (seleccion === '2') {
-    window.enviarPromptSugeridoWix('Consultar estado de órdenes pendientes de pago y balance');
+    window.enviarPromptSugeridoWix('Consultar doctores con órdenes pendientes de pago');
   } else if (seleccion === '3') {
-    window.enviarPromptSugeridoWix('Explicar ventajas del zirconio monolítico vs disilicato de litio para clínicas');
+    window.enviarPromptSugeridoWix('Abrir calendario de citas y entregas');
   } else if (seleccion === '4') {
+    window.enviarPromptSugeridoWix('Redactar aviso cordial a odontólogo para entrega de coronas');
+  } else if (seleccion === '5') {
     if (typeof abrirModalWixAI === 'function') abrirModalWixAI();
   }
 };
@@ -12989,7 +13091,7 @@ window.activarMicrofonoWix = function() {
     const input = document.getElementById('wixAssistantInput');
 
     if (micBtn) micBtn.classList.add('text-rose-600', 'animate-pulse');
-    if (typeof showToast === 'function') showToast('Escuchando...', 'Habla ahora para dictar tu consulta al asistente.');
+    if (typeof showToast === 'function') showToast('Escuchando...', 'Habla ahora para dictar tu consulta.');
 
     recognition.onresult = function(event) {
       const transcript = event.results[0][0].transcript;
@@ -13026,9 +13128,41 @@ window.enviarPromptSugeridoWix = function(promptText) {
   window.enviarMensajeWixAssistant();
 };
 
+// -------------------------------------------------------------------------
+// 4. EJECUTOR DE ACCIONES Y NAVEGACIÓN EN EL DASHBOARD
+// -------------------------------------------------------------------------
+window.ejecutarAccionDashboard = function(tipo, param, boton) {
+  if (tipo === 'nav') {
+    if (typeof openModule === 'function') {
+      openModule(param);
+      if (typeof showToast === 'function') {
+        showToast('Navegación', `Se abrió el módulo ${param} correctamente.`);
+      }
+    }
+  } else if (tipo === 'modal') {
+    if (param === 'modalPendientes' && typeof openModalPendientes === 'function') {
+      openModalPendientes();
+    } else if (param === 'modalCanceladas' && typeof openModalCanceladas === 'function') {
+      openModalCanceladas();
+    } else if (param === 'modalEventosEscaneo' && typeof openModalEventosEscaneo === 'function') {
+      openModalEventosEscaneo();
+    } else if (param === 'nuevaOrden' && typeof openSimpleAddModal === 'function') {
+      openSimpleAddModal('lista-ordenes');
+    }
+  } else if (tipo === 'wixModal') {
+    if (typeof abrirModalWixAI === 'function') {
+      abrirModalWixAI({ defaultTipo: param || 'entrega' });
+    }
+  }
+
+  // Cerrar asistente en móviles para ver la acción
+  if (window.innerWidth < 768) {
+    window.toggleWixAssistant(false);
+  }
+};
+
 window.formatearMarkdownWix = function(texto) {
   if (!texto) return '';
-  // Escapar HTML básico
   let html = texto
     .replace(/&/g, '&amp;')
     .replace(/</g, '&lt;')
@@ -13038,20 +13172,23 @@ window.formatearMarkdownWix = function(texto) {
   html = html.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
   // Cursiva *texto*
   html = html.replace(/\*(.*?)\*/g, '<em>$1</em>');
-  // Código en línea `codigo`
+  // Código `codigo`
   html = html.replace(/`(.*?)`/g, '<code class="px-1.5 py-0.5 rounded bg-slate-100 text-purple-700 font-mono text-[11px]">$1</code>');
-  // Listas con viñeta - item
+  // Listas con viñeta
   html = html.replace(/^[-*]\s+(.*)$/gm, '<li class="ml-4 list-disc">$1</li>');
-  // Saltos de línea dobles a párrafos
+  // Párrafos y saltos
   html = html.replace(/\n\n+/g, '</p><p class="mt-2">');
-  // Saltos simples a <br>
   html = html.replace(/\n/g, '<br>');
 
   return '<p>' + html + '</p>';
 };
 
+// -------------------------------------------------------------------------
+// 5. CONSULTA INTELIGENTE A GEMINI CON CONTEXTO EN VIVO
+// -------------------------------------------------------------------------
 window.consultarGeminiChat = async function(preguntaUsuario) {
-  // 1. Obtener API Key
+  const liveCtx = window.obtenerContextoEnVivoDashboard();
+
   let key = localStorage.getItem('cv_gemini_api_key');
   if (!key) {
     try {
@@ -13061,16 +13198,30 @@ window.consultarGeminiChat = async function(preguntaUsuario) {
     }
   }
 
-  const systemPrompt = `Actúa como el Asistente Inteligente oficial (Copilot estilo Wix) para Dent Control / DentLab, sistema integral de gestión para laboratorio dental CAD/CAM y clínica.
-Usuario: Administrador o técnico dental especializado.
-Capacidades:
-1. Redacción de comunicados, notificaciones push y mensajes de WhatsApp para odontólogos (avisos de entrega, recordatorios de pago, promociones de zirconio).
-2. Asistencia técnica sobre CAD/CAM (fresado de zirconia, disilicato de litio, impresión 3D, escaneo intraoral).
-3. Orientación sobre módulos de la plataforma (mensajes-push, lista-ordenes, calendario, catálogo).
+  const systemPrompt = `Actúa como el Asistente Inteligente oficial (Copilot estilo Wix) para Dent Control / DentLab, sistema de gestión para laboratorio dental CAD/CAM y clínica.
+Usuario conectado: ${liveCtx.usuario}.
+
+INFORMACIÓN EN VIVO DEL DASHBOARD EN ESTE INSTANTE:
+${liveCtx.resumenTexto}
+
+CAPACIDADES DE NAVEGACIÓN Y ACCIÓN INMEDIATA:
+Puedes activar acciones en el sistema incluyendo al final de tu respuesta una o más etiquetas con este formato exacto:
+[ACCION:nav:modulo_id:Texto del Botón]
+- [ACCION:nav:mensajes-push:Ir a Mensajes Push]
+- [ACCION:nav:lista-ordenes:Ver Lista de Órdenes]
+- [ACCION:nav:calendario:Abrir Calendario]
+- [ACCION:nav:productos-app:Ver Catálogo de Productos]
+- [ACCION:modal:modalPendientes:Ver Órdenes Pendientes de Pago]
+- [ACCION:modal:modalCanceladas:Ver Órdenes Canceladas]
+- [ACCION:modal:modalEventosEscaneo:Ver Citas de Escaneo]
+- [ACCION:modal:nuevaOrden:Crear Nueva Orden]
+- [ACCION:wixModal:entrega:Crear Texto con IA]
+
 REGLAS ESTRICTAS:
 - Mantén un tono sumamente profesional, resolutivo, claro y amable.
 - PROHIBIDO EL USO DE EMOJIS bajo cualquier circunstancia.
-- Responde de forma concisa y estructurada. Si el usuario te pide un texto para enviar a un doctor, redáctalo directamente en un bloque claro para que pueda copiarlo fácilmente.`;
+- Responde con los datos exactos del Dashboard cuando te pregunten sobre órdenes, fabricación, entregas o pagos.
+- Si el usuario pide explícitamente ir o abrir algo (ej. "abre el calendario"), confírmalo e incluye la acción.`;
 
   const conversationHistory = window.wixAssistantHistory.slice(-6).map(h => ({
     role: h.role === 'user' ? 'user' : 'model',
@@ -13079,7 +13230,7 @@ REGLAS ESTRICTAS:
 
   const contents = [
     { role: 'user', parts: [{ text: systemPrompt }] },
-    { role: 'model', parts: [{ text: 'Entendido. Soy el Asistente Inteligente oficial de Dent Control. Responderé con total profesionalismo, precisión técnica en CAD/CAM y sin emojis.' }] },
+    { role: 'model', parts: [{ text: 'Entendido. Cuento con acceso en tiempo real a todo el Dashboard de Dent Control. Responderé con precisión sobre órdenes, etapas, pagos y navegación sin emojis.' }] },
     ...conversationHistory,
     { role: 'user', parts: [{ text: preguntaUsuario }] }
   ];
@@ -13106,25 +13257,33 @@ REGLAS ESTRICTAS:
         }
       }
     } catch (err) {
-      console.warn('Conexión con Gemini en espera, usando respaldo inteligente:', err);
+      console.warn('Conexión con Gemini en espera, activando respuesta en vivo local:', err);
     }
   }
 
-  // Respaldo de alta fidelidad si la conexión tarda o está offline
+  // Respaldo de alta velocidad procesando los datos reales del Dashboard
   const query = preguntaUsuario.toLowerCase();
-  if (query.includes('orden') && query.includes('crear')) {
-    return 'Para crear una nueva orden de trabajo en Dent Control:\n\n1. Dirígete a la sección **Dent Lab** > **Lista de Órdenes** o pulsa el botón (+) en la barra superior.\n2. Selecciona el odontólogo destinatario, tipo de trabajo (zirconia, disilicato, etc.) y la fecha programada de entrega.\n3. Si cuentas con archivo STL de escaneo intraoral, puedes adjuntarlo de inmediato en el expediente digital.';
-  } else if (query.includes('push') || query.includes('aviso') || query.includes('redactar') || query.includes('entrega')) {
-    return 'Aquí tienes una redacción formal sugerida para notificar al odontólogo:\n\n**Título:** Orden dental lista para entrega\n\n**Mensaje:** Estimado Dr. Su trabajo de laboratorio ha concluido satisfactoriamente la fase de control de calidad y se encuentra listo en recepción para entrega o envío programado.\n\nPuedes pulsar el botón inferior para transferir este texto al módulo de Mensajes Push o copiarlo al portapapeles.';
-  } else if (query.includes('cobranza') || query.includes('pago') || query.includes('saldo')) {
-    return 'Propuesta de comunicado para recordatorio cordial de pago:\n\n**Título:** Actualización de estado de cuenta\n\n**Mensaje:** Estimado Dr. Le compartimos el resumen de su saldo pendiente para coordinar la confirmación de pago y la liberación programada de sus órdenes en proceso.\n\nQuedamos a su disposición para cualquier aclaración de su estado contable.';
-  } else if (query.includes('zirconio') || query.includes('disilicato') || query.includes('material')) {
-    return 'Comparativa de materiales CAD/CAM en DentLab:\n\n- **Zirconio Monolítico Multicapa:** Alta resistencia a la fractura (hasta 1200 MPa), ideal para sectores posteriores, puentes extensos y casos con bruxismo.\n- **Disilicato de Litio:** Máxima estética vítrea y translucidez natural (400-500 MPa), excelente para carillas, incrustaciones y coronas en sector anterior.\n\nAmbos materiales cuentan con protocolo de fresado de precisión e inspección microscópica.';
+  if (query.includes('fabricaci') || query.includes('entrega')) {
+    const listFab = liveCtx.fabricacion.slice(0, 3).map(o => `- OT #${o.serie || o.ot}: ${o.prod} para Dr(a). ${o.doctor}`).join('\n') || 'No hay órdenes en fabricación en este momento.';
+    const listEnt = liveCtx.entrega.slice(0, 3).map(o => `- OT #${o.serie || o.ot}: ${o.prod} para Dr(a). ${o.doctor}`).join('\n') || 'No hay órdenes pendientes de entrega.';
+    return `Estado en vivo del laboratorio:\n\n**Órdenes en Fabricación (${liveCtx.fabricacion.length}):**\n${listFab}\n\n**Órdenes en Entrega (${liveCtx.entrega.length}):**\n${listEnt}\n\n[ACCION:nav:lista-ordenes:Ver Lista Completa de Órdenes]`;
+  } else if (query.includes('pago') || query.includes('saldo') || query.includes('debe') || query.includes('pendiente')) {
+    const listPend = liveCtx.pendientes.slice(0, 4).map(p => `- OT #${p.serie}: Dr(a). ${p.doctor} (Paciente: ${p.paciente || 'General'})`).join('\n') || 'Actualmente no hay órdenes con saldo pendiente.';
+    return `Resumen de Órdenes Pendientes de Pago en el Dashboard:\n\nActualmente hay **${liveCtx.pendientes.length} órdenes** con saldo pendiente de liquidar:\n${listPend}\n\nPuedes abrir el detalle de cuentas o enviar un recordatorio push.\n\n[ACCION:modal:modalPendientes:Abrir Modal de Pagos Pendientes] [ACCION:nav:mensajes-push:Redactar Cobranza Push]`;
+  } else if (query.includes('calendario') || query.includes('cita') || query.includes('escaneo')) {
+    return `En el Dashboard tienes **${liveCtx.proximosEscaneos} citas de escaneo intraoral** programadas en clínica.\n\nPuedes consultar el calendario completo para ver las fechas de recolección y entrega.\n\n[ACCION:nav:calendario:Abrir Calendario de Citas] [ACCION:modal:modalEventosEscaneo:Ver Citas de Escaneo]`;
+  } else if (query.includes('orden') && (query.includes('crear') || query.includes('nueva'))) {
+    return `Para registrar una nueva orden de trabajo, puedes abrir el formulario de alta rápida ahora mismo:\n\n[ACCION:modal:nuevaOrden:Crear Nueva Orden de Trabajo] [ACCION:nav:lista-ordenes:Ver Órdenes Registradas]`;
+  } else if (query.includes('push') || query.includes('aviso') || query.includes('redactar') || query.includes('doctor')) {
+    return `Redacción sugerida para notificación a doctores:\n\n**Título:** Orden dental lista para entrega\n\n**Mensaje:** Estimado Dr. Su trabajo de laboratorio ha concluido satisfactoriamente la fase de control de calidad y se encuentra listo en recepción para entrega o envío programado.\n\n[ACCION:nav:mensajes-push:Cargar en Mensajes Push] [ACCION:wixModal:entrega:Generar 3 Variantes con IA]`;
   } else {
-    return `He procesado tu consulta: "${preguntaUsuario}". Como asistente de Dent Control, puedo ayudarte a redactar comunicados para doctores, consultar procesos de laboratorio CAD/CAM, verificar estados de pago o guiarte a través de los módulos del sistema. ¿Deseas que profundicemos en algún aspecto específico?`;
+    return `He revisado el Dashboard en tiempo real. En el laboratorio tienes **${liveCtx.totalActivas} órdenes activas** (${liveCtx.escaneo.length} en escaneo, ${liveCtx.diseno.length} en diseño, ${liveCtx.fabricacion.length} en fabricación y ${liveCtx.entrega.length} listas para entrega).\n\n¿Deseas que naveguemos a algún módulo específico o que consulte algún doctor en particular?\n\n[ACCION:nav:lista-ordenes:Ver Órdenes] [ACCION:nav:calendario:Calendario] [ACCION:modal:modalPendientes:Ver Pagos Pendientes]`;
   }
 };
 
+// -------------------------------------------------------------------------
+// 6. ENVÍO DE MENSAJES Y RENDERIZADO CON OJOS Y ACCIONES
+// -------------------------------------------------------------------------
 window.enviarMensajeWixAssistant = async function() {
   const input = document.getElementById('wixAssistantInput');
   const sendBtn = document.getElementById('btnWixSend');
@@ -13137,18 +13296,15 @@ window.enviarMensajeWixAssistant = async function() {
   const texto = input.value.trim();
   if (!texto) return;
 
-  // Limpiar input y deshabilitar botón temporalmente
   input.value = '';
   if (sendBtn) sendBtn.disabled = true;
 
-  // Ocultar pantalla de bienvenida y mostrar contenedor de mensajes
   if (welcome) welcome.classList.add('hidden');
   if (messages) messages.classList.remove('hidden');
 
-  // Registrar mensaje de usuario
   window.wixAssistantHistory.push({ role: 'user', text: texto });
 
-  // Crear burbuja del usuario (lado derecho)
+  // Burbuja de usuario
   const userBubble = document.createElement('div');
   userBubble.className = 'flex justify-end';
   userBubble.innerHTML = `
@@ -13158,58 +13314,80 @@ window.enviarMensajeWixAssistant = async function() {
   `;
   messages.appendChild(userBubble);
 
-  // Scroll al final
   if (body) body.scrollTop = body.scrollHeight;
-
-  // Mostrar indicador de typing
   if (typing) typing.classList.remove('hidden');
   if (body) body.scrollTop = body.scrollHeight;
 
   try {
-    const respuestaTexto = await window.consultarGeminiChat(texto);
-
-    // Ocultar typing
+    const rawRespuesta = await window.consultarGeminiChat(texto);
     if (typing) typing.classList.add('hidden');
 
-    // Registrar respuesta del asistente
-    window.wixAssistantHistory.push({ role: 'model', text: respuestaTexto });
+    window.wixAssistantHistory.push({ role: 'model', text: rawRespuesta });
 
-    // Determinar si incluye sugerencia de notificación push
-    const esTextoPush = respuestaTexto.includes('**Título:**') || respuestaTexto.includes('Título:');
+    // Extraer acciones rápidas [ACCION:tipo:param:etiqueta]
+    const acciones = [];
+    const accionRegex = /\[ACCION:([a-zA-Z0-9_-]+):([a-zA-Z0-9_-]+):([^\]]+)\]/g;
+    let match;
+    while ((match = accionRegex.exec(rawRespuesta)) !== null) {
+      acciones.push({ tipo: match[1], param: match[2], etiqueta: match[3] });
+    }
+
+    // Limpiar etiquetas de acción del texto visible
+    const textoLimpio = rawRespuesta.replace(accionRegex, '').trim();
+
+    // Detección de títulos y mensajes para push
+    const esTextoPush = textoLimpio.includes('**Título:**') || textoLimpio.includes('Título:');
     let tituloDetectado = '';
     let mensajeDetectado = '';
 
     if (esTextoPush) {
-      const matchTitulo = respuestaTexto.match(/\*\*Título:\*\*\s*(.*?)(?:\n|$)/i) || respuestaTexto.match(/Título:\s*(.*?)(?:\n|$)/i);
-      const matchMensaje = respuestaTexto.match(/\*\*Mensaje:\*\*\s*([\s\S]*?)(?:\n\n|$)/i) || respuestaTexto.match(/Mensaje:\s*([\s\S]*?)(?:\n\n|$)/i);
+      const matchTitulo = textoLimpio.match(/\*\*Título:\*\*\s*(.*?)(?:\n|$)/i) || textoLimpio.match(/Título:\s*(.*?)(?:\n|$)/i);
+      const matchMensaje = textoLimpio.match(/\*\*Mensaje:\*\*\s*([\s\S]*?)(?:\n\n|$)/i) || textoLimpio.match(/Mensaje:\s*([\s\S]*?)(?:\n\n|$)/i);
       if (matchTitulo) tituloDetectado = matchTitulo[1].trim();
       if (matchMensaje) mensajeDetectado = matchMensaje[1].trim();
     }
 
-    const htmlFormateado = window.formatearMarkdownWix(respuestaTexto);
+    const htmlFormateado = window.formatearMarkdownWix(textoLimpio);
 
-    // Crear burbuja del asistente (lado izquierdo con avatar negro Wix)
+    // Botones de acción HTML
+    let botonesAccionHtml = '';
+    if (acciones.length > 0) {
+      botonesAccionHtml = `
+        <div class="pt-2 border-t border-slate-100 flex flex-wrap items-center gap-1.5">
+          ${acciones.map(a => `
+            <button type="button" onclick="ejecutarAccionDashboard('${a.tipo}', '${a.param}', this)" class="px-2.5 py-1 rounded-lg bg-blue-50 hover:bg-blue-100 text-blue-700 font-bold border border-blue-200 text-[11px] transition-colors flex items-center gap-1 cursor-pointer shadow-2xs">
+              <i data-lucide="${a.tipo === 'nav' ? 'arrow-right' : (a.tipo === 'modal' ? 'maximize-2' : 'sparkles')}" class="w-3 h-3 text-blue-600"></i>
+              <span>${a.etiqueta}</span>
+            </button>
+          `).join('')}
+        </div>
+      `;
+    }
+
+    // Burbuja del Asistente con Ojo Interactivo Wix
     const aiBubble = document.createElement('div');
     aiBubble.className = 'flex items-start gap-2.5';
     aiBubble.innerHTML = `
-      <div class="w-7 h-7 rounded-full bg-slate-950 flex items-center justify-center relative shadow-xs shrink-0 mt-0.5">
-        <span class="w-1.5 h-1.5 rounded-full bg-white absolute top-1.5 left-2"></span>
+      <div class="wix-eye-container wix-eye-blinking w-7 h-7 rounded-full bg-slate-950 flex items-center justify-center relative shadow-xs shrink-0 mt-0.5 overflow-hidden select-none">
+        <div class="wix-eye-pupil w-2 h-2 rounded-full bg-white absolute pointer-events-none shadow-xs"></div>
       </div>
       <div class="flex-1 bg-white border border-slate-200/90 rounded-2xl rounded-tl-xs p-3.5 shadow-2xs text-xs sm:text-[13px] text-slate-800 leading-relaxed space-y-2.5 max-w-[90%]">
         <div class="wix-assistant-content">
           ${htmlFormateado}
         </div>
         
-        <!-- Acciones rápidas de la respuesta -->
-        <div class="pt-2 border-t border-slate-100 flex flex-wrap items-center gap-1.5 text-[11px]">
-          <button type="button" onclick="copiarTextoRespuestaWix(this)" class="px-2.5 py-1 rounded-lg bg-slate-50 hover:bg-slate-100 text-slate-600 font-semibold border border-slate-200 transition-colors flex items-center gap-1 cursor-pointer">
+        ${botonesAccionHtml}
+
+        <!-- Acciones generales de copia y push -->
+        <div class="pt-1.5 flex flex-wrap items-center gap-1.5 text-[11px]">
+          <button type="button" onclick="copiarTextoRespuestaWix(this)" class="px-2 py-0.5 rounded-lg bg-slate-50 hover:bg-slate-100 text-slate-600 font-semibold border border-slate-200 transition-colors flex items-center gap-1 cursor-pointer">
             <i data-lucide="copy" class="w-3 h-3"></i>
-            <span>Copiar texto</span>
+            <span>Copiar</span>
           </button>
           ${esTextoPush && tituloDetectado ? `
-            <button type="button" onclick="cargarTextoEnPushWix('${encodeURIComponent(tituloDetectado)}', '${encodeURIComponent(mensajeDetectado)}')" class="px-2.5 py-1 rounded-lg bg-purple-50 hover:bg-purple-100 text-purple-700 font-bold border border-purple-200 transition-colors flex items-center gap-1 cursor-pointer">
+            <button type="button" onclick="cargarTextoEnPushWix('${encodeURIComponent(tituloDetectado)}', '${encodeURIComponent(mensajeDetectado)}')" class="px-2 py-0.5 rounded-lg bg-purple-50 hover:bg-purple-100 text-purple-700 font-bold border border-purple-200 transition-colors flex items-center gap-1 cursor-pointer">
               <i data-lucide="send" class="w-3 h-3 text-purple-600"></i>
-              <span>Cargar en Mensajes Push</span>
+              <span>Cargar en Push</span>
             </button>
           ` : ''}
         </div>
@@ -13219,9 +13397,21 @@ window.enviarMensajeWixAssistant = async function() {
 
     if (body) body.scrollTop = body.scrollHeight;
 
+    // Actualizar ojos y lucide icons
+    updateEyesPosition();
     if (window.lucide) {
       window.lucide.createIcons();
     }
+
+    // Si el usuario pidió explícitamente navegar, auto-ejecutar primera acción de navegación tras breve pausa
+    const userLower = texto.toLowerCase();
+    if ((userLower.includes('llévame') || userLower.includes('abre') || userLower.includes('navega')) && acciones.length > 0) {
+      const primerAccion = acciones[0];
+      setTimeout(() => {
+        window.ejecutarAccionDashboard(primerAccion.tipo, primerAccion.param);
+      }, 500);
+    }
+
   } catch (err) {
     console.error('Error al procesar mensaje con asistente:', err);
     if (typing) typing.classList.add('hidden');
