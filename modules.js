@@ -13501,6 +13501,178 @@ window.procesarRespuestaDentControl = function(preguntaUsuario, liveCtx) {
 };
 
 // -------------------------------------------------------------------------
+// -------------------------------------------------------------------------
+// 5. CONTROLADOR DEL PANEL LATERAL Y NAVEGACION RAPIDA
+// -------------------------------------------------------------------------
+window.wixAssistantHistory = window.wixAssistantHistory || [];
+window.wixAssistantOpen = false;
+
+window.toggleWixAssistant = function(forzar) {
+  const panel = document.getElementById('wixAssistantPanel');
+  const backdrop = document.getElementById('wixAssistantBackdrop');
+  const floatingBtn = document.getElementById('btnFloatingWixAssistant');
+  if (!panel) return;
+
+  if (typeof forzar === 'boolean') {
+    window.wixAssistantOpen = forzar;
+  } else {
+    window.wixAssistantOpen = !window.wixAssistantOpen;
+  }
+
+  if (window.wixAssistantOpen) {
+    panel.classList.remove('translate-x-full');
+    panel.classList.add('translate-x-0');
+    if (backdrop) backdrop.classList.remove('hidden');
+    if (floatingBtn) floatingBtn.classList.add('opacity-0', 'pointer-events-none');
+
+    // Saludo dinamico segun la hora del dia y usuario
+    const hour = new Date().getHours();
+    let saludo = 'Buenas tardes';
+    if (hour >= 5 && hour < 12) saludo = 'Buenos dias';
+    else if (hour >= 19 || hour < 5) saludo = 'Buenas noches';
+
+    const usuario = localStorage.getItem('cv_usuario') || 'Sebastian';
+    const greetingEl = document.getElementById('wixAssistantGreeting');
+    if (greetingEl) {
+      greetingEl.innerText = `${saludo}, ${usuario}: ¿En que puedo ayudarte hoy?`;
+    }
+
+    // Auto-foco en el input
+    setTimeout(() => {
+      const input = document.getElementById('wixAssistantInput');
+      if (input) input.focus();
+      if (typeof updateEyesPosition === 'function') updateEyesPosition();
+    }, 200);
+  } else {
+    panel.classList.remove('translate-x-0');
+    panel.classList.add('translate-x-full');
+    if (backdrop) backdrop.classList.add('hidden');
+    if (floatingBtn) floatingBtn.classList.remove('opacity-0', 'pointer-events-none');
+  }
+
+  if (window.lucide) {
+    window.lucide.createIcons();
+  }
+};
+
+window.reiniciarChatWixAssistant = function() {
+  window.wixAssistantHistory = [];
+  const welcome = document.getElementById('wixAssistantWelcome');
+  const messages = document.getElementById('wixAssistantMessages');
+  const typing = document.getElementById('wixAssistantTyping');
+  const input = document.getElementById('wixAssistantInput');
+
+  if (welcome) welcome.classList.remove('hidden');
+  if (messages) {
+    messages.innerHTML = '';
+    messages.classList.add('hidden');
+  }
+  if (typing) typing.classList.add('hidden');
+  if (input) {
+    input.value = '';
+    input.focus();
+  }
+
+  if (typeof showToast === 'function') {
+    showToast('Nuevo Chat', 'Conversacion reiniciada con acceso total a Dent Control.');
+  }
+};
+
+window.mostrarHistorialWixAssistant = function() {
+  if (!window.wixAssistantHistory || !window.wixAssistantHistory.length) {
+    if (typeof showToast === 'function') {
+      showToast('Historial', 'No hay mensajes previos en esta sesion.');
+    }
+    return;
+  }
+  const resumen = window.wixAssistantHistory.map(h => (h.role === 'user' ? 'Pregunta: ' : 'Respuesta: ') + h.text.substring(0, 50) + '...').join('\n\n');
+  alert('Historial reciente de consultas:\n\n' + resumen);
+};
+
+window.mostrarMenuHerramientasWix = function() {
+  const ctx = typeof window.obtenerContextoEnVivoDashboard === 'function' ? window.obtenerContextoEnVivoDashboard() : null;
+  const fabCount = ctx ? ctx.fabricacion.length : 0;
+  const entCount = ctx ? ctx.entrega.length : 0;
+  const pendCount = ctx ? ctx.pendientes.length : 0;
+
+  const opciones = [
+    `1. Ver ${fabCount} ordenes en fabricacion y ${entCount} en entrega`,
+    `2. Consultar ${pendCount} ordenes pendientes de pago`,
+    `3. Abrir Calendario de citas y entregas`,
+    `4. Redactar notificacion push para odontologos`,
+    `5. Abrir creador de texto de 3 opciones`
+  ].join('\n');
+
+  const seleccion = prompt('Herramientas Rapidas del Asistente:\n' + opciones + '\n\nEscribe el numero (1-5):', '1');
+  if (seleccion === '1') {
+    window.enviarPromptSugeridoWix('¿Cuales ordenes estan en fabricacion y entrega hoy?');
+  } else if (seleccion === '2') {
+    window.enviarPromptSugeridoWix('Consultar doctores con ordenes pendientes de pago');
+  } else if (seleccion === '3') {
+    window.enviarPromptSugeridoWix('Abrir calendario de citas y entregas');
+  } else if (seleccion === '4') {
+    window.enviarPromptSugeridoWix('Redactar aviso cordial a odontologo para entrega de coronas');
+  } else if (seleccion === '5') {
+    if (typeof abrirModalWixAI === 'function') abrirModalWixAI();
+  }
+};
+
+window.activarMicrofonoWix = function() {
+  const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+  if (!SpeechRecognition) {
+    if (typeof showToast === 'function') {
+      showToast('Microfono', 'Tu navegador no soporta reconocimiento de voz nativo o requiere permisos de microfono.');
+    }
+    return;
+  }
+
+  try {
+    const recognition = new SpeechRecognition();
+    recognition.lang = 'es-MX';
+    recognition.continuous = false;
+    recognition.interimResults = false;
+
+    const micBtn = document.getElementById('btnWixMic');
+    const input = document.getElementById('wixAssistantInput');
+
+    if (micBtn) micBtn.classList.add('text-rose-600', 'animate-pulse');
+    if (typeof showToast === 'function') showToast('Escuchando...', 'Habla ahora para dictar tu consulta.');
+
+    recognition.onresult = function(event) {
+      const transcript = event.results[0][0].transcript;
+      if (input) {
+        input.value = (input.value ? input.value + ' ' : '') + transcript;
+        input.focus();
+      }
+    };
+
+    recognition.onerror = function(err) {
+      console.warn('Error en reconocimiento de voz:', err);
+    };
+
+    recognition.onend = function() {
+      if (micBtn) micBtn.classList.remove('text-rose-600', 'animate-pulse');
+    };
+
+    recognition.start();
+  } catch (err) {
+    console.error('Error al iniciar microfono:', err);
+  }
+};
+
+window.handleWixAssistantKey = function(event) {
+  if (event.key === 'Enter' && !event.shiftKey) {
+    event.preventDefault();
+    window.enviarMensajeWixAssistant();
+  }
+};
+
+window.enviarPromptSugeridoWix = function(promptText) {
+  const input = document.getElementById('wixAssistantInput');
+  if (input) input.value = promptText;
+  window.enviarMensajeWixAssistant();
+};
+
 // 6. CONSULTA HIBRIDA AL ASISTENTE (ONLINE CON IA / OFFLINE LOCAL DIRECTO)
 // -------------------------------------------------------------------------
 window.consultarGeminiChat = async function(preguntaUsuario) {
