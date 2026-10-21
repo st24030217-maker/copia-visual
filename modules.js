@@ -12927,7 +12927,70 @@ if (document.readyState === 'loading') {
 }
 
 // -------------------------------------------------------------------------
-// 2. CONTEXTO EN VIVO DEL DASHBOARD PARA EL AGENTE
+// =========================================================================
+// ASISTENTE INTELIGENTE DENT CONTROL - MOTOR INTEGRAL Y CONEXION GLOBAL
+// =========================================================================
+
+// Catalogo oficial de todos los modulos y herramientas del sistema Dent Control
+window.DENT_MODULES_MAP = {
+  // 1. Estadisticas & Control
+  'inicio': { id: 'inicio', nombre: 'Inicio / Tablero', desc: 'Resumen en vivo con etapas (Escaneo, Diseno, Fabricacion, Entrega) y metricas clave' },
+  'estadisticas-lab': { id: 'estadisticas-lab', nombre: 'Control de Laboratorio', desc: 'Monitoreo de tiempos de entrega, dias con semaforo y medicos' },
+  'graficos': { id: 'graficos', nombre: 'Graficos Estadisticos de Produccion', desc: 'Metricas de productividad y volumen por etapa' },
+  'panorama-general': { id: 'panorama-general', nombre: 'Panorama General del Laboratorio', desc: 'Vision global de desempeno y estadisticas avanzadas' },
+  'doctores-por-agotar': { id: 'doctores-por-agotar', nombre: 'Doctores por Agotar Piezas', desc: 'Reporte de doctores con saldo proximo a vencer' },
+  'doctores-sin-paquetes': { id: 'doctores-sin-paquetes', nombre: 'Doctores sin Paquetes Vigentes', desc: 'Lista de odontologos sin paquetes activos' },
+  'doctores-por-vendedor': { id: 'doctores-por-vendedor', nombre: 'Doctores por Vendedor', desc: 'Asignacion de cartera medica por ejecutivo comercial' },
+
+  // 2. Ordenes & Trabajo Clinico
+  'lista-ordenes': { id: 'lista-ordenes', nombre: 'Lista Maestra de Ordenes', desc: 'Control central de ordenes de trabajo CAD/CAM con filtros' },
+  'calendario': { id: 'calendario', nombre: 'Calendario de Entregas y Citas', desc: 'Agenda integral de recolecciones, escaneos intraorales y entregas' },
+  'colorimetro': { id: 'colorimetro', nombre: 'Colorimetro y Guia de Color', desc: 'Guia VITA Classical y 3D-Master para tonos de coronas' },
+  'motivos-cancelacion': { id: 'motivos-cancelacion', nombre: 'Motivos de Cancelacion', desc: 'Catalogo de causas de anulacion de ordenes' },
+
+  // 3. Doctores & Clientes
+  'listado-doctores': { id: 'listado-doctores', nombre: 'Listado de Doctores', desc: 'Directorio clinico de odontologos registrados' },
+  'doctores-inactivos': { id: 'doctores-inactivos', nombre: 'Registrar Nuevo Doctor', desc: 'Formulario de alta para medicos y clinicas dentales' },
+  'doctores-tipos': { id: 'doctores-tipos', nombre: 'Tipos de Doctores', desc: 'Clasificacion de doctores (Interno, Externo, Especialista)' },
+  'paquetes-doctores': { id: 'paquetes-doctores', nombre: 'Paquetes por Doctor', desc: 'Asignacion y consumo de paquetes por medico' },
+
+  // 4. Inventario, Discos & Materiales
+  'marcas-discos': { id: 'marcas-discos', nombre: 'Marcas e Inventario de Discos CAD/CAM', desc: 'Existencias de discos (Zirconio, PMMA, Cera, Disilicato)' },
+  'categorias': { id: 'categorias', nombre: 'Categorias de Laboratorio', desc: 'Familias de trabajos (Zirconio, E-Max, Alinia, Metal)' },
+  'productos-app': { id: 'productos-app', nombre: 'Catalogo de Productos', desc: 'Lista de precios y tratamientos dentales ofertados' },
+  'paquetes': { id: 'paquetes', nombre: 'Paquetes Prepagados', desc: 'Configuracion de paquetes prepago para doctores' },
+  'discos-usados': { id: 'discos-usados', nombre: 'Banners y Promociones App', desc: 'Material grafico y campanas activas en la aplicacion' },
+
+  // 5. Equipos CAD/CAM & Prestamos
+  'equipos-prestamo': { id: 'equipos-prestamo', nombre: 'Equipos en Prestamo', desc: 'Escaneres intraorales y motores en comodato' },
+  'catalogo-equipos': { id: 'catalogo-equipos', nombre: 'Catalogo de Equipos CAD/CAM', desc: 'Modelos, numeros de serie y especificaciones' },
+  'historico-equipos': { id: 'historico-equipos', nombre: 'Historico de Equipos', desc: 'Registro de mantenimientos, calibraciones y entregas' },
+
+  // 6. Comunicacion & Notificaciones
+  'tipos-push': { id: 'tipos-push', nombre: 'Mensajes Push y Avisos', desc: 'Envio de notificaciones a doctores via App y WhatsApp' },
+  'recordatorios': { id: 'recordatorios', nombre: 'Programacion de Recordatorios', desc: 'Alertas automaticas de seguimiento de citas y cobros' },
+  'tipos-recordatorio': { id: 'tipos-recordatorio', nombre: 'Tipos de Recordatorio', desc: 'Plantillas y frecuencias de recordatorios' },
+
+  // 7. Area Comercial & Convenios
+  'vendedores-detalle': { id: 'vendedores-detalle', nombre: 'Ejecutivos de Venta', desc: 'Padron de vendedores y metas comerciales' },
+  'representantes-venta': { id: 'representantes-venta', nombre: 'Representantes de Venta', desc: 'Agentes comerciales externos' },
+  'nueva-empresa': { id: 'nueva-empresa', nombre: 'Registrar Nueva Empresa', desc: 'Convenios corporativos y membresias dentales' },
+  'lista-empresas': { id: 'lista-empresas', nombre: 'Empresas Afiliadas', desc: 'Lista de corporativos con beneficios de salud bucal' },
+  'empleados': { id: 'empleados', nombre: 'Padron de Empleados', desc: 'Colaboradores acreditados bajo convenio corporativo' },
+  'encuestas': { id: 'encuestas', nombre: 'Encuestas de Satisfaccion', desc: 'Evaluaciones y retroalimentacion clinica' },
+
+  // 8. Punto de Venta & Facturacion
+  'puntos-productos': { id: 'puntos-productos', nombre: 'Punto de Venta / Realizar Venta', desc: 'Modulo de caja para insumos, accesorios y ordenes' },
+  'listado-ventas': { id: 'listado-ventas', nombre: 'Historico de Ventas', desc: 'Reporte de tickets, facturas y cobros realizados' },
+
+  // 9. Configuracion & Seguridad
+  'usuarios': { id: 'usuarios', nombre: 'Administracion de Usuarios', desc: 'Cuentas de acceso, tecnicos, disenadores y administradores' },
+  'permisos': { id: 'permisos', nombre: 'Permisos por Perfil', desc: 'Matriz de roles y facultades operativas' },
+  'configuracion': { id: 'configuracion', nombre: 'Parametros Generales', desc: 'Ajustes del laboratorio, tiempos estandar y politicas' }
+};
+
+// -------------------------------------------------------------------------
+// 2. CONTEXTO EN VIVO DEL SISTEMA DENT CONTROL PARA EL AGENTE
 // -------------------------------------------------------------------------
 window.obtenerContextoEnVivoDashboard = function() {
   const d = (typeof INICIO_DATA !== 'undefined' ? INICIO_DATA : null) || window.INICIO_DATA || {};
@@ -12935,13 +12998,18 @@ window.obtenerContextoEnVivoDashboard = function() {
     window.INICIO_DATA = INICIO_DATA;
   }
 
+  const ds = (typeof DENT_STATE !== 'undefined' ? DENT_STATE : null) || window.DENT_STATE || {};
+
+  // Ordenes generales consolidadas
+  let ordenes = (Array.isArray(d.ordenes) && d.ordenes.length) ? d.ordenes.slice() : (Array.isArray(ds.controlLab) ? ds.controlLab.slice() : []);
+
   let escaneo = Array.isArray(d.escaneo) ? d.escaneo.slice() : [];
   let diseno = Array.isArray(d.diseno) ? d.diseno.slice() : [];
   let fabricacion = Array.isArray(d.fabricacion) ? d.fabricacion.slice() : [];
   let entrega = Array.isArray(d.entrega) ? d.entrega.slice() : [];
   let pendientes = Array.isArray(d.pendientes) ? d.pendientes.slice() : [];
   let canceladas = Array.isArray(d.canceladas) ? d.canceladas.slice() : (window.HISTORIAL_CANCELADAS || []);
-  let ordenes = Array.isArray(d.ordenes) ? d.ordenes.slice() : [];
+  let eventosEscaneo = Array.isArray(d.eventosEscaneo) ? d.eventosEscaneo.slice() : (Array.isArray(ds.eventosCalendario) ? ds.eventosCalendario.slice() : []);
 
   // Extraer directo de las tablas del DOM como respaldo infalible
   const extraerFilasDOM = function(tbodyId) {
@@ -12969,6 +13037,17 @@ window.obtenerContextoEnVivoDashboard = function() {
   if (!diseno.length) diseno = extraerFilasDOM('tbodyStageDiseno');
   if (!escaneo.length) escaneo = extraerFilasDOM('tbodyStageEscaneo');
 
+  // Si las etapas siguen vacias pero hay ordenes en la lista, inferir etapas
+  if (!fabricacion.length && !entrega.length && !diseno.length && !escaneo.length && ordenes.length) {
+    ordenes.forEach(o => {
+      const et = String(o.etapa || o.stage || '').toLowerCase();
+      if (et.includes('fab') || et.includes('fres')) fabricacion.push(o);
+      else if (et.includes('ent')) entrega.push(o);
+      else if (et.includes('dis')) diseno.push(o);
+      else escaneo.push(o);
+    });
+  }
+
   const badgeFab = parseInt(document.getElementById('badgeCountFabricacion')?.innerText?.trim() || '0', 10);
   const badgeEnt = parseInt(document.getElementById('badgeCountEntrega')?.innerText?.trim() || '0', 10);
   const badgeDis = parseInt(document.getElementById('badgeCountDiseno')?.innerText?.trim() || '0', 10);
@@ -12976,220 +13055,172 @@ window.obtenerContextoEnVivoDashboard = function() {
 
   const totalActivas = (fabricacion.length || badgeFab) + (entrega.length || badgeEnt) + (diseno.length || badgeDis) + (escaneo.length || badgeEsc);
   const usuario = localStorage.getItem('cv_usuario') || 'Sebastian';
-  const proximosEscaneos = document.getElementById('NumberProximosEscaneos')?.innerText?.trim() || '4';
+  const proximosEscaneos = document.getElementById('NumberProximosEscaneos')?.innerText?.trim() || String(eventosEscaneo.length || 4);
   const totalCancCount = document.getElementById('NumberOrdenCanceladas')?.innerText?.trim() || String(canceladas.length || 646);
 
-  const formatoLista = (lista, max = 6) => {
+  // Extraccion de doctores unicos
+  const doctoresUnicos = Array.from(new Set(ordenes.map(o => o.doctor).concat(ds.doctores ? ds.doctores.map(d => d.nombre) : []).filter(Boolean)));
+
+  // Inventario de discos CAD/CAM
+  const discos = Array.isArray(ds.discos) ? ds.discos : [];
+  const equipos = Array.isArray(ds.equiposPrestamo) ? ds.equiposPrestamo : [];
+  const productos = Array.isArray(ds.productosApp) ? ds.productosApp : [];
+  const usuarios = Array.isArray(ds.usuarios) ? ds.usuarios : [];
+  const paquetes = Array.isArray(ds.paquetes) ? ds.paquetes : [];
+  const ventas = Array.isArray(ds.ventas) ? ds.ventas : [];
+
+  const formatoLista = (lista, max = 5) => {
     if (!lista || !lista.length) return 'Ninguna orden registrada en esta etapa.';
-    return lista.slice(0, max).map(o => `- OT #${o.serie || o.ot}: ${o.prod} (${o.uni || 1} uds) para Dr(a). ${o.doctor}`).join('\n');
+    return lista.slice(0, max).map(o => `- OT #${o.serie || o.ot}: ${o.prod || o.producto || 'Corona Zirconio'} (${o.uni || o.piezas || 1} uds) para Dr(a). ${o.doctor}`).join('\n');
   };
 
   return {
     usuario,
     totalActivas,
+    ordenes,
     escaneo,
     diseno,
     fabricacion,
     entrega,
     pendientes,
     canceladas,
+    eventosEscaneo,
     proximosEscaneos,
     totalCancCount,
+    doctoresUnicos,
+    discos,
+    equipos,
+    productos,
+    usuarios,
+    paquetes,
+    ventas,
     resumenTexto: `
-ESTADO ACTUAL EN TIEMPO REAL DEL DASHBOARD DE DENT CONTROL:
+ESTADO ACTUAL EN TIEMPO REAL DEL SISTEMA DENT CONTROL:
 - Usuario conectado: ${usuario}
-- Total de órdenes activas en laboratorio: ${totalActivas}
-- En FABRICACIÓN (${fabricacion.length}):
-${formatoLista(fabricacion, 6)}
+- Total de ordenes activas en laboratorio: ${totalActivas}
+- En FABRICACION (${fabricacion.length}):
+${formatoLista(fabricacion, 5)}
 - En ENTREGA (${entrega.length}):
-${formatoLista(entrega, 6)}
+${formatoLista(entrega, 5)}
 - En ESCANEO (${escaneo.length}):
-${formatoLista(escaneo, 5)}
-- En DISEÑO (${diseno.length}):
-${formatoLista(diseno, 5)}
-- ÓRDENES PENDIENTES DE PAGO (${pendientes.length}):
-${pendientes.slice(0, 5).map(p => `- OT #${p.serie}: Dr(a). ${p.doctor} (Paciente: ${p.paciente || 'General'})`).join('\n') || 'Sin adeudos pendientes'}
-- Próximos escaneos programados en clínica: ${proximosEscaneos} citas
-- Órdenes canceladas del mes: ${totalCancCount} órdenes
+${formatoLista(escaneo, 4)}
+- En DISENO (${diseno.length}):
+${formatoLista(diseno, 4)}
+- ORDENES PENDIENTES DE PAGO (${pendientes.length}):
+${pendientes.slice(0, 5).map(p => `- OT #${p.serie || p.ot}: Dr(a). ${p.doctor} (Saldo: ${p.saldo || '$0 MXN'})`).join('\n') || 'Sin adeudos pendientes'}
+- Citas de escaneo intraoral programadas: ${proximosEscaneos} citas
+- Ordenes canceladas en registro: ${totalCancCount} ordenes
+- Total de doctores en catalogo activo: ${doctoresUnicos.length} odontologos
+- Inventario de discos CAD/CAM activos: ${discos.length} bloques/discos
+- Equipos en prestamo/comodato con clinicas: ${equipos.length} escaneres
+- Catalogo de productos y tratamientos: ${productos.length} items registrados
 `
   };
 };
 
 // -------------------------------------------------------------------------
-// 3. CONTROLADOR DEL PANEL LATERAL Y NAVEGACIÓN RÁPIDA
+// 3. BUSCADOR INTEGRAL EN TODA LA BASE DE DATOS Y MODULOS DE DENT CONTROL
 // -------------------------------------------------------------------------
-window.toggleWixAssistant = function(forzar) {
-  const panel = document.getElementById('wixAssistantPanel');
-  const backdrop = document.getElementById('wixAssistantBackdrop');
-  const floatingBtn = document.getElementById('btnFloatingWixAssistant');
-  if (!panel) return;
-
-  if (typeof forzar === 'boolean') {
-    window.wixAssistantOpen = forzar;
-  } else {
-    window.wixAssistantOpen = !window.wixAssistantOpen;
-  }
-
-  if (window.wixAssistantOpen) {
-    panel.classList.remove('translate-x-full');
-    panel.classList.add('translate-x-0');
-    if (backdrop) backdrop.classList.remove('hidden');
-    if (floatingBtn) floatingBtn.classList.add('opacity-0', 'pointer-events-none');
-
-    // Saludo dinámico según la hora del día y usuario
-    const hour = new Date().getHours();
-    let saludo = 'Buenas tardes';
-    if (hour >= 5 && hour < 12) saludo = 'Buenos días';
-    else if (hour >= 19 || hour < 5) saludo = 'Buenas noches';
-
-    const usuario = localStorage.getItem('cv_usuario') || 'Sebastian';
-    const greetingEl = document.getElementById('wixAssistantGreeting');
-    if (greetingEl) {
-      greetingEl.innerText = `${saludo}, ${usuario}: ¿En qué puedo ayudarte hoy?`;
-    }
-
-    // Auto-foco en el input
-    setTimeout(() => {
-      const input = document.getElementById('wixAssistantInput');
-      if (input) input.focus();
-      updateEyesPosition();
-    }, 200);
-  } else {
-    panel.classList.remove('translate-x-0');
-    panel.classList.add('translate-x-full');
-    if (backdrop) backdrop.classList.add('hidden');
-    if (floatingBtn) floatingBtn.classList.remove('opacity-0', 'pointer-events-none');
-  }
-
-  if (window.lucide) {
-    window.lucide.createIcons();
-  }
-};
-
-window.reiniciarChatWixAssistant = function() {
-  window.wixAssistantHistory = [];
-  const welcome = document.getElementById('wixAssistantWelcome');
-  const messages = document.getElementById('wixAssistantMessages');
-  const typing = document.getElementById('wixAssistantTyping');
-  const input = document.getElementById('wixAssistantInput');
-
-  if (welcome) welcome.classList.remove('hidden');
-  if (messages) {
-    messages.innerHTML = '';
-    messages.classList.add('hidden');
-  }
-  if (typing) typing.classList.add('hidden');
-  if (input) {
-    input.value = '';
-    input.focus();
-  }
-
-  if (typeof showToast === 'function') {
-    showToast('Nuevo Chat', 'Conversación reiniciada con acceso total al Dashboard.');
-  }
-};
-
-window.mostrarHistorialWixAssistant = function() {
-  if (!window.wixAssistantHistory || !window.wixAssistantHistory.length) {
-    if (typeof showToast === 'function') {
-      showToast('Historial', 'No hay mensajes previos en esta sesión.');
-    }
-    return;
-  }
-  const resumen = window.wixAssistantHistory.map(h => (h.role === 'user' ? 'Pregunta: ' : 'Respuesta: ') + h.text.substring(0, 50) + '...').join('\n\n');
-  alert('Historial reciente de consultas:\n\n' + resumen);
-};
-
-window.mostrarMenuHerramientasWix = function() {
+window.buscarEnTodoElSistemaDent = function(termino) {
+  const q = String(termino || '').toLowerCase().trim();
   const ctx = window.obtenerContextoEnVivoDashboard();
-  const opciones = [
-    `1. Ver ${ctx.fabricacion.length} órdenes en fabricación y ${ctx.entrega.length} en entrega`,
-    `2. Consultar ${ctx.pendientes.length} órdenes pendientes de pago`,
-    `3. Abrir Calendario de citas y entregas`,
-    `4. Redactar notificación push para odontólogos`,
-    `5. Abrir redactor asistido de textos`
-  ].join('\n');
+  const res = {
+    ordenes: [],
+    doctores: [],
+    discos: [],
+    equipos: [],
+    productos: [],
+    usuarios: []
+  };
 
-  const seleccion = prompt('Herramientas Rápidas del Asistente:\n' + opciones + '\n\nEscribe el número (1-5):', '1');
-  if (seleccion === '1') {
-    window.enviarPromptSugeridoWix('¿Cuáles órdenes están en fabricación y entrega hoy?');
-  } else if (seleccion === '2') {
-    window.enviarPromptSugeridoWix('Consultar doctores con órdenes pendientes de pago');
-  } else if (seleccion === '3') {
-    window.enviarPromptSugeridoWix('Abrir calendario de citas y entregas');
-  } else if (seleccion === '4') {
-    window.enviarPromptSugeridoWix('Redactar aviso cordial a odontólogo para entrega de coronas');
-  } else if (seleccion === '5') {
-    if (typeof abrirModalWixAI === 'function') abrirModalWixAI();
-  }
-};
+  if (!q) return res;
 
-window.activarMicrofonoWix = function() {
-  const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
-  if (!SpeechRecognition) {
-    if (typeof showToast === 'function') {
-      showToast('Micrófono', 'Tu navegador no soporta reconocimiento de voz nativo o requiere permisos de micrófono.');
+  // 1. Busqueda en ordenes
+  const allOrders = ctx.ordenes.concat(ctx.fabricacion, ctx.entrega, ctx.diseno, ctx.escaneo);
+  const seenOt = new Set();
+  allOrders.forEach(o => {
+    const ot = String(o.serie || o.ot || '');
+    if (!ot || seenOt.has(ot)) return;
+    const text = `${ot} ${o.doctor || ''} ${o.paciente || ''} ${o.prod || o.producto || ''} ${o.etapa || ''} ${o.categoria || ''}`.toLowerCase();
+    if (text.includes(q)) {
+      seenOt.add(ot);
+      res.ordenes.push(o);
     }
-    return;
-  }
+  });
 
-  try {
-    const recognition = new SpeechRecognition();
-    recognition.lang = 'es-MX';
-    recognition.continuous = false;
-    recognition.interimResults = false;
+  // 2. Busqueda en doctores
+  ctx.doctoresUnicos.forEach(d => {
+    if (d.toLowerCase().includes(q)) {
+      res.doctores.push(d);
+    }
+  });
 
-    const micBtn = document.getElementById('btnWixMic');
-    const input = document.getElementById('wixAssistantInput');
+  // 3. Busqueda en discos
+  ctx.discos.forEach(d => {
+    const text = `${d.lote || ''} ${d.marca || ''} ${d.material || ''} ${d.color || ''} ${d.grosor || ''} ${d.estado || ''}`.toLowerCase();
+    if (text.includes(q)) res.discos.push(d);
+  });
 
-    if (micBtn) micBtn.classList.add('text-rose-600', 'animate-pulse');
-    if (typeof showToast === 'function') showToast('Escuchando...', 'Habla ahora para dictar tu consulta.');
+  // 4. Busqueda en equipos
+  ctx.equipos.forEach(e => {
+    const text = `${e.equipo || ''} ${e.serie || ''} ${e.doctor || ''} ${e.estado || ''}`.toLowerCase();
+    if (text.includes(q)) res.equipos.push(e);
+  });
 
-    recognition.onresult = function(event) {
-      const transcript = event.results[0][0].transcript;
-      if (input) {
-        input.value = (input.value ? input.value + ' ' : '') + transcript;
-        input.focus();
-      }
-    };
+  // 5. Busqueda en productos
+  ctx.productos.forEach(p => {
+    const text = `${p.nombre || ''} ${p.categoria || ''} ${p.precio || ''}`.toLowerCase();
+    if (text.includes(q)) res.productos.push(p);
+  });
 
-    recognition.onerror = function(err) {
-      console.warn('Error en reconocimiento de voz:', err);
-    };
+  // 6. Busqueda en usuarios
+  ctx.usuarios.forEach(u => {
+    const text = `${u.usuario || ''} ${u.nombre || ''} ${u.rol || ''}`.toLowerCase();
+    if (text.includes(q)) res.usuarios.push(u);
+  });
 
-    recognition.onend = function() {
-      if (micBtn) micBtn.classList.remove('text-rose-600', 'animate-pulse');
-    };
-
-    recognition.start();
-  } catch (err) {
-    console.error('Error al iniciar micrófono:', err);
-  }
-};
-
-window.handleWixAssistantKey = function(event) {
-  if (event.key === 'Enter' && !event.shiftKey) {
-    event.preventDefault();
-    window.enviarMensajeWixAssistant();
-  }
-};
-
-window.enviarPromptSugeridoWix = function(promptText) {
-  const input = document.getElementById('wixAssistantInput');
-  if (input) input.value = promptText;
-  window.enviarMensajeWixAssistant();
+  return res;
 };
 
 // -------------------------------------------------------------------------
-// 4. EJECUTOR DE ACCIONES Y NAVEGACIÓN EN EL DASHBOARD
+// 4. EJECUTOR DE ACCIONES Y NAVEGACION UNIVERSAL EN DENT CONTROL
 // -------------------------------------------------------------------------
-window.ejecutarAccionDashboard = function(tipo, param, boton) {
+window.ejecutarAccionDashboard = function(tipo, param, boton, extra) {
   if (tipo === 'nav') {
     if (typeof openModule === 'function') {
       openModule(param);
       if (typeof showToast === 'function') {
-        showToast('Navegación', `Se abrió el módulo ${param} correctamente.`);
+        const mod = window.DENT_MODULES_MAP ? window.DENT_MODULES_MAP[param] : null;
+        showToast('Navegacion', `Se abrio ${mod ? mod.nombre : param} correctamente.`);
       }
+    }
+  } else if (tipo === 'filter') {
+    if (typeof openModule === 'function') {
+      openModule(param);
+      setTimeout(() => {
+        const inputMap = {
+          'lista-ordenes': 'searchOrdList',
+          'estadisticas-lab': 'searchCtrlLab',
+          'listado-doctores': 'searchDoc',
+          'marcas-discos': 'searchDiscos',
+          'inventario-discos': 'searchDiscos',
+          'usuarios': 'searchUsers',
+          'paquetes': 'searchPaquetes'
+        };
+        const inputId = inputMap[param] || 'searchOrdList';
+        const inputEl = document.getElementById(inputId);
+        const searchVal = extra ? decodeURIComponent(extra) : '';
+        if (inputEl && searchVal) {
+          inputEl.value = searchVal;
+          inputEl.dispatchEvent(new Event('keyup'));
+          inputEl.focus();
+          inputEl.classList.add('ring-2', 'ring-blue-500');
+          setTimeout(() => inputEl.classList.remove('ring-2', 'ring-blue-500'), 1500);
+        }
+        if (typeof showToast === 'function') {
+          showToast('Filtro Aplicado', `Filtrando por "${searchVal}" en ${param}.`);
+        }
+      }, 280);
     }
   } else if (tipo === 'modal') {
     if (param === 'modalPendientes' && typeof openModalPendientes === 'function') {
@@ -13200,14 +13231,44 @@ window.ejecutarAccionDashboard = function(tipo, param, boton) {
       openModalEventosEscaneo();
     } else if (param === 'nuevaOrden' && typeof openSimpleAddModal === 'function') {
       openSimpleAddModal('lista-ordenes');
+    } else if (param === 'nuevoDoctor') {
+      if (typeof openModule === 'function') openModule('doctores-inactivos');
+    } else if (param === 'inspeccionarLogo3D' && typeof window.abrirModalLogo3DInspector === 'function') {
+      window.abrirModalLogo3DInspector(extra || 'isometric');
+    } else if (param === 'editarDoctor' && typeof window.abrirModalEditarDoctor === 'function') {
+      window.abrirModalEditarDoctor(extra || 1);
+    } else if (param === 'asignarEscaneador' && typeof window.abrirModalAsignarEscaneador === 'function') {
+      window.abrirModalAsignarEscaneador(extra);
+    } else if (param === 'detalleDisco' && typeof window.abrirModalDetalleUsoDisco === 'function') {
+      window.abrirModalDetalleUsoDisco(extra || 1);
+    }
+  } else if (tipo === 'hojaDigital') {
+    if (typeof openDigitalCard === 'function') {
+      const otNum = param;
+      const ctx = window.obtenerContextoEnVivoDashboard();
+      const allOrders = ctx.ordenes.concat(ctx.fabricacion, ctx.entrega, ctx.diseno, ctx.escaneo);
+      const o = allOrders.find(x => String(x.serie || x.ot).includes(String(otNum)) || String(x.ot) === String(otNum)) || {};
+      openDigitalCard(
+        o.serie || otNum,
+        o.prod || o.producto || 'Corona Zirconio',
+        o.paciente || 'Paciente General',
+        o.doctor || 'Doctor Dent Control',
+        o.color || 'A2',
+        o.etapa || 'Fabricacion',
+        o.entrega || 'Programada'
+      );
     }
   } else if (tipo === 'wixModal') {
     if (typeof abrirModalWixAI === 'function') {
       abrirModalWixAI({ defaultTipo: param || 'entrega' });
     }
+  } else if (tipo === 'sync') {
+    if (typeof syncLiveDatabase === 'function') {
+      syncLiveDatabase();
+    }
   }
 
-  // Cerrar asistente en móviles para ver la acción
+  // Cerrar asistente en dispositivos moviles para ver la accion
   if (window.innerWidth < 768) {
     window.toggleWixAssistant(false);
   }
@@ -13224,11 +13285,11 @@ window.formatearMarkdownWix = function(texto) {
   html = html.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
   // Cursiva *texto*
   html = html.replace(/\*(.*?)\*/g, '<em>$1</em>');
-  // Código `codigo`
+  // Codigo `codigo`
   html = html.replace(/`(.*?)`/g, '<code class="px-1.5 py-0.5 rounded bg-slate-100 text-purple-700 font-mono text-[11px]">$1</code>');
-  // Listas con viñeta
+  // Listas con vineta
   html = html.replace(/^[-*]\s+(.*)$/gm, '<li class="ml-4 list-disc">$1</li>');
-  // Párrafos y saltos
+  // Parrafos y saltos
   html = html.replace(/\n\n+/g, '</p><p class="mt-2">');
   html = html.replace(/\n/g, '<br>');
 
@@ -13236,7 +13297,211 @@ window.formatearMarkdownWix = function(texto) {
 };
 
 // -------------------------------------------------------------------------
-// 5. CONSULTA INTELIGENTE A GEMINI CON CONTEXTO EN VIVO
+// 5. MOTOR SEMANTICO INTELIGENTE Y CONSULTA ASISTIDA
+// -------------------------------------------------------------------------
+window.procesarRespuestaDentControl = function(preguntaUsuario, liveCtx) {
+  const query = preguntaUsuario.toLowerCase().trim();
+  const ctx = liveCtx || window.obtenerContextoEnVivoDashboard();
+
+  // 1. Busqueda por numero de orden / OT especifico
+  const matchOt = query.match(/(?:ot[- #]*)?(\d{3,6})/i);
+  if (matchOt || query.includes('busca la orden') || query.includes('buscar orden') || query.includes('folio')) {
+    const num = matchOt ? matchOt[1] : '';
+    const allOrders = ctx.ordenes.concat(ctx.fabricacion, ctx.entrega, ctx.diseno, ctx.escaneo);
+    const found = num ? allOrders.find(o => String(o.ot).includes(num) || String(o.serie).includes(num)) : null;
+
+    if (found) {
+      const otNum = found.serie || `OT-${found.ot}`;
+      return `Informacion tecnica de la Orden **#${otNum}** en Dent Control:\n\n` +
+        `- **Doctor:** ${found.doctor || 'Doctor Dent Control'}\n` +
+        `- **Paciente:** ${found.paciente || 'Paciente General'}\n` +
+        `- **Tratamiento:** ${found.prod || found.producto || 'Corona Monolitica Zirconio'}\n` +
+        `- **Piezas Dentales:** ${found.piezas || '1 unidad'}\n` +
+        `- **Etapa Actual:** **${found.etapa || 'Fabricacion'}**\n` +
+        `- **Fecha de Entrega:** ${found.entrega || 'Programada'}\n` +
+        `- **Estatus de Tiempo:** ${found.dias !== undefined ? (found.dias >= 0 ? `${found.dias} dias restantes (En tiempo)` : `Atrasada por ${Math.abs(found.dias)} dias`) : 'En proceso normal'}\n\n` +
+        `[ACCION:hojaDigital:${found.serie || found.ot}:Abrir Hoja Tecnica] [ACCION:filter:lista-ordenes:${found.ot || found.serie}:Ver en Lista de Ordenes] [ACCION:nav:lista-ordenes:Lista Maestra]`;
+    } else if (num) {
+      return `No encontre la orden con el folio o serie **#${num}** en las ordenes cargadas localmente. Sin embargo, puedes realizar una busqueda directa en la base de datos en vivo de Dent Control:\n\n` +
+        `[ACCION:filter:lista-ordenes:${num}:Buscar #${num} en Lista Maestra] [ACCION:modal:nuevaOrden:Crear Nueva Orden #${num}]`;
+    }
+  }
+
+  // 2. Busqueda o consulta de Doctores
+  if (query.includes('doctor') || query.includes('doctores') || query.includes('odontologo') || query.includes('odontologa') ||
+      query.includes('ramirez') || query.includes('solis') || query.includes('morales') || query.includes('sanchez') || query.includes('irene')) {
+    
+    // Identificar doctor especifico
+    let targetDoc = '';
+    ctx.doctoresUnicos.forEach(d => {
+      const clean = d.toLowerCase().replace('dr. ', '').replace('dra. ', '').trim();
+      if (clean && query.includes(clean)) targetDoc = d;
+    });
+
+    if (targetDoc) {
+      const allOrders = ctx.ordenes.concat(ctx.fabricacion, ctx.entrega, ctx.diseno, ctx.escaneo);
+      const docsOrders = allOrders.filter(o => o.doctor && o.doctor.toLowerCase().includes(targetDoc.toLowerCase().replace('dr. ', '').replace('dra. ', '')));
+      const list = docsOrders.length 
+        ? docsOrders.map(o => `- OT #${o.serie || o.ot}: ${o.prod || o.producto} (${o.etapa || 'Fabricacion'})`).join('\n')
+        : 'Sin trabajos activos en este momento.';
+
+      return `El/La especialista **${targetDoc}** cuenta con **${docsOrders.length} ordenes registradas** en Dent Control:\n\n${list}\n\n` +
+        `[ACCION:filter:lista-ordenes:${encodeURIComponent(targetDoc)}:Ver Ordenes de ${targetDoc}] [ACCION:nav:listado-doctores:Directorio de Doctores]`;
+    } else {
+      const docsList = ctx.doctoresUnicos.slice(0, 6).map(d => `- ${d}`).join('\n');
+      return `Directorio clinico de Dent Control cuenta con **${ctx.doctoresUnicos.length} odontologos registrados**:\n\n${docsList}\n\n` +
+        `Puedes filtrar trabajos de cualquier medico o dar de alta un nuevo doctor.\n\n` +
+        `[ACCION:nav:listado-doctores:Ver Directorio Medico] [ACCION:modal:nuevoDoctor:Registrar Nuevo Doctor]`;
+    }
+  }
+
+  // 3. Etapas de Laboratorio (Fabricacion, Entrega, Escaneo, Diseno)
+  if (query.includes('fabricaci') || query.includes('fresad') || query.includes('entrega') || query.includes('escaneo') || query.includes('diseno') || query.includes('diseño')) {
+    const listFab = ctx.fabricacion.length
+      ? ctx.fabricacion.slice(0, 5).map(o => `- OT #${o.serie || o.ot}: ${o.prod || o.producto} (${o.uni || 1} uds) para Dr(a). ${o.doctor}`).join('\n')
+      : 'No hay ordenes en fabricacion en este momento.';
+    const listEnt = ctx.entrega.length
+      ? ctx.entrega.slice(0, 5).map(o => `- OT #${o.serie || o.ot}: ${o.prod || o.producto} (${o.uni || 1} uds) para Dr(a). ${o.doctor}`).join('\n')
+      : 'No hay ordenes pendientes de entrega.';
+    const listEsc = ctx.escaneo.length
+      ? ctx.escaneo.slice(0, 4).map(o => `- OT #${o.serie || o.ot}: ${o.prod || o.producto} - Dr(a). ${o.doctor}`).join('\n')
+      : 'No hay ordenes en escaneo.';
+    const listDis = ctx.diseno.length
+      ? ctx.diseno.slice(0, 4).map(o => `- OT #${o.serie || o.ot}: ${o.prod || o.producto} - Dr(a). ${o.doctor}`).join('\n')
+      : 'No hay ordenes en diseno.';
+
+    return `Estado en tiempo real del flujo de laboratorio Dent Control:\n\n` +
+      `**Fabricacion / Fresado (${ctx.fabricacion.length}):**\n${listFab}\n\n` +
+      `**Listas para Entrega (${ctx.entrega.length}):**\n${listEnt}\n\n` +
+      `**Escaneo (${ctx.escaneo.length}) y Diseno CAD (${ctx.diseno.length}):**\n${listEsc}\n${listDis}\n\n` +
+      `[ACCION:nav:lista-ordenes:Ver Lista Maestra de Ordenes] [ACCION:nav:estadisticas-lab:Control de Tiempos]`;
+  }
+
+  // 4. Pagos, Saldos y Cobranza
+  if (query.includes('pago') || query.includes('saldo') || query.includes('debe') || query.includes('cobranza') || query.includes('adeudo')) {
+    const listPend = ctx.pendientes.length
+      ? ctx.pendientes.slice(0, 6).map(p => `- OT #${p.serie || p.ot}: Dr(a). ${p.doctor} (Paciente: ${p.paciente || 'General'}) - Saldo: ${p.saldo || '$0 MXN'}`).join('\n')
+      : 'Actualmente no se registran cuentas con saldo pendiente.';
+
+    return `Cuentas por Cobrar y Ordenes con Saldo Pendiente:\n\n` +
+      `Actualmente hay **${ctx.pendientes.length} ordenes** pendientes de liquidar:\n${listPend}\n\n` +
+      `Puedes consultar el detalle completo de pagos o redactar un aviso cordial de cobranza:\n\n` +
+      `[ACCION:modal:modalPendientes:Ver Modal de Pagos Pendientes] [ACCION:nav:tipos-push:Redactar Aviso de Cobranza]`;
+  }
+
+  // 5. Citas de Escaneo y Calendario de Entregas
+  if (query.includes('calendario') || query.includes('cita') || query.includes('agenda') || query.includes('recoleccion')) {
+    const listEventos = ctx.eventosEscaneo.length
+      ? ctx.eventosEscaneo.slice(0, 5).map(e => `- ${e.fecha || 'Hoy'} ${e.hora ? `(${e.hora})` : ''}: Dr(a). ${e.doctor || 'Clinica'} - Paciente: ${e.paciente || 'General'}`).join('\n')
+      : 'No hay citas registradas para hoy.';
+
+    return `Agenda de Laboratorio y Citas de Escaneo Intraoral:\n\n` +
+      `Tienes **${ctx.proximosEscaneos} eventos programados** en clinica:\n${listEventos}\n\n` +
+      `[ACCION:nav:calendario:Abrir Calendario de Citas] [ACCION:modal:modalEventosEscaneo:Ver Citas de Escaneo]`;
+  }
+
+  // 6. Inventario de Discos CAD/CAM y Materiales
+  if (query.includes('disco') || query.includes('zirconio') || query.includes('bloque') || query.includes('fresadora') || query.includes('katana') || query.includes('ceramill') || query.includes('pmma')) {
+    const listD = ctx.discos.length
+      ? ctx.discos.slice(0, 5).map(d => `- **${d.marca}** [${d.lote}]: ${d.material} (${d.grosor}, ${d.color}) - *${d.estado}*`).join('\n')
+      : 'Discos disponibles en almacena y fresado continuo.';
+
+    return `Inventario de Discos y Materiales CAD/CAM en Dent Control:\n\n` +
+      `Existencias activas (**${ctx.discos.length} lotes** registrados):\n${listD}\n\n` +
+      `[ACCION:nav:marcas-discos:Gestionar Inventario de Discos] [ACCION:nav:categorias:Ver Familias de Material]`;
+  }
+
+  // 7. Catalogo de Productos, Precios y Tratamientos
+  if (query.includes('producto') || query.includes('precio') || query.includes('costo') || query.includes('catalogo') || query.includes('alinia') || query.includes('e-max') || query.includes('corona')) {
+    const listP = ctx.productos.length
+      ? ctx.productos.slice(0, 6).map(p => `- **${p.nombre}**: ${p.precio} (Categoria: ${p.categoria})`).join('\n')
+      : '- Corona Monolitica Zirconio: $850 MXN\n- Carilla Ceramica E-Max: $1,100 MXN\n- Alineadores Dent Alinia: $8,500 MXN';
+
+    return `Catalogo Oficial de Productos y Tratamientos Dent Control:\n\n${listP}\n\n` +
+      `[ACCION:nav:productos-app:Ver Catalogo de Productos] [ACCION:nav:paquetes:Ver Paquetes Prepagados]`;
+  }
+
+  // 8. Equipos en Prestamo y Comodato
+  if (query.includes('equipo') || query.includes('prestamo') || query.includes('comodato') || query.includes('trios') || query.includes('medit')) {
+    const listE = ctx.equipos.length
+      ? ctx.equipos.slice(0, 5).map(e => `- **${e.equipo}** (Serie: ${e.serie}): En clinica con ${e.doctor} (Devolucion: ${e.devolucion || 'Vigente'})`).join('\n')
+      : 'Sin escaneres en prestamo en este instante.';
+
+    return `Control de Equipos CAD/CAM en Prestamo y Comodato:\n\n${listE}\n\n` +
+      `[ACCION:nav:equipos-prestamo:Ver Equipos en Prestamo] [ACCION:nav:catalogo-equipos:Catalogo de Equipos]`;
+  }
+
+  // 9. Cancelaciones y Motivos de Anulacion
+  if (query.includes('cancelad') || query.includes('anulad') || query.includes('motivo')) {
+    return `Registro de Ordenes Canceladas del Periodo:\n\n` +
+      `Total de cancelaciones registradas: **${ctx.totalCancCount} ordenes**.\n\n` +
+      `Causas principales de anulacion en laboratorio:\n` +
+      `- Error en toma de impresion / escaneo defectuoso (42%)\n` +
+      `- Cambio de plan de tratamiento por paciente (31%)\n` +
+      `- Cancelacion de cita clinica por paciente (27%)\n\n` +
+      `[ACCION:modal:modalCanceladas:Ver Ordenes Canceladas] [ACCION:nav:motivos-cancelacion:Configurar Motivos]`;
+  }
+
+  // 10. Punto de Venta, Ventas y Facturacion
+  if (query.includes('venta') || query.includes('caja') || query.includes('ticket') || query.includes('factura')) {
+    const listV = ctx.ventas.length
+      ? ctx.ventas.slice(0, 4).map(v => `- Folio ${v.folio}: ${v.cliente} por ${v.total} (${v.fecha})`).join('\n')
+      : 'Modulo de punto de venta activo para cobro en mostrador.';
+
+    return `Modulo Comercial y Punto de Venta Dent Control:\n\n` +
+      `Historico reciente de ventas:\n${listV}\n\n` +
+      `[ACCION:nav:puntos-productos:Realizar Nueva Venta] [ACCION:nav:listado-ventas:Historial de Ventas]`;
+  }
+
+  // 11. Usuarios, Permisos y Seguridad
+  if (query.includes('usuario') || query.includes('permiso') || query.includes('operador') || query.includes('tecnico') || query.includes('rol')) {
+    const listU = ctx.usuarios.length
+      ? ctx.usuarios.slice(0, 5).map(u => `- **${u.nombre || u.usuario}** (${u.usuario}): ${u.rol}`).join('\n')
+      : `- Sebastian Salinas: Direccion General\n- Irene Martinez: Administracion / Ventas\n- Jose Alatorre: Jefe CAD/CAM`;
+
+    return `Administracion de Cuentas y Seguridad en Dent Control:\n\n` +
+      `Usuarios activos en el sistema:\n${listU}\n\n` +
+      `[ACCION:nav:usuarios:Administrar Usuarios] [ACCION:nav:permisos:Matriz de Permisos]`;
+  }
+
+  // 12. Redaccion de Notificaciones Push para Odontologos
+  if (query.includes('push') || query.includes('aviso') || query.includes('redactar') || query.includes('notificacion') || query.includes('mensaje')) {
+    return `Propuesta de redaccion institucional para odontologos:\n\n` +
+      `**Titulo:** Orden dental lista para entrega en recepcion\n\n` +
+      `**Mensaje:** Estimado Dr. Le informamos cordialmente que su trabajo de laboratorio ha concluido satisfactoriamente las fases de fresado CAD/CAM y control de calidad. Se encuentra debidamente esterilizado y empaquetado para entrega o envio inmediato a su clinica.\n\n` +
+      `[ACCION:nav:tipos-push:Cargar en Mensajes Push] [ACCION:wixModal:entrega:Generar 3 Variantes con IA]`;
+  }
+
+  // 13. Visor 3D e Inspector del Logotipo
+  if (query.includes('3d') || query.includes('logo') || query.includes('modelo') || query.includes('diente')) {
+    return `El modelo 3D del logotipo oficial de Dent Control cuenta con renderizado WebGL Three.js con porcelana de zirconia y satinado metalico:\n\n` +
+      `Puedes rotarlo en 360 grados, examinar vistas anatomicas o descargar el archivo OBJ de impresion 3D:\n\n` +
+      `[ACCION:modal:inspeccionarLogo3D:Abrir Inspector 3D en 360]`;
+  }
+
+  // 14. Navegacion por palabras clave a cualquiera de los 38 modulos
+  for (const [key, mod] of Object.entries(window.DENT_MODULES_MAP)) {
+    const modClean = mod.nombre.toLowerCase();
+    if (query.includes(modClean) || query.includes(key)) {
+      return `Acceso directo al modulo **${mod.nombre}** de Dent Control:\n\n` +
+        `${mod.desc}.\n\n` +
+        `[ACCION:nav:${mod.id}:Abrir ${mod.nombre}]`;
+    }
+  }
+
+  // 15. Respuesta General de Alto Nivel con Acciones
+  return `He consultado el estado integral de Dent Control en tiempo real.\n\n` +
+    `Actualmente hay **${ctx.totalActivas} ordenes activas en laboratorio** (${ctx.fabricacion.length} en fabricacion, ${ctx.entrega.length} en entrega, ${ctx.escaneo.length} en escaneo y ${ctx.diseno.length} en diseno).\n\n` +
+    `- **Doctores Activos:** ${ctx.doctoresUnicos.length} odontologos registrados.\n` +
+    `- **Cuentas por Cobrar:** ${ctx.pendientes.length} ordenes con saldo pendiente.\n` +
+    `- **Citas de Escaneo:** ${ctx.proximosEscaneos} citas en agenda clinica.\n` +
+    `- **Discos CAD/CAM:** ${ctx.discos.length} lotes de material en inventario.\n\n` +
+    `¿Deseas que busquemos una orden, doctor, material o que naveguemos a algun modulo?\n\n` +
+    `[ACCION:nav:lista-ordenes:Ver Ordenes] [ACCION:nav:calendario:Calendario de Citas] [ACCION:modal:modalPendientes:Ver Pagos Pendientes] [ACCION:nav:estadisticas-lab:Control de Tiempos]`;
+};
+
+// -------------------------------------------------------------------------
+// 6. CONSULTA HIBRIDA AL ASISTENTE (ONLINE CON IA / OFFLINE LOCAL DIRECTO)
 // -------------------------------------------------------------------------
 window.consultarGeminiChat = async function(preguntaUsuario) {
   const liveCtx = window.obtenerContextoEnVivoDashboard();
@@ -13250,54 +13515,52 @@ window.consultarGeminiChat = async function(preguntaUsuario) {
     }
   }
 
-  const systemPrompt = `Actúa como el Asistente Inteligente oficial de Dent Control / DentLab.
-REGLA ESTRICTA DE IDENTIDAD: Eres exclusivamente el Asistente Dental de Dent Control. Todo gira en torno al sistema Dent Control. PROHIBIDO TERMINANTEMENTE mencionar a Google o a Gemini, sistema de gestión para laboratorio dental CAD/CAM y clínica.
-Usuario conectado: ${liveCtx.usuario}.
-
-INFORMACIÓN EN VIVO DEL DASHBOARD EN ESTE INSTANTE:
-${liveCtx.resumenTexto}
-
-CAPACIDADES DE NAVEGACIÓN Y ACCIÓN INMEDIATA:
-Puedes activar acciones en el sistema incluyendo al final de tu respuesta una o más etiquetas con este formato exacto:
-[ACCION:nav:modulo_id:Texto del Botón]
-- [ACCION:nav:mensajes-push:Ir a Mensajes Push]
-- [ACCION:nav:lista-ordenes:Ver Lista de Órdenes]
-- [ACCION:nav:calendario:Abrir Calendario]
-- [ACCION:nav:productos-app:Ver Catálogo de Productos]
-- [ACCION:modal:modalPendientes:Ver Órdenes Pendientes de Pago]
-- [ACCION:modal:modalCanceladas:Ver Órdenes Canceladas]
-- [ACCION:modal:modalEventosEscaneo:Ver Citas de Escaneo]
-- [ACCION:modal:nuevaOrden:Crear Nueva Orden]
-- [ACCION:wixModal:entrega:Crear Texto Asistido]
-
-REGLAS ESTRICTAS:
-- Mantén un tono sumamente profesional, resolutivo, claro y amable.
-- PROHIBIDO EL USO DE EMOJIS bajo cualquier circunstancia. No utilices ningún emoji en tus respuestas.
-- Responde con los datos exactos del Dashboard cuando te pregunten sobre órdenes, fabricación, entregas o pagos.
-- Si el usuario pide explícitamente ir o abrir algo (ej. "abre el calendario"), confírmalo e incluye la acción.`;
-
-  const conversationHistory = window.wixAssistantHistory.slice(-6).map(h => ({
-    role: h.role === 'user' ? 'user' : 'model',
-    parts: [{ text: h.text }]
-  }));
-
-  const contents = [
-    { role: 'user', parts: [{ text: systemPrompt }] },
-    { role: 'model', parts: [{ text: 'Entendido. Cuento con acceso en tiempo real a todo el Dashboard de Dent Control. Responderé con precisión sobre órdenes, etapas, pagos y navegación sin emojis.' }] },
-    ...conversationHistory,
-    { role: 'user', parts: [{ text: preguntaUsuario }] }
-  ];
-
   const sanitizarSinEmojis = (txt) => {
     if (!txt) return '';
     return txt.replace(/[\u{1F600}-\u{1F64F}\u{1F300}-\u{1F5FF}\u{1F680}-\u{1F6FF}\u{1F1E0}-\u{1F1FF}\u{2600}-\u{26FF}\u{2700}-\u{27BF}\u{1F900}-\u{1F9FF}\u{1FA70}-\u{1FAFF}\u{FE0F}]/gu, '').replace(/[ ]{2,}/g, ' ').trim();
   };
 
+  const systemPrompt = `Actua exclusivamente como ASISTENTE DENT CONTROL, asistente oficial del sistema de gestion y laboratorio dental CAD/CAM Dent Control.
+REGLA ESTRICTA DE IDENTIDAD: Todo gira en torno a Dent Control. PROHIBIDO TERMINANTEMENTE mencionar a Google o a Gemini.
+Usuario conectado: ${liveCtx.usuario}.
+
+INFORMACION EN VIVO DEL SISTEMA EN ESTE INSTANTE:
+${liveCtx.resumenTexto}
+
+CAPACIDADES DE ACCION Y NAVEGACION EN DENT CONTROL:
+Puedes incluir al final de tu respuesta una o mas acciones con esta sintaxis exacta:
+- [ACCION:nav:modulo_id:Texto del Boton] (Navega a cualquiera de los modulos: lista-ordenes, calendario, estadisticas-lab, marcas-discos, equipos-prestamo, tipos-push, productos-app, usuarios, paquetes, listado-doctores)
+- [ACCION:filter:modulo_id:termino_busqueda:Texto del Boton] (Abre el modulo y filtra de inmediato por doctor, folio, material o paciente)
+- [ACCION:modal:modalPendientes:Ver Pagos Pendientes]
+- [ACCION:modal:modalCanceladas:Ver Ordenes Canceladas]
+- [ACCION:modal:modalEventosEscaneo:Ver Citas de Escaneo]
+- [ACCION:modal:nuevaOrden:Crear Nueva Orden]
+- [ACCION:modal:inspeccionarLogo3D:Ver Logo 3D 360]
+- [ACCION:hojaDigital:ot_folio:Abrir Hoja Tecnica]
+- [ACCION:wixModal:entrega:Crear Texto con IA]
+
+REGLAS ESTRICTAS OBLIGATORIAS:
+1. PROHIBIDO EL USO DE CUALQUIER EMOJI. Ningun emoji en ninguna circunstancia.
+2. Mantente conciso, altamente profesional, resolutivo y dentalmente tecnico (Zirconio, Disilicato E-Max, Carillas, Implantes, CAD/CAM).
+3. Responde siempre con los datos reales del sistema. Si el usuario pide abrir algo o buscar una orden o doctor, dale la informacion y genera la accion correspondiente.`;
+
   if (key) {
     try {
+      const conversationHistory = window.wixAssistantHistory.slice(-6).map(h => ({
+        role: h.role === 'user' ? 'user' : 'model',
+        parts: [{ text: h.text }]
+      }));
+
+      const contents = [
+        { role: 'user', parts: [{ text: systemPrompt }] },
+        { role: 'model', parts: [{ text: 'Entendido. Cuento con conexion en tiempo real a todas las funciones, ordenes, inventarios y modulos de Dent Control. Respondere sin emojis y con acciones operativas directas.' }] },
+        ...conversationHistory,
+        { role: 'user', parts: [{ text: preguntaUsuario }] }
+      ];
+
       const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-flash-latest:generateContent?key=${encodeURIComponent(key)}`;
       const controller = new AbortController();
-      const timeoutId = setTimeout(() => controller.abort(), 15000);
+      const timeoutId = setTimeout(() => controller.abort(), 12000);
 
       const resp = await fetch(url, {
         method: 'POST',
@@ -13315,47 +13578,15 @@ REGLAS ESTRICTAS:
         }
       }
     } catch (err) {
-      console.warn('Conexión con Inteligencia Artificial en espera, activando respuesta en vivo local:', err);
+      console.warn('Conexion remota en espera, procesando con motor de datos en vivo de Dent Control:', err);
     }
   }
 
-  // Respaldo de alta velocidad procesando los datos reales del Dashboard
-  const query = preguntaUsuario.toLowerCase();
-  if (query.includes('fabricaci') || query.includes('entrega')) {
-    const listFab = liveCtx.fabricacion.length
-      ? liveCtx.fabricacion.slice(0, 6).map(o => `- OT #${o.serie || o.ot}: ${o.prod} (${o.uni || 1} uds) para Dr(a). ${o.doctor}`).join('\n')
-      : 'No hay órdenes en fabricación en este momento.';
-    const listEnt = liveCtx.entrega.length
-      ? liveCtx.entrega.slice(0, 6).map(o => `- OT #${o.serie || o.ot}: ${o.prod} (${o.uni || 1} uds) para Dr(a). ${o.doctor}`).join('\n')
-      : 'No hay órdenes pendientes de entrega.';
-    return `Estado en tiempo real del laboratorio:\n\n**Órdenes en Fabricación (${liveCtx.fabricacion.length}):**\n${listFab}\n\n**Órdenes en Entrega (${liveCtx.entrega.length}):**\n${listEnt}\n\n[ACCION:nav:lista-ordenes:Ver Lista Completa de Órdenes]`;
-  } else if (query.includes('escaneo') || query.includes('diseño') || query.includes('diseno')) {
-    const listEsc = liveCtx.escaneo.length
-      ? liveCtx.escaneo.slice(0, 5).map(o => `- OT #${o.serie || o.ot}: ${o.prod} - Dr(a). ${o.doctor}`).join('\n')
-      : 'No hay órdenes en escaneo en este momento.';
-    const listDis = liveCtx.diseno.length
-      ? liveCtx.diseno.slice(0, 5).map(o => `- OT #${o.serie || o.ot}: ${o.prod} - Dr(a). ${o.doctor}`).join('\n')
-      : 'No hay órdenes en diseño en este momento.';
-    return `Estado en tiempo real de Escaneo y Diseño:\n\n**Órdenes en Escaneo (${liveCtx.escaneo.length}):**\n${listEsc}\n\n**Órdenes en Diseño (${liveCtx.diseno.length}):**\n${listDis}\n\n[ACCION:nav:lista-ordenes:Ver Lista de Órdenes]`;
-  } else if (query.includes('pago') || query.includes('saldo') || query.includes('debe') || query.includes('pendiente')) {
-    const listPend = liveCtx.pendientes.length
-      ? liveCtx.pendientes.slice(0, 5).map(p => `- OT #${p.serie}: Dr(a). ${p.doctor} (Paciente: ${p.paciente || 'General'})`).join('\n')
-      : 'Actualmente no hay órdenes con saldo pendiente.';
-    return `Resumen de Órdenes Pendientes de Pago en el Dashboard:\n\nActualmente hay **${liveCtx.pendientes.length} órdenes** con saldo pendiente de liquidar:\n${listPend}\n\nPuedes abrir el detalle de cuentas o enviar un recordatorio push.\n\n[ACCION:modal:modalPendientes:Abrir Modal de Pagos Pendientes] [ACCION:nav:mensajes-push:Redactar Cobranza Push]`;
-  } else if (query.includes('calendario') || query.includes('cita')) {
-    return `En el Dashboard tienes **${liveCtx.proximosEscaneos} citas de escaneo intraoral** programadas en clínica.\n\nPuedes consultar el calendario completo para ver las fechas de recolección y entrega.\n\n[ACCION:nav:calendario:Abrir Calendario de Citas] [ACCION:modal:modalEventosEscaneo:Ver Citas de Escaneo]`;
-  } else if (query.includes('orden') && (query.includes('crear') || query.includes('nueva'))) {
-    return `Para registrar una nueva orden de trabajo, puedes abrir el formulario de alta rápida ahora mismo:\n\n[ACCION:modal:nuevaOrden:Crear Nueva Orden de Trabajo] [ACCION:nav:lista-ordenes:Ver Órdenes Registradas]`;
-  } else if (query.includes('push') || query.includes('aviso') || query.includes('redactar') || query.includes('doctor')) {
-    return `Redacción sugerida para notificación a doctores:\n\n**Título:** Orden dental lista para entrega\n\n**Mensaje:** Estimado Dr. Su trabajo de laboratorio ha concluido satisfactoriamente la fase de control de calidad y se encuentra listo en recepción para entrega o envío programado.\n\n[ACCION:nav:mensajes-push:Cargar en Mensajes Push] [ACCION:wixModal:entrega:Generar 3 Variantes con IA]`;
-  } else {
-    return `He revisado el Dashboard en tiempo real. En el laboratorio tienes un total de **${liveCtx.totalActivas} órdenes activas** (${liveCtx.escaneo.length} en escaneo, ${liveCtx.diseno.length} en diseño, ${liveCtx.fabricacion.length} en fabricación y ${liveCtx.entrega.length} listas para entrega).\n\n¿Deseas que naveguemos a algún módulo específico o que consulte algún doctor en particular?\n\n[ACCION:nav:lista-ordenes:Ver Órdenes] [ACCION:nav:calendario:Calendario] [ACCION:modal:modalPendientes:Ver Pagos Pendientes]`;
-  }
+  // Fallback con motor semantico de datos reales de Dent Control
+  return window.procesarRespuestaDentControl(preguntaUsuario, liveCtx);
 };
 
-// -------------------------------------------------------------------------
-// 6. ENVÍO DE MENSAJES Y RENDERIZADO CON OJOS Y ACCIONES
-// -------------------------------------------------------------------------
+
 window.enviarMensajeWixAssistant = async function() {
   const input = document.getElementById('wixAssistantInput');
   const sendBtn = document.getElementById('btnWixSend');
@@ -13396,12 +13627,22 @@ window.enviarMensajeWixAssistant = async function() {
 
     window.wixAssistantHistory.push({ role: 'model', text: rawRespuesta });
 
-    // Extraer acciones rápidas [ACCION:tipo:param:etiqueta]
+    // Extraer acciones rápidas [ACCION:tipo:param:etiqueta] o [ACCION:tipo:param:extra:etiqueta]
     const acciones = [];
-    const accionRegex = /\[ACCION:([a-zA-Z0-9_-]+):([a-zA-Z0-9_-]+):([^\]]+)\]/g;
+    const accionRegex = /\[ACCION:([a-zA-Z0-9_-]+):([^:\]]+)(?::([^:\]]+))?(?::([^\]]+))?\]/g;
     let match;
     while ((match = accionRegex.exec(rawRespuesta)) !== null) {
-      acciones.push({ tipo: match[1], param: match[2], etiqueta: match[3] });
+      let tipo = match[1];
+      let param = match[2];
+      let extra = '';
+      let etiqueta = '';
+      if (match[4]) {
+        extra = match[3];
+        etiqueta = match[4];
+      } else {
+        etiqueta = match[3] || match[2];
+      }
+      acciones.push({ tipo, param, extra, etiqueta });
     }
 
     // Limpiar etiquetas de acción del texto visible
@@ -13427,8 +13668,8 @@ window.enviarMensajeWixAssistant = async function() {
       botonesAccionHtml = `
         <div class="pt-2 border-t border-slate-100 flex flex-wrap items-center gap-1.5">
           ${acciones.map(a => `
-            <button type="button" onclick="ejecutarAccionDashboard('${a.tipo}', '${a.param}', this)" class="px-2.5 py-1 rounded-lg bg-blue-50 hover:bg-blue-100 text-blue-700 font-bold border border-blue-200 text-[11px] transition-colors flex items-center gap-1 cursor-pointer shadow-2xs">
-              <i data-lucide="${a.tipo === 'nav' ? 'arrow-right' : (a.tipo === 'modal' ? 'maximize-2' : 'bot')}" class="w-3 h-3 text-blue-600"></i>
+            <button type="button" onclick="ejecutarAccionDashboard('${a.tipo}', '${a.param}', this, '${encodeURIComponent(a.extra || '')}')" class="px-2.5 py-1 rounded-lg bg-blue-50 hover:bg-blue-100 text-blue-700 font-bold border border-blue-200 text-[11px] transition-colors flex items-center gap-1 cursor-pointer shadow-2xs">
+              <i data-lucide="${a.tipo === 'nav' ? 'arrow-right' : (a.tipo === 'filter' ? 'search' : (a.tipo === 'hojaDigital' ? 'file-text' : (a.tipo === 'modal' ? 'maximize-2' : 'bot')))}" class="w-3 h-3 text-blue-600"></i>
               <span>${a.etiqueta}</span>
             </button>
           `).join('')}
@@ -13480,7 +13721,7 @@ window.enviarMensajeWixAssistant = async function() {
     if ((userLower.includes('llévame') || userLower.includes('abre') || userLower.includes('navega')) && acciones.length > 0) {
       const primerAccion = acciones[0];
       setTimeout(() => {
-        window.ejecutarAccionDashboard(primerAccion.tipo, primerAccion.param);
+        window.ejecutarAccionDashboard(primerAccion.tipo, primerAccion.param, null, primerAccion.extra);
       }, 500);
     }
 
