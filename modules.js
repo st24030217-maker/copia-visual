@@ -9574,6 +9574,9 @@ const INICIO_DATA = {
   ]
 };
 
+// Sincronización global inmediata de INICIO_DATA en window
+window.INICIO_DATA = INICIO_DATA;
+
 // Buscadores universales exactos para Doctores y Órdenes de Trabajo
 window.findDoctorByAny = function (query) {
   const list = (DENT_STATE && DENT_STATE.doctores) ? DENT_STATE.doctores : [];
@@ -9646,6 +9649,7 @@ function renderStageRowCompact(item, isEntrega = false) {
 }
 
 function renderTablasInicio() {
+  window.INICIO_DATA = INICIO_DATA;
   const tbEsc = document.getElementById('tbodyStageEscaneo');
   const tbDis = document.getElementById('tbodyStageDiseno');
   const tbFab = document.getElementById('tbodyStageFabricacion');
@@ -11440,6 +11444,7 @@ function applyDatabasePayload(data) {
   } else {
     renderTablasInicio();
   }
+  window.INICIO_DATA = INICIO_DATA;
   renderModalsInicio();
   return true;
 }
@@ -12926,17 +12931,59 @@ if (document.readyState === 'loading') {
 // 2. CONTEXTO EN VIVO DEL DASHBOARD PARA EL AGENTE
 // -------------------------------------------------------------------------
 window.obtenerContextoEnVivoDashboard = function() {
-  const d = window.INICIO_DATA || {};
-  const escaneo = Array.isArray(d.escaneo) ? d.escaneo : [];
-  const diseno = Array.isArray(d.diseno) ? d.diseno : [];
-  const fabricacion = Array.isArray(d.fabricacion) ? d.fabricacion : [];
-  const entrega = Array.isArray(d.entrega) ? d.entrega : [];
-  const pendientes = Array.isArray(d.pendientes) ? d.pendientes : [];
-  const canceladas = Array.isArray(d.canceladas) ? d.canceladas : (window.HISTORIAL_CANCELADAS || []);
+  const d = (typeof INICIO_DATA !== 'undefined' ? INICIO_DATA : null) || window.INICIO_DATA || {};
+  if (typeof INICIO_DATA !== 'undefined' && !window.INICIO_DATA) {
+    window.INICIO_DATA = INICIO_DATA;
+  }
 
-  const totalActivas = escaneo.length + diseno.length + fabricacion.length + entrega.length;
+  let escaneo = Array.isArray(d.escaneo) ? d.escaneo.slice() : [];
+  let diseno = Array.isArray(d.diseno) ? d.diseno.slice() : [];
+  let fabricacion = Array.isArray(d.fabricacion) ? d.fabricacion.slice() : [];
+  let entrega = Array.isArray(d.entrega) ? d.entrega.slice() : [];
+  let pendientes = Array.isArray(d.pendientes) ? d.pendientes.slice() : [];
+  let canceladas = Array.isArray(d.canceladas) ? d.canceladas.slice() : (window.HISTORIAL_CANCELADAS || []);
+  let ordenes = Array.isArray(d.ordenes) ? d.ordenes.slice() : [];
+
+  // Extraer directo de las tablas del DOM como respaldo infalible
+  const extraerFilasDOM = function(tbodyId) {
+    const el = document.getElementById(tbodyId);
+    if (!el) return [];
+    const filas = el.querySelectorAll('tr');
+    const resultado = [];
+    filas.forEach(tr => {
+      const celdas = tr.querySelectorAll('td');
+      if (celdas.length >= 4) {
+        const otTexto = celdas[0]?.innerText?.trim() || '';
+        if (!otTexto || otTexto.toUpperCase().includes('NO HAY') || otTexto.includes('--')) return;
+        const prod = celdas[1]?.innerText?.trim() || 'Trabajo Dental';
+        const uni = parseInt(celdas[2]?.innerText?.trim() || '1', 10) || 1;
+        const doctor = celdas[3]?.innerText?.trim() || 'Doctor';
+        const soli = celdas[4]?.innerText?.trim() || '';
+        resultado.push({ ot: otTexto, serie: otTexto, prod, uni, doctor, soli });
+      }
+    });
+    return resultado;
+  };
+
+  if (!fabricacion.length) fabricacion = extraerFilasDOM('tbodyStageFabricacion');
+  if (!entrega.length) entrega = extraerFilasDOM('tbodyStageEntrega');
+  if (!diseno.length) diseno = extraerFilasDOM('tbodyStageDiseno');
+  if (!escaneo.length) escaneo = extraerFilasDOM('tbodyStageEscaneo');
+
+  const badgeFab = parseInt(document.getElementById('badgeCountFabricacion')?.innerText?.trim() || '0', 10);
+  const badgeEnt = parseInt(document.getElementById('badgeCountEntrega')?.innerText?.trim() || '0', 10);
+  const badgeDis = parseInt(document.getElementById('badgeCountDiseno')?.innerText?.trim() || '0', 10);
+  const badgeEsc = parseInt(document.getElementById('badgeCountEscaneo')?.innerText?.trim() || '0', 10);
+
+  const totalActivas = (fabricacion.length || badgeFab) + (entrega.length || badgeEnt) + (diseno.length || badgeDis) + (escaneo.length || badgeEsc);
   const usuario = localStorage.getItem('cv_usuario') || 'Sebastian';
-  const proximosEscaneos = document.getElementById('NumberProximosEscaneos')?.innerText || '4';
+  const proximosEscaneos = document.getElementById('NumberProximosEscaneos')?.innerText?.trim() || '4';
+  const totalCancCount = document.getElementById('NumberOrdenCanceladas')?.innerText?.trim() || String(canceladas.length || 646);
+
+  const formatoLista = (lista, max = 6) => {
+    if (!lista || !lista.length) return 'Ninguna orden registrada en esta etapa.';
+    return lista.slice(0, max).map(o => `- OT #${o.serie || o.ot}: ${o.prod} (${o.uni || 1} uds) para Dr(a). ${o.doctor}`).join('\n');
+  };
 
   return {
     usuario,
@@ -12948,17 +12995,23 @@ window.obtenerContextoEnVivoDashboard = function() {
     pendientes,
     canceladas,
     proximosEscaneos,
+    totalCancCount,
     resumenTexto: `
-ESTADO ACTUAL EN VIVO DEL DASHBOARD DE DENT CONTROL:
-- Usuario activo: ${usuario}
+ESTADO ACTUAL EN TIEMPO REAL DEL DASHBOARD DE DENT CONTROL:
+- Usuario conectado: ${usuario}
 - Total de órdenes activas en laboratorio: ${totalActivas}
-- En ESCANEO (${escaneo.length}): ${escaneo.slice(0, 4).map(o => `OT #${o.serie || o.ot}: ${o.prod} (Dr. ${o.doctor})`).join(' | ') || 'Sin órdenes en escaneo'}
-- En DISEÑO (${diseno.length}): ${diseno.slice(0, 4).map(o => `OT #${o.serie || o.ot}: ${o.prod} (Dr. ${o.doctor})`).join(' | ') || 'Sin órdenes en diseño'}
-- En FABRICACIÓN (${fabricacion.length}): ${fabricacion.slice(0, 4).map(o => `OT #${o.serie || o.ot}: ${o.prod} (Dr. ${o.doctor})`).join(' | ') || 'Sin órdenes en fabricación'}
-- En ENTREGA (${entrega.length}): ${entrega.slice(0, 4).map(o => `OT #${o.serie || o.ot}: ${o.prod} (Dr. ${o.doctor})`).join(' | ') || 'Sin órdenes en entrega'}
-- ÓRDENES PENDIENTES DE PAGO (${pendientes.length}): ${pendientes.slice(0, 4).map(p => `OT #${p.serie}: ${p.doctor} (${p.paciente || 'Paciente General'})`).join(' | ') || 'Sin adeudos pendientes'}
+- En FABRICACIÓN (${fabricacion.length}):
+${formatoLista(fabricacion, 6)}
+- En ENTREGA (${entrega.length}):
+${formatoLista(entrega, 6)}
+- En ESCANEO (${escaneo.length}):
+${formatoLista(escaneo, 5)}
+- En DISEÑO (${diseno.length}):
+${formatoLista(diseno, 5)}
+- ÓRDENES PENDIENTES DE PAGO (${pendientes.length}):
+${pendientes.slice(0, 5).map(p => `- OT #${p.serie}: Dr(a). ${p.doctor} (Paciente: ${p.paciente || 'General'})`).join('\n') || 'Sin adeudos pendientes'}
 - Próximos escaneos programados en clínica: ${proximosEscaneos} citas
-- Órdenes canceladas del mes: ${canceladas.length} órdenes
+- Órdenes canceladas del mes: ${totalCancCount} órdenes
 `
   };
 };
@@ -13055,7 +13108,7 @@ window.mostrarMenuHerramientasWix = function() {
     `2. Consultar ${ctx.pendientes.length} órdenes pendientes de pago`,
     `3. Abrir Calendario de citas y entregas`,
     `4. Redactar notificación push para odontólogos`,
-    `5. Abrir creador de texto de 3 opciones (Wix)`
+    `5. Abrir redactor asistido de textos`
   ].join('\n');
 
   const seleccion = prompt('Herramientas Rápidas del Asistente:\n' + opciones + '\n\nEscribe el número (1-5):', '1');
@@ -13198,7 +13251,8 @@ window.consultarGeminiChat = async function(preguntaUsuario) {
     }
   }
 
-  const systemPrompt = `Actúa como el Asistente Inteligente oficial de Dent Control / DentLab. REGLA ESTRICTA DE IDENTIDAD: Eres exclusivamente el Asistente Dental de Dent Control. Todo gira en torno al sistema Dent Control. PROHIBIDO TERMINANTEMENTE mencionar a Google o a Gemini, sistema de gestión para laboratorio dental CAD/CAM y clínica.
+  const systemPrompt = `Actúa como el Asistente Inteligente oficial de Dent Control / DentLab.
+REGLA ESTRICTA DE IDENTIDAD: Eres exclusivamente el Asistente Dental de Dent Control. Todo gira en torno al sistema Dent Control. PROHIBIDO TERMINANTEMENTE mencionar a Google o a Gemini, sistema de gestión para laboratorio dental CAD/CAM y clínica.
 Usuario conectado: ${liveCtx.usuario}.
 
 INFORMACIÓN EN VIVO DEL DASHBOARD EN ESTE INSTANTE:
@@ -13215,11 +13269,11 @@ Puedes activar acciones en el sistema incluyendo al final de tu respuesta una o 
 - [ACCION:modal:modalCanceladas:Ver Órdenes Canceladas]
 - [ACCION:modal:modalEventosEscaneo:Ver Citas de Escaneo]
 - [ACCION:modal:nuevaOrden:Crear Nueva Orden]
-- [ACCION:wixModal:entrega:Crear Texto con IA]
+- [ACCION:wixModal:entrega:Crear Texto Asistido]
 
 REGLAS ESTRICTAS:
 - Mantén un tono sumamente profesional, resolutivo, claro y amable.
-- PROHIBIDO EL USO DE EMOJIS bajo cualquier circunstancia.
+- PROHIBIDO EL USO DE EMOJIS bajo cualquier circunstancia. No utilices ningún emoji en tus respuestas.
 - Responde con los datos exactos del Dashboard cuando te pregunten sobre órdenes, fabricación, entregas o pagos.
 - Si el usuario pide explícitamente ir o abrir algo (ej. "abre el calendario"), confírmalo e incluye la acción.`;
 
@@ -13235,11 +13289,16 @@ REGLAS ESTRICTAS:
     { role: 'user', parts: [{ text: preguntaUsuario }] }
   ];
 
+  const sanitizarSinEmojis = (txt) => {
+    if (!txt) return '';
+    return txt.replace(/[\u{1F600}-\u{1F64F}\u{1F300}-\u{1F5FF}\u{1F680}-\u{1F6FF}\u{1F1E0}-\u{1F1FF}\u{2600}-\u{26FF}\u{2700}-\u{27BF}\u{1F900}-\u{1F9FF}\u{1FA70}-\u{1FAFF}\u{FE0F}]/gu, '').replace(/[ ]{2,}/g, ' ').trim();
+  };
+
   if (key) {
     try {
       const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-flash-latest:generateContent?key=${encodeURIComponent(key)}`;
       const controller = new AbortController();
-      const timeoutId = setTimeout(() => controller.abort(), 9000);
+      const timeoutId = setTimeout(() => controller.abort(), 15000);
 
       const resp = await fetch(url, {
         method: 'POST',
@@ -13253,7 +13312,7 @@ REGLAS ESTRICTAS:
         const data = await resp.json();
         const respuesta = data?.candidates?.[0]?.content?.parts?.[0]?.text;
         if (respuesta && respuesta.trim()) {
-          return respuesta.trim();
+          return sanitizarSinEmojis(respuesta.trim());
         }
       }
     } catch (err) {
@@ -13264,20 +13323,34 @@ REGLAS ESTRICTAS:
   // Respaldo de alta velocidad procesando los datos reales del Dashboard
   const query = preguntaUsuario.toLowerCase();
   if (query.includes('fabricaci') || query.includes('entrega')) {
-    const listFab = liveCtx.fabricacion.slice(0, 3).map(o => `- OT #${o.serie || o.ot}: ${o.prod} para Dr(a). ${o.doctor}`).join('\n') || 'No hay órdenes en fabricación en este momento.';
-    const listEnt = liveCtx.entrega.slice(0, 3).map(o => `- OT #${o.serie || o.ot}: ${o.prod} para Dr(a). ${o.doctor}`).join('\n') || 'No hay órdenes pendientes de entrega.';
-    return `Estado en vivo del laboratorio:\n\n**Órdenes en Fabricación (${liveCtx.fabricacion.length}):**\n${listFab}\n\n**Órdenes en Entrega (${liveCtx.entrega.length}):**\n${listEnt}\n\n[ACCION:nav:lista-ordenes:Ver Lista Completa de Órdenes]`;
+    const listFab = liveCtx.fabricacion.length
+      ? liveCtx.fabricacion.slice(0, 6).map(o => `- OT #${o.serie || o.ot}: ${o.prod} (${o.uni || 1} uds) para Dr(a). ${o.doctor}`).join('\n')
+      : 'No hay órdenes en fabricación en este momento.';
+    const listEnt = liveCtx.entrega.length
+      ? liveCtx.entrega.slice(0, 6).map(o => `- OT #${o.serie || o.ot}: ${o.prod} (${o.uni || 1} uds) para Dr(a). ${o.doctor}`).join('\n')
+      : 'No hay órdenes pendientes de entrega.';
+    return `Estado en tiempo real del laboratorio:\n\n**Órdenes en Fabricación (${liveCtx.fabricacion.length}):**\n${listFab}\n\n**Órdenes en Entrega (${liveCtx.entrega.length}):**\n${listEnt}\n\n[ACCION:nav:lista-ordenes:Ver Lista Completa de Órdenes]`;
+  } else if (query.includes('escaneo') || query.includes('diseño') || query.includes('diseno')) {
+    const listEsc = liveCtx.escaneo.length
+      ? liveCtx.escaneo.slice(0, 5).map(o => `- OT #${o.serie || o.ot}: ${o.prod} - Dr(a). ${o.doctor}`).join('\n')
+      : 'No hay órdenes en escaneo en este momento.';
+    const listDis = liveCtx.diseno.length
+      ? liveCtx.diseno.slice(0, 5).map(o => `- OT #${o.serie || o.ot}: ${o.prod} - Dr(a). ${o.doctor}`).join('\n')
+      : 'No hay órdenes en diseño en este momento.';
+    return `Estado en tiempo real de Escaneo y Diseño:\n\n**Órdenes en Escaneo (${liveCtx.escaneo.length}):**\n${listEsc}\n\n**Órdenes en Diseño (${liveCtx.diseno.length}):**\n${listDis}\n\n[ACCION:nav:lista-ordenes:Ver Lista de Órdenes]`;
   } else if (query.includes('pago') || query.includes('saldo') || query.includes('debe') || query.includes('pendiente')) {
-    const listPend = liveCtx.pendientes.slice(0, 4).map(p => `- OT #${p.serie}: Dr(a). ${p.doctor} (Paciente: ${p.paciente || 'General'})`).join('\n') || 'Actualmente no hay órdenes con saldo pendiente.';
+    const listPend = liveCtx.pendientes.length
+      ? liveCtx.pendientes.slice(0, 5).map(p => `- OT #${p.serie}: Dr(a). ${p.doctor} (Paciente: ${p.paciente || 'General'})`).join('\n')
+      : 'Actualmente no hay órdenes con saldo pendiente.';
     return `Resumen de Órdenes Pendientes de Pago en el Dashboard:\n\nActualmente hay **${liveCtx.pendientes.length} órdenes** con saldo pendiente de liquidar:\n${listPend}\n\nPuedes abrir el detalle de cuentas o enviar un recordatorio push.\n\n[ACCION:modal:modalPendientes:Abrir Modal de Pagos Pendientes] [ACCION:nav:mensajes-push:Redactar Cobranza Push]`;
-  } else if (query.includes('calendario') || query.includes('cita') || query.includes('escaneo')) {
+  } else if (query.includes('calendario') || query.includes('cita')) {
     return `En el Dashboard tienes **${liveCtx.proximosEscaneos} citas de escaneo intraoral** programadas en clínica.\n\nPuedes consultar el calendario completo para ver las fechas de recolección y entrega.\n\n[ACCION:nav:calendario:Abrir Calendario de Citas] [ACCION:modal:modalEventosEscaneo:Ver Citas de Escaneo]`;
   } else if (query.includes('orden') && (query.includes('crear') || query.includes('nueva'))) {
     return `Para registrar una nueva orden de trabajo, puedes abrir el formulario de alta rápida ahora mismo:\n\n[ACCION:modal:nuevaOrden:Crear Nueva Orden de Trabajo] [ACCION:nav:lista-ordenes:Ver Órdenes Registradas]`;
   } else if (query.includes('push') || query.includes('aviso') || query.includes('redactar') || query.includes('doctor')) {
     return `Redacción sugerida para notificación a doctores:\n\n**Título:** Orden dental lista para entrega\n\n**Mensaje:** Estimado Dr. Su trabajo de laboratorio ha concluido satisfactoriamente la fase de control de calidad y se encuentra listo en recepción para entrega o envío programado.\n\n[ACCION:nav:mensajes-push:Cargar en Mensajes Push] [ACCION:wixModal:entrega:Generar 3 Variantes con IA]`;
   } else {
-    return `He revisado el Dashboard en tiempo real. En el laboratorio tienes **${liveCtx.totalActivas} órdenes activas** (${liveCtx.escaneo.length} en escaneo, ${liveCtx.diseno.length} en diseño, ${liveCtx.fabricacion.length} en fabricación y ${liveCtx.entrega.length} listas para entrega).\n\n¿Deseas que naveguemos a algún módulo específico o que consulte algún doctor en particular?\n\n[ACCION:nav:lista-ordenes:Ver Órdenes] [ACCION:nav:calendario:Calendario] [ACCION:modal:modalPendientes:Ver Pagos Pendientes]`;
+    return `He revisado el Dashboard en tiempo real. En el laboratorio tienes un total de **${liveCtx.totalActivas} órdenes activas** (${liveCtx.escaneo.length} en escaneo, ${liveCtx.diseno.length} en diseño, ${liveCtx.fabricacion.length} en fabricación y ${liveCtx.entrega.length} listas para entrega).\n\n¿Deseas que naveguemos a algún módulo específico o que consulte algún doctor en particular?\n\n[ACCION:nav:lista-ordenes:Ver Órdenes] [ACCION:nav:calendario:Calendario] [ACCION:modal:modalPendientes:Ver Pagos Pendientes]`;
   }
 };
 
