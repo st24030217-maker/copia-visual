@@ -12771,7 +12771,7 @@ window.seleccionarTipoWixAI = function(tipo, elemento) {
     b.className = 'wix-tipo-chip px-3 py-1.5 rounded-full text-xs font-semibold border transition-all cursor-pointer bg-white border-slate-200 text-slate-700 hover:bg-slate-50';
   });
   if (elemento) {
-    elemento.className = 'wix-tipo-chip px-3 py-1.5 rounded-full text-xs font-semibold border transition-all cursor-pointer bg-purple-50 border-purple-300 text-purple-800 shadow-2xs';
+    elemento.className = 'wix-tipo-chip px-3 py-1.5 rounded-full text-xs font-semibold border transition-all cursor-pointer bg-blue-50 border-blue-400 text-blue-900 shadow-2xs font-bold';
   }
 
   const detalles = document.getElementById('wixAiDetalles');
@@ -12794,7 +12794,7 @@ window.seleccionarTonoWixAI = function(tono, elemento) {
     b.className = 'wix-tono-chip px-3 py-1.5 rounded-full text-xs font-semibold border transition-all cursor-pointer bg-white border-slate-200 text-slate-700 hover:bg-slate-50';
   });
   if (elemento) {
-    elemento.className = 'wix-tono-chip px-3 py-1.5 rounded-full text-xs font-semibold border transition-all cursor-pointer bg-purple-50 border-purple-300 text-purple-800 shadow-2xs';
+    elemento.className = 'wix-tono-chip px-3 py-1.5 rounded-full text-xs font-semibold border transition-all cursor-pointer bg-blue-50 border-blue-400 text-blue-900 shadow-2xs font-bold';
   }
 };
 
@@ -13042,29 +13042,37 @@ window.renderizarOpcionesWixAI = function() {
 
   contenedor.innerHTML = opciones.map((op, idx) => {
     const esActiva = idx === window.wixAiConfig.seleccionada;
+    const badgeColors = {
+      'Profesional': 'bg-blue-50 text-blue-800 border-blue-200',
+      'Cordial': 'bg-emerald-50 text-emerald-800 border-emerald-200',
+      'Directo': 'bg-slate-100 text-slate-800 border-slate-200'
+    };
+    const estiloBadge = badgeColors[op.estilo] || 'bg-slate-100 text-slate-800 border-slate-200';
     return `
-      <div onclick="seleccionarOpcionWixAI(${idx})" class="wix-opcion-card p-3.5 rounded-xl border transition-all cursor-pointer flex flex-col justify-between select-none relative ${esActiva ? 'border-purple-600 bg-purple-50/40 ring-2 ring-purple-500/20 shadow-xs' : 'border-slate-200 bg-white hover:border-purple-300 hover:bg-slate-50/50'}" data-index="${idx}">
+      <div onclick="seleccionarOpcionWixAI(${idx})" class="wix-opcion-card p-4 rounded-2xl border-2 transition-all cursor-pointer flex flex-col justify-between select-none relative ${esActiva ? 'border-blue-600 bg-gradient-to-b from-blue-50/30 via-white to-white ring-4 ring-blue-500/10 shadow-md' : 'border-slate-200 bg-white hover:border-blue-300 hover:shadow-sm'}" data-index="${idx}">
         <div>
-          <div class="flex items-center justify-between mb-2">
+          <div class="flex items-center justify-between mb-3">
             <div class="flex items-center gap-2">
-              <span class="w-4 h-4 rounded-full border flex items-center justify-center transition-all ${esActiva ? 'border-purple-600 bg-purple-600 text-white' : 'border-slate-300 bg-white'}">
-                <i data-lucide="check" class="w-2.5 h-2.5 ${esActiva ? 'block' : 'hidden'}"></i>
+              <span class="w-5 h-5 rounded-full border-2 flex items-center justify-center transition-all ${esActiva ? 'border-blue-600 bg-blue-600 text-white' : 'border-slate-300 bg-white'}">
+                <i data-lucide="check" class="w-3 h-3 ${esActiva ? 'block' : 'hidden'}"></i>
               </span>
-              <span class="text-xs font-bold ${esActiva ? 'text-purple-900' : 'text-slate-800'}">Opción ${idx + 1}</span>
+              <span class="text-xs font-extrabold ${esActiva ? 'text-blue-950' : 'text-slate-800'}">Opción ${idx + 1}</span>
             </div>
             <div class="flex items-center gap-1.5">
-              <span class="text-[10px] font-semibold px-2 py-0.5 rounded-full ${esActiva ? 'bg-purple-100 text-purple-800 border border-purple-200' : 'bg-slate-100 text-slate-600 border border-slate-200'}">${op.estilo || 'Variación'}</span>
-              <button type="button" onclick="copiarOpcionIndividual(${idx}, event)" title="Copiar esta opción" class="p-1 rounded-md text-slate-400 hover:text-purple-700 hover:bg-purple-50 transition-colors">
+              <span class="text-[10.5px] font-bold px-2.5 py-0.5 rounded-full border ${estiloBadge}">${op.estilo || 'Variación'}</span>
+              <button type="button" onclick="copiarOpcionIndividual(${idx}, event)" title="Copiar esta opción" class="p-1 rounded-lg text-slate-400 hover:text-blue-700 hover:bg-blue-50 transition-colors">
                 <i data-lucide="copy" class="w-3.5 h-3.5"></i>
               </button>
             </div>
           </div>
-          <h5 class="text-xs font-bold text-slate-900 mb-1.5 leading-snug">${op.titulo}</h5>
-          <p class="text-[11px] sm:text-xs text-slate-600 leading-relaxed">${op.mensaje}</p>
+          <h5 class="text-xs font-extrabold text-slate-900 mb-2 leading-snug">${op.titulo}</h5>
+          <p class="text-[11.5px] text-slate-600 leading-relaxed">${op.mensaje}</p>
         </div>
-        <div class="mt-3 pt-2 border-t border-slate-100 flex items-center justify-between text-[10px] text-slate-400">
-          <span>${op.mensaje.length} caracteres</span>
-          <span class="font-semibold ${esActiva ? 'text-purple-700' : 'text-slate-500'}">${esActiva ? 'Seleccionada' : 'Clic para elegir'}</span>
+        <div class="mt-4 pt-2.5 border-t border-slate-100 flex items-center justify-between text-[11px]">
+          <span class="text-slate-400 font-mono flex items-center gap-1">
+            ${op.mensaje.length} caracteres
+          </span>
+          <span class="font-bold text-[10px] px-2.5 py-1 rounded-full ${esActiva ? 'bg-blue-600 text-white' : 'text-slate-500 bg-slate-100'}">${esActiva ? 'Seleccionada' : 'Elegir opción'}</span>
         </div>
       </div>
     `;
@@ -13103,29 +13111,57 @@ window.seleccionarOpcionWixAI = function(idx) {
   cards.forEach((card, i) => {
     const esActiva = i === idx;
     if (esActiva) {
-      card.className = 'wix-opcion-card p-3.5 rounded-xl border transition-all cursor-pointer flex flex-col justify-between select-none relative border-purple-600 bg-purple-50/40 ring-2 ring-purple-500/20 shadow-xs';
+      card.className = 'wix-opcion-card p-4 rounded-2xl border-2 transition-all cursor-pointer flex flex-col justify-between select-none relative border-blue-600 bg-gradient-to-b from-blue-50/30 via-white to-white ring-4 ring-blue-500/10 shadow-md';
     } else {
-      card.className = 'wix-opcion-card p-3.5 rounded-xl border transition-all cursor-pointer flex flex-col justify-between select-none relative border-slate-200 bg-white hover:border-purple-300 hover:bg-slate-50/50';
+      card.className = 'wix-opcion-card p-4 rounded-2xl border-2 transition-all cursor-pointer flex flex-col justify-between select-none relative border-slate-200 bg-white hover:border-blue-300 hover:shadow-sm';
     }
     const checkIcon = card.querySelector('.lucide-check, [data-lucide="check"]');
     const radioCircle = card.querySelector('.rounded-full');
     if (radioCircle) {
-      radioCircle.className = esActiva ? 'w-4 h-4 rounded-full border flex items-center justify-center transition-all border-purple-600 bg-purple-600 text-white' : 'w-4 h-4 rounded-full border flex items-center justify-center transition-all border-slate-300 bg-white';
+      radioCircle.className = esActiva ? 'w-5 h-5 rounded-full border-2 flex items-center justify-center transition-all border-blue-600 bg-blue-600 text-white' : 'w-5 h-5 rounded-full border-2 flex items-center justify-center transition-all border-slate-300 bg-white';
     }
     if (checkIcon) {
       if (esActiva) checkIcon.classList.remove('hidden');
       else checkIcon.classList.add('hidden');
     }
+    const statusPill = card.querySelector('.rounded-full:last-child');
+    if (statusPill) {
+      statusPill.className = esActiva ? 'font-bold text-[10px] px-2.5 py-1 rounded-full bg-blue-600 text-white' : 'font-bold text-[10px] px-2.5 py-1 rounded-full text-slate-500 bg-slate-100';
+      statusPill.innerText = esActiva ? 'Seleccionada' : 'Elegir opción';
+    }
   });
 
-  // Actualizar inputs de previsualización
+  // Actualizar inputs de previsualización y simulación de burbuja
   const previewTitulo = document.getElementById('wixAiPreviewTitulo');
   const previewMensaje = document.getElementById('wixAiPreviewMensaje');
   const previewBadge = document.getElementById('wixAiPreviewBadge');
+  const bubbleTitulo = document.getElementById('wixAiBubbleTitulo');
+  const bubbleMensaje = document.getElementById('wixAiBubbleMensaje');
+  const horaSimulacion = document.getElementById('wixAiHoraSimulacion');
 
   if (previewTitulo) previewTitulo.value = op.titulo || '';
   if (previewMensaje) previewMensaje.value = op.mensaje || '';
+  if (bubbleTitulo) bubbleTitulo.innerText = op.titulo || '';
+  if (bubbleMensaje) bubbleMensaje.innerText = op.mensaje || '';
   if (previewBadge) previewBadge.innerText = `Opción ${idx + 1} seleccionada (${op.estilo || 'Estándar'})`;
+  if (horaSimulacion) {
+    const d = new Date();
+    horaSimulacion.innerText = d.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+  }
+
+  // Vincular eventos de escritura para actualizar la burbuja en vivo
+  if (previewTitulo && !previewTitulo.dataset.hasWatcher) {
+    previewTitulo.dataset.hasWatcher = 'true';
+    previewTitulo.addEventListener('input', () => {
+      if (bubbleTitulo) bubbleTitulo.innerText = previewTitulo.value || '(Sin título)';
+    });
+  }
+  if (previewMensaje && !previewMensaje.dataset.hasWatcher) {
+    previewMensaje.dataset.hasWatcher = 'true';
+    previewMensaje.addEventListener('input', () => {
+      if (bubbleMensaje) bubbleMensaje.innerText = previewMensaje.value || '(Sin mensaje)';
+    });
+  }
 };
 
 window.aplicarTextoWixAI = function() {
@@ -15005,4 +15041,28 @@ window.renderLiberacionPendientesModulo = function() {
     </tr>
   `).join('');
   if (typeof lucide !== 'undefined') lucide.createIcons();
+};
+
+
+window.copiarTextoActualWixAI = function() {
+  const previewTitulo = document.getElementById('wixAiPreviewTitulo');
+  const previewMensaje = document.getElementById('wixAiPreviewMensaje');
+  const tituloFinal = previewTitulo ? previewTitulo.value.trim() : '';
+  const mensajeFinal = previewMensaje ? previewMensaje.value.trim() : '';
+  const texto = tituloFinal ? `*${tituloFinal}*\n\n${mensajeFinal}` : mensajeFinal;
+  if (navigator.clipboard && navigator.clipboard.writeText) {
+    navigator.clipboard.writeText(texto).then(() => {
+      if (typeof showToast === 'function') showToast('Copiado', 'Texto copiado al portapapeles listo para enviar.');
+    });
+  }
+};
+
+window.enviarWhatsAppWixAI = function() {
+  const previewTitulo = document.getElementById('wixAiPreviewTitulo');
+  const previewMensaje = document.getElementById('wixAiPreviewMensaje');
+  const tituloFinal = previewTitulo ? previewTitulo.value.trim() : '';
+  const mensajeFinal = previewMensaje ? previewMensaje.value.trim() : '';
+  const texto = tituloFinal ? `*${tituloFinal}*\n\n${mensajeFinal}` : mensajeFinal;
+  const encoded = encodeURIComponent(texto);
+  window.open(`https://api.whatsapp.com/send?text=${encoded}`, '_blank');
 };
