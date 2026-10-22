@@ -310,31 +310,33 @@
       if (!window.THREE) return;
       const THREE = window.THREE;
 
-      this.container.innerHTML = '';
-      this.container.style.position = 'relative';
-
       // Canvas WebGL
-      this.canvas = document.createElement('canvas');
-      this.canvas.className = 'agent-logo-canvas select-none';
-      this.canvas.style.display = 'block';
-      this.canvas.style.width = this.options.width + 'px';
-      this.canvas.style.height = this.options.height + 'px';
-      this.canvas.style.cursor = this.options.clickToInspect ? 'pointer' : (this.options.enableTrackball ? 'grab' : 'default');
-
-      this.container.appendChild(this.canvas);
+      const canvas = document.createElement('canvas');
+      canvas.className = 'agent-logo-canvas select-none';
+      canvas.style.display = 'block';
+      canvas.style.width = this.options.width + 'px';
+      canvas.style.height = this.options.height + 'px';
+      canvas.style.cursor = this.options.clickToInspect ? 'pointer' : (this.options.enableTrackball ? 'grab' : 'default');
 
       // WebGL Renderer con fondo transparente antialias de alta resolución
+      let renderer;
       try {
-        this.renderer = new THREE.WebGLRenderer({
-          canvas: this.canvas,
+        renderer = new THREE.WebGLRenderer({
+          canvas: canvas,
           alpha: true,
           antialias: true,
           powerPreference: 'high-performance'
         });
       } catch (err) {
-        console.warn('WebGL falló al inicializar:', err);
+        console.warn('WebGL no disponible, manteniendo imagen de respaldo:', err);
         return;
       }
+
+      this.canvas = canvas;
+      this.renderer = renderer;
+      this.container.innerHTML = '';
+      this.container.style.position = 'relative';
+      this.container.appendChild(this.canvas);
 
       this.renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
       this.renderer.setSize(this.options.width, this.options.height, true);
@@ -396,6 +398,12 @@
         this.canvas.addEventListener('click', (e) => {
           e.stopPropagation();
           this.triggerSpin();
+        });
+        this.canvas.addEventListener('dblclick', (e) => {
+          e.stopPropagation();
+          if (typeof window.abrirModalLogo3DInspector === 'function') {
+            window.abrirModalLogo3DInspector('isometric');
+          }
         });
       }
 
@@ -569,6 +577,18 @@
       new AgentLogo3DViewer(bannerTarget, { width: 44, height: 44, cameraZ: 2.85 });
     }
 
+    // 5. Cabecera del Modal de Redacción de Comunicados IA (48x48 WebGL)
+    const modalAITarget = document.getElementById('modalAILogo3DContainer');
+    if (modalAITarget) {
+      window._modalAILogo3D = new AgentLogo3DViewer(modalAITarget, {
+        width: 48,
+        height: 48,
+        cameraZ: 2.85,
+        interactive: true,
+        clickToInspect: true
+      });
+    }
+
     if (!animId) {
       animateAll();
     }
@@ -670,6 +690,9 @@
     const modal = document.getElementById('modalLogo3DInspector');
     if (modal) modal.classList.add('hidden');
   };
+
+  // Exponer clase y funciones de soporte en el scope global
+  window.AgentLogo3DViewer = AgentLogo3DViewer;
 
   if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', () => window.initAgentLogo3D());

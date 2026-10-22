@@ -12736,7 +12736,7 @@ window.abrirModalWixAI = function(opciones = {}) {
   const tipoBtns = document.querySelectorAll('.wix-tipo-chip');
   tipoBtns.forEach(btn => {
     if (btn.getAttribute('data-tipo') === window.wixAiConfig.tipo) {
-      btn.className = 'wix-tipo-chip px-3 py-1.5 rounded-full text-xs font-semibold border transition-all cursor-pointer bg-purple-50 border-purple-300 text-purple-800 shadow-2xs';
+      btn.className = 'wix-tipo-chip px-3 py-1.5 rounded-full text-xs font-semibold border transition-all cursor-pointer bg-blue-50 border-blue-400 text-blue-900 shadow-2xs font-bold';
     } else {
       btn.className = 'wix-tipo-chip px-3 py-1.5 rounded-full text-xs font-semibold border transition-all cursor-pointer bg-white border-slate-200 text-slate-700 hover:bg-slate-50';
     }
@@ -12745,6 +12745,22 @@ window.abrirModalWixAI = function(opciones = {}) {
   // Mostrar modal
   modal.classList.remove('hidden');
   document.body.classList.add('overflow-hidden');
+
+  // Activar renderizado e interaccion del logo 3D WebGL en cabecera
+  const modalAITarget = document.getElementById('modalAILogo3DContainer');
+  if (modalAITarget && window.AgentLogo3DViewer) {
+    if (!modalAITarget.querySelector('canvas')) {
+      window._modalAILogo3D = new window.AgentLogo3DViewer(modalAITarget, {
+        width: 48,
+        height: 48,
+        cameraZ: 2.85,
+        interactive: true,
+        clickToInspect: true
+      });
+    } else if (window._modalAILogo3D && typeof window._modalAILogo3D.triggerSpin === 'function') {
+      window._modalAILogo3D.triggerSpin();
+    }
+  }
 
   // Inicializar detalles con contexto si los campos tienen algo
   const inputTitulo = document.getElementById(window.wixAiConfig.targetTitulo);
@@ -13187,13 +13203,13 @@ window.aplicarTextoWixAI = function() {
         const targetMensajeEl = document.getElementById('pushMensajeInput');
         if (targetTituloEl && tituloFinal) {
           targetTituloEl.value = tituloFinal;
-          targetTituloEl.classList.add('ring-2', 'ring-purple-600');
-          setTimeout(() => targetTituloEl.classList.remove('ring-2', 'ring-purple-600'), 1500);
+          targetTituloEl.classList.add('ring-2', 'ring-blue-600');
+          setTimeout(() => targetTituloEl.classList.remove('ring-2', 'ring-blue-600'), 1500);
         }
         if (targetMensajeEl && mensajeFinal) {
           targetMensajeEl.value = mensajeFinal;
-          targetMensajeEl.classList.add('ring-2', 'ring-purple-600');
-          setTimeout(() => targetMensajeEl.classList.remove('ring-2', 'ring-purple-600'), 1500);
+          targetMensajeEl.classList.add('ring-2', 'ring-blue-600');
+          setTimeout(() => targetMensajeEl.classList.remove('ring-2', 'ring-blue-600'), 1500);
         }
         if (typeof showToast === 'function') {
           showToast('Texto Aplicado', 'Se abrió Mensajes Push con tu texto generado listo para enviar a los doctores.');
@@ -13209,14 +13225,14 @@ window.aplicarTextoWixAI = function() {
 
   if (targetTituloEl && tituloFinal) {
     targetTituloEl.value = tituloFinal;
-    targetTituloEl.classList.add('ring-2', 'ring-purple-600');
-    setTimeout(() => targetTituloEl.classList.remove('ring-2', 'ring-purple-600'), 1500);
+    targetTituloEl.classList.add('ring-2', 'ring-blue-600');
+    setTimeout(() => targetTituloEl.classList.remove('ring-2', 'ring-blue-600'), 1500);
   }
 
   if (targetMensajeEl && mensajeFinal) {
     targetMensajeEl.value = mensajeFinal;
-    targetMensajeEl.classList.add('ring-2', 'ring-purple-600');
-    setTimeout(() => targetMensajeEl.classList.remove('ring-2', 'ring-purple-600'), 1500);
+    targetMensajeEl.classList.add('ring-2', 'ring-blue-600');
+    setTimeout(() => targetMensajeEl.classList.remove('ring-2', 'ring-blue-600'), 1500);
   }
 
   window.cerrarModalWixAI();
@@ -14324,7 +14340,7 @@ window.enviarMensajeWixAssistant = async function() {
     aiBubble.className = 'flex items-start gap-2.5';
     aiBubble.innerHTML = `
       <div class="w-7 h-7 rounded-full bg-slate-50 border border-slate-200/80 flex items-center justify-center relative shadow-2xs shrink-0 mt-0.5 overflow-hidden select-none cursor-pointer" onclick="window.abrirModalLogo3DInspector()" title="Ver Logo 3D">
-        <img src="assets/ia-logo/dent_control_logo_3d_front_corrected.png" alt="Dent Control 3D" class="w-6 h-6 object-contain pointer-events-none" />
+        <img src="assets/ia-logo/dent_control_logo_3d_isometric_corrected.png" alt="Dent Control 3D" class="w-6 h-6 object-contain pointer-events-none" />
       </div>
       <div class="flex-1 bg-white border border-slate-200/90 rounded-2xl rounded-tl-xs p-3.5 shadow-2xs text-xs sm:text-[13px] text-slate-800 leading-relaxed space-y-2.5 max-w-[90%]">
         <div class="wix-assistant-content">
@@ -14413,13 +14429,13 @@ window.cargarTextoEnPushWix = function(encTitulo, encMensaje) {
       const mInput = document.getElementById('pushMensajeInput');
       if (tInput && titulo) {
         tInput.value = titulo;
-        tInput.classList.add('ring-2', 'ring-purple-600');
-        setTimeout(() => tInput.classList.remove('ring-2', 'ring-purple-600'), 1500);
+        tInput.classList.add('ring-2', 'ring-blue-600');
+        setTimeout(() => tInput.classList.remove('ring-2', 'ring-blue-600'), 1500);
       }
       if (mInput && mensaje) {
         mInput.value = mensaje;
-        mInput.classList.add('ring-2', 'ring-purple-600');
-        setTimeout(() => mInput.classList.remove('ring-2', 'ring-purple-600'), 1500);
+        mInput.classList.add('ring-2', 'ring-blue-600');
+        setTimeout(() => mInput.classList.remove('ring-2', 'ring-blue-600'), 1500);
       }
       if (typeof showToast === 'function') {
         showToast('Texto Cargado', 'Texto transferido al formulario de Mensajes Push listo para enviar.');

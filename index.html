@@ -2637,8 +2637,8 @@
       <!-- Header Corporativo Dent Control -->
       <div class="p-4 sm:p-5 border-b border-slate-100 flex items-center justify-between bg-gradient-to-r from-slate-50 via-white to-blue-50/40">
         <div class="flex items-center gap-3">
-          <div class="w-10 h-10 rounded-2xl bg-white border border-slate-200/90 flex items-center justify-center relative shadow-xs shrink-0 overflow-hidden select-none cursor-pointer" onclick="window.abrirModalLogo3DInspector()" title="Logo 3D Dent Control">
-            <img src="assets/ia-logo/dent_control_logo_3d_front_corrected.png" alt="Dent Control 3D" class="w-8 h-8 object-contain pointer-events-none" />
+          <div id="modalAILogo3DContainer" class="w-12 h-12 rounded-2xl bg-gradient-to-br from-white to-blue-50/70 border border-slate-200/90 shadow-xs flex items-center justify-center shrink-0 cursor-pointer select-none transition-all duration-200 hover:scale-105 active:scale-95 group relative overflow-hidden" onclick="if(window._modalAILogo3D && typeof window._modalAILogo3D.triggerSpin === 'function'){ window._modalAILogo3D.triggerSpin(); } else if(window.abrirModalLogo3DInspector){ window.abrirModalLogo3DInspector('isometric'); }" ondblclick="if(window.abrirModalLogo3DInspector) window.abrirModalLogo3DInspector('isometric')" title="Logo 3D Oficial de Dent Control (Clic para girar · Doble clic para inspeccionar 360°)">
+            <img src="assets/ia-logo/dent_control_logo_3d_isometric_corrected.png" alt="Dent Control 3D" class="w-10 h-10 object-contain drop-shadow-sm pointer-events-none transition-transform duration-300 group-hover:scale-110" />
           </div>
           <div>
             <div class="flex items-center gap-2">
@@ -2924,7 +2924,7 @@
       <!-- Indicador de que la IA está pensando -->
       <div id="wixAssistantTyping" class="hidden flex items-start gap-2.5 pt-2">
         <div class="w-7 h-7 rounded-full bg-slate-100 border border-slate-200/80 flex items-center justify-center relative shadow-xs shrink-0 mt-0.5 overflow-hidden">
-          <img src="assets/ia-logo/dent_control_logo_3d_front_corrected.png" alt="Dent Control 3D" class="w-5 h-5 object-contain" />
+          <img src="assets/ia-logo/dent_control_logo_3d_isometric_corrected.png" alt="Dent Control 3D" class="w-5 h-5 object-contain" />
         </div>
         <div class="bg-white border border-slate-200/90 rounded-2xl rounded-tl-sm p-3 shadow-2xs flex items-center gap-3">
           <!-- Slide de loading-dev (size={48}) -->
