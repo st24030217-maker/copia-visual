@@ -5503,7 +5503,7 @@ function renderDynamicModule(key) {
       ];
 
       container.innerHTML = `
-        ${renderHeaderBanner('Dent Lab • Clientes', 'Lista de Clientes Nuevos por Mes (Requerimiento #14)', 'Auditoría y registro mensual de nuevos odontólogos y clínicas incorporadas al laboratorio.')}
+        ${renderHeaderBanner('Dent Lab • Clientes', 'Lista de Clientes Nuevos por Mes', 'Auditoría y registro mensual de nuevos odontólogos y clínicas incorporadas al laboratorio.')}
         <div class="bg-white rounded-2xl border border-slate-200 p-5 shadow-sm space-y-4">
           <div class="p-3.5 bg-slate-50 rounded-xl border border-slate-200 flex flex-wrap items-center justify-between gap-3 text-xs">
             <div class="flex items-center gap-2">
@@ -5566,7 +5566,7 @@ function renderDynamicModule(key) {
     // 15. VENTAS MENSUALES POR CLIENTE (DentLab #15)
     case 'ventas-mensuales-cliente': {
       container.innerHTML = `
-        ${renderHeaderBanner('Dent Lab • Ventas', 'Ventas Mensuales por Cliente (Requerimiento #15)', 'Consolidado analítico de facturación, volumen de piezas y ticket promedio agrupado por odontólogo.')}
+        ${renderHeaderBanner('Dent Lab • Ventas', 'Ventas Mensuales por Cliente', 'Consolidado analítico de facturación, volumen de piezas y ticket promedio agrupado por odontólogo.')}
         <div class="bg-white rounded-2xl border border-slate-200 p-5 shadow-sm space-y-4">
           <div class="p-3.5 bg-slate-50 rounded-xl border border-slate-200 flex flex-wrap items-center justify-between gap-3 text-xs">
             <div class="flex flex-wrap items-center gap-3">
@@ -5631,7 +5631,7 @@ function renderDynamicModule(key) {
     // 16. APP DE DENTCONTROL PARA DR. JOSÉ ALATORRE Y DRA. IRENE MARTÍNEZ (DentLab #16)
     case 'app-doctores': {
       container.innerHTML = `
-        ${renderHeaderBanner('Dent Lab • Portal Clínico', 'APP DentControl para Doctores (Requerimiento #16)', 'Portal responsive exclusivo para Dr. José Antonio Alatorre y Dra. Alicia Irene Martínez con saldos, órdenes en vivo y citas.')}
+        ${renderHeaderBanner('Dent Lab • Portal Clínico', 'APP DentControl para Doctores', 'Portal responsive exclusivo para Dr. José Antonio Alatorre y Dra. Alicia Irene Martínez con saldos, órdenes en vivo y citas.')}
         <div class="space-y-4">
           <!-- Selector de Médico DentControl -->
           <div class="bg-white rounded-2xl border border-slate-200 p-4 shadow-sm flex flex-wrap items-center justify-between gap-3">
@@ -5662,7 +5662,7 @@ function renderDynamicModule(key) {
     // 17. FILTRO DE DISCOS DE ZIRCONIO VENDIDOS (DentLab #17)
     case 'discos-vendidos': {
       container.innerHTML = `
-        ${renderHeaderBanner('Dent Lab • Materiales', 'Filtro de Discos de Zirconio Vendidos (Requerimiento #17)', 'Registro de bloques de Zirconio comercializados a clínicas con fecha, hora exacta y usuario que realizó el movimiento de venta.')}
+        ${renderHeaderBanner('Dent Lab • Materiales', 'Filtro de Discos de Zirconio Vendidos', 'Registro de bloques de Zirconio comercializados a clínicas con fecha, hora exacta y usuario que realizó el movimiento de venta.')}
         <div class="bg-white rounded-2xl border border-slate-200 p-5 shadow-sm space-y-4">
           <div class="p-3.5 bg-slate-50 rounded-xl border border-slate-200 grid grid-cols-1 sm:grid-cols-4 gap-3 text-xs items-end">
             <div>
@@ -5714,7 +5714,7 @@ function renderDynamicModule(key) {
     // 18. LISTADO DE ÓRDENES CANCELADAS (DentLab #18)
     case 'ordenes-canceladas': {
       container.innerHTML = `
-        ${renderHeaderBanner('Dent Lab • Órdenes', 'Listado de Órdenes Canceladas (Requerimiento #18)', 'Registro de órdenes anuladas con fecha, hora exacta, usuario que realizó la cancelación y motivo.')}
+        ${renderHeaderBanner('Dent Lab • Órdenes', 'Listado de Órdenes Canceladas', 'Registro de órdenes anuladas con fecha, hora exacta, usuario que realizó la cancelación y motivo.')}
         <div class="bg-white rounded-2xl border border-slate-200 p-5 shadow-sm space-y-4">
           <div class="p-3.5 bg-slate-50 rounded-xl border border-slate-200 flex flex-wrap items-center justify-between gap-3 text-xs">
             <div class="flex flex-wrap items-center gap-3">
@@ -5769,7 +5769,7 @@ function renderDynamicModule(key) {
     // 19. LIBERACIÓN DE ÓRDENES PENDIENTES DE PAGO (DentLab #19)
     case 'liberacion-pendientes': {
       container.innerHTML = `
-        ${renderHeaderBanner('Dent Lab • Órdenes', 'Listado de Liberación de Órdenes Pendientes de Pago (Requerimiento #19)', 'Histórico de autorizaciones y liberaciones con fecha, hora exacta y usuario que realizó el movimiento.')}
+        ${renderHeaderBanner('Dent Lab • Órdenes', 'Listado de Liberación de Órdenes Pendientes de Pago', 'Histórico de autorizaciones y liberaciones con fecha, hora exacta y usuario que realizó el movimiento.')}
         <div class="bg-white rounded-2xl border border-slate-200 p-5 shadow-sm space-y-4">
           <div class="p-3.5 bg-slate-50 rounded-xl border border-slate-200 flex flex-wrap items-center justify-between gap-3 text-xs">
             <div class="flex flex-wrap items-center gap-3">
@@ -13277,12 +13277,12 @@ window.DENT_MODULES_MAP = {
 
   // 3. Doctores & Clientes
   'listado-doctores': { id: 'listado-doctores', nombre: 'Listado de Doctores', desc: 'Directorio clinico de odontologos registrados' },
-  'clientes-nuevos-mes': { id: 'clientes-nuevos-mes', nombre: 'Lista de Clientes Nuevos por Mes', desc: 'Registro y seguimiento mensual de nuevos odontologos y clinicas (DentLab #14)' },
-  'ventas-mensuales-cliente': { id: 'ventas-mensuales-cliente', nombre: 'Ventas Mensuales por Cliente', desc: 'Reporte consolidado de facturacion y unidades por odontologo (DentLab #15)' },
-  'app-doctores': { id: 'app-doctores', nombre: 'APP DentControl Doctores', desc: 'Portal clinico para Dr. Jose Alatorre y Dra. Irene Martinez (DentLab #16)' },
-  'discos-vendidos': { id: 'discos-vendidos', nombre: 'Discos Zirconio Vendidos', desc: 'Filtro de discos vendidos con fecha, hora y usuario vendedor (DentLab #17)' },
-  'ordenes-canceladas': { id: 'ordenes-canceladas', nombre: 'Ordenes Canceladas', desc: 'Listado de cancelaciones con fecha, hora y usuario responsable (DentLab #18)' },
-  'liberacion-pendientes': { id: 'liberacion-pendientes', nombre: 'Liberacion de Pagos Pendientes', desc: 'Historico de liberaciones con fecha, hora y usuario autorizador (DentLab #19)' },
+  'clientes-nuevos-mes': { id: 'clientes-nuevos-mes', nombre: 'Lista de Clientes Nuevos por Mes', desc: 'Registro y seguimiento mensual de nuevos odontologos y clinicas' },
+  'ventas-mensuales-cliente': { id: 'ventas-mensuales-cliente', nombre: 'Ventas Mensuales por Cliente', desc: 'Reporte consolidado de facturacion y unidades por odontologo' },
+  'app-doctores': { id: 'app-doctores', nombre: 'APP DentControl Doctores', desc: 'Portal clinico para Dr. Jose Alatorre y Dra. Irene Martinez' },
+  'discos-vendidos': { id: 'discos-vendidos', nombre: 'Discos Zirconio Vendidos', desc: 'Filtro de discos vendidos con fecha, hora y usuario vendedor' },
+  'ordenes-canceladas': { id: 'ordenes-canceladas', nombre: 'Ordenes Canceladas', desc: 'Listado de cancelaciones con fecha, hora y usuario responsable' },
+  'liberacion-pendientes': { id: 'liberacion-pendientes', nombre: 'Liberacion de Pagos Pendientes', desc: 'Historico de liberaciones con fecha, hora y usuario autorizador' },
   'doctores-inactivos': { id: 'doctores-inactivos', nombre: 'Registrar Nuevo Doctor', desc: 'Formulario de alta para medicos y clinicas dentales' },
   'doctores-tipos': { id: 'doctores-tipos', nombre: 'Tipos de Doctores', desc: 'Clasificacion de doctores (Interno, Externo, Especialista)' },
   'paquetes-doctores': { id: 'paquetes-doctores', nombre: 'Paquetes por Doctor', desc: 'Asignacion y consumo de paquetes por medico' },
