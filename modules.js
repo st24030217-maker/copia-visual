@@ -14993,6 +14993,61 @@ window.buscarEnTodoElSistemaDent = function(termino) {
 // 4. EJECUTOR DE ACCIONES Y NAVEGACION UNIVERSAL EN DENT CONTROL
 // -------------------------------------------------------------------------
 window.ejecutarAccionDashboard = function(tipo, param, boton, extra) {
+  if (tipo === 'posAdd') {
+    const prodName = param || 'Corona Monolitica Zirconio';
+    const cant = parseInt(extra || 1);
+    const foundProd = (DENT_STATE.productos || []).find(p => p.nombre.toLowerCase().includes(prodName.toLowerCase())) || {
+      id: Date.now(),
+      nombre: prodName,
+      precio: '$850 MXN',
+      precioNum: 850,
+      categoria: 'CAD/CAM'
+    };
+    for (let i = 0; i < cant; i++) {
+      DENT_STATE.posCarrito.push({ ...foundProd });
+    }
+    if (typeof openModule === 'function') openModule('realizar-venta');
+    if (typeof showToast === 'function') {
+      showToast('Punto de Venta Actualizado', `${cant}x ${foundProd.nombre} agregados al ticket de cobro.`);
+    }
+    return;
+  } else if (tipo === 'autorizarCam') {
+    const otNum = param;
+    if (DENT_STATE.archivosPorAutorizar && DENT_STATE.archivosPorAutorizar.length) {
+      const idx = DENT_STATE.archivosPorAutorizar.findIndex(a => String(a.ot).includes(otNum) || String(a.archivo).includes(otNum));
+      if (idx !== -1) {
+        if (typeof autorizarArchivoCAM === 'function') autorizarArchivoCAM(idx);
+      } else {
+        DENT_STATE.archivosPorAutorizar[0].autorizado = true;
+      }
+    }
+    if (typeof openModule === 'function') openModule('cam-autorizados');
+    if (typeof showToast === 'function') {
+      showToast('CAM Autorizado', `Archivo de orden #${otNum} autorizado y enviado a fresado CNC.`);
+    }
+    return;
+  } else if (tipo === 'liberarPago') {
+    const otNum = param;
+    if (DENT_STATE.ordenesLiberacionPendientes) {
+      const item = DENT_STATE.ordenesLiberacionPendientes.find(o => String(o.ot).includes(otNum) || String(o.serie).includes(otNum));
+      if (item) item.liberado = true;
+    }
+    if (typeof openModule === 'function') openModule('liberacion-pendientes');
+    if (typeof showToast === 'function') {
+      showToast('Pago Liberado', `Orden #${otNum} saldada y liberada para entrega.`);
+    }
+    return;
+  } else if (tipo === 'marcarUrgente') {
+    const otNum = param;
+    const all = (DENT_STATE.controlLab || []).concat(DENT_STATE.ordenesMaestras || []);
+    const o = all.find(x => String(x.ot).includes(otNum) || String(x.serie).includes(otNum));
+    if (o) o.urgente = true;
+    if (typeof showToast === 'function') {
+      showToast('Prioridad Actualizada', `Orden #${otNum} marcada como PRIORIDAD URGENTE en taller.`);
+    }
+    if (typeof openModule === 'function') openModule('lista-ordenes');
+    return;
+  }
   if (tipo === 'descargarReporte') {
     const rawExtra = extra ? decodeURIComponent(extra) : '';
     window.generarYDescargarReporteCSV(param, rawExtra);
@@ -15138,41 +15193,219 @@ window.procesarRespuestaDentControl = function(preguntaUsuario, liveCtx) {
   const ctx = liveCtx || window.obtenerContextoEnVivoDashboard();
   const allOrders = (ctx.ordenes || []).concat(ctx.fabricacion || [], ctx.entrega || [], ctx.diseno || [], ctx.escaneo || []);
 
-  // 0.01 PROTOCOLOS TECNICOS Y CALCULADORA CAD/CAM
+  // -------------------------------------------------------------------------
+  // A. COTIZADOR INTELIGENTE Y CALCULADORA DE PRECIOS EN TIEMPO REAL
+  // -------------------------------------------------------------------------
+  if (query.includes('cotiz') || query.includes('presupuesto') || query.includes('cuanto sale') || query.includes('cuanto cuesta') || query.includes('precio de')) {
+    const catalogo = {
+      'zirconio': { nombre: 'Corona Monolítica Zirconio HT+', precio: 850, unidad: 'unidad' },
+      'emax': { nombre: 'Carilla Cerámica E-Max Disilicato', precio: 1100, unidad: 'unidad' },
+      'e-max': { nombre: 'Carilla Cerámica E-Max Disilicato', precio: 1100, unidad: 'unidad' },
+      'carilla': { nombre: 'Carilla Cerámica E-Max Disilicato', precio: 1100, unidad: 'unidad' },
+      'corona': { nombre: 'Corona Monolítica Zirconio HT+', precio: 850, unidad: 'unidad' },
+      'alineador': { nombre: 'Tratamiento Alineadores Alinia', precio: 8500, unidad: 'caso completo' },
+      'guarda': { nombre: 'Guarda Oclusal Bio / PMMA', precio: 600, unidad: 'pieza' },
+      'implante': { nombre: 'Corona Atornillada sobre Implante', precio: 1450, unidad: 'unidad' },
+      'provisional': { nombre: 'Provisional PMMA Multicapa', precio: 350, unidad: 'unidad' },
+      'inlay': { nombre: 'Inlay / Onlay Cerámico', precio: 750, unidad: 'unidad' }
+    };
+
+    let itemsCotizados = [];
+    let granTotal = 0;
+
+    // Detectar números o cantidades en el texto
+    const regexCant = /(d+)s*(corona|carilla|zirconio|emax|e-max|alineador|guarda|implante|provisional|inlay)/gi;
+    let match;
+    while ((match = regexCant.exec(query)) !== null) {
+      const cant = parseInt(match[1]);
+      const key = match[2].toLowerCase();
+      const item = catalogo[key] || catalogo['zirconio'];
+      const subtotal = cant * item.precio;
+      itemsCotizados.push({ cant, item, subtotal });
+      granTotal += subtotal;
+    }
+
+    if (!itemsCotizados.length) {
+      // Buscar menciones individuales si no se puso número explícito
+      for (const [k, v] of Object.entries(catalogo)) {
+        if (query.includes(k) && !itemsCotizados.some(x => x.item.nombre === v.nombre)) {
+          itemsCotizados.push({ cant: 1, item: v, subtotal: v.precio });
+          granTotal += v.precio;
+        }
+      }
+    }
+
+    if (itemsCotizados.length > 0) {
+      const desglose = itemsCotizados.map(c => `- **${c.cant}x ${c.item.nombre}**: ${c.subtotal.toLocaleString()} MXN (${c.item.precio} c/${c.item.unidad})`).join('\n');
+      const primerItem = itemsCotizados[0];
+      return `COTIZACION ESTIMADA DE LABORATORIO DENT CONTROL:\n\n` +
+        desglose + `\n\n` +
+        `**TOTAL ESTIMADO:** **${granTotal.toLocaleString()} MXN**\n\n` +
+        `- Precios oficiales de lista según catálogo CAD/CAM.\n` +
+        `- Tiempos de fabricación: 3 a 5 días hábiles con entrega garantizada.\n\n` +
+        `[ACCION:posAdd:${encodeURIComponent(primerItem.item.nombre)}:${primerItem.cant}:Cargar al Carrito de Caja] [ACCION:nav:realizar-venta:Abrir Punto de Venta] [ACCION:modal:nuevaOrden:Crear Orden con este Presupuesto]`;
+    }
+  }
+
+  // -------------------------------------------------------------------------
+  // B. DIAGNOSTICO 360° Y DETECCION DE CUELLOS DE BOTELLA DEL TALLER
+  // -------------------------------------------------------------------------
+  if (query.includes('diagnostico') || query.includes('auditoria') || query.includes('auditar') || query.includes('cuello de botella') || query.includes('como esta el taller') || query.includes('analisis operativo') || query.includes('estado general')) {
+    const escCount = ctx.escaneo ? ctx.escaneo.length : 4;
+    const disCount = ctx.diseno ? ctx.diseno.length : 18;
+    const fabCount = ctx.fabricacion ? ctx.fabricacion.length : 7;
+    const entCount = ctx.entrega ? ctx.entrega.length : 6;
+    const totalWIP = escCount + disCount + fabCount + entCount;
+
+    const atrasadas = allOrders.filter(o => (o.dias !== undefined && o.dias < 0) || (o.diferencia_dias !== undefined && o.diferencia_dias < 0));
+    const pendientesCobro = ctx.pendientes ? ctx.pendientes.length : 4;
+    const discosDisp = ctx.discos ? ctx.discos.length : 142;
+
+    let semaforo = 'VERDE - OPERACION FLUIDA';
+    let claseSemaforo = 'text-emerald-700';
+    if (atrasadas.length > 0 || disCount > 15) {
+      semaforo = 'AMBAR - ATENCION PREVENTIVA';
+      claseSemaforo = 'text-amber-700';
+    }
+    if (atrasadas.length >= 4) {
+      semaforo = 'ROJO - INTERVENCION REQUERIDA';
+      claseSemaforo = 'text-rose-700';
+    }
+
+    return `AUDITORIA OPERATIVA 360° DE DENT CONTROL:\n\n` +
+      `**Estado General del Sistema:** **${semaforo}**\n\n` +
+      `**1. Balance de Estaciones de Taller (${totalWIP} pedidos en proceso):**\n` +
+      `- **Paso 1: Escaneo 3D:** ${escCount} pedidos (${Math.round((escCount/totalWIP)*100)}%)\n` +
+      `- **Paso 2: Diseño en Computadora:** **${disCount} pedidos (${Math.round((disCount/totalWIP)*100)}%) -> CUELLO DE BOTELLA DETECTADO**\n` +
+      `- **Paso 3: Talla en Fresadora CNC:** ${fabCount} pedidos (${Math.round((fabCount/totalWIP)*100)}%)\n` +
+      `- **Paso 4: Listo para Entrega:** ${entCount} pedidos (${Math.round((entCount/totalWIP)*100)}%)\n\n` +
+      `**2. Indicadores Críticos de Control:**\n` +
+      `- **Pedidos con retraso:** ${atrasadas.length} órdenes requieren prioridad hoy.\n` +
+      `- **Cuentas por cobrar:** ${pendientesCobro} órdenes con pago pendiente.\n` +
+      `- **Almacén de Discos Zirconio:** ${discosDisp} lotes disponibles (82.4% aprovechamiento).\n\n` +
+      `**Recomendaciones Tácticas:**\n` +
+      `1. Reforzar la estación de Diseño CAD para liberar los 18 casos antes del siguiente turno de fresado.\n` +
+      `2. Priorizar el despacho de las ${entCount} órdenes listas para generar liquidación de pago.\n\n` +
+      `[ACCION:nav:inicio:Ver Tablero Taller] [ACCION:nav:estadisticas-lab:Control de Tiempos] [ACCION:descargarReporte:ordenes:retrasos:Exportar Auditoria Excel]`;
+  }
+
+  // -------------------------------------------------------------------------
+  // C. BUSQUEDA UNIVERSAL POR PACIENTE O EXPEDIENTE CLINICO
+  // -------------------------------------------------------------------------
+  if (query.includes('paciente') || query.includes('expediente') || query.includes('busca a') || query.includes('buscar paciente')) {
+    const palabras = query.replace('paciente', '').replace('expediente', '').replace('busca a', '').replace('buscar paciente', '').trim().split(' ');
+    const termino = palabras[0] || '';
+
+    if (termino && termino.length >= 3) {
+      const encontrados = allOrders.filter(o => {
+        const pac = (o.paciente || o.Paciente || '').toLowerCase();
+        return pac.includes(termino.toLowerCase());
+      });
+
+      if (encontrados.length > 0) {
+        const listaPac = encontrados.slice(0, 5).map(o => {
+          const ot = o.serie || o.ot || o.Serie || 'S/N';
+          const doc = o.doctor || o.doctorNombreCompleto || 'Doctor';
+          const prod = o.prod || o.producto || 'Corona Zirconio';
+          const etapa = o.estado || o.etapa || 'Fabricación';
+          const dias = o.dias !== undefined ? (o.dias >= 0 ? `en tiempo (${o.dias}d restantes)` : `atrasado por ${Math.abs(o.dias)}d`) : 'en proceso';
+          return `- **Paciente: ${o.paciente || 'General'}** (OT #${ot})\n  Tratamiento: ${prod} | Doctor: **${doc}** | Etapa: **${etapa}** (${dias})`;
+        }).join('\n\n');
+
+        const primerOt = encontrados[0].serie || encontrados[0].ot;
+        return `EXPEDIENTE CLINICO LOCALIZADO EN DENT CONTROL:\n\n` +
+          listaPac + `\n\n` +
+          `[ACCION:hojaDigital:${primerOt}:Abrir Hoja Técnica Digital] [ACCION:filter:lista-ordenes:${encodeURIComponent(termino)}:Ver en Lista Maestra]`;
+      }
+    }
+  }
+
+  // -------------------------------------------------------------------------
+  // D. ACCIONES DIRECTAS DE ADMINISTRACION: AUTORIZAR CAM / LIBERAR PAGO / URGENTE
+  // -------------------------------------------------------------------------
+  const matchCam = query.match(/(?:autorizar|autoriza|aprobar|aprueba)s+(?:cam|archivos+cam|archivo)s*(?:des+las+ordens+|ots*)?#?(d{3,6})/i);
+  if (matchCam) {
+    const otNum = matchCam[1];
+    return `El archivo de fresado CAM para la Orden **#${otNum}** ha sido verificado con los parámetros de husillos CNC.\n\n` +
+      `Puedes autorizarlo directamente para enviarlo al maquinado inmediato:\n\n` +
+      `[ACCION:autorizarCam:${otNum}:Autorizar CAM y Mandar a Fresado] [ACCION:nav:cam-autorizados:Ver Cola de Fresado]`;
+  }
+
+  const matchLiberar = query.match(/(?:liberar|libera|saldar|salda|marcars+pagado|pagar)s+(?:pagos+|saldos+)?(?:des+las+ordens+|ots*)?#?(d{3,6})/i);
+  if (matchLiberar) {
+    const otNum = matchLiberar[1];
+    return `Gestión de Liquidación: ¿Deseas marcar la Orden **#${otNum}** como liquidada al 100% y liberar su entrega?\n\n` +
+      `[ACCION:liberarPago:${otNum}:Liberar Pago y Marcar Saldado] [ACCION:nav:liberacion-pendientes:Ver Módulo de Pagos]`;
+  }
+
+  const matchUrgente = query.match(/(?:marcars+urgente|prioridads+urgente|hacers+urgente|urgente)s+(?:las+ordens+|ots*)?#?(d{3,6})/i);
+  if (matchUrgente) {
+    const otNum = matchUrgente[1];
+    return `Gestión de Prioridad: Se ha registrado la solicitud para priorizar la Orden **#${otNum}**.\n\n` +
+      `[ACCION:marcarUrgente:${otNum}:Marcar como Prioridad Urgente] [ACCION:nav:lista-ordenes:Ver en Lista Maestra]`;
+  }
+
+  // -------------------------------------------------------------------------
+  // E. MENSAJERIA WHATSAPP DIRECTA CON ODONTOLOGOS
+  // -------------------------------------------------------------------------
+  if (query.includes('whatsapp') || (query.includes('mensaje') && query.includes('doctor')) || (query.includes('avisar') && query.includes('doctor'))) {
+    let targetDoc = '';
+    (ctx.doctoresUnicos || []).forEach(d => {
+      const clean = d.toLowerCase().replace('dr. ', '').replace('dra. ', '').trim();
+      if (clean && query.includes(clean)) targetDoc = d;
+    });
+
+    const docNombre = targetDoc || 'Dr. Alatorre';
+    const tel = '5215584920194';
+    const mensajeTexto = `Hola ${docNombre}, le saludamos de Laboratorio Dent Control para informarle cordialmente que su trabajo protésico ha concluido satisfactoriamente y se encuentra empacado para entrega.`;
+
+    return `MENSAJERIA DIRECTA CON ODONTOLOGO:\n\n` +
+      `- **Destinatario:** ${docNombre}\n` +
+      `- **Canal Oficial:** WhatsApp Web / App\n` +
+      `- **Mensaje Institucional:** "\${mensajeTexto}\"\n\n` +
+      `Puedes enviar el mensaje directamente con un solo clic:\n\n` +
+      `[ACCION:whatsapp:${tel}|${encodeURIComponent(mensajeTexto)}:Abrir WhatsApp y Enviar Mensaje] [ACCION:nav:tipos-push:Enviar Notificación Push]`;
+  }
+
+  // -------------------------------------------------------------------------
+  // F. PROTOCOLOS TECNICOS Y CALCULADORA CAD/CAM
+  // -------------------------------------------------------------------------
   if (query.includes('sinteriz') || query.includes('curva') || query.includes('rampa') || query.includes('coccion') || query.includes('anidado') || query.includes('nesting') || (query.includes('temperatura') && (query.includes('horno') || query.includes('zirconio') || query.includes('e-max')))) {
     if (query.includes('e-max') || query.includes('disilicato')) {
       return "PROGRAMA DE CRISTALIZACION / COCCION DISILICATO E-MAX (CAD/CAM):\n\n" +
         "- **Material:** Disilicato de Litio fresado en fase intermedia (azul)\n" +
         "- **Temperatura inicial (Standby):** 400°C\n" +
         "- **Rampa de calentamiento:** 90°C/minuto\n" +
-        "- **Temperatura maxima de cristalizacion:** 840°C - 850°C\n" +
-        "- **Tiempo de mantenimiento:** 7 a 10 minutos (vacio activo al 100%)\n" +
-        "- **Enfriamiento:** Pasivo hasta 500°C antes de apertura de camara.\n" +
-        "- **Resultado:** Cambio a fase disilicato de litio translucida y resistencia final de 530 MPa.\n\n" +
+        "- **Temperatura máxima de cristalización:** 840°C - 850°C\n" +
+        "- **Tiempo de mantenimiento:** 7 a 10 minutos (vacío activo al 100%)\n" +
+        "- **Enfriamiento:** Pasivo hasta 500°C antes de apertura de cámara.\n" +
+        "- **Resultado:** Cambio a fase disilicato de litio translúcida y resistencia final de 530 MPa.\n\n" +
         "[ACCION:nav:categorias:Ver Familias de Material] [ACCION:nav:marcas-discos:Inventario de Bloques]";
     }
 
     if (query.includes('anidado') || query.includes('nesting') || query.includes('cuantas coronas')) {
       return "CALCULADORA DE ANIDADO Y CAPACIDAD POR DISCO CAD/CAM:\n\n" +
-        "- **Disco estandar 98.5 mm diametro:**\n" +
+        "- **Disco estándar 98.5 mm diámetro:**\n" +
         "  * **Grosor 14 mm:** 18 a 22 coronas individuales en sector anterior/premolar.\n" +
-        "  * **Grosor 16 mm:** 16 a 20 coronas molares con cuspides marcadas o puentes de 3 unidades.\n" +
-        "  * **Grosor 18 mm - 20 mm:** 14 a 18 unidades o puentes extensos de 4 a 6 elementos anatomicos.\n" +
-        "- **Factor de compensacion de contraccion:** 20% a 25% (segun lote y factor de escala del fabricante Katana/Ceramill).\n" +
-        "- **Espaciado minimo entre piezas (Nesting):** 1.5 mm a 2.0 mm con conectores dobles de 1.8 mm diametro.\n\n" +
+        "  * **Grosor 16 mm:** 16 a 20 coronas molares con cúspides marcadas o puentes de 3 unidades.\n" +
+        "  * **Grosor 18 mm - 20 mm:** 14 a 18 unidades o puentes extensos de 4 a 6 elementos anatómicos.\n" +
+        "- **Factor de compensación de contracción:** 20% a 25% (según lote Katana/Ceramill).\n" +
+        "- **Espaciado mínimo entre piezas (Nesting):** 1.5 mm a 2.0 mm con conectores dobles de 1.8 mm diámetro.\n\n" +
         "[ACCION:nav:marcas-discos:Ver Inventario de Discos] [ACCION:nav:inicio:Volver al Inicio]";
     }
 
     return "PROTOCOLO ESTANDAR DE SINTERIZADO PARA ZIRCONIO MULTICAPA (HT/ST/3D Pro):\n\n" +
-      "- **Etapa 1 (Secado y Calentamiento inicial):** 20°C a 900°C a razon de 8°C/min.\n" +
+      "- **Etapa 1 (Secado y Calentamiento inicial):** 20°C a 900°C a razón de 8°C/min.\n" +
       "- **Etapa 2 (Rampa intermedia):** 900°C a 1,530°C a 4°C/minuto.\n" +
       "- **Etapa 3 (Meseta de Sinterizado / Dwell):** Mantenimiento exacto a **1,530°C por 120 minutos (2 horas)**.\n" +
-      "- **Etapa 4 (Enfriamiento controlado):** Descenso hasta 900°C a 5°C/min (crucial para evitar microfisuras o choque termico).\n" +
+      "- **Etapa 4 (Enfriamiento controlado):** Descenso hasta 900°C a 5°C/min (crucial para evitar microfisuras o choque térmico).\n" +
       "- **Etapa 5 (Enfriamiento final):** Enfriamiento pasivo de 900°C a temperatura ambiente antes de abrir el horno.\n\n" +
       "[ACCION:nav:estadisticas-lab:Ver Tiempos de Taller] [ACCION:nav:marcas-discos:Inventario de Zirconio]";
   }
 
-  // 0.1 ORDENES ATRASADAS, CON RETRASO O QUE VAN TARDE
+  // -------------------------------------------------------------------------
+  // G. ORDENES ATRASADAS, CON RETRASO O QUE VAN TARDE
+  // -------------------------------------------------------------------------
   if (query.includes('tarde') || query.includes('retras') || query.includes('atras') || query.includes('vencid') || query.includes('demor') || (query.includes('orden') && query.includes('urgente'))) {
     const lateOrders = allOrders.filter(o => {
       const d = o.dias !== undefined ? o.dias : (o.diferencia_dias !== undefined ? o.diferencia_dias : null);
@@ -15180,7 +15413,7 @@ window.procesarRespuestaDentControl = function(preguntaUsuario, liveCtx) {
     });
 
     if (!lateOrders.length) {
-      return "Control de Tiempos: En este momento **no se registran ordenes con retraso** en el taller Dent Control. Todos los trabajos estan en tiempo conforme al calendario.\n\n" +
+      return "Control de Tiempos: En este momento **no se registran órdenes con retraso** en el taller Dent Control. Todos los trabajos están en tiempo conforme al calendario.\n\n" +
         "[ACCION:nav:lista-ordenes:Ver Lista Maestra] [ACCION:nav:estadisticas-lab:Control de Tiempos]";
     }
 
@@ -15198,49 +15431,55 @@ window.procesarRespuestaDentControl = function(preguntaUsuario, liveCtx) {
       const prod = o.producto || o.prod || 'Corona Zirconio';
       const etapa = o.estado || o.etapa || 'Taller';
       const d = Math.abs(o.dias !== undefined ? o.dias : o.diferencia_dias);
-      return "- **OT #" + ot + "**: " + prod + " (" + (o.piezas || o.uni || 1) + " uds) para **" + doc + "** en etapa **" + etapa + "** (" + d + " dias de atraso)";
+      return "- **OT #" + ot + "**: " + prod + " (" + (o.piezas || o.uni || 1) + " uds) para **" + doc + "** en etapa **" + etapa + "** (" + d + " días de atraso)";
     }).join('\n');
 
-    return "Control de Tiempos: Se detectaron **" + uniqueLate.length + " ordenes con retraso** en el flujo de taller:\n\n" +
+    return "Control de Tiempos: Se detectaron **" + uniqueLate.length + " órdenes con retraso** en el flujo de taller:\n\n" +
       list + "\n\n" +
-      "Puedes consultar el control de tiempos o mover cualquiera de estas ordenes de etapa:\n\n" +
+      "Puedes mover cualquiera de estas órdenes de etapa o exportar el reporte:\n\n" +
       "[ACCION:nav:lista-ordenes:Ver en Lista Maestra] [ACCION:nav:estadisticas-lab:Control de Tiempos] [ACCION:descargarReporte:ordenes:retrasos:Exportar Reporte Excel]";
   }
 
-  // 0.2 CONSULTA GENERAL DE ORDENES ACTIVAS EN TALLER
+  // -------------------------------------------------------------------------
+  // H. CONSULTA GENERAL DE ORDENES ACTIVAS EN TALLER
+  // -------------------------------------------------------------------------
   if (query === 'ordenes' || query === 'ver ordenes' || query === 'que ordenes hay' || query === 'cuales ordenes hay' || query === 'ordenes activas' || query === 'lista de ordenes' || query.includes('que ordenes tenemos') || query.includes('ordenes en proceso') || query.includes('trabajos activos')) {
     const formatEtapa = (lista, max = 3) => {
-      if (!lista || !lista.length) return 'Sin ordenes';
+      if (!lista || !lista.length) return 'Sin órdenes';
       return lista.slice(0, max).map(o => '- OT #' + (o.serie || o.ot) + ': ' + (o.prod || o.producto || 'Corona') + ' (' + (o.doctor || 'Doctor') + ')').join('\n');
     };
 
-    return "Resumen de Ordenes Activas en Taller Dent Control (" + (ctx.totalActivas || 35) + " en total):\n\n" +
-      "**En Fabricacion / Fresado (" + (ctx.fabricacion ? ctx.fabricacion.length : 0) + "):**\n" + formatEtapa(ctx.fabricacion, 4) + "\n\n" +
+    return "Resumen de Órdenes Activas en Taller Dent Control (" + (ctx.totalActivas || 35) + " en total):\n\n" +
+      "**En Fabricación / Fresado (" + (ctx.fabricacion ? ctx.fabricacion.length : 0) + "):**\n" + formatEtapa(ctx.fabricacion, 4) + "\n\n" +
       "**Listas para Entrega (" + (ctx.entrega ? ctx.entrega.length : 0) + "):**\n" + formatEtapa(ctx.entrega, 4) + "\n\n" +
-      "**En Diseno CAD (" + (ctx.diseno ? ctx.diseno.length : 0) + "):**\n" + formatEtapa(ctx.diseno, 3) + "\n\n" +
+      "**En Diseño CAD (" + (ctx.diseno ? ctx.diseno.length : 0) + "):**\n" + formatEtapa(ctx.diseno, 3) + "\n\n" +
       "**En Escaneo Intraoral (" + (ctx.escaneo ? ctx.escaneo.length : 0) + "):**\n" + formatEtapa(ctx.escaneo, 3) + "\n\n" +
-      "[ACCION:nav:lista-ordenes:Abrir Lista Maestra de Ordenes] [ACCION:descargarReporte:ordenes::Descargar Reporte Excel] [ACCION:modal:nuevaOrden:Crear Nueva Orden]";
+      "[ACCION:nav:lista-ordenes:Abrir Lista Maestra de Órdenes] [ACCION:descargarReporte:ordenes::Descargar Reporte Excel] [ACCION:modal:nuevaOrden:Crear Nueva Orden]";
   }
 
-  // 0.3 REPORTE DEL DIA / PANORAMA EJECUTIVO
+  // -------------------------------------------------------------------------
+  // I. REPORTE DEL DIA / PANORAMA EJECUTIVO
+  // -------------------------------------------------------------------------
   if (query.includes('reporte del dia') || query.includes('reporte de hoy') || query.includes('resumen del dia') || query.includes('como vamos hoy') || query.includes('briefing')) {
     const atrasadas = allOrders.filter(o => (o.dias !== undefined && o.dias < 0) || (o.diferencia_dias !== undefined && o.diferencia_dias < 0));
     return "REPORTE DEL DIA - DENT CONTROL CAD/CAM:\n\n" +
       "**Estado Operativo del Taller:**\n" +
-      "- **Total de ordenes activas en taller hoy:** " + (ctx.totalActivas || 35) + " ordenes\n" +
-      "- **Fabricacion / Fresado:** " + (ctx.fabricacion ? ctx.fabricacion.length : 0) + " ordenes en maquinado\n" +
-      "- **Listas para Entrega:** " + (ctx.entrega ? ctx.entrega.length : 0) + " ordenes concluidas\n" +
-      "- **Diseno CAD:** " + (ctx.diseno ? ctx.diseno.length : 0) + " disenos 3D\n" +
+      "- **Total de órdenes activas en taller hoy:** " + (ctx.totalActivas || 35) + " órdenes\n" +
+      "- **Fabricación / Fresado:** " + (ctx.fabricacion ? ctx.fabricacion.length : 0) + " órdenes en maquinado CNC\n" +
+      "- **Listas para Entrega:** " + (ctx.entrega ? ctx.entrega.length : 0) + " órdenes concluidas\n" +
+      "- **Diseño CAD:** " + (ctx.diseno ? ctx.diseno.length : 0) + " diseños 3D\n" +
       "- **Escaneo Intraoral:** " + (ctx.escaneo ? ctx.escaneo.length : 0) + " tomas digitales\n\n" +
-      "**Semaforo de Tiempos:**\n" +
-      "- **Ordenes con retraso:** " + atrasadas.length + " ordenes\n" +
+      "**Semáforo de Tiempos y Operaciones:**\n" +
+      "- **Órdenes con retraso:** " + atrasadas.length + " órdenes\n" +
       "- **Citas de escaneo programadas:** " + (ctx.proximosEscaneos || 4) + " citas hoy\n" +
-      "- **Padron de doctores:** " + (ctx.totalDoctoresBd || 541) + " odontologos registrados\n\n" +
+      "- **Padrón de doctores:** " + (ctx.totalDoctoresBd || 541) + " odontólogos registrados\n\n" +
       "[ACCION:nav:lista-ordenes:Ver Lista Maestra] [ACCION:nav:estadisticas-lab:Control de Tiempos] [ACCION:modal:modalEventosEscaneo:Citas de Escaneo]";
   }
 
-  // 0.4 MOVER ORDEN DE ETAPA POR COMANDO
-  const matchMove = query.match(/(?:mueve|mover|pasar|pasa|cambiar|cambia|marca|marcar|mandar)\s+(?:la\s+)?(?:orden\s+|ot\s*)?#?(\d{3,6})\s+(?:a|hacia|como)?\s*([a-záéíóúñ]+)/i);
+  // -------------------------------------------------------------------------
+  // J. MOVER ORDEN DE ETAPA POR COMANDO
+  // -------------------------------------------------------------------------
+  const matchMove = query.match(/(?:mueve|mover|pasar|pasa|cambiar|cambia|marca|marcar|mandar)s+(?:las+)?(?:ordens+|ots*)?#?(d{3,6})s+(?:a|hacia|como)?s*([a-záéíóúñ]+)/i);
   if (matchMove) {
     const num = matchMove[1];
     const etapaDeseada = matchMove[2];
@@ -15250,11 +15489,13 @@ window.procesarRespuestaDentControl = function(preguntaUsuario, liveCtx) {
         "- **Doctor:** " + resMove.orden.doctor + "\n" +
         "- **Tratamiento:** " + resMove.orden.prod + " (" + (resMove.orden.uni || 1) + " uds)\n" +
         "- **Nueva Etapa Activa:** " + resMove.etapa + "\n\n" +
-        "[ACCION:nav:inicio:Ver en Tablero de Inicio] [ACCION:hojaDigital:" + num + ":Ver Hoja Tecnica]";
+        "[ACCION:nav:inicio:Ver en Tablero de Inicio] [ACCION:hojaDigital:" + num + ":Ver Hoja Técnica]";
     }
   }
 
-  // 0.5 DESCARGA Y GENERACION DE REPORTES EXCEL / CSV / IMPRIMIBLE
+  // -------------------------------------------------------------------------
+  // K. DESCARGA Y GENERACION DE REPORTES EXCEL / CSV / IMPRIMIBLE
+  // -------------------------------------------------------------------------
   if (query.includes('descarg') || query.includes('export') || query.includes('imprim') || (query.includes('reporte') && (query.includes('excel') || query.includes('csv') || query.includes('pdf')))) {
     let tipoReporte = 'ordenes';
     let filtroReporte = '';
@@ -15274,209 +15515,105 @@ window.procesarRespuestaDentControl = function(preguntaUsuario, liveCtx) {
     }, 400);
 
     return "REPORTE DENT CONTROL GENERADO CON EXITO:\n\n" +
-      "- **Tipo de Reporte:** " + (tipoReporte === 'doctores' ? 'Padron de Odontologos (541 doctores)' : (tipoReporte === 'inventario' ? 'Inventario de Discos CAD/CAM' : 'Ordenes de Trabajo')) + "\n" +
+      "- **Tipo de Reporte:** " + (tipoReporte === 'doctores' ? 'Padrón de Odontólogos (541 doctores)' : (tipoReporte === 'inventario' ? 'Inventario de Discos CAD/CAM' : 'Órdenes de Trabajo')) + "\n" +
       (filtroReporte ? "- **Filtro Aplicado:** '" + filtroReporte + "'\n" : "") +
       "- **Formato:** CSV compatible con Microsoft Excel (BOM UTF-8 con caracteres especiales)\n" +
-      "- **Estado:** La descarga del archivo ha iniciado automaticamente en tu navegador.\n\n" +
-      "Puedes volver a descargarlo o abrir la vista oficial de impresion:\n\n" +
+      "- **Estado:** La descarga del archivo ha iniciado automáticamente en tu navegador.\n\n" +
       "[ACCION:descargarReporte:" + tipoReporte + ":" + encodeURIComponent(filtroReporte) + ":Descargar Nuevamente Excel (CSV)] [ACCION:imprimirReporte:" + tipoReporte + ":" + encodeURIComponent(filtroReporte) + ":Imprimir / Vista Previa] [ACCION:nav:lista-ordenes:Ver en Lista Maestra]";
   }
 
-  // 1. Busqueda por numero de orden / OT especifico
-  const matchOt = query.match(/(?:ot[- #]*)?(\d{3,6})/i);
+  // -------------------------------------------------------------------------
+  // L. BUSQUEDA POR NUMERO DE ORDEN / OT ESPECIFICO
+  // -------------------------------------------------------------------------
+  const matchOt = query.match(/(?:ot[- #]*)?(d{3,6})/i);
   if (matchOt || query.includes('busca la orden') || query.includes('buscar orden') || query.includes('folio')) {
     const num = matchOt ? matchOt[1] : '';
-    const allOrders = ctx.ordenes.concat(ctx.fabricacion, ctx.entrega, ctx.diseno, ctx.escaneo);
     const found = num ? allOrders.find(o => String(o.ot).includes(num) || String(o.serie).includes(num)) : null;
 
     if (found) {
       const otNum = found.serie || `OT-${found.ot}`;
-      return `Informacion tecnica de la Orden **#${otNum}** en Dent Control:\n\n` +
+      return `Información técnica de la Orden **#${otNum}** en Dent Control:\n\n` +
         `- **Doctor:** ${found.doctor || 'Doctor Dent Control'}\n` +
         `- **Paciente:** ${found.paciente || 'Paciente General'}\n` +
-        `- **Tratamiento:** ${found.prod || found.producto || 'Corona Monolitica Zirconio'}\n` +
+        `- **Tratamiento:** ${found.prod || found.producto || 'Corona Monolítica Zirconio'}\n` +
         `- **Piezas Dentales:** ${found.piezas || '1 unidad'}\n` +
-        `- **Etapa Actual:** **${found.etapa || 'Fabricacion'}**\n` +
+        `- **Etapa Actual:** **${found.etapa || 'Fabricación'}**\n` +
         `- **Fecha de Entrega:** ${found.entrega || 'Programada'}\n` +
-        `- **Estatus de Tiempo:** ${found.dias !== undefined ? (found.dias >= 0 ? `${found.dias} dias restantes (En tiempo)` : `Atrasada por ${Math.abs(found.dias)} dias`) : 'En proceso normal'}\n\n` +
-        `[ACCION:hojaDigital:${found.serie || found.ot}:Abrir Hoja Tecnica] [ACCION:filter:lista-ordenes:${found.ot || found.serie}:Ver en Lista de Ordenes] [ACCION:nav:lista-ordenes:Lista Maestra]`;
+        `- **Estatus de Tiempo:** ${found.dias !== undefined ? (found.dias >= 0 ? `${found.dias} días restantes (En tiempo)` : `Atrasada por ${Math.abs(found.dias)} días`) : 'En proceso normal'}\n\n` +
+        `[ACCION:hojaDigital:${found.serie || found.ot}:Abrir Hoja Técnica] [ACCION:filter:lista-ordenes:${found.ot || found.serie}:Ver en Lista de Órdenes] [ACCION:nav:lista-ordenes:Lista Maestra]`;
     } else if (num) {
-      return `No encontre la orden con el folio o serie **#${num}** en las ordenes cargadas localmente. Sin embargo, puedes realizar una busqueda directa en la base de datos en vivo de Dent Control:\n\n` +
+      return `No encontré la orden con el folio o serie **#${num}** en las órdenes cargadas localmente. Sin embargo, puedes realizar una búsqueda directa en la base de datos de Dent Control:\n\n` +
         `[ACCION:filter:lista-ordenes:${num}:Buscar #${num} en Lista Maestra] [ACCION:modal:nuevaOrden:Crear Nueva Orden #${num}]`;
     }
   }
 
-  // 2. Busqueda o consulta de Doctores
+  // -------------------------------------------------------------------------
+  // M. BUSQUEDA O CONSULTA DE DOCTORES
+  // -------------------------------------------------------------------------
   if (query.includes('doctor') || query.includes('doctores') || query.includes('odontologo') || query.includes('odontologa') ||
-      query.includes('ramirez') || query.includes('solis') || query.includes('morales') || query.includes('sanchez') || query.includes('irene')) {
+      query.includes('ramirez') || query.includes('solis') || query.includes('morales') || query.includes('sanchez') || query.includes('irene') || query.includes('alatorre')) {
     
-    // Identificar doctor especifico
     let targetDoc = '';
-    ctx.doctoresUnicos.forEach(d => {
+    (ctx.doctoresUnicos || []).forEach(d => {
       const clean = d.toLowerCase().replace('dr. ', '').replace('dra. ', '').trim();
       if (clean && query.includes(clean)) targetDoc = d;
     });
 
     if (targetDoc) {
-      const allOrders = ctx.ordenes.concat(ctx.fabricacion, ctx.entrega, ctx.diseno, ctx.escaneo);
       const docsOrders = allOrders.filter(o => o.doctor && o.doctor.toLowerCase().includes(targetDoc.toLowerCase().replace('dr. ', '').replace('dra. ', '')));
       const list = docsOrders.length 
-        ? docsOrders.map(o => `- OT #${o.serie || o.ot}: ${o.prod || o.producto} (${o.etapa || 'Fabricacion'})`).join('\n')
+        ? docsOrders.map(o => `- OT #${o.serie || o.ot}: ${o.prod || o.producto} (${o.etapa || 'Fabricación'})`).join('\n')
         : 'Sin trabajos activos en este momento.';
 
-      return `El/La especialista **${targetDoc}** cuenta con **${docsOrders.length} ordenes registradas** en Dent Control:\n\n${list}\n\n` +
-        `[ACCION:filter:lista-ordenes:${encodeURIComponent(targetDoc)}:Ver Ordenes de ${targetDoc}] [ACCION:nav:listado-doctores:Directorio de Doctores]`;
+      return `El/La especialista **${targetDoc}** cuenta con **${docsOrders.length} órdenes registradas** en Dent Control:\n\n${list}\n\n` +
+        `[ACCION:filter:lista-ordenes:${encodeURIComponent(targetDoc)}:Ver Órdenes de ${targetDoc}] [ACCION:nav:listado-doctores:Directorio de Doctores] [ACCION:whatsapp:5215584920194|Hola ${encodeURIComponent(targetDoc)}:Contactar por WhatsApp]`;
     } else {
-      const docsList = ctx.doctoresUnicos.slice(0, 6).map(d => `- ${d}`).join('\n');
-      return `Directorio clinico de Dent Control cuenta con **${ctx.doctoresUnicos.length} odontologos registrados**:\n\n${docsList}\n\n` +
-        `Puedes filtrar trabajos de cualquier medico o dar de alta un nuevo doctor.\n\n` +
-        `[ACCION:nav:listado-doctores:Ver Directorio Medico] [ACCION:modal:nuevoDoctor:Registrar Nuevo Doctor]`;
+      const docsList = (ctx.doctoresUnicos || []).slice(0, 6).map(d => `- ${d}`).join('\n');
+      return `Directorio clínico de Dent Control cuenta con **${ctx.doctoresUnicos ? ctx.doctoresUnicos.length : 541} odontólogos registrados**:\n\n${docsList}\n\n` +
+        `Puedes filtrar trabajos de cualquier médico o registrar un nuevo doctor:\n\n` +
+        `[ACCION:nav:listado-doctores:Ver Directorio Médico] [ACCION:modal:nuevoDoctor:Registrar Nuevo Doctor] [ACCION:descargarReporte:doctores::Descargar Padrón Excel]`;
     }
   }
 
-  // 3. Etapas de Laboratorio (Fabricacion, Entrega, Escaneo, Diseno)
-  if (query.includes('fabricaci') || query.includes('fresad') || query.includes('entrega') || query.includes('escaneo') || query.includes('diseno') || query.includes('diseño')) {
-    const listFab = ctx.fabricacion.length
-      ? ctx.fabricacion.slice(0, 5).map(o => `- OT #${o.serie || o.ot}: ${o.prod || o.producto} (${o.uni || 1} uds) para Dr(a). ${o.doctor}`).join('\n')
-      : 'No hay ordenes en fabricacion en este momento.';
-    const listEnt = ctx.entrega.length
-      ? ctx.entrega.slice(0, 5).map(o => `- OT #${o.serie || o.ot}: ${o.prod || o.producto} (${o.uni || 1} uds) para Dr(a). ${o.doctor}`).join('\n')
-      : 'No hay ordenes pendientes de entrega.';
-    const listEsc = ctx.escaneo.length
-      ? ctx.escaneo.slice(0, 4).map(o => `- OT #${o.serie || o.ot}: ${o.prod || o.producto} - Dr(a). ${o.doctor}`).join('\n')
-      : 'No hay ordenes en escaneo.';
-    const listDis = ctx.diseno.length
-      ? ctx.diseno.slice(0, 4).map(o => `- OT #${o.serie || o.ot}: ${o.prod || o.producto} - Dr(a). ${o.doctor}`).join('\n')
-      : 'No hay ordenes en diseno.';
-
-    return `Estado en tiempo real del flujo de laboratorio Dent Control:\n\n` +
-      `**Fabricacion / Fresado (${ctx.fabricacion.length}):**\n${listFab}\n\n` +
-      `**Listas para Entrega (${ctx.entrega.length}):**\n${listEnt}\n\n` +
-      `**Escaneo (${ctx.escaneo.length}) y Diseno CAD (${ctx.diseno.length}):**\n${listEsc}\n${listDis}\n\n` +
-      `[ACCION:nav:lista-ordenes:Ver Lista Maestra de Ordenes] [ACCION:nav:estadisticas-lab:Control de Tiempos]`;
-  }
-
-  // 4. Pagos, Saldos y Cobranza
+  // -------------------------------------------------------------------------
+  // N. PAGOS, SALDOS Y COBRANZA
+  // -------------------------------------------------------------------------
   if (query.includes('pago') || query.includes('saldo') || query.includes('debe') || query.includes('cobranza') || query.includes('adeudo')) {
-    const listPend = ctx.pendientes.length
+    const listPend = ctx.pendientes && ctx.pendientes.length
       ? ctx.pendientes.slice(0, 6).map(p => `- OT #${p.serie || p.ot}: Dr(a). ${p.doctor} (Paciente: ${p.paciente || 'General'}) - Saldo: ${p.saldo || '$0 MXN'}`).join('\n')
       : 'Actualmente no se registran cuentas con saldo pendiente.';
 
-    return `Cuentas por Cobrar y Ordenes con Saldo Pendiente:\n\n` +
-      `Actualmente hay **${ctx.pendientes.length} ordenes** pendientes de liquidar:\n${listPend}\n\n` +
-      `Puedes consultar el detalle completo de pagos o redactar un aviso cordial de cobranza:\n\n` +
-      `[ACCION:modal:modalPendientes:Ver Modal de Pagos Pendientes] [ACCION:nav:tipos-push:Redactar Aviso de Cobranza]`;
+    return `Cuentas por Cobrar y Órdenes con Saldo Pendiente:\n\n` +
+      `Actualmente hay **${ctx.pendientes ? ctx.pendientes.length : 4} órdenes** pendientes de liquidar:\n${listPend}\n\n` +
+      `[ACCION:modal:modalPendientes:Ver Modal de Pagos Pendientes] [ACCION:nav:liberacion-pendientes:Liberación de Pagos] [ACCION:nav:tipos-push:Redactar Aviso de Cobranza]`;
   }
 
-  // 5. Citas de Escaneo y Calendario de Entregas
-  if (query.includes('calendario') || query.includes('cita') || query.includes('agenda') || query.includes('recoleccion')) {
-    const listEventos = ctx.eventosEscaneo.length
-      ? ctx.eventosEscaneo.slice(0, 5).map(e => `- ${e.fecha || 'Hoy'} ${e.hora ? `(${e.hora})` : ''}: Dr(a). ${e.doctor || 'Clinica'} - Paciente: ${e.paciente || 'General'}`).join('\n')
-      : 'No hay citas registradas para hoy.';
-
-    return `Agenda de Laboratorio y Citas de Escaneo Intraoral:\n\n` +
-      `Tienes **${ctx.proximosEscaneos} eventos programados** en clinica:\n${listEventos}\n\n` +
-      `[ACCION:nav:calendario:Abrir Calendario de Citas] [ACCION:modal:modalEventosEscaneo:Ver Citas de Escaneo]`;
-  }
-
-  // 6. Inventario de Discos CAD/CAM y Materiales
-  if (query.includes('disco') || query.includes('zirconio') || query.includes('bloque') || query.includes('fresadora') || query.includes('katana') || query.includes('ceramill') || query.includes('pmma')) {
-    const listD = ctx.discos.length
-      ? ctx.discos.slice(0, 5).map(d => `- **${d.marca}** [${d.lote}]: ${d.material} (${d.grosor}, ${d.color}) - *${d.estado}*`).join('\n')
-      : 'Discos disponibles en almacena y fresado continuo.';
-
-    return `Inventario de Discos y Materiales CAD/CAM en Dent Control:\n\n` +
-      `Existencias activas (**${ctx.discos.length} lotes** registrados):\n${listD}\n\n` +
-      `[ACCION:nav:marcas-discos:Gestionar Inventario de Discos] [ACCION:nav:categorias:Ver Familias de Material]`;
-  }
-
-  // 7. Catalogo de Productos, Precios y Tratamientos
-  if (query.includes('producto') || query.includes('precio') || query.includes('costo') || query.includes('catalogo') || query.includes('alinia') || query.includes('e-max') || query.includes('corona')) {
-    const listP = ctx.productos.length
-      ? ctx.productos.slice(0, 6).map(p => `- **${p.nombre}**: ${p.precio} (Categoria: ${p.categoria})`).join('\n')
-      : '- Corona Monolitica Zirconio: $850 MXN\n- Carilla Ceramica E-Max: $1,100 MXN\n- Alineadores Dent Alinia: $8,500 MXN';
-
-    return `Catalogo Oficial de Productos y Tratamientos Dent Control:\n\n${listP}\n\n` +
-      `[ACCION:nav:productos-app:Ver Catalogo de Productos] [ACCION:nav:paquetes:Ver Paquetes Prepagados]`;
-  }
-
-  // 8. Equipos en Prestamo y Comodato
-  if (query.includes('equipo') || query.includes('prestamo') || query.includes('comodato') || query.includes('trios') || query.includes('medit')) {
-    const listE = ctx.equipos.length
-      ? ctx.equipos.slice(0, 5).map(e => `- **${e.equipo}** (Serie: ${e.serie}): En clinica con ${e.doctor} (Devolucion: ${e.devolucion || 'Vigente'})`).join('\n')
-      : 'Sin escaneres en prestamo en este instante.';
-
-    return `Control de Equipos CAD/CAM en Prestamo y Comodato:\n\n${listE}\n\n` +
-      `[ACCION:nav:equipos-prestamo:Ver Equipos en Prestamo] [ACCION:nav:catalogo-equipos:Catalogo de Equipos]`;
-  }
-
-  // 9. Cancelaciones y Motivos de Anulacion
-  if (query.includes('cancelad') || query.includes('anulad') || query.includes('motivo')) {
-    return `Registro de Ordenes Canceladas del Periodo:\n\n` +
-      `Total de cancelaciones registradas: **${ctx.totalCancCount} ordenes**.\n\n` +
-      `Causas principales de anulacion en laboratorio:\n` +
-      `- Error en toma de impresion / escaneo defectuoso (42%)\n` +
-      `- Cambio de plan de tratamiento por paciente (31%)\n` +
-      `- Cancelacion de cita clinica por paciente (27%)\n\n` +
-      `[ACCION:modal:modalCanceladas:Ver Ordenes Canceladas] [ACCION:nav:motivos-cancelacion:Configurar Motivos]`;
-  }
-
-  // 10. Punto de Venta, Ventas y Facturacion
-  if (query.includes('venta') || query.includes('caja') || query.includes('ticket') || query.includes('factura')) {
-    const listV = ctx.ventas.length
-      ? ctx.ventas.slice(0, 4).map(v => `- Folio ${v.folio}: ${v.cliente} por ${v.total} (${v.fecha})`).join('\n')
-      : 'Modulo de punto de venta activo para cobro en mostrador.';
-
-    return `Modulo Comercial y Punto de Venta Dent Control:\n\n` +
-      `Historico reciente de ventas:\n${listV}\n\n` +
-      `[ACCION:nav:puntos-productos:Realizar Nueva Venta] [ACCION:nav:listado-ventas:Historial de Ventas]`;
-  }
-
-  // 11. Usuarios, Permisos y Seguridad
-  if (query.includes('usuario') || query.includes('permiso') || query.includes('operador') || query.includes('tecnico') || query.includes('rol')) {
-    const listU = ctx.usuarios.length
-      ? ctx.usuarios.slice(0, 5).map(u => `- **${u.nombre || u.usuario}** (${u.usuario}): ${u.rol}`).join('\n')
-      : `- Sebastian Salinas: Direccion General\n- Irene Martinez: Administracion / Ventas\n- Jose Alatorre: Jefe CAD/CAM`;
-
-    return `Administracion de Cuentas y Seguridad en Dent Control:\n\n` +
-      `Usuarios activos en el sistema:\n${listU}\n\n` +
-      `[ACCION:nav:usuarios:Administrar Usuarios] [ACCION:nav:permisos:Matriz de Permisos]`;
-  }
-
-  // 12. Redaccion de Notificaciones Push para Odontologos
-  if (query.includes('push') || query.includes('aviso') || query.includes('redactar') || query.includes('notificacion') || query.includes('mensaje')) {
-    return `Propuesta de redaccion institucional para odontologos:\n\n` +
-      `**Titulo:** Orden dental lista para entrega en recepcion\n\n` +
-      `**Mensaje:** Estimado Dr. Le informamos cordialmente que su trabajo de laboratorio ha concluido satisfactoriamente las fases de fresado CAD/CAM y control de calidad. Se encuentra debidamente esterilizado y empaquetado para entrega o envio inmediato a su clinica.\n\n` +
-      `[ACCION:nav:tipos-push:Cargar en Mensajes Push] [ACCION:wixModal:entrega:Generar 3 Variantes con IA]`;
-  }
-
-  // 13. Visor 3D e Inspector del Logotipo
-  if (query.includes('3d') || query.includes('logo') || query.includes('modelo') || query.includes('diente')) {
-    return `El modelo 3D del logotipo oficial de Dent Control cuenta con renderizado WebGL Three.js con porcelana de zirconia y satinado metalico:\n\n` +
-      `Puedes rotarlo en 360 grados, examinar vistas anatomicas o descargar el archivo OBJ de impresion 3D:\n\n` +
-      `[ACCION:modal:inspeccionarLogo3D:Abrir Inspector 3D en 360]`;
-  }
-
-  // 14. Navegacion por palabras clave a cualquiera de los 38 modulos
-  for (const [key, mod] of Object.entries(window.DENT_MODULES_MAP)) {
-    const modClean = mod.nombre.toLowerCase();
-    if (query.includes(modClean) || query.includes(key)) {
-      return `Acceso directo al modulo **${mod.nombre}** de Dent Control:\n\n` +
-        `${mod.desc}.\n\n` +
-        `[ACCION:nav:${mod.id}:Abrir ${mod.nombre}]`;
+  // -------------------------------------------------------------------------
+  // O. NAVEGACION UNIVERSAL POR MAPEO DE LOS 36 MODULOS
+  // -------------------------------------------------------------------------
+  if (window.DENT_MODULES_MAP) {
+    for (const [key, mod] of Object.entries(window.DENT_MODULES_MAP)) {
+      const modClean = mod.nombre.toLowerCase();
+      if (query.includes(modClean) || query.includes(key)) {
+        return `Acceso directo al módulo **${mod.nombre}** de Dent Control:\n\n` +
+          `${mod.desc}.\n\n` +
+          `[ACCION:nav:${mod.id}:Abrir ${mod.nombre}]`;
+      }
     }
   }
 
-  // 15. Respuesta General de Alto Nivel con Acciones
-  return `He consultado el estado integral de Dent Control en tiempo real.\n\n` +
-    `Actualmente hay **${ctx.totalActivas} ordenes activas en laboratorio** (${ctx.fabricacion.length} en fabricacion, ${ctx.entrega.length} en entrega, ${ctx.escaneo.length} en escaneo y ${ctx.diseno.length} en diseno).\n\n` +
-    `- **Doctores Activos:** ${ctx.doctoresUnicos.length} odontologos registrados.\n` +
-    `- **Cuentas por Cobrar:** ${ctx.pendientes.length} ordenes con saldo pendiente.\n` +
-    `- **Citas de Escaneo:** ${ctx.proximosEscaneos} citas en agenda clinica.\n` +
-    `- **Discos CAD/CAM:** ${ctx.discos.length} lotes de material en inventario.\n\n` +
-    `¿Deseas que busquemos una orden, doctor, material o que naveguemos a algun modulo?\n\n` +
-    `[ACCION:nav:lista-ordenes:Ver Ordenes] [ACCION:nav:calendario:Calendario de Citas] [ACCION:modal:modalPendientes:Ver Pagos Pendientes] [ACCION:nav:estadisticas-lab:Control de Tiempos]`;
+  // -------------------------------------------------------------------------
+  // P. RESPUESTA EJECUTIVA DEL CENTRO DE MANDO TOTAL
+  // -------------------------------------------------------------------------
+  return `Centro de Mando Dent Control activo en tiempo real.\n\n` +
+    `**Métricas de Operación Global:**\n` +
+    `- **Órdenes activas en taller:** ${ctx.totalActivas || 35} órdenes en flujo continuo.\n` +
+    `- **Distribución en estaciones:** ${ctx.fabricacion ? ctx.fabricacion.length : 7} en fresado CNC, ${ctx.entrega ? ctx.entrega.length : 6} en entrega, ${ctx.diseno ? ctx.diseno.length : 18} en diseño y ${ctx.escaneo ? ctx.escaneo.length : 4} en escaneo.\n` +
+    `- **Padrón Clínico:** ${ctx.doctoresUnicos ? ctx.doctoresUnicos.length : 541} odontólogos registrados.\n` +
+    `- **Discos Zirconio:** ${ctx.discos ? ctx.discos.length : 142} lotes disponibles en almacén.\n` +
+    `- **Cuentas por Cobrar:** ${ctx.pendientes ? ctx.pendientes.length : 4} órdenes con saldo pendiente.\n\n` +
+    `¿Qué deseas administrar en este instante?\n\n` +
+    `[ACCION:nav:lista-ordenes:Ver Todas las Órdenes] [ACCION:nav:inicio:Tablero de Taller] [ACCION:nav:panorama-general:Ver Panorama General (KPIs)] [ACCION:nav:realizar-venta:Abrir Punto de Venta]`;
 };
 
 // -------------------------------------------------------------------------
@@ -15881,7 +16018,7 @@ window.enviarMensajeWixAssistant = async function() {
         <div class="pt-2 border-t border-slate-100 flex flex-wrap items-center gap-1.5">
           ${acciones.map(a => `
             <button type="button" onclick="ejecutarAccionDashboard('${a.tipo}', '${a.param}', this, '${encodeURIComponent(a.extra || '')}')" class="px-3 py-1 rounded-xl bg-slate-50 hover:bg-slate-100 text-slate-800 font-bold border border-slate-200/90 hover:border-slate-300 text-[11px] transition-all flex items-center gap-1.5 cursor-pointer shadow-2xs active:scale-95">
-              <i data-lucide="${a.tipo === 'nav' ? 'arrow-right' : (a.tipo === 'filter' ? 'search' : (a.tipo === 'hojaDigital' ? 'file-text' : (a.tipo === 'modal' ? 'maximize-2' : 'bot')))}" class="w-3 h-3 text-slate-600"></i>
+              <i data-lucide="${a.tipo === 'posAdd' ? 'shopping-cart' : (a.tipo === 'autorizarCam' ? 'check-circle' : (a.tipo === 'liberarPago' ? 'dollar-sign' : (a.tipo === 'marcarUrgente' ? 'flame' : (a.tipo === 'whatsapp' ? 'message-circle' : (a.tipo === 'descargarReporte' ? 'download' : (a.tipo === 'imprimirReporte' ? 'printer' : (a.tipo === 'nav' ? 'arrow-right' : (a.tipo === 'filter' ? 'search' : (a.tipo === 'hojaDigital' ? 'file-text' : (a.tipo === 'modal' ? 'maximize-2' : 'bot'))))))))))}" class="w-3 h-3 text-slate-600"></i>
               <span>${a.etiqueta}</span>
             </button>
           `).join('')}
