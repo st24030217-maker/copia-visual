@@ -16961,3 +16961,35 @@ window.enviarWhatsAppWixAI = function() {
 
 
 
+
+
+// =====================================================================
+// FILTRO RAPIDO DE ETAPAS PARA LA TABLA GENERAL DE ORDENES (ESTILO LINEAR)
+// =====================================================================
+window.filtrarOrdenesEtapa = function(etapa, btn) {
+  document.querySelectorAll('.btn-quick-filter').forEach(b => {
+    b.className = 'btn-quick-filter px-3 py-1.5 rounded-xl text-xs font-semibold bg-slate-50 hover:bg-slate-100 text-slate-600 border border-slate-200 transition-all cursor-pointer flex items-center gap-1.5';
+  });
+  if (btn) {
+    btn.className = 'btn-quick-filter px-3 py-1.5 rounded-xl text-xs font-bold bg-slate-900 text-white transition-all shadow-2xs cursor-pointer flex items-center gap-1.5';
+  }
+  
+  if (!window.INICIO_DATA_BACKUP_STAGE && window.INICIO_DATA && Array.isArray(window.INICIO_DATA.ordenes)) {
+    window.INICIO_DATA_BACKUP_STAGE = window.INICIO_DATA.ordenes.slice();
+  }
+  
+  const source = window.INICIO_DATA_BACKUP_STAGE || (window.INICIO_DATA ? window.INICIO_DATA.ordenes : []);
+  
+  if (etapa === 'todos') {
+    window.INICIO_DATA.ordenes = source.slice();
+  } else {
+    window.INICIO_DATA.ordenes = source.filter(o => o.estado === etapa);
+  }
+  
+  if (typeof paginaActualOrdenes !== 'undefined') {
+    paginaActualOrdenes = 1;
+  }
+  if (typeof renderTablasInicio === 'function') {
+    renderTablasInicio();
+  }
+};
