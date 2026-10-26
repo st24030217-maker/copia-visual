@@ -1687,41 +1687,30 @@
           </div>
         </div>
 
-        <!-- BANNER ASISTENTE IA ESTILO WIX EN EL INICIO DEL DASHBOARD -->
-        <div class="bg-gradient-to-r from-purple-50/90 via-indigo-50/50 to-white border border-purple-200/90 rounded-2xl p-4 shadow-sm flex flex-col md:flex-row md:items-center justify-between gap-3.5 transition-all hover:shadow-md">
-          <div class="flex items-center gap-3.5">
-            <div id="heroBannerLogo3DContainer" class="w-11 h-11 flex items-center justify-center shrink-0 cursor-pointer transition-transform hover:scale-105 active:scale-95" onclick="toggleWixAssistant(true)" title="Asistente Dent Control"></div>
+                <!-- BANNER MINIMALISTA ASISTENTE DENT CONTROL -->
+        <div class="bg-white border border-slate-200/90 rounded-2xl p-3 sm:px-4 sm:py-2.5 shadow-2xs flex flex-col sm:flex-row sm:items-center justify-between gap-3 transition-all hover:border-slate-300">
+          <div class="flex items-center gap-3">
+            <div id="heroBannerLogo3DContainer" class="w-9 h-9 flex items-center justify-center shrink-0 cursor-pointer transition-transform hover:scale-105 active:scale-95" onclick="toggleWixAssistant(true)" title="Abrir Asistente Dent Control"></div>
             <div>
-              <div class="flex flex-wrap items-center gap-2">
-                <h3 class="text-sm font-bold text-slate-900 leading-tight">ASISTENTE DENT CONTROL</h3>
-                <span class="text-[10px] font-semibold text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded-full border border-emerald-200 flex items-center gap-1">
+              <div class="flex items-center gap-2">
+                <h3 class="text-xs sm:text-sm font-bold text-slate-900 tracking-tight">ASISTENTE DENT CONTROL</h3>
+                <span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-semibold bg-emerald-50 text-emerald-700 border border-emerald-200/70">
                   <span class="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span>
                   En línea
                 </span>
               </div>
-              <p class="text-xs text-slate-500 mt-0.5">Genera comunicados para doctores, recordatorios de entrega, cobranza y promociones con 3 opciones personalizadas.</p>
+              <p class="text-[11px] text-slate-400 font-medium">Copiloto inteligente de laboratorio y taller CAD/CAM</p>
             </div>
           </div>
           
-          <div class="flex flex-wrap items-center gap-2 shrink-0">
-            <!-- Atajos rápidos -->
-            <button type="button" onclick="abrirModalWixAIDashboard('entrega')" class="px-3 py-1.5 rounded-xl bg-white hover:bg-blue-50 border border-slate-200 hover:border-blue-300 text-xs font-semibold text-slate-700 transition-all cursor-pointer shadow-2xs flex items-center gap-1.5">
-              <i data-lucide="truck" class="w-3.5 h-3.5 text-blue-600"></i>
-              <span>Orden lista</span>
+          <div class="flex items-center gap-2 shrink-0">
+            <button type="button" onclick="enviarPromptSugeridoWix('Dame el briefing ejecutivo de hoy: ordenes en taller, retrasos y citas'); toggleWixAssistant(true);" class="px-3 py-1.5 rounded-xl bg-slate-50 hover:bg-slate-100 border border-slate-200 text-xs font-semibold text-slate-700 transition-all cursor-pointer flex items-center gap-1.5">
+              <i data-lucide="activity" class="w-3.5 h-3.5 text-blue-600"></i>
+              <span>Briefing de hoy</span>
             </button>
-            <button type="button" onclick="abrirModalWixAIDashboard('cobranza')" class="px-3 py-1.5 rounded-xl bg-white hover:bg-blue-50 border border-slate-200 hover:border-blue-300 text-xs font-semibold text-slate-700 transition-all cursor-pointer shadow-2xs flex items-center gap-1.5">
-              <i data-lucide="credit-card" class="w-3.5 h-3.5 text-blue-600"></i>
-              <span>Cobranza</span>
-            </button>
-            <button type="button" onclick="abrirModalWixAIDashboard('promocion')" class="px-3 py-1.5 rounded-xl bg-white hover:bg-blue-50 border border-slate-200 hover:border-blue-300 text-xs font-semibold text-slate-700 transition-all cursor-pointer shadow-2xs flex items-center gap-1.5">
-              <i data-lucide="tag" class="w-3.5 h-3.5 text-blue-600"></i>
-              <span>Promoción</span>
-            </button>
-            
-            <!-- Botón Principal -->
-            <button type="button" onclick="abrirModalWixAIDashboard()" class="px-4 py-2 rounded-xl bg-slate-900 hover:bg-slate-800 active:scale-95 text-white font-bold text-xs flex items-center gap-2 shadow-sm transition-all cursor-pointer ml-1">
-              <i data-lucide="sparkles" class="w-3.5 h-3.5 text-blue-400"></i>
-              <span>Crear texto</span>
+            <button type="button" onclick="toggleWixAssistant(true)" class="px-3.5 py-1.5 rounded-xl bg-slate-900 hover:bg-slate-800 active:scale-95 text-white font-bold text-xs flex items-center gap-1.5 shadow-2xs transition-all cursor-pointer">
+              <i data-lucide="bot" class="w-3.5 h-3.5 text-blue-400"></i>
+              <span>Abrir Asistente</span>
             </button>
           </div>
         </div>
