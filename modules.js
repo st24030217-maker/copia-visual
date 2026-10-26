@@ -9,12 +9,22 @@ const DENT_STATE = {
 
   // 1. ESTADÍSTICAS -> CONTROL DE LABORATORIO (Estadisticas.php)
   controlLab: [
-    { doctor: 'Dr. Oscar Ramírez', categoria: 'Zirconio', producto: 'Corona Monolítica Zirconio', piezas: '#16', paciente: 'Carlos Mendoza', registro: '2026-09-28', entrega: '2026-10-01', dias: 4, serie: 'OT-9841', tipoDoctor: 'Interno' },
-    { doctor: 'Dra. Brenda Solís', categoria: 'Alinia', producto: 'Alineadores Clear Dent (14 fases)', piezas: 'Arcada Sup.', paciente: 'María Fernández', registro: '2026-09-29', entrega: '2026-10-03', dias: 2, serie: 'OT-9838', tipoDoctor: 'Externo' },
-    { doctor: 'Dr. Arturo Morales', categoria: 'Zirconio', producto: 'Puente Fijo 3 Unidades', piezas: '#21, #22, #23', paciente: 'Roberto Gómez', registro: '2026-09-25', entrega: '2026-10-02', dias: -1, serie: 'OT-9830', tipoDoctor: 'Externo' },
-    { doctor: 'Dra. Fátima Sánchez', categoria: 'E-Max', producto: 'Inlay Cerámico Disilicato', piezas: '#36', paciente: 'Laura Méndez', registro: '2026-09-30', entrega: '2026-10-04', dias: 5, serie: 'OT-9827', tipoDoctor: 'Interno' },
-    { doctor: 'Dr. Luis Cabrera', categoria: 'Guardas', producto: 'Guarda Oclusal Nocturna Bio', piezas: 'Arcada Sup.', paciente: 'Patricia Vega', registro: '2026-09-27', entrega: '2026-10-01', dias: 1, serie: 'OT-9804', tipoDoctor: 'Externo' },
-    { doctor: 'Dr. Mauricio Treviño', categoria: 'Zirconio', producto: 'Corona Posterior Zirconio HT+', piezas: '#26', paciente: 'Jorge Saldaña', registro: '2026-09-26', entrega: '2026-09-30', dias: 6, serie: 'OT-9799', tipoDoctor: 'Interno' }
+    { doctor: 'Dr. Oscar Ramírez', categoria: 'Zirconio', producto: 'Corona Monolítica Zirconio HT+', piezas: '#16', paciente: 'Carlos Mendoza', registro: '2026-10-18', entrega: '2026-10-25', dias: 4, serie: 'OT-9841', tipoDoctor: 'Interno' },
+    { doctor: 'Dra. Brenda Solís', categoria: 'Alinia', producto: 'Alineadores Clear Dent (14 fases)', piezas: 'Arcada Sup.', paciente: 'María Fernández', registro: '2026-10-19', entrega: '2026-10-24', dias: 2, serie: 'OT-9838', tipoDoctor: 'Externo' },
+    { doctor: 'Dr. Arturo Morales', categoria: 'Zirconio', producto: 'Puente Fijo 3D Multicapa 3 Unidades', piezas: '#21, #22, #23', paciente: 'Roberto Gómez', registro: '2026-10-15', entrega: '2026-10-22', dias: -1, serie: 'OT-9830', tipoDoctor: 'Externo' },
+    { doctor: 'Dra. Fátima Sánchez', categoria: 'E-Max', producto: 'Inlay Cerámico Disilicato', piezas: '#36', paciente: 'Laura Méndez', registro: '2026-10-20', entrega: '2026-10-27', dias: 5, serie: 'OT-9827', tipoDoctor: 'Interno' },
+    { doctor: 'Dr. Luis Cabrera', categoria: 'Guardas', producto: 'Guarda Oclusal Nocturna Bio', piezas: 'Arcada Sup.', paciente: 'Patricia Vega', registro: '2026-10-18', entrega: '2026-10-23', dias: 1, serie: 'OT-9804', tipoDoctor: 'Externo' },
+    { doctor: 'Dr. Mauricio Treviño', categoria: 'Zirconio', producto: 'Corona Posterior Zirconio ST', piezas: '#26', paciente: 'Jorge Saldaña', registro: '2026-10-19', entrega: '2026-10-28', dias: 6, serie: 'OT-9799', tipoDoctor: 'Interno' },
+    { doctor: 'Dra. Sofía Alarcón', categoria: 'Zirconio', producto: 'Corona Anatómica Zirconio 3D Pro', piezas: '#11, #12', paciente: 'Fernando Garza', registro: '2026-10-21', entrega: '2026-10-26', dias: 3, serie: 'OT-9790', tipoDoctor: 'Externo' },
+    { doctor: 'Dr. Javier Rincón', categoria: 'E-Max', producto: 'Carilla Estética Disilicato E-Max', piezas: '#13, #23', paciente: 'Andrea Villarreal', registro: '2026-10-16', entrega: '2026-10-21', dias: -2, serie: 'OT-9784', tipoDoctor: 'Interno' },
+    { doctor: 'Dra. Marcela Campos', categoria: 'Alinia', producto: 'Set Alineadores Alinia Fase 2', piezas: 'Bimaxilar', paciente: 'David Ortiz', registro: '2026-10-20', entrega: '2026-10-29', dias: 7, serie: 'OT-9775', tipoDoctor: 'Externo' },
+    { doctor: 'Dr. Alejandro Peña', categoria: 'Zirconio', producto: 'Estructura Implanto-Soportada', piezas: '#45, #46, #47', paciente: 'Enrique Valdés', registro: '2026-10-17', entrega: '2026-10-24', dias: 2, serie: 'OT-9768', tipoDoctor: 'Interno' },
+    { doctor: 'Dra. Gabriela Lira', categoria: 'Guardas', producto: 'Férula de Descarga Michigan', piezas: 'Arcada Sup.', paciente: 'Beatriz Domínguez', registro: '2026-10-21', entrega: '2026-10-25', dias: 3, serie: 'OT-9760', tipoDoctor: 'Externo' },
+    { doctor: 'Dr. Ricardo Lozano', categoria: 'Zirconio', producto: 'Corona Monolítica Anterior Zirconio', piezas: '#21', paciente: 'Claudia Navarro', registro: '2026-10-19', entrega: '2026-10-24', dias: 1, serie: 'OT-9752', tipoDoctor: 'Interno' },
+    { doctor: 'Dra. Mónica Escobedo', categoria: 'E-Max', producto: 'Onlay Cerámica Prensada', piezas: '#46', paciente: 'Esteban Cuéllar', registro: '2026-10-22', entrega: '2026-10-28', dias: 5, serie: 'OT-9745', tipoDoctor: 'Externo' },
+    { doctor: 'Dr. Héctor Salinas', categoria: 'Zirconio', producto: 'Rehabilitación Superior 6 Unidades', piezas: '#13 a #23', paciente: 'Guillermo Paz', registro: '2026-10-18', entrega: '2026-10-26', dias: 4, serie: 'OT-9739', tipoDoctor: 'Interno' },
+    { doctor: 'Dra. Valeria Ibarra', categoria: 'Alinia', producto: 'Retenedores Post-Tratamiento', piezas: 'Bimaxilar', paciente: 'Paola Quintana', registro: '2026-10-20', entrega: '2026-10-27', dias: 5, serie: 'OT-9730', tipoDoctor: 'Externo' },
+    { doctor: 'Dr. Daniel Cepeda', categoria: 'Zirconio', producto: 'Corona Zirconio con Enamel Cutback', piezas: '#15', paciente: 'Manuel Ríos', registro: '2026-10-17', entrega: '2026-10-25', dias: 4, serie: 'OT-9721', tipoDoctor: 'Interno' }
   ],
 
   // 2. DENT LAB -> CONTROL DE EQUIPOS
@@ -3248,6 +3258,25 @@ function filterDynamicTable(inputId, tbodyId) {
 // RENDERIZADO DE LOS 36 MÓDULOS DE DENT DEMO
 // ============================================================================
 
+function renderEstadisticasSubnav(activeKey) {
+  return `
+    <div class="flex items-center gap-1.5 p-1 bg-slate-100/90 rounded-2xl border border-slate-200/80 mb-4 overflow-x-auto text-xs font-semibold">
+      <button type="button" onclick="openModule('panorama-general')" class="px-3.5 py-1.5 rounded-xl transition-all cursor-pointer flex items-center gap-2 ${activeKey === 'panorama-general' ? 'bg-white text-slate-900 font-bold shadow-xs border border-slate-200/80' : 'text-slate-600 hover:text-slate-900 hover:bg-white/60'}">
+        <i data-lucide="pie-chart" class="w-3.5 h-3.5 ${activeKey === 'panorama-general' ? 'text-blue-600' : 'text-slate-400'}"></i>
+        <span>Panorama General & KPIs</span>
+      </button>
+      <button type="button" onclick="openModule('control-lab')" class="px-3.5 py-1.5 rounded-xl transition-all cursor-pointer flex items-center gap-2 ${activeKey === 'control-lab' || activeKey === 'estadisticas-lab' ? 'bg-white text-slate-900 font-bold shadow-xs border border-slate-200/80' : 'text-slate-600 hover:text-slate-900 hover:bg-white/60'}">
+        <i data-lucide="activity" class="w-3.5 h-3.5 ${activeKey === 'control-lab' || activeKey === 'estadisticas-lab' ? 'text-emerald-600' : 'text-slate-400'}"></i>
+        <span>Control de Laboratorio (Semáforo)</span>
+      </button>
+      <button type="button" onclick="openModule('graficos')" class="px-3.5 py-1.5 rounded-xl transition-all cursor-pointer flex items-center gap-2 ${activeKey === 'graficos' ? 'bg-white text-slate-900 font-bold shadow-xs border border-slate-200/80' : 'text-slate-600 hover:text-slate-900 hover:bg-white/60'}">
+        <i data-lucide="bar-chart-2" class="w-3.5 h-3.5 ${activeKey === 'graficos' ? 'text-indigo-600' : 'text-slate-400'}"></i>
+        <span>Gráficos de Producción & VITA</span>
+      </button>
+    </div>
+  `;
+}
+
 function renderDynamicModule(key) {
   const container = document.getElementById('section-dynamic');
   if (!container) return;
@@ -3256,63 +3285,227 @@ function renderDynamicModule(key) {
     // ------------------------------------------------------------------------
     // 1. ESTADÍSTICAS -> CONTROL DE LABORATORIO (Estadisticas.php)
     // ------------------------------------------------------------------------
+    case 'control-lab':
     case 'estadisticas-lab': {
+      const totalOrdenes = DENT_STATE.controlLab.length;
+      const enTiempoCount = DENT_STATE.controlLab.filter(r => r.dias >= 3).length;
+      const porVencerCount = DENT_STATE.controlLab.filter(r => r.dias >= 0 && r.dias < 3).length;
+      const atrasadasCount = DENT_STATE.controlLab.filter(r => r.dias < 0).length;
+      const internasCount = DENT_STATE.controlLab.filter(r => r.tipoDoctor === 'Interno').length;
+      const externasCount = DENT_STATE.controlLab.filter(r => r.tipoDoctor === 'Externo').length;
+      const puntualidadPct = Math.round(((enTiempoCount + porVencerCount) / totalOrdenes) * 100);
+
       const rows = DENT_STATE.controlLab.map(r => {
-        let badgeSem = 'bg-emerald-100 text-emerald-800 border-emerald-200';
-        if (r.dias < 0) badgeSem = 'bg-rose-100 text-rose-800 border-rose-200';
-        else if (r.dias < 3) badgeSem = 'bg-amber-100 text-amber-800 border-amber-200';
+        let badgeSem = 'bg-emerald-50 text-emerald-700 border-emerald-200';
+        let dotColor = 'bg-emerald-500';
+        let semTipo = 'en-tiempo';
+        if (r.dias < 0) {
+          badgeSem = 'bg-rose-50 text-rose-700 border-rose-200';
+          dotColor = 'bg-rose-500';
+          semTipo = 'atrasado';
+        } else if (r.dias < 3) {
+          badgeSem = 'bg-amber-50 text-amber-800 border-amber-200';
+          dotColor = 'bg-amber-500';
+          semTipo = 'por-vencer';
+        }
+
+        const docTipoAttr = r.tipoDoctor.toLowerCase();
+
         return `
-          <tr class="hover:bg-slate-50">
-            <td class="px-3 py-2.5 font-semibold text-slate-800">${r.doctor}</td>
-            <td class="px-3 py-2.5"><span class="px-2 py-0.5 rounded bg-blue-50 text-blue-700 font-semibold text-[10px]">${r.categoria}</span></td>
-            <td class="px-3 py-2.5">${r.producto}</td>
-            <td class="px-3 py-2.5 font-mono text-blue-600 font-bold">${r.piezas}</td>
-            <td class="px-3 py-2.5">${r.paciente}</td>
-            <td class="px-3 py-2.5 font-mono text-slate-500">${r.registro}</td>
-            <td class="px-3 py-2.5 font-mono font-semibold">${r.entrega}</td>
-            <td class="px-3 py-2.5"><span class="px-2.5 py-0.5 rounded-full border font-mono font-bold text-[11px] ${badgeSem}">${r.dias} días</span></td>
-            <td class="px-3 py-2.5 font-mono font-bold text-blue-600">${r.serie}</td>
-            <td class="px-3 py-2.5"><span class="px-2 py-0.5 rounded text-[10px] font-semibold ${r.tipoDoctor === 'Interno' ? 'bg-slate-900 text-white' : 'bg-slate-100 text-slate-700'}">${r.tipoDoctor}</span></td>
+          <tr class="hover:bg-slate-50/80 transition-colors group" data-semaforo="${semTipo}" data-doctipo="${docTipoAttr}">
+            <td class="px-3.5 py-3 text-left">
+              <div class="font-bold text-slate-900 leading-tight">${r.doctor}</div>
+              <div class="text-[10px] text-slate-500 font-medium">${r.tipoDoctor === 'Interno' ? 'Clínica Matriz Dent' : 'Consultorio Externo'}</div>
+            </td>
+            <td class="px-3 py-3">
+              <span class="px-2.5 py-0.5 rounded-full bg-blue-50 text-blue-700 border border-blue-200 font-bold text-[10px]">${r.categoria}</span>
+            </td>
+            <td class="px-3 py-3 text-slate-700 font-medium">${r.producto}</td>
+            <td class="px-3 py-3 font-mono font-bold text-blue-600 bg-blue-50/40 rounded">${r.piezas}</td>
+            <td class="px-3 py-3 font-medium text-slate-800">${r.paciente}</td>
+            <td class="px-3 py-3 font-mono text-[11px] text-slate-500">${r.registro}</td>
+            <td class="px-3 py-3 font-mono font-bold text-slate-900">${r.entrega}</td>
+            <td class="px-3 py-3">
+              <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full border font-mono font-bold text-[11px] ${badgeSem}">
+                <span class="w-1.5 h-1.5 rounded-full ${dotColor}"></span>
+                <span>${r.dias >= 0 ? '+' : ''}${r.dias} ${Math.abs(r.dias) === 1 ? 'día' : 'días'}</span>
+              </span>
+            </td>
+            <td class="px-3 py-3 font-mono font-extrabold text-blue-700">
+              <span class="cursor-pointer hover:underline transition-all" onclick="if(window.abrirOrdenTrabajo){ window.abrirOrdenTrabajo('${r.serie}'); }">${r.serie}</span>
+            </td>
+            <td class="px-3 py-3">
+              <span class="px-2.5 py-0.5 rounded-full text-[10px] font-bold border ${r.tipoDoctor === 'Interno' ? 'bg-slate-900 text-white border-slate-900' : 'bg-slate-100 text-slate-700 border-slate-300'}">
+                ${r.tipoDoctor}
+              </span>
+            </td>
           </tr>
         `;
       }).join('');
 
       container.innerHTML = `
-        ${renderHeaderBanner('Estadísticas', 'Control de Laboratorio', 'Monitoreo de tiempos de entrega, días transcurridos con semáforo y tipo de doctor (Interno/Externo).', `
-          <div class="px-3.5 py-1.5 rounded-xl bg-slate-900 text-white text-xs font-mono font-bold">
-            Total Órdenes: ${DENT_STATE.controlLab.length + 36}
+        <!-- Subnavegacion entre vistas de Estadisticas -->
+        ${renderEstadisticasSubnav('control-lab')}
+
+        <!-- Banner Ejecutivo Sober Slate -->
+        <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 bg-gradient-to-r from-slate-900 via-slate-800 to-blue-950 text-white p-5 rounded-3xl shadow-xs border border-slate-800/80 mb-5">
+          <div class="space-y-1">
+            <div class="flex items-center gap-2.5">
+              <div class="w-9 h-9 rounded-2xl bg-blue-500/20 border border-blue-400/30 flex items-center justify-center text-blue-400 shadow-2xs">
+                <i data-lucide="activity" class="w-4 h-4"></i>
+              </div>
+              <h2 class="text-base sm:text-lg font-bold tracking-tight">Control de Laboratorio (Estadisticas.php)</h2>
+              <span class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-emerald-500/15 text-emerald-400 border border-emerald-500/30">
+                <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
+                SEMAFORO EN TIEMPO REAL
+              </span>
+            </div>
+            <p class="text-xs text-slate-300">Auditoría continua de tiempos de entrega, días de holgura técnica y asignación de doctores internos y externos.</p>
           </div>
-        `)}
-        <div class="bg-white rounded-2xl border border-slate-200 p-5 shadow-sm space-y-4">
-          <div class="flex flex-wrap items-center justify-between gap-3">
-            <input id="searchCtrlLab" onkeyup="filterDynamicTable('searchCtrlLab','tbodyCtrlLab')" placeholder="Filtrar por doctor, categoría, paciente o serie..." class="px-4 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs w-full sm:w-80 focus:outline-none focus:border-blue-600">
-            <div class="flex items-center gap-3 text-[11px] font-semibold">
-              <span class="flex items-center gap-1.5"><span class="w-2.5 h-2.5 rounded-full bg-emerald-500"></span> En Tiempo (≥3 días)</span>
-              <span class="flex items-center gap-1.5"><span class="w-2.5 h-2.5 rounded-full bg-amber-400"></span> Por Vencer (0-2 días)</span>
-              <span class="flex items-center gap-1.5"><span class="w-2.5 h-2.5 rounded-full bg-rose-500"></span> Atrasado (&lt;0 días)</span>
+
+          <div class="flex items-center gap-2 shrink-0">
+            <button type="button" onclick="window.exportarTablaCtrlLabCSV()" class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-white/10 hover:bg-white/15 border border-white/20 text-xs font-semibold text-white transition-all cursor-pointer">
+              <i data-lucide="download" class="w-3.5 h-3.5 text-blue-300"></i>
+              <span>Exportar CSV</span>
+            </button>
+            <button type="button" onclick="window.imprimirReporteCtrlLab()" class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-white/10 hover:bg-white/15 border border-white/20 text-xs font-semibold text-white transition-all cursor-pointer">
+              <i data-lucide="printer" class="w-3.5 h-3.5 text-blue-300"></i>
+              <span>Imprimir</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- 4 Tarjetas de Resumen Operativo -->
+        <div class="grid grid-cols-2 lg:grid-cols-4 gap-3.5 mb-5">
+          <div class="bg-white p-4 rounded-2xl border border-slate-200/90 shadow-2xs flex flex-col justify-between">
+            <div class="flex items-center justify-between text-slate-400 text-xs font-bold uppercase tracking-wider mb-2">
+              <span>Órdenes Activas</span>
+              <i data-lucide="package" class="w-4 h-4 text-blue-600"></i>
+            </div>
+            <div class="text-2xl font-black font-mono text-slate-900">${totalOrdenes}</div>
+            <div class="text-[11px] text-slate-500 mt-1 font-medium">${internasCount} Internas • ${externasCount} Externas</div>
+          </div>
+
+          <div class="bg-white p-4 rounded-2xl border border-slate-200/90 shadow-2xs flex flex-col justify-between">
+            <div class="flex items-center justify-between text-emerald-700 text-xs font-bold uppercase tracking-wider mb-2">
+              <span>En Tiempo (≥3 días)</span>
+              <i data-lucide="check-circle-2" class="w-4 h-4 text-emerald-600"></i>
+            </div>
+            <div class="text-2xl font-black font-mono text-emerald-700">${enTiempoCount}</div>
+            <div class="text-[11px] text-emerald-600 mt-1 font-semibold">${Math.round((enTiempoCount/totalOrdenes)*100)}% de la carga total</div>
+          </div>
+
+          <div class="bg-white p-4 rounded-2xl border border-slate-200/90 shadow-2xs flex flex-col justify-between">
+            <div class="flex items-center justify-between text-amber-700 text-xs font-bold uppercase tracking-wider mb-2">
+              <span>Por Vencer (0-2 días)</span>
+              <i data-lucide="alert-triangle" class="w-4 h-4 text-amber-600"></i>
+            </div>
+            <div class="text-2xl font-black font-mono text-amber-700">${porVencerCount}</div>
+            <div class="text-[11px] text-amber-600 mt-1 font-semibold">${Math.round((porVencerCount/totalOrdenes)*100)}% en ventana crítica</div>
+          </div>
+
+          <div class="bg-white p-4 rounded-2xl border border-slate-200/90 shadow-2xs flex flex-col justify-between">
+            <div class="flex items-center justify-between text-rose-700 text-xs font-bold uppercase tracking-wider mb-2">
+              <span>Atrasadas (&lt;0 días)</span>
+              <i data-lucide="clock" class="w-4 h-4 text-rose-600"></i>
+            </div>
+            <div class="text-2xl font-black font-mono text-rose-700">${atrasadasCount}</div>
+            <div class="text-[11px] text-rose-600 mt-1 font-semibold">${Math.round((atrasadasCount/totalOrdenes)*100)}% requiere atención</div>
+          </div>
+        </div>
+
+        <!-- 2 Graficas en Vivo de Control de Laboratorio -->
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-4 mb-5">
+          <!-- Grafica 1: Donut de Semaforo Operativo -->
+          <div class="lg:col-span-4 bg-white p-5 rounded-2xl border border-slate-200/90 shadow-2xs flex flex-col justify-between">
+            <div class="flex items-center justify-between pb-3 border-b border-slate-100">
+              <h3 class="text-xs font-bold uppercase tracking-wider text-slate-800">Distribución de Semáforo</h3>
+              <span class="text-[10px] font-bold text-slate-500 font-mono">Puntualidad: ${puntualidadPct}%</span>
+            </div>
+            <div class="relative flex items-center justify-center p-2 h-48">
+              <canvas id="chartSemaforoCtrlLab"></canvas>
+            </div>
+            <div class="grid grid-cols-3 gap-1 pt-2 border-t border-slate-100 text-center text-[10px] font-bold">
+              <div class="text-emerald-700">● ${enTiempoCount} En Tiempo</div>
+              <div class="text-amber-700">● ${porVencerCount} Por Vencer</div>
+              <div class="text-rose-700">● ${atrasadasCount} Atrasadas</div>
             </div>
           </div>
-          <div class="table-scroll overflow-x-auto rounded-xl border border-slate-200">
+
+          <!-- Grafica 2: Tiempos Promedio por Categoria Dental -->
+          <div class="lg:col-span-8 bg-white p-5 rounded-2xl border border-slate-200/90 shadow-2xs flex flex-col justify-between">
+            <div class="flex items-center justify-between pb-3 border-b border-slate-100">
+              <h3 class="text-xs font-bold uppercase tracking-wider text-slate-800">Días Promedio de Holgura Técnica por Especialidad</h3>
+              <span class="text-[10px] font-semibold text-slate-500 font-mono">Muestreo en tiempo real</span>
+            </div>
+            <div class="relative h-48 w-full p-2">
+              <canvas id="chartTiemposPromedio"></canvas>
+            </div>
+            <div class="text-[11px] text-slate-500 text-center pt-2 border-t border-slate-100">
+              Promedio general del taller: <strong class="text-slate-800 font-bold font-mono">3.8 días hábiles</strong> por trabajo CAD/CAM.
+            </div>
+          </div>
+        </div>
+
+        <!-- Tabla Maestra de Seguimiento Operativo con Filtros Dinamicos -->
+        <div class="bg-white rounded-2xl border border-slate-200/90 p-5 shadow-2xs space-y-4">
+          <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+            <div class="relative w-full sm:w-80">
+              <i data-lucide="search" class="w-4 h-4 text-slate-400 absolute left-3.5 top-1/2 -translate-y-1/2 pointer-events-none"></i>
+              <input id="searchCtrlLab" onkeyup="filterDynamicTable('searchCtrlLab','tbodyCtrlLab')" placeholder="Buscar doctor, serie, producto o paciente..." class="w-full pl-10 pr-4 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs focus:bg-white focus:outline-none focus:border-blue-600 transition-all">
+            </div>
+
+            <!-- Filtros de Estado en Pastillas -->
+            <div class="flex flex-wrap items-center gap-1.5 text-xs font-semibold" id="filtroCtrlLabBtns">
+              <button type="button" onclick="window.filtrarSemaforoCtrlLab('todos', this)" class="btn-filter-sem px-2.5 py-1 rounded-lg bg-slate-900 text-white font-bold transition-all shadow-2xs cursor-pointer">
+                Todos (${totalOrdenes})
+              </button>
+              <button type="button" onclick="window.filtrarSemaforoCtrlLab('en-tiempo', this)" class="btn-filter-sem px-2.5 py-1 rounded-lg bg-emerald-50 text-emerald-800 border border-emerald-200 hover:bg-emerald-100 transition-all cursor-pointer">
+                En Tiempo (${enTiempoCount})
+              </button>
+              <button type="button" onclick="window.filtrarSemaforoCtrlLab('por-vencer', this)" class="btn-filter-sem px-2.5 py-1 rounded-lg bg-amber-50 text-amber-800 border border-amber-200 hover:bg-amber-100 transition-all cursor-pointer">
+                Por Vencer (${porVencerCount})
+              </button>
+              <button type="button" onclick="window.filtrarSemaforoCtrlLab('atrasado', this)" class="btn-filter-sem px-2.5 py-1 rounded-lg bg-rose-50 text-rose-800 border border-rose-200 hover:bg-rose-100 transition-all cursor-pointer">
+                Atrasadas (${atrasadasCount})
+              </button>
+              <button type="button" onclick="window.filtrarSemaforoCtrlLab('interno', this)" class="btn-filter-sem px-2.5 py-1 rounded-lg bg-slate-100 text-slate-700 hover:bg-slate-200 transition-all cursor-pointer">
+                Internas (${internasCount})
+              </button>
+              <button type="button" onclick="window.filtrarSemaforoCtrlLab('externo', this)" class="btn-filter-sem px-2.5 py-1 rounded-lg bg-slate-100 text-slate-700 hover:bg-slate-200 transition-all cursor-pointer">
+                Externas (${externasCount})
+              </button>
+            </div>
+          </div>
+
+          <!-- Tabla con todas las 10 columnas intactas -->
+          <div class="table-scroll overflow-x-auto rounded-xl border border-slate-200/90">
             <table class="w-full text-center text-xs">
-              <thead class="bg-slate-100 text-slate-600 font-bold border-b border-slate-200 text-[11px]">
+              <thead class="bg-slate-50 text-slate-600 font-bold border-b border-slate-200 text-[11px] tracking-wide uppercase">
                 <tr>
-                  <th class="px-3 py-2.5">DOCTOR</th>
-                  <th class="px-3 py-2.5">CATEGORÍA</th>
-                  <th class="px-3 py-2.5">PRODUCTO</th>
-                  <th class="px-3 py-2.5">PIEZAS</th>
-                  <th class="px-3 py-2.5">PACIENTE</th>
-                  <th class="px-3 py-2.5">REGISTRO</th>
-                  <th class="px-3 py-2.5">ENTREGA SOLICITADA</th>
-                  <th class="px-3 py-2.5">DÍAS TRANSCURRIDOS</th>
-                  <th class="px-3 py-2.5">SERIE</th>
-                  <th class="px-3 py-2.5">TIPO DOCTOR</th>
+                  <th class="px-3.5 py-3 text-left">DOCTOR</th>
+                  <th class="px-3 py-3">CATEGORÍA</th>
+                  <th class="px-3 py-3">PRODUCTO</th>
+                  <th class="px-3 py-3">PIEZAS</th>
+                  <th class="px-3 py-3">PACIENTE</th>
+                  <th class="px-3 py-3">REGISTRO</th>
+                  <th class="px-3 py-3">ENTREGA SOLICITADA</th>
+                  <th class="px-3 py-3">DÍAS TRANSCURRIDOS</th>
+                  <th class="px-3 py-3">SERIE</th>
+                  <th class="px-3 py-3">TIPO DOCTOR</th>
                 </tr>
               </thead>
-              <tbody id="tbodyCtrlLab" class="divide-y divide-slate-100">${rows}</tbody>
+              <tbody id="tbodyCtrlLab" class="divide-y divide-slate-100 bg-white">${rows}</tbody>
             </table>
           </div>
         </div>
       `;
+
+      requestAnimationFrame(() => {
+        if (window.initControlLabCharts) {
+          window.initControlLabCharts(enTiempoCount, porVencerCount, atrasadasCount);
+        }
+      });
       break;
     }
 
@@ -3321,96 +3514,113 @@ function renderDynamicModule(key) {
     // ------------------------------------------------------------------------
     case 'graficos': {
       container.innerHTML = `
-        ${renderHeaderBanner('Estadísticas', 'Gráficos Estadísticos de Producción', 'Indicadores de órdenes por categoría, tonos de colorímetro más solicitados y productividad por doctor.')}
-        <div class="grid grid-cols-1 lg:grid-cols-2 gap-4">
-          <div class="bg-white rounded-2xl border border-slate-200 p-5 shadow-sm space-y-4">
-            <div class="flex items-center justify-between">
-              <h3 class="text-xs font-bold uppercase tracking-wider text-slate-500">Producción por Categoría CAD/CAM</h3>
-              <span class="text-xs font-mono font-bold text-blue-600">Mes Actual: 148 piezas</span>
+        ${renderEstadisticasSubnav('graficos')}
+        
+        ${renderHeaderBanner('Estadísticas', 'Gráficos Estadísticos de Producción (GraficosEstadisticos.php)', 'Distribución analítica de fresado por categorías CAD/CAM, tonos de guía VITA y correlación de órdenes por serie.')}
+        
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-4 mb-5">
+          <!-- Grafico interactivo de barras CAD/CAM -->
+          <div class="lg:col-span-7 bg-white rounded-2xl border border-slate-200/90 p-5 shadow-2xs space-y-4">
+            <div class="flex items-center justify-between pb-2 border-b border-slate-100">
+              <h3 class="text-xs font-bold uppercase tracking-wider text-slate-800">Producción Real por Categoría CAD/CAM</h3>
+              <span class="text-xs font-mono font-bold text-blue-700 bg-blue-50 px-2 py-0.5 rounded-md border border-blue-200">Total: 2,860 piezas</span>
             </div>
-            <div class="space-y-3 text-xs">
-              <div>
-                <div class="flex justify-between font-semibold mb-1"><span>Zirconio Monolítico & Multicapa</span><span class="font-mono">64 pzas (43%)</span></div>
-                <div class="w-full h-2.5 bg-slate-100 rounded-full overflow-hidden"><div class="bg-blue-600 h-full rounded-full" style="width:43%"></div></div>
-              </div>
-              <div>
-                <div class="flex justify-between font-semibold mb-1"><span>E-Max / Disilicato de Litio</span><span class="font-mono">38 pzas (26%)</span></div>
-                <div class="w-full h-2.5 bg-slate-100 rounded-full overflow-hidden"><div class="bg-indigo-500 h-full rounded-full" style="width:26%"></div></div>
-              </div>
-              <div>
-                <div class="flex justify-between font-semibold mb-1"><span>Alinia (Alineadores Invisibles)</span><span class="font-mono">28 sets (19%)</span></div>
-                <div class="w-full h-2.5 bg-slate-100 rounded-full overflow-hidden"><div class="bg-cyan-500 h-full rounded-full" style="width:19%"></div></div>
-              </div>
-              <div>
-                <div class="flex justify-between font-semibold mb-1"><span>Guardas Oclusales & PMMA</span><span class="font-mono">18 pzas (12%)</span></div>
-                <div class="w-full h-2.5 bg-slate-100 rounded-full overflow-hidden"><div class="bg-emerald-500 h-full rounded-full" style="width:12%"></div></div>
-              </div>
+            <div class="relative h-60 w-full p-2">
+              <canvas id="chartProduccionCategorias"></canvas>
+            </div>
+            <div class="grid grid-cols-4 gap-2 pt-2 border-t border-slate-100 text-center text-[10px]">
+              <div><span class="font-bold text-slate-800 font-mono block">1,820 pzas</span><span class="text-slate-500">Zirconio (64%)</span></div>
+              <div><span class="font-bold text-slate-800 font-mono block">540 pzas</span><span class="text-slate-500">E-Max (19%)</span></div>
+              <div><span class="font-bold text-slate-800 font-mono block">320 pzas</span><span class="text-slate-500">Alinia (11%)</span></div>
+              <div><span class="font-bold text-slate-800 font-mono block">180 pzas</span><span class="text-slate-500">Guardas (6%)</span></div>
             </div>
           </div>
 
-          <div class="bg-white rounded-2xl border border-slate-200 p-5 shadow-sm space-y-4">
-            <div class="flex items-center justify-between">
-              <h3 class="text-xs font-bold uppercase tracking-wider text-slate-500">Tonos Guía VITA Más Utilizados</h3>
-              <span class="text-xs font-mono text-slate-500">Top 5 Tonos</span>
+          <!-- Guia de Tonos VITA Mas Solicitados -->
+          <div class="lg:col-span-5 bg-white rounded-2xl border border-slate-200/90 p-5 shadow-2xs space-y-4 flex flex-col justify-between">
+            <div class="flex items-center justify-between pb-2 border-b border-slate-100">
+              <h3 class="text-xs font-bold uppercase tracking-wider text-slate-800">Tonos Guía VITA Clásica Más Solicitados</h3>
+              <span class="text-xs font-mono text-slate-500 font-bold">Top 5</span>
             </div>
-            <div class="grid grid-cols-5 gap-2 pt-2 text-center text-xs">
+            <div class="grid grid-cols-5 gap-2 text-center text-xs">
               <div class="p-3 rounded-xl bg-slate-50 border border-slate-200 flex flex-col items-center">
-                <span class="w-8 h-8 rounded-full border-2 border-blue-500 mb-2" style="background:#ede2cc"></span>
-                <span class="font-bold font-mono">A2</span>
-                <span class="text-[10px] text-blue-600 font-bold">38%</span>
+                <span class="w-8 h-8 rounded-full border-2 border-blue-600 mb-2 shadow-2xs" style="background:#ede2cc"></span>
+                <span class="font-bold font-mono text-slate-900">A2</span>
+                <span class="text-[10px] text-blue-700 font-extrabold font-mono mt-1">38%</span>
               </div>
               <div class="p-3 rounded-xl bg-slate-50 border border-slate-200 flex flex-col items-center">
-                <span class="w-8 h-8 rounded-full border border-slate-300 mb-2" style="background:#f5f0e4"></span>
-                <span class="font-bold font-mono">A1</span>
-                <span class="text-[10px] text-slate-500 font-bold">24%</span>
+                <span class="w-8 h-8 rounded-full border border-slate-300 mb-2 shadow-2xs" style="background:#f5f0e4"></span>
+                <span class="font-bold font-mono text-slate-900">A1</span>
+                <span class="text-[10px] text-slate-600 font-bold font-mono mt-1">24%</span>
               </div>
               <div class="p-3 rounded-xl bg-slate-50 border border-slate-200 flex flex-col items-center">
-                <span class="w-8 h-8 rounded-full border border-slate-300 mb-2" style="background:#e2d0b0"></span>
-                <span class="font-bold font-mono">A3</span>
-                <span class="text-[10px] text-slate-500 font-bold">18%</span>
+                <span class="w-8 h-8 rounded-full border border-slate-300 mb-2 shadow-2xs" style="background:#e2d0b0"></span>
+                <span class="font-bold font-mono text-slate-900">A3</span>
+                <span class="text-[10px] text-slate-600 font-bold font-mono mt-1">18%</span>
               </div>
               <div class="p-3 rounded-xl bg-slate-50 border border-slate-200 flex flex-col items-center">
-                <span class="w-8 h-8 rounded-full border border-slate-300 mb-2" style="background:#f7f4eb"></span>
-                <span class="font-bold font-mono">B1</span>
-                <span class="text-[10px] text-slate-500 font-bold">12%</span>
+                <span class="w-8 h-8 rounded-full border border-slate-300 mb-2 shadow-2xs" style="background:#f7f4eb"></span>
+                <span class="font-bold font-mono text-slate-900">B1</span>
+                <span class="text-[10px] text-slate-600 font-bold font-mono mt-1">12%</span>
               </div>
               <div class="p-3 rounded-xl bg-slate-50 border border-slate-200 flex flex-col items-center">
-                <span class="w-8 h-8 rounded-full border border-slate-300 mb-2" style="background:#ffffff"></span>
-                <span class="font-bold font-mono">BL2</span>
-                <span class="text-[10px] text-slate-500 font-bold">8%</span>
+                <span class="w-8 h-8 rounded-full border border-slate-300 mb-2 shadow-2xs" style="background:#ffffff"></span>
+                <span class="font-bold font-mono text-slate-900">BL2</span>
+                <span class="text-[10px] text-slate-600 font-bold font-mono mt-1">8%</span>
               </div>
+            </div>
+            <div class="p-3 bg-slate-50 rounded-xl border border-slate-200/80 text-[11px] text-slate-600 leading-relaxed">
+              El color <strong class="text-slate-900 font-bold">VITA A2</strong> representa más de un tercio de las restauraciones estéticas fresadas, seguido por tonos de alta luminosidad <strong class="text-slate-900 font-bold">A1</strong> y blanqueamiento <strong class="text-slate-900 font-bold">BL2</strong>.
             </div>
           </div>
         </div>
 
-        <div class="bg-white rounded-2xl border border-slate-200 p-5 shadow-sm">
-          <h3 class="text-xs font-bold uppercase tracking-wider text-slate-500 mb-3">Desglose de Órdenes por Serie y Colorímetro</h3>
-          <table class="w-full text-center text-xs">
-            <thead class="bg-slate-100 text-slate-600 font-bold border-b border-slate-200">
-              <tr>
-                <th class="px-3 py-2.5">SERIE</th>
-                <th class="px-3 py-2.5">DOCTOR</th>
-                <th class="px-3 py-2.5">PRODUCTO</th>
-                <th class="px-3 py-2.5">COLORÍMETRO</th>
-                <th class="px-3 py-2.5">ENTREGA SOLICITADA</th>
-                <th class="px-3 py-2.5">PIEZAS</th>
-              </tr>
-            </thead>
-            <tbody class="divide-y divide-slate-100">
-              ${DENT_STATE.controlLab.map(r => `
-                <tr class="hover:bg-slate-50">
-                  <td class="px-3 py-2.5 font-mono font-bold text-blue-600">${r.serie}</td>
-                  <td class="px-3 py-2.5 font-medium">${r.doctor}</td>
-                  <td class="px-3 py-2.5">${r.producto}</td>
-                  <td class="px-3 py-2.5 font-mono font-bold">VITA A2</td>
-                  <td class="px-3 py-2.5 font-mono">${r.entrega}</td>
-                  <td class="px-3 py-2.5 font-mono text-blue-700 font-bold">${r.piezas}</td>
+        <!-- Desglose de Ordenes por Serie y Colorimetro -->
+        <div class="bg-white rounded-2xl border border-slate-200/90 p-5 shadow-2xs space-y-4">
+          <div class="flex items-center justify-between pb-2 border-b border-slate-100">
+            <h3 class="text-xs font-bold uppercase tracking-wider text-slate-800">Desglose de Órdenes por Serie y Colorímetro Asignado</h3>
+            <span class="text-xs font-mono font-bold text-slate-500">${DENT_STATE.controlLab.length} registros</span>
+          </div>
+          <div class="table-scroll overflow-x-auto rounded-xl border border-slate-200/90">
+            <table class="w-full text-center text-xs">
+              <thead class="bg-slate-50 text-slate-600 font-bold border-b border-slate-200 text-[11px] tracking-wide uppercase">
+                <tr>
+                  <th class="px-3.5 py-3">SERIE</th>
+                  <th class="px-3.5 py-3 text-left">DOCTOR</th>
+                  <th class="px-3.5 py-3">PRODUCTO</th>
+                  <th class="px-3.5 py-3">COLORÍMETRO</th>
+                  <th class="px-3.5 py-3">ENTREGA SOLICITADA</th>
+                  <th class="px-3.5 py-3">PIEZAS</th>
                 </tr>
-              `).join('')}
-            </tbody>
-          </table>
+              </thead>
+              <tbody class="divide-y divide-slate-100 bg-white">
+                ${DENT_STATE.controlLab.map((r, i) => {
+                  const tonos = ['VITA A2', 'VITA A1', 'VITA A3', 'VITA B1', 'VITA BL2'];
+                  const tono = tonos[i % tonos.length];
+                  return `
+                    <tr class="hover:bg-slate-50/80 transition-colors">
+                      <td class="px-3.5 py-3 font-mono font-extrabold text-blue-700">${r.serie}</td>
+                      <td class="px-3.5 py-3 font-semibold text-slate-900 text-left">${r.doctor}</td>
+                      <td class="px-3.5 py-3 text-slate-700">${r.producto}</td>
+                      <td class="px-3.5 py-3 font-mono font-bold text-slate-900">
+                        <span class="px-2 py-0.5 rounded bg-slate-100 border border-slate-200 text-slate-800 text-[11px]">${tono}</span>
+                      </td>
+                      <td class="px-3.5 py-3 font-mono font-medium text-slate-600">${r.entrega}</td>
+                      <td class="px-3.5 py-3 font-mono font-bold text-blue-700">${r.piezas}</td>
+                    </tr>
+                  `;
+                }).join('')}
+              </tbody>
+            </table>
+          </div>
         </div>
       `;
+
+      requestAnimationFrame(() => {
+        if (window.initGraficosCategoriasChart) {
+          window.initGraficosCategoriasChart();
+        }
+      });
       break;
     }
 
@@ -5814,152 +6024,736 @@ function renderDynamicModule(key) {
 
     case 'panorama-general': {
       container.innerHTML = `
-        ${renderHeaderBanner('Estadísticos', 'Panorama General del Laboratorio (includeGraficos.php)', 'Tablero ejecutivo con 11 indicadores clave de producción, merma, distribución de materiales y ventas internas.', `
-          <div class="px-3.5 py-1.5 rounded-xl bg-slate-900 text-white text-xs font-mono font-bold">
-            Consolidado Octubre 2026
-          </div>
-        `)}
+        <!-- Subnavegacion entre vistas de Estadisticas -->
+        ${renderEstadisticasSubnav('panorama-general')}
 
-        <!-- 1. Los 6 KPIs Maestros Principales -->
-        <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3 text-center">
-          <div class="bg-white p-4 rounded-2xl border border-slate-200 shadow-sm">
-            <span class="text-[10px] font-bold uppercase text-slate-400 block mb-1">Órdenes Totales</span>
-            <span class="text-2xl font-extrabold font-mono text-slate-900">1,428</span>
-            <span class="text-[10px] text-emerald-600 font-bold block mt-1">+12% vs mes ant.</span>
+        <!-- Banner Ejecutivo Sober Slate con Selector de Periodo en Vivo -->
+        <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-4 bg-gradient-to-r from-slate-900 via-slate-800 to-blue-950 text-white p-5 sm:p-6 rounded-3xl shadow-sm border border-slate-800/90 mb-5">
+          <div class="space-y-1.5">
+            <div class="flex flex-wrap items-center gap-2.5">
+              <div class="w-10 h-10 rounded-2xl bg-blue-500/20 border border-blue-400/30 flex items-center justify-center text-blue-400 shadow-2xs">
+                <i data-lucide="pie-chart" class="w-5 h-5"></i>
+              </div>
+              <h2 class="text-base sm:text-xl font-bold tracking-tight">Panorama General del Laboratorio (includeGraficos.php)</h2>
+              <span class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-emerald-500/15 text-emerald-400 border border-emerald-500/30">
+                <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+                ENLACE EN TIEMPO REAL • MARIADB LIVE
+              </span>
+            </div>
+            <p class="text-xs text-slate-300 leading-relaxed">
+              Consolidado ejecutivo con 11 indicadores clave de producción CAD/CAM, pipeline de flujo en taller, distribución de materiales y facturación.
+            </p>
           </div>
-          <div class="bg-white p-4 rounded-2xl border border-slate-200 shadow-sm">
-            <span class="text-[10px] font-bold uppercase text-slate-400 block mb-1">Órdenes Internas</span>
-            <span class="text-2xl font-extrabold font-mono text-blue-600">384</span>
-            <span class="text-[10px] text-slate-400 font-semibold block mt-1">26.9% del total</span>
-          </div>
-          <div class="bg-white p-4 rounded-2xl border border-slate-200 shadow-sm">
-            <span class="text-[10px] font-bold uppercase text-slate-400 block mb-1">Órdenes Externas</span>
-            <span class="text-2xl font-extrabold font-mono text-slate-800">1,044</span>
-            <span class="text-[10px] text-slate-400 font-semibold block mt-1">73.1% del total</span>
-          </div>
-          <div class="bg-white p-4 rounded-2xl border border-slate-200 shadow-sm">
-            <span class="text-[10px] font-bold uppercase text-slate-400 block mb-1">Piezas Producidas</span>
-            <span class="text-2xl font-extrabold font-mono text-emerald-700">2,860</span>
-            <span class="text-[10px] text-emerald-600 font-bold block mt-1">CAD/CAM & Fresado</span>
-          </div>
-          <div class="bg-white p-4 rounded-2xl border border-slate-200 shadow-sm">
-            <span class="text-[10px] font-bold uppercase text-slate-400 block mb-1">Discos Utilizados</span>
-            <span class="text-2xl font-extrabold font-mono text-indigo-700">142</span>
-            <span class="text-[10px] text-slate-400 font-semibold block mt-1">Zirconio & PMMA</span>
-          </div>
-          <div class="bg-white p-4 rounded-2xl border border-slate-200 shadow-sm">
-            <span class="text-[10px] font-bold uppercase text-slate-400 block mb-1">Merma Controlada</span>
-            <span class="text-2xl font-extrabold font-mono text-rose-600">4.2%</span>
-            <span class="text-[10px] text-emerald-600 font-bold block mt-1">Meta: &lt; 5.0%</span>
+
+          <div class="flex flex-wrap items-center gap-2.5 shrink-0">
+            <!-- Selector de Periodo Interactivo -->
+            <div class="inline-flex p-1 bg-slate-950/70 border border-slate-700/70 rounded-2xl text-xs font-semibold shadow-inner" id="periodosStatsGroup">
+              <button type="button" onclick="window.cambiarPeriodoStats('hoy', this)" class="btn-periodo-st px-3 py-1.5 rounded-xl text-slate-400 hover:text-white transition-all cursor-pointer">
+                Hoy
+              </button>
+              <button type="button" onclick="window.cambiarPeriodoStats('7d', this)" class="btn-periodo-st px-3 py-1.5 rounded-xl text-slate-400 hover:text-white transition-all cursor-pointer">
+                7 Días
+              </button>
+              <button type="button" onclick="window.cambiarPeriodoStats('mes', this)" class="btn-periodo-st px-3 py-1.5 rounded-xl bg-blue-600 text-white font-bold shadow-xs transition-all cursor-pointer">
+                Este Mes
+              </button>
+              <button type="button" onclick="window.cambiarPeriodoStats('ano', this)" class="btn-periodo-st px-3 py-1.5 rounded-xl text-slate-400 hover:text-white transition-all cursor-pointer">
+                Año 2026
+              </button>
+            </div>
+
+            <!-- Boton de Actualizacion en Vivo -->
+            <button type="button" onclick="window.actualizarEstadisticasLive()" class="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-2xl bg-white/10 hover:bg-white/15 border border-white/20 text-xs font-bold text-white transition-all active:scale-95 cursor-pointer shadow-xs">
+              <i data-lucide="refresh-cw" class="w-3.5 h-3.5 text-blue-300" id="iconLiveRefreshStats"></i>
+              <span>Actualizar en Vivo</span>
+            </button>
           </div>
         </div>
 
-        <!-- 2. Gráficos y Distribuciones Analíticas -->
-        <div class="grid grid-cols-1 lg:grid-cols-2 gap-4 text-xs">
-          <!-- Distribución de unidades de Zirconio -->
-          <div class="bg-white rounded-2xl border border-slate-200 p-5 shadow-sm space-y-3">
-            <div class="flex items-center justify-between border-b pb-2">
-              <h4 class="font-bold uppercase text-slate-800 text-xs">Distribución de Unidades de Zirconio</h4>
-              <span class="font-mono text-blue-600 font-bold">1,820 piezas totales</span>
+        <!-- 6 KPIs Maestros Principales con Micro-Tendencias -->
+        <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3 text-center mb-5">
+          <div class="bg-white p-4 rounded-2xl border border-slate-200/90 shadow-2xs flex flex-col justify-between">
+            <span class="text-[10px] font-bold uppercase tracking-wider text-slate-400 block mb-1">Órdenes Totales</span>
+            <span class="text-2xl font-black font-mono text-slate-900 block my-0.5" id="kpiOrdenesTotales">1,428</span>
+            <span class="text-[10px] text-emerald-700 font-bold block bg-emerald-50 py-0.5 rounded-md border border-emerald-200/60" id="kpiOrdenesBadge">+12.4% vs mes ant.</span>
+          </div>
+
+          <div class="bg-white p-4 rounded-2xl border border-slate-200/90 shadow-2xs flex flex-col justify-between">
+            <span class="text-[10px] font-bold uppercase tracking-wider text-slate-400 block mb-1">Piezas CAD/CAM</span>
+            <span class="text-2xl font-black font-mono text-blue-700 block my-0.5" id="kpiPiezasProducidas">2,860</span>
+            <span class="text-[10px] text-blue-700 font-bold block bg-blue-50 py-0.5 rounded-md border border-blue-200/60" id="kpiPiezasBadge">+8.1% ritmo fresado</span>
+          </div>
+
+          <div class="bg-white p-4 rounded-2xl border border-slate-200/90 shadow-2xs flex flex-col justify-between">
+            <span class="text-[10px] font-bold uppercase tracking-wider text-slate-400 block mb-1">Puntualidad Global</span>
+            <span class="text-2xl font-black font-mono text-emerald-700 block my-0.5" id="kpiPuntualidad">94.2%</span>
+            <span class="text-[10px] text-emerald-700 font-bold block bg-emerald-50 py-0.5 rounded-md border border-emerald-200/60">Meta: &gt; 90.0%</span>
+          </div>
+
+          <div class="bg-white p-4 rounded-2xl border border-slate-200/90 shadow-2xs flex flex-col justify-between">
+            <span class="text-[10px] font-bold uppercase tracking-wider text-slate-400 block mb-1">Pipeline en Taller</span>
+            <span class="text-2xl font-black font-mono text-slate-900 block my-0.5" id="kpiPipeline">35</span>
+            <span class="text-[10px] text-slate-500 font-semibold block bg-slate-50 py-0.5 rounded-md border border-slate-200/60">4 Flujos Activos</span>
+          </div>
+
+          <div class="bg-white p-4 rounded-2xl border border-slate-200/90 shadow-2xs flex flex-col justify-between">
+            <span class="text-[10px] font-bold uppercase tracking-wider text-slate-400 block mb-1">Discos Utilizados</span>
+            <span class="text-2xl font-black font-mono text-indigo-700 block my-0.5" id="kpiDiscos">142</span>
+            <span class="text-[10px] text-indigo-700 font-bold block bg-indigo-50 py-0.5 rounded-md border border-indigo-200/60">82.4% aprovechado</span>
+          </div>
+
+          <div class="bg-white p-4 rounded-2xl border border-slate-200/90 shadow-2xs flex flex-col justify-between">
+            <span class="text-[10px] font-bold uppercase tracking-wider text-slate-400 block mb-1">Facturación / Valor</span>
+            <span class="text-2xl font-black font-mono text-slate-900 block my-0.5" id="kpiFacturacion">$1,248,500</span>
+            <span class="text-[10px] text-slate-500 font-bold block bg-slate-50 py-0.5 rounded-md border border-slate-200/60 font-mono">MXN Estimado</span>
+          </div>
+        </div>
+
+        <!-- Fila 1 de Graficas Reales con Chart.js -->
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-4 mb-5">
+          <!-- Grafico 1: Tendencia y Curva de Produccion Semanal (Area Spline) -->
+          <div class="lg:col-span-8 bg-white rounded-2xl border border-slate-200/90 p-5 shadow-2xs flex flex-col justify-between">
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 pb-3 border-b border-slate-100">
+              <div>
+                <h3 class="text-xs font-bold uppercase tracking-wider text-slate-900 flex items-center gap-2">
+                  <span>Curva de Producción y Fresado de Piezas CAD/CAM</span>
+                  <span class="px-2 py-0.5 rounded-full bg-blue-50 text-blue-700 text-[10px] font-bold border border-blue-200">En Vivo</span>
+                </h3>
+                <p class="text-[11px] text-slate-500 mt-0.5">Seguimiento comparativo por material dental fresado en máquinas CNC.</p>
+              </div>
+              <div class="flex items-center gap-3 text-[11px] font-semibold text-slate-600">
+                <span class="flex items-center gap-1.5"><span class="w-2.5 h-2.5 rounded-full bg-blue-700"></span> Zirconio</span>
+                <span class="flex items-center gap-1.5"><span class="w-2.5 h-2.5 rounded-full bg-blue-500"></span> E-Max</span>
+                <span class="flex items-center gap-1.5"><span class="w-2.5 h-2.5 rounded-full bg-cyan-500"></span> Alinia</span>
+              </div>
             </div>
-            <div class="space-y-2.5">
-              <div>
-                <div class="flex justify-between font-semibold mb-1"><span>Zirconio HT+ Alta Translucidez (Aidite / Upcera)</span><span class="font-mono">892 pzas (49%)</span></div>
-                <div class="w-full h-2.5 bg-slate-100 rounded-full overflow-hidden"><div class="bg-blue-600 h-full rounded-full" style="width:49%"></div></div>
-              </div>
-              <div>
-                <div class="flex justify-between font-semibold mb-1"><span>Zirconio 3D Pro Multicapa Gradiente</span><span class="font-mono">546 pzas (30%)</span></div>
-                <div class="w-full h-2.5 bg-slate-100 rounded-full overflow-hidden"><div class="bg-indigo-600 h-full rounded-full" style="width:30%"></div></div>
-              </div>
-              <div>
-                <div class="flex justify-between font-semibold mb-1"><span>Zirconio ST Super Translucidez</span><span class="font-mono">382 pzas (21%)</span></div>
-                <div class="w-full h-2.5 bg-slate-100 rounded-full overflow-hidden"><div class="bg-cyan-600 h-full rounded-full" style="width:21%"></div></div>
-              </div>
+            <div class="relative h-64 w-full pt-3">
+              <canvas id="chartTendenciaProduccion"></canvas>
+            </div>
+            <div class="pt-3 border-t border-slate-100 flex flex-wrap items-center justify-between text-xs text-slate-500">
+              <span>Máxima capacidad instalada: <strong class="text-slate-800 font-mono">120 piezas/día</strong></span>
+              <span class="font-mono text-emerald-700 font-bold">Tiempo promedio por unidad: 38 min</span>
             </div>
           </div>
 
-          <!-- Piezas por Tipo de Doctor y Ventas Internas -->
-          <div class="bg-white rounded-2xl border border-slate-200 p-5 shadow-sm space-y-3">
-            <div class="flex items-center justify-between border-b pb-2">
-              <h4 class="font-bold uppercase text-slate-800 text-xs">Piezas por Tipo de Doctor & Ventas Internas</h4>
-              <span class="font-mono text-emerald-700 font-bold">$1,248,500 MXN</span>
+          <!-- Grafico 2: Pipeline de Flujo en Taller -->
+          <div class="lg:col-span-4 bg-white rounded-2xl border border-slate-200/90 p-5 shadow-2xs flex flex-col justify-between">
+            <div class="pb-3 border-b border-slate-100 flex items-center justify-between">
+              <div>
+                <h3 class="text-xs font-bold uppercase tracking-wider text-slate-900">Pipeline en Taller</h3>
+                <p class="text-[11px] text-slate-500 mt-0.5">Carga por etapas de flujo activo</p>
+              </div>
+              <span class="font-mono text-xs font-black text-blue-700 bg-blue-50 px-2 py-0.5 rounded-md border border-blue-200">35 OT</span>
             </div>
-            <div class="grid grid-cols-2 gap-3 text-center pt-2">
-              <div class="p-4 rounded-xl bg-slate-50 border border-slate-200">
-                <span class="text-slate-400 font-bold uppercase text-[9.5px] block">Doctores Externos</span>
-                <span class="text-2xl font-mono font-extrabold text-slate-900 block my-1">2,090</span>
-                <span class="text-xs font-semibold text-blue-600">$940,500 MXN</span>
+            <div class="relative h-64 w-full pt-2">
+              <canvas id="chartPipelineFlujo"></canvas>
+            </div>
+            <div class="grid grid-cols-4 gap-1 pt-3 border-t border-slate-100 text-center text-[10px] font-bold text-slate-600">
+              <div><span class="text-blue-600 block">● 4</span>Escaneo</div>
+              <div><span class="text-blue-800 block">● 18</span>Diseño</div>
+              <div><span class="text-indigo-800 block">● 7</span>Fresado</div>
+              <div><span class="text-emerald-700 block">● 6</span>Entrega</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Fila 2 de Graficas Reales con Chart.js -->
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-4 mb-5">
+          <!-- Grafico 3: Distribucion de Materiales Dentales -->
+          <div class="lg:col-span-6 bg-white rounded-2xl border border-slate-200/90 p-5 shadow-2xs flex flex-col justify-between">
+            <div class="pb-3 border-b border-slate-100 flex items-center justify-between">
+              <div>
+                <h3 class="text-xs font-bold uppercase tracking-wider text-slate-900">Distribución de Materiales Dentales</h3>
+                <p class="text-[11px] text-slate-500 mt-0.5">Porcentaje de volumen de piezas manufacturadas</p>
               </div>
-              <div class="p-4 rounded-xl bg-slate-50 border border-slate-200">
-                <span class="text-slate-400 font-bold uppercase text-[9.5px] block">Doctores Internos</span>
-                <span class="text-2xl font-mono font-extrabold text-slate-900 block my-1">770</span>
-                <span class="text-xs font-semibold text-emerald-600">$308,000 MXN</span>
-              </div>
+              <span class="font-mono text-xs font-bold text-slate-600">100% CAD/CAM</span>
+            </div>
+            <div class="relative h-60 w-full flex items-center justify-center pt-2">
+              <canvas id="chartDistribucionMateriales"></canvas>
+            </div>
+            <div class="grid grid-cols-4 gap-2 pt-3 border-t border-slate-100 text-center text-[10px]">
+              <div><span class="font-bold text-slate-900 block font-mono">49%</span><span class="text-slate-500">Zirconio HT+</span></div>
+              <div><span class="font-bold text-slate-900 block font-mono">26%</span><span class="text-slate-500">E-Max Disilicato</span></div>
+              <div><span class="font-bold text-slate-900 block font-mono">15%</span><span class="text-slate-500">Alineadores</span></div>
+              <div><span class="font-bold text-slate-900 block font-mono">10%</span><span class="text-slate-500">Guardas Bio</span></div>
             </div>
           </div>
 
-          <!-- Clasificación de Estatus de Procesos -->
-          <div class="bg-white rounded-2xl border border-slate-200 p-5 shadow-sm space-y-3">
-            <div class="flex items-center justify-between border-b pb-2">
-              <h4 class="font-bold uppercase text-slate-800 text-xs">Clasificación de Estatus de Procesos</h4>
-              <span class="font-mono text-slate-500">Pipeline en Vivo</span>
+          <!-- Grafico 4: Analisis Comercial Doctores Externos vs Internos -->
+          <div class="lg:col-span-6 bg-white rounded-2xl border border-slate-200/90 p-5 shadow-2xs flex flex-col justify-between">
+            <div class="pb-3 border-b border-slate-100 flex items-center justify-between">
+              <div>
+                <h3 class="text-xs font-bold uppercase tracking-wider text-slate-900">Doctores Externos vs Internos</h3>
+                <p class="text-[11px] text-slate-500 mt-0.5">Volumen de piezas e importes generados</p>
+              </div>
+              <span class="font-mono text-xs font-bold text-emerald-700 font-mono">$1,248,500 MXN</span>
             </div>
-            <div class="grid grid-cols-4 gap-2 text-center pt-2">
-              <div class="p-3 bg-blue-50/60 rounded-xl border border-blue-200/70">
-                <span class="text-[10px] font-bold uppercase text-blue-700 block">1. Escaneo</span>
-                <span class="text-lg font-mono font-bold text-blue-900 mt-1 block">4</span>
-              </div>
-              <div class="p-3 bg-indigo-50/60 rounded-xl border border-indigo-200/70">
-                <span class="text-[10px] font-bold uppercase text-indigo-700 block">2. Diseño</span>
-                <span class="text-lg font-mono font-bold text-indigo-900 mt-1 block">15</span>
-              </div>
-              <div class="p-3 bg-amber-50/60 rounded-xl border border-amber-200/70">
-                <span class="text-[10px] font-bold uppercase text-amber-700 block">3. Fabricación</span>
-                <span class="text-lg font-mono font-bold text-amber-900 mt-1 block">38</span>
-              </div>
-              <div class="p-3 bg-emerald-50/60 rounded-xl border border-emerald-200/70">
-                <span class="text-[10px] font-bold uppercase text-emerald-700 block">4. Entrega</span>
-                <span class="text-lg font-mono font-bold text-emerald-900 mt-1 block">142</span>
-              </div>
+            <div class="relative h-60 w-full pt-2">
+              <canvas id="chartDoctoresInternosExternos"></canvas>
             </div>
-          </div>
-
-          <!-- Producción de Piezas por Semana & Piezas por Categoría -->
-          <div class="bg-white rounded-2xl border border-slate-200 p-5 shadow-sm space-y-3">
-            <div class="flex items-center justify-between border-b pb-2">
-              <h4 class="font-bold uppercase text-slate-800 text-xs">Producción Semanal (Mes Actual)</h4>
-              <span class="font-mono text-slate-500">2,860 piezas</span>
-            </div>
-            <div class="space-y-2">
-              <div class="flex items-center gap-3">
-                <span class="w-16 font-semibold text-slate-600">Semana 1:</span>
-                <div class="flex-1 h-3 bg-slate-100 rounded-full overflow-hidden"><div class="bg-blue-600 h-full rounded-full" style="width:68%"></div></div>
-                <span class="font-mono font-bold w-16 text-right">680 pzas</span>
+            <div class="grid grid-cols-2 gap-3 pt-3 border-t border-slate-100 text-center text-xs">
+              <div class="p-2.5 bg-slate-50 rounded-xl border border-slate-200/80">
+                <span class="text-slate-500 text-[10px] font-bold uppercase block">Externos (73.1%)</span>
+                <span class="font-mono font-black text-slate-900 text-sm">2,090 piezas • $940,500 MXN</span>
               </div>
-              <div class="flex items-center gap-3">
-                <span class="w-16 font-semibold text-slate-600">Semana 2:</span>
-                <div class="flex-1 h-3 bg-slate-100 rounded-full overflow-hidden"><div class="bg-blue-600 h-full rounded-full" style="width:74%"></div></div>
-                <span class="font-mono font-bold w-16 text-right">740 pzas</span>
-              </div>
-              <div class="flex items-center gap-3">
-                <span class="w-16 font-semibold text-slate-600">Semana 3:</span>
-                <div class="flex-1 h-3 bg-slate-100 rounded-full overflow-hidden"><div class="bg-blue-600 h-full rounded-full" style="width:81%"></div></div>
-                <span class="font-mono font-bold w-16 text-right">810 pzas</span>
-              </div>
-              <div class="flex items-center gap-3">
-                <span class="w-16 font-semibold text-slate-600">Semana 4:</span>
-                <div class="flex-1 h-3 bg-slate-100 rounded-full overflow-hidden"><div class="bg-blue-600 h-full rounded-full" style="width:63%"></div></div>
-                <span class="font-mono font-bold w-16 text-right">630 pzas</span>
+              <div class="p-2.5 bg-slate-50 rounded-xl border border-slate-200/80">
+                <span class="text-slate-500 text-[10px] font-bold uppercase block">Internos (26.9%)</span>
+                <span class="font-mono font-black text-slate-900 text-sm">770 piezas • $308,000 MXN</span>
               </div>
             </div>
           </div>
         </div>
       `;
+
+      requestAnimationFrame(() => {
+        if (window.initEstadisticasCharts) {
+          window.initEstadisticasCharts(window._periodoStatsActual || 'mes');
+        }
+      });
       break;
     }
 
   }
 }
+
+// ============================================================================
+// MOTOR DE GRÁFICAS EN TIEMPO REAL CON CHART.JS (ESTADÍSTICAS & CONTROL)
+// ============================================================================
+
+window._periodoStatsActual = 'mes';
+window._chartsInstances = window._chartsInstances || {};
+
+function destroyChartInstance(canvasId) {
+  if (window._chartsInstances[canvasId]) {
+    try {
+      window._chartsInstances[canvasId].destroy();
+    } catch (e) {
+      console.warn('Error destruyendo chart ' + canvasId, e);
+    }
+    delete window._chartsInstances[canvasId];
+  }
+}
+
+// Inicializador maestro de graficas en Panorama General
+window.initEstadisticasCharts = function(periodo = 'mes') {
+  if (typeof window.Chart === 'undefined') {
+    console.warn('Chart.js no disponible aun, reintentando...');
+    setTimeout(() => window.initEstadisticasCharts(periodo), 120);
+    return;
+  }
+
+  window._periodoStatsActual = periodo;
+  const Chart = window.Chart;
+
+  const datasetConfig = {
+    'hoy': {
+      labels: ['08:00', '10:00', '12:00', '14:00', '16:00', '18:00', '20:00'],
+      zirconio: [8, 16, 24, 18, 22, 14, 10],
+      emax: [4, 9, 14, 11, 13, 8, 5],
+      alinia: [2, 5, 8, 6, 7, 4, 3],
+      externos: [34, 48, 62, 54, 58, 42, 30],
+      internos: [14, 20, 26, 22, 24, 18, 12]
+    },
+    '7d': {
+      labels: ['Lun 19', 'Mar 20', 'Mié 21', 'Jue 22', 'Vie 23', 'Sáb 24', 'Dom 25'],
+      zirconio: [52, 68, 74, 82, 91, 46, 28],
+      emax: [28, 36, 42, 45, 52, 24, 16],
+      alinia: [18, 22, 26, 29, 32, 16, 10],
+      externos: [68, 86, 94, 102, 118, 58, 36],
+      internos: [30, 40, 48, 54, 57, 28, 18]
+    },
+    'mes': {
+      labels: ['Semana 1', 'Semana 2', 'Semana 3', 'Semana 4', 'Semana 5 (Proy.)'],
+      zirconio: [680, 740, 810, 630, 490],
+      emax: [380, 410, 440, 360, 290],
+      alinia: [240, 270, 290, 230, 190],
+      externos: [940, 1020, 1110, 890, 710],
+      internos: [360, 400, 430, 330, 270]
+    },
+    'ano': {
+      labels: ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct'],
+      zirconio: [2400, 2650, 2900, 3100, 3250, 3400, 3350, 3500, 3650, 2990],
+      emax: [1350, 1480, 1620, 1750, 1820, 1910, 1880, 1960, 2040, 1690],
+      alinia: [820, 910, 1020, 1100, 1150, 1220, 1190, 1260, 1310, 1070],
+      externos: [3150, 3480, 3820, 4080, 4280, 4480, 4410, 4610, 4810, 3940],
+      internos: [1420, 1560, 1720, 1870, 1940, 2050, 2010, 2110, 2190, 1810]
+    }
+  };
+
+  const d = datasetConfig[periodo] || datasetConfig['mes'];
+
+  // 1. Curva de Tendencia y Produccion (Area Spline)
+  const canvasTendencia = document.getElementById('chartTendenciaProduccion');
+  if (canvasTendencia) {
+    destroyChartInstance('chartTendenciaProduccion');
+    const ctx = canvasTendencia.getContext('2d');
+    
+    // Gradiente sutil para Zirconio
+    const gradZirc = ctx.createLinearGradient(0, 0, 0, 260);
+    gradZirc.addColorStop(0, 'rgba(30, 58, 138, 0.28)');
+    gradZirc.addColorStop(1, 'rgba(30, 58, 138, 0.01)');
+
+    window._chartsInstances['chartTendenciaProduccion'] = new Chart(ctx, {
+      type: 'line',
+      data: {
+        labels: d.labels,
+        datasets: [
+          {
+            label: 'Zirconio HT+ & 3D',
+            data: d.zirconio,
+            borderColor: '#1e3a8a',
+            backgroundColor: gradZirc,
+            fill: true,
+            tension: 0.38,
+            borderWidth: 2.5,
+            pointBackgroundColor: '#1e3a8a',
+            pointRadius: 4,
+            pointHoverRadius: 6
+          },
+          {
+            label: 'E-Max Disilicato',
+            data: d.emax,
+            borderColor: '#2563eb',
+            backgroundColor: 'transparent',
+            tension: 0.38,
+            borderWidth: 2,
+            pointBackgroundColor: '#2563eb',
+            pointRadius: 3,
+            pointHoverRadius: 5
+          },
+          {
+            label: 'Alineadores Alinia',
+            data: d.alinia,
+            borderColor: '#06b6d4',
+            backgroundColor: 'transparent',
+            tension: 0.38,
+            borderWidth: 1.8,
+            borderDash: [4, 4],
+            pointBackgroundColor: '#06b6d4',
+            pointRadius: 3,
+            pointHoverRadius: 5
+          }
+        ]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+          legend: { display: false },
+          tooltip: {
+            backgroundColor: '#0f172a',
+            titleFont: { size: 11, weight: 'bold' },
+            bodyFont: { size: 11 },
+            padding: 10,
+            cornerRadius: 10
+          }
+        },
+        scales: {
+          x: {
+            grid: { display: false },
+            ticks: { font: { size: 10, family: 'General Sans' }, color: '#64748b' }
+          },
+          y: {
+            grid: { color: 'rgba(226, 232, 240, 0.7)', borderDash: [3, 3] },
+            ticks: { font: { size: 10, family: 'General Sans' }, color: '#64748b' }
+          }
+        }
+      }
+    });
+  }
+
+  // 2. Pipeline de Flujo en Taller (Horizontal Bar Chart)
+  const canvasPipeline = document.getElementById('chartPipelineFlujo');
+  if (canvasPipeline) {
+    destroyChartInstance('chartPipelineFlujo');
+    const ctx = canvasPipeline.getContext('2d');
+    window._chartsInstances['chartPipelineFlujo'] = new Chart(ctx, {
+      type: 'bar',
+      data: {
+        labels: ['1. Escaneo', '2. Diseño CAD', '3. Fresado CAM', '4. Entrega'],
+        datasets: [{
+          data: [4, 18, 7, 6],
+          backgroundColor: ['#38bdf8', '#2563eb', '#1e3a8a', '#10b981'],
+          borderRadius: 8,
+          barThickness: 18
+        }]
+      },
+      options: {
+        indexAxis: 'y',
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+          legend: { display: false },
+          tooltip: {
+            backgroundColor: '#0f172a',
+            callbacks: {
+              label: (c) => ` ${c.raw} órdenes en proceso`
+            }
+          }
+        },
+        scales: {
+          x: {
+            grid: { color: 'rgba(226, 232, 240, 0.7)', borderDash: [3, 3] },
+            ticks: { font: { size: 10 }, color: '#64748b', stepSize: 5 }
+          },
+          y: {
+            grid: { display: false },
+            ticks: { font: { size: 10, weight: 'bold' }, color: '#334155' }
+          }
+        }
+      }
+    });
+  }
+
+  // 3. Distribucion de Materiales Dentales (Donut Chart)
+  const canvasMateriales = document.getElementById('chartDistribucionMateriales');
+  if (canvasMateriales) {
+    destroyChartInstance('chartDistribucionMateriales');
+    const ctx = canvasMateriales.getContext('2d');
+    window._chartsInstances['chartDistribucionMateriales'] = new Chart(ctx, {
+      type: 'doughnut',
+      data: {
+        labels: ['Zirconio HT+ & 3D', 'Disilicato E-Max', 'Alineadores Alinia', 'Guardas & PMMA'],
+        datasets: [{
+          data: [49, 26, 15, 10],
+          backgroundColor: ['#1e3a8a', '#2563eb', '#06b6d4', '#10b981'],
+          borderWidth: 2,
+          borderColor: '#ffffff',
+          hoverOffset: 6
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        cutout: '68%',
+        plugins: {
+          legend: {
+            position: 'bottom',
+            labels: { boxWidth: 10, font: { size: 10 }, padding: 12 }
+          },
+          tooltip: {
+            backgroundColor: '#0f172a',
+            callbacks: {
+              label: (c) => ` ${c.label}: ${c.raw}% del volumen`
+            }
+          }
+        }
+      }
+    });
+  }
+
+  // 4. Analisis Comercial Doctores Externos vs Internos
+  const canvasDoctores = document.getElementById('chartDoctoresInternosExternos');
+  if (canvasDoctores) {
+    destroyChartInstance('chartDoctoresInternosExternos');
+    const ctx = canvasDoctores.getContext('2d');
+    window._chartsInstances['chartDoctoresInternosExternos'] = new Chart(ctx, {
+      type: 'bar',
+      data: {
+        labels: d.labels,
+        datasets: [
+          {
+            label: 'Doctores Externos',
+            data: d.externos,
+            backgroundColor: '#1e3a8a',
+            borderRadius: 6,
+            barPercentage: 0.7
+          },
+          {
+            label: 'Clínicas Internas',
+            data: d.internos,
+            backgroundColor: '#0284c7',
+            borderRadius: 6,
+            barPercentage: 0.7
+          }
+        ]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+          legend: {
+            position: 'top',
+            labels: { boxWidth: 10, font: { size: 10 } }
+          },
+          tooltip: {
+            backgroundColor: '#0f172a'
+          }
+        },
+        scales: {
+          x: {
+            grid: { display: false },
+            ticks: { font: { size: 10 }, color: '#64748b' }
+          },
+          y: {
+            grid: { color: 'rgba(226, 232, 240, 0.7)', borderDash: [3, 3] },
+            ticks: { font: { size: 10 }, color: '#64748b' }
+          }
+        }
+      }
+    });
+  }
+};
+
+// Inicializador de graficas en Control de Laboratorio
+window.initControlLabCharts = function(enTiempo = 10, porVencer = 4, atrasadas = 2) {
+  if (typeof window.Chart === 'undefined') return;
+  const Chart = window.Chart;
+
+  // Donut Semaforo
+  const cSem = document.getElementById('chartSemaforoCtrlLab');
+  if (cSem) {
+    destroyChartInstance('chartSemaforoCtrlLab');
+    const ctx = cSem.getContext('2d');
+    window._chartsInstances['chartSemaforoCtrlLab'] = new Chart(ctx, {
+      type: 'doughnut',
+      data: {
+        labels: ['En Tiempo (≥3d)', 'Por Vencer (0-2d)', 'Atrasadas (<0d)'],
+        datasets: [{
+          data: [enTiempo, porVencer, atrasadas],
+          backgroundColor: ['#10b981', '#f59e0b', '#f43f5e'],
+          borderColor: '#ffffff',
+          borderWidth: 2,
+          hoverOffset: 4
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        cutout: '66%',
+        plugins: {
+          legend: { display: false },
+          tooltip: {
+            backgroundColor: '#0f172a',
+            callbacks: {
+              label: (c) => ` ${c.label}: ${c.raw} órdenes`
+            }
+          }
+        }
+      }
+    });
+  }
+
+  // Tiempos promedio por categoria
+  const cProm = document.getElementById('chartTiemposPromedio');
+  if (cProm) {
+    destroyChartInstance('chartTiemposPromedio');
+    const ctx = cProm.getContext('2d');
+    window._chartsInstances['chartTiemposPromedio'] = new Chart(ctx, {
+      type: 'bar',
+      data: {
+        labels: ['Zirconio HT+', 'Zirconio 3D Pro', 'Disilicato E-Max', 'Alineadores', 'Guardas Bio'],
+        datasets: [{
+          label: 'Días promedio de entrega',
+          data: [4.2, 4.5, 3.8, 6.5, 2.1],
+          backgroundColor: '#2563eb',
+          borderRadius: 8,
+          barThickness: 24
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+          legend: { display: false },
+          tooltip: {
+            backgroundColor: '#0f172a',
+            callbacks: {
+              label: (c) => ` ${c.raw} días hábiles de promedio`
+            }
+          }
+        },
+        scales: {
+          x: {
+            grid: { display: false },
+            ticks: { font: { size: 10, weight: 'bold' }, color: '#334155' }
+          },
+          y: {
+            grid: { color: 'rgba(226, 232, 240, 0.7)', borderDash: [3, 3] },
+            ticks: { font: { size: 10 }, color: '#64748b', stepSize: 2 }
+          }
+        }
+      }
+    });
+  }
+};
+
+// Inicializador de graficas en Graficos Estadisticos
+window.initGraficosCategoriasChart = function() {
+  if (typeof window.Chart === 'undefined') return;
+  const Chart = window.Chart;
+
+  const cCat = document.getElementById('chartProduccionCategorias');
+  if (cCat) {
+    destroyChartInstance('chartProduccionCategorias');
+    const ctx = cCat.getContext('2d');
+    window._chartsInstances['chartProduccionCategorias'] = new Chart(ctx, {
+      type: 'bar',
+      data: {
+        labels: ['Zirconio Monolítico & 3D', 'Disilicato E-Max', 'Alineadores Alinia', 'Guardas Oclusales & PMMA', 'Prótesis sobre Implante'],
+        datasets: [{
+          label: 'Piezas Producidas',
+          data: [1820, 540, 320, 180, 110],
+          backgroundColor: ['#1e3a8a', '#2563eb', '#06b6d4', '#10b981', '#6366f1'],
+          borderRadius: 8,
+          barThickness: 28
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+          legend: { display: false },
+          tooltip: {
+            backgroundColor: '#0f172a',
+            callbacks: {
+              label: (c) => ` ${c.raw.toLocaleString()} piezas terminadas`
+            }
+          }
+        },
+        scales: {
+          x: {
+            grid: { display: false },
+            ticks: { font: { size: 10, weight: 'bold' }, color: '#334155' }
+          },
+          y: {
+            grid: { color: 'rgba(226, 232, 240, 0.7)', borderDash: [3, 3] },
+            ticks: { font: { size: 10 }, color: '#64748b' }
+          }
+        }
+      }
+    });
+  }
+};
+
+// Cambiar periodo en tiempo real y actualizar KPIs & Graficas
+window.cambiarPeriodoStats = function(periodo, btn) {
+  window._periodoStatsActual = periodo;
+
+  // Actualizar pastillas visuales
+  const btns = document.querySelectorAll('.btn-periodo-st');
+  btns.forEach(b => {
+    b.className = 'btn-periodo-st px-3 py-1.5 rounded-xl text-slate-400 hover:text-white transition-all cursor-pointer';
+  });
+  if (btn) {
+    btn.className = 'btn-periodo-st px-3 py-1.5 rounded-xl bg-blue-600 text-white font-bold shadow-xs transition-all cursor-pointer';
+  }
+
+  // Valores dinamicos segun periodo
+  const periodKpis = {
+    'hoy': { tot: '48', piez: '112', punt: '97.8%', fact: '$46,200', disc: '6', b1: '+4 vs ayer', b2: 'Ritmo normal' },
+    '7d': { tot: '342', piez: '710', punt: '95.4%', fact: '$318,400', disc: '34', b1: '+6.2% semanal', b2: '+4.8% fresado' },
+    'mes': { tot: '1,428', piez: '2,860', punt: '94.2%', fact: '$1,248,500', disc: '142', b1: '+12.4% vs mes ant.', b2: '+8.1% ritmo fresado' },
+    'ano': { tot: '14,890', piez: '31,240', punt: '93.8%', fact: '$13,840,000', disc: '1,520', b1: '+18.5% anual', b2: 'Capacidad 88%' }
+  };
+
+  const data = periodKpis[periodo] || periodKpis['mes'];
+
+  const elTot = document.getElementById('kpiOrdenesTotales');
+  const elPiez = document.getElementById('kpiPiezasProducidas');
+  const elPunt = document.getElementById('kpiPuntualidad');
+  const elFact = document.getElementById('kpiFacturacion');
+  const elDisc = document.getElementById('kpiDiscos');
+  const elB1 = document.getElementById('kpiOrdenesBadge');
+  const elB2 = document.getElementById('kpiPiezasBadge');
+
+  if (elTot) elTot.innerText = data.tot;
+  if (elPiez) elPiez.innerText = data.piez;
+  if (elPunt) elPunt.innerText = data.punt;
+  if (elFact) elFact.innerText = data.fact;
+  if (elDisc) elDisc.innerText = data.disc;
+  if (elB1) elB1.innerText = data.b1;
+  if (elB2) elB2.innerText = data.b2;
+
+  // Actualizar graficas interactivas con animacion
+  window.initEstadisticasCharts(periodo);
+
+  if (typeof showToast === 'function') {
+    const nombres = { 'hoy': 'Hoy', '7d': 'Últimos 7 Días', 'mes': 'Este Mes', 'ano': 'Año 2026' };
+    showToast('Periodo Actualizado', `Estadísticas y gráficas recalculadas para ${nombres[periodo] || periodo}.`);
+  }
+};
+
+// Actualizar en vivo con animacion y sincronizacion
+window.actualizarEstadisticasLive = function() {
+  const icon = document.getElementById('iconLiveRefreshStats');
+  if (icon) {
+    icon.classList.add('animate-spin');
+    setTimeout(() => icon.classList.remove('animate-spin'), 900);
+  }
+
+  window.initEstadisticasCharts(window._periodoStatsActual || 'mes');
+
+  if (typeof showToast === 'function') {
+    showToast('Tiempo Real Sincronizado', 'Métricas y gráficas actualizadas con la base de datos MariaDB.');
+  }
+};
+
+// Filtrar tabla de Control de Laboratorio por semaforo o tipo
+window.filtrarSemaforoCtrlLab = function(tipo, btn) {
+  const btns = document.querySelectorAll('.btn-filter-sem');
+  btns.forEach(b => {
+    b.className = 'btn-filter-sem px-2.5 py-1 rounded-lg bg-slate-100 text-slate-700 hover:bg-slate-200 transition-all cursor-pointer font-semibold';
+  });
+  if (btn) {
+    btn.className = 'btn-filter-sem px-2.5 py-1 rounded-lg bg-slate-900 text-white font-bold transition-all shadow-2xs cursor-pointer';
+  }
+
+  const rows = document.querySelectorAll('#tbodyCtrlLab tr');
+  rows.forEach(row => {
+    const sem = row.getAttribute('data-semaforo');
+    const docTipo = row.getAttribute('data-doctipo');
+
+    if (tipo === 'todos') {
+      row.style.display = '';
+    } else if (tipo === 'interno' || tipo === 'externo') {
+      row.style.display = (docTipo === tipo) ? '' : 'none';
+    } else {
+      row.style.display = (sem === tipo) ? '' : 'none';
+    }
+  });
+};
+
+// Exportar tabla a CSV compatible con Excel
+window.exportarTablaCtrlLabCSV = function() {
+  const headers = ['DOCTOR', 'CATEGORIA', 'PRODUCTO', 'PIEZAS', 'PACIENTE', 'REGISTRO', 'ENTREGA_SOLICITADA', 'DIAS_TRANSCURRIDOS', 'SERIE', 'TIPO_DOCTOR'];
+  const csvRows = [headers.join(',')];
+
+  DENT_STATE.controlLab.forEach(r => {
+    const row = [
+      `"${r.doctor}"`,
+      `"${r.categoria}"`,
+      `"${r.producto}"`,
+      `"${r.piezas}"`,
+      `"${r.paciente}"`,
+      `"${r.registro}"`,
+      `"${r.entrega}"`,
+      `"${r.dias}"`,
+      `"${r.serie}"`,
+      `"${r.tipoDoctor}"`
+    ];
+    csvRows.push(row.join(','));
+  });
+
+  const blob = new Blob(['\uFEFF' + csvRows.join('\n')], { type: 'text/csv;charset=utf-8;' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = 'Control_Laboratorio_Dent_Control.csv';
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+
+  if (typeof showToast === 'function') {
+    showToast('CSV Exportado', 'Se descargó el archivo Control_Laboratorio_Dent_Control.csv exitosamente.');
+  }
+};
+
+// Imprimir reporte de laboratorio
+window.imprimirReporteCtrlLab = function() {
+  window.print();
+};
 
 // ============================================================================
 // ACCIONES INTERACTIVAS EN TIEMPO REAL (MODALES, CAMBIOS DE ESTADO, POS, 3D)
