@@ -1667,6 +1667,120 @@
           </div>
         </div>
 
+        <!-- 2. LOS 4 CUADROS DE ETAPA CON TABLAS (Escaneo, Diseño, Fabricación, Entrega) -->
+        <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-3.5">
+
+          <!-- CUADRO 1: ESCANEO -->
+          <div class="bg-white rounded-2xl border border-slate-200/90 border-t-2 border-t-sky-500 shadow-2xs overflow-hidden flex flex-col transition-all hover:shadow-md hover:border-slate-300">
+            <div class="px-3.5 py-2.5 bg-gradient-to-r from-sky-50/40 via-white to-white border-b border-slate-100 flex items-center justify-between">
+              <div class="flex items-center gap-2">
+                <span class="w-6 h-6 rounded-lg bg-sky-500/10 text-sky-600 border border-sky-200/60 flex items-center justify-center">
+                  <i data-lucide="video" class="w-3.5 h-3.5"></i>
+                </span>
+                <h3 class="text-xs font-extrabold text-slate-800 uppercase tracking-wide">Escaneo</h3>
+              </div>
+              <span class="text-[11px] font-mono font-bold text-sky-700 bg-sky-50 px-2.5 py-0.5 rounded-full border border-sky-200/80" id="badgeCountEscaneo">4</span>
+            </div>
+            <div id="scrollStageEscaneo" class="table-scroll overflow-y-auto overflow-x-hidden relative" style="height: 28vh;">
+              <table class="w-full text-center border-collapse stage-table">
+                <thead>
+                  <tr>
+                    <th>OT</th>
+                    <th>PROD</th>
+                    <th>UNI</th>
+                    <th>DOCTOR</th>
+                    <th>ENT</th>
+                  </tr>
+                </thead>
+                <tbody id="tbodyStageEscaneo" class="divide-y divide-slate-100 text-slate-700"></tbody>
+              </table>
+            </div>
+          </div>
+
+          <!-- CUADRO 2: DISEÑO -->
+          <div class="bg-white rounded-2xl border border-slate-200/90 border-t-2 border-t-indigo-500 shadow-2xs overflow-hidden flex flex-col transition-all hover:shadow-md hover:border-slate-300">
+            <div class="px-3.5 py-2.5 bg-gradient-to-r from-indigo-50/40 via-white to-white border-b border-slate-100 flex items-center justify-between">
+              <div class="flex items-center gap-2">
+                <span class="w-6 h-6 rounded-lg bg-indigo-500/10 text-indigo-600 border border-indigo-200/60 flex items-center justify-center">
+                  <i data-lucide="monitor" class="w-3.5 h-3.5"></i>
+                </span>
+                <h3 class="text-xs font-extrabold text-slate-800 uppercase tracking-wide">Diseño</h3>
+              </div>
+              <span class="text-[11px] font-mono font-bold text-indigo-700 bg-indigo-50 px-2.5 py-0.5 rounded-full border border-indigo-200/80" id="badgeCountDiseno">18</span>
+            </div>
+            <div id="scrollStageDiseno" class="table-scroll overflow-y-auto overflow-x-hidden relative" style="height: 28vh;">
+              <table class="w-full text-center border-collapse stage-table">
+                <thead>
+                  <tr>
+                    <th>OT</th>
+                    <th>PROD</th>
+                    <th>UNI</th>
+                    <th>DOCTOR</th>
+                    <th>ENT</th>
+                  </tr>
+                </thead>
+                <tbody id="tbodyStageDiseno" class="divide-y divide-slate-100 text-slate-700"></tbody>
+              </table>
+            </div>
+          </div>
+
+          <!-- CUADRO 3: FABRICACIÓN -->
+          <div class="bg-white rounded-2xl border border-slate-200/90 border-t-2 border-t-amber-500 shadow-2xs overflow-hidden flex flex-col transition-all hover:shadow-md hover:border-slate-300">
+            <div class="px-3.5 py-2.5 bg-gradient-to-r from-amber-50/40 via-white to-white border-b border-slate-100 flex items-center justify-between">
+              <div class="flex items-center gap-2">
+                <span class="w-6 h-6 rounded-lg bg-amber-500/10 text-amber-600 border border-amber-200/60 flex items-center justify-center">
+                  <i data-lucide="wrench" class="w-3.5 h-3.5"></i>
+                </span>
+                <h3 class="text-xs font-extrabold text-slate-800 uppercase tracking-wide">Fabricación</h3>
+              </div>
+              <span class="text-[11px] font-mono font-bold text-amber-700 bg-amber-50 px-2.5 py-0.5 rounded-full border border-amber-200/80" id="badgeCountFabricacion">7</span>
+            </div>
+            <div id="scrollStageFabricacion" class="table-scroll overflow-y-auto overflow-x-hidden relative" style="height: 28vh;">
+              <table class="w-full text-center border-collapse stage-table">
+                <thead>
+                  <tr>
+                    <th>OT</th>
+                    <th>PROD</th>
+                    <th>UNI</th>
+                    <th>DOCTOR</th>
+                    <th>ENT</th>
+                  </tr>
+                </thead>
+                <tbody id="tbodyStageFabricacion" class="divide-y divide-slate-100 text-slate-700"></tbody>
+              </table>
+            </div>
+          </div>
+
+          <!-- CUADRO 4: ENTREGA -->
+          <div class="bg-white rounded-2xl border border-slate-200/90 border-t-2 border-t-emerald-500 shadow-2xs overflow-hidden flex flex-col transition-all hover:shadow-md hover:border-slate-300">
+            <div class="px-3.5 py-2.5 bg-gradient-to-r from-emerald-50/40 via-white to-white border-b border-slate-100 flex items-center justify-between">
+              <div class="flex items-center gap-2">
+                <span class="w-6 h-6 rounded-lg bg-emerald-500/10 text-emerald-600 border border-emerald-200/60 flex items-center justify-center">
+                  <i data-lucide="truck" class="w-3.5 h-3.5"></i>
+                </span>
+                <h3 class="text-xs font-extrabold text-slate-800 uppercase tracking-wide">Entrega</h3>
+              </div>
+              <span class="text-[11px] font-mono font-bold text-emerald-700 bg-emerald-50 px-2.5 py-0.5 rounded-full border border-emerald-200/80" id="badgeCountEntrega">6</span>
+            </div>
+            <div id="scrollStageEntrega" class="table-scroll overflow-y-auto overflow-x-hidden relative" style="height: 28vh;">
+              <table class="w-full text-center border-collapse stage-table">
+                <thead>
+                  <tr>
+                    <th>OT</th>
+                    <th>PROD</th>
+                    <th>UNI</th>
+                    <th>DOCTOR</th>
+                    <th>ENT</th>
+                  </tr>
+                </thead>
+                <tbody id="tbodyStageEntrega" class="divide-y divide-slate-100 text-slate-700"></tbody>
+              </table>
+            </div>
+          </div>
+
+        </div>
+
+
         <!-- BARRA DE ACCESO DIRECTO DENT LAB -->
         <div id="dentlabQuickBar" class="bg-white border border-slate-200/90 rounded-2xl p-4 shadow-2xs space-y-3">
           <div class="flex items-center justify-between gap-2 border-b border-slate-100 pb-2.5">
@@ -1807,120 +1921,6 @@
               <span>Abrir Asistente</span>
             </button>
           </div>
-        </div>
-
-
-        <!-- 2. LOS 4 CUADROS DE ETAPA CON TABLAS (Escaneo, Diseño, Fabricación, Entrega) -->
-        <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-3.5">
-
-          <!-- CUADRO 1: ESCANEO -->
-          <div class="bg-white rounded-2xl border border-slate-200/90 border-t-2 border-t-sky-500 shadow-2xs overflow-hidden flex flex-col transition-all hover:shadow-md hover:border-slate-300">
-            <div class="px-3.5 py-2.5 bg-gradient-to-r from-sky-50/40 via-white to-white border-b border-slate-100 flex items-center justify-between">
-              <div class="flex items-center gap-2">
-                <span class="w-6 h-6 rounded-lg bg-sky-500/10 text-sky-600 border border-sky-200/60 flex items-center justify-center">
-                  <i data-lucide="video" class="w-3.5 h-3.5"></i>
-                </span>
-                <h3 class="text-xs font-extrabold text-slate-800 uppercase tracking-wide">Escaneo</h3>
-              </div>
-              <span class="text-[11px] font-mono font-bold text-sky-700 bg-sky-50 px-2.5 py-0.5 rounded-full border border-sky-200/80" id="badgeCountEscaneo">4</span>
-            </div>
-            <div id="scrollStageEscaneo" class="table-scroll overflow-y-auto overflow-x-hidden relative" style="height: 28vh;">
-              <table class="w-full text-center border-collapse stage-table">
-                <thead>
-                  <tr>
-                    <th>OT</th>
-                    <th>PROD</th>
-                    <th>UNI</th>
-                    <th>DOCTOR</th>
-                    <th>ENT</th>
-                  </tr>
-                </thead>
-                <tbody id="tbodyStageEscaneo" class="divide-y divide-slate-100 text-slate-700"></tbody>
-              </table>
-            </div>
-          </div>
-
-          <!-- CUADRO 2: DISEÑO -->
-          <div class="bg-white rounded-2xl border border-slate-200/90 border-t-2 border-t-indigo-500 shadow-2xs overflow-hidden flex flex-col transition-all hover:shadow-md hover:border-slate-300">
-            <div class="px-3.5 py-2.5 bg-gradient-to-r from-indigo-50/40 via-white to-white border-b border-slate-100 flex items-center justify-between">
-              <div class="flex items-center gap-2">
-                <span class="w-6 h-6 rounded-lg bg-indigo-500/10 text-indigo-600 border border-indigo-200/60 flex items-center justify-center">
-                  <i data-lucide="monitor" class="w-3.5 h-3.5"></i>
-                </span>
-                <h3 class="text-xs font-extrabold text-slate-800 uppercase tracking-wide">Diseño</h3>
-              </div>
-              <span class="text-[11px] font-mono font-bold text-indigo-700 bg-indigo-50 px-2.5 py-0.5 rounded-full border border-indigo-200/80" id="badgeCountDiseno">18</span>
-            </div>
-            <div id="scrollStageDiseno" class="table-scroll overflow-y-auto overflow-x-hidden relative" style="height: 28vh;">
-              <table class="w-full text-center border-collapse stage-table">
-                <thead>
-                  <tr>
-                    <th>OT</th>
-                    <th>PROD</th>
-                    <th>UNI</th>
-                    <th>DOCTOR</th>
-                    <th>ENT</th>
-                  </tr>
-                </thead>
-                <tbody id="tbodyStageDiseno" class="divide-y divide-slate-100 text-slate-700"></tbody>
-              </table>
-            </div>
-          </div>
-
-          <!-- CUADRO 3: FABRICACIÓN -->
-          <div class="bg-white rounded-2xl border border-slate-200/90 border-t-2 border-t-amber-500 shadow-2xs overflow-hidden flex flex-col transition-all hover:shadow-md hover:border-slate-300">
-            <div class="px-3.5 py-2.5 bg-gradient-to-r from-amber-50/40 via-white to-white border-b border-slate-100 flex items-center justify-between">
-              <div class="flex items-center gap-2">
-                <span class="w-6 h-6 rounded-lg bg-amber-500/10 text-amber-600 border border-amber-200/60 flex items-center justify-center">
-                  <i data-lucide="wrench" class="w-3.5 h-3.5"></i>
-                </span>
-                <h3 class="text-xs font-extrabold text-slate-800 uppercase tracking-wide">Fabricación</h3>
-              </div>
-              <span class="text-[11px] font-mono font-bold text-amber-700 bg-amber-50 px-2.5 py-0.5 rounded-full border border-amber-200/80" id="badgeCountFabricacion">7</span>
-            </div>
-            <div id="scrollStageFabricacion" class="table-scroll overflow-y-auto overflow-x-hidden relative" style="height: 28vh;">
-              <table class="w-full text-center border-collapse stage-table">
-                <thead>
-                  <tr>
-                    <th>OT</th>
-                    <th>PROD</th>
-                    <th>UNI</th>
-                    <th>DOCTOR</th>
-                    <th>ENT</th>
-                  </tr>
-                </thead>
-                <tbody id="tbodyStageFabricacion" class="divide-y divide-slate-100 text-slate-700"></tbody>
-              </table>
-            </div>
-          </div>
-
-          <!-- CUADRO 4: ENTREGA -->
-          <div class="bg-white rounded-2xl border border-slate-200/90 border-t-2 border-t-emerald-500 shadow-2xs overflow-hidden flex flex-col transition-all hover:shadow-md hover:border-slate-300">
-            <div class="px-3.5 py-2.5 bg-gradient-to-r from-emerald-50/40 via-white to-white border-b border-slate-100 flex items-center justify-between">
-              <div class="flex items-center gap-2">
-                <span class="w-6 h-6 rounded-lg bg-emerald-500/10 text-emerald-600 border border-emerald-200/60 flex items-center justify-center">
-                  <i data-lucide="truck" class="w-3.5 h-3.5"></i>
-                </span>
-                <h3 class="text-xs font-extrabold text-slate-800 uppercase tracking-wide">Entrega</h3>
-              </div>
-              <span class="text-[11px] font-mono font-bold text-emerald-700 bg-emerald-50 px-2.5 py-0.5 rounded-full border border-emerald-200/80" id="badgeCountEntrega">6</span>
-            </div>
-            <div id="scrollStageEntrega" class="table-scroll overflow-y-auto overflow-x-hidden relative" style="height: 28vh;">
-              <table class="w-full text-center border-collapse stage-table">
-                <thead>
-                  <tr>
-                    <th>OT</th>
-                    <th>PROD</th>
-                    <th>UNI</th>
-                    <th>DOCTOR</th>
-                    <th>ENT</th>
-                  </tr>
-                </thead>
-                <tbody id="tbodyStageEntrega" class="divide-y divide-slate-100 text-slate-700"></tbody>
-              </table>
-            </div>
-          </div>
-
         </div>
 
 
