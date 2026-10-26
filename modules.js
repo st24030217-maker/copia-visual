@@ -14789,7 +14789,7 @@ window.ejecutarAccionDashboard = function(tipo, param, boton, extra) {
   }
   if (tipo === 'briefing') {
     if (typeof enviarPromptSugeridoWix === 'function') {
-      enviarPromptSugeridoWix('Dame el briefing ejecutivo de hoy: ordenes en taller, retrasos y citas');
+      enviarPromptSugeridoWix('Dame el reporte del dia: ordenes en taller, retrasos y citas');
     }
     return;
   } else if (tipo === 'whatsapp') {
