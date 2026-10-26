@@ -15579,33 +15579,6 @@ window.enviarMensajeWixAssistant = async function() {
   `;
   messages.appendChild(userBubble);
 
-  const startTime = Date.now();
-  // Tiempo de deliberacion y procesamiento para apreciar el microloader sin prisas
-  const minLoadingMs = 2400;
-
-  let activeLatticeLoader = null;
-  const latticeContainer = document.getElementById('aiLatticeLoaderContainer');
-  if (latticeContainer && typeof window.crearLatticeLoader === 'function') {
-    activeLatticeLoader = window.crearLatticeLoader(latticeContainer, {
-      label: 'Dent Control procesando...',
-      doneLabel: 'Respuesta completada en',
-      errorLabel: 'Error después de',
-      status: 'working',
-      pattern: 'orbit',
-      grid: 3,
-      shape: 'round',
-      color: '#334155', // Slate sobrio y elegante (sin colores vibrantes)
-      doneColor: '#1e293b', // Slate oscuro para estado finalizado
-      errorColor: '#7f1d1d', // Rojo apagado sutil
-      cellSize: 6,
-      gap: 2.5,
-      step: 110, // Cadencia ritmica y tranquila
-      glow: true,
-      glowColor: 'rgba(51, 65, 85, 0.25)', // Sombra sutil sin brillo saturado
-      showTimer: true
-    });
-  }
-
   if (body) body.scrollTop = body.scrollHeight;
   if (typing) typing.classList.remove('hidden');
   if (body) body.scrollTop = body.scrollHeight;
@@ -15613,19 +15586,6 @@ window.enviarMensajeWixAssistant = async function() {
   try {
     const rawRespuesta = await window.consultarGeminiChat(texto);
 
-    // Asegurar que la carga dure un poco mas para apreciar la microinteraccion
-    const elapsed = Date.now() - startTime;
-    if (elapsed < minLoadingMs) {
-      await new Promise(r => setTimeout(r, minLoadingMs - elapsed));
-    }
-
-    if (activeLatticeLoader) {
-      activeLatticeLoader.setStatus('done');
-      // Mostrar el estado completado y cronometro final por 800ms
-      await new Promise(r => setTimeout(r, 800));
-      activeLatticeLoader.destroy();
-      activeLatticeLoader = null;
-    }
     if (typing) typing.classList.add('hidden');
 
     window.wixAssistantHistory.push({ role: 'model', text: rawRespuesta });
@@ -15730,12 +15690,6 @@ window.enviarMensajeWixAssistant = async function() {
 
   } catch (err) {
     console.error('Error al procesar mensaje con asistente:', err);
-    if (activeLatticeLoader) {
-      activeLatticeLoader.setStatus('error');
-      await new Promise(r => setTimeout(r, 500));
-      activeLatticeLoader.destroy();
-      activeLatticeLoader = null;
-    }
     if (typing) typing.classList.add('hidden');
   } finally {
     if (sendBtn) sendBtn.disabled = false;
