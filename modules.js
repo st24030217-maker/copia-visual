@@ -14923,6 +14923,40 @@ window.procesarRespuestaDentControl = function(preguntaUsuario, liveCtx) {
   const ctx = liveCtx || window.obtenerContextoEnVivoDashboard();
   const allOrders = (ctx.ordenes || []).concat(ctx.fabricacion || [], ctx.entrega || [], ctx.diseno || [], ctx.escaneo || []);
 
+  // 0.01 PROTOCOLOS TECNICOS Y CALCULADORA CAD/CAM
+  if (query.includes('sinteriz') || query.includes('curva') || query.includes('rampa') || query.includes('coccion') || query.includes('anidado') || query.includes('nesting') || (query.includes('temperatura') && (query.includes('horno') || query.includes('zirconio') || query.includes('e-max')))) {
+    if (query.includes('e-max') || query.includes('disilicato')) {
+      return "PROGRAMA DE CRISTALIZACION / COCCION DISILICATO E-MAX (CAD/CAM):\n\n" +
+        "- **Material:** Disilicato de Litio fresado en fase intermedia (azul)\n" +
+        "- **Temperatura inicial (Standby):** 400°C\n" +
+        "- **Rampa de calentamiento:** 90°C/minuto\n" +
+        "- **Temperatura maxima de cristalizacion:** 840°C - 850°C\n" +
+        "- **Tiempo de mantenimiento:** 7 a 10 minutos (vacio activo al 100%)\n" +
+        "- **Enfriamiento:** Pasivo hasta 500°C antes de apertura de camara.\n" +
+        "- **Resultado:** Cambio a fase disilicato de litio translucida y resistencia final de 530 MPa.\n\n" +
+        "[ACCION:nav:categorias:Ver Familias de Material] [ACCION:nav:marcas-discos:Inventario de Bloques]";
+    }
+
+    if (query.includes('anidado') || query.includes('nesting') || query.includes('cuantas coronas')) {
+      return "CALCULADORA DE ANIDADO Y CAPACIDAD POR DISCO CAD/CAM:\n\n" +
+        "- **Disco estandar 98.5 mm diametro:**\n" +
+        "  * **Grosor 14 mm:** 18 a 22 coronas individuales en sector anterior/premolar.\n" +
+        "  * **Grosor 16 mm:** 16 a 20 coronas molares con cuspides marcadas o puentes de 3 unidades.\n" +
+        "  * **Grosor 18 mm - 20 mm:** 14 a 18 unidades o puentes extensos de 4 a 6 elementos anatomicos.\n" +
+        "- **Factor de compensacion de contraccion:** 20% a 25% (segun lote y factor de escala del fabricante Katana/Ceramill).\n" +
+        "- **Espaciado minimo entre piezas (Nesting):** 1.5 mm a 2.0 mm con conectores dobles de 1.8 mm diametro.\n\n" +
+        "[ACCION:nav:marcas-discos:Ver Inventario de Discos] [ACCION:nav:inicio:Volver al Inicio]";
+    }
+
+    return "PROTOCOLO ESTANDAR DE SINTERIZADO PARA ZIRCONIO MULTICAPA (HT/ST/3D Pro):\n\n" +
+      "- **Etapa 1 (Secado y Calentamiento inicial):** 20°C a 900°C a razon de 8°C/min.\n" +
+      "- **Etapa 2 (Rampa intermedia):** 900°C a 1,530°C a 4°C/minuto.\n" +
+      "- **Etapa 3 (Meseta de Sinterizado / Dwell):** Mantenimiento exacto a **1,530°C por 120 minutos (2 horas)**.\n" +
+      "- **Etapa 4 (Enfriamiento controlado):** Descenso hasta 900°C a 5°C/min (crucial para evitar microfisuras o choque termico).\n" +
+      "- **Etapa 5 (Enfriamiento final):** Enfriamiento pasivo de 900°C a temperatura ambiente antes de abrir el horno.\n\n" +
+      "[ACCION:nav:estadisticas-lab:Ver Tiempos de Taller] [ACCION:nav:marcas-discos:Inventario de Zirconio]";
+  }
+
   // 0.1 ORDENES ATRASADAS, CON RETRASO O QUE VAN TARDE
   if (query.includes('tarde') || query.includes('retras') || query.includes('atras') || query.includes('vencid') || query.includes('demor') || (query.includes('orden') && query.includes('urgente'))) {
     const lateOrders = allOrders.filter(o => {
@@ -15409,32 +15443,32 @@ window.initWixAssistantSuggestionsAnimatedList = function() {
 
   const items = [
     {
-      icon: 'package',
-      title: 'Órdenes en Fabricación',
-      description: 'Consultar etapas, laboratorio y entregas',
+      icon: 'activity',
+      title: 'Reporte del Día',
+      description: 'Resumen de fresado, entregas y tiempos',
       meta: 'Hoy',
-      prompt: '¿Cuáles órdenes están en fabricación y entrega hoy?'
+      prompt: 'Dame el reporte del dia: ordenes en taller, retrasos y citas'
     },
     {
-      icon: 'clock',
-      title: 'Cuentas por Cobrar',
-      description: 'Doctores con órdenes pendientes de pago',
-      meta: 'Cobranza',
-      prompt: 'Consultar doctores con órdenes pendientes de pago'
+      icon: 'alert-circle',
+      title: 'Órdenes con Retraso',
+      description: 'Semáforo rojo y trabajos que van tarde',
+      meta: 'Control',
+      prompt: 'que ordenes van tarde'
     },
     {
-      icon: 'calendar',
-      title: 'Calendario Clínico',
-      description: 'Citas de escaneo y recolección en agenda',
-      meta: 'Agenda',
-      prompt: 'Abrir calendario de citas y entregas'
+      icon: 'search',
+      title: 'Buscar Orden o Doctor',
+      description: 'Localizar expediente, paciente o clínica',
+      meta: 'Búsqueda',
+      prompt: 'Buscar ordenes activas en taller'
     },
     {
-      icon: 'send',
-      title: 'Notificación a Doctor',
-      description: 'Redactar aviso cordial de entrega de coronas',
-      meta: 'Mensaje',
-      prompt: 'Redactar aviso cordial a odontólogo para entrega de coronas'
+      icon: 'download',
+      title: 'Descargar Reporte Excel',
+      description: 'Exportar archivo CSV con órdenes activas',
+      meta: 'Reportes',
+      prompt: 'descarga el reporte de ordenes'
     }
   ];
 
@@ -15631,7 +15665,7 @@ window.enviarMensajeWixAssistant = async function() {
       botonesAccionHtml = `
         <div class="pt-2 border-t border-slate-100 flex flex-wrap items-center gap-1.5">
           ${acciones.map(a => `
-            <button type="button" onclick="ejecutarAccionDashboard('${a.tipo}', '${a.param}', this, '${encodeURIComponent(a.extra || '')}')" class="px-2.5 py-1 rounded-lg bg-slate-100 hover:bg-slate-200/90 text-slate-800 font-semibold border border-slate-300 text-[11px] transition-colors flex items-center gap-1.5 cursor-pointer shadow-2xs">
+            <button type="button" onclick="ejecutarAccionDashboard('${a.tipo}', '${a.param}', this, '${encodeURIComponent(a.extra || '')}')" class="px-3 py-1 rounded-xl bg-slate-50 hover:bg-slate-100 text-slate-800 font-bold border border-slate-200/90 hover:border-slate-300 text-[11px] transition-all flex items-center gap-1.5 cursor-pointer shadow-2xs active:scale-95">
               <i data-lucide="${a.tipo === 'nav' ? 'arrow-right' : (a.tipo === 'filter' ? 'search' : (a.tipo === 'hojaDigital' ? 'file-text' : (a.tipo === 'modal' ? 'maximize-2' : 'bot')))}" class="w-3 h-3 text-slate-600"></i>
               <span>${a.etiqueta}</span>
             </button>
