@@ -1,5 +1,164 @@
 
 // -------------------------------------------------------------------------
+// MOTOR DE REPORTES Y EXPORTACION EXCEL / CSV / IMPRIMIBLE DENT CONTROL
+// -------------------------------------------------------------------------
+window.generarYDescargarReporteCSV = function(tipo, filtro) {
+  const d = (typeof INICIO_DATA !== 'undefined' ? INICIO_DATA : null) || window.INICIO_DATA || {};
+  const ds = (typeof DENT_STATE !== 'undefined' ? DENT_STATE : null) || window.DENT_STATE || {};
+  const fechaHoy = new Date().toISOString().slice(0, 10);
+  let csvContent = '';
+  let filename = 'Reporte_DentControl_' + fechaHoy + '.csv';
+
+  const t = String(tipo || 'ordenes').toLowerCase();
+  const f = String(filtro || '').toLowerCase().trim();
+
+  if (t.includes('doc') || t.includes('especialista')) {
+    // Reporte de Doctores
+    const docs = Array.isArray(ds.doctores) && ds.doctores.length ? ds.doctores : [];
+    const filtered = f ? docs.filter(doc => ((doc.nombre || doc.Nombre || '') + ' ' + (doc.clinica || doc.Clinica || '')).toLowerCase().includes(f)) : docs;
+    const headers = ['ID Doctor', 'Codigo', 'Nombre Especialista', 'Clinica', 'Telefono', 'Celular', 'Email', 'Direccion', 'Tipo', 'Vendedor Asignado', 'Estatus'];
+    const rows = filtered.map(doc => [
+      doc.id || doc.idDoctores || '',
+      doc.codigo || '',
+      '"' + (doc.nombre || doc.Nombre || doc.doctor || '').replace(/"/g, '""') + '"',
+      '"' + (doc.clinica || doc.Clinica || 'DentLab').replace(/"/g, '""') + '"',
+      doc.telefono || doc.Telefono || '',
+      doc.celular || doc.Celular || '',
+      doc.mail || doc.Email || '',
+      '"' + (doc.direccion || '').replace(/"/g, '""') + '"',
+      doc.tipo || doc.txExterno || 'EXTERNO',
+      '"' + (doc.vendedor || doc.Vendedor || 'DentLab').replace(/"/g, '""') + '"',
+      (doc.activo !== false ? 'Activo' : 'Inactivo')
+    ]);
+    csvContent = '﻿' + [headers.join(',')].concat(rows.map(r => r.join(','))).join('\n');
+    filename = 'Directorio_Doctores_DentControl_' + fechaHoy + '.csv';
+
+  } else if (t.includes('disco') || t.includes('inventario') || t.includes('material')) {
+    // Reporte de Inventario de Discos CAD/CAM
+    const discos = Array.isArray(ds.discos) ? ds.discos : [];
+    const headers = ['ID', 'Lote', 'Marca', 'Material', 'Color', 'Grosor', 'Estado'];
+    const rows = discos.map(disc => [
+      disc.id || '',
+      disc.lote || '',
+      '"' + (disc.marca || '').replace(/"/g, '""') + '"',
+      disc.material || '',
+      disc.color || '',
+      disc.grosor || '',
+      disc.estado || 'Disponible'
+    ]);
+    csvContent = '﻿' + [headers.join(',')].concat(rows.map(r => r.join(','))).join('\n');
+    filename = 'Inventario_Discos_DentControl_' + fechaHoy + '.csv';
+
+  } else {
+    // Reporte de Ordenes de Trabajo
+    const allOrders = (Array.isArray(d.ordenes) && d.ordenes.length) ? d.ordenes : (Array.isArray(ds.controlLab) ? ds.controlLab : []);
+    let filtered = allOrders;
+    if (f) {
+      filtered = allOrders.filter(o => {
+        const text = (String(o.serie || o.ot || '') + ' ' + (o.doctor || o.doctorNombreCompleto || o.DoctorCompleto || '') + ' ' + (o.paciente || '') + ' ' + (o.producto || o.prod || '') + ' ' + (o.estado || o.etapa || '')).toLowerCase();
+        return text.includes(f);
+      });
+    }
+
+    const headers = ['Folio OT', 'Doctor', 'Paciente', 'Tratamiento', 'Piezas', 'Monto MXN', 'Etapa', 'Fecha Entrega', 'Estatus Tiempo', 'Colorimetro', 'Observaciones'];
+    const rows = filtered.map(o => [
+      o.serie || o.ot || o.Serie || '',
+      '"' + (o.doctorNombreCompleto || o.DoctorCompleto || o.doctor || o.Doctor || '').replace(/"/g, '""') + '"',
+      '"' + (o.paciente || '').replace(/"/g, '""') + '"',
+      '"' + (o.producto || o.prod || o.Producto || 'Corona Zirconio').replace(/"/g, '""') + '"',
+      o.piezas || o.uni || o.Piezas || 1,
+      o.monto || o.Monto || 0,
+      o.estado || o.etapa || o.Estado || o.SubEstado || 'Proceso',
+      o.fechaEntrega || o.Fecha_entrega_solicitada || o.entrega || '',
+      (o.diferencia_dias !== undefined ? (o.diferencia_dias < 0 ? 'Atrasada (' + o.diferencia_dias + ' d)' : 'En tiempo (' + o.diferencia_dias + ' d)') : (o.dias !== undefined ? (o.dias < 0 ? 'Atrasada (' + o.dias + ' d)' : 'En tiempo (' + o.dias + ' d)') : 'Normal')),
+      '"' + (o.colorimetro || o.color || '').replace(/"/g, '""') + '"',
+      '"' + (o.observaciones || o.Observaciones || '').replace(/"/g, '""') + '"'
+    ]);
+    csvContent = '﻿' + [headers.join(',')].concat(rows.map(r => r.join(','))).join('\n');
+    filename = 'Reporte_Ordenes_DentControl_' + (f ? f.replace(/[^a-z0-9]/gi, '_') + '_' : '') + fechaHoy + '.csv';
+  }
+
+  // Disparar descarga en navegador
+  try {
+    const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.setAttribute('href', url);
+    link.setAttribute('download', filename);
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    URL.revokeObjectURL(url);
+
+    if (typeof showToast === 'function') {
+      showToast('Reporte Generado', filename + ' descargado exitosamente.');
+    }
+    return { ok: true, filename };
+  } catch (err) {
+    console.error('Error al generar CSV:', err);
+    return { ok: false, error: err.message };
+  }
+};
+
+window.imprimirReporteClinico = function(tipo, filtro) {
+  const d = (typeof INICIO_DATA !== 'undefined' ? INICIO_DATA : null) || window.INICIO_DATA || {};
+  const ds = (typeof DENT_STATE !== 'undefined' ? DENT_STATE : null) || window.DENT_STATE || {};
+  const allOrders = (Array.isArray(d.ordenes) && d.ordenes.length) ? d.ordenes : (Array.isArray(ds.controlLab) ? ds.controlLab : []);
+  const f = String(filtro || '').toLowerCase().trim();
+
+  let filtered = allOrders;
+  if (f) {
+    filtered = allOrders.filter(o => {
+      const text = (String(o.serie || o.ot || '') + ' ' + (o.doctor || o.doctorNombreCompleto || o.DoctorCompleto || '') + ' ' + (o.paciente || '') + ' ' + (o.producto || o.prod || '')).toLowerCase();
+      return text.includes(f);
+    });
+  }
+
+  let totalPiezas = 0;
+  let totalMonto = 0;
+  filtered.forEach(o => {
+    totalPiezas += parseInt(o.piezas || o.uni || 1, 10) || 1;
+    totalMonto += parseFloat(o.monto || o.Monto || 0) || 0;
+  });
+
+  const printWindow = window.open('', '_blank');
+  if (!printWindow) {
+    alert('Permite las ventanas emergentes para imprimir el reporte.');
+    return;
+  }
+
+  const html = '<!DOCTYPE html><html><head><meta charset="utf-8"><title>Reporte Clinico - Dent Control CAD/CAM</title><style>' +
+    'body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; color: #0f172a; padding: 24px; font-size: 11px; }' +
+    '.header { border-bottom: 2px solid #0f172a; padding-bottom: 12px; margin-bottom: 16px; display: flex; justify-content: space-between; align-items: flex-end; }' +
+    '.title { font-size: 18px; font-weight: bold; color: #0f172a; }' +
+    '.subtitle { font-size: 11px; color: #64748b; margin-top: 2px; }' +
+    '.kpis { display: flex; gap: 16px; margin-bottom: 16px; }' +
+    '.kpi { background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 6px; padding: 10px 14px; flex: 1; }' +
+    '.kpi-val { font-size: 16px; font-weight: bold; color: #0f172a; }' +
+    '.kpi-label { font-size: 10px; color: #64748b; text-transform: uppercase; margin-top: 2px; }' +
+    'table { width: 100%; border-collapse: collapse; margin-top: 8px; }' +
+    'th { background: #f1f5f9; text-align: left; padding: 6px 8px; font-size: 10px; font-weight: bold; border-bottom: 1px solid #cbd5e1; }' +
+    'td { padding: 6px 8px; border-bottom: 1px solid #e2e8f0; font-size: 10px; }' +
+    '.badge { display: inline-block; padding: 2px 6px; border-radius: 4px; font-size: 9px; font-weight: bold; background: #e0f2fe; color: #0369a1; }' +
+    '@media print { body { padding: 0; } button { display: none; } }' +
+    '</style></head><body>' +
+    '<div class="header"><div><div class="title">DENT CONTROL CAD/CAM</div><div class="subtitle">Reporte Oficial de Produccion y Laboratorio Dental - ' + new Date().toLocaleDateString('es-MX', { year: 'numeric', month: 'long', day: 'numeric' }) + '</div></div><div><button onclick="window.print()" style="padding: 6px 12px; background: #0f172a; color: white; border: none; border-radius: 4px; cursor: pointer; font-weight: bold;">Imprimir / PDF</button></div></div>' +
+    '<div class="kpis">' +
+    '<div class="kpi"><div class="kpi-val">' + filtered.length + '</div><div class="kpi-label">Ordenes Incluidas</div></div>' +
+    '<div class="kpi"><div class="kpi-val">' + totalPiezas + '</div><div class="kpi-label">Piezas Dentales</div></div>' +
+    '<div class="kpi"><div class="kpi-val">$' + totalMonto.toLocaleString('es-MX', { minimumFractionDigits: 2 }) + '</div><div class="kpi-label">Monto Facturado</div></div>' +
+    '</div>' +
+    '<table><thead><tr><th>Folio OT</th><th>Doctor</th><th>Paciente</th><th>Tratamiento</th><th>Piezas</th><th>Monto</th><th>Etapa</th><th>Color</th></tr></thead><tbody>' +
+    filtered.slice(0, 100).map(o => '<tr><td><strong>#' + (o.serie || o.ot || '') + '</strong></td><td>' + (o.doctorNombreCompleto || o.DoctorCompleto || o.doctor || '') + '</td><td>' + (o.paciente || '') + '</td><td>' + (o.producto || o.prod || 'Corona Zirconio') + '</td><td>' + (o.piezas || o.uni || 1) + '</td><td>$' + (o.monto || o.Monto || 0) + '</td><td><span class="badge">' + (o.estado || o.etapa || 'Proceso') + '</span></td><td>' + (o.colorimetro || o.color || '-') + '</td></tr>').join('') +
+    '</tbody></table>' +
+    '</body></html>';
+
+  printWindow.document.write(html);
+  printWindow.document.close();
+};
+
+
+// -------------------------------------------------------------------------
 // CONTROL OPERATIVO DIRECTO DE ETAPAS DE TALLER (EJECUTOR DEL ASISTENTE)
 // -------------------------------------------------------------------------
 window.moverOrdenDeEtapa = function(serie, nuevaEtapa) {
@@ -14527,6 +14686,15 @@ window.buscarEnTodoElSistemaDent = function(termino) {
 // 4. EJECUTOR DE ACCIONES Y NAVEGACION UNIVERSAL EN DENT CONTROL
 // -------------------------------------------------------------------------
 window.ejecutarAccionDashboard = function(tipo, param, boton, extra) {
+  if (tipo === 'descargarReporte') {
+    const rawExtra = extra ? decodeURIComponent(extra) : '';
+    window.generarYDescargarReporteCSV(param, rawExtra);
+    return;
+  } else if (tipo === 'imprimirReporte') {
+    const rawExtra = extra ? decodeURIComponent(extra) : '';
+    window.imprimirReporteClinico(param, rawExtra);
+    return;
+  }
   if (tipo === 'briefing') {
     if (typeof enviarPromptSugeridoWix === 'function') {
       enviarPromptSugeridoWix('Dame el briefing ejecutivo de hoy: ordenes en taller, retrasos y citas');
