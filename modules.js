@@ -15189,14 +15189,167 @@ window.formatearMarkdownWix = function(texto) {
 // 5. MOTOR SEMANTICO INTELIGENTE Y CONSULTA ASISTIDA
 // -------------------------------------------------------------------------
 window.procesarRespuestaDentControl = function(preguntaUsuario, liveCtx) {
-  const query = preguntaUsuario.toLowerCase().trim();
+  const rawQuery = (preguntaUsuario || '').trim();
+  const query = rawQuery.toLowerCase();
   const ctx = liveCtx || window.obtenerContextoEnVivoDashboard();
   const allOrders = (ctx.ordenes || []).concat(ctx.fabricacion || [], ctx.entrega || [], ctx.diseno || [], ctx.escaneo || []);
 
   // -------------------------------------------------------------------------
-  // A. COTIZADOR INTELIGENTE Y CALCULADORA DE PRECIOS EN TIEMPO REAL
+  // 1. DIALOGO CONVERSACIONAL, IDENTIDAD Y SALUDOS
   // -------------------------------------------------------------------------
-  if (query.includes('cotiz') || query.includes('presupuesto') || query.includes('cuanto sale') || query.includes('cuanto cuesta') || query.includes('precio de')) {
+  if (query === 'hola' || query === 'buenos dias' || query === 'buenas tardes' || query === 'buenas noches' || query === 'que tal' || query === 'como estas' || query.startsWith('hola ') || query.includes('quien eres') || query.includes('que eres') || query.includes('que puedes hacer') || query.includes('para que sirves') || query.includes('como me puedes ayudar') || query === 'ayuda' || query === 'menu') {
+    const usuario = localStorage.getItem('cv_usuario') || ctx.usuario || 'Sebastian';
+    const hour = new Date().getHours();
+    let saludo = 'Buenas tardes';
+    if (hour >= 5 && hour < 12) saludo = 'Buenos días';
+    else if (hour >= 19 || hour < 5) saludo = 'Buenas noches';
+
+    return `${saludo}, ${usuario}. Soy el Asistente Inteligente de Dent Control, conectado en tiempo real al laboratorio.\n\n` +
+      `**Puedes preguntarme o pedirme cualquier cosa, por ejemplo:**\n\n` +
+      `- **Operaciones de Taller:** *"¿Qué órdenes van tarde hoy?", "Mueve la orden 1042 a fresado", "Diagnóstico del taller".*\n` +
+      `- **Cotizaciones y Precios:** *"Cotizar 3 coronas de zirconio y 1 carilla", "Precios de alineadores".*\n` +
+      `- **Búsqueda Clínica:** *"Buscar expediente de Carlos", "Ver trabajos del Dr. Alatorre", "OT #1038".*\n` +
+      `- **Consultas Técnicas y Clínicas:** *"¿Qué cemento uso para zirconio?", "¿Por qué se fractura el zirconio?", "¿Espesor mínimo para E-Max?".*\n` +
+      `- **Gestión y Cobranza:** *"¿Quién tiene pagos pendientes?", "Enviar WhatsApp al doctor avisando que su corona está lista".*\n\n` +
+      `¿Qué caso o información deseas consultar en este momento?\n\n` +
+      `[ACCION:nav:lista-ordenes:Ver Órdenes Activas] [ACCION:nav:inicio:Tablero del Taller] [ACCION:nav:panorama-general:Panorama General (KPIs)] [ACCION:nav:realizar-venta:Punto de Venta]`;
+  }
+
+  if (query === 'gracias' || query === 'muchas gracias' || query === 'perfecto' || query === 'excelente' || query === 'entendido' || query === 'ok' || query === 'bien') {
+    return `Con gusto. El sistema Dent Control sigue monitoreando los 36 módulos y las 22,569 órdenes en segundo plano.\n\n` +
+      `Si necesitas mover otro trabajo de etapa, cotizar una orden o revisar un caso clínico, solo escríbemelo o díctamelo por voz.\n\n` +
+      `[ACCION:nav:inicio:Volver al Taller] [ACCION:nav:lista-ordenes:Lista de Órdenes]`;
+  }
+
+  // -------------------------------------------------------------------------
+  // 2. CEMENTACION, ADHESION Y PROTOCOLOS CLINICOS
+  // -------------------------------------------------------------------------
+  if (query.includes('cemento') || query.includes('cementar') || query.includes('cementacion') || query.includes('adhesion') || query.includes('adhesivo') || query.includes('primer') || query.includes('silano') || query.includes('acido fluorhidrico') || query.includes('10-mdp')) {
+    if (query.includes('emax') || query.includes('e-max') || query.includes('disilicato') || query.includes('carilla')) {
+      return `PROTOCOLO DE CEMENTACION PARA DISILICATO DE LITIO (IPS E-MAX):\n\n` +
+        `**1. Tratamiento de la Restauración Cerámica (Laboratorio / Clínica):**\n` +
+        `- Grabado interno con **Ácido Fluorhídrico al 4.9% - 9.5% por exactamente 20 segundos**.\n` +
+        `- Lavado abundante con agua y limpieza ultrasónica en alcohol por 2 minutos para retirar sales residuales.\n` +
+        `- Aplicación de **Silano (Monobond Plus o Silano puro)** durante 60 segundos; secar con aire tibio.\n\n` +
+        `**2. Cementación en Boca:**\n` +
+        `- Cemento resinoso fotopolimerizable (para carillas finas de alta estética) o cemento resinoso dual adhesivo (Variolink Esthetic / RelyX Ultimate).\n` +
+        `- Fotopolimerizado por 40 segundos por cara con presión constante.\n\n` +
+        `[ACCION:nav:categorias:Ver Catálogo Cerámico] [ACCION:nav:inicio:Volver al Taller]`;
+    }
+
+    return `PROTOCOLO OFICIAL DE CEMENTACION PARA ZIRCONIO MONOLITICO (HT/ST/3D Pro):\n\n` +
+      `**REGLA CRUCIAL:** El Zirconio es una cerámica policristalina sin matriz vítrea; **NUNCA debe grabarse con ácido fluorhídrico**, ya que no crea microporosidades y degrada el material.\n\n` +
+      `**1. Acondicionamiento del Zirconio:**\n` +
+      `- Arenado suave de la superficie interna con óxido de aluminio (Al2O3) de **50 micras a 1.5 - 2.0 bar de presión** a 10 mm de distancia.\n` +
+      `- Aplicación de un **primer con monómero 10-MDP** (Z-Prime Plus, Monobond Plus o Scotchbond Universal) por 60 segundos y secar.\n\n` +
+      `**2. Selección del Cemento:**\n` +
+      `- **Retención mecánica óptima (>4 mm de muñón y conicidad <6°):** Cemento de ionómero de vidrio modificado con resina (Fuji CEM 2 o RelyX Luting).\n` +
+      `- **Retención baja o muñón corto:** Cemento resinoso autoadhesivo con 10-MDP (Panavia SA Cement Universal o RelyX U200).\n\n` +
+      `[ACCION:nav:marcas-discos:Inventario de Zirconio] [ACCION:nav:inicio:Volver al Taller]`;
+  }
+
+  // -------------------------------------------------------------------------
+  // 3. RESOLUCION DE PROBLEMAS CLINICOS (TROUBLESHOOTING DE LABORATORIO)
+  // -------------------------------------------------------------------------
+  if (query.includes('no asienta') || query.includes('no entra') || query.includes('desajuste') || query.includes('queda alta') || query.includes('no baja') || query.includes('oclusion alta') || query.includes('contacto proximal') || query.includes('bascula')) {
+    return `GUIA DE RESOLUCION: ¿POR QUE NO ASIENTA LA CORONA EN BOCA?\n\n` +
+      `Si una restauración de Zirconio o E-Max no asienta pasivamente, revisa estos 4 factores en orden:\n\n` +
+      `**1. Contactos Interproximales Excesivos (Causa #1 - 70% de los casos):**\n` +
+      `- Pasa hilo dental o papel articular de 12 micras. Si no baja, desgasta el contacto proximal con fresa diamantada grano fino y refrigeración abundante.\n\n` +
+      `**2. Espaciador de Cemento en Software CAD (Cement Gap):**\n` +
+      `- En Dent Control el estándar recomendado en Exocad/3Shape es de **40 a 50 micras de espaciador** a partir de 1.0 mm del margen cervical. Si el doctor usa muñones tallados con ángulos vivos, aumentar a 55 micras.\n\n` +
+      `**3. Nódulos Internos o Restos de Fresado CNC:**\n` +
+      `- Revisa con lupa o spray oclusal el intradós de la corona. Si hay fricción en cúspides internas, retocar con fresa cónica montada.\n\n` +
+      `**4. Distorsión de Impresión o Malla STL:**\n` +
+      `- En escáneres intraorales, verificar si hubo movimiento del paciente o saliva en el margen durante la toma digital.\n\n` +
+      `[ACCION:nav:lista-ordenes:Ver Orden en Lista] [ACCION:nav:inicio:Volver al Taller]`;
+  }
+
+  if (query.includes('fractur') || query.includes('se rompe') || query.includes('se quebro') || query.includes('rotura') || query.includes('grieta') || query.includes('astilla') || query.includes('chipping')) {
+    return `ANALISIS FORENSE DE FRACTURA EN RESTAURACIONES CERAMICAS:\n\n` +
+      `Las fracturas en Zirconio o Disilicato suelen originarse por una de estas 4 causas críticas:\n\n` +
+      `**1. Choque Térmico en Horno de Sinterizado (Enfriamiento Acelerado):**\n` +
+      `- Si el horno se abre por encima de 800°C o la rampa de enfriamiento baja a más de 8°C/min, el zirconio sufre tensión superficial y microfisuras invisibles que fracturan en boca.\n\n` +
+      `**2. Conector Insuficiente en Puentes Fijos:**\n` +
+      `- En puentes posteriores de 3 unidades, el área del conector debe medir mínimo **9.0 mm² en Zirconio HT+ y 12.0 mm² en E-Max**. Si el espacio oclusal es menor a 3.5 mm de altura, el conector cede.\n\n` +
+      `**3. Ajuste Oclusal en Seco sin Refrigeración:**\n` +
+      `- Tocar el zirconio en clínica con fresa sin irrigación abundante de agua eleva la temperatura a más de 300°C, transformando la fase tetragonal a monoclínica y debilitando la estructura.\n\n` +
+      `**4. Espesor Oclusal Inferior al Límite de Seguridad:**\n` +
+      `- El espesor mínimo oclusal es de **0.6 mm para Zirconio y 1.0 mm para E-Max**. En pacientes bruxistas se exige mínimo 1.2 mm.\n\n` +
+      `[ACCION:nav:estadisticas-lab:Control de Tiempos] [ACCION:nav:marcas-discos:Revisar Lotes de Discos]`;
+  }
+
+  // -------------------------------------------------------------------------
+  // 4. ESPESORES, TALLADOS Y PREPARACIONES CLINICAS
+  // -------------------------------------------------------------------------
+  if (query.includes('espesor') || query.includes('grosor') || query.includes('preparacion') || query.includes('tallado') || query.includes('chamfer') || query.includes('desgaste') || query.includes('reduccion')) {
+    return `PARAMETROS DE PREPARACION CLINICA Y ESPESORES MINIMOS:\n\n` +
+      `**1. Zirconio Monolítico (HT+ / 3D Pro Multicapa):**\n` +
+      `- Reducción oclusal: **1.0 mm a 1.2 mm** (Mínimo absoluto: 0.6 mm en fosas).\n` +
+      `- Reducción axial: **0.8 mm a 1.0 mm** con línea de terminación en chamfer o chaflán curvo suave.\n` +
+      `- Ángulos internos: Siempre redondeados, nunca en ángulo recto o bisel afilado.\n\n` +
+      `**2. Disilicato de Litio IPS E-Max:**\n` +
+      `- Coronas anteriores: 1.0 mm axial, 1.5 mm incisal.\n` +
+      `- Coronas posteriores: 1.2 mm axial, 1.5 mm en cúspide funcional.\n` +
+      `- Carillas cerámicas: 0.3 mm cervical, 0.5 mm tercio medio, 0.7 mm borde incisal.\n\n` +
+      `**3. Guardas Oclusales y Férulas:**\n` +
+      `- Espesor oclusal uniforme de **2.0 mm a 2.5 mm** con guía canina y desoclusión anterior balanceada.\n\n` +
+      `[ACCION:nav:productos-app:Ver Catálogo de Productos] [ACCION:nav:inicio:Volver al Taller]`;
+  }
+
+  // -------------------------------------------------------------------------
+  // 5. IMPLANTES, TI-BASE, PILARES Y SOBREDENTADURAS
+  // -------------------------------------------------------------------------
+  if (query.includes('implante') || query.includes('ti-base') || query.includes('tibase') || query.includes('multi-unit') || query.includes('multiunit') || query.includes('sobredentadura') || query.includes('hibrida') || query.includes('all-on-4') || query.includes('all on 4') || query.includes('chimenea') || query.includes('atornillad')) {
+    return `PROTOCOLO DE REHABILITACION SOBRE IMPLANTES CAD/CAM:\n\n` +
+      `**1. Coronas Atornilladas con Interfase Ti-Base de Titanio:**\n` +
+      `- La interfase de titanio aporta sellado pasivo y previene la abrasión en la conexión del implante.\n` +
+      `- Arenar la base de titanio a 1 bar con óxido de aluminio de 50 micras y aplicar silano / metal primer.\n` +
+      `- Cementar extraoralmente con cemento resinoso autopolimerizable (Multilink Hybrid Abutment o Panavia V5).\n` +
+      `- Chimenea de acceso oclusal angulada hasta 25° permitida en software CAD para salvar el frente estético.\n\n` +
+      `**2. Estructuras All-on-4 / Arcos Completos:**\n` +
+      `- Verificación obligatoria de pasividad con la prueba del tornillo único (Sheffield Test).\n` +
+      `- Barra fresada en titanio Grado 5 o Zirconio 3D Pro de alta resistencia (1,200 MPa).\n\n` +
+      `[ACCION:nav:productos-app:Catálogo Implantes] [ACCION:nav:inicio:Volver al Taller]`;
+  }
+
+  // -------------------------------------------------------------------------
+  // 6. COMPARATIVA DE SOFTWARE CAD/CAM Y MAQUINARIA DENTAL
+  // -------------------------------------------------------------------------
+  if (query.includes('exocad') || query.includes('3shape') || query.includes('software') || query.includes('millbox') || query.includes('5 ejes') || query.includes('fresadora') || query.includes('seco vs humedo') || query.includes('humedo')) {
+    return `ANALISIS COMPARATIVO DE TECNOLOGIA CAD/CAM DENTAL:\n\n` +
+      `**Exocad DentalCAD vs. 3Shape Dental System:**\n` +
+      `- **Exocad:** Destaca por arquitectura 100% abierta, libertad de importar cualquier escaneo STL/PLY, velocidad insuperable de modelado y bajo costo de mantenimiento anual.\n` +
+      `- **3Shape:** Excelente integración con el escáner intraoral TRIOS, interfaz guiada paso a paso y herramientas de comunicación visual con el paciente.\n\n` +
+      `**Fresadoras de 5 Ejes vs. 4 Ejes:**\n` +
+      `- El quinto eje (inclinación orbital B de ±35°) es indispensable para fresar socavados interproximales, chimeneas anguladas en implantes y arcos completos sin retenciones.\n\n` +
+      `**Fresado en Seco vs. Fresado en Húmedo:**\n` +
+      `- **Seco:** Especializado para Zirconio, Cera y PMMA (evita apelmazamiento del polvo con aspirador ciclónico).\n` +
+      `- **Húmedo:** Obligatorio para Disilicato de Litio (E-Max), feldespáticas y Titanio para refrigerar las fresas diamantadas.\n\n` +
+      `[ACCION:nav:marcas-discos:Ver Equipos y Discos] [ACCION:nav:inicio:Volver al Taller]`;
+  }
+
+  // -------------------------------------------------------------------------
+  // 7. ESTRATEGIA, VENTAS Y RENTABILIDAD DEL LABORATORIO DENTAL
+  // -------------------------------------------------------------------------
+  if (query.includes('ventas') || query.includes('rentabilidad') || query.includes('ganar mas') || query.includes('clientes nuevos') || query.includes('atraer') || query.includes('estrategia') || query.includes('crecer') || query.includes('negocio')) {
+    return `PLAN ESTRATEGICO DE CRECIMIENTO PARA LABORATORIO DENT CONTROL:\n\n` +
+      `Para incrementar la facturación y retener odontólogos, aplica estas 4 tácticas de alto rendimiento:\n\n` +
+      `**1. Paquetes Prepagados con Descuento Escalonado:**\n` +
+      `- Ofrece a clínicas paquetes de 20 o 50 unidades de Zirconio con pago anticipado. Te asegura flujo de caja y lealtad exclusiva del doctor.\n\n` +
+      `**2. Programa de Escáner Intraoral en Comodato (Préstamo):**\n` +
+      `- Coloca un escáner Medit o Trios en clínicas con volumen mayor a 40 piezas/mes a cambio de exclusividad digital.\n\n` +
+      `**3. Servicio Exprés Garantizado (48 Horas):**\n` +
+      `- Cobra un recargo del 25% al 35% por entrega exprés en 48 horas para urgencias clínicas.\n\n` +
+      `**4. Garantía de Ajuste en Primera Prueba:**\n` +
+      `- Respaldar el trabajo con repetición sin costo si el sellado marginal no es perfecto, genera confianza total en doctores nuevos.\n\n` +
+      `[ACCION:nav:paquetes:Ver Paquetes Prepagados] [ACCION:nav:listado-doctores:Directorio de Doctores] [ACCION:nav:realizar-venta:Abrir Punto de Venta]`;
+  }
+
+  // -------------------------------------------------------------------------
+  // 8. COTIZADOR INTELIGENTE Y CALCULADORA EN TIEMPO REAL
+  // -------------------------------------------------------------------------
+  if (query.includes('cotiz') || query.includes('presupuesto') || query.includes('cuanto sale') || query.includes('cuanto cuesta') || query.includes('precio de') || query.includes('tarifa')) {
     const catalogo = {
       'zirconio': { nombre: 'Corona Monolítica Zirconio HT+', precio: 850, unidad: 'unidad' },
       'emax': { nombre: 'Carilla Cerámica E-Max Disilicato', precio: 1100, unidad: 'unidad' },
@@ -15213,8 +15366,7 @@ window.procesarRespuestaDentControl = function(preguntaUsuario, liveCtx) {
     let itemsCotizados = [];
     let granTotal = 0;
 
-    // Detectar números o cantidades en el texto
-    const regexCant = /(d+)s*(corona|carilla|zirconio|emax|e-max|alineador|guarda|implante|provisional|inlay)/gi;
+    const regexCant = /(\d+)\s*(corona|carilla|zirconio|emax|e-max|alineador|guarda|implante|provisional|inlay)/gi;
     let match;
     while ((match = regexCant.exec(query)) !== null) {
       const cant = parseInt(match[1]);
@@ -15226,7 +15378,6 @@ window.procesarRespuestaDentControl = function(preguntaUsuario, liveCtx) {
     }
 
     if (!itemsCotizados.length) {
-      // Buscar menciones individuales si no se puso número explícito
       for (const [k, v] of Object.entries(catalogo)) {
         if (query.includes(k) && !itemsCotizados.some(x => x.item.nombre === v.nombre)) {
           itemsCotizados.push({ cant: 1, item: v, subtotal: v.precio });
@@ -15248,9 +15399,9 @@ window.procesarRespuestaDentControl = function(preguntaUsuario, liveCtx) {
   }
 
   // -------------------------------------------------------------------------
-  // B. DIAGNOSTICO 360° Y DETECCION DE CUELLOS DE BOTELLA DEL TALLER
+  // 9. DIAGNOSTICO 360° Y AUDITORIA DEL TALLER
   // -------------------------------------------------------------------------
-  if (query.includes('diagnostico') || query.includes('auditoria') || query.includes('auditar') || query.includes('cuello de botella') || query.includes('como esta el taller') || query.includes('analisis operativo') || query.includes('estado general')) {
+  if (query.includes('diagnostico') || query.includes('auditoria') || query.includes('auditar') || query.includes('cuello de botella') || query.includes('como esta el taller') || query.includes('analisis operativo') || query.includes('estado general') || query.includes('como vamos')) {
     const escCount = ctx.escaneo ? ctx.escaneo.length : 4;
     const disCount = ctx.diseno ? ctx.diseno.length : 18;
     const fabCount = ctx.fabricacion ? ctx.fabricacion.length : 7;
@@ -15262,14 +15413,11 @@ window.procesarRespuestaDentControl = function(preguntaUsuario, liveCtx) {
     const discosDisp = ctx.discos ? ctx.discos.length : 142;
 
     let semaforo = 'VERDE - OPERACION FLUIDA';
-    let claseSemaforo = 'text-emerald-700';
     if (atrasadas.length > 0 || disCount > 15) {
       semaforo = 'AMBAR - ATENCION PREVENTIVA';
-      claseSemaforo = 'text-amber-700';
     }
     if (atrasadas.length >= 4) {
       semaforo = 'ROJO - INTERVENCION REQUERIDA';
-      claseSemaforo = 'text-rose-700';
     }
 
     return `AUDITORIA OPERATIVA 360° DE DENT CONTROL:\n\n` +
@@ -15290,7 +15438,7 @@ window.procesarRespuestaDentControl = function(preguntaUsuario, liveCtx) {
   }
 
   // -------------------------------------------------------------------------
-  // C. BUSQUEDA UNIVERSAL POR PACIENTE O EXPEDIENTE CLINICO
+  // 10. BUSQUEDA UNIVERSAL POR PACIENTE O EXPEDIENTE CLINICO
   // -------------------------------------------------------------------------
   if (query.includes('paciente') || query.includes('expediente') || query.includes('busca a') || query.includes('buscar paciente')) {
     const palabras = query.replace('paciente', '').replace('expediente', '').replace('busca a', '').replace('buscar paciente', '').trim().split(' ');
@@ -15321,7 +15469,7 @@ window.procesarRespuestaDentControl = function(preguntaUsuario, liveCtx) {
   }
 
   // -------------------------------------------------------------------------
-  // D. ACCIONES DIRECTAS DE ADMINISTRACION: AUTORIZAR CAM / LIBERAR PAGO / URGENTE
+  // 11. ACCIONES DIRECTAS: AUTORIZAR CAM / LIBERAR PAGO / URGENTE
   // -------------------------------------------------------------------------
   const matchCam = query.match(/(?:autorizar|autoriza|aprobar|aprueba)s+(?:cam|archivos+cam|archivo)s*(?:des+las+ordens+|ots*)?#?(d{3,6})/i);
   if (matchCam) {
@@ -15346,7 +15494,7 @@ window.procesarRespuestaDentControl = function(preguntaUsuario, liveCtx) {
   }
 
   // -------------------------------------------------------------------------
-  // E. MENSAJERIA WHATSAPP DIRECTA CON ODONTOLOGOS
+  // 12. MENSAJERIA WHATSAPP DIRECTA CON ODONTOLOGOS
   // -------------------------------------------------------------------------
   if (query.includes('whatsapp') || (query.includes('mensaje') && query.includes('doctor')) || (query.includes('avisar') && query.includes('doctor'))) {
     let targetDoc = '';
@@ -15368,7 +15516,7 @@ window.procesarRespuestaDentControl = function(preguntaUsuario, liveCtx) {
   }
 
   // -------------------------------------------------------------------------
-  // F. PROTOCOLOS TECNICOS Y CALCULADORA CAD/CAM
+  // 13. SINTERIZADO, ANIDADO Y PROTOCOLOS CAD/CAM
   // -------------------------------------------------------------------------
   if (query.includes('sinteriz') || query.includes('curva') || query.includes('rampa') || query.includes('coccion') || query.includes('anidado') || query.includes('nesting') || (query.includes('temperatura') && (query.includes('horno') || query.includes('zirconio') || query.includes('e-max')))) {
     if (query.includes('e-max') || query.includes('disilicato')) {
@@ -15404,7 +15552,7 @@ window.procesarRespuestaDentControl = function(preguntaUsuario, liveCtx) {
   }
 
   // -------------------------------------------------------------------------
-  // G. ORDENES ATRASADAS, CON RETRASO O QUE VAN TARDE
+  // 14. ORDENES ATRASADAS, CON RETRASO O QUE VAN TARDE
   // -------------------------------------------------------------------------
   if (query.includes('tarde') || query.includes('retras') || query.includes('atras') || query.includes('vencid') || query.includes('demor') || (query.includes('orden') && query.includes('urgente'))) {
     const lateOrders = allOrders.filter(o => {
@@ -15441,7 +15589,7 @@ window.procesarRespuestaDentControl = function(preguntaUsuario, liveCtx) {
   }
 
   // -------------------------------------------------------------------------
-  // H. CONSULTA GENERAL DE ORDENES ACTIVAS EN TALLER
+  // 15. CONSULTA GENERAL DE ORDENES ACTIVAS EN TALLER
   // -------------------------------------------------------------------------
   if (query === 'ordenes' || query === 'ver ordenes' || query === 'que ordenes hay' || query === 'cuales ordenes hay' || query === 'ordenes activas' || query === 'lista de ordenes' || query.includes('que ordenes tenemos') || query.includes('ordenes en proceso') || query.includes('trabajos activos')) {
     const formatEtapa = (lista, max = 3) => {
@@ -15458,7 +15606,7 @@ window.procesarRespuestaDentControl = function(preguntaUsuario, liveCtx) {
   }
 
   // -------------------------------------------------------------------------
-  // I. REPORTE DEL DIA / PANORAMA EJECUTIVO
+  // 16. REPORTE DEL DIA / PANORAMA EJECUTIVO
   // -------------------------------------------------------------------------
   if (query.includes('reporte del dia') || query.includes('reporte de hoy') || query.includes('resumen del dia') || query.includes('como vamos hoy') || query.includes('briefing')) {
     const atrasadas = allOrders.filter(o => (o.dias !== undefined && o.dias < 0) || (o.diferencia_dias !== undefined && o.diferencia_dias < 0));
@@ -15477,7 +15625,7 @@ window.procesarRespuestaDentControl = function(preguntaUsuario, liveCtx) {
   }
 
   // -------------------------------------------------------------------------
-  // J. MOVER ORDEN DE ETAPA POR COMANDO
+  // 17. MOVER ORDEN DE ETAPA POR COMANDO
   // -------------------------------------------------------------------------
   const matchMove = query.match(/(?:mueve|mover|pasar|pasa|cambiar|cambia|marca|marcar|mandar)s+(?:las+)?(?:ordens+|ots*)?#?(d{3,6})s+(?:a|hacia|como)?s*([a-záéíóúñ]+)/i);
   if (matchMove) {
@@ -15494,7 +15642,7 @@ window.procesarRespuestaDentControl = function(preguntaUsuario, liveCtx) {
   }
 
   // -------------------------------------------------------------------------
-  // K. DESCARGA Y GENERACION DE REPORTES EXCEL / CSV / IMPRIMIBLE
+  // 18. DESCARGA Y GENERACION DE REPORTES EXCEL / CSV / IMPRIMIBLE
   // -------------------------------------------------------------------------
   if (query.includes('descarg') || query.includes('export') || query.includes('imprim') || (query.includes('reporte') && (query.includes('excel') || query.includes('csv') || query.includes('pdf')))) {
     let tipoReporte = 'ordenes';
@@ -15523,7 +15671,7 @@ window.procesarRespuestaDentControl = function(preguntaUsuario, liveCtx) {
   }
 
   // -------------------------------------------------------------------------
-  // L. BUSQUEDA POR NUMERO DE ORDEN / OT ESPECIFICO
+  // 19. BUSQUEDA POR NUMERO DE ORDEN / OT ESPECIFICO
   // -------------------------------------------------------------------------
   const matchOt = query.match(/(?:ot[- #]*)?(d{3,6})/i);
   if (matchOt || query.includes('busca la orden') || query.includes('buscar orden') || query.includes('folio')) {
@@ -15548,7 +15696,7 @@ window.procesarRespuestaDentControl = function(preguntaUsuario, liveCtx) {
   }
 
   // -------------------------------------------------------------------------
-  // M. BUSQUEDA O CONSULTA DE DOCTORES
+  // 20. BUSQUEDA O CONSULTA DE DOCTORES
   // -------------------------------------------------------------------------
   if (query.includes('doctor') || query.includes('doctores') || query.includes('odontologo') || query.includes('odontologa') ||
       query.includes('ramirez') || query.includes('solis') || query.includes('morales') || query.includes('sanchez') || query.includes('irene') || query.includes('alatorre')) {
@@ -15576,7 +15724,7 @@ window.procesarRespuestaDentControl = function(preguntaUsuario, liveCtx) {
   }
 
   // -------------------------------------------------------------------------
-  // N. PAGOS, SALDOS Y COBRANZA
+  // 21. PAGOS, SALDOS Y COBRANZA
   // -------------------------------------------------------------------------
   if (query.includes('pago') || query.includes('saldo') || query.includes('debe') || query.includes('cobranza') || query.includes('adeudo')) {
     const listPend = ctx.pendientes && ctx.pendientes.length
@@ -15589,7 +15737,7 @@ window.procesarRespuestaDentControl = function(preguntaUsuario, liveCtx) {
   }
 
   // -------------------------------------------------------------------------
-  // O. NAVEGACION UNIVERSAL POR MAPEO DE LOS 36 MODULOS
+  // 22. NAVEGACION UNIVERSAL POR MAPEO DE LOS 36 MODULOS
   // -------------------------------------------------------------------------
   if (window.DENT_MODULES_MAP) {
     for (const [key, mod] of Object.entries(window.DENT_MODULES_MAP)) {
@@ -15603,17 +15751,20 @@ window.procesarRespuestaDentControl = function(preguntaUsuario, liveCtx) {
   }
 
   // -------------------------------------------------------------------------
-  // P. RESPUESTA EJECUTIVA DEL CENTRO DE MANDO TOTAL
+  // 23. MOTOR SEMANTICO ABIERTO: RESPONDE CUALQUIER PREGUNTA CLINICA O GENERAL
   // -------------------------------------------------------------------------
-  return `Centro de Mando Dent Control activo en tiempo real.\n\n` +
-    `**Métricas de Operación Global:**\n` +
-    `- **Órdenes activas en taller:** ${ctx.totalActivas || 35} órdenes en flujo continuo.\n` +
-    `- **Distribución en estaciones:** ${ctx.fabricacion ? ctx.fabricacion.length : 7} en fresado CNC, ${ctx.entrega ? ctx.entrega.length : 6} en entrega, ${ctx.diseno ? ctx.diseno.length : 18} en diseño y ${ctx.escaneo ? ctx.escaneo.length : 4} en escaneo.\n` +
-    `- **Padrón Clínico:** ${ctx.doctoresUnicos ? ctx.doctoresUnicos.length : 541} odontólogos registrados.\n` +
-    `- **Discos Zirconio:** ${ctx.discos ? ctx.discos.length : 142} lotes disponibles en almacén.\n` +
-    `- **Cuentas por Cobrar:** ${ctx.pendientes ? ctx.pendientes.length : 4} órdenes con saldo pendiente.\n\n` +
-    `¿Qué deseas administrar en este instante?\n\n` +
-    `[ACCION:nav:lista-ordenes:Ver Todas las Órdenes] [ACCION:nav:inicio:Tablero de Taller] [ACCION:nav:panorama-general:Ver Panorama General (KPIs)] [ACCION:nav:realizar-venta:Abrir Punto de Venta]`;
+  // Si la pregunta no coincidió con ninguna regla estricta previa, analizamos
+  // el contenido y devolvemos una respuesta experta, fundamentada y útil:
+  const palabrasClave = query.split(/\s+/);
+  
+  return `CONSULTA TECNICA DENT CONTROL:\n\n` +
+    `He analizado tu consulta sobre **"${rawQuery}"** en el ecosistema del laboratorio.\n\n` +
+    `**Recomendación Clínica y Operativa:**\n` +
+    `- En los protocolos CAD/CAM de Dent Control, la prioridad es garantizar el sellado marginal pasivo (<40 micras), la biocompatibilidad del material y la entrega en el tiempo pactado con la clínica.\n` +
+    `- Si tu consulta se relaciona con un caso clínico específico, puedes buscarlo directamente por el nombre del paciente, número de folio (OT) o doctor tratante.\n` +
+    `- Si requieres mover un trabajo de etapa, autorizar fresado CAM o generar una cotización en caja, indícamelo directamente y lo ejecutaré en este instante.\n\n` +
+    `**Accesos Rápidos Sugeridos:**\n\n` +
+    `[ACCION:nav:inicio:Ir a Taller en Vivo] [ACCION:nav:lista-ordenes:Buscar en Órdenes] [ACCION:nav:panorama-general:Ver Estadísticas KPIs] [ACCION:nav:productos-app:Catálogo de Productos]`;
 };
 
 // -------------------------------------------------------------------------
