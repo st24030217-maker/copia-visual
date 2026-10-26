@@ -15810,6 +15810,7 @@ window.toggleWixAssistant = function(forzar) {
       if (input) input.focus();
       if (typeof updateEyesPosition === 'function') updateEyesPosition();
       if (typeof window.initWixAssistantSuggestionsAnimatedList === 'function') window.initWixAssistantSuggestionsAnimatedList();
+      window.dispatchEvent(new Event('resize'));
     }, 200);
   } else {
     panel.classList.remove('translate-x-0');

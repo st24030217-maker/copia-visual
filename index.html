@@ -1580,7 +1580,9 @@
       <div id="section-inicio" class="space-y-4">
 
         <!-- 1. BARRA SUPERIOR CON FONDO ARQUITECTÓNICO CAD/CAM Y BOTONES GLASSMÓRFICOS -->
-        <div class="inicio-hero-banner text-white px-4 py-3.5 sm:px-5 sm:py-4 rounded-2xl border border-slate-800/80 relative">
+        <div class="inicio-hero-banner text-white px-4 py-3.5 sm:px-5 sm:py-4 rounded-2xl border border-slate-800/80 relative overflow-hidden">
+          <!-- Fondo interactivo WebGL Threads CAD/CAM -->
+          <div id="heroThreadsContainer" class="threads-container threads-container--bg absolute inset-0 pointer-events-none z-0 opacity-35"></div>
           <!-- Textura sutil de rejilla arquitectónica -->
           <div class="absolute inset-0 inicio-hero-grid opacity-30 pointer-events-none"></div>
 
@@ -1777,8 +1779,11 @@
         </div>
 
         <!-- BANNER MINIMALISTA ASISTENTE DENT CONTROL -->
-        <div class="bg-white border border-slate-200/90 rounded-2xl p-3 sm:px-4 sm:py-2.5 shadow-2xs flex flex-col sm:flex-row sm:items-center justify-between gap-3 transition-all hover:border-slate-300">
-          <div class="flex items-center gap-3">
+        <div id="dentControlBannerBox" class="bg-gradient-to-r from-white via-blue-50/25 to-white border border-slate-200/90 rounded-2xl p-3 sm:px-4 sm:py-2.5 shadow-2xs flex flex-col sm:flex-row sm:items-center justify-between gap-3 transition-all hover:border-blue-300 relative overflow-hidden group">
+          <!-- Fondo interactivo WebGL para el banner de Dent Control -->
+          <div id="bannerThreadsContainer" class="threads-container threads-container--bg absolute inset-0 pointer-events-none z-0 opacity-40"></div>
+
+          <div class="relative z-10 flex items-center gap-3">
             <div id="heroBannerLogo3DContainer" class="w-9 h-9 flex items-center justify-center shrink-0 cursor-pointer transition-transform hover:scale-105 active:scale-95" onclick="toggleWixAssistant(true)" title="Abrir Asistente Dent Control"></div>
             <div>
               <div class="flex items-center gap-2">
@@ -1788,12 +1793,12 @@
                   En línea
                 </span>
               </div>
-              <p class="text-[11px] text-slate-400 font-medium">Copiloto inteligente de laboratorio y taller CAD/CAM</p>
+              <p class="text-[11px] text-slate-500 font-medium">Copiloto inteligente de laboratorio y taller CAD/CAM</p>
             </div>
           </div>
           
-          <div class="flex items-center gap-2 shrink-0">
-            <button type="button" onclick="enviarPromptSugeridoWix('Dame el reporte del dia: ordenes en taller, retrasos y citas'); toggleWixAssistant(true);" class="px-3 py-1.5 rounded-xl bg-slate-50 hover:bg-slate-100 border border-slate-200 text-xs font-semibold text-slate-700 transition-all cursor-pointer flex items-center gap-1.5">
+          <div class="relative z-10 flex items-center gap-2 shrink-0">
+            <button type="button" onclick="enviarPromptSugeridoWix('Dame el reporte del dia: ordenes en taller, retrasos y citas'); toggleWixAssistant(true);" class="px-3 py-1.5 rounded-xl bg-white/80 hover:bg-white border border-slate-200 text-xs font-semibold text-slate-700 transition-all cursor-pointer flex items-center gap-1.5 shadow-2xs">
               <i data-lucide="activity" class="w-3.5 h-3.5 text-blue-600"></i>
               <span>Reporte del día</span>
             </button>
@@ -1803,6 +1808,7 @@
             </button>
           </div>
         </div>
+
 
         <!-- 2. LOS 4 CUADROS DE ETAPA CON TABLAS (Escaneo, Diseño, Fabricación, Entrega) -->
         <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-3.5">
@@ -2943,10 +2949,12 @@
   <div id="wixAssistantBackdrop" onclick="toggleWixAssistant(false)" class="fixed inset-0 bg-slate-900/40 backdrop-blur-xs z-50 hidden transition-opacity duration-300"></div>
 
   <!-- Panel Lateral derecho (Diseño exacto al panel Copilot de Wix) -->
-  <aside id="wixAssistantPanel" class="fixed inset-y-0 right-0 z-50 w-full sm:w-[390px] md:w-[430px] bg-[#F9FAFC] border-l border-slate-200/90 shadow-2xl flex flex-col transition-transform duration-300 ease-in-out translate-x-full select-none">
+  <aside id="wixAssistantPanel" class="fixed inset-y-0 right-0 z-50 w-full sm:w-[390px] md:w-[430px] bg-[#F9FAFC] border-l border-slate-200/90 shadow-2xl flex flex-col transition-transform duration-300 ease-in-out translate-x-full select-none overflow-hidden relative">
+    <!-- Fondo interactivo WebGL @react-bits/Threads-JS-CSS para Asistente Dent Control -->
+    <div id="wixThreadsContainer" class="threads-container threads-container--bg absolute inset-0 pointer-events-none z-0 opacity-45"></div>
     
     <!-- Header estilo Wix Studio -->
-    <div class="px-4 py-3 bg-white border-b border-slate-200/80 flex items-center justify-between shrink-0">
+    <div class="px-4 py-3 bg-white/95 backdrop-blur-md border-b border-slate-200/80 flex items-center justify-between shrink-0 relative z-10">
       <!-- Izquierda: Avatar Dent Control -->
       <div class="flex items-center gap-2.5">
         <div id="headerLogo3DContainer" class="w-8 h-8 flex items-center justify-center shrink-0 cursor-pointer transition-transform hover:scale-105 active:scale-95" onclick="window.abrirModalLogo3DInspector()" title="Ver Modelo 3D de Dent Control"></div>
@@ -2968,7 +2976,7 @@
     </div>
 
     <!-- Cuerpo del Chat / Mensajes -->
-    <div id="wixAssistantBody" class="flex-1 overflow-y-auto p-4 sm:p-5 space-y-4">
+    <div id="wixAssistantBody" class="flex-1 overflow-y-auto p-4 sm:p-5 space-y-4 relative z-10">
       
       <!-- Estado de Bienvenida (Welcome State del screenshot de Wix) -->
       <div id="wixAssistantWelcome" class="flex flex-col items-center justify-center text-center pt-8 pb-4 space-y-5">
@@ -3027,7 +3035,7 @@
     </div>
 
     <!-- Barra de Entrada Inferior (Exacta al Screenshot de Wix) -->
-    <div class="p-3.5 sm:p-4 bg-white/95 border-t border-slate-100 backdrop-blur-sm shrink-0 space-y-2">
+    <div class="p-3.5 sm:p-4 bg-white/95 border-t border-slate-100 backdrop-blur-sm shrink-0 space-y-2 relative z-10">
       <!-- Tarjeta del Input -->
       <div class="bg-slate-50 border border-slate-200 focus-within:border-slate-400 focus-within:bg-white rounded-2xl p-2.5 transition-all shadow-xs">
         <textarea id="wixAssistantInput" rows="2" placeholder="Pregúntame lo que quieras" onkeydown="handleWixAssistantKey(event)" class="w-full text-xs sm:text-sm text-slate-800 placeholder:text-slate-400 bg-transparent focus:outline-none resize-none leading-relaxed"></textarea>
@@ -3080,8 +3088,80 @@
   <script src="Odontograma3D.js"></script>
   <script src="ExpandableCard.js"></script>
   <script src="AnimatedContent.js"></script>
+  <script src="Threads.js"></script>
   <script>
     lucide.createIcons();
+
+    // =========================================================================
+    // INICIALIZADOR DE FONDOS INTERACTIVOS WEBGL (THREADS REACT BITS)
+    // =========================================================================
+    function initDentControlInteractiveBackgrounds() {
+      if (typeof window.initThreads !== 'function') return;
+
+      // 1. Asistente Dent Control (Panel Lateral Copilot)
+      const wixEl = document.getElementById('wixThreadsContainer');
+      if (wixEl) {
+        window.initThreads(wixEl, {
+          color: [0.15, 0.39, 0.92],
+          accentColor: [0.22, 0.74, 0.97],
+          amplitude: 1.4,
+          distance: 0.35,
+          enableMouseInteraction: true,
+          lineCount: 55,
+          thickness: 0.9,
+          softness: 1.2,
+          speed: 0.45,
+          waves: 1.15,
+          parting: 0.4,
+          opacity: 0.42
+        });
+      }
+
+      // 2. Banner Asistente Dent Control en Inicio
+      const bannerEl = document.getElementById('bannerThreadsContainer');
+      if (bannerEl) {
+        window.initThreads(bannerEl, {
+          color: [0.23, 0.51, 0.96],
+          accentColor: [0.06, 0.73, 0.83],
+          amplitude: 1.2,
+          distance: 0.25,
+          enableMouseInteraction: true,
+          lineCount: 42,
+          thickness: 0.8,
+          softness: 1.1,
+          speed: 0.35,
+          waves: 1.1,
+          parting: 0.35,
+          opacity: 0.36
+        });
+      }
+
+      // 3. Hero Banner CAD/CAM
+      const heroEl = document.getElementById('heroThreadsContainer');
+      if (heroEl) {
+        window.initThreads(heroEl, {
+          color: [0.22, 0.74, 0.97],
+          accentColor: [0.51, 0.55, 0.97],
+          amplitude: 1.5,
+          distance: 0.38,
+          enableMouseInteraction: true,
+          lineCount: 48,
+          thickness: 0.85,
+          softness: 1.25,
+          speed: 0.5,
+          waves: 1.2,
+          parting: 0.45,
+          opacity: 0.36
+        });
+      }
+    }
+    window.initDentControlInteractiveBackgrounds = initDentControlInteractiveBackgrounds;
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', initDentControlInteractiveBackgrounds);
+    } else {
+      setTimeout(initDentControlInteractiveBackgrounds, 100);
+    }
+
 
     // Sesión sincronizada entre PHP ($_SESSION) y cliente
     const usuario = localStorage.getItem('cv_usuario') || "Admin";
