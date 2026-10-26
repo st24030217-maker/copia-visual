@@ -3589,10 +3589,10 @@ function filterDynamicTable(inputId, tbodyId) {
 
 function renderEstadisticasSubnav(activeKey) {
   return `
-    <div class="flex items-center gap-1.5 p-1 bg-slate-100/90 rounded-2xl border border-slate-200/80 mb-4 overflow-x-auto text-xs font-semibold">
+    <div class="flex items-center gap-1.5 p-1 bg-slate-100/90 rounded-2xl border border-slate-200/80 mb-4 overflow-x-auto text-xs font-semibold shadow-inner">
       <button type="button" onclick="openModule('panorama-general')" class="px-3.5 py-1.5 rounded-xl transition-all cursor-pointer flex items-center gap-2 ${activeKey === 'panorama-general' ? 'bg-white text-slate-900 font-bold shadow-xs border border-slate-200/80' : 'text-slate-600 hover:text-slate-900 hover:bg-white/60'}">
         <i data-lucide="pie-chart" class="w-3.5 h-3.5 ${activeKey === 'panorama-general' ? 'text-blue-600' : 'text-slate-400'}"></i>
-        <span>Panorama General & KPIs</span>
+        <span>Panorama General (KPIs)</span>
       </button>
       <button type="button" onclick="openModule('control-lab')" class="px-3.5 py-1.5 rounded-xl transition-all cursor-pointer flex items-center gap-2 ${activeKey === 'control-lab' || activeKey === 'estadisticas-lab' ? 'bg-white text-slate-900 font-bold shadow-xs border border-slate-200/80' : 'text-slate-600 hover:text-slate-900 hover:bg-white/60'}">
         <i data-lucide="activity" class="w-3.5 h-3.5 ${activeKey === 'control-lab' || activeKey === 'estadisticas-lab' ? 'text-emerald-600' : 'text-slate-400'}"></i>
@@ -3676,29 +3676,32 @@ function renderDynamicModule(key) {
         <!-- Subnavegacion entre vistas de Estadisticas -->
         ${renderEstadisticasSubnav('control-lab')}
 
-        <!-- Banner Ejecutivo Sober Slate -->
-        <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 bg-gradient-to-r from-slate-900 via-slate-800 to-blue-950 text-white p-5 rounded-3xl shadow-xs border border-slate-800/80 mb-5">
+        <!-- Header Ejecutivo Sober Slate -->
+        <div class="bg-white rounded-2xl border border-slate-200/80 p-5 shadow-2xs mb-5 flex flex-col md:flex-row md:items-center justify-between gap-4">
           <div class="space-y-1">
             <div class="flex items-center gap-2.5">
-              <div class="w-9 h-9 rounded-2xl bg-blue-500/20 border border-blue-400/30 flex items-center justify-center text-blue-400 shadow-2xs">
-                <i data-lucide="activity" class="w-4 h-4"></i>
+              <div class="w-10 h-10 rounded-xl bg-blue-50 border border-blue-100 flex items-center justify-center text-blue-600 shadow-2xs">
+                <i data-lucide="activity" class="w-5 h-5"></i>
               </div>
-              <h2 class="text-base sm:text-lg font-bold tracking-tight">Control de Laboratorio</h2>
-              <span class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-emerald-500/15 text-emerald-400 border border-emerald-500/30">
-                <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
-                SEMAFORO EN TIEMPO REAL
+              <h2 class="text-lg sm:text-xl font-bold tracking-tight text-slate-900">Control de Laboratorio</h2>
+              <span class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[11px] font-semibold bg-emerald-50 text-emerald-700 border border-emerald-200/80 shadow-2xs">
+                <span class="relative flex h-2 w-2">
+                  <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+                  <span class="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
+                </span>
+                Semáforo en Tiempo Real
               </span>
             </div>
-            <p class="text-xs text-slate-300">Auditoría continua de tiempos de entrega, días de holgura técnica y asignación de doctores internos y externos.</p>
+            <p class="text-xs text-slate-500 max-w-2xl leading-relaxed">Auditoría continua de tiempos de entrega, días de holgura técnica y balance de doctores internos y externos.</p>
           </div>
 
           <div class="flex items-center gap-2 shrink-0">
-            <button type="button" onclick="window.exportarTablaCtrlLabCSV()" class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-white/10 hover:bg-white/15 border border-white/20 text-xs font-semibold text-white transition-all cursor-pointer">
+            <button type="button" onclick="window.exportarTablaCtrlLabCSV()" class="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-slate-900 hover:bg-slate-800 text-xs font-semibold text-white shadow-xs transition-all active:scale-95 cursor-pointer">
               <i data-lucide="download" class="w-3.5 h-3.5 text-blue-300"></i>
               <span>Exportar CSV</span>
             </button>
-            <button type="button" onclick="window.imprimirReporteCtrlLab()" class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-white/10 hover:bg-white/15 border border-white/20 text-xs font-semibold text-white transition-all cursor-pointer">
-              <i data-lucide="printer" class="w-3.5 h-3.5 text-blue-300"></i>
+            <button type="button" onclick="window.imprimirReporteCtrlLab()" class="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-white hover:bg-slate-50 border border-slate-200 text-xs font-semibold text-slate-700 shadow-2xs transition-all active:scale-95 cursor-pointer">
+              <i data-lucide="printer" class="w-3.5 h-3.5 text-slate-500"></i>
               <span>Imprimir</span>
             </button>
           </div>
@@ -6356,132 +6359,249 @@ function renderDynamicModule(key) {
         <!-- Subnavegacion entre vistas de Estadisticas -->
         ${renderEstadisticasSubnav('panorama-general')}
 
-        <!-- Banner Ejecutivo Sober Slate con Selector de Periodo en Vivo -->
-        <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-4 bg-gradient-to-r from-slate-900 via-slate-800 to-blue-950 text-white p-5 sm:p-6 rounded-3xl shadow-sm border border-slate-800/90 mb-5">
-          <div class="space-y-1.5">
+        <!-- Header Ejecutivo Sober Slate con Controles en Vivo -->
+        <div class="bg-white rounded-2xl border border-slate-200/80 p-5 sm:p-6 shadow-2xs mb-5 flex flex-col xl:flex-row xl:items-center justify-between gap-4">
+          <div class="space-y-1">
             <div class="flex flex-wrap items-center gap-2.5">
-              <div class="w-10 h-10 rounded-2xl bg-blue-500/20 border border-blue-400/30 flex items-center justify-center text-blue-400 shadow-2xs">
+              <div class="w-10 h-10 rounded-xl bg-blue-50 border border-blue-100 flex items-center justify-center text-blue-600 shadow-2xs">
                 <i data-lucide="pie-chart" class="w-5 h-5"></i>
               </div>
-              <h2 class="text-base sm:text-xl font-bold tracking-tight">Panorama General del Laboratorio</h2>
-              <span class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-emerald-500/15 text-emerald-400 border border-emerald-500/30">
-                <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
-                ENLACE EN TIEMPO REAL • EN LINEA
+              <h2 class="text-lg sm:text-xl font-bold tracking-tight text-slate-900">Panorama General del Laboratorio</h2>
+              <span class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[11px] font-semibold bg-emerald-50 text-emerald-700 border border-emerald-200/80 shadow-2xs">
+                <span class="relative flex h-2 w-2">
+                  <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+                  <span class="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
+                </span>
+                Enlace en Vivo • Tiempo Real
               </span>
             </div>
-            <p class="text-xs text-slate-300 leading-relaxed">
-              Consolidado ejecutivo con 11 indicadores clave de producción CAD/CAM, pipeline de flujo en taller, distribución de materiales y facturación.
+            <p class="text-xs text-slate-500 leading-relaxed max-w-2xl">
+              Consolidado analítico de 22,569 órdenes: producción CAD/CAM, pipeline de flujo en taller, distribución de materiales y facturación proyectada.
             </p>
           </div>
 
           <div class="flex flex-wrap items-center gap-2.5 shrink-0">
-            <!-- Selector de Periodo Interactivo -->
-            <div class="inline-flex p-1 bg-slate-950/70 border border-slate-700/70 rounded-2xl text-xs font-semibold shadow-inner" id="periodosStatsGroup">
-              <button type="button" onclick="window.cambiarPeriodoStats('hoy', this)" class="btn-periodo-st px-3 py-1.5 rounded-xl text-slate-400 hover:text-white transition-all cursor-pointer">
+            <!-- Selector de Periodo Interactivo con Estilo Segmented Control -->
+            <div class="inline-flex p-1 bg-slate-100/90 border border-slate-200/80 rounded-xl text-xs font-semibold shadow-inner" id="periodosStatsGroup">
+              <button type="button" onclick="window.cambiarPeriodoStats('hoy', this)" class="btn-periodo-st px-3 py-1.5 rounded-lg text-slate-600 hover:text-slate-900 transition-all cursor-pointer font-medium">
                 Hoy
               </button>
-              <button type="button" onclick="window.cambiarPeriodoStats('7d', this)" class="btn-periodo-st px-3 py-1.5 rounded-xl text-slate-400 hover:text-white transition-all cursor-pointer">
+              <button type="button" onclick="window.cambiarPeriodoStats('7d', this)" class="btn-periodo-st px-3 py-1.5 rounded-lg text-slate-600 hover:text-slate-900 transition-all cursor-pointer font-medium">
                 7 Días
               </button>
-              <button type="button" onclick="window.cambiarPeriodoStats('mes', this)" class="btn-periodo-st px-3 py-1.5 rounded-xl bg-blue-600 text-white font-bold shadow-xs transition-all cursor-pointer">
+              <button type="button" onclick="window.cambiarPeriodoStats('mes', this)" class="btn-periodo-st px-3 py-1.5 rounded-lg bg-white text-slate-900 font-bold shadow-xs border border-slate-200/80 transition-all cursor-pointer">
                 Este Mes
               </button>
-              <button type="button" onclick="window.cambiarPeriodoStats('ano', this)" class="btn-periodo-st px-3 py-1.5 rounded-xl text-slate-400 hover:text-white transition-all cursor-pointer">
+              <button type="button" onclick="window.cambiarPeriodoStats('ano', this)" class="btn-periodo-st px-3 py-1.5 rounded-lg text-slate-600 hover:text-slate-900 transition-all cursor-pointer font-medium">
                 Año 2026
               </button>
             </div>
 
             <!-- Boton de Actualizacion en Vivo -->
-            <button type="button" onclick="window.actualizarEstadisticasLive()" class="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-2xl bg-white/10 hover:bg-white/15 border border-white/20 text-xs font-bold text-white transition-all active:scale-95 cursor-pointer shadow-xs">
+            <button type="button" onclick="window.actualizarEstadisticasLive()" class="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-slate-900 hover:bg-slate-800 text-xs font-semibold text-white shadow-xs transition-all active:scale-95 cursor-pointer">
               <i data-lucide="refresh-cw" class="w-3.5 h-3.5 text-blue-300" id="iconLiveRefreshStats"></i>
               <span>Actualizar en Vivo</span>
+            </button>
+
+            <!-- Boton de Exportacion Ejecutiva -->
+            <button type="button" onclick="window.generarYDescargarReporteCSV ? window.generarYDescargarReporteCSV('general') : window.exportarTablaCtrlLabCSV()" class="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-white hover:bg-slate-50 border border-slate-200 text-xs font-semibold text-slate-700 shadow-2xs transition-all active:scale-95 cursor-pointer" title="Descargar Reporte Ejecutivo en CSV compatible con Excel">
+              <i data-lucide="download" class="w-3.5 h-3.5 text-slate-500"></i>
+              <span>Exportar</span>
             </button>
           </div>
         </div>
 
-        <!-- 6 KPIs Maestros Principales con Micro-Tendencias -->
-        <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3 text-center mb-5">
-          <div class="bg-white p-4 rounded-2xl border border-slate-200/90 shadow-2xs flex flex-col justify-between">
-            <span class="text-[10px] font-bold uppercase tracking-wider text-slate-400 block mb-1">Órdenes Totales</span>
-            <span class="text-2xl font-black font-mono text-slate-900 block my-0.5" id="kpiOrdenesTotales">1,428</span>
-            <span class="text-[10px] text-emerald-700 font-bold block bg-emerald-50 py-0.5 rounded-md border border-emerald-200/60" id="kpiOrdenesBadge">+12.4% vs mes ant.</span>
+        <!-- 6 KPIs Maestros Principales con Estructura Clinica Enterprise -->
+        <div class="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-6 gap-3.5 mb-5">
+          <!-- KPI 1: Ordenes Totales -->
+          <div class="bg-white p-4 rounded-2xl border border-slate-200/80 shadow-2xs hover:shadow-xs hover:border-slate-300 transition-all flex flex-col justify-between group">
+            <div class="flex items-center justify-between">
+              <span class="text-[10px] font-bold uppercase tracking-wider text-slate-400 group-hover:text-slate-600 transition-colors">Órdenes Totales</span>
+              <div class="w-7 h-7 rounded-lg bg-blue-50 text-blue-600 border border-blue-100/80 flex items-center justify-center">
+                <i data-lucide="clipboard-list" class="w-3.5 h-3.5"></i>
+              </div>
+            </div>
+            <div class="my-2">
+              <span class="text-2xl sm:text-[26px] font-extrabold font-mono text-slate-900 tracking-tight leading-none block" id="kpiOrdenesTotales">1,428</span>
+            </div>
+            <div class="flex items-center gap-1.5">
+              <span class="inline-flex items-center gap-0.5 px-1.5 py-0.5 rounded-md bg-emerald-50 text-emerald-700 border border-emerald-200/60 font-bold text-[10px]" id="kpiOrdenesBadge">
+                <i data-lucide="trending-up" class="w-3 h-3"></i> +12.4%
+              </span>
+              <span class="text-slate-400 text-[10px]">vs mes ant.</span>
+            </div>
           </div>
 
-          <div class="bg-white p-4 rounded-2xl border border-slate-200/90 shadow-2xs flex flex-col justify-between">
-            <span class="text-[10px] font-bold uppercase tracking-wider text-slate-400 block mb-1">Piezas CAD/CAM</span>
-            <span class="text-2xl font-black font-mono text-blue-700 block my-0.5" id="kpiPiezasProducidas">2,860</span>
-            <span class="text-[10px] text-blue-700 font-bold block bg-blue-50 py-0.5 rounded-md border border-blue-200/60" id="kpiPiezasBadge">+8.1% ritmo fresado</span>
+          <!-- KPI 2: Piezas CAD/CAM -->
+          <div class="bg-white p-4 rounded-2xl border border-slate-200/80 shadow-2xs hover:shadow-xs hover:border-slate-300 transition-all flex flex-col justify-between group">
+            <div class="flex items-center justify-between">
+              <span class="text-[10px] font-bold uppercase tracking-wider text-slate-400 group-hover:text-slate-600 transition-colors">Piezas CAD/CAM</span>
+              <div class="w-7 h-7 rounded-lg bg-indigo-50 text-indigo-600 border border-indigo-100/80 flex items-center justify-center">
+                <i data-lucide="layers" class="w-3.5 h-3.5"></i>
+              </div>
+            </div>
+            <div class="my-2">
+              <span class="text-2xl sm:text-[26px] font-extrabold font-mono text-indigo-700 tracking-tight leading-none block" id="kpiPiezasProducidas">2,860</span>
+            </div>
+            <div class="flex items-center gap-1.5">
+              <span class="inline-flex items-center gap-0.5 px-1.5 py-0.5 rounded-md bg-indigo-50 text-indigo-700 border border-indigo-200/60 font-bold text-[10px]" id="kpiPiezasBadge">
+                <i data-lucide="activity" class="w-3 h-3"></i> +8.1%
+              </span>
+              <span class="text-slate-400 text-[10px]">fresado CNC</span>
+            </div>
           </div>
 
-          <div class="bg-white p-4 rounded-2xl border border-slate-200/90 shadow-2xs flex flex-col justify-between">
-            <span class="text-[10px] font-bold uppercase tracking-wider text-slate-400 block mb-1">Puntualidad Global</span>
-            <span class="text-2xl font-black font-mono text-emerald-700 block my-0.5" id="kpiPuntualidad">94.2%</span>
-            <span class="text-[10px] text-emerald-700 font-bold block bg-emerald-50 py-0.5 rounded-md border border-emerald-200/60">Meta: &gt; 90.0%</span>
+          <!-- KPI 3: Puntualidad Global -->
+          <div class="bg-white p-4 rounded-2xl border border-slate-200/80 shadow-2xs hover:shadow-xs hover:border-slate-300 transition-all flex flex-col justify-between group">
+            <div class="flex items-center justify-between">
+              <span class="text-[10px] font-bold uppercase tracking-wider text-slate-400 group-hover:text-slate-600 transition-colors">Puntualidad</span>
+              <div class="w-7 h-7 rounded-lg bg-emerald-50 text-emerald-600 border border-emerald-100/80 flex items-center justify-center">
+                <i data-lucide="check-circle-2" class="w-3.5 h-3.5"></i>
+              </div>
+            </div>
+            <div class="my-2">
+              <span class="text-2xl sm:text-[26px] font-extrabold font-mono text-emerald-700 tracking-tight leading-none block" id="kpiPuntualidad">94.2%</span>
+            </div>
+            <div class="space-y-1 w-full">
+              <div class="flex items-center justify-between text-[10px] text-slate-400 font-medium">
+                <span>Meta: 90.0%</span>
+                <span class="font-bold text-emerald-700" id="kpiPuntualidadMeta">Óptimo</span>
+              </div>
+              <div class="w-full bg-slate-100 h-1.5 rounded-full overflow-hidden">
+                <div class="bg-emerald-500 h-full rounded-full transition-all duration-500" id="kpiPuntualidadBar" style="width: 94.2%"></div>
+              </div>
+            </div>
           </div>
 
-          <div class="bg-white p-4 rounded-2xl border border-slate-200/90 shadow-2xs flex flex-col justify-between">
-            <span class="text-[10px] font-bold uppercase tracking-wider text-slate-400 block mb-1">Pipeline en Taller</span>
-            <span class="text-2xl font-black font-mono text-slate-900 block my-0.5" id="kpiPipeline">35</span>
-            <span class="text-[10px] text-slate-500 font-semibold block bg-slate-50 py-0.5 rounded-md border border-slate-200/60">4 Flujos Activos</span>
+          <!-- KPI 4: Pipeline en Taller -->
+          <div class="bg-white p-4 rounded-2xl border border-slate-200/80 shadow-2xs hover:shadow-xs hover:border-slate-300 transition-all flex flex-col justify-between group">
+            <div class="flex items-center justify-between">
+              <span class="text-[10px] font-bold uppercase tracking-wider text-slate-400 group-hover:text-slate-600 transition-colors">En Taller (WIP)</span>
+              <div class="w-7 h-7 rounded-lg bg-amber-50 text-amber-600 border border-amber-100/80 flex items-center justify-center">
+                <i data-lucide="workflow" class="w-3.5 h-3.5"></i>
+              </div>
+            </div>
+            <div class="my-2">
+              <span class="text-2xl sm:text-[26px] font-extrabold font-mono text-slate-900 tracking-tight leading-none block" id="kpiPipeline">35</span>
+            </div>
+            <div class="flex items-center gap-1.5">
+              <span class="inline-flex items-center gap-1 px-1.5 py-0.5 rounded-md bg-amber-50 text-amber-800 border border-amber-200/60 font-bold text-[10px]">
+                <span class="w-1.5 h-1.5 rounded-full bg-amber-500 animate-pulse"></span> 4 Etapas
+              </span>
+              <span class="text-slate-400 text-[10px]">en tránsito</span>
+            </div>
           </div>
 
-          <div class="bg-white p-4 rounded-2xl border border-slate-200/90 shadow-2xs flex flex-col justify-between">
-            <span class="text-[10px] font-bold uppercase tracking-wider text-slate-400 block mb-1">Discos Utilizados</span>
-            <span class="text-2xl font-black font-mono text-indigo-700 block my-0.5" id="kpiDiscos">142</span>
-            <span class="text-[10px] text-indigo-700 font-bold block bg-indigo-50 py-0.5 rounded-md border border-indigo-200/60">82.4% aprovechado</span>
+          <!-- KPI 5: Discos Utilizados -->
+          <div class="bg-white p-4 rounded-2xl border border-slate-200/80 shadow-2xs hover:shadow-xs hover:border-slate-300 transition-all flex flex-col justify-between group">
+            <div class="flex items-center justify-between">
+              <span class="text-[10px] font-bold uppercase tracking-wider text-slate-400 group-hover:text-slate-600 transition-colors">Discos Zirconio</span>
+              <div class="w-7 h-7 rounded-lg bg-purple-50 text-purple-600 border border-purple-100/80 flex items-center justify-center">
+                <i data-lucide="disc" class="w-3.5 h-3.5"></i>
+              </div>
+            </div>
+            <div class="my-2">
+              <span class="text-2xl sm:text-[26px] font-extrabold font-mono text-purple-700 tracking-tight leading-none block" id="kpiDiscos">142</span>
+            </div>
+            <div class="space-y-1 w-full">
+              <div class="flex items-center justify-between text-[10px] text-slate-400 font-medium">
+                <span>Aprovechamiento</span>
+                <span class="font-bold text-purple-700" id="kpiDiscosPct">82.4%</span>
+              </div>
+              <div class="w-full bg-slate-100 h-1.5 rounded-full overflow-hidden">
+                <div class="bg-purple-500 h-full rounded-full transition-all duration-500" id="kpiDiscosBar" style="width: 82.4%"></div>
+              </div>
+            </div>
           </div>
 
-          <div class="bg-white p-4 rounded-2xl border border-slate-200/90 shadow-2xs flex flex-col justify-between">
-            <span class="text-[10px] font-bold uppercase tracking-wider text-slate-400 block mb-1">Facturación / Valor</span>
-            <span class="text-2xl font-black font-mono text-slate-900 block my-0.5" id="kpiFacturacion">$1,248,500</span>
-            <span class="text-[10px] text-slate-500 font-bold block bg-slate-50 py-0.5 rounded-md border border-slate-200/60 font-mono">MXN Estimado</span>
+          <!-- KPI 6: Facturación / Valor -->
+          <div class="bg-white p-4 rounded-2xl border border-slate-200/80 shadow-2xs hover:shadow-xs hover:border-slate-300 transition-all flex flex-col justify-between group">
+            <div class="flex items-center justify-between">
+              <span class="text-[10px] font-bold uppercase tracking-wider text-slate-400 group-hover:text-slate-600 transition-colors">Facturación Est.</span>
+              <div class="w-7 h-7 rounded-lg bg-emerald-50 text-emerald-700 border border-emerald-100/80 flex items-center justify-center">
+                <i data-lucide="dollar-sign" class="w-3.5 h-3.5"></i>
+              </div>
+            </div>
+            <div class="my-2">
+              <span class="text-2xl sm:text-[26px] font-extrabold font-mono text-slate-900 tracking-tight leading-none block" id="kpiFacturacion">$1,248,500</span>
+            </div>
+            <div class="flex items-center gap-1.5">
+              <span class="inline-flex items-center gap-0.5 px-1.5 py-0.5 rounded-md bg-emerald-50 text-emerald-700 border border-emerald-200/60 font-mono font-bold text-[10px]">
+                MXN
+              </span>
+              <span class="text-slate-400 text-[10px]">valor devengado</span>
+            </div>
           </div>
         </div>
 
         <!-- Fila 1 de Graficas Reales con Chart.js -->
         <div class="grid grid-cols-1 lg:grid-cols-12 gap-4 mb-5">
-          <!-- Grafico 1: Tendencia y Curva de Produccion Semanal (Area Spline) -->
-          <div class="lg:col-span-8 bg-white rounded-2xl border border-slate-200/90 p-5 shadow-2xs flex flex-col justify-between">
-            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 pb-3 border-b border-slate-100">
+          <!-- Grafico 1: Curva de Produccion Semanal (Area Spline) -->
+          <div class="lg:col-span-8 bg-white rounded-2xl border border-slate-200/80 p-5 shadow-2xs flex flex-col justify-between">
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-3 border-b border-slate-100">
               <div>
-                <h3 class="text-xs font-bold uppercase tracking-wider text-slate-900 flex items-center gap-2">
-                  <span>Curva de Producción y Fresado de Piezas CAD/CAM</span>
-                  <span class="px-2 py-0.5 rounded-full bg-blue-50 text-blue-700 text-[10px] font-bold border border-blue-200">En Vivo</span>
-                </h3>
-                <p class="text-[11px] text-slate-500 mt-0.5">Seguimiento comparativo por material dental fresado en máquinas CNC.</p>
+                <div class="flex items-center gap-2">
+                  <h3 class="text-xs sm:text-sm font-bold tracking-tight text-slate-900">Curva de Producción y Fresado CAD/CAM</h3>
+                  <span class="px-2 py-0.5 rounded-full bg-blue-50 text-blue-700 text-[10px] font-bold border border-blue-200/80">Tiempo Real</span>
+                </div>
+                <p class="text-[11px] text-slate-400 mt-0.5">Seguimiento de piezas unitarias maquinadas por biomaterial en centros CNC.</p>
               </div>
-              <div class="flex items-center gap-3 text-[11px] font-semibold text-slate-600">
-                <span class="flex items-center gap-1.5"><span class="w-2.5 h-2.5 rounded-full bg-blue-700"></span> Zirconio</span>
-                <span class="flex items-center gap-1.5"><span class="w-2.5 h-2.5 rounded-full bg-blue-500"></span> E-Max</span>
-                <span class="flex items-center gap-1.5"><span class="w-2.5 h-2.5 rounded-full bg-cyan-500"></span> Alinia</span>
+              <div class="flex flex-wrap items-center gap-2 text-[11px] font-semibold">
+                <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-slate-50 border border-slate-200/70 text-slate-700">
+                  <span class="w-2.5 h-2.5 rounded-full bg-blue-900"></span> Zirconio HT+
+                </span>
+                <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-slate-50 border border-slate-200/70 text-slate-700">
+                  <span class="w-2.5 h-2.5 rounded-full bg-blue-600"></span> Disilicato E-Max
+                </span>
+                <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-slate-50 border border-slate-200/70 text-slate-700">
+                  <span class="w-2.5 h-2.5 rounded-full bg-cyan-500"></span> Alineadores
+                </span>
               </div>
             </div>
-            <div class="relative h-64 w-full pt-3">
+            <div class="relative h-72 w-full pt-3">
               <canvas id="chartTendenciaProduccion"></canvas>
             </div>
-            <div class="pt-3 border-t border-slate-100 flex flex-wrap items-center justify-between text-xs text-slate-500">
-              <span>Máxima capacidad instalada: <strong class="text-slate-800 font-mono">120 piezas/día</strong></span>
-              <span class="font-mono text-emerald-700 font-bold">Tiempo promedio por unidad: 38 min</span>
+            <div class="pt-3 border-t border-slate-100 grid grid-cols-1 sm:grid-cols-3 gap-2 text-xs">
+              <div class="p-2 rounded-xl bg-slate-50/70 border border-slate-200/60 text-center">
+                <span class="text-[10px] font-bold text-slate-400 uppercase tracking-wider block">Capacidad Instalada</span>
+                <span class="font-mono font-bold text-slate-900 text-xs">120 piezas / turno</span>
+              </div>
+              <div class="p-2 rounded-xl bg-slate-50/70 border border-slate-200/60 text-center">
+                <span class="text-[10px] font-bold text-slate-400 uppercase tracking-wider block">Tiempo Promedio</span>
+                <span class="font-mono font-bold text-emerald-700 text-xs">38 min / unidad</span>
+              </div>
+              <div class="p-2 rounded-xl bg-slate-50/70 border border-slate-200/60 text-center">
+                <span class="text-[10px] font-bold text-slate-400 uppercase tracking-wider block">Disponibilidad CNC</span>
+                <span class="font-mono font-bold text-blue-700 text-xs">98.2% operativo</span>
+              </div>
             </div>
           </div>
 
           <!-- Grafico 2: Pipeline de Flujo en Taller -->
-          <div class="lg:col-span-4 bg-white rounded-2xl border border-slate-200/90 p-5 shadow-2xs flex flex-col justify-between">
+          <div class="lg:col-span-4 bg-white rounded-2xl border border-slate-200/80 p-5 shadow-2xs flex flex-col justify-between">
             <div class="pb-3 border-b border-slate-100 flex items-center justify-between">
               <div>
-                <h3 class="text-xs font-bold uppercase tracking-wider text-slate-900">Pipeline en Taller</h3>
-                <p class="text-[11px] text-slate-500 mt-0.5">Carga por etapas de flujo activo</p>
+                <h3 class="text-xs sm:text-sm font-bold tracking-tight text-slate-900">Pipeline en Taller</h3>
+                <p class="text-[11px] text-slate-400 mt-0.5">Carga activa por estaciones</p>
               </div>
-              <span class="font-mono text-xs font-black text-blue-700 bg-blue-50 px-2 py-0.5 rounded-md border border-blue-200">35 OT</span>
+              <span class="font-mono text-xs font-bold text-blue-700 bg-blue-50 px-2.5 py-1 rounded-lg border border-blue-200/80">35 OT Activas</span>
             </div>
-            <div class="relative h-64 w-full pt-2">
+            <div class="relative h-72 w-full pt-2">
               <canvas id="chartPipelineFlujo"></canvas>
             </div>
-            <div class="grid grid-cols-4 gap-1 pt-3 border-t border-slate-100 text-center text-[10px] font-bold text-slate-600">
-              <div><span class="text-blue-600 block">● 4</span>Escaneo</div>
-              <div><span class="text-blue-800 block">● 18</span>Diseño</div>
-              <div><span class="text-indigo-800 block">● 7</span>Fresado</div>
-              <div><span class="text-emerald-700 block">● 6</span>Entrega</div>
+            <div class="grid grid-cols-4 gap-1.5 pt-3 border-t border-slate-100 text-center text-[10px] font-semibold">
+              <div class="p-1 rounded-lg bg-sky-50 text-sky-800 border border-sky-200/50">
+                <span class="font-bold font-mono block">4 OT</span>Escaneo
+              </div>
+              <div class="p-1 rounded-lg bg-blue-50 text-blue-800 border border-blue-200/50">
+                <span class="font-bold font-mono block">18 OT</span>Diseño
+              </div>
+              <div class="p-1 rounded-lg bg-indigo-50 text-indigo-800 border border-indigo-200/50">
+                <span class="font-bold font-mono block">7 OT</span>Fresado
+              </div>
+              <div class="p-1 rounded-lg bg-emerald-50 text-emerald-800 border border-emerald-200/50">
+                <span class="font-bold font-mono block">6 OT</span>Entrega
+              </div>
             </div>
           </div>
         </div>
@@ -6489,45 +6609,67 @@ function renderDynamicModule(key) {
         <!-- Fila 2 de Graficas Reales con Chart.js -->
         <div class="grid grid-cols-1 lg:grid-cols-12 gap-4 mb-5">
           <!-- Grafico 3: Distribucion de Materiales Dentales -->
-          <div class="lg:col-span-6 bg-white rounded-2xl border border-slate-200/90 p-5 shadow-2xs flex flex-col justify-between">
+          <div class="lg:col-span-6 bg-white rounded-2xl border border-slate-200/80 p-5 shadow-2xs flex flex-col justify-between">
             <div class="pb-3 border-b border-slate-100 flex items-center justify-between">
               <div>
-                <h3 class="text-xs font-bold uppercase tracking-wider text-slate-900">Distribución de Materiales Dentales</h3>
-                <p class="text-[11px] text-slate-500 mt-0.5">Porcentaje de volumen de piezas manufacturadas</p>
+                <h3 class="text-xs sm:text-sm font-bold tracking-tight text-slate-900">Distribución de Biomateriales Dentales</h3>
+                <p class="text-[11px] text-slate-400 mt-0.5">Participación porcentual del volumen de piezas</p>
               </div>
-              <span class="font-mono text-xs font-bold text-slate-600">100% CAD/CAM</span>
+              <span class="font-mono text-xs font-semibold text-slate-600 bg-slate-100 px-2 py-0.5 rounded-md border border-slate-200">100% Trazabilidad</span>
             </div>
-            <div class="relative h-60 w-full flex items-center justify-center pt-2">
+            <div class="relative h-64 w-full flex items-center justify-center pt-2">
               <canvas id="chartDistribucionMateriales"></canvas>
+              <div class="absolute inset-0 flex flex-col items-center justify-center pointer-events-none">
+                <span class="text-2xl font-black font-mono text-slate-900 tracking-tight" id="donutTotalPiezas">2,860</span>
+                <span class="text-[10px] uppercase font-bold text-slate-400 tracking-wider">Piezas Totales</span>
+              </div>
             </div>
-            <div class="grid grid-cols-4 gap-2 pt-3 border-t border-slate-100 text-center text-[10px]">
-              <div><span class="font-bold text-slate-900 block font-mono">49%</span><span class="text-slate-500">Zirconio HT+</span></div>
-              <div><span class="font-bold text-slate-900 block font-mono">26%</span><span class="text-slate-500">E-Max Disilicato</span></div>
-              <div><span class="font-bold text-slate-900 block font-mono">15%</span><span class="text-slate-500">Alineadores</span></div>
-              <div><span class="font-bold text-slate-900 block font-mono">10%</span><span class="text-slate-500">Guardas Bio</span></div>
+            <div class="grid grid-cols-2 sm:grid-cols-4 gap-2 pt-3 border-t border-slate-100 text-center text-[10px]">
+              <div class="p-2 rounded-xl bg-slate-50/70 border border-slate-200/60">
+                <span class="font-bold text-slate-900 block font-mono text-xs">49%</span>
+                <span class="text-slate-500 font-medium">Zirconio HT+</span>
+              </div>
+              <div class="p-2 rounded-xl bg-slate-50/70 border border-slate-200/60">
+                <span class="font-bold text-slate-900 block font-mono text-xs">26%</span>
+                <span class="text-slate-500 font-medium">E-Max Disilicato</span>
+              </div>
+              <div class="p-2 rounded-xl bg-slate-50/70 border border-slate-200/60">
+                <span class="font-bold text-slate-900 block font-mono text-xs">15%</span>
+                <span class="text-slate-500 font-medium">Alineadores</span>
+              </div>
+              <div class="p-2 rounded-xl bg-slate-50/70 border border-slate-200/60">
+                <span class="font-bold text-slate-900 block font-mono text-xs">10%</span>
+                <span class="text-slate-500 font-medium">Guardas Bio</span>
+              </div>
             </div>
           </div>
 
           <!-- Grafico 4: Analisis Comercial Doctores Externos vs Internos -->
-          <div class="lg:col-span-6 bg-white rounded-2xl border border-slate-200/90 p-5 shadow-2xs flex flex-col justify-between">
+          <div class="lg:col-span-6 bg-white rounded-2xl border border-slate-200/80 p-5 shadow-2xs flex flex-col justify-between">
             <div class="pb-3 border-b border-slate-100 flex items-center justify-between">
               <div>
-                <h3 class="text-xs font-bold uppercase tracking-wider text-slate-900">Doctores Externos vs Internos</h3>
-                <p class="text-[11px] text-slate-500 mt-0.5">Volumen de piezas e importes generados</p>
+                <h3 class="text-xs sm:text-sm font-bold tracking-tight text-slate-900">Rendimiento Comercial: Externos vs Internos</h3>
+                <p class="text-[11px] text-slate-400 mt-0.5">Volumen de piezas e importes generados por canal</p>
               </div>
-              <span class="font-mono text-xs font-bold text-emerald-700 font-mono">$1,248,500 MXN</span>
+              <span class="font-mono text-xs font-bold text-emerald-700 bg-emerald-50 px-2.5 py-1 rounded-lg border border-emerald-200/80">$1,248,500 MXN</span>
             </div>
-            <div class="relative h-60 w-full pt-2">
+            <div class="relative h-64 w-full pt-2">
               <canvas id="chartDoctoresInternosExternos"></canvas>
             </div>
-            <div class="grid grid-cols-2 gap-3 pt-3 border-t border-slate-100 text-center text-xs">
-              <div class="p-2.5 bg-slate-50 rounded-xl border border-slate-200/80">
-                <span class="text-slate-500 text-[10px] font-bold uppercase block">Externos (73.1%)</span>
-                <span class="font-mono font-black text-slate-900 text-sm">2,090 piezas • $940,500 MXN</span>
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5 pt-3 border-t border-slate-100 text-xs">
+              <div class="p-3 bg-slate-50/80 rounded-xl border border-slate-200/80 flex items-center justify-between">
+                <div>
+                  <span class="text-slate-400 text-[10px] font-bold uppercase tracking-wider block">Doctores Externos</span>
+                  <span class="font-mono font-bold text-slate-900 text-sm">2,090 piezas (73.1%)</span>
+                </div>
+                <span class="font-mono font-bold text-blue-700 bg-blue-50 px-2 py-0.5 rounded-md border border-blue-200/60 text-xs">$940,500</span>
               </div>
-              <div class="p-2.5 bg-slate-50 rounded-xl border border-slate-200/80">
-                <span class="text-slate-500 text-[10px] font-bold uppercase block">Internos (26.9%)</span>
-                <span class="font-mono font-black text-slate-900 text-sm">770 piezas • $308,000 MXN</span>
+              <div class="p-3 bg-slate-50/80 rounded-xl border border-slate-200/80 flex items-center justify-between">
+                <div>
+                  <span class="text-slate-400 text-[10px] font-bold uppercase tracking-wider block">Clínicas Internas</span>
+                  <span class="font-mono font-bold text-slate-900 text-sm">770 piezas (26.9%)</span>
+                </div>
+                <span class="font-mono font-bold text-slate-700 bg-slate-100 px-2 py-0.5 rounded-md border border-slate-200 text-xs">$308,000</span>
               </div>
             </div>
           </div>
@@ -6535,6 +6677,7 @@ function renderDynamicModule(key) {
       `;
 
       requestAnimationFrame(() => {
+        if (window.lucide) window.lucide.createIcons();
         if (window.initEstadisticasCharts) {
           window.initEstadisticasCharts(window._periodoStatsActual || 'mes');
         }
@@ -6619,8 +6762,8 @@ window.initEstadisticasCharts = function(periodo = 'mes') {
     
     // Gradiente sutil para Zirconio
     const gradZirc = ctx.createLinearGradient(0, 0, 0, 260);
-    gradZirc.addColorStop(0, 'rgba(30, 58, 138, 0.28)');
-    gradZirc.addColorStop(1, 'rgba(30, 58, 138, 0.01)');
+    gradZirc.addColorStop(0, 'rgba(30, 58, 138, 0.16)');
+    gradZirc.addColorStop(1, 'rgba(30, 58, 138, 0.00)');
 
     window._chartsInstances['chartTendenciaProduccion'] = new Chart(ctx, {
       type: 'line',
@@ -6636,7 +6779,9 @@ window.initEstadisticasCharts = function(periodo = 'mes') {
             tension: 0.38,
             borderWidth: 2.5,
             pointBackgroundColor: '#1e3a8a',
-            pointRadius: 4,
+            pointBorderColor: '#ffffff',
+            pointBorderWidth: 2,
+            pointRadius: 0,
             pointHoverRadius: 6
           },
           {
@@ -6647,7 +6792,9 @@ window.initEstadisticasCharts = function(periodo = 'mes') {
             tension: 0.38,
             borderWidth: 2,
             pointBackgroundColor: '#2563eb',
-            pointRadius: 3,
+            pointBorderColor: '#ffffff',
+            pointBorderWidth: 2,
+            pointRadius: 0,
             pointHoverRadius: 5
           },
           {
@@ -6659,7 +6806,9 @@ window.initEstadisticasCharts = function(periodo = 'mes') {
             borderWidth: 1.8,
             borderDash: [4, 4],
             pointBackgroundColor: '#06b6d4',
-            pointRadius: 3,
+            pointBorderColor: '#ffffff',
+            pointBorderWidth: 2,
+            pointRadius: 0,
             pointHoverRadius: 5
           }
         ]
@@ -6667,24 +6816,32 @@ window.initEstadisticasCharts = function(periodo = 'mes') {
       options: {
         responsive: true,
         maintainAspectRatio: false,
+        interaction: {
+          mode: 'index',
+          intersect: false
+        },
         plugins: {
           legend: { display: false },
           tooltip: {
             backgroundColor: '#0f172a',
-            titleFont: { size: 11, weight: 'bold' },
+            titleFont: { size: 12, weight: 'bold' },
             bodyFont: { size: 11 },
-            padding: 10,
-            cornerRadius: 10
+            padding: 12,
+            cornerRadius: 10,
+            boxPadding: 4,
+            callbacks: {
+              label: (c) => ` ${c.dataset.label}: ${c.raw.toLocaleString()} piezas`
+            }
           }
         },
         scales: {
           x: {
             grid: { display: false },
-            ticks: { font: { size: 10, family: 'General Sans' }, color: '#64748b' }
+            ticks: { font: { size: 11, family: 'General Sans, sans-serif' }, color: '#64748b' }
           },
           y: {
-            grid: { color: 'rgba(226, 232, 240, 0.7)', borderDash: [3, 3] },
-            ticks: { font: { size: 10, family: 'General Sans' }, color: '#64748b' }
+            grid: { color: 'rgba(226, 232, 240, 0.7)', borderDash: [4, 4] },
+            ticks: { font: { size: 11, family: 'General Sans, sans-serif' }, color: '#64748b' }
           }
         }
       }
@@ -6704,7 +6861,7 @@ window.initEstadisticasCharts = function(periodo = 'mes') {
           data: [4, 18, 7, 6],
           backgroundColor: ['#38bdf8', '#2563eb', '#1e3a8a', '#10b981'],
           borderRadius: 8,
-          barThickness: 18
+          barThickness: 20
         }]
       },
       options: {
@@ -6715,19 +6872,21 @@ window.initEstadisticasCharts = function(periodo = 'mes') {
           legend: { display: false },
           tooltip: {
             backgroundColor: '#0f172a',
+            padding: 10,
+            cornerRadius: 8,
             callbacks: {
-              label: (c) => ` ${c.raw} órdenes en proceso`
+              label: (c) => ` ${c.raw} órdenes activas en estación`
             }
           }
         },
         scales: {
           x: {
-            grid: { color: 'rgba(226, 232, 240, 0.7)', borderDash: [3, 3] },
+            grid: { color: 'rgba(226, 232, 240, 0.7)', borderDash: [4, 4] },
             ticks: { font: { size: 10 }, color: '#64748b', stepSize: 5 }
           },
           y: {
             grid: { display: false },
-            ticks: { font: { size: 10, weight: 'bold' }, color: '#334155' }
+            ticks: { font: { size: 11, weight: 'bold' }, color: '#1e293b' }
           }
         }
       }
@@ -6754,14 +6913,13 @@ window.initEstadisticasCharts = function(periodo = 'mes') {
       options: {
         responsive: true,
         maintainAspectRatio: false,
-        cutout: '68%',
+        cutout: '74%',
         plugins: {
-          legend: {
-            position: 'bottom',
-            labels: { boxWidth: 10, font: { size: 10 }, padding: 12 }
-          },
+          legend: { display: false },
           tooltip: {
             backgroundColor: '#0f172a',
+            padding: 10,
+            cornerRadius: 8,
             callbacks: {
               label: (c) => ` ${c.label}: ${c.raw}% del volumen`
             }
@@ -6803,10 +6961,12 @@ window.initEstadisticasCharts = function(periodo = 'mes') {
         plugins: {
           legend: {
             position: 'top',
-            labels: { boxWidth: 10, font: { size: 10 } }
+            labels: { boxWidth: 10, font: { size: 11, weight: 'bold' } }
           },
           tooltip: {
-            backgroundColor: '#0f172a'
+            backgroundColor: '#0f172a',
+            padding: 10,
+            cornerRadius: 8
           }
         },
         scales: {
@@ -6815,7 +6975,7 @@ window.initEstadisticasCharts = function(periodo = 'mes') {
             ticks: { font: { size: 10 }, color: '#64748b' }
           },
           y: {
-            grid: { color: 'rgba(226, 232, 240, 0.7)', borderDash: [3, 3] },
+            grid: { color: 'rgba(226, 232, 240, 0.7)', borderDash: [4, 4] },
             ticks: { font: { size: 10 }, color: '#64748b' }
           }
         }
@@ -6962,18 +7122,18 @@ window.cambiarPeriodoStats = function(periodo, btn) {
   // Actualizar pastillas visuales
   const btns = document.querySelectorAll('.btn-periodo-st');
   btns.forEach(b => {
-    b.className = 'btn-periodo-st px-3 py-1.5 rounded-xl text-slate-400 hover:text-white transition-all cursor-pointer';
+    b.className = 'btn-periodo-st px-3 py-1.5 rounded-lg text-slate-600 hover:text-slate-900 transition-all cursor-pointer font-medium';
   });
   if (btn) {
-    btn.className = 'btn-periodo-st px-3 py-1.5 rounded-xl bg-blue-600 text-white font-bold shadow-xs transition-all cursor-pointer';
+    btn.className = 'btn-periodo-st px-3 py-1.5 rounded-lg bg-white text-slate-900 font-bold shadow-xs border border-slate-200/80 transition-all cursor-pointer';
   }
 
   // Valores dinamicos segun periodo
   const periodKpis = {
-    'hoy': { tot: '48', piez: '112', punt: '97.8%', fact: '$46,200', disc: '6', b1: '+4 vs ayer', b2: 'Ritmo normal' },
-    '7d': { tot: '342', piez: '710', punt: '95.4%', fact: '$318,400', disc: '34', b1: '+6.2% semanal', b2: '+4.8% fresado' },
-    'mes': { tot: '1,428', piez: '2,860', punt: '94.2%', fact: '$1,248,500', disc: '142', b1: '+12.4% vs mes ant.', b2: '+8.1% ritmo fresado' },
-    'ano': { tot: '14,890', piez: '31,240', punt: '93.8%', fact: '$13,840,000', disc: '1,520', b1: '+18.5% anual', b2: 'Capacidad 88%' }
+    'hoy': { tot: '48', piez: '112', punt: '97.8%', fact: '$46,200', disc: '6', discPct: '91.5%', b1: '+4 vs ayer', b2: '+3.2% diario', pip: '14' },
+    '7d': { tot: '342', piez: '710', punt: '95.4%', fact: '$318,400', disc: '34', discPct: '86.0%', b1: '+6.2% semanal', b2: '+4.8% fresado', pip: '28' },
+    'mes': { tot: '1,428', piez: '2,860', punt: '94.2%', fact: '$1,248,500', disc: '142', discPct: '82.4%', b1: '+12.4% vs mes ant.', b2: '+8.1% ritmo fresado', pip: '35' },
+    'ano': { tot: '14,890', piez: '31,240', punt: '93.8%', fact: '$13,840,000', disc: '1,520', discPct: '88.2%', b1: '+18.5% anual', b2: 'Capacidad 88%', pip: '42' }
   };
 
   const data = periodKpis[periodo] || periodKpis['mes'];
@@ -6983,16 +7143,28 @@ window.cambiarPeriodoStats = function(periodo, btn) {
   const elPunt = document.getElementById('kpiPuntualidad');
   const elFact = document.getElementById('kpiFacturacion');
   const elDisc = document.getElementById('kpiDiscos');
+  const elPip = document.getElementById('kpiPipeline');
   const elB1 = document.getElementById('kpiOrdenesBadge');
   const elB2 = document.getElementById('kpiPiezasBadge');
+  const elPuntBar = document.getElementById('kpiPuntualidadBar');
+  const elDiscBar = document.getElementById('kpiDiscosBar');
+  const elDiscPct = document.getElementById('kpiDiscosPct');
+  const elDonutPiez = document.getElementById('donutTotalPiezas');
 
   if (elTot) elTot.innerText = data.tot;
   if (elPiez) elPiez.innerText = data.piez;
   if (elPunt) elPunt.innerText = data.punt;
   if (elFact) elFact.innerText = data.fact;
   if (elDisc) elDisc.innerText = data.disc;
-  if (elB1) elB1.innerText = data.b1;
-  if (elB2) elB2.innerText = data.b2;
+  if (elPip) elPip.innerText = data.pip;
+  if (elB1) elB1.innerHTML = `<i data-lucide="trending-up" class="w-3 h-3"></i> ${data.b1}`;
+  if (elB2) elB2.innerHTML = `<i data-lucide="activity" class="w-3 h-3"></i> ${data.b2}`;
+  if (elPuntBar) elPuntBar.style.width = data.punt;
+  if (elDiscBar) elDiscBar.style.width = data.discPct;
+  if (elDiscPct) elDiscPct.innerText = data.discPct;
+  if (elDonutPiez) elDonutPiez.innerText = data.piez;
+
+  if (window.lucide) window.lucide.createIcons();
 
   // Actualizar graficas interactivas con animacion
   window.initEstadisticasCharts(periodo);
