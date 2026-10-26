@@ -1,3 +1,81 @@
+
+// -------------------------------------------------------------------------
+// CONTROL OPERATIVO DIRECTO DE ETAPAS DE TALLER (EJECUTOR DEL ASISTENTE)
+// -------------------------------------------------------------------------
+window.moverOrdenDeEtapa = function(serie, nuevaEtapa) {
+  const s = String(serie || '').replace(/^#?ot-?/i, '').trim();
+  const d = (typeof INICIO_DATA !== 'undefined' ? INICIO_DATA : null) || window.INICIO_DATA || {};
+  if (!s || !d) return { ok: false, error: 'Datos no disponibles' };
+
+  let targetKey = 'fabricacion';
+  let targetNombre = 'Fabricacion / Fresado';
+  const ne = String(nuevaEtapa || '').toLowerCase();
+  if (ne.includes('ent') || ne.includes('termin') || ne.includes('list')) {
+    targetKey = 'entrega';
+    targetNombre = 'Listas para Entrega';
+  } else if (ne.includes('dis') || ne.includes('cad')) {
+    targetKey = 'diseno';
+    targetNombre = 'Diseno CAD';
+  } else if (ne.includes('esc') || ne.includes('scan')) {
+    targetKey = 'escaneo';
+    targetNombre = 'Escaneo Intraoral';
+  } else {
+    targetKey = 'fabricacion';
+    targetNombre = 'Fabricacion / Fresado';
+  }
+
+  const etapas = ['escaneo', 'diseno', 'fabricacion', 'entrega'];
+  let ordenObj = null;
+
+  for (const et of etapas) {
+    if (Array.isArray(d[et])) {
+      const idx = d[et].findIndex(o => String(o.serie || o.ot || o.Serie) === s);
+      if (idx !== -1) {
+        ordenObj = d[et].splice(idx, 1)[0];
+        break;
+      }
+    }
+  }
+
+  if (!ordenObj && Array.isArray(d.ordenes)) {
+    const found = d.ordenes.find(o => String(o.serie || o.ot || o.Serie) === s);
+    if (found) {
+      ordenObj = {
+        ot: found.serie || found.ot,
+        serie: found.serie || found.ot,
+        prod: found.producto || found.prod || 'Corona Zirconio',
+        uni: found.piezas || found.uni || 1,
+        doctor: found.doctor || found.doctorNombreCompleto || 'Doctor',
+        soli: found.fechaEntrega || found.Fecha_entrega_solicitada || ''
+      };
+    }
+  }
+
+  if (ordenObj) {
+    if (!Array.isArray(d[targetKey])) d[targetKey] = [];
+    ordenObj.etapa = targetNombre;
+    ordenObj.estado = targetNombre;
+    d[targetKey].unshift(ordenObj);
+
+    if (Array.isArray(d.ordenes)) {
+      const ordIdx = d.ordenes.findIndex(o => String(o.serie || o.ot || o.Serie) === s);
+      if (ordIdx !== -1) {
+        d.ordenes[ordIdx].etapa = targetNombre;
+        d.ordenes[ordIdx].estado = targetNombre;
+      }
+    }
+
+    if (typeof renderTablasInicio === 'function') {
+      renderTablasInicio();
+    }
+    if (typeof showToast === 'function') {
+      showToast('Orden Actualizada', 'La orden #' + s + ' se movio a ' + targetNombre + '.');
+    }
+    return { ok: true, etapa: targetNombre, orden: ordenObj };
+  }
+  return { ok: false, error: 'No se encontro la orden #' + s };
+};
+
 // ============================================================================
 // DENT CLINICA DENTAL & DENTLAB CAD/CAM — MOTOR VISUAL INTERACTIVO COMPLETO
 // Contiene los 36 módulos exactos de DENT DEMO con estado en memoria, tablas,
@@ -15290,6 +15368,46 @@ window.enviarMensajeWixAssistant = async function() {
   } finally {
     if (sendBtn) sendBtn.disabled = false;
   }
+};
+
+
+window.leerTextoAsistenteEnVozAlta = function(boton) {
+  if (!('speechSynthesis' in window)) {
+    if (typeof showToast === 'function') showToast('Voz', 'Tu navegador no soporta sintesis de voz.');
+    return;
+  }
+  if (window.speechSynthesis.speaking) {
+    window.speechSynthesis.cancel();
+    boton.innerHTML = '<i data-lucide="volume-2" class="w-3 h-3"></i><span>Escuchar</span>';
+    if (window.lucide) window.lucide.createIcons();
+    return;
+  }
+
+  const bubble = boton.closest('.bg-white');
+  const content = bubble ? bubble.querySelector('.wix-assistant-content') : null;
+  let texto = content ? content.innerText : '';
+  if (!texto) return;
+
+  texto = texto.replace(/\[ACCION:[^\]]+\]/g, '').replace(/[*#_`-]/g, ' ').replace(/\s+/g, ' ').trim();
+
+  const utterance = new SpeechSynthesisUtterance(texto);
+  utterance.lang = 'es-MX';
+  utterance.rate = 1.05;
+
+  boton.innerHTML = '<i data-lucide="square" class="w-3 h-3 text-rose-600"></i><span class="text-rose-700 font-bold">Detener</span>';
+  if (window.lucide) window.lucide.createIcons();
+
+  utterance.onend = function() {
+    boton.innerHTML = '<i data-lucide="volume-2" class="w-3 h-3"></i><span>Escuchar</span>';
+    if (window.lucide) window.lucide.createIcons();
+  };
+
+  utterance.onerror = function() {
+    boton.innerHTML = '<i data-lucide="volume-2" class="w-3 h-3"></i><span>Escuchar</span>';
+    if (window.lucide) window.lucide.createIcons();
+  };
+
+  window.speechSynthesis.speak(utterance);
 };
 
 window.copiarTextoRespuestaWix = function(boton) {
