@@ -14915,11 +14915,123 @@ window.formatearMarkdownWix = function(texto) {
 };
 
 // -------------------------------------------------------------------------
+// -------------------------------------------------------------------------
 // 5. MOTOR SEMANTICO INTELIGENTE Y CONSULTA ASISTIDA
 // -------------------------------------------------------------------------
 window.procesarRespuestaDentControl = function(preguntaUsuario, liveCtx) {
   const query = preguntaUsuario.toLowerCase().trim();
   const ctx = liveCtx || window.obtenerContextoEnVivoDashboard();
+  const allOrders = (ctx.ordenes || []).concat(ctx.fabricacion || [], ctx.entrega || [], ctx.diseno || [], ctx.escaneo || []);
+
+  // 0.1 ORDENES ATRASADAS, CON RETRASO O QUE VAN TARDE
+  if (query.includes('tarde') || query.includes('retras') || query.includes('atras') || query.includes('vencid') || query.includes('demor') || (query.includes('orden') && query.includes('urgente'))) {
+    const lateOrders = allOrders.filter(o => {
+      const d = o.dias !== undefined ? o.dias : (o.diferencia_dias !== undefined ? o.diferencia_dias : null);
+      return d !== null && d < 0;
+    });
+
+    if (!lateOrders.length) {
+      return "Control de Tiempos: En este momento **no se registran ordenes con retraso** en el taller Dent Control. Todos los trabajos estan en tiempo conforme al calendario.\n\n" +
+        "[ACCION:nav:lista-ordenes:Ver Lista Maestra] [ACCION:nav:estadisticas-lab:Control de Tiempos]";
+    }
+
+    const seenOt = new Set();
+    const uniqueLate = lateOrders.filter(o => {
+      const ot = String(o.serie || o.ot || o.Serie || o.Ordenes_trabajo_id || 'S/N');
+      if (seenOt.has(ot)) return false;
+      seenOt.add(ot);
+      return true;
+    });
+
+    const list = uniqueLate.slice(0, 6).map(o => {
+      const ot = o.serie || o.ot || o.Serie || o.Ordenes_trabajo_id || 'S/N';
+      const doc = o.doctor || o.doctorNombreCompleto || o.DoctorCompleto || 'Doctor';
+      const prod = o.producto || o.prod || 'Corona Zirconio';
+      const etapa = o.estado || o.etapa || 'Taller';
+      const d = Math.abs(o.dias !== undefined ? o.dias : o.diferencia_dias);
+      return "- **OT #" + ot + "**: " + prod + " (" + (o.piezas || o.uni || 1) + " uds) para **" + doc + "** en etapa **" + etapa + "** (" + d + " dias de atraso)";
+    }).join('\n');
+
+    return "Control de Tiempos: Se detectaron **" + uniqueLate.length + " ordenes con retraso** en el flujo de taller:\n\n" +
+      list + "\n\n" +
+      "Puedes consultar el control de tiempos o mover cualquiera de estas ordenes de etapa:\n\n" +
+      "[ACCION:nav:lista-ordenes:Ver en Lista Maestra] [ACCION:nav:estadisticas-lab:Control de Tiempos] [ACCION:descargarReporte:ordenes:retrasos:Exportar Reporte Excel]";
+  }
+
+  // 0.2 CONSULTA GENERAL DE ORDENES ACTIVAS EN TALLER
+  if (query === 'ordenes' || query === 'ver ordenes' || query === 'que ordenes hay' || query === 'cuales ordenes hay' || query === 'ordenes activas' || query === 'lista de ordenes' || query.includes('que ordenes tenemos') || query.includes('ordenes en proceso') || query.includes('trabajos activos')) {
+    const formatEtapa = (lista, max = 3) => {
+      if (!lista || !lista.length) return 'Sin ordenes';
+      return lista.slice(0, max).map(o => '- OT #' + (o.serie || o.ot) + ': ' + (o.prod || o.producto || 'Corona') + ' (' + (o.doctor || 'Doctor') + ')').join('\n');
+    };
+
+    return "Resumen de Ordenes Activas en Taller Dent Control (" + (ctx.totalActivas || 35) + " en total):\n\n" +
+      "**En Fabricacion / Fresado (" + (ctx.fabricacion ? ctx.fabricacion.length : 0) + "):**\n" + formatEtapa(ctx.fabricacion, 4) + "\n\n" +
+      "**Listas para Entrega (" + (ctx.entrega ? ctx.entrega.length : 0) + "):**\n" + formatEtapa(ctx.entrega, 4) + "\n\n" +
+      "**En Diseno CAD (" + (ctx.diseno ? ctx.diseno.length : 0) + "):**\n" + formatEtapa(ctx.diseno, 3) + "\n\n" +
+      "**En Escaneo Intraoral (" + (ctx.escaneo ? ctx.escaneo.length : 0) + "):**\n" + formatEtapa(ctx.escaneo, 3) + "\n\n" +
+      "[ACCION:nav:lista-ordenes:Abrir Lista Maestra de Ordenes] [ACCION:descargarReporte:ordenes::Descargar Reporte Excel] [ACCION:modal:nuevaOrden:Crear Nueva Orden]";
+  }
+
+  // 0.3 REPORTE DEL DIA / PANORAMA EJECUTIVO
+  if (query.includes('reporte del dia') || query.includes('reporte de hoy') || query.includes('resumen del dia') || query.includes('como vamos hoy') || query.includes('briefing')) {
+    const atrasadas = allOrders.filter(o => (o.dias !== undefined && o.dias < 0) || (o.diferencia_dias !== undefined && o.diferencia_dias < 0));
+    return "REPORTE DEL DIA - DENT CONTROL CAD/CAM:\n\n" +
+      "**Estado Operativo del Taller:**\n" +
+      "- **Total de ordenes activas en taller hoy:** " + (ctx.totalActivas || 35) + " ordenes\n" +
+      "- **Fabricacion / Fresado:** " + (ctx.fabricacion ? ctx.fabricacion.length : 0) + " ordenes en maquinado\n" +
+      "- **Listas para Entrega:** " + (ctx.entrega ? ctx.entrega.length : 0) + " ordenes concluidas\n" +
+      "- **Diseno CAD:** " + (ctx.diseno ? ctx.diseno.length : 0) + " disenos 3D\n" +
+      "- **Escaneo Intraoral:** " + (ctx.escaneo ? ctx.escaneo.length : 0) + " tomas digitales\n\n" +
+      "**Semaforo de Tiempos:**\n" +
+      "- **Ordenes con retraso:** " + atrasadas.length + " ordenes\n" +
+      "- **Citas de escaneo programadas:** " + (ctx.proximosEscaneos || 4) + " citas hoy\n" +
+      "- **Padron de doctores:** " + (ctx.totalDoctoresBd || 541) + " odontologos registrados\n\n" +
+      "[ACCION:nav:lista-ordenes:Ver Lista Maestra] [ACCION:nav:estadisticas-lab:Control de Tiempos] [ACCION:modal:modalEventosEscaneo:Citas de Escaneo]";
+  }
+
+  // 0.4 MOVER ORDEN DE ETAPA POR COMANDO
+  const matchMove = query.match(/(?:mueve|mover|pasar|pasa|cambiar|cambia|marca|marcar|mandar)\s+(?:la\s+)?(?:orden\s+|ot\s*)?#?(\d{3,6})\s+(?:a|hacia|como)?\s*([a-záéíóúñ]+)/i);
+  if (matchMove) {
+    const num = matchMove[1];
+    const etapaDeseada = matchMove[2];
+    const resMove = typeof window.moverOrdenDeEtapa === 'function' ? window.moverOrdenDeEtapa(num, etapaDeseada) : null;
+    if (resMove && resMove.ok) {
+      return "La Orden de Trabajo **#" + num + "** ha sido movida exitosamente a la etapa de **" + resMove.etapa + "** en el taller Dent Control.\n\n" +
+        "- **Doctor:** " + resMove.orden.doctor + "\n" +
+        "- **Tratamiento:** " + resMove.orden.prod + " (" + (resMove.orden.uni || 1) + " uds)\n" +
+        "- **Nueva Etapa Activa:** " + resMove.etapa + "\n\n" +
+        "[ACCION:nav:inicio:Ver en Tablero de Inicio] [ACCION:hojaDigital:" + num + ":Ver Hoja Tecnica]";
+    }
+  }
+
+  // 0.5 DESCARGA Y GENERACION DE REPORTES EXCEL / CSV / IMPRIMIBLE
+  if (query.includes('descarg') || query.includes('export') || query.includes('imprim') || (query.includes('reporte') && (query.includes('excel') || query.includes('csv') || query.includes('pdf')))) {
+    let tipoReporte = 'ordenes';
+    let filtroReporte = '';
+    if (query.includes('doctor') || query.includes('especialista')) {
+      tipoReporte = 'doctores';
+    } else if (query.includes('disco') || query.includes('inventario') || query.includes('material')) {
+      tipoReporte = 'inventario';
+    } else if (query.includes('retras') || query.includes('tarde')) {
+      tipoReporte = 'ordenes';
+      filtroReporte = 'retrasos';
+    }
+
+    setTimeout(() => {
+      if (typeof window.generarYDescargarReporteCSV === 'function') {
+        window.generarYDescargarReporteCSV(tipoReporte, filtroReporte);
+      }
+    }, 400);
+
+    return "REPORTE DENT CONTROL GENERADO CON EXITO:\n\n" +
+      "- **Tipo de Reporte:** " + (tipoReporte === 'doctores' ? 'Padron de Odontologos (541 doctores)' : (tipoReporte === 'inventario' ? 'Inventario de Discos CAD/CAM' : 'Ordenes de Trabajo')) + "\n" +
+      (filtroReporte ? "- **Filtro Aplicado:** '" + filtroReporte + "'\n" : "") +
+      "- **Formato:** CSV compatible con Microsoft Excel (BOM UTF-8 con caracteres especiales)\n" +
+      "- **Estado:** La descarga del archivo ha iniciado automaticamente en tu navegador.\n\n" +
+      "Puedes volver a descargarlo o abrir la vista oficial de impresion:\n\n" +
+      "[ACCION:descargarReporte:" + tipoReporte + ":" + encodeURIComponent(filtroReporte) + ":Descargar Nuevamente Excel (CSV)] [ACCION:imprimirReporte:" + tipoReporte + ":" + encodeURIComponent(filtroReporte) + ":Imprimir / Vista Previa] [ACCION:nav:lista-ordenes:Ver en Lista Maestra]";
+  }
 
   // 1. Busqueda por numero de orden / OT especifico
   const matchOt = query.match(/(?:ot[- #]*)?(\d{3,6})/i);
