@@ -6359,7 +6359,7 @@ function renderDynamicModule(key) {
         <!-- Subnavegacion entre vistas de Estadisticas -->
         ${renderEstadisticasSubnav('panorama-general')}
 
-        <!-- Header Ejecutivo Sober Slate con Controles en Vivo -->
+        <!-- Header Ejecutivo Sober Slate con Controles en Vivo y Ayuda Rapida -->
         <div class="bg-white rounded-2xl border border-slate-200/80 p-5 sm:p-6 shadow-2xs mb-5 flex flex-col xl:flex-row xl:items-center justify-between gap-4">
           <div class="space-y-1">
             <div class="flex flex-wrap items-center gap-2.5">
@@ -6372,27 +6372,27 @@ function renderDynamicModule(key) {
                   <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
                   <span class="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
                 </span>
-                Enlace en Vivo • Tiempo Real
+                Datos en Tiempo Real
               </span>
             </div>
             <p class="text-xs text-slate-500 leading-relaxed max-w-2xl">
-              Consolidado analítico de 22,569 órdenes: producción CAD/CAM, pipeline de flujo en taller, distribución de materiales y facturación proyectada.
+              Resumen visual de pedidos, dientes fabricados, avance en taller y ventas acumuladas.
             </p>
           </div>
 
           <div class="flex flex-wrap items-center gap-2.5 shrink-0">
-            <!-- Selector de Periodo Interactivo con Estilo Segmented Control -->
+            <!-- Selector de Periodo Interactivo -->
             <div class="inline-flex p-1 bg-slate-100/90 border border-slate-200/80 rounded-xl text-xs font-semibold shadow-inner" id="periodosStatsGroup">
-              <button type="button" onclick="window.cambiarPeriodoStats('hoy', this)" class="btn-periodo-st px-3 py-1.5 rounded-lg text-slate-600 hover:text-slate-900 transition-all cursor-pointer font-medium">
+              <button type="button" onclick="window.cambiarPeriodoStats('hoy', this)" class="btn-periodo-st px-3 py-1.5 rounded-lg text-slate-600 hover:text-slate-900 transition-all cursor-pointer font-medium" title="Ver actividad del dia de hoy">
                 Hoy
               </button>
-              <button type="button" onclick="window.cambiarPeriodoStats('7d', this)" class="btn-periodo-st px-3 py-1.5 rounded-lg text-slate-600 hover:text-slate-900 transition-all cursor-pointer font-medium">
+              <button type="button" onclick="window.cambiarPeriodoStats('7d', this)" class="btn-periodo-st px-3 py-1.5 rounded-lg text-slate-600 hover:text-slate-900 transition-all cursor-pointer font-medium" title="Ver ultimos 7 dias">
                 7 Días
               </button>
-              <button type="button" onclick="window.cambiarPeriodoStats('mes', this)" class="btn-periodo-st px-3 py-1.5 rounded-lg bg-white text-slate-900 font-bold shadow-xs border border-slate-200/80 transition-all cursor-pointer">
+              <button type="button" onclick="window.cambiarPeriodoStats('mes', this)" class="btn-periodo-st px-3 py-1.5 rounded-lg bg-white text-slate-900 font-bold shadow-xs border border-slate-200/80 transition-all cursor-pointer" title="Ver acumulado de este mes">
                 Este Mes
               </button>
-              <button type="button" onclick="window.cambiarPeriodoStats('ano', this)" class="btn-periodo-st px-3 py-1.5 rounded-lg text-slate-600 hover:text-slate-900 transition-all cursor-pointer font-medium">
+              <button type="button" onclick="window.cambiarPeriodoStats('ano', this)" class="btn-periodo-st px-3 py-1.5 rounded-lg text-slate-600 hover:text-slate-900 transition-all cursor-pointer font-medium" title="Ver acumulado anual">
                 Año 2026
               </button>
             </div>
@@ -6400,23 +6400,60 @@ function renderDynamicModule(key) {
             <!-- Boton de Actualizacion en Vivo -->
             <button type="button" onclick="window.actualizarEstadisticasLive()" class="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-slate-900 hover:bg-slate-800 text-xs font-semibold text-white shadow-xs transition-all active:scale-95 cursor-pointer">
               <i data-lucide="refresh-cw" class="w-3.5 h-3.5 text-blue-300" id="iconLiveRefreshStats"></i>
-              <span>Actualizar en Vivo</span>
+              <span>Actualizar</span>
             </button>
 
-            <!-- Boton de Exportacion Ejecutiva -->
-            <button type="button" onclick="window.generarYDescargarReporteCSV ? window.generarYDescargarReporteCSV('general') : window.exportarTablaCtrlLabCSV()" class="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-white hover:bg-slate-50 border border-slate-200 text-xs font-semibold text-slate-700 shadow-2xs transition-all active:scale-95 cursor-pointer" title="Descargar Reporte Ejecutivo en CSV compatible con Excel">
+            <!-- Boton de Exportacion en Excel/CSV -->
+            <button type="button" onclick="window.generarYDescargarReporteCSV ? window.generarYDescargarReporteCSV('general') : window.exportarTablaCtrlLabCSV()" class="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-white hover:bg-slate-50 border border-slate-200 text-xs font-semibold text-slate-700 shadow-2xs transition-all active:scale-95 cursor-pointer" title="Descargar datos en formato Excel / CSV">
               <i data-lucide="download" class="w-3.5 h-3.5 text-slate-500"></i>
-              <span>Exportar</span>
+              <span>Descargar</span>
+            </button>
+
+            <!-- Boton de Guia Rapida -->
+            <button type="button" onclick="window.toggleGuiaRapidaDashboard()" class="inline-flex items-center gap-1.5 px-3 py-2 rounded-xl bg-blue-50 hover:bg-blue-100 text-blue-700 border border-blue-200/80 text-xs font-semibold transition-all cursor-pointer" title="Ver guia de interpretacion rapida">
+              <i data-lucide="help-circle" class="w-3.5 h-3.5 text-blue-600"></i>
+              <span>Guía</span>
             </button>
           </div>
         </div>
 
-        <!-- 6 KPIs Maestros Principales con Estructura Clinica Enterprise -->
+        <!-- Banner Desplegable de Ayuda Rapida para el Usuario -->
+        <div id="bannerGuiaRapidaDashboard" class="hidden bg-gradient-to-r from-blue-50/80 via-slate-50 to-indigo-50/80 border border-blue-200/90 rounded-2xl p-4 mb-5 shadow-2xs animate-fadeIn">
+          <div class="flex items-start justify-between gap-3">
+            <div class="flex items-start gap-3">
+              <div class="w-8 h-8 rounded-lg bg-blue-600 text-white flex items-center justify-center shrink-0 shadow-2xs">
+                <i data-lucide="info" class="w-4 h-4"></i>
+              </div>
+              <div class="space-y-1">
+                <h4 class="text-xs font-bold text-slate-900 uppercase tracking-wider">Cómo leer este panel en 30 segundos</h4>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-3 text-xs text-slate-600 mt-2">
+                  <div class="bg-white/80 p-2.5 rounded-xl border border-blue-100">
+                    <strong class="text-slate-900 block font-semibold">1. Filtro de Tiempo:</strong>
+                    Toca <strong>Hoy</strong>, <strong>7 Días</strong> o <strong>Este Mes</strong> arriba para recalcular todos los números al instante.
+                  </div>
+                  <div class="bg-white/80 p-2.5 rounded-xl border border-blue-100">
+                    <strong class="text-slate-900 block font-semibold">2. ¿Dónde está el trabajo?</strong>
+                    La gráfica de <strong>Pipeline</strong> te dice en qué mesa o máquina va cada pedido en este momento.
+                  </div>
+                  <div class="bg-white/80 p-2.5 rounded-xl border border-blue-100">
+                    <strong class="text-slate-900 block font-semibold">3. Entregas a Tiempo:</strong>
+                    La tarjeta de <strong>Puntualidad</strong> te avisa si estamos cumpliendo con la fecha que pidió el doctor (meta: &gt;90%).
+                  </div>
+                </div>
+              </div>
+            </div>
+            <button type="button" onclick="window.toggleGuiaRapidaDashboard()" class="text-slate-400 hover:text-slate-600 p-1" title="Cerrar guia">
+              <i data-lucide="x" class="w-4 h-4"></i>
+            </button>
+          </div>
+        </div>
+
+        <!-- 6 Tarjetas Principales Claras y Fáciles de Leer -->
         <div class="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-6 gap-3.5 mb-5">
-          <!-- KPI 1: Ordenes Totales -->
+          <!-- Tarjeta 1: Pedidos Totales -->
           <div class="bg-white p-4 rounded-2xl border border-slate-200/80 shadow-2xs hover:shadow-xs hover:border-slate-300 transition-all flex flex-col justify-between group">
             <div class="flex items-center justify-between">
-              <span class="text-[10px] font-bold uppercase tracking-wider text-slate-400 group-hover:text-slate-600 transition-colors">Órdenes Totales</span>
+              <span class="text-[11px] font-bold uppercase tracking-wider text-slate-500 group-hover:text-slate-700 transition-colors">Pedidos Totales</span>
               <div class="w-7 h-7 rounded-lg bg-blue-50 text-blue-600 border border-blue-100/80 flex items-center justify-center">
                 <i data-lucide="clipboard-list" class="w-3.5 h-3.5"></i>
               </div>
@@ -6428,14 +6465,14 @@ function renderDynamicModule(key) {
               <span class="inline-flex items-center gap-0.5 px-1.5 py-0.5 rounded-md bg-emerald-50 text-emerald-700 border border-emerald-200/60 font-bold text-[10px]" id="kpiOrdenesBadge">
                 <i data-lucide="trending-up" class="w-3 h-3"></i> +12.4%
               </span>
-              <span class="text-slate-400 text-[10px]">vs mes ant.</span>
+              <span class="text-slate-400 text-[10px]">más que el mes ant.</span>
             </div>
           </div>
 
-          <!-- KPI 2: Piezas CAD/CAM -->
+          <!-- Tarjeta 2: Dientes Fabricados -->
           <div class="bg-white p-4 rounded-2xl border border-slate-200/80 shadow-2xs hover:shadow-xs hover:border-slate-300 transition-all flex flex-col justify-between group">
             <div class="flex items-center justify-between">
-              <span class="text-[10px] font-bold uppercase tracking-wider text-slate-400 group-hover:text-slate-600 transition-colors">Piezas CAD/CAM</span>
+              <span class="text-[11px] font-bold uppercase tracking-wider text-slate-500 group-hover:text-slate-700 transition-colors">Dientes Hechos</span>
               <div class="w-7 h-7 rounded-lg bg-indigo-50 text-indigo-600 border border-indigo-100/80 flex items-center justify-center">
                 <i data-lucide="layers" class="w-3.5 h-3.5"></i>
               </div>
@@ -6445,16 +6482,16 @@ function renderDynamicModule(key) {
             </div>
             <div class="flex items-center gap-1.5">
               <span class="inline-flex items-center gap-0.5 px-1.5 py-0.5 rounded-md bg-indigo-50 text-indigo-700 border border-indigo-200/60 font-bold text-[10px]" id="kpiPiezasBadge">
-                <i data-lucide="activity" class="w-3 h-3"></i> +8.1%
+                <i data-lucide="activity" class="w-3.5 h-3.5"></i> ~2 por pedido
               </span>
-              <span class="text-slate-400 text-[10px]">fresado CNC</span>
+              <span class="text-slate-400 text-[10px]">piezas unitarias</span>
             </div>
           </div>
 
-          <!-- KPI 3: Puntualidad Global -->
+          <!-- Tarjeta 3: Puntualidad de Entrega -->
           <div class="bg-white p-4 rounded-2xl border border-slate-200/80 shadow-2xs hover:shadow-xs hover:border-slate-300 transition-all flex flex-col justify-between group">
             <div class="flex items-center justify-between">
-              <span class="text-[10px] font-bold uppercase tracking-wider text-slate-400 group-hover:text-slate-600 transition-colors">Puntualidad</span>
+              <span class="text-[11px] font-bold uppercase tracking-wider text-slate-500 group-hover:text-slate-700 transition-colors">Puntualidad</span>
               <div class="w-7 h-7 rounded-lg bg-emerald-50 text-emerald-600 border border-emerald-100/80 flex items-center justify-center">
                 <i data-lucide="check-circle-2" class="w-3.5 h-3.5"></i>
               </div>
@@ -6464,8 +6501,8 @@ function renderDynamicModule(key) {
             </div>
             <div class="space-y-1 w-full">
               <div class="flex items-center justify-between text-[10px] text-slate-400 font-medium">
-                <span>Meta: 90.0%</span>
-                <span class="font-bold text-emerald-700" id="kpiPuntualidadMeta">Óptimo</span>
+                <span>Meta: 90% a tiempo</span>
+                <span class="font-bold text-emerald-700" id="kpiPuntualidadMeta">Excelente</span>
               </div>
               <div class="w-full bg-slate-100 h-1.5 rounded-full overflow-hidden">
                 <div class="bg-emerald-500 h-full rounded-full transition-all duration-500" id="kpiPuntualidadBar" style="width: 94.2%"></div>
@@ -6473,10 +6510,10 @@ function renderDynamicModule(key) {
             </div>
           </div>
 
-          <!-- KPI 4: Pipeline en Taller -->
+          <!-- Tarjeta 4: Pedidos en Taller -->
           <div class="bg-white p-4 rounded-2xl border border-slate-200/80 shadow-2xs hover:shadow-xs hover:border-slate-300 transition-all flex flex-col justify-between group">
             <div class="flex items-center justify-between">
-              <span class="text-[10px] font-bold uppercase tracking-wider text-slate-400 group-hover:text-slate-600 transition-colors">En Taller (WIP)</span>
+              <span class="text-[11px] font-bold uppercase tracking-wider text-slate-500 group-hover:text-slate-700 transition-colors">En Taller Ahora</span>
               <div class="w-7 h-7 rounded-lg bg-amber-50 text-amber-600 border border-amber-100/80 flex items-center justify-center">
                 <i data-lucide="workflow" class="w-3.5 h-3.5"></i>
               </div>
@@ -6486,16 +6523,16 @@ function renderDynamicModule(key) {
             </div>
             <div class="flex items-center gap-1.5">
               <span class="inline-flex items-center gap-1 px-1.5 py-0.5 rounded-md bg-amber-50 text-amber-800 border border-amber-200/60 font-bold text-[10px]">
-                <span class="w-1.5 h-1.5 rounded-full bg-amber-500 animate-pulse"></span> 4 Etapas
+                <span class="w-1.5 h-1.5 rounded-full bg-amber-500 animate-pulse"></span> 4 Pasos activos
               </span>
-              <span class="text-slate-400 text-[10px]">en tránsito</span>
+              <span class="text-slate-400 text-[10px]">fabricándose</span>
             </div>
           </div>
 
-          <!-- KPI 5: Discos Utilizados -->
+          <!-- Tarjeta 5: Discos Utilizados -->
           <div class="bg-white p-4 rounded-2xl border border-slate-200/80 shadow-2xs hover:shadow-xs hover:border-slate-300 transition-all flex flex-col justify-between group">
             <div class="flex items-center justify-between">
-              <span class="text-[10px] font-bold uppercase tracking-wider text-slate-400 group-hover:text-slate-600 transition-colors">Discos Zirconio</span>
+              <span class="text-[11px] font-bold uppercase tracking-wider text-slate-500 group-hover:text-slate-700 transition-colors">Discos de Material</span>
               <div class="w-7 h-7 rounded-lg bg-purple-50 text-purple-600 border border-purple-100/80 flex items-center justify-center">
                 <i data-lucide="disc" class="w-3.5 h-3.5"></i>
               </div>
@@ -6505,7 +6542,7 @@ function renderDynamicModule(key) {
             </div>
             <div class="space-y-1 w-full">
               <div class="flex items-center justify-between text-[10px] text-slate-400 font-medium">
-                <span>Aprovechamiento</span>
+                <span>Aprovechado</span>
                 <span class="font-bold text-purple-700" id="kpiDiscosPct">82.4%</span>
               </div>
               <div class="w-full bg-slate-100 h-1.5 rounded-full overflow-hidden">
@@ -6514,10 +6551,10 @@ function renderDynamicModule(key) {
             </div>
           </div>
 
-          <!-- KPI 6: Facturación / Valor -->
+          <!-- Tarjeta 6: Facturación Total -->
           <div class="bg-white p-4 rounded-2xl border border-slate-200/80 shadow-2xs hover:shadow-xs hover:border-slate-300 transition-all flex flex-col justify-between group">
             <div class="flex items-center justify-between">
-              <span class="text-[10px] font-bold uppercase tracking-wider text-slate-400 group-hover:text-slate-600 transition-colors">Facturación Est.</span>
+              <span class="text-[11px] font-bold uppercase tracking-wider text-slate-500 group-hover:text-slate-700 transition-colors">Total Facturado</span>
               <div class="w-7 h-7 rounded-lg bg-emerald-50 text-emerald-700 border border-emerald-100/80 flex items-center justify-center">
                 <i data-lucide="dollar-sign" class="w-3.5 h-3.5"></i>
               </div>
@@ -6529,31 +6566,31 @@ function renderDynamicModule(key) {
               <span class="inline-flex items-center gap-0.5 px-1.5 py-0.5 rounded-md bg-emerald-50 text-emerald-700 border border-emerald-200/60 font-mono font-bold text-[10px]">
                 MXN
               </span>
-              <span class="text-slate-400 text-[10px]">valor devengado</span>
+              <span class="text-slate-400 text-[10px]">ingreso de este mes</span>
             </div>
           </div>
         </div>
 
-        <!-- Fila 1 de Graficas Reales con Chart.js -->
+        <!-- Fila 1 de Graficas: Produccion en el Tiempo y Pasos del Taller -->
         <div class="grid grid-cols-1 lg:grid-cols-12 gap-4 mb-5">
-          <!-- Grafico 1: Curva de Produccion Semanal (Area Spline) -->
+          <!-- Grafico 1: Produccion de Dientes en el Tiempo -->
           <div class="lg:col-span-8 bg-white rounded-2xl border border-slate-200/80 p-5 shadow-2xs flex flex-col justify-between">
             <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-3 border-b border-slate-100">
               <div>
                 <div class="flex items-center gap-2">
-                  <h3 class="text-xs sm:text-sm font-bold tracking-tight text-slate-900">Curva de Producción y Fresado CAD/CAM</h3>
-                  <span class="px-2 py-0.5 rounded-full bg-blue-50 text-blue-700 text-[10px] font-bold border border-blue-200/80">Tiempo Real</span>
+                  <h3 class="text-xs sm:text-sm font-bold tracking-tight text-slate-900">Dientes Fabricados en el Tiempo</h3>
+                  <span class="px-2 py-0.5 rounded-full bg-blue-50 text-blue-700 text-[10px] font-bold border border-blue-200/80">Semana a Semana</span>
                 </div>
-                <p class="text-[11px] text-slate-400 mt-0.5">Seguimiento de piezas unitarias maquinadas por biomaterial en centros CNC.</p>
+                <p class="text-[11px] text-slate-400 mt-0.5">Cantidad de dientes terminados según el tipo de material utilizado.</p>
               </div>
               <div class="flex flex-wrap items-center gap-2 text-[11px] font-semibold">
-                <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-slate-50 border border-slate-200/70 text-slate-700">
-                  <span class="w-2.5 h-2.5 rounded-full bg-blue-900"></span> Zirconio HT+
+                <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-slate-50 border border-slate-200/70 text-slate-700" title="Zirconio: coronas y puentes resistentes">
+                  <span class="w-2.5 h-2.5 rounded-full bg-blue-900"></span> Zirconio
                 </span>
-                <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-slate-50 border border-slate-200/70 text-slate-700">
-                  <span class="w-2.5 h-2.5 rounded-full bg-blue-600"></span> Disilicato E-Max
+                <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-slate-50 border border-slate-200/70 text-slate-700" title="E-Max: porcelana estetica y carillas">
+                  <span class="w-2.5 h-2.5 rounded-full bg-blue-600"></span> Porcelana E-Max
                 </span>
-                <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-slate-50 border border-slate-200/70 text-slate-700">
+                <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-slate-50 border border-slate-200/70 text-slate-700" title="Alineadores: ortodoncia invisible">
                   <span class="w-2.5 h-2.5 rounded-full bg-cyan-500"></span> Alineadores
                 </span>
               </div>
@@ -6562,94 +6599,98 @@ function renderDynamicModule(key) {
               <canvas id="chartTendenciaProduccion"></canvas>
             </div>
             <div class="pt-3 border-t border-slate-100 grid grid-cols-1 sm:grid-cols-3 gap-2 text-xs">
-              <div class="p-2 rounded-xl bg-slate-50/70 border border-slate-200/60 text-center">
-                <span class="text-[10px] font-bold text-slate-400 uppercase tracking-wider block">Capacidad Instalada</span>
-                <span class="font-mono font-bold text-slate-900 text-xs">120 piezas / turno</span>
+              <div class="p-2.5 rounded-xl bg-slate-50/70 border border-slate-200/60 text-center">
+                <span class="text-[10px] font-bold text-slate-400 uppercase tracking-wider block">Ritmo de Taller</span>
+                <span class="font-mono font-bold text-slate-900 text-xs">Hasta 120 dientes / día</span>
               </div>
-              <div class="p-2 rounded-xl bg-slate-50/70 border border-slate-200/60 text-center">
+              <div class="p-2.5 rounded-xl bg-slate-50/70 border border-slate-200/60 text-center">
                 <span class="text-[10px] font-bold text-slate-400 uppercase tracking-wider block">Tiempo Promedio</span>
-                <span class="font-mono font-bold text-emerald-700 text-xs">38 min / unidad</span>
+                <span class="font-mono font-bold text-emerald-700 text-xs">38 min por cada diente</span>
               </div>
-              <div class="p-2 rounded-xl bg-slate-50/70 border border-slate-200/60 text-center">
-                <span class="text-[10px] font-bold text-slate-400 uppercase tracking-wider block">Disponibilidad CNC</span>
-                <span class="font-mono font-bold text-blue-700 text-xs">98.2% operativo</span>
+              <div class="p-2.5 rounded-xl bg-slate-50/70 border border-slate-200/60 text-center">
+                <span class="text-[10px] font-bold text-slate-400 uppercase tracking-wider block">Máquinas Activas</span>
+                <span class="font-mono font-bold text-blue-700 text-xs">98.2% funcionando</span>
               </div>
             </div>
           </div>
 
-          <!-- Grafico 2: Pipeline de Flujo en Taller -->
+          <!-- Grafico 2: Pasos en Taller (Pipeline) -->
           <div class="lg:col-span-4 bg-white rounded-2xl border border-slate-200/80 p-5 shadow-2xs flex flex-col justify-between">
             <div class="pb-3 border-b border-slate-100 flex items-center justify-between">
               <div>
-                <h3 class="text-xs sm:text-sm font-bold tracking-tight text-slate-900">Pipeline en Taller</h3>
-                <p class="text-[11px] text-slate-400 mt-0.5">Carga activa por estaciones</p>
+                <h3 class="text-xs sm:text-sm font-bold tracking-tight text-slate-900">¿Dónde van los pedidos ahorita?</h3>
+                <p class="text-[11px] text-slate-400 mt-0.5">Avance paso a paso de los 35 pedidos en taller</p>
               </div>
-              <span class="font-mono text-xs font-bold text-blue-700 bg-blue-50 px-2.5 py-1 rounded-lg border border-blue-200/80">35 OT Activas</span>
+              <span class="font-mono text-xs font-bold text-blue-700 bg-blue-50 px-2.5 py-1 rounded-lg border border-blue-200/80">35 Pedidos</span>
             </div>
             <div class="relative h-72 w-full pt-2">
               <canvas id="chartPipelineFlujo"></canvas>
             </div>
             <div class="grid grid-cols-4 gap-1.5 pt-3 border-t border-slate-100 text-center text-[10px] font-semibold">
-              <div class="p-1 rounded-lg bg-sky-50 text-sky-800 border border-sky-200/50">
-                <span class="font-bold font-mono block">4 OT</span>Escaneo
+              <div class="p-1.5 rounded-lg bg-sky-50 text-sky-800 border border-sky-200/50">
+                <span class="font-bold font-mono block text-xs">4</span>Paso 1: Escaneo
               </div>
-              <div class="p-1 rounded-lg bg-blue-50 text-blue-800 border border-blue-200/50">
-                <span class="font-bold font-mono block">18 OT</span>Diseño
+              <div class="p-1.5 rounded-lg bg-blue-50 text-blue-800 border border-blue-200/50">
+                <span class="font-bold font-mono block text-xs">18</span>Paso 2: Diseño
               </div>
-              <div class="p-1 rounded-lg bg-indigo-50 text-indigo-800 border border-indigo-200/50">
-                <span class="font-bold font-mono block">7 OT</span>Fresado
+              <div class="p-1.5 rounded-lg bg-indigo-50 text-indigo-800 border border-indigo-200/50">
+                <span class="font-bold font-mono block text-xs">7</span>Paso 3: Talla
               </div>
-              <div class="p-1 rounded-lg bg-emerald-50 text-emerald-800 border border-emerald-200/50">
-                <span class="font-bold font-mono block">6 OT</span>Entrega
+              <div class="p-1.5 rounded-lg bg-emerald-50 text-emerald-800 border border-emerald-200/50">
+                <span class="font-bold font-mono block text-xs">6</span>Paso 4: Envío
               </div>
             </div>
           </div>
         </div>
 
-        <!-- Fila 2 de Graficas Reales con Chart.js -->
+        <!-- Fila 2 de Graficas: Materiales Utilizados y Origen de Ventas -->
         <div class="grid grid-cols-1 lg:grid-cols-12 gap-4 mb-5">
           <!-- Grafico 3: Distribucion de Materiales Dentales -->
           <div class="lg:col-span-6 bg-white rounded-2xl border border-slate-200/80 p-5 shadow-2xs flex flex-col justify-between">
             <div class="pb-3 border-b border-slate-100 flex items-center justify-between">
               <div>
-                <h3 class="text-xs sm:text-sm font-bold tracking-tight text-slate-900">Distribución de Biomateriales Dentales</h3>
-                <p class="text-[11px] text-slate-400 mt-0.5">Participación porcentual del volumen de piezas</p>
+                <h3 class="text-xs sm:text-sm font-bold tracking-tight text-slate-900">¿Qué materiales se fabrican más?</h3>
+                <p class="text-[11px] text-slate-400 mt-0.5">Porcentaje de uso sobre los 2,860 dientes hechos</p>
               </div>
-              <span class="font-mono text-xs font-semibold text-slate-600 bg-slate-100 px-2 py-0.5 rounded-md border border-slate-200">100% Trazabilidad</span>
+              <span class="font-mono text-xs font-semibold text-slate-600 bg-slate-100 px-2 py-0.5 rounded-md border border-slate-200">100% Verificado</span>
             </div>
             <div class="relative h-64 w-full flex items-center justify-center pt-2">
               <canvas id="chartDistribucionMateriales"></canvas>
               <div class="absolute inset-0 flex flex-col items-center justify-center pointer-events-none">
                 <span class="text-2xl font-black font-mono text-slate-900 tracking-tight" id="donutTotalPiezas">2,860</span>
-                <span class="text-[10px] uppercase font-bold text-slate-400 tracking-wider">Piezas Totales</span>
+                <span class="text-[10px] uppercase font-bold text-slate-400 tracking-wider">Dientes Totales</span>
               </div>
             </div>
             <div class="grid grid-cols-2 sm:grid-cols-4 gap-2 pt-3 border-t border-slate-100 text-center text-[10px]">
-              <div class="p-2 rounded-xl bg-slate-50/70 border border-slate-200/60">
+              <div class="p-2.5 rounded-xl bg-slate-50/70 border border-slate-200/60">
                 <span class="font-bold text-slate-900 block font-mono text-xs">49%</span>
-                <span class="text-slate-500 font-medium">Zirconio HT+</span>
+                <span class="text-slate-600 font-semibold block">Zirconio</span>
+                <span class="text-slate-400 text-[9px]">1,401 dientes</span>
               </div>
-              <div class="p-2 rounded-xl bg-slate-50/70 border border-slate-200/60">
+              <div class="p-2.5 rounded-xl bg-slate-50/70 border border-slate-200/60">
                 <span class="font-bold text-slate-900 block font-mono text-xs">26%</span>
-                <span class="text-slate-500 font-medium">E-Max Disilicato</span>
+                <span class="text-slate-600 font-semibold block">E-Max</span>
+                <span class="text-slate-400 text-[9px]">744 carillas</span>
               </div>
-              <div class="p-2 rounded-xl bg-slate-50/70 border border-slate-200/60">
+              <div class="p-2.5 rounded-xl bg-slate-50/70 border border-slate-200/60">
                 <span class="font-bold text-slate-900 block font-mono text-xs">15%</span>
-                <span class="text-slate-500 font-medium">Alineadores</span>
+                <span class="text-slate-600 font-semibold block">Alineadores</span>
+                <span class="text-slate-400 text-[9px]">429 placas</span>
               </div>
-              <div class="p-2 rounded-xl bg-slate-50/70 border border-slate-200/60">
+              <div class="p-2.5 rounded-xl bg-slate-50/70 border border-slate-200/60">
                 <span class="font-bold text-slate-900 block font-mono text-xs">10%</span>
-                <span class="text-slate-500 font-medium">Guardas Bio</span>
+                <span class="text-slate-600 font-semibold block">Guardas</span>
+                <span class="text-slate-400 text-[9px]">286 férulas</span>
               </div>
             </div>
           </div>
 
-          <!-- Grafico 4: Analisis Comercial Doctores Externos vs Internos -->
+          <!-- Grafico 4: De Dónde Viene el Dinero (Clientes vs Propias) -->
           <div class="lg:col-span-6 bg-white rounded-2xl border border-slate-200/80 p-5 shadow-2xs flex flex-col justify-between">
             <div class="pb-3 border-b border-slate-100 flex items-center justify-between">
               <div>
-                <h3 class="text-xs sm:text-sm font-bold tracking-tight text-slate-900">Rendimiento Comercial: Externos vs Internos</h3>
-                <p class="text-[11px] text-slate-400 mt-0.5">Volumen de piezas e importes generados por canal</p>
+                <h3 class="text-xs sm:text-sm font-bold tracking-tight text-slate-900">¿Quién compra los trabajos?</h3>
+                <p class="text-[11px] text-slate-400 mt-0.5">Dentistas particulares clientes vs Clínicas de la casa</p>
               </div>
               <span class="font-mono text-xs font-bold text-emerald-700 bg-emerald-50 px-2.5 py-1 rounded-lg border border-emerald-200/80">$1,248,500 MXN</span>
             </div>
@@ -6657,19 +6698,21 @@ function renderDynamicModule(key) {
               <canvas id="chartDoctoresInternosExternos"></canvas>
             </div>
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5 pt-3 border-t border-slate-100 text-xs">
-              <div class="p-3 bg-slate-50/80 rounded-xl border border-slate-200/80 flex items-center justify-between">
+              <div class="p-3 bg-blue-50/60 rounded-xl border border-blue-200/70 flex items-center justify-between">
                 <div>
-                  <span class="text-slate-400 text-[10px] font-bold uppercase tracking-wider block">Doctores Externos</span>
-                  <span class="font-mono font-bold text-slate-900 text-sm">2,090 piezas (73.1%)</span>
+                  <span class="text-blue-700 text-[10px] font-bold uppercase tracking-wider block">Dentistas Particulares (73%)</span>
+                  <span class="font-mono font-bold text-slate-900 text-sm">2,090 dientes</span>
+                  <span class="text-slate-500 text-[10px] block">Precio de venta regular</span>
                 </div>
-                <span class="font-mono font-bold text-blue-700 bg-blue-50 px-2 py-0.5 rounded-md border border-blue-200/60 text-xs">$940,500</span>
+                <span class="font-mono font-bold text-blue-800 bg-white px-2.5 py-1 rounded-lg border border-blue-200 text-xs shadow-2xs">$940,500</span>
               </div>
-              <div class="p-3 bg-slate-50/80 rounded-xl border border-slate-200/80 flex items-center justify-between">
+              <div class="p-3 bg-slate-50/90 rounded-xl border border-slate-200/80 flex items-center justify-between">
                 <div>
-                  <span class="text-slate-400 text-[10px] font-bold uppercase tracking-wider block">Clínicas Internas</span>
-                  <span class="font-mono font-bold text-slate-900 text-sm">770 piezas (26.9%)</span>
+                  <span class="text-slate-600 text-[10px] font-bold uppercase tracking-wider block">Clínicas Propias (27%)</span>
+                  <span class="font-mono font-bold text-slate-900 text-sm">770 dientes</span>
+                  <span class="text-slate-500 text-[10px] block">Precio a costo de taller</span>
                 </div>
-                <span class="font-mono font-bold text-slate-700 bg-slate-100 px-2 py-0.5 rounded-md border border-slate-200 text-xs">$308,000</span>
+                <span class="font-mono font-bold text-slate-800 bg-white px-2.5 py-1 rounded-lg border border-slate-200 text-xs shadow-2xs">$308,000</span>
               </div>
             </div>
           </div>
@@ -6856,7 +6899,7 @@ window.initEstadisticasCharts = function(periodo = 'mes') {
     window._chartsInstances['chartPipelineFlujo'] = new Chart(ctx, {
       type: 'bar',
       data: {
-        labels: ['1. Escaneo', '2. Diseño CAD', '3. Fresado CAM', '4. Entrega'],
+        labels: ['1. Escaneo 3D', '2. Diseño en compu', '3. Talla en máquina', '4. Listo para envío'],
         datasets: [{
           data: [4, 18, 7, 6],
           backgroundColor: ['#38bdf8', '#2563eb', '#1e3a8a', '#10b981'],
@@ -6940,14 +6983,14 @@ window.initEstadisticasCharts = function(periodo = 'mes') {
         labels: d.labels,
         datasets: [
           {
-            label: 'Doctores Externos',
+            label: 'Dentistas Particulares (Clientes)',
             data: d.externos,
             backgroundColor: '#1e3a8a',
             borderRadius: 6,
             barPercentage: 0.7
           },
           {
-            label: 'Clínicas Internas',
+            label: 'Clínicas de la Casa (Propias)',
             data: d.internos,
             backgroundColor: '#0284c7',
             borderRadius: 6,
