@@ -13378,7 +13378,7 @@ window.callDentalAI = async function(promptText, type = 'push') {
     }
   }
   if (!key) throw new Error('API Key no configurada');
-  const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-flash-latest:generateContent?key=${encodeURIComponent(key)}`;
+  const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${encodeURIComponent(key)}`;
   const systemPrompt = "Actúa como asistente administrativo de un laboratorio dental especializado en CAD/CAM (Dent Control / DentLab). Genera respuestas profesionales y concisas. Devuelve ÚNICAMENTE un objeto JSON válido con las claves 'titulo' (máximo 6 palabras) y 'mensaje' (máximo 25 palabras). Sin formato markdown.";
 
   const payload = {
@@ -13665,7 +13665,7 @@ REGLAS OBLIGATORIAS:
 
   if (key) {
     try {
-      const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-flash-latest:generateContent?key=${encodeURIComponent(key)}`;
+      const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${encodeURIComponent(key)}`;
       const payload = {
         contents: [{ parts: [{ text: promptFinal }] }],
         generationConfig: { responseMimeType: 'application/json' }
@@ -14449,6 +14449,23 @@ window.buscarEnTodoElSistemaDent = function(termino) {
 // 4. EJECUTOR DE ACCIONES Y NAVEGACION UNIVERSAL EN DENT CONTROL
 // -------------------------------------------------------------------------
 window.ejecutarAccionDashboard = function(tipo, param, boton, extra) {
+  if (tipo === 'briefing') {
+    if (typeof enviarPromptSugeridoWix === 'function') {
+      enviarPromptSugeridoWix('Dame el briefing ejecutivo de hoy: ordenes en taller, retrasos y citas');
+    }
+    return;
+  } else if (tipo === 'whatsapp') {
+    const rawExtra = extra ? decodeURIComponent(extra) : '';
+    const parts = rawExtra.split('|');
+    const tel = (parts[0] || '').replace(/[^0-9]/g, '');
+    const msg = encodeURIComponent(parts[1] || 'Hola, le informamos sobre su trabajo en Dent Control.');
+    if (tel) {
+      window.open('https://api.whatsapp.com/send?phone=' + tel + '&text=' + msg, '_blank');
+    } else {
+      if (typeof showToast === 'function') showToast('WhatsApp', 'No se encontro numero telefonico registrado para este doctor.');
+    }
+    return;
+  }
   if (tipo === 'nav') {
     if (typeof openModule === 'function') {
       openModule(param);
@@ -15053,7 +15070,7 @@ REGLAS ESTRICTAS OBLIGATORIAS:
         { role: 'user', parts: [{ text: preguntaUsuario }] }
       ];
 
-      const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-flash-latest:generateContent?key=${encodeURIComponent(key)}`;
+      const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${encodeURIComponent(key)}`;
       const controller = new AbortController();
       const timeoutId = setTimeout(() => controller.abort(), 12000);
 
