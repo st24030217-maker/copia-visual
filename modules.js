@@ -1,5 +1,97 @@
 
 // -------------------------------------------------------------------------
+// AUDITOR DE CONFLICTOS CLINICOS, SEMAFORO Y CUELLOS DE BOTELLA
+// -------------------------------------------------------------------------
+window.auditarConflictosOperativos = function() {
+  const d = (typeof INICIO_DATA !== 'undefined' ? INICIO_DATA : null) || window.INICIO_DATA || {};
+  const ds = (typeof DENT_STATE !== 'undefined' ? DENT_STATE : null) || window.DENT_STATE || {};
+
+  const alertasCriticas = [];
+  const advertenciasTiempo = [];
+  const avisosCobranza = [];
+  const avisosStock = [];
+
+  // 1. Analisis de Tiempos y Cuellos de Botella en Etapas Activas
+  const activas = (d.fabricacion || []).concat(d.entrega || [], d.diseno || [], d.escaneo || []);
+  activas.forEach(o => {
+    const ot = o.serie || o.ot || o.Serie || 'S/N';
+    const doc = o.doctor || o.doctorNombreCompleto || o.DoctorCompleto || 'Doctor';
+    const prod = o.producto || o.prod || 'Trabajo Dental';
+    const etapa = o.estado || o.etapa || 'Taller';
+    const dias = o.dias !== undefined ? o.dias : (o.diferencia_dias !== undefined ? o.diferencia_dias : null);
+
+    if (dias !== null && dias < 0) {
+      alertasCriticas.push({
+        nivel: 'critico',
+        ot,
+        doc,
+        prod,
+        etapa,
+        dias: Math.abs(dias),
+        mensaje: 'OT #' + ot + ' (' + prod + ' para ' + doc + ') presenta ' + Math.abs(dias) + ' dias de atraso en etapa ' + etapa + '.'
+      });
+    } else if (dias !== null && dias <= 1 && (etapa.toLowerCase().includes('dis') || etapa.toLowerCase().includes('esc'))) {
+      advertenciasTiempo.push({
+        nivel: 'preventivo',
+        ot,
+        doc,
+        prod,
+        etapa,
+        dias,
+        mensaje: 'OT #' + ot + ' (' + prod + ' para ' + doc + ') entrega programada para ' + (dias === 0 ? 'hoy' : 'manana') + ' pero aun continua en ' + etapa + '.'
+      });
+    }
+  });
+
+  // 2. Analisis de Ordenes Listas con Saldo Pendiente de Liberacion
+  const pendientesList = Array.isArray(d.pendientes) ? d.pendientes : [];
+  if (pendientesList.length > 0 && Array.isArray(d.entrega) && d.entrega.length > 0) {
+    const entregasSet = new Set(d.entrega.map(o => String(o.serie || o.ot)));
+    pendientesList.forEach(p => {
+      const pOt = String(p.serie || p.ot);
+      if (entregasSet.has(pOt)) {
+        avisosCobranza.push({
+          nivel: 'cobranza',
+          ot: pOt,
+          doc: p.doctor || 'Doctor',
+          mensaje: 'OT #' + pOt + ' lista para entrega a ' + (p.doctor || 'Doctor') + ' pero requiere confirmacion de liquidacion de pago.'
+        });
+      }
+    });
+  }
+
+  // 3. Analisis de Stock de Discos CAD/CAM
+  const discos = Array.isArray(ds.discos) ? ds.discos : [];
+  if (discos.length > 0) {
+    const conteo = {};
+    discos.forEach(disc => {
+      const key = (disc.marca || 'Zirconio') + ' ' + (disc.material || '') + ' ' + (disc.grosor || '');
+      conteo[key] = (conteo[key] || 0) + 1;
+    });
+    for (const [material, cant] of Object.entries(conteo)) {
+      if (cant <= 2) {
+        avisosStock.push({
+          nivel: 'stock',
+          material,
+          cant,
+          mensaje: 'Existencia baja de material CAD/CAM: ' + material + ' (quedan ' + cant + ' bloques en almacen).'
+        });
+      }
+    }
+  }
+
+  const total = alertasCriticas.length + advertenciasTiempo.length + avisosCobranza.length + avisosStock.length;
+  return {
+    alertasCriticas,
+    advertenciasTiempo,
+    avisosCobranza,
+    avisosStock,
+    totalConflictos: total
+  };
+};
+
+
+// -------------------------------------------------------------------------
 // MOTOR DE REPORTES Y EXPORTACION EXCEL / CSV / IMPRIMIBLE DENT CONTROL
 // -------------------------------------------------------------------------
 window.generarYDescargarReporteCSV = function(tipo, filtro) {
