@@ -1561,22 +1561,17 @@
       <!-- ===================================================================== -->
       <div id="section-inicio" class="space-y-4">
 
-        <!-- 1. BARRA SUPERIOR CON FONDO FOTOGRÁFICO CAD/CAM Y BOTONES GLASSMÓRFICOS -->
-        <div class="inicio-hero-banner text-white px-4 py-3.5 sm:px-5 sm:py-4 rounded-2xl border border-slate-800/80">
-          <!-- Imagen de fondo de Laboratorio CAD/CAM Dental -->
-          <img src="assets/dental_cadcam.jpg" alt="" aria-hidden="true"
-               class="absolute inset-0 w-full h-full object-cover object-center brightness-90 pointer-events-none select-none">
-          <!-- Gradiente oscuro translúcido para contraste perfecto del texto sobre la foto -->
-          <div class="absolute inset-0 pointer-events-none"
-               style="background: linear-gradient(90deg, rgba(15, 23, 42, 0.90) 0%, rgba(15, 23, 42, 0.68) 50%, rgba(15, 23, 42, 0.85) 100%);"></div>
+        <!-- 1. BARRA SUPERIOR CON FONDO ARQUITECTÓNICO CAD/CAM Y BOTONES GLASSMÓRFICOS -->
+        <div class="inicio-hero-banner text-white px-4 py-3.5 sm:px-5 sm:py-4 rounded-2xl border border-slate-800/80 relative">
+          <!-- Textura sutil de rejilla arquitectónica -->
+          <div class="absolute inset-0 inicio-hero-grid opacity-30 pointer-events-none"></div>
 
           <div class="relative z-10 flex flex-wrap items-center justify-between gap-3">
-            <!-- Botones Principales (Calendario, Órdenes Canceladas, Órdenes Pendientes de Pago) -->
-            <div class="flex flex-wrap items-center gap-2.5">
+            <!-- Botones Principales (Calendario, Órdenes Canceladas, Órdenes Pendientes de Pago, Próximos Escaneos) -->
+            <div class="flex flex-wrap items-center gap-2">
               <!-- Calendario -->
               <button type="button" onclick="openModule('calendario');"
-                class="hero-kpi-card px-3.5 py-2 rounded-xl flex items-center gap-2.5 text-xs font-bold text-slate-100 cursor-pointer"
-                style="background: linear-gradient(135deg, rgba(51, 78, 104, 0.88) 0%, rgba(36, 59, 83, 0.92) 100%); border-color: rgba(148, 163, 184, 0.28);">
+                class="hero-kpi-card px-3.5 py-2 rounded-xl flex items-center gap-2 text-xs font-bold text-slate-100 hover:text-white cursor-pointer transition-all active:scale-95">
                 <span class="w-6 h-6 rounded-lg bg-white/10 flex items-center justify-center text-slate-200 shrink-0">
                   <i data-lucide="calendar" class="w-3.5 h-3.5"></i>
                 </span>
@@ -1585,130 +1580,185 @@
 
               <!-- Órdenes canceladas -->
               <button type="button" onclick="openModalCanceladas();"
-                class="hero-kpi-card px-3.5 py-2 rounded-xl flex items-center gap-2.5 text-xs font-semibold text-slate-100 cursor-pointer">
-                <span class="w-6 h-6 rounded-lg flex items-center justify-center shrink-0"
-                      style="background: rgba(120, 56, 56, 0.35); color: #dfb8b8; border: 1px solid rgba(199, 141, 141, 0.28);">
+                class="hero-kpi-card px-3.5 py-2 rounded-xl flex items-center gap-2 text-xs font-semibold text-slate-100 hover:text-white cursor-pointer transition-all active:scale-95">
+                <span class="w-6 h-6 rounded-lg flex items-center justify-center shrink-0 bg-rose-500/20 text-rose-300 border border-rose-500/30">
                   <i data-lucide="ban" class="w-3.5 h-3.5"></i>
                 </span>
-                <span>Ordenes canceladas</span>
-                <span class="px-2 py-0.5 rounded-lg text-[11px] font-extrabold font-mono"
-                      style="background: rgba(120, 56, 56, 0.42); color: #efdada; border: 1px solid rgba(199, 141, 141, 0.32);"
+                <span>Canceladas</span>
+                <span class="px-2 py-0.5 rounded-md text-[11px] font-extrabold font-mono bg-rose-500/25 text-rose-200 border border-rose-500/40"
                       id="NumberOrdenCanceladas">646</span>
               </button>
 
               <!-- Órdenes Pendientes de pago -->
               <button type="button" onclick="openModalPendientes();"
-                class="hero-kpi-card px-3.5 py-2 rounded-xl flex items-center gap-2.5 text-xs font-semibold text-slate-100 cursor-pointer">
-                <span class="w-6 h-6 rounded-lg flex items-center justify-center shrink-0"
-                      style="background: rgba(117, 92, 52, 0.38); color: #dfd0b3; border: 1px solid rgba(200, 176, 135, 0.28);">
+                class="hero-kpi-card px-3.5 py-2 rounded-xl flex items-center gap-2 text-xs font-semibold text-slate-100 hover:text-white cursor-pointer transition-all active:scale-95">
+                <span class="w-6 h-6 rounded-lg flex items-center justify-center shrink-0 bg-amber-500/20 text-amber-300 border border-amber-500/30">
                   <i data-lucide="bell" class="w-3.5 h-3.5"></i>
                 </span>
-                <span>Ordenes Pendientes de pago</span>
-                <span class="px-2 py-0.5 rounded-lg text-[11px] font-extrabold font-mono"
-                      style="background: rgba(51, 78, 104, 0.48); color: #d9e2ec; border: 1px solid rgba(159, 179, 200, 0.30);"
+                <span>Pendientes Pago</span>
+                <span class="px-2 py-0.5 rounded-md text-[11px] font-extrabold font-mono bg-amber-500/25 text-amber-200 border border-amber-500/40"
                       id="NumberOrden">0</span>
               </button>
 
               <!-- Próximos Eventos (Escaneos) -->
               <button type="button" onclick="openModalEventosEscaneo();"
-                class="hero-kpi-card px-3.5 py-2 rounded-xl flex items-center gap-2.5 text-xs font-semibold text-slate-100 cursor-pointer">
-                <span class="w-6 h-6 rounded-lg flex items-center justify-center shrink-0"
-                      style="background: rgba(30, 78, 120, 0.45); color: #93c5fd; border: 1px solid rgba(147, 197, 253, 0.3);">
+                class="hero-kpi-card px-3.5 py-2 rounded-xl flex items-center gap-2 text-xs font-semibold text-slate-100 hover:text-white cursor-pointer transition-all active:scale-95">
+                <span class="w-6 h-6 rounded-lg flex items-center justify-center shrink-0 bg-blue-500/20 text-blue-300 border border-blue-500/30">
                   <i data-lucide="scan" class="w-3.5 h-3.5"></i>
                 </span>
                 <span>Próximos Escaneos</span>
-                <span class="px-2 py-0.5 rounded-lg text-[11px] font-extrabold font-mono"
-                      style="background: rgba(30, 78, 120, 0.55); color: #dbeafe; border: 1px solid rgba(147, 197, 253, 0.35);"
+                <span class="px-2 py-0.5 rounded-md text-[11px] font-extrabold font-mono bg-blue-500/25 text-blue-200 border border-blue-500/40"
                       id="NumberProximosEscaneos">4</span>
               </button>
-              
-
             </div>
 
             <!-- Reloj en Vivo y Acciones Rápidas (Actualizar y Nueva Orden) -->
             <div class="flex items-center gap-2.5 ml-auto">
-              <!-- Hora Actual Animada (Tonos Sobrios) -->
+              <!-- Hora Actual Animada -->
               <div class="hero-clock-pill flex items-center gap-2.5 px-3.5 py-2 rounded-xl backdrop-blur-md">
                 <span class="clock-live-dot-wrap shrink-0">
                   <span class="clock-live-dot-ping"></span>
-                  <span class="relative w-2 h-2 rounded-full" style="background-color: #5e9c89;"></span>
+                  <span class="relative w-2 h-2 rounded-full bg-emerald-400"></span>
                 </span>
-                <svg class="w-4 h-4 text-slate-300 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <svg class="w-3.5 h-3.5 text-slate-300 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                   <circle cx="12" cy="12" r="9.5" stroke-opacity="0.65"></circle>
                   <line id="clockHandMin" class="clock-svg-hand" x1="12" y1="12" x2="12" y2="7.5" stroke="#e2e8f0" stroke-width="2"></line>
                   <line id="clockHandSec" class="clock-svg-hand" x1="12" y1="12" x2="12" y2="6" stroke="#94a3b8" stroke-width="1.6"></line>
                   <circle cx="12" cy="12" r="1.3" fill="#cbd5e1" stroke="none"></circle>
                 </svg>
-                <span class="text-xs font-mono font-bold text-slate-100 tracking-wide whitespace-nowrap flex items-center gap-1.5" id="HoraActual">08:05:22</span>
+                <span class="text-xs font-mono font-bold text-white tracking-wider whitespace-nowrap flex items-center gap-1.5" id="HoraActual">08:05:22</span>
               </div>
 
               <!-- Botones Recargar y Nueva Orden (+) -->
               <div class="flex items-center gap-1.5">
                 <button type="button" onclick="refreshData()"
-                  class="hero-kpi-card p-2.5 rounded-xl text-slate-200 cursor-pointer flex items-center justify-center"
+                  class="hero-kpi-card p-2 rounded-xl text-slate-200 hover:text-white cursor-pointer flex items-center justify-center transition-all"
                   title="Actualizar Tablas">
-                  <i data-lucide="refresh-cw" class="w-4 h-4 text-slate-300" id="refreshIcon"></i>
+                  <i data-lucide="refresh-cw" class="w-3.5 h-3.5" id="refreshIcon"></i>
                 </button>
                 <button type="button" onclick="openSimpleAddModal('lista-ordenes')"
-                  class="hero-kpi-card p-2.5 rounded-xl text-slate-100 cursor-pointer flex items-center justify-center"
-                  style="background: linear-gradient(135deg, rgba(51, 78, 104, 0.9) 0%, rgba(36, 59, 83, 0.92) 100%); border-color: rgba(148, 163, 184, 0.3);"
+                  class="px-3.5 py-2 rounded-xl bg-blue-600 hover:bg-blue-500 text-white font-bold text-xs flex items-center gap-1.5 shadow-md shadow-blue-950/40 cursor-pointer transition-all active:scale-95"
                   title="Agregar Nueva Orden">
-                  <i data-lucide="plus" class="w-4 h-4"></i>
+                  <i data-lucide="plus" class="w-3.5 h-3.5"></i>
+                  <span>Nueva Orden</span>
                 </button>
               </div>
             </div>
           </div>
         </div>
 
-                <!-- BARRA DE ACCESO DIRECTO DENT LAB -->
-        <div id="dentlabQuickBar" class="bg-white border border-slate-200/90 rounded-2xl p-4 shadow-sm space-y-3">
-          <div class="flex flex-wrap items-center justify-between gap-2 border-b border-slate-100 pb-2.5">
+        <!-- BARRA DE ACCESO DIRECTO DENT LAB -->
+        <div id="dentlabQuickBar" class="bg-white border border-slate-200/90 rounded-2xl p-4 shadow-2xs space-y-3">
+          <div class="flex items-center justify-between gap-2 border-b border-slate-100 pb-2.5">
             <div class="flex items-center gap-2">
-              <span class="w-2 h-2 rounded-full bg-blue-600"></span>
-              <h3 class="text-xs font-extrabold uppercase tracking-wide text-slate-800">Módulos Especiales Dent Lab</h3>
+              <span class="w-2 h-2 rounded-full bg-blue-600 animate-pulse"></span>
+              <h3 class="text-xs font-extrabold uppercase tracking-wider text-slate-800">Módulos Especiales Dent Lab</h3>
             </div>
+            <span class="text-[11px] font-medium text-slate-400 font-mono">7 Accesos Rápidos</span>
           </div>
 
-          <div class="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-7 gap-2 text-xs">
-            <!-- 13 -->
-            <button type="button" onclick="openModule('listado-doctores')" class="p-2.5 rounded-xl border border-slate-200 bg-slate-50 hover:bg-blue-50 hover:border-blue-300 text-left transition-all group">
-              <span class="font-bold text-slate-800 group-hover:text-blue-700 block text-xs truncate">Clientes Activos</span>
-              <span class="text-[10px] text-slate-500 block truncate">&gt;90d & Acumulado</span>
+          <div class="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-7 gap-2.5 text-xs">
+            <!-- 1. Clientes Activos -->
+            <button type="button" onclick="openModule('listado-doctores')" class="p-3 rounded-xl border border-slate-200/80 bg-slate-50/70 hover:bg-white hover:border-blue-300 hover:shadow-xs text-left transition-all group flex flex-col justify-between cursor-pointer">
+              <div class="flex items-center justify-between mb-2">
+                <span class="w-7 h-7 rounded-lg bg-blue-50 text-blue-600 border border-blue-100 flex items-center justify-center shrink-0 group-hover:scale-105 transition-transform">
+                  <i data-lucide="users" class="w-3.5 h-3.5"></i>
+                </span>
+                <span class="text-[10px] font-mono text-slate-400 group-hover:text-blue-500">→</span>
+              </div>
+              <div>
+                <span class="font-bold text-slate-800 group-hover:text-blue-700 block text-xs truncate">Clientes Activos</span>
+                <span class="text-[10.5px] text-slate-400 block truncate font-medium">Facturación &gt;90d</span>
+              </div>
             </button>
-            <!-- 14 -->
-            <button type="button" onclick="openModule('clientes-nuevos-mes')" class="p-2.5 rounded-xl border border-slate-200 bg-slate-50 hover:bg-blue-50 hover:border-blue-300 text-left transition-all group">
-              <span class="font-bold text-slate-800 group-hover:text-blue-700 block text-xs truncate">Clientes Nuevos</span>
-              <span class="text-[10px] text-slate-500 block truncate">Registro por Mes</span>
+
+            <!-- 2. Clientes Nuevos -->
+            <button type="button" onclick="openModule('clientes-nuevos-mes')" class="p-3 rounded-xl border border-slate-200/80 bg-slate-50/70 hover:bg-white hover:border-emerald-300 hover:shadow-xs text-left transition-all group flex flex-col justify-between cursor-pointer">
+              <div class="flex items-center justify-between mb-2">
+                <span class="w-7 h-7 rounded-lg bg-emerald-50 text-emerald-600 border border-emerald-100 flex items-center justify-center shrink-0 group-hover:scale-105 transition-transform">
+                  <i data-lucide="user-plus" class="w-3.5 h-3.5"></i>
+                </span>
+                <span class="text-[10px] font-mono text-slate-400 group-hover:text-emerald-500">→</span>
+              </div>
+              <div>
+                <span class="font-bold text-slate-800 group-hover:text-emerald-700 block text-xs truncate">Clientes Nuevos</span>
+                <span class="text-[10.5px] text-slate-400 block truncate font-medium">Registro mensual</span>
+              </div>
             </button>
-            <!-- 15 -->
-            <button type="button" onclick="openModule('ventas-mensuales-cliente')" class="p-2.5 rounded-xl border border-slate-200 bg-slate-50 hover:bg-blue-50 hover:border-blue-300 text-left transition-all group">
-              <span class="font-bold text-slate-800 group-hover:text-blue-700 block text-xs truncate">Ventas Mensuales</span>
-              <span class="text-[10px] text-slate-500 block truncate">Total x Cliente</span>
+
+            <!-- 3. Ventas Mensuales -->
+            <button type="button" onclick="openModule('ventas-mensuales-cliente')" class="p-3 rounded-xl border border-slate-200/80 bg-slate-50/70 hover:bg-white hover:border-indigo-300 hover:shadow-xs text-left transition-all group flex flex-col justify-between cursor-pointer">
+              <div class="flex items-center justify-between mb-2">
+                <span class="w-7 h-7 rounded-lg bg-indigo-50 text-indigo-600 border border-indigo-100 flex items-center justify-center shrink-0 group-hover:scale-105 transition-transform">
+                  <i data-lucide="trending-up" class="w-3.5 h-3.5"></i>
+                </span>
+                <span class="text-[10px] font-mono text-slate-400 group-hover:text-indigo-500">→</span>
+              </div>
+              <div>
+                <span class="font-bold text-slate-800 group-hover:text-indigo-700 block text-xs truncate">Ventas Mes</span>
+                <span class="text-[10.5px] text-slate-400 block truncate font-medium">Total por clínica</span>
+              </div>
             </button>
-            <!-- 16 -->
-            <button type="button" onclick="openModule('app-doctores')" class="p-2.5 rounded-xl border border-slate-200 bg-slate-50 hover:bg-blue-50 hover:border-blue-300 text-left transition-all group">
-              <span class="font-bold text-slate-800 group-hover:text-blue-700 block text-xs truncate">APP Doctores</span>
-              <span class="text-[10px] text-slate-500 block truncate">Dr. Alatorre / Dra. Irene</span>
+
+            <!-- 4. APP Doctores -->
+            <button type="button" onclick="openModule('app-doctores')" class="p-3 rounded-xl border border-slate-200/80 bg-slate-50/70 hover:bg-white hover:border-sky-300 hover:shadow-xs text-left transition-all group flex flex-col justify-between cursor-pointer">
+              <div class="flex items-center justify-between mb-2">
+                <span class="w-7 h-7 rounded-lg bg-sky-50 text-sky-600 border border-sky-100 flex items-center justify-center shrink-0 group-hover:scale-105 transition-transform">
+                  <i data-lucide="smartphone" class="w-3.5 h-3.5"></i>
+                </span>
+                <span class="text-[10px] font-mono text-slate-400 group-hover:text-sky-500">→</span>
+              </div>
+              <div>
+                <span class="font-bold text-slate-800 group-hover:text-sky-700 block text-xs truncate">APP Doctores</span>
+                <span class="text-[10.5px] text-slate-400 block truncate font-medium">Acceso móvil</span>
+              </div>
             </button>
-            <!-- 17 -->
-            <button type="button" onclick="openModule('discos-vendidos')" class="p-2.5 rounded-xl border border-slate-200 bg-slate-50 hover:bg-blue-50 hover:border-blue-300 text-left transition-all group">
-              <span class="font-bold text-slate-800 group-hover:text-blue-700 block text-xs truncate">Discos Vendidos</span>
-              <span class="text-[10px] text-slate-500 block truncate">Zirconio con Usuario</span>
+
+            <!-- 5. Discos Vendidos -->
+            <button type="button" onclick="openModule('discos-vendidos')" class="p-3 rounded-xl border border-slate-200/80 bg-slate-50/70 hover:bg-white hover:border-amber-300 hover:shadow-xs text-left transition-all group flex flex-col justify-between cursor-pointer">
+              <div class="flex items-center justify-between mb-2">
+                <span class="w-7 h-7 rounded-lg bg-amber-50 text-amber-600 border border-amber-100 flex items-center justify-center shrink-0 group-hover:scale-105 transition-transform">
+                  <i data-lucide="disc" class="w-3.5 h-3.5"></i>
+                </span>
+                <span class="text-[10px] font-mono text-slate-400 group-hover:text-amber-500">→</span>
+              </div>
+              <div>
+                <span class="font-bold text-slate-800 group-hover:text-amber-700 block text-xs truncate">Discos CAD/CAM</span>
+                <span class="text-[10.5px] text-slate-400 block truncate font-medium">Zirconia y fresado</span>
+              </div>
             </button>
-            <!-- 18 -->
-            <button type="button" onclick="openModule('ordenes-canceladas')" class="p-2.5 rounded-xl border border-slate-200 bg-slate-50 hover:bg-blue-50 hover:border-blue-300 text-left transition-all group">
-              <span class="font-bold text-slate-800 group-hover:text-blue-700 block text-xs truncate">Canceladas</span>
-              <span class="text-[10px] text-slate-500 block truncate">Fecha, Hora y Usuario</span>
+
+            <!-- 6. Canceladas -->
+            <button type="button" onclick="openModule('ordenes-canceladas')" class="p-3 rounded-xl border border-slate-200/80 bg-slate-50/70 hover:bg-white hover:border-rose-300 hover:shadow-xs text-left transition-all group flex flex-col justify-between cursor-pointer">
+              <div class="flex items-center justify-between mb-2">
+                <span class="w-7 h-7 rounded-lg bg-rose-50 text-rose-600 border border-rose-100 flex items-center justify-center shrink-0 group-hover:scale-105 transition-transform">
+                  <i data-lucide="ban" class="w-3.5 h-3.5"></i>
+                </span>
+                <span class="text-[10px] font-mono text-slate-400 group-hover:text-rose-500">→</span>
+              </div>
+              <div>
+                <span class="font-bold text-slate-800 group-hover:text-rose-700 block text-xs truncate">Canceladas</span>
+                <span class="text-[10.5px] text-slate-400 block truncate font-medium">Auditoría y fecha</span>
+              </div>
             </button>
-            <!-- 19 -->
-            <button type="button" onclick="openModule('liberacion-pendientes')" class="p-2.5 rounded-xl border border-slate-200 bg-slate-50 hover:bg-blue-50 hover:border-blue-300 text-left transition-all group">
-              <span class="font-bold text-slate-800 group-hover:text-blue-700 block text-xs truncate">Liberación Pagos</span>
-              <span class="text-[10px] text-slate-500 block truncate">Fecha, Hora y Usuario</span>
+
+            <!-- 7. Liberación Pagos -->
+            <button type="button" onclick="openModule('liberacion-pendientes')" class="p-3 rounded-xl border border-slate-200/80 bg-slate-50/70 hover:bg-white hover:border-purple-300 hover:shadow-xs text-left transition-all group flex flex-col justify-between cursor-pointer">
+              <div class="flex items-center justify-between mb-2">
+                <span class="w-7 h-7 rounded-lg bg-purple-50 text-purple-600 border border-purple-100 flex items-center justify-center shrink-0 group-hover:scale-105 transition-transform">
+                  <i data-lucide="credit-card" class="w-3.5 h-3.5"></i>
+                </span>
+                <span class="text-[10px] font-mono text-slate-400 group-hover:text-purple-500">→</span>
+              </div>
+              <div>
+                <span class="font-bold text-slate-800 group-hover:text-purple-700 block text-xs truncate">Liberación Pagos</span>
+                <span class="text-[10.5px] text-slate-400 block truncate font-medium">Validación caja</span>
+              </div>
             </button>
           </div>
         </div>
 
-                <!-- BANNER MINIMALISTA ASISTENTE DENT CONTROL -->
+        <!-- BANNER MINIMALISTA ASISTENTE DENT CONTROL -->
         <div class="bg-white border border-slate-200/90 rounded-2xl p-3 sm:px-4 sm:py-2.5 shadow-2xs flex flex-col sm:flex-row sm:items-center justify-between gap-3 transition-all hover:border-slate-300">
           <div class="flex items-center gap-3">
             <div id="heroBannerLogo3DContainer" class="w-9 h-9 flex items-center justify-center shrink-0 cursor-pointer transition-transform hover:scale-105 active:scale-95" onclick="toggleWixAssistant(true)" title="Abrir Asistente Dent Control"></div>
