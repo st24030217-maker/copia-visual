@@ -6115,7 +6115,7 @@ function renderDynamicModule(key) {
               <h2 class="text-base sm:text-xl font-bold tracking-tight">Panorama General del Laboratorio</h2>
               <span class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-emerald-500/15 text-emerald-400 border border-emerald-500/30">
                 <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
-                ENLACE EN TIEMPO REAL • MARIADB LIVE
+                ENLACE EN TIEMPO REAL • EN LINEA
               </span>
             </div>
             <p class="text-xs text-slate-300 leading-relaxed">
@@ -6763,7 +6763,7 @@ window.actualizarEstadisticasLive = function() {
   window.initEstadisticasCharts(window._periodoStatsActual || 'mes');
 
   if (typeof showToast === 'function') {
-    showToast('Tiempo Real Sincronizado', 'Métricas y gráficas actualizadas con la base de datos MariaDB.');
+    showToast('Tiempo Real Sincronizado', 'Métricas y gráficas actualizadas con la base de datos en tiempo real.');
   }
 };
 
@@ -14307,11 +14307,11 @@ window.extraerContextoEspecificoParaPregunta = function(pregunta, liveCtx) {
     }
   }
 
-  // 3. Consulta de Base de Datos y Motor MariaDB
+  // 3. Consulta de Base de Datos EN VIVO
   if (q.includes('base de datos') || q.includes('mariadb') || q.includes('mysql') || q.includes('esta viva') || q.includes('servidor') || q.includes('conexion')) {
     hallazgos.push(
-      "ESTADO DE LA BASE DE DATOS Y MOTOR MARIADB:\n" +
-      "- Motor: MariaDB 10.4.32 / MySQL Relacional\n" +
+      "ESTADO DE LA BASE DE DATOS EN VIVO:\n" +
+      "- Motor: Base de datos central en vivo\n" +
       "- Servidor Host: 162.240.213.3 (Puerto 3306)\n" +
       "- Estatus: ACTIVA Y OPERATIVA AL 100%\n" +
       "- Total ordenes historicas en BD: " + (ctx.totalOrdenesBd || 22569).toLocaleString() + " ordenes\n" +
