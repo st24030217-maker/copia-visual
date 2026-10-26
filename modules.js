@@ -3354,7 +3354,7 @@ function renderDynamicModule(key) {
               <div class="w-9 h-9 rounded-2xl bg-blue-500/20 border border-blue-400/30 flex items-center justify-center text-blue-400 shadow-2xs">
                 <i data-lucide="activity" class="w-4 h-4"></i>
               </div>
-              <h2 class="text-base sm:text-lg font-bold tracking-tight">Control de Laboratorio (Estadisticas.php)</h2>
+              <h2 class="text-base sm:text-lg font-bold tracking-tight">Control de Laboratorio</h2>
               <span class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-emerald-500/15 text-emerald-400 border border-emerald-500/30">
                 <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
                 SEMAFORO EN TIEMPO REAL
@@ -3516,7 +3516,7 @@ function renderDynamicModule(key) {
       container.innerHTML = `
         ${renderEstadisticasSubnav('graficos')}
         
-        ${renderHeaderBanner('Estadísticas', 'Gráficos Estadísticos de Producción (GraficosEstadisticos.php)', 'Distribución analítica de fresado por categorías CAD/CAM, tonos de guía VITA y correlación de órdenes por serie.')}
+        ${renderHeaderBanner('Estadísticas', 'Gráficos Estadísticos de Producción', 'Distribución analítica de fresado por categorías CAD/CAM, tonos de guía VITA y correlación de órdenes por serie.')}
         
         <div class="grid grid-cols-1 lg:grid-cols-12 gap-4 mb-5">
           <!-- Grafico interactivo de barras CAD/CAM -->
@@ -3785,7 +3785,7 @@ function renderDynamicModule(key) {
     case 'mensajes-push':
     case 'tipos-push': {
       container.innerHTML = `
-        ${renderHeaderBanner('Mensajes Push', 'Módulo de Notificaciones Push (Avisos.php)', 'Envío masivo o individual de notificaciones instantáneas a doctores, con programación de fecha/hora y registro de lectura.', `
+        ${renderHeaderBanner('Mensajes Push', 'Módulo de Notificaciones Push', 'Envío masivo o individual de notificaciones instantáneas a doctores, con programación de fecha/hora y registro de lectura.', `
           <div class="px-3.5 py-1.5 rounded-xl bg-slate-900 text-white text-xs font-mono font-bold flex items-center gap-2">
             <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
             <span>Gateway Firebase FCM Activo</span>
@@ -3920,7 +3920,7 @@ function renderDynamicModule(key) {
 
     case 'paquetes': {
       container.innerHTML = `
-        ${renderHeaderBanner('Dent Lab', 'Paquetes Prepagados para Doctores (Productos_Paquetes.php)', 'Administración de paquetes de coronas Zirconio, E-Max y Guardas con vigencia, piezas disponibles y precios preferenciales.', `
+        ${renderHeaderBanner('Dent Lab', 'Paquetes Prepagados para Doctores', 'Administración de paquetes de coronas Zirconio, E-Max y Guardas con vigencia, piezas disponibles y precios preferenciales.', `
           <button onclick="openSimpleAddModal('paquetes')" class="px-3.5 py-2 rounded-xl bg-blue-600 hover:bg-blue-700 text-white text-xs font-semibold flex items-center gap-1.5 shadow-sm">
             <i data-lucide="plus" class="w-4 h-4"></i><span>Nuevo Paquete</span>
           </button>
@@ -4066,7 +4066,7 @@ function renderDynamicModule(key) {
       if (key === 'discos-usados') sub = 'Histórico de discos desbastados al 100% o concluidos manualmente.';
 
       container.innerHTML = `
-        ${renderHeaderBanner('Discos CAD/CAM', key === 'inventario-discos' ? 'Inventario de Discos de Laboratorio (InventarioDiscos.php)' : (key === 'discos-activos' ? 'Discos Activos en Fresadora' : 'Discos Usados y Concluidos'), sub, `
+        ${renderHeaderBanner('Discos CAD/CAM', key === 'inventario-discos' ? 'Inventario de Discos de Laboratorio' : (key === 'discos-activos' ? 'Discos Activos en Fresadora' : 'Discos Usados y Concluidos'), sub, `
           <div class="flex items-center gap-2">
             <button onclick="openModule('marcas-discos')" class="px-3.5 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-white text-xs font-semibold flex items-center gap-1.5 transition-colors">
               <i data-lucide="tag" class="w-4 h-4"></i><span>Ver Marcas</span>
@@ -4317,7 +4317,7 @@ function renderDynamicModule(key) {
 
     case 'recordatorios': {
       container.innerHTML = `
-        ${renderHeaderBanner('Dent Lab • Recordatorios', 'Programación de Recordatorios (Recordatorios.php)', 'Alertas automáticas para seguimiento de entregas, cobros y paquetes.', `
+        ${renderHeaderBanner('Dent Lab • Recordatorios', 'Programación de Recordatorios', 'Alertas automáticas para seguimiento de entregas, cobros y paquetes.', `
           <button onclick="openSimpleAddModal('recordatorios')" class="px-3.5 py-2 rounded-xl bg-blue-600 hover:bg-blue-700 text-white text-xs font-semibold flex items-center gap-1.5">
             <i data-lucide="plus" class="w-4 h-4"></i><span>Nuevo Recordatorio</span>
           </button>
@@ -4354,7 +4354,7 @@ function renderDynamicModule(key) {
 
     case 'tipos-recordatorio': {
       container.innerHTML = `
-        ${renderHeaderBanner('Dent Lab • Recordatorios', 'Tipos de Recordatorio (TiposRecordatorio.php)', 'Catálogo de clasificaciones de recordatorios del sistema DentControl.', `
+        ${renderHeaderBanner('Dent Lab • Recordatorios', 'Tipos de Recordatorio', 'Catálogo de clasificaciones de recordatorios del sistema DentControl.', `
           <button onclick="openSimpleAddModal('tipos-recordatorio')" class="px-3.5 py-2 rounded-xl bg-blue-600 hover:bg-blue-700 text-white text-xs font-semibold flex items-center gap-1.5">
             <i data-lucide="plus" class="w-4 h-4"></i><span>Nuevo Tipo de Recordatorio</span>
           </button>
@@ -4570,7 +4570,7 @@ function renderDynamicModule(key) {
 
     case 'nuevo-doctor': {
       container.innerHTML = `
-        ${renderHeaderBanner('Dent Lab • Doctores', 'Registrar Nuevo Doctor (newDoctorVendedor.php)', 'Alta completa de doctor, consultorio, vendedor asignado y datos fiscales CFDI 4.0.')}
+        ${renderHeaderBanner('Dent Lab • Doctores', 'Registrar Nuevo Doctor', 'Alta completa de doctor, consultorio, vendedor asignado y datos fiscales CFDI 4.0.')}
         <form onsubmit="guardarNuevoDoctor(event)" class="bg-white rounded-2xl border border-slate-200 p-6 shadow-sm space-y-5">
           <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-xs">
             <div>
@@ -4624,7 +4624,7 @@ function renderDynamicModule(key) {
 
     case 'doctores-tipos': {
       container.innerHTML = `
-        ${renderHeaderBanner('Dent Lab • Doctores', 'Tipos de Doctores (DoctoresTiposApp.php)', 'Niveles de especialidad, porcentaje de beneficio y días de crédito autorizados.')}
+        ${renderHeaderBanner('Dent Lab • Doctores', 'Tipos de Doctores', 'Niveles de especialidad, porcentaje de beneficio y días de crédito autorizados.')}
         <div class="bg-white rounded-2xl border border-slate-200 p-5 shadow-sm">
           <table class="w-full text-center text-xs">
             <thead class="bg-slate-100 text-slate-600 font-bold border-b border-slate-200">
@@ -4655,7 +4655,7 @@ function renderDynamicModule(key) {
 
     case 'paquetes-doctores': {
       container.innerHTML = `
-        ${renderHeaderBanner('Dent Lab • Doctores', 'Listado de Paquetes por Doctor (PaquetesDoctores.php)', 'Seguimiento de piezas incluidas, piezas consumidas y piezas disponibles por cada doctor.')}
+        ${renderHeaderBanner('Dent Lab • Doctores', 'Listado de Paquetes por Doctor', 'Seguimiento de piezas incluidas, piezas consumidas y piezas disponibles por cada doctor.')}
         <div class="bg-white rounded-2xl border border-slate-200 p-5 shadow-sm">
           <table class="w-full text-center text-xs">
             <thead class="bg-slate-100 text-slate-600 font-bold border-b border-slate-200">
@@ -4699,7 +4699,7 @@ function renderDynamicModule(key) {
       const docsUnicos = Array.from(new Set(ordenesList.map(o => o.doctor).filter(Boolean))).sort();
 
       container.innerHTML = `
-        ${renderHeaderBanner('Dent Lab • Órdenes', 'Lista Maestra de Órdenes de Trabajo (ListOrdenes.php)', 'Consulta general de órdenes CAD/CAM con filtros avanzados de fecha, doctor, asignación de escaneador y acceso directo a expediente técnico.', `
+        ${renderHeaderBanner('Dent Lab • Órdenes', 'Lista Maestra de Órdenes de Trabajo', 'Consulta general de órdenes CAD/CAM con filtros avanzados de fecha, doctor, asignación de escaneador y acceso directo a expediente técnico.', `
           <button onclick="openSimpleAddModal('lista-ordenes')" class="px-3.5 py-2 rounded-xl bg-blue-600 hover:bg-blue-700 text-white text-xs font-semibold flex items-center gap-1.5 shadow-sm">
             <i data-lucide="plus" class="w-4 h-4"></i><span>Crear Nueva Orden</span>
           </button>
@@ -4852,7 +4852,7 @@ function renderDynamicModule(key) {
     case 'vendedor':
     case 'vendedores-detalle': {
       container.innerHTML = `
-        ${renderHeaderBanner('Dent Lab • Comercial', 'Ejecutivos de Venta (Vendedor.php / ListadoVendedores.php)', 'Control de vendedores activos en sys_usuarios (id_perfil = 11), código de vendedor y cartera de doctores.', `
+        ${renderHeaderBanner('Dent Lab • Comercial', 'Ejecutivos de Venta', 'Control de vendedores activos en sys_usuarios (id_perfil = 11), código de vendedor y cartera de doctores.', `
           <button onclick="openSimpleAddModal('vendedores')" class="px-3.5 py-2 rounded-xl bg-blue-600 hover:bg-blue-700 text-white text-xs font-semibold flex items-center gap-1.5">
             <i data-lucide="user-plus" class="w-4 h-4"></i><span>Nuevo Vendedor</span>
           </button>
@@ -4894,7 +4894,7 @@ function renderDynamicModule(key) {
     case 'representantes-venta': {
       const reps = DENT_STATE.representantesVenta || DENT_STATE.usuarios.filter(u => u.id_perfil === 8);
       container.innerHTML = `
-        ${renderHeaderBanner('Dent Clinic • Representantes de Venta', 'Representantes de Venta (RepresentantesVenta.php)', 'Representantes comerciales registrados en sys_usuarios (id_perfil = 8) para convenios empresariales.')}
+        ${renderHeaderBanner('Dent Clinic • Representantes de Venta', 'Representantes de Venta', 'Representantes comerciales registrados en sys_usuarios (id_perfil = 8) para convenios empresariales.')}
         <div class="bg-white rounded-2xl border border-slate-200 p-5 shadow-sm">
           <table class="w-full text-center text-xs">
             <thead class="bg-slate-100 text-slate-600 font-bold border-b border-slate-200">
@@ -4931,7 +4931,7 @@ function renderDynamicModule(key) {
       const perfilesUnicos = Array.from(new Set(DENT_STATE.usuarios.map(u => u.perfil).filter(Boolean))).sort();
 
       container.innerHTML = `
-        ${renderHeaderBanner('Dent Lab • Seguridad', 'Administración de Usuarios del Sistema (Usuarios.php)', 'Gestión integral de cuentas de acceso, perfiles operativos, asignación a App Equipos y permisos detallados por módulo.', `
+        ${renderHeaderBanner('Dent Lab • Seguridad', 'Administración de Usuarios del Sistema', 'Gestión integral de cuentas de acceso, perfiles operativos, asignación a App Equipos y permisos detallados por módulo.', `
           <button onclick="openSimpleAddModal('usuarios')" class="px-3.5 py-2 rounded-xl bg-blue-600 hover:bg-blue-700 text-white text-xs font-semibold flex items-center gap-1.5 shadow-sm">
             <i data-lucide="user-plus" class="w-4 h-4"></i><span>Nuevo Usuario</span>
           </button>
@@ -5022,7 +5022,7 @@ function renderDynamicModule(key) {
     // ------------------------------------------------------------------------
     case 'nueva-empresa': {
       container.innerHTML = `
-        ${renderHeaderBanner('Dent SPA & Dent Clinic • Convenios', 'Registrar Nueva Empresa en Convenio (NewEmpresa.php)', 'Alta de convenio corporativo para beneficios dentales y spa de empleados.')}
+        ${renderHeaderBanner('Dent SPA & Dent Clinic • Convenios', 'Registrar Nueva Empresa en Convenio', 'Alta de convenio corporativo para beneficios dentales y spa de empleados.')}
         <form onsubmit="guardarNuevaEmpresa(event)" class="bg-white rounded-2xl border border-slate-200 p-6 shadow-sm space-y-4 text-xs">
           <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
             <div>
@@ -5069,7 +5069,7 @@ function renderDynamicModule(key) {
 
     case 'lista-empresas': {
       container.innerHTML = `
-        ${renderHeaderBanner('Dent Clinic • Convenios', 'Lista de Empresas Afiliadas (ListaEmpresas.php)', 'Empresas con convenio activo para atención en Dent Clinic y Dent SPA.', `
+        ${renderHeaderBanner('Dent Clinic • Convenios', 'Lista de Empresas Afiliadas', 'Empresas con convenio activo para atención en Dent Clinic y Dent SPA.', `
           <button onclick="openModule('nueva-empresa')" class="px-3.5 py-2 rounded-xl bg-blue-600 hover:bg-blue-700 text-white text-xs font-semibold flex items-center gap-1.5">
             <i data-lucide="plus" class="w-4 h-4"></i><span>Nueva Empresa</span>
           </button>
@@ -5110,7 +5110,7 @@ function renderDynamicModule(key) {
 
     case 'empleados': {
       container.innerHTML = `
-        ${renderHeaderBanner('Dent Clinic • Convenios', 'Padrón de Empleados por Empresa (Empleados.php)', 'Beneficiarios registrados dentro de los convenios empresariales.', `
+        ${renderHeaderBanner('Dent Clinic • Convenios', 'Padrón de Empleados por Empresa', 'Beneficiarios registrados dentro de los convenios empresariales.', `
           <button onclick="openSimpleAddModal('empleados')" class="px-3.5 py-2 rounded-xl bg-blue-600 hover:bg-blue-700 text-white text-xs font-semibold flex items-center gap-1.5">
             <i data-lucide="user-plus" class="w-4 h-4"></i><span>Registrar Empleado</span>
           </button>
@@ -5147,7 +5147,7 @@ function renderDynamicModule(key) {
 
     case 'encuestas': {
       container.innerHTML = `
-        ${renderHeaderBanner('Dent Clinic', 'Encuestas de Satisfacción (Cuestionarios.php)', 'Evaluación de calidad de servicio clínico y restauraciones por parte de los pacientes.', `
+        ${renderHeaderBanner('Dent Clinic', 'Encuestas de Satisfacción', 'Evaluación de calidad de servicio clínico y restauraciones por parte de los pacientes.', `
           <button onclick="openSimpleAddModal('encuestas')" class="px-3.5 py-2 rounded-xl bg-blue-600 hover:bg-blue-700 text-white text-xs font-semibold flex items-center gap-1.5">
             <i data-lucide="plus" class="w-4 h-4"></i><span>Registrar Respuesta</span>
           </button>
@@ -5190,7 +5190,7 @@ function renderDynamicModule(key) {
     case 'productos-servicios':
     case 'puntos-productos': {
       container.innerHTML = `
-        ${renderHeaderBanner('Dent Clinic • Productos', key === 'productos-servicios' ? 'Catálogo de Productos y Servicios Clínicos' : 'Configuración de Puntos por Producto (ConfigProductos.php)', 'Precios de tratamientos clínicos y puntos del programa de lealtad Dent.', `
+        ${renderHeaderBanner('Dent Clinic • Productos', key === 'productos-servicios' ? 'Catálogo de Productos y Servicios Clínicos' : 'Configuración de Puntos por Producto', 'Precios de tratamientos clínicos y puntos del programa de lealtad Dent.', `
           <button onclick="openSimpleAddModal('productos-clinica')" class="px-3.5 py-2 rounded-xl bg-blue-600 hover:bg-blue-700 text-white text-xs font-semibold flex items-center gap-1.5">
             <i data-lucide="plus" class="w-4 h-4"></i><span>Nuevo Servicio / Producto</span>
           </button>
@@ -5228,7 +5228,7 @@ function renderDynamicModule(key) {
     case 'tarjeta-clientes':
     case 'lista-pacientes': {
       container.innerHTML = `
-        ${renderHeaderBanner('Dent Clinic • Pacientes & Fidelización', key === 'tarjeta-clientes' ? 'Tarjetas de Lealtad y Monedero de Puntos' : 'Lista General de Pacientes (ListaClientes.php)', 'Expedientes clínicos, membresía activa y puntos acumulados para canje en clínica.', `
+        ${renderHeaderBanner('Dent Clinic • Pacientes & Fidelización', key === 'tarjeta-clientes' ? 'Tarjetas de Lealtad y Monedero de Puntos' : 'Lista General de Pacientes', 'Expedientes clínicos, membresía activa y puntos acumulados para canje en clínica.', `
           <button onclick="openSimpleAddModal('pacientes')" class="px-3.5 py-2 rounded-xl bg-blue-600 hover:bg-blue-700 text-white text-xs font-semibold flex items-center gap-1.5">
             <i data-lucide="user-plus" class="w-4 h-4"></i><span>Nuevo Paciente</span>
           </button>
@@ -5276,7 +5276,7 @@ function renderDynamicModule(key) {
       const total = DENT_STATE.posCarrito.reduce((acc, item) => acc + item.precio, 0);
 
       container.innerHTML = `
-        ${renderHeaderBanner('Dent Clinic • Ventas', 'Realizar Venta / Punto de Venta (RealizarVentas.php)', 'Selecciona un paciente, agrega servicios o productos al carrito y elige la forma de pago (Efectivo, Tarjeta, Puntos o Mixto).')}
+        ${renderHeaderBanner('Dent Clinic • Ventas', 'Realizar Venta / Punto de Venta', 'Selecciona un paciente, agrega servicios o productos al carrito y elige la forma de pago (Efectivo, Tarjeta, Puntos o Mixto).')}
         <div class="grid grid-cols-1 lg:grid-cols-3 gap-4">
           <!-- Columna Izquierda: Selector de Cliente + Catálogo Rápido -->
           <div class="lg:col-span-2 space-y-4">
@@ -5362,7 +5362,7 @@ function renderDynamicModule(key) {
 
     case 'listado-ventas': {
       container.innerHTML = `
-        ${renderHeaderBanner('Dent Clinic • Ventas', 'Listado Histórico de Ventas (ListadoVentas.php)', 'Registro de tickets cobrados en clínica, formas de pago y puntos abonados.', `
+        ${renderHeaderBanner('Dent Clinic • Ventas', 'Listado Histórico de Ventas', 'Registro de tickets cobrados en clínica, formas de pago y puntos abonados.', `
           <button onclick="openModule('realizar-venta')" class="px-3.5 py-2 rounded-xl bg-blue-600 hover:bg-blue-700 text-white text-xs font-semibold flex items-center gap-1.5">
             <i data-lucide="shopping-cart" class="w-4 h-4"></i><span>Nueva Venta</span>
           </button>
@@ -5407,7 +5407,7 @@ function renderDynamicModule(key) {
       const selectedEvents = DENT_STATE.eventosCalendario.filter(e => e.dia === DENT_STATE.diaCalendarioSeleccionado);
 
       container.innerHTML = `
-        ${renderHeaderBanner('Agenda de Laboratorio', 'Calendario de Entregas y Escaneos (Calendario.php)', 'Agenda interactiva mensual de entregas de órdenes CAD/CAM y citas de escaneo intraoral.', `
+        ${renderHeaderBanner('Agenda de Laboratorio', 'Calendario de Entregas y Escaneos', 'Agenda interactiva mensual de entregas de órdenes CAD/CAM y citas de escaneo intraoral.', `
           <button onclick="openSimpleAddModal('calendario')" class="px-3.5 py-2 rounded-xl bg-blue-600 hover:bg-blue-700 text-white text-xs font-semibold flex items-center gap-1.5">
             <i data-lucide="calendar-plus" class="w-4 h-4"></i><span>Agendar Evento</span>
           </button>
@@ -5458,7 +5458,7 @@ function renderDynamicModule(key) {
 
     case 'permisos': {
       container.innerHTML = `
-        ${renderHeaderBanner('Configuración del Sistema', 'Permisos por Perfil de Usuario (UsuariosPermisos.php)', 'Matriz interactiva de accesos a los módulos del sistema según el rol operativo.')}
+        ${renderHeaderBanner('Configuración del Sistema', 'Permisos por Perfil de Usuario', 'Matriz interactiva de accesos a los módulos del sistema según el rol operativo.')}
         <div class="bg-white rounded-2xl border border-slate-200 p-5 shadow-sm">
           <table class="w-full text-center text-xs">
             <thead class="bg-slate-100 text-slate-600 font-bold border-b border-slate-200">
@@ -5494,7 +5494,7 @@ function renderDynamicModule(key) {
 
     case 'configuracion': {
       container.innerHTML = `
-        ${renderHeaderBanner('Configuración del Sistema', 'Parámetros Generales de Laboratorio (Configuracion.php)', 'Ajustes de horarios de recepción de órdenes, folios, pasarela Conekta y notificaciones SMTP.')}
+        ${renderHeaderBanner('Configuración del Sistema', 'Parámetros Generales de Laboratorio', 'Ajustes de horarios de recepción de órdenes, folios, pasarela Conekta y notificaciones SMTP.')}
         <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs">
           <div class="bg-white rounded-2xl border border-slate-200 p-5 shadow-sm space-y-3">
             <h3 class="font-bold uppercase tracking-wider text-slate-400">Parámetros Operativos CAD/CAM</h3>
@@ -5606,7 +5606,7 @@ function renderDynamicModule(key) {
     // ------------------------------------------------------------------------
     case 'doctores-sin-paquetes': {
       container.innerHTML = `
-        ${renderHeaderBanner('Estadísticos y Reportes', 'Doctores sin Paquetes Vigentes (AdmProductos_Paquetes.php)', 'Consulta analítica de odontólogos sin compra de paquetes en periodos de 1, 3 o 6 meses para campañas de reactivación.')}
+        ${renderHeaderBanner('Estadísticos y Reportes', 'Doctores sin Paquetes Vigentes', 'Consulta analítica de odontólogos sin compra de paquetes en periodos de 1, 3 o 6 meses para campañas de reactivación.')}
         <div class="bg-white rounded-2xl border border-slate-200 p-5 shadow-sm space-y-4">
           <!-- Botones de Rango Dinámicos -->
           <div class="p-3 bg-slate-50 rounded-xl border border-slate-200 flex flex-wrap items-center justify-between gap-3 text-xs">
@@ -5652,7 +5652,7 @@ function renderDynamicModule(key) {
     case 'doctores-por-vendedor': {
       const vendedoresList = ['Mauricio Sotomayor', 'Arturo Meza', 'Brenda Rodríguez', 'Irene Martínez'];
       container.innerHTML = `
-        ${renderHeaderBanner('Estadísticos y Reportes', 'Doctores Agrupados por Vendedor (Vendedor.php)', 'Distribución de cartera odontológica, órdenes producidas y seguimiento comercial por representante.')}
+        ${renderHeaderBanner('Estadísticos y Reportes', 'Doctores Agrupados por Vendedor', 'Distribución de cartera odontológica, órdenes producidas y seguimiento comercial por representante.')}
         <div class="bg-white rounded-2xl border border-slate-200 p-5 shadow-sm space-y-4">
           <div class="flex items-center gap-3">
             <label class="font-bold text-slate-500 uppercase text-[10px]">Seleccionar Vendedor:</label>
@@ -6034,7 +6034,7 @@ function renderDynamicModule(key) {
               <div class="w-10 h-10 rounded-2xl bg-blue-500/20 border border-blue-400/30 flex items-center justify-center text-blue-400 shadow-2xs">
                 <i data-lucide="pie-chart" class="w-5 h-5"></i>
               </div>
-              <h2 class="text-base sm:text-xl font-bold tracking-tight">Panorama General del Laboratorio (includeGraficos.php)</h2>
+              <h2 class="text-base sm:text-xl font-bold tracking-tight">Panorama General del Laboratorio</h2>
               <span class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-emerald-500/15 text-emerald-400 border border-emerald-500/30">
                 <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
                 ENLACE EN TIEMPO REAL • MARIADB LIVE

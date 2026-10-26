@@ -1,0 +1,20 @@
+{
+  "name": "dent-control",
+  "version": "1.0.0",
+  "description": "Sistema de Control y Gestion de Laboratorio Dental CAD/CAM",
+  "private": true,
+  "scripts": {
+    "test": "node --check modules.js",
+    "prepare": "husky"
+  },
+  "keywords": [
+    "dent-control",
+    "cad-cam",
+    "dental-lab"
+  ],
+  "author": "Dent Control",
+  "license": "ISC",
+  "devDependencies": {
+    "husky": "^9.1.7"
+  }
+}
