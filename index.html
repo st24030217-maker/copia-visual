@@ -792,14 +792,14 @@
        class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-40 transition-opacity duration-300 opacity-0 pointer-events-none lg:hidden"
        aria-hidden="true"></div>
 
-  <aside id="sidebar" class="fixed inset-y-0 left-0 z-50 w-72 max-w-[85vw] -translate-x-full lg:static lg:w-64 lg:translate-x-0 bg-[#2A3F54] text-slate-100 flex flex-col justify-between shrink-0 transition-all duration-300 ease-out border-r border-slate-800 select-none shadow-2xl lg:shadow-none">
+  <aside id="sidebar" class="fixed inset-y-0 left-0 z-50 w-72 max-w-[85vw] -translate-x-full lg:static lg:w-64 lg:translate-x-0 bg-[#090d16] text-slate-100 flex flex-col justify-between shrink-0 transition-all duration-300 ease-out border-r border-slate-800/80 select-none shadow-2xl lg:shadow-none">
     <div class="flex flex-col h-full overflow-hidden">
       
       <!-- 1. Título Superior de Perfil (.navbar.nav_title de DENT DEMO) -->
-      <div class="h-14 px-4 flex items-center justify-between border-b border-white/10 shrink-0">
+      <div class="h-14 px-4 flex items-center justify-between border-b border-slate-800/80 bg-[#070a10] shrink-0">
         <a href="#" onclick="window.bmSelectLeaf('inicio', 0); if (window.innerWidth < 1024) closeSidebarMobile(); return false;" class="flex items-center gap-2.5 text-white hover:opacity-90 transition-opacity min-w-0">
           <img src="assets/logoDentlab.png" alt="Dent Lab" class="h-6 w-auto object-contain brightness-0 invert shrink-0">
-          <span class="text-sm font-semibold tracking-wide text-slate-200 truncate" id="lblPerfilSidebar">Administrador</span>
+          <span class="text-[11px] font-bold tracking-wide uppercase px-2 py-0.5 rounded-md bg-blue-500/15 text-blue-300 border border-blue-500/30 truncate" id="lblPerfilSidebar">Administrador</span>
         </a>
         <!-- Botón cerrar exclusivo para móvil/tablet -->
         <button type="button" onclick="closeSidebarMobile()" class="lg:hidden p-1.5 rounded-lg text-slate-400 hover:text-white hover:bg-white/10 transition-colors shrink-0" aria-label="Cerrar menú lateral">
@@ -808,13 +808,19 @@
       </div>
 
       <!-- 2. Bloque de Perfil Superior (.profile.clearfix de DENT DEMO: Foto + Bienvenido(a): + Usuario) -->
-      <div class="px-4 py-3.5 flex items-center gap-3.5 border-b border-white/10 bg-[#233648]/60 shrink-0">
-        <div class="shrink-0">
-          <img src="assets/DentLabLogo.jpeg" alt="DentLab" class="w-12 h-12 rounded-full object-cover border-2 border-white shadow-sm bg-white p-0.5">
-        </div>
-        <div class="leading-tight overflow-hidden">
-          <span class="text-[11px] text-slate-300 font-normal block">Bienvenido(a):</span>
-          <h2 class="text-sm font-semibold text-white truncate mt-0.5" id="lblNombreUser">admin</h2>
+      <div class="p-3 border-b border-slate-800/80 bg-[#070b13] shrink-0">
+        <div class="flex items-center gap-3 p-2.5 rounded-xl bg-slate-900/90 border border-slate-800/90 shadow-2xs">
+          <div class="relative shrink-0">
+            <img src="assets/DentLabLogo.jpeg" alt="DentLab" class="w-10 h-10 rounded-xl object-cover ring-1 ring-white/15 p-0.5 bg-slate-800">
+            <span class="absolute -bottom-0.5 -right-0.5 w-2.5 h-2.5 rounded-full bg-emerald-500 ring-2 ring-[#070b13]" title="En línea"></span>
+          </div>
+          <div class="leading-tight overflow-hidden min-w-0 flex-1">
+            <div class="flex items-center justify-between gap-1">
+              <span class="text-[10px] font-semibold text-slate-400 uppercase tracking-wider block">Sesión Activa</span>
+              <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
+            </div>
+            <h2 class="text-xs font-bold text-white truncate mt-0.5" id="lblNombreUser">admin</h2>
+          </div>
         </div>
       </div>
 
@@ -1497,9 +1503,9 @@
   <div class="flex-1 flex flex-col min-w-0 overflow-hidden">
     
     <!-- Top Navbar -->
-    <header class="h-14 bg-white border-b border-slate-200 px-6 flex items-center justify-between shrink-0">
-      <div class="flex items-center gap-3.5">
-        <button onclick="toggleSidebar()" class="p-1.5 rounded-lg border border-slate-200 text-slate-600 hover:bg-slate-100 transition-colors">
+    <header class="h-14 bg-white/95 backdrop-blur-md border-b border-slate-200/90 px-4 sm:px-6 flex items-center justify-between shrink-0 sticky top-0 z-30">
+      <div class="flex items-center gap-3">
+        <button onclick="toggleSidebar()" class="p-2 rounded-xl border border-slate-200 text-slate-600 hover:text-slate-900 hover:bg-slate-100 transition-colors cursor-pointer" title="Alternar menú">
           <i data-lucide="menu" class="w-4 h-4"></i>
         </button>
         <div id="topModuleTitle" class="flex flex-wrap items-center gap-2 text-sm font-semibold text-slate-800">
@@ -1507,12 +1513,24 @@
         </div>
       </div>
 
-      <div class="flex items-center gap-3">
+      <div class="flex items-center gap-2.5">
+        <!-- Buscador Global Rápido con atajo de teclado Ctrl+K -->
+        <button type="button" onclick="focusGlobalSearch()" class="hidden md:flex items-center gap-2.5 px-3 py-1.5 rounded-xl border border-slate-200/90 bg-slate-50/90 hover:bg-white text-xs text-slate-500 hover:text-slate-800 transition-all cursor-pointer shadow-2xs group">
+          <i data-lucide="search" class="w-3.5 h-3.5 text-slate-400 group-hover:text-blue-600 transition-colors"></i>
+          <span class="text-xs font-medium">Buscar orden, doctor...</span>
+          <kbd class="px-1.5 py-0.5 rounded text-[10px] font-mono font-semibold bg-white border border-slate-200 text-slate-400 group-hover:text-slate-600 shadow-2xs">Ctrl K</kbd>
+        </button>
+
+        <!-- Botón rápido Asistente Dent Control en cabecera -->
+        <button type="button" onclick="toggleWixAssistant(true)" class="p-2 rounded-xl border border-slate-200 text-slate-600 hover:text-blue-600 hover:border-blue-200 hover:bg-blue-50/50 transition-colors cursor-pointer" title="Abrir Asistente Dent Control">
+          <i data-lucide="bot" class="w-4 h-4"></i>
+        </button>
+
         <!-- Menú Minimalista de Usuario y Control -->
         <div class="relative select-none" id="userQuickModule" data-open="false">
-          <button type="button" id="userQuickTrigger" onclick="toggleSettingsDropdown(event)" class="qm-trigger h-8 px-3 rounded-full border border-slate-200/90 bg-white flex items-center gap-2 cursor-pointer">
-            <span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
-            <span class="text-xs font-semibold text-slate-700" id="topUserLabel">Admin</span>
+          <button type="button" id="userQuickTrigger" onclick="toggleSettingsDropdown(event)" class="qm-trigger h-9 px-3 rounded-full border border-slate-200/90 bg-white hover:bg-slate-50 flex items-center gap-2 cursor-pointer shadow-2xs transition-colors">
+            <span class="w-2 h-2 rounded-full bg-emerald-500 ring-2 ring-emerald-100"></span>
+            <span class="text-xs font-bold text-slate-700" id="topUserLabel">Admin</span>
             <span id="topPerfilBadge" class="hidden">Administrador</span>
             <i data-lucide="chevron-down" id="userModuleChevron" class="qm-chevron w-3.5 h-3.5 text-slate-400"></i>
           </button>
@@ -1790,15 +1808,15 @@
         <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-3.5">
 
           <!-- CUADRO 1: ESCANEO -->
-          <div class="bg-white rounded-2xl border border-slate-200/90 shadow-sm overflow-hidden flex flex-col">
-            <div class="px-3.5 py-2.5 bg-gradient-to-r from-slate-50 to-white border-b border-slate-200 flex items-center justify-between">
+          <div class="bg-white rounded-2xl border border-slate-200/90 border-t-2 border-t-sky-500 shadow-2xs overflow-hidden flex flex-col transition-all hover:shadow-md hover:border-slate-300">
+            <div class="px-3.5 py-2.5 bg-gradient-to-r from-sky-50/40 via-white to-white border-b border-slate-100 flex items-center justify-between">
               <div class="flex items-center gap-2">
-                <span class="w-6 h-6 rounded-lg bg-blue-600/10 text-blue-600 flex items-center justify-center">
+                <span class="w-6 h-6 rounded-lg bg-sky-500/10 text-sky-600 border border-sky-200/60 flex items-center justify-center">
                   <i data-lucide="video" class="w-3.5 h-3.5"></i>
                 </span>
                 <h3 class="text-xs font-extrabold text-slate-800 uppercase tracking-wide">Escaneo</h3>
               </div>
-              <span class="text-[11px] font-mono font-bold text-blue-700 bg-blue-50 px-2.5 py-0.5 rounded-full border border-blue-200/80" id="badgeCountEscaneo">4</span>
+              <span class="text-[11px] font-mono font-bold text-sky-700 bg-sky-50 px-2.5 py-0.5 rounded-full border border-sky-200/80" id="badgeCountEscaneo">4</span>
             </div>
             <div id="scrollStageEscaneo" class="table-scroll overflow-y-auto overflow-x-hidden relative" style="height: 28vh;">
               <table class="w-full text-center border-collapse stage-table">
@@ -1817,15 +1835,15 @@
           </div>
 
           <!-- CUADRO 2: DISEÑO -->
-          <div class="bg-white rounded-2xl border border-slate-200/90 shadow-sm overflow-hidden flex flex-col">
-            <div class="px-3.5 py-2.5 bg-gradient-to-r from-slate-50 to-white border-b border-slate-200 flex items-center justify-between">
+          <div class="bg-white rounded-2xl border border-slate-200/90 border-t-2 border-t-indigo-500 shadow-2xs overflow-hidden flex flex-col transition-all hover:shadow-md hover:border-slate-300">
+            <div class="px-3.5 py-2.5 bg-gradient-to-r from-indigo-50/40 via-white to-white border-b border-slate-100 flex items-center justify-between">
               <div class="flex items-center gap-2">
-                <span class="w-6 h-6 rounded-lg bg-blue-600/10 text-blue-600 flex items-center justify-center">
+                <span class="w-6 h-6 rounded-lg bg-indigo-500/10 text-indigo-600 border border-indigo-200/60 flex items-center justify-center">
                   <i data-lucide="monitor" class="w-3.5 h-3.5"></i>
                 </span>
                 <h3 class="text-xs font-extrabold text-slate-800 uppercase tracking-wide">Diseño</h3>
               </div>
-              <span class="text-[11px] font-mono font-bold text-blue-700 bg-blue-50 px-2.5 py-0.5 rounded-full border border-blue-200/80" id="badgeCountDiseno">18</span>
+              <span class="text-[11px] font-mono font-bold text-indigo-700 bg-indigo-50 px-2.5 py-0.5 rounded-full border border-indigo-200/80" id="badgeCountDiseno">18</span>
             </div>
             <div id="scrollStageDiseno" class="table-scroll overflow-y-auto overflow-x-hidden relative" style="height: 28vh;">
               <table class="w-full text-center border-collapse stage-table">
@@ -1844,15 +1862,15 @@
           </div>
 
           <!-- CUADRO 3: FABRICACIÓN -->
-          <div class="bg-white rounded-2xl border border-slate-200/90 shadow-sm overflow-hidden flex flex-col">
-            <div class="px-3.5 py-2.5 bg-gradient-to-r from-slate-50 to-white border-b border-slate-200 flex items-center justify-between">
+          <div class="bg-white rounded-2xl border border-slate-200/90 border-t-2 border-t-amber-500 shadow-2xs overflow-hidden flex flex-col transition-all hover:shadow-md hover:border-slate-300">
+            <div class="px-3.5 py-2.5 bg-gradient-to-r from-amber-50/40 via-white to-white border-b border-slate-100 flex items-center justify-between">
               <div class="flex items-center gap-2">
-                <span class="w-6 h-6 rounded-lg bg-blue-600/10 text-blue-600 flex items-center justify-center">
+                <span class="w-6 h-6 rounded-lg bg-amber-500/10 text-amber-600 border border-amber-200/60 flex items-center justify-center">
                   <i data-lucide="wrench" class="w-3.5 h-3.5"></i>
                 </span>
                 <h3 class="text-xs font-extrabold text-slate-800 uppercase tracking-wide">Fabricación</h3>
               </div>
-              <span class="text-[11px] font-mono font-bold text-blue-700 bg-blue-50 px-2.5 py-0.5 rounded-full border border-blue-200/80" id="badgeCountFabricacion">7</span>
+              <span class="text-[11px] font-mono font-bold text-amber-700 bg-amber-50 px-2.5 py-0.5 rounded-full border border-amber-200/80" id="badgeCountFabricacion">7</span>
             </div>
             <div id="scrollStageFabricacion" class="table-scroll overflow-y-auto overflow-x-hidden relative" style="height: 28vh;">
               <table class="w-full text-center border-collapse stage-table">
@@ -1871,10 +1889,10 @@
           </div>
 
           <!-- CUADRO 4: ENTREGA -->
-          <div class="bg-white rounded-2xl border border-slate-200/90 shadow-sm overflow-hidden flex flex-col">
-            <div class="px-3.5 py-2.5 bg-gradient-to-r from-slate-50 to-white border-b border-slate-200 flex items-center justify-between">
+          <div class="bg-white rounded-2xl border border-slate-200/90 border-t-2 border-t-emerald-500 shadow-2xs overflow-hidden flex flex-col transition-all hover:shadow-md hover:border-slate-300">
+            <div class="px-3.5 py-2.5 bg-gradient-to-r from-emerald-50/40 via-white to-white border-b border-slate-100 flex items-center justify-between">
               <div class="flex items-center gap-2">
-                <span class="w-6 h-6 rounded-lg bg-emerald-600/10 text-emerald-700 flex items-center justify-center">
+                <span class="w-6 h-6 rounded-lg bg-emerald-500/10 text-emerald-600 border border-emerald-200/60 flex items-center justify-center">
                   <i data-lucide="truck" class="w-3.5 h-3.5"></i>
                 </span>
                 <h3 class="text-xs font-extrabold text-slate-800 uppercase tracking-wide">Entrega</h3>
@@ -1898,6 +1916,7 @@
           </div>
 
         </div>
+
 
         <!-- 3. TABLA GENERAL DE ÓRDENES SIEMPRE VISIBLE ABAJO (TableOrdenes.php) -->
         <div class="bg-white rounded-2xl border border-slate-200 p-4 shadow-sm space-y-3">
@@ -3348,10 +3367,31 @@
       }
     });
 
+    function focusGlobalSearch() {
+      const secInicio = document.getElementById('section-inicio');
+      const isInicio = secInicio && !secInicio.classList.contains('hidden');
+      if (!isInicio && typeof openModule === 'function') {
+        openModule('inicio');
+      }
+      setTimeout(() => {
+        const inp = document.getElementById('nptBuscar');
+        if (inp) {
+          inp.scrollIntoView({ behavior: 'smooth', block: 'center' });
+          inp.focus();
+          inp.select();
+        }
+      }, 120);
+    }
+    window.focusGlobalSearch = focusGlobalSearch;
+
     document.addEventListener('keydown', (e) => {
       if (e.key === 'Escape') {
         closeSidebarMobile();
         closeSettingsDropdown();
+      }
+      if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 'k') {
+        e.preventDefault();
+        focusGlobalSearch();
       }
     });
 
