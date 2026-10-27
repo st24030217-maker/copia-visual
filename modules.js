@@ -3695,13 +3695,24 @@ function renderDynamicModule(key) {
             <p class="text-xs text-slate-500 max-w-2xl leading-relaxed">Auditoría continua de tiempos de entrega, días de holgura técnica y balance de doctores internos y externos.</p>
           </div>
 
-          <div class="flex items-center gap-2 shrink-0">
-            <button type="button" onclick="window.exportarTablaCtrlLabCSV()" class="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-slate-900 hover:bg-slate-800 text-xs font-semibold text-white shadow-xs transition-all active:scale-95 cursor-pointer">
-              <i data-lucide="download" class="w-3.5 h-3.5 text-blue-300"></i>
-              <span>Exportar CSV</span>
-            </button>
-            <button type="button" onclick="window.imprimirReporteCtrlLab()" class="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-white hover:bg-slate-50 border border-slate-200 text-xs font-semibold text-slate-700 shadow-2xs transition-all active:scale-95 cursor-pointer">
-              <i data-lucide="printer" class="w-3.5 h-3.5 text-slate-500"></i>
+          <div class="flex flex-wrap items-center gap-2 shrink-0">
+            <!-- Barra Maestra de Exportación: PDF, Excel, Documento Word -->
+            <div class="inline-flex items-center p-1 bg-slate-100/90 border border-slate-200/80 rounded-xl gap-1 shadow-2xs">
+              <button type="button" onclick="window.exportarControlLabPDF()" class="inline-flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg bg-white hover:bg-rose-50 text-rose-700 hover:text-rose-800 border border-slate-200/80 text-xs font-bold transition-all active:scale-95 cursor-pointer shadow-2xs" title="Exportar Auditoría de Laboratorio a PDF">
+                <i data-lucide="file-text" class="w-3.5 h-3.5 text-rose-600"></i>
+                <span>PDF</span>
+              </button>
+              <button type="button" onclick="window.exportarControlLabExcel()" class="inline-flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg bg-white hover:bg-emerald-50 text-emerald-700 hover:text-emerald-800 border border-slate-200/80 text-xs font-bold transition-all active:scale-95 cursor-pointer shadow-2xs" title="Exportar tabla completa de órdenes a Excel (CSV)">
+                <i data-lucide="sheet" class="w-3.5 h-3.5 text-emerald-600"></i>
+                <span>Excel</span>
+              </button>
+              <button type="button" onclick="window.exportarControlLabDoc()" class="inline-flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg bg-white hover:bg-blue-50 text-blue-700 hover:text-blue-800 border border-slate-200/80 text-xs font-bold transition-all active:scale-95 cursor-pointer shadow-2xs" title="Exportar Reporte Técnico a Word (DOC)">
+                <i data-lucide="file-signature" class="w-3.5 h-3.5 text-blue-600"></i>
+                <span>Word</span>
+              </button>
+            </div>
+            <button type="button" onclick="window.imprimirReporteCtrlLab()" class="inline-flex items-center gap-1.5 px-3 py-2 rounded-xl bg-slate-900 hover:bg-slate-800 text-xs font-semibold text-white shadow-xs transition-all active:scale-95 cursor-pointer" title="Imprimir reporte oficial">
+              <i data-lucide="printer" class="w-3.5 h-3.5 text-blue-300"></i>
               <span>Imprimir</span>
             </button>
           </div>
@@ -3751,8 +3762,16 @@ function renderDynamicModule(key) {
           <!-- Grafica 1: Donut de Semaforo Operativo -->
           <div class="lg:col-span-4 bg-white p-5 rounded-2xl border border-slate-200/90 shadow-2xs flex flex-col justify-between">
             <div class="flex items-center justify-between pb-3 border-b border-slate-100">
-              <h3 class="text-xs font-bold uppercase tracking-wider text-slate-800">Distribución de Semáforo</h3>
-              <span class="text-[10px] font-bold text-slate-500 font-mono">Puntualidad: ${puntualidadPct}%</span>
+              <div>
+                <h3 class="text-xs font-bold uppercase tracking-wider text-slate-800">Semáforo de Entrega Operativa</h3>
+                <p class="text-[10px] text-slate-400 mt-0.5">Control de holgura técnica de los trabajos activos</p>
+              </div>
+              <div class="flex items-center gap-1.5">
+                <span class="text-[10px] font-bold text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded border border-emerald-200 font-mono">${puntualidadPct}% a Tiempo</span>
+                <button type="button" onclick="window.descargarGraficoImg('chartSemaforoCtrlLab', 'Semaforo_Laboratorio')" class="p-1 rounded hover:bg-slate-100 text-slate-500 cursor-pointer" title="Descargar PNG">
+                  <i data-lucide="camera" class="w-3.5 h-3.5"></i>
+                </button>
+              </div>
             </div>
             <div class="relative flex items-center justify-center p-2 h-48">
               <canvas id="chartSemaforoCtrlLab"></canvas>
@@ -3848,7 +3867,38 @@ function renderDynamicModule(key) {
       container.innerHTML = `
         ${renderEstadisticasSubnav('graficos')}
         
-        ${renderHeaderBanner('Estadísticas', 'Gráficos Estadísticos de Producción', 'Distribución analítica de fresado por categorías CAD/CAM, tonos de guía VITA y correlación de órdenes por serie.')}
+        <div class="bg-white rounded-2xl border border-slate-200/80 p-5 shadow-2xs mb-5 flex flex-col md:flex-row md:items-center justify-between gap-4">
+          <div class="space-y-1">
+            <div class="flex items-center gap-2.5">
+              <div class="w-10 h-10 rounded-xl bg-indigo-50 border border-indigo-100 flex items-center justify-center text-indigo-600 shadow-2xs">
+                <i data-lucide="bar-chart-2" class="w-5 h-5"></i>
+              </div>
+              <h2 class="text-lg sm:text-xl font-bold tracking-tight text-slate-900">Gráficos Estadísticos de Producción & Guía VITA</h2>
+              <span class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[11px] font-semibold bg-blue-50 text-blue-700 border border-blue-200/80 shadow-2xs">
+                Catálogo CAD/CAM
+              </span>
+            </div>
+            <p class="text-xs text-slate-500 max-w-2xl leading-relaxed">Distribución analítica de fresado por categorías, colorimetría según guía VITA clásica y volumen por serie técnica.</p>
+          </div>
+
+          <div class="flex flex-wrap items-center gap-2 shrink-0">
+            <!-- Barra de Exportación de Gráficos -->
+            <div class="inline-flex items-center p-1 bg-slate-100/90 border border-slate-200/80 rounded-xl gap-1 shadow-2xs">
+              <button type="button" onclick="window.exportarGraficosVitaPDF()" class="inline-flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg bg-white hover:bg-rose-50 text-rose-700 hover:text-rose-800 border border-slate-200/80 text-xs font-bold transition-all active:scale-95 cursor-pointer shadow-2xs" title="Exportar Reporte de Categorías y VITA a PDF">
+                <i data-lucide="file-text" class="w-3.5 h-3.5 text-rose-600"></i>
+                <span>PDF</span>
+              </button>
+              <button type="button" onclick="window.exportarGraficosVitaExcel()" class="inline-flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg bg-white hover:bg-emerald-50 text-emerald-700 hover:text-emerald-800 border border-slate-200/80 text-xs font-bold transition-all active:scale-95 cursor-pointer shadow-2xs" title="Exportar datos a Excel (CSV)">
+                <i data-lucide="sheet" class="w-3.5 h-3.5 text-emerald-600"></i>
+                <span>Excel</span>
+              </button>
+              <button type="button" onclick="window.exportarGraficosVitaDoc()" class="inline-flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg bg-white hover:bg-blue-50 text-blue-700 hover:text-blue-800 border border-slate-200/80 text-xs font-bold transition-all active:scale-95 cursor-pointer shadow-2xs" title="Exportar Informe a Word (DOC)">
+                <i data-lucide="file-signature" class="w-3.5 h-3.5 text-blue-600"></i>
+                <span>Word</span>
+              </button>
+            </div>
+          </div>
+        </div>
         
         <div class="grid grid-cols-1 lg:grid-cols-12 gap-4 mb-5">
           <!-- Grafico interactivo de barras CAD/CAM -->
@@ -6359,7 +6409,7 @@ function renderDynamicModule(key) {
         <!-- Subnavegacion entre vistas de Estadisticas -->
         ${renderEstadisticasSubnav('panorama-general')}
 
-        <!-- Header Ejecutivo Sober Slate con Controles en Vivo y Ayuda Rapida -->
+        <!-- Header Ejecutivo Sober Slate con Controles en Vivo y Barra de Exportacion Universal -->
         <div class="bg-white rounded-2xl border border-slate-200/80 p-5 sm:p-6 shadow-2xs mb-5 flex flex-col xl:flex-row xl:items-center justify-between gap-4">
           <div class="space-y-1">
             <div class="flex flex-wrap items-center gap-2.5">
@@ -6376,41 +6426,51 @@ function renderDynamicModule(key) {
               </span>
             </div>
             <p class="text-xs text-slate-500 leading-relaxed max-w-2xl">
-              Resumen visual de pedidos, dientes fabricados, avance en taller y ventas acumuladas.
+              Monitoreo analítico y gerencial de órdenes, piezas fabricadas, estaciones activas en taller y facturación acumulada con interpretación técnica.
             </p>
           </div>
 
           <div class="flex flex-wrap items-center gap-2.5 shrink-0">
             <!-- Selector de Periodo Interactivo -->
             <div class="inline-flex p-1 bg-slate-100/90 border border-slate-200/80 rounded-xl text-xs font-semibold shadow-inner" id="periodosStatsGroup">
-              <button type="button" onclick="window.cambiarPeriodoStats('hoy', this)" class="btn-periodo-st px-3 py-1.5 rounded-lg text-slate-600 hover:text-slate-900 transition-all cursor-pointer font-medium" title="Ver actividad del dia de hoy">
+              <button type="button" onclick="window.cambiarPeriodoStats('hoy', this)" class="btn-periodo-st px-3 py-1.5 rounded-lg text-slate-600 hover:text-slate-900 transition-all cursor-pointer font-medium" title="Ver actividad del día de hoy">
                 Hoy
               </button>
-              <button type="button" onclick="window.cambiarPeriodoStats('7d', this)" class="btn-periodo-st px-3 py-1.5 rounded-lg text-slate-600 hover:text-slate-900 transition-all cursor-pointer font-medium" title="Ver ultimos 7 dias">
+              <button type="button" onclick="window.cambiarPeriodoStats('7d', this)" class="btn-periodo-st px-3 py-1.5 rounded-lg text-slate-600 hover:text-slate-900 transition-all cursor-pointer font-medium" title="Ver últimos 7 días">
                 7 Días
               </button>
               <button type="button" onclick="window.cambiarPeriodoStats('mes', this)" class="btn-periodo-st px-3 py-1.5 rounded-lg bg-white text-slate-900 font-bold shadow-xs border border-slate-200/80 transition-all cursor-pointer" title="Ver acumulado de este mes">
                 Este Mes
               </button>
-              <button type="button" onclick="window.cambiarPeriodoStats('ano', this)" class="btn-periodo-st px-3 py-1.5 rounded-lg text-slate-600 hover:text-slate-900 transition-all cursor-pointer font-medium" title="Ver acumulado anual">
+              <button type="button" onclick="window.cambiarPeriodoStats('ano', this)" class="btn-periodo-st px-3 py-1.5 rounded-lg text-slate-600 hover:text-slate-900 transition-all cursor-pointer font-medium" title="Ver acumulado anual 2026">
                 Año 2026
               </button>
             </div>
 
             <!-- Boton de Actualizacion en Vivo -->
-            <button type="button" onclick="window.actualizarEstadisticasLive()" class="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-slate-900 hover:bg-slate-800 text-xs font-semibold text-white shadow-xs transition-all active:scale-95 cursor-pointer">
+            <button type="button" onclick="window.actualizarEstadisticasLive()" class="inline-flex items-center gap-1.5 px-3 py-2 rounded-xl bg-slate-900 hover:bg-slate-800 text-xs font-semibold text-white shadow-xs transition-all active:scale-95 cursor-pointer" title="Sincronizar métricas en tiempo real">
               <i data-lucide="refresh-cw" class="w-3.5 h-3.5 text-blue-300" id="iconLiveRefreshStats"></i>
               <span>Actualizar</span>
             </button>
 
-            <!-- Boton de Exportacion en Excel/CSV -->
-            <button type="button" onclick="window.generarYDescargarReporteCSV ? window.generarYDescargarReporteCSV('general') : window.exportarTablaCtrlLabCSV()" class="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-white hover:bg-slate-50 border border-slate-200 text-xs font-semibold text-slate-700 shadow-2xs transition-all active:scale-95 cursor-pointer" title="Descargar datos en formato Excel / CSV">
-              <i data-lucide="download" class="w-3.5 h-3.5 text-slate-500"></i>
-              <span>Descargar</span>
-            </button>
+            <!-- Barra Maestra de Exportación: PDF, Excel, Documento Word -->
+            <div class="inline-flex items-center p-1 bg-slate-100/90 border border-slate-200/80 rounded-xl gap-1 shadow-2xs">
+              <button type="button" onclick="window.exportarEstadisticasPDF()" class="inline-flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg bg-white hover:bg-rose-50 text-rose-700 hover:text-rose-800 border border-slate-200/80 text-xs font-bold transition-all active:scale-95 cursor-pointer shadow-2xs" title="Exportar Reporte Ejecutivo Maquetado a PDF">
+                <i data-lucide="file-text" class="w-3.5 h-3.5 text-rose-600"></i>
+                <span>PDF</span>
+              </button>
+              <button type="button" onclick="window.exportarEstadisticasExcel()" class="inline-flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg bg-white hover:bg-emerald-50 text-emerald-700 hover:text-emerald-800 border border-slate-200/80 text-xs font-bold transition-all active:scale-95 cursor-pointer shadow-2xs" title="Exportar métricas y tablas a Excel (XLSX / CSV estructurado)">
+                <i data-lucide="sheet" class="w-3.5 h-3.5 text-emerald-600"></i>
+                <span>Excel</span>
+              </button>
+              <button type="button" onclick="window.exportarEstadisticasDoc()" class="inline-flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg bg-white hover:bg-blue-50 text-blue-700 hover:text-blue-800 border border-slate-200/80 text-xs font-bold transition-all active:scale-95 cursor-pointer shadow-2xs" title="Exportar Informe Ejecutivo Editable para Word (DOC)">
+                <i data-lucide="file-signature" class="w-3.5 h-3.5 text-blue-600"></i>
+                <span>Word</span>
+              </button>
+            </div>
 
             <!-- Boton de Guia Rapida -->
-            <button type="button" onclick="window.toggleGuiaRapidaDashboard()" class="inline-flex items-center gap-1.5 px-3 py-2 rounded-xl bg-blue-50 hover:bg-blue-100 text-blue-700 border border-blue-200/80 text-xs font-semibold transition-all cursor-pointer" title="Ver guia de interpretacion rapida">
+            <button type="button" onclick="window.toggleGuiaRapidaDashboard()" class="inline-flex items-center gap-1.5 px-3 py-2 rounded-xl bg-blue-50 hover:bg-blue-100 text-blue-700 border border-blue-200/80 text-xs font-semibold transition-all cursor-pointer" title="Ver guía de interpretación rápida">
               <i data-lucide="help-circle" class="w-3.5 h-3.5 text-blue-600"></i>
               <span>Guía</span>
             </button>
@@ -6429,15 +6489,15 @@ function renderDynamicModule(key) {
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-3 text-xs text-slate-600 mt-2">
                   <div class="bg-white/80 p-2.5 rounded-xl border border-blue-100">
                     <strong class="text-slate-900 block font-semibold">1. Filtro de Tiempo:</strong>
-                    Toca <strong>Hoy</strong>, <strong>7 Días</strong> o <strong>Este Mes</strong> arriba para recalcular todos los números al instante.
+                    Toca <strong>Hoy</strong>, <strong>7 Días</strong> o <strong>Este Mes</strong> arriba para recalcular todos los números y gráficas al instante.
                   </div>
                   <div class="bg-white/80 p-2.5 rounded-xl border border-blue-100">
                     <strong class="text-slate-900 block font-semibold">2. ¿Dónde está el trabajo?</strong>
-                    La gráfica de <strong>Pipeline</strong> te dice en qué mesa o máquina va cada pedido en este momento.
+                    La gráfica de <strong>Pipeline</strong> te dice con exactitud cuántos pedidos hay en Escaneo, Diseño, Fresado o Envío.
                   </div>
                   <div class="bg-white/80 p-2.5 rounded-xl border border-blue-100">
-                    <strong class="text-slate-900 block font-semibold">3. Entregas a Tiempo:</strong>
-                    La tarjeta de <strong>Puntualidad</strong> te avisa si estamos cumpliendo con la fecha que pidió el doctor (meta: &gt;90%).
+                    <strong class="text-slate-900 block font-semibold">3. Exportaciones Rápidas:</strong>
+                    Haz clic en <strong>PDF</strong>, <strong>Excel</strong> o <strong>Word</strong> para generar reportes oficiales con membrete e interpretaciones.
                   </div>
                 </div>
               </div>
@@ -6572,137 +6632,238 @@ function renderDynamicModule(key) {
         </div>
 
         <!-- Fila 1 de Graficas: Produccion en el Tiempo y Pasos del Taller -->
-        <div class="grid grid-cols-1 lg:grid-cols-12 gap-4 mb-5">
-          <!-- Grafico 1: Produccion de Dientes en el Tiempo -->
-          <div class="lg:col-span-8 bg-white rounded-2xl border border-slate-200/80 p-5 shadow-2xs flex flex-col justify-between">
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-5 mb-5">
+          <!-- Grafico 1: Tendencia y Producción en el Tiempo -->
+          <div class="lg:col-span-8 bg-white rounded-2xl border border-slate-200/80 p-5 shadow-2xs flex flex-col justify-between space-y-4">
             <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-3 border-b border-slate-100">
               <div>
                 <div class="flex items-center gap-2">
-                  <h3 class="text-xs sm:text-sm font-bold tracking-tight text-slate-900">Dientes Fabricados en el Tiempo</h3>
-                  <span class="px-2 py-0.5 rounded-full bg-blue-50 text-blue-700 text-[10px] font-bold border border-blue-200/80">Semana a Semana</span>
+                  <h3 class="text-xs sm:text-sm font-bold tracking-tight text-slate-900">Tendencia de Fabricación y Demanda de Materiales</h3>
+                  <span class="px-2 py-0.5 rounded-full bg-blue-50 text-blue-700 text-[10px] font-bold border border-blue-200/80">Cronológico</span>
                 </div>
-                <p class="text-[11px] text-slate-400 mt-0.5">Cantidad de dientes terminados según el tipo de material utilizado.</p>
+                <p class="text-[11px] text-slate-500 mt-0.5">Evolución de piezas terminadas comparando Zirconio HT+, Disilicato E-Max y Alineadores.</p>
               </div>
-              <div class="flex flex-wrap items-center gap-2 text-[11px] font-semibold">
-                <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-slate-50 border border-slate-200/70 text-slate-700" title="Zirconio: coronas y puentes resistentes">
-                  <span class="w-2.5 h-2.5 rounded-full bg-blue-900"></span> Zirconio
-                </span>
-                <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-slate-50 border border-slate-200/70 text-slate-700" title="E-Max: porcelana estetica y carillas">
-                  <span class="w-2.5 h-2.5 rounded-full bg-blue-600"></span> Porcelana E-Max
-                </span>
-                <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-slate-50 border border-slate-200/70 text-slate-700" title="Alineadores: ortodoncia invisible">
-                  <span class="w-2.5 h-2.5 rounded-full bg-cyan-500"></span> Alineadores
-                </span>
+
+              <!-- Controles de Descarga Directa del Gráfico -->
+              <div class="flex items-center gap-2 shrink-0">
+                <div class="flex items-center gap-1.5 text-[11px] font-semibold mr-1">
+                  <span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-md bg-slate-50 border border-slate-200/70 text-slate-700 text-[10px]" title="Zirconio: coronas y puentes resistentes">
+                    <span class="w-2 h-2 rounded-full bg-blue-900"></span> Zirconio
+                  </span>
+                  <span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-md bg-slate-50 border border-slate-200/70 text-slate-700 text-[10px]" title="E-Max: porcelana estetica y carillas">
+                    <span class="w-2 h-2 rounded-full bg-blue-600"></span> E-Max
+                  </span>
+                  <span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-md bg-slate-50 border border-slate-200/70 text-slate-700 text-[10px]" title="Alineadores: ortodoncia invisible">
+                    <span class="w-2 h-2 rounded-full bg-cyan-500"></span> Alinia
+                  </span>
+                </div>
+                <button type="button" onclick="window.descargarGraficoImg('chartTendenciaProduccion', 'Tendencia_Produccion_Dientes')" class="p-1.5 rounded-lg bg-slate-50 hover:bg-slate-100 border border-slate-200 text-slate-600 hover:text-slate-900 transition-all cursor-pointer" title="Descargar imagen PNG en alta definición">
+                  <i data-lucide="camera" class="w-3.5 h-3.5"></i>
+                </button>
+                <button type="button" onclick="window.exportarDatosGraficaExcel('tendencia')" class="p-1.5 rounded-lg bg-slate-50 hover:bg-emerald-50 border border-slate-200 text-slate-600 hover:text-emerald-700 transition-all cursor-pointer" title="Exportar datos de esta gráfica a Excel">
+                  <i data-lucide="file-spreadsheet" class="w-3.5 h-3.5"></i>
+                </button>
               </div>
             </div>
-            <div class="relative h-72 w-full pt-3">
+
+            <!-- Canvas de la Grafica -->
+            <div class="relative h-72 w-full pt-1">
               <canvas id="chartTendenciaProduccion"></canvas>
             </div>
-            <div class="pt-3 border-t border-slate-100 grid grid-cols-1 sm:grid-cols-3 gap-2 text-xs">
+
+            <!-- Indicadores Operativos Rápidos -->
+            <div class="grid grid-cols-2 sm:grid-cols-4 gap-2 pt-2 border-t border-slate-100 text-xs">
               <div class="p-2.5 rounded-xl bg-slate-50/70 border border-slate-200/60 text-center">
                 <span class="text-[10px] font-bold text-slate-400 uppercase tracking-wider block">Ritmo de Taller</span>
-                <span class="font-mono font-bold text-slate-900 text-xs">Hasta 120 dientes / día</span>
+                <span class="font-mono font-bold text-slate-900 text-xs">114 piezas / día</span>
               </div>
               <div class="p-2.5 rounded-xl bg-slate-50/70 border border-slate-200/60 text-center">
                 <span class="text-[10px] font-bold text-slate-400 uppercase tracking-wider block">Tiempo Promedio</span>
-                <span class="font-mono font-bold text-emerald-700 text-xs">38 min por cada diente</span>
+                <span class="font-mono font-bold text-emerald-700 text-xs">38 min por unidad</span>
               </div>
               <div class="p-2.5 rounded-xl bg-slate-50/70 border border-slate-200/60 text-center">
-                <span class="text-[10px] font-bold text-slate-400 uppercase tracking-wider block">Máquinas Activas</span>
-                <span class="font-mono font-bold text-blue-700 text-xs">98.2% funcionando</span>
+                <span class="text-[10px] font-bold text-slate-400 uppercase tracking-wider block">Capacidad Activa</span>
+                <span class="font-mono font-bold text-blue-700 text-xs">82% de ocupación</span>
+              </div>
+              <div class="p-2.5 rounded-xl bg-slate-50/70 border border-slate-200/60 text-center">
+                <span class="text-[10px] font-bold text-slate-400 uppercase tracking-wider block">Tasa de Éxito CAM</span>
+                <span class="font-mono font-bold text-purple-700 text-xs">99.1% sin repetición</span>
+              </div>
+            </div>
+
+            <!-- Ficha de Interpretación y Explicación Clínica Detallada -->
+            <div class="p-3.5 rounded-xl bg-blue-50/50 border border-blue-100 text-xs text-slate-700 space-y-2">
+              <div class="flex items-center gap-1.5 font-bold text-blue-900 text-[11px] uppercase tracking-wider">
+                <i data-lucide="microscope" class="w-3.5 h-3.5 text-blue-600"></i>
+                <span>Interpretación Técnica y Diagnóstico de Capacidad</span>
+              </div>
+              <p class="text-[11px] leading-relaxed text-slate-600">
+                <strong class="text-slate-900 font-semibold">Comportamiento de la Curva:</strong> El <strong>Zirconio</strong> (línea azul oscuro) lidera la demanda con un pico máximo de 810 piezas en la Semana 3, impulsado por rehabilitación de molares y puentes de alta resistencia flexural (1200 MPa). El <strong>Disilicato E-Max</strong> mantiene un consumo sostenido en coronas estéticas y carillas anteriores (~410 piezas/semana). Los <strong>Alineadores Alinia</strong> presentan un alza del +15% mensual.
+              </p>
+              <div class="flex items-center justify-between text-[10px] text-blue-800 bg-white/80 px-2.5 py-1.5 rounded-lg border border-blue-100 font-medium">
+                <span><strong>Recomendación Operativa:</strong> Mantener el sinterizado térmico de zirconio (8 hrs) programado en hornos nocturnos para liberar tiempo de fresado matutino.</span>
+                <span class="font-bold font-mono shrink-0 ml-2 text-emerald-700">Estado: Óptimo</span>
               </div>
             </div>
           </div>
 
           <!-- Grafico 2: Pasos en Taller (Pipeline) -->
-          <div class="lg:col-span-4 bg-white rounded-2xl border border-slate-200/80 p-5 shadow-2xs flex flex-col justify-between">
+          <div class="lg:col-span-4 bg-white rounded-2xl border border-slate-200/80 p-5 shadow-2xs flex flex-col justify-between space-y-4">
             <div class="pb-3 border-b border-slate-100 flex items-center justify-between">
               <div>
-                <h3 class="text-xs sm:text-sm font-bold tracking-tight text-slate-900">¿Dónde van los pedidos ahorita?</h3>
-                <p class="text-[11px] text-slate-400 mt-0.5">Avance paso a paso de los 35 pedidos en taller</p>
+                <h3 class="text-xs sm:text-sm font-bold tracking-tight text-slate-900">Flujo Activo en Taller (Pipeline)</h3>
+                <p class="text-[11px] text-slate-500 mt-0.5">Avance paso a paso de los 35 pedidos en curso</p>
               </div>
-              <span class="font-mono text-xs font-bold text-blue-700 bg-blue-50 px-2.5 py-1 rounded-lg border border-blue-200/80">35 Pedidos</span>
+              <div class="flex items-center gap-1.5">
+                <span class="font-mono text-xs font-bold text-blue-700 bg-blue-50 px-2.5 py-1 rounded-lg border border-blue-200/80">35 Pedidos</span>
+                <button type="button" onclick="window.descargarGraficoImg('chartPipelineFlujo', 'Pipeline_Flujo_Taller')" class="p-1 rounded-lg hover:bg-slate-100 text-slate-500 hover:text-slate-800 transition-all cursor-pointer" title="Descargar imagen PNG">
+                  <i data-lucide="camera" class="w-3.5 h-3.5"></i>
+                </button>
+                <button type="button" onclick="window.exportarDatosGraficaExcel('pipeline')" class="p-1 rounded-lg hover:bg-emerald-50 text-slate-500 hover:text-emerald-700 transition-all cursor-pointer" title="Exportar pedidos en estación a Excel">
+                  <i data-lucide="file-spreadsheet" class="w-3.5 h-3.5"></i>
+                </button>
+              </div>
             </div>
-            <div class="relative h-72 w-full pt-2">
+
+            <!-- Canvas Pipeline -->
+            <div class="relative h-72 w-full pt-1">
               <canvas id="chartPipelineFlujo"></canvas>
             </div>
-            <div class="grid grid-cols-4 gap-1.5 pt-3 border-t border-slate-100 text-center text-[10px] font-semibold">
+
+            <!-- 4 Pasos en Pastillas -->
+            <div class="grid grid-cols-4 gap-1.5 pt-2 border-t border-slate-100 text-center text-[10px] font-semibold">
               <div class="p-1.5 rounded-lg bg-sky-50 text-sky-800 border border-sky-200/50">
-                <span class="font-bold font-mono block text-xs">4</span>Paso 1: Escaneo
+                <span class="font-bold font-mono block text-xs">4</span>1. Escaneo
               </div>
               <div class="p-1.5 rounded-lg bg-blue-50 text-blue-800 border border-blue-200/50">
-                <span class="font-bold font-mono block text-xs">18</span>Paso 2: Diseño
+                <span class="font-bold font-mono block text-xs">18</span>2. Diseño
               </div>
               <div class="p-1.5 rounded-lg bg-indigo-50 text-indigo-800 border border-indigo-200/50">
-                <span class="font-bold font-mono block text-xs">7</span>Paso 3: Talla
+                <span class="font-bold font-mono block text-xs">7</span>3. Fresado
               </div>
               <div class="p-1.5 rounded-lg bg-emerald-50 text-emerald-800 border border-emerald-200/50">
-                <span class="font-bold font-mono block text-xs">6</span>Paso 4: Envío
+                <span class="font-bold font-mono block text-xs">6</span>4. Despacho
+              </div>
+            </div>
+
+            <!-- Ficha Explicativa de Cuellos de Botella y Tiempos de Transito -->
+            <div class="p-3 rounded-xl bg-slate-50 border border-slate-200/80 text-[11px] text-slate-600 space-y-1.5">
+              <div class="flex items-center justify-between font-bold text-slate-900 text-[10px] uppercase tracking-wider">
+                <span>Diagnóstico de Estaciones</span>
+                <span class="text-blue-700 font-mono">Sin Cuellos de Botella</span>
+              </div>
+              <p class="leading-relaxed text-[10.5px]">
+                La fase de <strong>Diseño CAD</strong> concentra el 51.4% de las órdenes (18 casos). Este volumen es normal, dado que requiere calibración fina de márgenes gingivales, sellado y puntos de contacto oclusal antes de anidar en fresadora.
+              </p>
+              <div class="text-[9.5px] text-slate-500 pt-1 border-t border-slate-200/60 font-medium">
+                Tiempos de tránsito: Escaneo (1.2h) → Diseño (2.4h) → Fresado (3.5h) → Calidad y Envío (1.5h).
               </div>
             </div>
           </div>
         </div>
 
         <!-- Fila 2 de Graficas: Materiales Utilizados y Origen de Ventas -->
-        <div class="grid grid-cols-1 lg:grid-cols-12 gap-4 mb-5">
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-5 mb-5">
           <!-- Grafico 3: Distribucion de Materiales Dentales -->
-          <div class="lg:col-span-6 bg-white rounded-2xl border border-slate-200/80 p-5 shadow-2xs flex flex-col justify-between">
+          <div class="lg:col-span-6 bg-white rounded-2xl border border-slate-200/80 p-5 shadow-2xs flex flex-col justify-between space-y-4">
             <div class="pb-3 border-b border-slate-100 flex items-center justify-between">
               <div>
-                <h3 class="text-xs sm:text-sm font-bold tracking-tight text-slate-900">¿Qué materiales se fabrican más?</h3>
-                <p class="text-[11px] text-slate-400 mt-0.5">Porcentaje de uso sobre los 2,860 dientes hechos</p>
+                <h3 class="text-xs sm:text-sm font-bold tracking-tight text-slate-900">Participación de Materiales Dentales CAD/CAM</h3>
+                <p class="text-[11px] text-slate-500 mt-0.5">Porcentaje de uso y volumen sobre las 2,860 piezas producidas</p>
               </div>
-              <span class="font-mono text-xs font-semibold text-slate-600 bg-slate-100 px-2 py-0.5 rounded-md border border-slate-200">100% Verificado</span>
+              <div class="flex items-center gap-1.5">
+                <span class="font-mono text-xs font-semibold text-slate-600 bg-slate-100 px-2 py-0.5 rounded-md border border-slate-200">100% Verificado</span>
+                <button type="button" onclick="window.descargarGraficoImg('chartDistribucionMateriales', 'Distribucion_Materiales_Dentales')" class="p-1 rounded-lg hover:bg-slate-100 text-slate-500 hover:text-slate-800 transition-all cursor-pointer" title="Descargar imagen PNG">
+                  <i data-lucide="camera" class="w-3.5 h-3.5"></i>
+                </button>
+                <button type="button" onclick="window.exportarDatosGraficaExcel('materiales')" class="p-1 rounded-lg hover:bg-emerald-50 text-slate-500 hover:text-emerald-700 transition-all cursor-pointer" title="Exportar desglose a Excel">
+                  <i data-lucide="file-spreadsheet" class="w-3.5 h-3.5"></i>
+                </button>
+              </div>
             </div>
-            <div class="relative h-64 w-full flex items-center justify-center pt-2">
+
+            <!-- Canvas Donut -->
+            <div class="relative h-64 w-full flex items-center justify-center pt-1">
               <canvas id="chartDistribucionMateriales"></canvas>
               <div class="absolute inset-0 flex flex-col items-center justify-center pointer-events-none">
                 <span class="text-2xl font-black font-mono text-slate-900 tracking-tight" id="donutTotalPiezas">2,860</span>
-                <span class="text-[10px] uppercase font-bold text-slate-400 tracking-wider">Dientes Totales</span>
+                <span class="text-[10px] uppercase font-bold text-slate-400 tracking-wider">Piezas Totales</span>
               </div>
             </div>
-            <div class="grid grid-cols-2 sm:grid-cols-4 gap-2 pt-3 border-t border-slate-100 text-center text-[10px]">
+
+            <!-- Desglose Porcentual -->
+            <div class="grid grid-cols-2 sm:grid-cols-4 gap-2 pt-2 border-t border-slate-100 text-center text-[10px]">
               <div class="p-2.5 rounded-xl bg-slate-50/70 border border-slate-200/60">
                 <span class="font-bold text-slate-900 block font-mono text-xs">49%</span>
-                <span class="text-slate-600 font-semibold block">Zirconio</span>
-                <span class="text-slate-400 text-[9px]">1,401 dientes</span>
+                <span class="text-slate-700 font-semibold block">Zirconio HT+</span>
+                <span class="text-slate-400 text-[9px]">1,401 coronas</span>
               </div>
               <div class="p-2.5 rounded-xl bg-slate-50/70 border border-slate-200/60">
                 <span class="font-bold text-slate-900 block font-mono text-xs">26%</span>
-                <span class="text-slate-600 font-semibold block">E-Max</span>
+                <span class="text-slate-700 font-semibold block">E-Max Litio</span>
                 <span class="text-slate-400 text-[9px]">744 carillas</span>
               </div>
               <div class="p-2.5 rounded-xl bg-slate-50/70 border border-slate-200/60">
                 <span class="font-bold text-slate-900 block font-mono text-xs">15%</span>
-                <span class="text-slate-600 font-semibold block">Alineadores</span>
+                <span class="text-slate-700 font-semibold block">Alineadores</span>
                 <span class="text-slate-400 text-[9px]">429 placas</span>
               </div>
               <div class="p-2.5 rounded-xl bg-slate-50/70 border border-slate-200/60">
                 <span class="font-bold text-slate-900 block font-mono text-xs">10%</span>
-                <span class="text-slate-600 font-semibold block">Guardas</span>
+                <span class="text-slate-700 font-semibold block">Guardas / PMMA</span>
                 <span class="text-slate-400 text-[9px]">286 férulas</span>
+              </div>
+            </div>
+
+            <!-- Ficha Clínica de Materiales -->
+            <div class="p-3.5 rounded-xl bg-slate-50 border border-slate-200/80 text-[11px] text-slate-600 space-y-2">
+              <div class="flex items-center gap-1.5 font-bold text-slate-900 text-[10px] uppercase tracking-wider">
+                <i data-lucide="layers" class="w-3.5 h-3.5 text-blue-600"></i>
+                <span>Guía Clínica y Criterios de Selección</span>
+              </div>
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-[10.5px]">
+                <div class="bg-white p-2 rounded-lg border border-slate-200/60">
+                  <strong class="text-slate-900 block">Zirconio Monolítico (49%):</strong>
+                  Resistencia superior de 1200 MPa. Recomendado para molares, puentes y prótesis sobre implantes con desgaste oclusal severo.
+                </div>
+                <div class="bg-white p-2 rounded-lg border border-slate-200/60">
+                  <strong class="text-slate-900 block">Disilicato E-Max (26%):</strong>
+                  Translucidez natural y máxima adhesión química. Indicado para carillas anteriores (0.3-0.5 mm) e incrustaciones inlays/onlays.
+                </div>
               </div>
             </div>
           </div>
 
           <!-- Grafico 4: De Dónde Viene el Dinero (Clientes vs Propias) -->
-          <div class="lg:col-span-6 bg-white rounded-2xl border border-slate-200/80 p-5 shadow-2xs flex flex-col justify-between">
+          <div class="lg:col-span-6 bg-white rounded-2xl border border-slate-200/80 p-5 shadow-2xs flex flex-col justify-between space-y-4">
             <div class="pb-3 border-b border-slate-100 flex items-center justify-between">
               <div>
-                <h3 class="text-xs sm:text-sm font-bold tracking-tight text-slate-900">¿Quién compra los trabajos?</h3>
-                <p class="text-[11px] text-slate-400 mt-0.5">Dentistas particulares clientes vs Clínicas de la casa</p>
+                <h3 class="text-xs sm:text-sm font-bold tracking-tight text-slate-900">Origen Comercial y Facturación Acumulada</h3>
+                <p class="text-[11px] text-slate-500 mt-0.5">Odontólogos particulares clientes vs Clínicas de la red propia</p>
               </div>
-              <span class="font-mono text-xs font-bold text-emerald-700 bg-emerald-50 px-2.5 py-1 rounded-lg border border-emerald-200/80">$1,248,500 MXN</span>
+              <div class="flex items-center gap-1.5">
+                <span class="font-mono text-xs font-bold text-emerald-700 bg-emerald-50 px-2.5 py-1 rounded-lg border border-emerald-200/80">$1,248,500 MXN</span>
+                <button type="button" onclick="window.descargarGraficoImg('chartDoctoresInternosExternos', 'Balance_Comercial_Doctores')" class="p-1 rounded-lg hover:bg-slate-100 text-slate-500 hover:text-slate-800 transition-all cursor-pointer" title="Descargar imagen PNG">
+                  <i data-lucide="camera" class="w-3.5 h-3.5"></i>
+                </button>
+                <button type="button" onclick="window.exportarDatosGraficaExcel('doctores')" class="p-1 rounded-lg hover:bg-emerald-50 text-slate-500 hover:text-emerald-700 transition-all cursor-pointer" title="Exportar balance comercial a Excel">
+                  <i data-lucide="file-spreadsheet" class="w-3.5 h-3.5"></i>
+                </button>
+              </div>
             </div>
-            <div class="relative h-64 w-full pt-2">
+
+            <!-- Canvas Doctores -->
+            <div class="relative h-64 w-full pt-1">
               <canvas id="chartDoctoresInternosExternos"></canvas>
             </div>
-            <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5 pt-3 border-t border-slate-100 text-xs">
+
+            <!-- Desglose Comercial -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5 pt-2 border-t border-slate-100 text-xs">
               <div class="p-3 bg-blue-50/60 rounded-xl border border-blue-200/70 flex items-center justify-between">
                 <div>
                   <span class="text-blue-700 text-[10px] font-bold uppercase tracking-wider block">Dentistas Particulares (73%)</span>
                   <span class="font-mono font-bold text-slate-900 text-sm">2,090 dientes</span>
-                  <span class="text-slate-500 text-[10px] block">Precio de venta regular</span>
+                  <span class="text-slate-500 text-[10px] block">Tarifa comercial estándar (mayor margen)</span>
                 </div>
                 <span class="font-mono font-bold text-blue-800 bg-white px-2.5 py-1 rounded-lg border border-blue-200 text-xs shadow-2xs">$940,500</span>
               </div>
@@ -6710,10 +6871,21 @@ function renderDynamicModule(key) {
                 <div>
                   <span class="text-slate-600 text-[10px] font-bold uppercase tracking-wider block">Clínicas Propias (27%)</span>
                   <span class="font-mono font-bold text-slate-900 text-sm">770 dientes</span>
-                  <span class="text-slate-500 text-[10px] block">Precio a costo de taller</span>
+                  <span class="text-slate-500 text-[10px] block">Precio a costo de taller (volumen base)</span>
                 </div>
                 <span class="font-mono font-bold text-slate-800 bg-white px-2.5 py-1 rounded-lg border border-slate-200 text-xs shadow-2xs">$308,000</span>
               </div>
+            </div>
+
+            <!-- Ficha Financiera y de Rentabilidad -->
+            <div class="p-3.5 rounded-xl bg-slate-50 border border-slate-200/80 text-[11px] text-slate-600 space-y-1.5">
+              <div class="flex items-center justify-between font-bold text-slate-900 text-[10px] uppercase tracking-wider">
+                <span>Evaluación de Rentabilidad del Taller</span>
+                <span class="text-emerald-700 font-mono">Margen Sólido</span>
+              </div>
+              <p class="leading-relaxed text-[10.5px]">
+                Los <strong>541 Odontólogos Externos</strong> representan las tres cuartas partes de la facturación y el principal motor de rentabilidad neta. La red de <strong>Clínicas Propias</strong> amortiza la depreciación de fresadoras y hornos al proveer una base continua de fresado durante valles de demanda.
+              </p>
             </div>
           </div>
         </div>
@@ -7256,6 +7428,652 @@ window.filtrarSemaforoCtrlLab = function(tipo, btn) {
       row.style.display = (sem === tipo) ? '' : 'none';
     }
   });
+};
+
+// ============================================================================
+// SUITE MAESTRA DE EXPORTACIÓN Y REPORTES EJECUTIVOS (PDF, EXCEL, WORD / DOC)
+// ============================================================================
+
+// 1. Descarga rápida de cualquier gráfica Canvas como imagen PNG en alta definición
+window.descargarGraficoImg = function(canvasId, nombre) {
+  const canvas = document.getElementById(canvasId);
+  if (!canvas) {
+    if (typeof showToast === 'function') showToast('Gráfico no disponible', 'No se encontró el elemento visual.');
+    return;
+  }
+  try {
+    const dataUrl = canvas.toDataURL('image/png', 1.0);
+    const link = document.createElement('a');
+    const periodo = window._periodoStatsActual || 'general';
+    link.href = dataUrl;
+    link.download = `${nombre || canvasId}_${periodo}_${new Date().toISOString().slice(0, 10)}.png`;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    if (typeof showToast === 'function') {
+      showToast('Gráfico Exportado', 'Se descargó la imagen en alta definición PNG.');
+    }
+  } catch (err) {
+    console.error('Error exportando gráfico PNG:', err);
+    if (typeof showToast === 'function') showToast('Error al exportar', 'No fue posible generar la imagen.');
+  }
+};
+
+// 2. Exportar datos numéricos de una gráfica individual a Excel / CSV
+window.exportarDatosGraficaExcel = function(tipo) {
+  const periodo = window._periodoStatsActual || 'mes';
+  const fechaHoy = new Date().toISOString().slice(0, 10);
+  let csvContent = '';
+  let filename = '';
+
+  if (tipo === 'tendencia') {
+    filename = `Datos_Tendencia_Produccion_${periodo}_${fechaHoy}.csv`;
+    csvContent = 'Intervalo / Periodo,Zirconio HT+ (Piezas),Disilicato E-Max (Piezas),Alineadores Alinia (Piezas),Total Piezas\n';
+    const labels = (periodo === 'hoy') ? ['08:00', '10:00', '12:00', '14:00', '16:00', '18:00', '20:00']
+      : (periodo === '7d') ? ['Lun 19', 'Mar 20', 'Mié 21', 'Jue 22', 'Vie 23', 'Sáb 24', 'Dom 25']
+      : (periodo === 'ano') ? ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct']
+      : ['Semana 1', 'Semana 2', 'Semana 3', 'Semana 4', 'Semana 5 (Proy.)'];
+    const zirc = (periodo === 'hoy') ? [8, 16, 24, 18, 22, 14, 10] : (periodo === '7d') ? [52, 68, 74, 82, 91, 46, 28] : (periodo === 'ano') ? [2400, 2650, 2900, 3100, 3250, 3400, 3350, 3500, 3650, 2990] : [680, 740, 810, 630, 490];
+    const emax = (periodo === 'hoy') ? [4, 9, 14, 11, 13, 8, 5] : (periodo === '7d') ? [28, 36, 42, 45, 52, 24, 16] : (periodo === 'ano') ? [1350, 1480, 1620, 1750, 1820, 1910, 1880, 1960, 2040, 1690] : [380, 410, 440, 360, 290];
+    const alin = (periodo === 'hoy') ? [2, 5, 8, 6, 7, 4, 3] : (periodo === '7d') ? [18, 22, 26, 29, 32, 16, 10] : (periodo === 'ano') ? [820, 910, 1020, 1100, 1150, 1220, 1190, 1260, 1310, 1070] : [240, 270, 290, 230, 190];
+    labels.forEach((l, i) => {
+      const tot = zirc[i] + emax[i] + alin[i];
+      csvContent += `"${l}",${zirc[i]},${emax[i]},${alin[i]},${tot}\n`;
+    });
+  } else if (tipo === 'pipeline') {
+    filename = `Datos_Pipeline_Taller_${fechaHoy}.csv`;
+    csvContent = 'Estación de Manufactura,Órdenes Activas,Porcentaje del Total,Tiempo Estimado por Orden,Estado Operativo\n';
+    csvContent += '"1. Escaneo Intraoral & Mallas STL",4,11.4%,"1.2 horas","Al corriente sin retrasos"\n';
+    csvContent += '"2. Diseño y Modelado CAD",18,51.4%,"2.4 horas","En calibración oclusal y márgenes"\n';
+    csvContent += '"3. Fresado y Mecanizado CAM",7,20.0%,"3.5 horas","Fresadoras de 5 ejes trabajando"\n';
+    csvContent += '"4. Control de Calidad y Envío",6,17.2%,"1.5 horas","Glaseado, sinterizado final y empaque"\n';
+  } else if (tipo === 'materiales') {
+    filename = `Datos_Materiales_Dentales_${periodo}_${fechaHoy}.csv`;
+    csvContent = 'Material Dental,Piezas Producidas,Porcentaje de Participación,Resistencia Mecánica,Indicación Clínica Principal\n';
+    csvContent += '"Zirconio Monolítico & 3D Pro",1401,49.0%,"1200 MPa","Coronas posteriores, puentes y prótesis sobre implantes"\n';
+    csvContent += '"Disilicato de Litio E-Max",744,26.0%,"500 MPa","Carillas estéticas anteriores, inlays, onlays y coronas individuales"\n';
+    csvContent += '"Alineadores Alinia",429,15.0%,"Alta elasticidad termoformada","Tratamientos de ortodoncia invisible y micro-movimientos"\n';
+    csvContent += '"Guardas Oclusales & PMMA",286,10.0%,"Biocompatible de alto impacto","Férulas para bruxismo y provisionales terapéuticos"\n';
+  } else if (tipo === 'doctores') {
+    filename = `Datos_Balance_Comercial_${periodo}_${fechaHoy}.csv`;
+    csvContent = 'Tipo de Cliente,Porcentaje del Volumen,Dientes Fabricados,Monto Facturado (MXN),Modalidad de Facturación\n';
+    csvContent += '"Dentistas Particulares (Clientes Externos)",73.0%,2090,"$940,500.00 MXN","Tarifa estándar de mercado (alto margen comercial)"\n';
+    csvContent += '"Clínicas de la Casa (Red Propia)",27.0%,770,"$308,000.00 MXN","Tarifa de costo directo y reposición de consumibles"\n';
+  }
+
+  const blob = new Blob(['\uFEFF' + csvContent], { type: 'text/csv;charset=utf-8;' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = filename;
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+  if (typeof showToast === 'function') {
+    showToast('Datos Exportados', `Se descargó ${filename} para Microsoft Excel.`);
+  }
+};
+
+// 3. Exportar Panorama General Completo a Excel (CSV estructurado con todas las secciones)
+window.exportarEstadisticasExcel = function() {
+  const periodo = window._periodoStatsActual || 'mes';
+  const periodNombres = { 'hoy': 'Hoy', '7d': 'Últimos 7 Días', 'mes': 'Este Mes', 'ano': 'Año 2026' };
+  const periodoTxt = periodNombres[periodo] || periodo;
+  const fechaHoy = new Date().toISOString().slice(0, 10);
+  const fechaHoraTexto = new Date().toLocaleDateString('es-MX', { year: 'numeric', month: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit' });
+
+  const tot = document.getElementById('kpiOrdenesTotales')?.innerText || '1,428';
+  const piez = document.getElementById('kpiPiezasProducidas')?.innerText || '2,860';
+  const punt = document.getElementById('kpiPuntualidad')?.innerText || '94.2%';
+  const fact = document.getElementById('kpiFacturacion')?.innerText || '$1,248,500';
+  const disc = document.getElementById('kpiDiscos')?.innerText || '142';
+  const discPct = document.getElementById('kpiDiscosPct')?.innerText || '82.4%';
+  const pip = document.getElementById('kpiPipeline')?.innerText || '35';
+
+  let csv = '\uFEFF';
+  csv += '========================================================================================\n';
+  csv += 'DENT CONTROL CAD/CAM - REPORTE EJECUTIVO Y ESTADISTICAS DE PRODUCCION\n';
+  csv += '========================================================================================\n';
+  csv += `Fecha y Hora de Emisión,"${fechaHoraTexto}"\n`;
+  csv += `Periodo Evaluado,"${periodoTxt}"\n`;
+  csv += 'Laboratorio Dental,"Dent Control Laboratorio Digital CAD/CAM"\n';
+  csv += 'Responsable de Auditoría,"Irene Martínez (Administrador DentLab)"\n';
+  csv += 'Estatus del Sistema,"Operativo en Línea - 100% Verificado"\n\n';
+
+  csv += '----------------------------------------------------------------------------------------\n';
+  csv += '1. RESUMEN DE INDICADORES CLAVE DE DESEMPEÑO (KPIS)\n';
+  csv += '----------------------------------------------------------------------------------------\n';
+  csv += 'Indicador,Valor Actual,Unidad de Medida,Meta / Referencia Operativa,Evaluación\n';
+  csv += `"Órdenes de Trabajo Totales","${tot}","Órdenes","+12.4% comparado con mes anterior","En Crecimiento Sostenido"\n`;
+  csv += `"Dientes y Piezas Fabricadas","${piez}","Piezas","Promedio ~2 piezas por orden clínica","Meta Cumplida"\n`;
+  csv += `"Puntualidad en Entrega","${punt}","Porcentaje","Meta mínima >90.0% a tiempo","Excelente Desempeño"\n`;
+  csv += `"Órdenes en Taller Ahora","${pip}","Órdenes activas","Flujo continuo en 4 estaciones","Carga Equilibrada"\n`;
+  csv += `"Discos CAD/CAM Utilizados","${disc}","Discos de material","Aprovechamiento de material: ${discPct}","Eficiencia Óptima"\n`;
+  csv += `"Facturación Total Acumulada","${fact}","Pesos Mexicanos (MXN)","Ingresos totales del periodo evaluado","Superada"\n\n`;
+
+  csv += '----------------------------------------------------------------------------------------\n';
+  csv += '2. SERIE CRONOLOGICA DE PRODUCCION POR MATERIAL (TENDENCIA)\n';
+  csv += '----------------------------------------------------------------------------------------\n';
+  csv += 'Periodo / Intervalo,Zirconio HT+ (Piezas),Disilicato E-Max (Piezas),Alineadores Alinia (Piezas),Total Unidades Fabricadas\n';
+  const labels = (periodo === 'hoy') ? ['08:00', '10:00', '12:00', '14:00', '16:00', '18:00', '20:00']
+    : (periodo === '7d') ? ['Lun 19', 'Mar 20', 'Mié 21', 'Jue 22', 'Vie 23', 'Sáb 24', 'Dom 25']
+    : (periodo === 'ano') ? ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct']
+    : ['Semana 1', 'Semana 2', 'Semana 3', 'Semana 4', 'Semana 5 (Proy.)'];
+  const zirc = (periodo === 'hoy') ? [8, 16, 24, 18, 22, 14, 10] : (periodo === '7d') ? [52, 68, 74, 82, 91, 46, 28] : (periodo === 'ano') ? [2400, 2650, 2900, 3100, 3250, 3400, 3350, 3500, 3650, 2990] : [680, 740, 810, 630, 490];
+  const emax = (periodo === 'hoy') ? [4, 9, 14, 11, 13, 8, 5] : (periodo === '7d') ? [28, 36, 42, 45, 52, 24, 16] : (periodo === 'ano') ? [1350, 1480, 1620, 1750, 1820, 1910, 1880, 1960, 2040, 1690] : [380, 410, 440, 360, 290];
+  const alin = (periodo === 'hoy') ? [2, 5, 8, 6, 7, 4, 3] : (periodo === '7d') ? [18, 22, 26, 29, 32, 16, 10] : (periodo === 'ano') ? [820, 910, 1020, 1100, 1150, 1220, 1190, 1260, 1310, 1070] : [240, 270, 290, 230, 190];
+  labels.forEach((l, i) => {
+    const totalP = zirc[i] + emax[i] + alin[i];
+    csv += `"${l}",${zirc[i]},${emax[i]},${alin[i]},${totalP}\n`;
+  });
+  csv += '\n';
+
+  csv += '----------------------------------------------------------------------------------------\n';
+  csv += '3. DISTRIBUCION PORCENTUAL DE MATERIALES DENTALES\n';
+  csv += '----------------------------------------------------------------------------------------\n';
+  csv += 'Material Dental,Piezas Fabricadas,Porcentaje del Total,Resistencia / Características,Propósito Clínico Principal\n';
+  csv += '"Zirconio Monolítico & 3D Pro Multicapa",1401,49.0%,"1200 MPa - Máxima Resistencia","Coronas posteriores, puentes fijos y rehabilitación sobre implantes"\n';
+  csv += '"Disilicato de Litio E-Max",744,26.0%,"500 MPa - Máxima Translucidez","Carillas estéticas anteriores, inlays, onlays y coronas de sector frontal"\n';
+  csv += '"Alineadores Transparentes Alinia",429,15.0%,"Polímero multicapa termoformado","Tratamientos de ortodoncia invisible secuencial"\n';
+  csv += '"Guardas Oclusales & PMMA",286,10.0%,"Biocompatible rígido / semirrígido","Férulas de descarga para bruxismo y provisionales terapéuticos"\n\n';
+
+  csv += '----------------------------------------------------------------------------------------\n';
+  csv += '4. BALANCE COMERCIAL Y ORIGEN DE FACTURACION\n';
+  csv += '----------------------------------------------------------------------------------------\n';
+  csv += 'Canal Comercial,Porcentaje del Volumen,Piezas Fabricadas,Monto Facturado (MXN),Margen Bruto Estimado,Estrategia Operativa\n';
+  csv += '"Dentistas Particulares (Clientes Externos)",73.0%,2090,"$940,500.00 MXN","78.5%","Tarifa estándar de mercado, principal motor de utilidad neta"\n';
+  csv += '"Clínicas de la Casa (Red Propia)",27.0%,770,"$308,000.00 MXN","42.0%","Tarifa de costo directo, asegura ocupación base constante de fresadoras"\n\n';
+
+  csv += '----------------------------------------------------------------------------------------\n';
+  csv += '5. ESTACIONES DE MANUFACTURA EN TALLER (PIPELINE ACTIVO)\n';
+  csv += '----------------------------------------------------------------------------------------\n';
+  csv += 'Estación de Trabajo,Órdenes Activas,Porcentaje de Carga,Tiempo Promedio de Tránsito,Diagnóstico Operativo\n';
+  csv += '"1. Escaneo Intraoral & Malla STL",4,11.4%,"1.2 horas","Recepción ágil de modelos 3D y validación de sellado gingival"\n';
+  csv += '"2. Diseño y Modelado CAD",18,51.4%,"2.4 horas","Punto neurálgico de modelado anatómico y ajuste de contactos oclusales"\n';
+  csv += '"3. Fresado y Mecanizado CAM",7,20.0%,"3.5 horas","Fresadoras de 5 ejes trabajando con discos de Zirconio y bloques E-Max"\n';
+  csv += '"4. Control de Calidad y Envío",6,17.2%,"1.5 horas","Sinterizado final, glaseado, pulido y empaque con guía de mensajería"\n\n';
+
+  csv += '========================================================================================\n';
+  csv += 'FIN DEL REPORTE - DENT CONTROL SISTEMA DENTAL INTEGRAL\n';
+  csv += '========================================================================================\n';
+
+  const filename = `Reporte_General_Estadisticas_DentControl_${periodo}_${fechaHoy}.csv`;
+  const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = filename;
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+  if (typeof showToast === 'function') {
+    showToast('Reporte Excel Descargado', `${filename} generado exitosamente con formato ordenado.`);
+  }
+};
+
+// 4. Exportar Panorama General Completo a PDF Ejecutivo con Membrete y Gráficas
+window.exportarEstadisticasPDF = function() {
+  const periodo = window._periodoStatsActual || 'mes';
+  const periodNombres = { 'hoy': 'Hoy', '7d': 'Últimos 7 Días', 'mes': 'Este Mes', 'ano': 'Año 2026' };
+  const periodoTxt = periodNombres[periodo] || periodo;
+  const fechaHoraTexto = new Date().toLocaleDateString('es-MX', { year: 'numeric', month: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit' });
+
+  // Capturar imagenes de los canvas
+  const cTendencia = document.getElementById('chartTendenciaProduccion');
+  const cPipeline = document.getElementById('chartPipelineFlujo');
+  const cMateriales = document.getElementById('chartDistribucionMateriales');
+  const cDoctores = document.getElementById('chartDoctoresInternosExternos');
+
+  const imgTendencia = cTendencia ? cTendencia.toDataURL('image/png', 1.0) : '';
+  const imgPipeline = cPipeline ? cPipeline.toDataURL('image/png', 1.0) : '';
+  const imgMateriales = cMateriales ? cMateriales.toDataURL('image/png', 1.0) : '';
+  const imgDoctores = cDoctores ? cDoctores.toDataURL('image/png', 1.0) : '';
+
+  const tot = document.getElementById('kpiOrdenesTotales')?.innerText || '1,428';
+  const piez = document.getElementById('kpiPiezasProducidas')?.innerText || '2,860';
+  const punt = document.getElementById('kpiPuntualidad')?.innerText || '94.2%';
+  const fact = document.getElementById('kpiFacturacion')?.innerText || '$1,248,500';
+  const disc = document.getElementById('kpiDiscos')?.innerText || '142';
+  const pip = document.getElementById('kpiPipeline')?.innerText || '35';
+
+  const printWindow = window.open('', '_blank');
+  if (!printWindow) {
+    if (typeof showToast === 'function') showToast('Ventana emergente bloqueada', 'Por favor habilita las ventanas emergentes para ver el PDF.');
+    return;
+  }
+
+  const html = `<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <title>Reporte Ejecutivo - Dent Control CAD/CAM</title>
+  <style>
+    @page { size: letter portrait; margin: 12mm 14mm; }
+    * { box-sizing: border-box; }
+    body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif; color: #0f172a; margin: 0; padding: 20px; font-size: 11px; line-height: 1.45; }
+    .no-print-bar { background: #0f172a; color: white; padding: 10px 16px; border-radius: 8px; margin-bottom: 20px; display: flex; justify-content: space-between; align-items: center; }
+    .btn-print { background: #2563eb; color: white; font-weight: bold; border: none; padding: 8px 16px; border-radius: 6px; cursor: pointer; font-size: 12px; }
+    .btn-close { background: #334155; color: white; border: none; padding: 8px 12px; border-radius: 6px; cursor: pointer; font-size: 12px; }
+    .header { border-bottom: 2.5px solid #1e3a8a; padding-bottom: 12px; margin-bottom: 16px; display: flex; justify-content: space-between; align-items: flex-end; }
+    .brand-title { font-size: 20px; font-weight: 900; color: #1e3a8a; letter-spacing: -0.5px; }
+    .brand-sub { font-size: 11px; color: #64748b; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; }
+    .meta-box { text-align: right; font-size: 10px; color: #475569; }
+    .meta-box strong { color: #0f172a; }
+    .kpis-grid { display: grid; grid-template-columns: repeat(6, 1fr); gap: 10px; margin-bottom: 18px; }
+    .kpi-card { background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; padding: 10px; text-align: center; }
+    .kpi-val { font-size: 18px; font-weight: 800; color: #0f172a; font-family: monospace; }
+    .kpi-lbl { font-size: 9px; text-transform: uppercase; font-weight: 700; color: #64748b; margin-top: 3px; }
+    .section-title { font-size: 13px; font-weight: 800; color: #1e3a8a; border-bottom: 1.5px solid #cbd5e1; padding-bottom: 4px; margin: 16px 0 10px 0; text-transform: uppercase; letter-spacing: 0.5px; }
+    .grid-2col { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-bottom: 14px; page-break-inside: avoid; }
+    .chart-box { border: 1px solid #e2e8f0; border-radius: 8px; padding: 12px; background: #ffffff; }
+    .chart-box h4 { margin: 0 0 4px 0; font-size: 12px; color: #0f172a; }
+    .chart-box p { margin: 0 0 8px 0; font-size: 10px; color: #64748b; }
+    .chart-img { width: 100%; height: auto; max-height: 200px; object-fit: contain; border-radius: 4px; display: block; margin: 0 auto; }
+    .expl-box { background: #f8fafc; border-left: 3px solid #2563eb; padding: 8px 10px; margin-top: 8px; font-size: 10px; color: #334155; line-height: 1.4; border-radius: 0 4px 4px 0; }
+    .expl-box strong { color: #0f172a; }
+    table { width: 100%; border-collapse: collapse; margin-top: 8px; font-size: 10px; }
+    th { background: #f1f5f9; text-align: left; padding: 6px 8px; font-weight: bold; color: #334155; border-bottom: 1.5px solid #cbd5e1; }
+    td { padding: 5px 8px; border-bottom: 1px solid #e2e8f0; }
+    .footer-sign { margin-top: 24px; padding-top: 14px; border-top: 1px dashed #cbd5e1; display: grid; grid-template-columns: 1fr 1fr; gap: 30px; font-size: 10px; text-align: center; page-break-inside: avoid; }
+    .sign-line { border-bottom: 1px solid #0f172a; width: 80%; margin: 30px auto 6px auto; }
+    @media print {
+      body { padding: 0; }
+      .no-print-bar { display: none !important; }
+      .chart-box { break-inside: avoid; }
+    }
+  </style>
+</head>
+<body>
+  <div class="no-print-bar">
+    <div><strong>VISTA PREVIA DE IMPRESIÓN Y PDF:</strong> Puedes imprimir directamente o seleccionar "Guardar como PDF".</div>
+    <div style="display: flex; gap: 8px;">
+      <button type="button" class="btn-print" onclick="window.print()">Imprimir / Guardar como PDF</button>
+      <button type="button" class="btn-close" onclick="window.close()">Cerrar</button>
+    </div>
+  </div>
+
+  <div class="header">
+    <div>
+      <div class="brand-title">DENT CONTROL CAD/CAM</div>
+      <div class="brand-sub">Laboratorio Dental Digital • Reporte Ejecutivo Oficial</div>
+    </div>
+    <div class="meta-box">
+      <div><strong>Periodo:</strong> ${periodoTxt}</div>
+      <div><strong>Emisión:</strong> ${fechaHoraTexto}</div>
+      <div><strong>Auditor:</strong> Irene Martínez (DentLab)</div>
+    </div>
+  </div>
+
+  <div class="kpis-grid">
+    <div class="kpi-card"><div class="kpi-val">${tot}</div><div class="kpi-lbl">Órdenes Totales</div></div>
+    <div class="kpi-card"><div class="kpi-val">${piez}</div><div class="kpi-lbl">Dientes Hechos</div></div>
+    <div class="kpi-card"><div class="kpi-val" style="color: #059669;">${punt}</div><div class="kpi-lbl">Puntualidad</div></div>
+    <div class="kpi-card"><div class="kpi-val" style="color: #d97706;">${pip}</div><div class="kpi-lbl">En Taller Ahora</div></div>
+    <div class="kpi-card"><div class="kpi-val" style="color: #7c3aed;">${disc}</div><div class="kpi-lbl">Discos CAM</div></div>
+    <div class="kpi-card"><div class="kpi-val" style="color: #059669;">${fact}</div><div class="kpi-lbl">Facturación</div></div>
+  </div>
+
+  <div class="section-title">1. Producción y Flujo Técnico en Taller</div>
+  <div class="grid-2col">
+    <div class="chart-box">
+      <h4>Tendencia de Fabricación por Material</h4>
+      <p>Ritmo semanal comparativo: Zirconio HT+, Disilicato E-Max y Alineadores</p>
+      ${imgTendencia ? `<img src="${imgTendencia}" class="chart-img">` : '<div style="height:140px;background:#f1f5f9;display:flex;align-items:center;justify-content:center;">Gráfica no capturada</div>'}
+      <div class="expl-box">
+        <strong>Interpretación Técnica:</strong> El Zirconio representa el 49% del volumen global con 1,401 coronas, manteniendo el taller a un 82% de capacidad instalada con holgura del 18% para imprevistos.
+      </div>
+    </div>
+
+    <div class="chart-box">
+      <h4>Pipeline Activo de Pedidos en Taller</h4>
+      <p>Localización de las 35 órdenes activas en el circuito de producción</p>
+      ${imgPipeline ? `<img src="${imgPipeline}" class="chart-img">` : '<div style="height:140px;background:#f1f5f9;display:flex;align-items:center;justify-content:center;">Gráfica no capturada</div>'}
+      <div class="expl-box">
+        <strong>Diagnóstico de Estaciones:</strong> 18 órdenes se encuentran en calibración CAD (51.4%), 7 en fresadoras de 5 ejes, 6 en empaque/envío y 4 en validación STL. Flujo balanceado sin retenciones críticas.
+      </div>
+    </div>
+  </div>
+
+  <div class="section-title">2. Distribución de Materiales y Balance Comercial</div>
+  <div class="grid-2col">
+    <div class="chart-box">
+      <h4>Participación de Materiales Clínicos</h4>
+      <p>Porcentaje sobre los 2,860 dientes y prótesis fabricadas</p>
+      ${imgMateriales ? `<img src="${imgMateriales}" class="chart-img">` : '<div style="height:140px;background:#f1f5f9;display:flex;align-items:center;justify-content:center;">Gráfica no capturada</div>'}
+      <div class="expl-box">
+        <strong>Criterios Clínicos:</strong> Zirconio HT+ (49% - resistencia 1200 MPa para posteriores); Disilicato E-Max (26% - alta estética anterior); Alineadores Alinia (15% - termoformado); Guardas (10%).
+      </div>
+    </div>
+
+    <div class="chart-box">
+      <h4>Origen Comercial y Facturación Acumulada</h4>
+      <p>Doctores particulares clientes vs clínicas de la red de la casa</p>
+      ${imgDoctores ? `<img src="${imgDoctores}" class="chart-img">` : '<div style="height:140px;background:#f1f5f9;display:flex;align-items:center;justify-content:center;">Gráfica no capturada</div>'}
+      <div class="expl-box">
+        <strong>Evaluación Financiera:</strong> Los clientes externos representan el 75.3% del ingreso facturado ($940,500 MXN), mientras que las clínicas propias aportan volumen base continuo ($308,000 MXN).
+      </div>
+    </div>
+  </div>
+
+  <div class="footer-sign">
+    <div>
+      <div class="sign-line"></div>
+      <strong>Irene Martínez</strong><br>
+      Administración & Control de Calidad CAD/CAM
+    </div>
+    <div>
+      <div class="sign-line"></div>
+      <strong>Dirección General de Laboratorio</strong><br>
+      Dent Control • Certificación de Auditoría
+    </div>
+  </div>
+</body>
+</html>`;
+
+  printWindow.document.write(html);
+  printWindow.document.close();
+};
+
+// 5. Exportar Panorama General Completo a Documento Editable para Word (DOC)
+window.exportarEstadisticasDoc = function() {
+  const periodo = window._periodoStatsActual || 'mes';
+  const periodNombres = { 'hoy': 'Hoy', '7d': 'Últimos 7 Días', 'mes': 'Este Mes', 'ano': 'Año 2026' };
+  const periodoTxt = periodNombres[periodo] || periodo;
+  const fechaHoy = new Date().toISOString().slice(0, 10);
+  const fechaHoraTexto = new Date().toLocaleDateString('es-MX', { year: 'numeric', month: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit' });
+
+  const cTendencia = document.getElementById('chartTendenciaProduccion');
+  const cPipeline = document.getElementById('chartPipelineFlujo');
+  const cMateriales = document.getElementById('chartDistribucionMateriales');
+  const cDoctores = document.getElementById('chartDoctoresInternosExternos');
+
+  const imgTendencia = cTendencia ? cTendencia.toDataURL('image/png', 1.0) : '';
+  const imgPipeline = cPipeline ? cPipeline.toDataURL('image/png', 1.0) : '';
+  const imgMateriales = cMateriales ? cMateriales.toDataURL('image/png', 1.0) : '';
+  const imgDoctores = cDoctores ? cDoctores.toDataURL('image/png', 1.0) : '';
+
+  const tot = document.getElementById('kpiOrdenesTotales')?.innerText || '1,428';
+  const piez = document.getElementById('kpiPiezasProducidas')?.innerText || '2,860';
+  const punt = document.getElementById('kpiPuntualidad')?.innerText || '94.2%';
+  const fact = document.getElementById('kpiFacturacion')?.innerText || '$1,248,500';
+  const disc = document.getElementById('kpiDiscos')?.innerText || '142';
+  const pip = document.getElementById('kpiPipeline')?.innerText || '35';
+
+  const docContent = `<html xmlns:o='urn:schemas-microsoft-com:office:office' xmlns:w='urn:schemas-microsoft-com:office:word' xmlns='http://www.w3.org/TR/REC-html40'>
+<head>
+  <meta charset='utf-8'>
+  <title>Informe Ejecutivo Dent Control</title>
+  <!--[if gte mso 9]>
+  <xml>
+    <w:WordDocument>
+      <w:View>Print</w:View>
+      <w:Zoom>100</w:Zoom>
+      <w:DoNotOptimizeForBrowser/>
+    </w:WordDocument>
+  </xml>
+  <![endif]-->
+  <style>
+    body { font-family: 'Calibri', 'Segoe UI', Arial, sans-serif; color: #1e293b; line-height: 1.5; font-size: 11pt; padding: 20px; }
+    h1 { color: #1e3a8a; font-size: 18pt; border-bottom: 2pt solid #1e3a8a; padding-bottom: 4pt; margin-bottom: 2pt; }
+    h2 { color: #1e3a8a; font-size: 13pt; margin-top: 14pt; margin-bottom: 4pt; border-bottom: 1pt solid #cbd5e1; padding-bottom: 2pt; }
+    h3 { color: #334155; font-size: 11pt; margin-top: 10pt; margin-bottom: 3pt; font-weight: bold; }
+    p { margin-top: 0; margin-bottom: 6pt; text-align: justify; font-size: 10pt; }
+    table { width: 100%; border-collapse: collapse; margin-top: 6pt; margin-bottom: 12pt; font-size: 9.5pt; }
+    th { background-color: #1e3a8a; color: #ffffff; padding: 5pt 7pt; text-align: left; font-weight: bold; }
+    td { border: 1pt solid #cbd5e1; padding: 4.5pt 7pt; vertical-align: top; }
+    tr:nth-child(even) { background-color: #f8fafc; }
+    .kpi-table { width: 100%; margin-bottom: 12pt; border: none; }
+    .kpi-table td { border: 1pt solid #cbd5e1; background: #f8fafc; text-align: center; padding: 8pt; }
+    .kpi-num { font-size: 16pt; font-weight: bold; color: #0f172a; font-family: monospace; }
+    .kpi-lbl { font-size: 8pt; color: #64748b; text-transform: uppercase; font-weight: bold; }
+    .chart-box { text-align: center; margin: 10pt 0; }
+    .chart-box img { max-width: 100%; height: auto; border: 1pt solid #e2e8f0; }
+    .callout { background-color: #eff6ff; border-left: 3pt solid #2563eb; padding: 6pt 10pt; margin-top: 6pt; font-size: 9.5pt; color: #1e40af; }
+  </style>
+</head>
+<body>
+  <h1>DENT CONTROL CAD/CAM • INFORME EJECUTIVO OFICIAL</h1>
+  <p><strong>Laboratorio Dental Digital</strong> | Reporte Consolidado de Rendimiento Operativo y Estadísticas</p>
+  
+  <p>
+    <strong>Fecha de Emisión:</strong> ${fechaHoraTexto} | 
+    <strong>Periodo Evaluado:</strong> ${periodoTxt} | 
+    <strong>Responsable:</strong> Irene Martínez (Administrador DentLab)
+  </p>
+
+  <h2>1. Resumen de Indicadores Clave de Desempeño (KPIs)</h2>
+  <table class="kpi-table">
+    <tr>
+      <td><div class="kpi-num">${tot}</div><div class="kpi-lbl">Órdenes Totales</div></td>
+      <td><div class="kpi-num">${piez}</div><div class="kpi-lbl">Dientes Hechos</div></td>
+      <td><div class="kpi-num" style="color:#059669;">${punt}</div><div class="kpi-lbl">Puntualidad</div></td>
+      <td><div class="kpi-num" style="color:#d97706;">${pip}</div><div class="kpi-lbl">En Taller Ahora</div></td>
+      <td><div class="kpi-num" style="color:#7c3aed;">${disc}</div><div class="kpi-lbl">Discos Usados</div></td>
+      <td><div class="kpi-num" style="color:#059669;">${fact}</div><div class="kpi-lbl">Facturación MXN</div></td>
+    </tr>
+  </table>
+
+  <h2>2. Análisis de Producción y Tendencia Temporal</h2>
+  <p>
+    La producción durante el periodo analizado (${periodoTxt}) registró un volumen consolidado de <strong>${piez} piezas</strong> correspondientes a <strong>${tot} órdenes clínicas</strong>. El material predominante en el taller continúa siendo el <strong>Zirconio Monolítico & 3D Pro</strong>, alcanzando un ritmo promedio de 114 piezas diarias sobre una capacidad nominal de 140 unidades/día.
+  </p>
+  ${imgTendencia ? `<div class="chart-box"><img src="${imgTendencia}"><p style="font-size:8pt;color:#64748b;margin-top:4pt;">Figura 1: Curva de producción cronológica por material dental.</p></div>` : ''}
+  <div class="callout">
+    <strong>Diagnóstico de Capacidad:</strong> El taller opera al 82% de ocupación, manteniendo un margen preventivo de 18% para contingencias y casos urgentes sin incurrir en desfases de entrega.
+  </div>
+
+  <h2>3. Flujo Activo de Fabricación (Pipeline de Manufactura)</h2>
+  <p>
+    Se registran <strong>35 órdenes activas</strong> transitando por el circuito de producción:
+  </p>
+  <table>
+    <tr><th>Estación de Manufactura</th><th>Órdenes Activas</th><th>Participación (%)</th><th>Tiempo Estándar</th><th>Estado</th></tr>
+    <tr><td>1. Escaneo Intraoral & Validación STL</td><td>4</td><td>11.4%</td><td>1.2 horas</td><td>Al corriente</td></tr>
+    <tr><td>2. Diseño y Modelado CAD</td><td>18</td><td>51.4%</td><td>2.4 horas</td><td>En calibración oclusal</td></tr>
+    <tr><td>3. Fresado y Mecanizado CAM</td><td>7</td><td>20.0%</td><td>3.5 horas</td><td>Fresadoras 5 ejes activas</td></tr>
+    <tr><td>4. Control de Calidad y Envío</td><td>6</td><td>17.2%</td><td>1.5 horas</td><td>Glaseado y empaque</td></tr>
+  </table>
+  ${imgPipeline ? `<div class="chart-box"><img src="${imgPipeline}"><p style="font-size:8pt;color:#64748b;margin-top:4pt;">Figura 2: Distribución de órdenes por estación de trabajo.</p></div>` : ''}
+
+  <h2>4. Criterios de Selección y Distribución de Materiales</h2>
+  <table>
+    <tr><th>Material Dental</th><th>Piezas</th><th>% Cuota</th><th>Resistencia</th><th>Indicación Odontológica Principal</th></tr>
+    <tr><td>Zirconio Monolítico & 3D Pro</td><td>1,401</td><td>49%</td><td>1200 MPa</td><td>Coronas posteriores, puentes fijos y prótesis sobre implantes</td></tr>
+    <tr><td>Disilicato de Litio E-Max</td><td>744</td><td>26%</td><td>500 MPa</td><td>Carillas estéticas anteriores, inlays, onlays y sector frontal</td></tr>
+    <tr><td>Alineadores Transparentes Alinia</td><td>429</td><td>15%</td><td>Polímero elástico</td><td>Ortodoncia invisible termoformada secuencial</td></tr>
+    <tr><td>Guardas Oclusales & PMMA</td><td>286</td><td>10%</td><td>Biocompatible</td><td>Férulas para bruxismo y provisionales terapéuticos</td></tr>
+  </table>
+  ${imgMateriales ? `<div class="chart-box"><img src="${imgMateriales}"><p style="font-size:8pt;color:#64748b;margin-top:4pt;">Figura 3: Participación de materiales dentales CAD/CAM.</p></div>` : ''}
+
+  <h2>5. Balance Comercial y Origen de Facturación</h2>
+  <table>
+    <tr><th>Tipo de Cliente</th><th>Volumen Piezas</th><th>% Total</th><th>Facturación (MXN)</th><th>Margen Estimado</th></tr>
+    <tr><td>Dentistas Particulares (Clientes Externos)</td><td>2,090</td><td>73.0%</td><td>$940,500.00 MXN</td><td>78.5% (Tarifa Estándar)</td></tr>
+    <tr><td>Clínicas Propias (Red de la Casa)</td><td>770</td><td>27.0%</td><td>$308,000.00 MXN</td><td>42.0% (Costo de Taller)</td></tr>
+    <tr><td><strong>TOTAL CONSOLIDADO</strong></td><td><strong>2,860</strong></td><td><strong>100%</strong></td><td><strong>$1,248,500.00 MXN</strong></td><td><strong>Rentabilidad Sostenible</strong></td></tr>
+  </table>
+  ${imgDoctores ? `<div class="chart-box"><img src="${imgDoctores}"><p style="font-size:8pt;color:#64748b;margin-top:4pt;">Figura 4: Comparativo comercial entre clientes externos y clínicas propias.</p></div>` : ''}
+
+  <h2>6. Conclusiones y Plan de Acción Operativo</h2>
+  <p>
+    1. <strong>Puntualidad en Meta:</strong> El indicador de puntualidad técnica del <strong>${punt}</strong> supera la meta corporativa del 90.0%, reflejando una adecuada coordinación entre el modelado CAD y las fresadoras de 5 ejes.<br>
+    2. <strong>Aprovisionamiento de Discos:</strong> Se aconseja emitir orden de reabastecimiento para 30 discos de Zirconio HT+ y 15 bloques de Disilicato E-Max para sostener el ritmo de producción del próximo ciclo.<br>
+    3. <strong>Optimización de Hornos:</strong> Mantener la política de sinterizado nocturno automático para maximizar el uso diurno de las máquinas de terminado estético.
+  </p>
+
+  <p style="margin-top: 30pt; text-align: center; font-size: 9pt; color: #64748b;">
+    ____________________________________________<br>
+    <strong>Irene Martínez</strong><br>
+    Administrador DentLab • Dent Control CAD/CAM
+  </p>
+</body>
+</html>`;
+
+  const blob = new Blob([docContent], { type: 'application/msword;charset=utf-8' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = `Informe_Ejecutivo_DentControl_${periodo}_${fechaHoy}.doc`;
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+  if (typeof showToast === 'function') {
+    showToast('Documento Word Descargado', `Se descargó el informe editable para Microsoft Word.`);
+  }
+};
+
+// 6. Exportar Control de Laboratorio a PDF
+window.exportarControlLabPDF = function() {
+  window.print();
+};
+
+// 7. Exportar Control de Laboratorio a Excel
+window.exportarControlLabExcel = function() {
+  window.exportarTablaCtrlLabCSV();
+};
+
+// 8. Exportar Control de Laboratorio a Documento Word
+window.exportarControlLabDoc = function() {
+  const fechaHoy = new Date().toISOString().slice(0, 10);
+  const orders = DENT_STATE.controlLab || [];
+
+  let tableRows = orders.map(r => `
+    <tr>
+      <td><strong>${r.serie}</strong></td>
+      <td>${r.doctor}</td>
+      <td>${r.producto}</td>
+      <td>${r.piezas}</td>
+      <td>${r.paciente}</td>
+      <td>${r.registro}</td>
+      <td>${r.entrega}</td>
+      <td>${r.dias >= 0 ? '+' : ''}${r.dias} d</td>
+      <td>${r.tipoDoctor}</td>
+    </tr>
+  `).join('');
+
+  const docContent = `<html xmlns:o='urn:schemas-microsoft-com:office:office' xmlns:w='urn:schemas-microsoft-com:office:word' xmlns='http://www.w3.org/TR/REC-html40'>
+<head><meta charset='utf-8'><title>Control de Laboratorio</title>
+<style>
+body { font-family: 'Calibri', Arial, sans-serif; font-size: 10pt; color: #0f172a; padding: 20px; }
+h1 { color: #1e3a8a; font-size: 16pt; }
+table { width: 100%; border-collapse: collapse; margin-top: 10pt; font-size: 9pt; }
+th { background: #1e3a8a; color: white; padding: 6pt; text-align: left; }
+td { border: 1pt solid #cbd5e1; padding: 5pt; }
+</style>
+</head>
+<body>
+<h1>DENT CONTROL • AUDITORÍA DE TIEMPOS DE LABORATORIO</h1>
+<p>Fecha de Reporte: ${fechaHoy} | Total Órdenes Auditadas: ${orders.length}</p>
+<table>
+<thead><tr><th>Serie OT</th><th>Doctor</th><th>Producto</th><th>Piezas</th><th>Paciente</th><th>Registro</th><th>Entrega</th><th>Holgura</th><th>Tipo</th></tr></thead>
+<tbody>${tableRows}</tbody>
+</table>
+</body></html>`;
+
+  const blob = new Blob([docContent], { type: 'application/msword;charset=utf-8' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = `Auditoria_Control_Laboratorio_${fechaHoy}.doc`;
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+  if (typeof showToast === 'function') {
+    showToast('Word Descargado', 'Se descargó la auditoría de control de laboratorio.');
+  }
+};
+
+// 9. Exportar Gráficos Estadísticos y VITA a PDF
+window.exportarGraficosVitaPDF = function() {
+  window.print();
+};
+
+// 10. Exportar Gráficos Estadísticos y VITA a Excel
+window.exportarGraficosVitaExcel = function() {
+  const fechaHoy = new Date().toISOString().slice(0, 10);
+  let csv = '\uFEFF';
+  csv += 'Categoría CAD/CAM,Piezas Fabricadas,Porcentaje\n';
+  csv += '"Zirconio Monolítico & 3D",1820,64%\n';
+  csv += '"Disilicato E-Max",540,19%\n';
+  csv += '"Alineadores Alinia",320,11%\n';
+  csv += '"Guardas Oclusales & PMMA",180,6%\n';
+  csv += '"Prótesis sobre Implante",110,4%\n\n';
+  csv += 'Tono Guía VITA Clásica,Porcentaje de Selección,Descripción Estética\n';
+  csv += '"VITA A2",38%,"Tono medio universal de alta frecuencia en adultos"\n';
+  csv += '"VITA A1",24%,"Tono de alta luminosidad estética"\n';
+  csv += '"VITA A3",18%,"Tono natural con mayor saturación gingival"\n';
+  csv += '"VITA B1",12%,"Tono claro con matiz marfil"\n';
+  csv += '"VITA BL2",8%,"Tono blanqueamiento hollywood para carillas"\n';
+
+  const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = `Graficos_Produccion_VITA_${fechaHoy}.csv`;
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+  if (typeof showToast === 'function') {
+    showToast('Excel Descargado', 'Se descargaron las estadísticas de producción y tonos VITA.');
+  }
+};
+
+// 11. Exportar Gráficos Estadísticos y VITA a Word
+window.exportarGraficosVitaDoc = function() {
+  const fechaHoy = new Date().toISOString().slice(0, 10);
+  const docContent = `<html xmlns:o='urn:schemas-microsoft-com:office:office' xmlns:w='urn:schemas-microsoft-com:office:word' xmlns='http://www.w3.org/TR/REC-html40'>
+<head><meta charset='utf-8'><title>Estadísticas CAD/CAM y VITA</title>
+<style>
+body { font-family: 'Calibri', Arial, sans-serif; font-size: 10pt; color: #0f172a; padding: 20px; }
+h1 { color: #1e3a8a; font-size: 16pt; }
+table { width: 100%; border-collapse: collapse; margin-top: 10pt; font-size: 9.5pt; }
+th { background: #1e3a8a; color: white; padding: 6pt; text-align: left; }
+td { border: 1pt solid #cbd5e1; padding: 5pt; }
+</style>
+</head>
+<body>
+<h1>DENT CONTROL • ESTADÍSTICAS CAD/CAM Y GUÍA VITA</h1>
+<p>Fecha de Emisión: ${fechaHoy}</p>
+<h2>Producción por Categoría</h2>
+<table>
+<thead><tr><th>Categoría</th><th>Piezas</th><th>%</th></tr></thead>
+<tbody>
+<tr><td>Zirconio Monolítico & 3D</td><td>1,820</td><td>64%</td></tr>
+<tr><td>Disilicato E-Max</td><td>540</td><td>19%</td></tr>
+<tr><td>Alineadores Alinia</td><td>320</td><td>11%</td></tr>
+<tr><td>Guardas & PMMA</td><td>180</td><td>6%</td></tr>
+</tbody>
+</table>
+<h2>Demanda de Tonos Guía VITA</h2>
+<table>
+<thead><tr><th>Tono VITA</th><th>Porcentaje</th><th>Uso Clínico</th></tr></thead>
+<tbody>
+<tr><td>A2</td><td>38%</td><td>Tono universal estándar</td></tr>
+<tr><td>A1</td><td>24%</td><td>Estética de alta luminosidad</td></tr>
+<tr><td>A3</td><td>18%</td><td>Croma natural maduro</td></tr>
+<tr><td>B1</td><td>12%</td><td>Matiz claro</td></tr>
+<tr><td>BL2</td><td>8%</td><td>Blanqueamiento estético</td></tr>
+</tbody>
+</table>
+</body></html>`;
+
+  const blob = new Blob([docContent], { type: 'application/msword;charset=utf-8' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = `Estadisticas_CADCAM_VITA_${fechaHoy}.doc`;
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+  if (typeof showToast === 'function') {
+    showToast('Word Descargado', 'Se descargó el informe de producción CAD/CAM y VITA.');
+  }
 };
 
 // Exportar tabla a CSV compatible con Excel
