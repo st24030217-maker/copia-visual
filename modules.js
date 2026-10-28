@@ -6417,17 +6417,7 @@ function renderDynamicModule(key) {
                 <i data-lucide="pie-chart" class="w-5 h-5"></i>
               </div>
               <h2 class="text-lg sm:text-xl font-bold tracking-tight text-slate-900">Panorama General del Laboratorio</h2>
-              <span class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[11px] font-semibold bg-emerald-50 text-emerald-700 border border-emerald-200/80 shadow-2xs">
-                <span class="relative flex h-2 w-2">
-                  <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
-                  <span class="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
-                </span>
-                Datos en Tiempo Real
-              </span>
             </div>
-            <p class="text-xs text-slate-500 leading-relaxed max-w-2xl">
-              Monitoreo analítico y gerencial de órdenes, piezas fabricadas, estaciones activas en taller y facturación acumulada con interpretación técnica.
-            </p>
           </div>
 
           <div class="flex flex-wrap items-center gap-2.5 shrink-0">
