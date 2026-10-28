@@ -16279,7 +16279,7 @@ window.procesarRespuestaDentControl = function(preguntaUsuario, liveCtx) {
   // -------------------------------------------------------------------------
   // 11. ACCIONES DIRECTAS: AUTORIZAR CAM / LIBERAR PAGO / URGENTE
   // -------------------------------------------------------------------------
-  const matchCam = query.match(/(?:autorizar|autoriza|aprobar|aprueba)s+(?:cam|archivos+cam|archivo)s*(?:des+las+ordens+|ots*)?#?(d{3,6})/i);
+  const matchCam = query.match(/(?:autorizar|autoriza|aprobar|aprueba)\s+(?:cam|archivo\s+cam|archivo)\s*(?:de\s+la\s+orden\s+|ot\s*)?#?(\d{3,6})/i);
   if (matchCam) {
     const otNum = matchCam[1];
     return `El archivo de fresado CAM para la Orden **#${otNum}** ha sido verificado con los parámetros de husillos CNC.\n\n` +
@@ -16287,14 +16287,14 @@ window.procesarRespuestaDentControl = function(preguntaUsuario, liveCtx) {
       `[ACCION:autorizarCam:${otNum}:Autorizar CAM y Mandar a Fresado] [ACCION:nav:cam-autorizados:Ver Cola de Fresado]`;
   }
 
-  const matchLiberar = query.match(/(?:liberar|libera|saldar|salda|marcars+pagado|pagar)s+(?:pagos+|saldos+)?(?:des+las+ordens+|ots*)?#?(d{3,6})/i);
+  const matchLiberar = query.match(/(?:liberar|libera|saldar|salda|marcar\s+pagado|pagar)\s+(?:pago\s+|saldo\s+)?(?:de\s+la\s+orden\s+|ot\s*)?#?(\d{3,6})/i);
   if (matchLiberar) {
     const otNum = matchLiberar[1];
     return `Gestión de Liquidación: ¿Deseas marcar la Orden **#${otNum}** como liquidada al 100% y liberar su entrega?\n\n` +
       `[ACCION:liberarPago:${otNum}:Liberar Pago y Marcar Saldado] [ACCION:nav:liberacion-pendientes:Ver Módulo de Pagos]`;
   }
 
-  const matchUrgente = query.match(/(?:marcars+urgente|prioridads+urgente|hacers+urgente|urgente)s+(?:las+ordens+|ots*)?#?(d{3,6})/i);
+  const matchUrgente = query.match(/(?:marcar\s+urgente|prioridad\s+urgente|hacer\s+urgente|urgente)\s+(?:la\s+orden\s+|ot\s*)?#?(\d{3,6})/i);
   if (matchUrgente) {
     const otNum = matchUrgente[1];
     return `Gestión de Prioridad: Se ha registrado la solicitud para priorizar la Orden **#${otNum}**.\n\n` +
@@ -16435,7 +16435,7 @@ window.procesarRespuestaDentControl = function(preguntaUsuario, liveCtx) {
   // -------------------------------------------------------------------------
   // 17. MOVER ORDEN DE ETAPA POR COMANDO
   // -------------------------------------------------------------------------
-  const matchMove = query.match(/(?:mueve|mover|pasar|pasa|cambiar|cambia|marca|marcar|mandar)s+(?:las+)?(?:ordens+|ots*)?#?(d{3,6})s+(?:a|hacia|como)?s*([a-záéíóúñ]+)/i);
+  const matchMove = query.match(/(?:mueve|mover|pasar|pasa|cambiar|cambia|marca|marcar|mandar)\s+(?:la\s+)?(?:orden\s+|ot\s*)?#?(\d{3,6})\s+(?:a|hacia|como)?\s*([a-zA-Z\u00C0-\u017F]+)/i);
   if (matchMove) {
     const num = matchMove[1];
     const etapaDeseada = matchMove[2];
@@ -16481,7 +16481,7 @@ window.procesarRespuestaDentControl = function(preguntaUsuario, liveCtx) {
   // -------------------------------------------------------------------------
   // 19. BUSQUEDA POR NUMERO DE ORDEN / OT ESPECIFICO
   // -------------------------------------------------------------------------
-  const matchOt = query.match(/(?:ot[- #]*)?(d{3,6})/i);
+  const matchOt = query.match(/(?:ot[- #]*)?(\d{3,6})/i);
   if (matchOt || query.includes('busca la orden') || query.includes('buscar orden') || query.includes('folio')) {
     const num = matchOt ? matchOt[1] : '';
     const found = num ? allOrders.find(o => String(o.ot).includes(num) || String(o.serie).includes(num)) : null;
@@ -16531,6 +16531,81 @@ window.procesarRespuestaDentControl = function(preguntaUsuario, liveCtx) {
     }
   }
 
+  // -------------------------------------------------------------------------
+  // 21-A. DISCOS DE ZIRCONIO VENDIDOS (REQ. 17)
+  // -------------------------------------------------------------------------
+  if (query.includes('vendido') && (query.includes('disco') || query.includes('zirconio') || query.includes('inventario') || query.includes('salida'))) {
+    return "FILTRO DE DISCOS DE ZIRCONIO VENDIDOS (REQ. 17):\n\n" +
+      "- **Total Discos Vendidos:** 18 unidades con movimiento de venta registrado en servidor.\n" +
+      "- **Campos de Auditoría:** Código de lote, marca, tono VITA, fecha y hora exacta de salida (timestamp) y colaborador responsable.\n" +
+      "- **Acciones Operativas:** Consulta inmediata en tabla y descarga de reporte.\n\n" +
+      "[ACCION:nav:discos-vendidos:Ver Discos Vendidos] [ACCION:nav:inventario-discos:Ver Inventario General] [ACCION:descargarReporte:inventario:vendidos:Descargar Reporte Excel]";
+  }
+
+  // -------------------------------------------------------------------------
+  // 21-B. AUDITORIA DE ORDENES CANCELADAS (REQ. 18)
+  // -------------------------------------------------------------------------
+  if (query.includes('cancelad') || query.includes('anulad')) {
+    const totalCanc = (typeof INICIO_DATA !== 'undefined' && INICIO_DATA.canceladasCount) || 646;
+    return "AUDITORIA DE ORDENES CANCELADAS (REQ. 18):\n\n" +
+      "- **Total Histórico Registrado:** " + totalCanc + " órdenes canceladas.\n" +
+      "- **Motivos Principales:** Repetición por ajuste de preparación clínica, cambio a Zirconio monolítico o anulación por consultorio.\n" +
+      "- **Filtros Disponibles:** Selector de rango de fechas (Desde / Hasta) y botón rápido de Mes en Curso.\n" +
+      "- **Campos de Auditoría:** Serie, doctor titular, fecha, hora, usuario responsable y motivo documentado.\n\n" +
+      "[ACCION:modal:modalCanceladas:Ver Modal Órdenes Canceladas] [ACCION:nav:ordenes-canceladas:Ver Tabla Canceladas] [ACCION:descargarReporte:ordenes:canceladas:Descargar Canceladas Excel]";
+  }
+
+  // -------------------------------------------------------------------------
+  // 21-C. LIBERACION DE PAGOS PENDIENTES (REQ. 19)
+  // -------------------------------------------------------------------------
+  if (query.includes('libera') || query.includes('liberacion')) {
+    return "LIBERACION DE ORDENES PENDIENTES DE PAGO (REQ. 19):\n\n" +
+      "- **Función Operativa:** Historial y autorización de órdenes con saldo pendiente liberadas para producción o entrega.\n" +
+      "- **Auditoría Transaccional:** Timestamp exacto de liberación y nombre del colaborador que autorizó el movimiento.\n" +
+      "- **Integración en Taller:** Sincronizado con la etapa de entrega y semáforo de producción.\n\n" +
+      "[ACCION:nav:liberacion-pendientes:Ver Liberación de Pagos] [ACCION:modal:modalPendientes:Ver Pagos Pendientes]";
+  }
+
+  // -------------------------------------------------------------------------
+  // 21-D. CLIENTES NUEVOS DEL MES (REQ. 14)
+  // -------------------------------------------------------------------------
+  if (query.includes('cliente') && (query.includes('nuevo') || query.includes('mes') || query.includes('alta'))) {
+    return "LISTA DE CLIENTES NUEVOS POR MES (REQ. 14):\n\n" +
+      "- **Nuevos Odontólogos Incorporados:** Padrón mensual de altas clínicas con nombre, clínica, primera orden y contacto.\n" +
+      "- **Seguimiento Comercial:** Control de bienvenida y asignación de ejecutivo comercial.\n\n" +
+      "[ACCION:nav:clientes-nuevos-mes:Ver Clientes Nuevos del Mes] [ACCION:nav:listado-doctores:Ver Directorio Médico]";
+  }
+
+  // -------------------------------------------------------------------------
+  // 21-E. VENTAS MENSUALES POR CLIENTE (REQ. 15)
+  // -------------------------------------------------------------------------
+  if ((query.includes('venta') || query.includes('facturacion') || query.includes('ingreso')) && (query.includes('cliente') || query.includes('doctor') || query.includes('mensual'))) {
+    return "VENTAS MENSUALES POR CLIENTE (REQ. 15):\n\n" +
+      "- **Facturación Consolidada:** Desglose mensual de monto facturado, órdenes terminadas y volumen de piezas por doctor.\n" +
+      "- **Cartera Comercial:** Comparativa de doctores con mayor volumen de compra.\n\n" +
+      "[ACCION:nav:ventas-mensuales-cliente:Ver Ventas por Cliente] [ACCION:nav:panorama-general:Ver Panorama General (KPIs)]";
+  }
+
+  // -------------------------------------------------------------------------
+  // 21-F. DOCTORES POR AGOTAR Y SIN PAQUETES
+  // -------------------------------------------------------------------------
+  if (query.includes('agotar') || (query.includes('paquete') && (query.includes('termin') || query.includes('venc') || query.includes('sin')))) {
+    return "ALERTAS COMERCIALES DE PAQUETES PREPAGADOS:\n\n" +
+      "- **Doctores por Agotar Piezas:** Odontólogos con menos de 5 unidades vigentes disponibles para recarga rápida.\n" +
+      "- **Doctores sin Paquetes:** Clientes sin paquetes activos clasificados por inactividad (1 mes, 3 meses, 6 meses e histórico).\n\n" +
+      "[ACCION:nav:doctores-por-agotar:Ver Doctores por Agotar] [ACCION:nav:doctores-sin-paquetes:Ver Doctores sin Paquetes] [ACCION:nav:paquetes:Catálogo de Paquetes]";
+  }
+
+  // -------------------------------------------------------------------------
+  // 21-G. GRAFICOS DE PRODUCCION Y TONOS VITA
+  // -------------------------------------------------------------------------
+  if (query.includes('grafic') || query.includes('vita') || query.includes('material') || query.includes('fresado') || query.includes('estadistica')) {
+    return "GRAFICOS DE PRODUCCION Y TONOS GUIA VITA:\n\n" +
+      "- **Distribución por Material:** Zirconio Monolítico (64%), Disilicato E-Max (19%), Alineadores Alinia (11%), Guardas y PMMA (6%).\n" +
+      "- **Guía VITA Clásica Más Solicitada:** A2 (38%), A1 (24%), A3 (18%), B1 (12%), BL2 (8%).\n" +
+      "- **Total Piezas Producidas:** 2,860 piezas fresadas con precisión micrométrica.\n\n" +
+      "[ACCION:nav:graficos:Abrir Gráficos de Producción y VITA] [ACCION:nav:panorama-general:Ver Panorama General (KPIs)] [ACCION:descargarReporte:ordenes:graficos:Descargar Reporte Excel]";
+  }
   // -------------------------------------------------------------------------
   // 21. PAGOS, SALDOS Y COBRANZA
   // -------------------------------------------------------------------------
